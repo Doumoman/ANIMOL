@@ -205,3 +205,48 @@
 - 신규 UI: `Assets/ANIMOL/Prefabs/UI/SC20_AccountAndSave.prefab`, `SC21_EconomyDevPreview.prefab`; 기존 성장·상점·이모티콘·결과·광고 모달은 증분 수정
 - 테스트: `Assets/ANIMOL/Tests/EditMode/M6GrowthEconomyContractTests.cs`, `Assets/ANIMOL/Tests/PlayMode/M6GrowthEconomyUiFlowTests.cs`
 - 검증 로그: `Logs/animol-m6-validation.txt`, `Logs/animol-m6-economy-validation.txt`, `Logs/animol-m6-test-results.txt`, `Logs/animol-m6-compile.txt`, `Logs/animol-m6-visual-validation.txt`
+
+## M6 전체 Unity Editor/CLI/MCP 재검증 (2026-09-28)
+
+이 절은 기존 M0~M5 결과를 재분류하거나 M6 Pass로 복사하지 않고, 현재 프로젝트의 M6 전체를 다시 실행한 결과다. 검증 전후 M0~M5 로그 8개의 SHA-256이 모두 동일하며 삭제·덮어쓰기·내용 복사가 없었다.
+
+### 환경과 수치
+
+- Unity Editor/프로젝트: `6000.3.8f1`; Unity CLI `1.0.0-beta.11`; Pipeline `0.8.0-exp.1` 포트 7800 `ready`; MCP for Unity `ANIMOL@0bba0934` 포트 6400 `running`.
+- 실제 컴파일: 프로젝트 오류 0, 경고 0. M6 정적 검증 `valid=True`.
+- EditMode: **38/38 passed, 0 failed, 0 skipped**, 0.273초.
+- PlayMode: **17/17 passed, 0 failed, 0 skipped**, 2.217초. 기존 15개에 Bootstrap 전체 왕복과 Safe Area/언어/뒤로/재진입 2개를 추가했다.
+- 월드 폭: orthographic size 5.4 기준 16:9 `19.20`, 20:9 `24.00`, 증가 `4.80`(25%).
+- 빌드 씬: `Bootstrap → Lobby → Gameplay → Results`.
+
+### 항목별 최종 상태
+
+| 수락 항목 | 상태 | 실제 검증 결과 |
+|---|---|---|
+| 5×20 고정 ID·캠페인 선택 경로 | **Implemented** | 테마 5, 스테이지 100, 중복 ID 0, 캠페인 동물 선택 진입점 0. 운영 Ready는 0으로 유지. |
+| 운영 캠페인 콘텐츠 | **Unconfigured** | 운영 100개에 실제 맵·고정 동물·제한시간·체크포인트·스토리 근거가 없어 RuntimePolicy 0, Ready 0. 임의 완성 상태를 만들지 않음. |
+| 타이머·체크포인트·동일 배치·숨김 방울·실제 출구 | **DevOnly** | `DEV-TEST-01`에서 45초, 체크포인트 2, seed 601/603, 미발견 위치/지도/화살표 누출 0, 고유 방울 3개 실제 접촉 후 실제 출구 재접촉만 완료. 시간 초과는 실패이며 진행/최고 기록을 만들지 않음. |
+| 경쟁 4/8명·동일 동물·3맵 | **Implemented / DevOnly** | 4/8행 렌더링, 캠페인 해금 스냅샷과 3역할, 참가자 간 동일 특수 동물 Ready 조건 허용, 맵 1~3/개별 결과/총합/끊김 복구 UI 통과. 몸 공격·넉백 없음. |
+| 협동 2/4명·팀 목표·전원 출구 | **Implemented / DevOnly** | 2/4행과 팀 방울/탈출 x/n UI 통과. 새 `IsComplete` 계약은 팀 방울 3/3과 참가자 전원 출구를 모두 요구하며 2인·4인 경계를 검증. |
+| 운영 경쟁·협동 매치 | **Blocked** | 매치/권위 서버가 없어 운영 Ready, 랭킹, 보상, 방울 권위, 핑/이모티콘 전송 성공을 만들지 않음. DEV 미리보기만 분리. |
+| 결과 B/T/O·광고 원장 | **Implemented / DevOnly** | B/T/O와 광고 추가 B를 분리하고 승인 시 `2B+T+O`; 일반 광고와 공용 3회. 동일 resultId 중복, 동시 탭, 로그인 전을 차단하고 실패·취소는 미차감. DEV 원장 잔액 400/승인 3회 확인. |
+| 운영 광고·코인 지급 | **Blocked** | 광고 SDK·계정 서버·원장이 없어 실코인·광고 성공·일일 카운터를 로컬 시계로 확정하지 않음. |
+| 동물 성장·상품 | **Unconfigured / Blocked** | 액티브/패시브 Lv.5 스키마와 캠페인 해금 UI는 구현. 실제 효과·숙련도 획득량·가격·인증 공급이 비어 구매/강화/실판매 잠금. |
+| 게스트·Google·저장 선택 | **Implemented / Blocked** | 게스트 캠페인, 로컬/클라우드 기록 동시 표시와 명시 선택은 통과. Google SDK가 없어 로그인 성공/클라우드 동기화 성공은 표시하지 않음. |
+| 동시 터치·KO/EN·접근성·HUD | **Implemented** | 액션 6개, 서로 다른 pointer ID 4개 동시 캡처, 동일 ID 탈취 거절. 한국어↔영어 왕복, 큰 글씨, 색 외 상태 기호, 진동 설정, 조작 크기/위치/투명도, HUD를 PlayMode에서 검증. |
+| Safe Area·뒤로·재진입 | **Implemented (Editor)** | `Screen.safeArea`와 앵커 일치, CanvasScaler 1920×1080 기준, 캠페인/경쟁/협동/성장/상점/설정을 각 2회 왕복, Results→Lobby 복귀 통과. |
+| 실기기 Safe Area·Back·진동 | **Blocked (Environment)** | 연결된 Android/iOS 기기가 없어 노치/제스처 인셋, 하드웨어 Back, 햅틱, 백그라운드/복귀는 실행 불가. Editor 결과를 실기기 Pass로 확대하지 않음. |
+| 16:9·20:9 Game View | **Implemented (Editor)** | 1920×1080과 2400×1080 PNG를 실제 렌더링. HUD/Safe Area 잘림 없음, 20:9 월드 가로 폭이 25% 확장되고 랭크 HUD에도 운영 미연결 상태가 유지됨. |
+
+### 이번 검증에서 변경·확인한 파일
+
+- 변경 스크립트: `Assets/ANIMOL/Scripts/Core/MultiplayerMatchContracts.cs`(`CoopTeamObjectiveState.IsComplete`), `Assets/ANIMOL/Scripts/Editor/UiBuildPipeline.M6Multiplayer.cs`(2/4인 전원 출구 정적 검증), `Assets/ANIMOL/Scripts/Editor/UiBuildPipeline.M6Economy.cs`(UI 포함 캡처 준비 루틴 공개).
+- 신규/변경 테스트: `Assets/ANIMOL/Tests/PlayMode/M6FullAcceptanceFlowTests.cs`, `Assets/ANIMOL/Tests/EditMode/M6MultiplayerContractTests.cs`.
+- 프리팹·씬·데이터: 이번 재검증에서 내용 변경 없음. 기존 `UI_CommonRoot`, `SC01~SC21`, `HUD_Competitive`, `HUD_Coop`, `DEV-TEST-01`, `DEV-MULTI-*`, `CampaignCatalog`, `GrowthEconomyPolicyCatalog`을 실제 로드해 검증했다.
+- M0~M5 로그 해시: `m0 17386538…`, `m1 8AA1B009…`, `m2 B3EB5FC4…`, `m3 C2CDFAD9…`, `m4 E20CA839…`, `m5-validation A5079083…`, `m5-tests 89725B0A…`, `m5-visual 5D2B8081…`; 검증 전후 동일.
+
+### 로그와 화면 캡처
+
+- 최종 로그: `Logs/animol-m6-full-acceptance.txt`, `Logs/animol-m6-validation.txt`, `Logs/animol-m6-test-results.txt`, `Logs/animol-m6-compile.txt`, `Logs/animol-m6-visual-validation.txt`, `Logs/animol-m6-multiplayer-validation.txt`, `Logs/animol-m6-economy-validation.txt`.
+- 16:9: `Assets/ANIMOL/Screenshots/M6_Acceptance_Lobby_16x9.png`(1920×1080), `M6_Acceptance_GameplayHUD_16x9.png`(1920×1080).
+- 20:9: `Assets/ANIMOL/Screenshots/M6_Acceptance_ControlSettings_20x9.png`(2400×1080), `M6_Acceptance_RankedWorld_20x9.png`(2400×1080).

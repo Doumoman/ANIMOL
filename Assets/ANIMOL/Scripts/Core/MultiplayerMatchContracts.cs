@@ -231,6 +231,7 @@ namespace ANIMOL.Core
         public int ParticipantCount { get; }
         public int TeamBubbleCount { get; private set; }
         public int EscapedMemberCount { get; private set; }
+        public bool IsComplete => TeamBubbleCount >= 3 && EscapedMemberCount >= ParticipantCount;
         public CoopTeamObjectiveState(int participantCount)
         {
             if (!MultiplayerModeRules.CoopParticipants.Contains(participantCount)) throw new ArgumentOutOfRangeException(nameof(participantCount));

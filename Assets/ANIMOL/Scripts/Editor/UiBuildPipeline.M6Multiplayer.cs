@@ -174,11 +174,19 @@ namespace ANIMOL.Editor
             var series = new CompetitiveSeriesState();
             if (series.Maps.Count != 3 || series.HasAuthoritativeRanking || MultiplayerModeRules.AllowCompetitiveBodyAttack || MultiplayerModeRules.AllowCompetitiveKnockback)
                 errors.Add("Competitive series/no-combat authority contract mismatch.");
+            foreach (var participantCount in new[] { 2, 4 })
+            {
+                var objective = new CoopTeamObjectiveState(participantCount);
+                objective.ApplyServerProgress(3, participantCount - 1, true);
+                if (objective.IsComplete) errors.Add($"Co-op {participantCount}P completed before every member exited.");
+                objective.ApplyServerProgress(3, participantCount, true);
+                if (!objective.IsComplete) errors.Add($"Co-op {participantCount}P did not complete with three bubbles and all members exited.");
+            }
 
             return new List<string>
             {
                 "competitiveParticipantRange=4-8", "coopParticipantRange=2-4", $"roomParticipantRows={roomRows}",
-                "competitiveRoleSlots=3", "competitiveCrossParticipantDuplicates=true", "coopDuplicateRulePreserved=true",
+                "competitiveRoleSlots=3", "competitiveCrossParticipantDuplicates=true", "coopDuplicateRulePreserved=true", "coopCompletionRequiresThreeBubblesAndAllExits=true",
                 "competitiveSeriesMaps=3", "competitiveBodyAttack=false", "competitiveKnockback=false",
                 "rankedGrowth=MAX_PRESET", "casualCoopGrowth=OWNED_PROGRESS", "operationalReady=false",
                 "serverRankingReward=false", "disconnectReconnectStates=4", "ranked20x9WorldView=expanded"

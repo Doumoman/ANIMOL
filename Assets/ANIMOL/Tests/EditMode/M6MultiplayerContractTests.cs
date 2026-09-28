@@ -111,12 +111,22 @@ namespace ANIMOL.Tests
         [Test]
         public void CoopProgressAndCompetitiveCombatRemainServerAuthoritative()
         {
-            var objective = new CoopTeamObjectiveState(4);
-            Assert.That(objective.ApplyServerProgress(3, 4, false), Is.False);
-            Assert.That(objective.TeamBubbleCount, Is.Zero);
-            Assert.That(objective.ApplyServerProgress(3, 4, true), Is.True);
-            Assert.That(objective.TeamBubbleCount, Is.EqualTo(3));
-            Assert.That(objective.EscapedMemberCount, Is.EqualTo(4));
+            foreach (var participantCount in new[] { 2, 4 })
+            {
+                var objective = new CoopTeamObjectiveState(participantCount);
+                Assert.That(objective.ApplyServerProgress(3, participantCount, false), Is.False);
+                Assert.That(objective.TeamBubbleCount, Is.Zero);
+                Assert.That(objective.IsComplete, Is.False);
+
+                Assert.That(objective.ApplyServerProgress(2, participantCount, true), Is.True);
+                Assert.That(objective.IsComplete, Is.False, "All members at the exit are insufficient before the team has three bubbles.");
+                Assert.That(objective.ApplyServerProgress(3, participantCount - 1, true), Is.True);
+                Assert.That(objective.IsComplete, Is.False, "Three team bubbles are insufficient before every member reaches the exit.");
+                Assert.That(objective.ApplyServerProgress(3, participantCount, true), Is.True);
+                Assert.That(objective.TeamBubbleCount, Is.EqualTo(3));
+                Assert.That(objective.EscapedMemberCount, Is.EqualTo(participantCount));
+                Assert.That(objective.IsComplete, Is.True);
+            }
             Assert.That(MultiplayerModeRules.AllowCompetitiveBodyAttack, Is.False);
             Assert.That(MultiplayerModeRules.AllowCompetitiveKnockback, Is.False);
         }

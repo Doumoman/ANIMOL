@@ -330,7 +330,7 @@ namespace ANIMOL.Editor
             return "economyDev approved=1 duplicate=blocked operational=false";
         }
 
-        private static void PrepareUiCameraCapture()
+        public static void PrepareUiCameraCapture()
         {
             var camera = Camera.main;
             if (camera == null) return;
