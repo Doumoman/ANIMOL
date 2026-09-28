@@ -1,0 +1,14 @@
+ANIMOL M6 visual validation
+date=2026-09-28
+M6_Gameplay_16x9.png=PASS (1920x1080, HUD and six mobile actions visible, no clipping)
+M6_Gameplay_20x9.png=PASS (2400x1080, full camera rect and wider world width, no 16:9 crop)
+M6_ControlSettings_16x9.png=PASS (Safe Area host, size/position/opacity/language/large-text/vibration controls visible)
+undiscoveredBubbleHudMapArrow=PASS (no bubble coordinate, map marker, or edge-arrow widget; locked text explicitly says hidden)
+colorIndependentStates=PASS (text plus check/cross/unavailable labels)
+M6_CompetitiveRoom_4P_16x9.png=PASS (1920x1080, four rows, no clipping/overlap)
+M6_CompetitiveRoom_8P_20x9_Disconnected.png=PASS (2400x1080, eight rows, P2 disconnected)
+M6_CoopRoom_2P_16x9.png=PASS (1920x1080, two rows, mode duplicate rule shown)
+M6_CoopRoom_4P_20x9_Disconnected.png=PASS (2400x1080, four rows, P2 disconnected)
+M6_RankedHud_3Map_Restored_20x9.png=PASS (three map results, 600 DEV score, P2 restored, no operational rank/reward)
+M6_RankedWorld_20x9.png=PASS (2400x1080, actual world visible wider than 16:9, ranked max-growth label)
+physicalDeviceNotchAndHaptics=ENVIRONMENT_BLOCKED
