@@ -18,6 +18,7 @@ namespace ANIMOL.Core
         public int MaxLevel => maxLevel;
         public IReadOnlyList<float> PercentByLevel => percentByLevel;
         public IReadOnlyList<int> CostByLevel => costByLevel;
+        public float TotalPercentDelta => percentByLevel == null || percentByLevel.Length == 0 ? 0f : percentByLevel[percentByLevel.Length - 1] - percentByLevel[0];
         public int CostForNextLevel(int currentLevel) => currentLevel >= 0 && currentLevel < costByLevel.Length ? costByLevel[currentLevel] : 0;
     }
 

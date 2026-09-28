@@ -178,3 +178,30 @@
 - `DEV-TEST-01`은 위 운영 콘텐츠의 대체물이나 100맵 완성 증거가 아니며, 결과는 `CampaignProgress`·코인 원장을 변경하지 않는다.
 - 계정 서버·코인 원장·결제/광고 SDK·상품 ID/현지 가격·환급 정책·매치 서버가 연결되기 전까지 구매, 보상, Ready, 실매치, 순위와 전적 확정은 계속 `Blocked`다.
 - 실물 Android/iOS 기기가 연결되지 않아 노치·제스처 인셋이 있는 실제 Safe Area, Android 하드웨어 Back, 앱 백그라운드/복귀는 **환경상 Blocked**다. Editor의 `SafeAreaLayout`·CanvasScaler와 16:9/20:9 Game View 검사는 통과했지만 실기기 통과로 확대 기록하지 않는다.
+
+## M6 성장/경제 후속 진행 표 (2026-09-28)
+
+아래 표는 기존 M0~M5 완료 사실을 변경하지 않고, 이번 성장/경제 후속 작업에서 새로 구현·검증한 항목만 기록한다.
+
+| 항목 | 상태 | 실제 구현·검증 결과 |
+|---|---|---|
+| 계정 공통 성장 3트랙 | **Implemented / Pass** | `AccountUpgradeCatalog`에 프로토타입 표식을 추가하고 최종 변화량을 `+8% / +8% / -6%`로 표시했다. 서버 미연결 상태에서는 구매와 적용이 계속 잠긴다. |
+| 동물별 성장·해금 계약 | **Contract Implemented / Locked** | 동물마다 액티브/패시브 2트랙, 각 Lv.5 상한, 공유 코인·동물 숙련도 비용 포트를 추가했다. 동물 해금은 캠페인 완료 스테이지 ID만 사용한다. 실제 효과 키·숙련도 획득 정책·단계별 가격이 비어 있으므로 구매/강화 적용은 비활성이다. |
+| 성장 완료 팩 | **Contract Implemented / Sale Blocked** | 계정 공통 3트랙만 포함하며 동물 성장과 동물 해금은 제외한다. 이미 사용한 코인의 코스메틱 교환 재화 보전 산식과 인증 판매 공급이 모두 미설정이므로 실판매를 차단했다. |
+| 게스트·Google 계정 게이트 | **Implemented / Pass** | 게스트 캠페인 시작은 허용했다. Google SDK, 계정 서버, 결제 SDK가 없으므로 로그인 성공 화면·온라인·구매·정식 코인은 만들지 않는다. |
+| 로컬/클라우드 저장 선택 | **Implemented / Pass (DEV preview)** | 로컬 기록과 클라우드 기록을 동시에 표시하고 사용자가 하나를 고르는 화면을 연결했다. 클라우드 권위와 실제 동기화는 연출하지 않으며 DEV 충돌 미리보기만 별도로 제공한다. |
+| 이모티콘 공급 분리 | **Implemented / Pass** | 무료 3, 코인 교환 1, 유료 1 경로를 데이터로 분리했다. 운영 가격과 보유 상태는 인증 공급 스냅샷만 표시할 수 있고 현재 코인/유료 상품 버튼은 잠김 상태다. |
+| 공용 선택형 광고 한도 | **Contract/UI Implemented / Operational Blocked** | 로비 일반 코인 광고와 캠페인 결과 기본 B 추가 광고가 계정당 일일 3회를 공유한다. 일반 광고 약 150코인은 튜닝 초안 데이터이며 런 중 HUD 진입점은 0개다. 잔여 횟수와 초기화 시각은 계정 서버 권위만 허용한다. |
+| 결과 보상 산식 | **Implemented / Pass** | 결과 UI에 `기본 B / 시간 T / 부가 O / 광고 추가 B / 총액 2B+T+O / 오늘 남은 횟수`를 분리했다. 첫 클리어와 재클리어 B가 달라도 승인된 B만 한 번 추가하고 T/O는 그대로 두는 계약을 검증했다. |
+| 지급 멱등성·동시 입력 | **Implemented / Pass (DEV ONLY)** | `accountId + resultId + rewardType`, 광고 증명 ID, 지급 요청 ID를 사용한다. 동일 결과 중복은 `Duplicate`, 동시 탭은 `Busy`; 성공 확정만 한도를 소진하고 실패·취소는 소진하지 않는다. DEV 어댑터에서 잔액 400, 승인 3/3, 중복·실패·취소·로그인 전 차단을 검증했다. |
+| 운영 코인·광고 지급 | **Blocked** | 계정 서버와 광고 SDK가 없으므로 실코인 잔액, 광고 성공, 일일 카운터를 Unity 로컬 시계로 확정하지 않는다. 운영 지급 성공 상태는 없다. |
+| 컴파일·정적·PlayMode | **Pass** | Unity 컴파일 오류 0. M6 정적 검증 `valid=True`, EditMode 38/38, PlayMode 15/15. 기존 물리 방울 3개→출구, 타이머, 체크포인트, 멀티터치, 멀티 UI 회귀도 포함해 통과했다. |
+| 화면 비율·시각 확인 | **Pass (Editor/Game View)** | `Assets/ANIMOL/Screenshots/M6_AccountSave_16x9.png`, `M6_AnimalGrowth_16x9.png`, `M6_EconomyDev_20x9.png`를 실제 렌더링해 Safe Area 내 배치와 상태 문구를 확인했다. |
+
+### 이번 후속 변경 파일과 로그
+
+- 계약/데이터: `Assets/ANIMOL/Scripts/Core/GrowthEconomyContracts.cs`, `GrowthEconomyPolicyCatalog.cs`, `Assets/ANIMOL/Data/Meta/GrowthEconomyPolicyCatalog.asset`
+- Presenter/생성기: `Assets/ANIMOL/Scripts/UI/GrowthEconomyUiPresenter.cs`, `Assets/ANIMOL/Scripts/Editor/UiBuildPipeline.M6Economy.cs`
+- 신규 UI: `Assets/ANIMOL/Prefabs/UI/SC20_AccountAndSave.prefab`, `SC21_EconomyDevPreview.prefab`; 기존 성장·상점·이모티콘·결과·광고 모달은 증분 수정
+- 테스트: `Assets/ANIMOL/Tests/EditMode/M6GrowthEconomyContractTests.cs`, `Assets/ANIMOL/Tests/PlayMode/M6GrowthEconomyUiFlowTests.cs`
+- 검증 로그: `Logs/animol-m6-validation.txt`, `Logs/animol-m6-economy-validation.txt`, `Logs/animol-m6-test-results.txt`, `Logs/animol-m6-compile.txt`, `Logs/animol-m6-visual-validation.txt`

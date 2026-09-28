@@ -42,6 +42,7 @@ namespace ANIMOL.Editor
             UpdateCampaignPrefabsForM6();
             UpdateGameplayHudForM6();
             BuildM6MultiplayerFollowup();
+            BuildM6GrowthEconomyFollowup();
             UpdateLobbySceneForM6();
             UpdateGameplaySceneForM6();
             AssetDatabase.SaveAssets();
@@ -97,6 +98,7 @@ namespace ANIMOL.Editor
                 errors.Add("20:9 world width does not expand beyond 16:9.");
 
             var multiplayerLines = ValidateM6MultiplayerFollowup(errors);
+            var economyLines = ValidateM6GrowthEconomyFollowup(errors);
             var lines = new List<string>
             {
                 "ANIMOL M6 validation", $"valid={errors.Count == 0}", "m0ToM5Regenerated=false",
@@ -109,6 +111,7 @@ namespace ANIMOL.Editor
                 "physicalDeviceSafeArea=ENVIRONMENT_BLOCKED", "physicalDeviceHaptics=ENVIRONMENT_BLOCKED", "errors=" + string.Join(" | ", errors)
             };
             lines.InsertRange(lines.Count - 1, multiplayerLines);
+            lines.InsertRange(lines.Count - 1, economyLines);
             Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Logs"));
             File.WriteAllLines(Path.Combine(Directory.GetCurrentDirectory(), "Logs", "animol-m6-validation.txt"), lines);
             EditorSceneManager.OpenScene($"{SceneFolder}/Lobby.unity", OpenSceneMode.Single);
@@ -224,6 +227,7 @@ namespace ANIMOL.Editor
                 instance.transform.SetParent(host, false);
             }
             if (ui.GetComponent<MobileControlSettingsPresenter>() == null) ui.AddComponent<MobileControlSettingsPresenter>();
+            AttachM6GrowthEconomyToLobby(ui, scene, host);
             EditorSceneManager.SaveScene(scene);
         }
 
