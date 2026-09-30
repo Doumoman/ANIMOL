@@ -1,0 +1,488 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49d08035f3560d4bb7d59ac0a99bc0d, type: 3}
+  m_Name: DEV-M9B-REPRESENTATIVE-LAB
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapDefinition
+  stageId: DEV-M9B-REPRESENTATIVE-LAB
+  themeId: DEV
+  mapVersion: 2
+  worldUnitsPerCell: 1
+  minChunkX: -1
+  minChunkY: -1
+  chunkWidth: 2
+  chunkHeight: 2
+  authoringRevision: 28
+  collisionDataRevision: 28
+  fixedAnimalIds: []
+  initialAnimalId: 
+  mainTimeLimitSeconds: 0
+  escapeTimeLimitSeconds: 0
+  fastClearThresholdSeconds: 0
+  optionalObjectiveIds: []
+  exitRevealCutsceneSeconds: 0
+  timersAdvanceDuringExitReveal: 0
+  rewardDefinition: {fileID: 0}
+  cells: []
+  objects:
+  - stableId: LAB-BALANCE-A
+    kind: 31
+    x: -5
+    y: 1
+    dataKey: MOON_JADE_BALANCE
+    prefab: {fileID: 5588756124700650682, guid: f14006e8abe725d41ad1757e6b0478a6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: -5, y: 1}
+      - {x: -5, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - LAB-BALANCE-B
+      phaseSeed: 1621968956
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-BALANCE-B
+    kind: 31
+    x: -2
+    y: 1
+    dataKey: MOON_JADE_BALANCE
+    prefab: {fileID: 5588756124700650682, guid: f14006e8abe725d41ad1757e6b0478a6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: -2, y: 1}
+      - {x: -2, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - LAB-BALANCE-A
+      phaseSeed: 1621968956
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-BALLOON
+    kind: 36
+    x: 0
+    y: 3
+    dataKey: CLOUD_BALLOON_TETHER
+    prefab: {fileID: 1167126257720556891, guid: cd455c860d8dab84da34d315a7781e2f, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 1.25
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 0, y: 3}
+      - {x: 0, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1391036307
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-DRAWER
+    kind: 41
+    x: 3
+    y: 0
+    dataKey: LIB_INDEX_DRAWER
+    prefab: {fileID: 1819304167391021500, guid: c723ebf62e0eb714aabfc5ecefbee82f, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 3
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 3, y: 0}
+      - {x: 5, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 917099221
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-RETRACE
+    kind: 49
+    x: -5
+    y: -4
+    dataKey: GREEN_SAND_RETRACE
+    prefab: {fileID: 2254219176391450630, guid: 9e0369b1205139940bcab548a9e862fa, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: -5, y: -4}
+      - {x: -2, y: -4}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 913010370
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-MAGNET-A
+    kind: 51
+    x: 1
+    y: -4
+    dataKey: MINE_MAGNET_PAIR
+    prefab: {fileID: 4911653534684881073, guid: fa161b519a0be4a41b9cd40c3093b4c4, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 1, y: -4}
+      - {x: 2, y: -4}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - LAB-MAGNET-B
+      phaseSeed: 1046929142
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-MAGNET-B
+    kind: 51
+    x: 4
+    y: -4
+    dataKey: MINE_MAGNET_PAIR
+    prefab: {fileID: 4911653534684881073, guid: fa161b519a0be4a41b9cd40c3093b4c4, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 4, y: -4}
+      - {x: 5, y: -4}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - LAB-MAGNET-A
+      phaseSeed: 1046929142
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-SAIL
+    kind: 40
+    x: -11
+    y: 3
+    dataKey: CLOUD_SAIL_STEP
+    prefab: {fileID: 625745471246655870, guid: ca0648f27659fd44296599133a5823be, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: -11, y: 3}
+      - {x: -8, y: 3}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1643110169
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-BOOKMARK
+    kind: 23
+    x: -11
+    y: -4
+    dataKey: BOOKMARK_LIFT
+    prefab: {fileID: 4992641860708043790, guid: ca25b29b1f5b3484c816cd51a0327009, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: -11, y: -4}
+      - {x: -11, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 795507211
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-VINE
+    kind: 26
+    x: 8
+    y: -4
+    dataKey: GLASS_VINE_LIFT
+    prefab: {fileID: 681708980935323676, guid: b7d2d9fc5ae0b8a4cbb945efa620d749, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 8, y: -4}
+      - {x: 8, y: 0}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1821911016
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: LAB-SPINE
+    kind: 44
+    x: 7
+    y: 3
+    dataKey: LIB_SPINE_BRAKE
+    prefab: {fileID: 818469067116428876, guid: 4e56f81537d5d27418e20172f83a3abb, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 7, y: 3}
+      - {x: 11, y: 3}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 676848664
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  manuallyCompleted: 0
+  reviewedMapVersion: 0
+  reviewedContentHash: 
+  reviewerNote: 
+  reviewedBubbleSeed: -1
+  reviewedBubbleCombination: []
+  reviewedPlayEnvironment: 
+  reviewedElapsedSeconds: 0
+  humanCompletionEvidence: []

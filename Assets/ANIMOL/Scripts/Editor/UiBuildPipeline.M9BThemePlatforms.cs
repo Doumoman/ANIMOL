@@ -133,8 +133,8 @@ namespace ANIMOL.Editor
             if (paletteMap == null || !StageMapValidator.ValidateForOperation(paletteMap).Errors.Any(error => error.Contains("PlaceablePrototype", StringComparison.Ordinal)))
                 errors.Add("Prototype Ready blocker is missing.");
             var lab = AssetDatabase.LoadAssetAtPath<StageMapDefinition>(M9BLabMapPath);
-            if (lab == null || lab.Objects.Select(item => item.DataKey).Distinct(StringComparer.Ordinal).Count() != 5 || lab.Objects.Count != 7)
-                errors.Add("Representative lab must persist five types/seven linked placements.");
+            if (lab == null || lab.Objects.Select(item => item.DataKey).Distinct(StringComparer.Ordinal).Count() != 9 || lab.Objects.Count != 11)
+                errors.Add("Representative lab must persist nine types/eleven placements.");
             if (lab != null && !StageMapValidator.ValidateStructure(lab).IsValid) errors.Add("Representative lab structure/link validation failed.");
             var release = DevelopmentBuildScenePolicy.GetPlayerScenePaths(false);
             var development = DevelopmentBuildScenePolicy.GetPlayerScenePaths(true);
@@ -151,7 +151,7 @@ namespace ANIMOL.Editor
                 $"valid={errors.Count == 0}", $"registeredTypes={actualIds.Length}", $"distinctPlacedTypes={placedTypeIds.Length}",
                 $"persistedPalettePlacements={paletteMap?.Objects.Count ?? 0}", "saveReopenEditDelete=covered-by-M9B-editmode",
                 $"devPlayable={devPlayable}", $"placeablePrototype={prototypes}", "releaseCandidate=0",
-                "representativeTypes=5", $"representativePlacements={lab?.Objects.Count ?? 0}", "prototypeReadyBlocked=true",
+                "representativeTypes=9", $"representativePlacements={lab?.Objects.Count ?? 0}", "prototypeReadyBlocked=true",
                 $"stableStageIds={stages.Select(item => item.StageId).Distinct(StringComparer.Ordinal).Count()}/{stages.Length}",
                 $"ready={stages.Count(item => ContentAvailabilityResolver.Resolve(item) == ContentAvailability.Ready)}",
                 $"t01MapSha256={FileSha256(T01MapPath)}", "operationalMapAutoPlacement=false", "t06Registered=false",
@@ -178,10 +178,10 @@ namespace ANIMOL.Editor
                 new("UPDRAFT_COLUMN","상승기류 기둥","Updraft Column","T02",StageMapObjectKind.UpdraftColumn,new Vector2(2,3),P,"Prototype"),
                 new("SHEPHERD_BELL","목동 방울","Shepherd Bell","T02",StageMapObjectKind.ShepherdBell,Vector2.one,P,"Prototype"),
                 new("PAGE_BRIDGE","페이지 다리","Page Bridge","T03",StageMapObjectKind.PageBridge,new Vector2(3,1),P,"Prototype"),
-                new("BOOKMARK_LIFT","책갈피 리프트","Bookmark Lift","T03",StageMapObjectKind.BookmarkLift,new Vector2(2,1),P,"Prototype"),
+                new("BOOKMARK_LIFT","책갈피 리프트","Bookmark Lift","T03",StageMapObjectKind.BookmarkLift,new Vector2(2,1),D,"BookmarkLift"),
                 new("INK_BLOT","잉크 얼룩","Ink Blot","T03",StageMapObjectKind.InkBlot,new Vector2(2,1),D,"Rice"),
                 new("DEW_SEED_STEP","이슬씨앗 발판","Dew Seed Step","T04",StageMapObjectKind.DewSeedStep,Vector2.one,P,"Prototype"),
-                new("GLASS_VINE_LIFT","유리덩굴 리프트","Glass Vine Lift","T04",StageMapObjectKind.GlassVineLift,new Vector2(2,1),P,"Prototype"),
+                new("GLASS_VINE_LIFT","유리덩굴 리프트","Glass Vine Lift","T04",StageMapObjectKind.GlassVineLift,new Vector2(2,1),D,"GlassVineLift"),
                 new("SAND_DRIP","모래방울","Sand Drip","T04",StageMapObjectKind.SandDrip,Vector2.one,P,"Prototype"),
                 new("RESONANCE_TILE","공명 타일","Resonance Tile","T05",StageMapObjectKind.ResonanceTile,Vector2.one,P,"Prototype"),
                 new("PRISM_SPRING","프리즘 스프링","Prism Spring","T05",StageMapObjectKind.PrismSpring,Vector2.one,D,"Spring"),
@@ -195,11 +195,11 @@ namespace ANIMOL.Editor
                 new("CLOUD_WINDMILL_BLADE","풍차 날개","Windmill Blade","T02",StageMapObjectKind.CloudWindmillBlade,new Vector2(3,1),P,"Prototype"),
                 new("CLOUD_RAINBOW_SLIDE","무지개 미끄럼틀","Rainbow Slide","T02",StageMapObjectKind.CloudRainbowSlide,new Vector2(3,1),P,"Prototype"),
                 new("CLOUD_RAIN_UMBRELLA","비우산 발판","Rain Umbrella","T02",StageMapObjectKind.CloudRainUmbrella,new Vector2(2,1),P,"Prototype"),
-                new("CLOUD_SAIL_STEP","돛 발판","Sail Step","T02",StageMapObjectKind.CloudSailStep,new Vector2(2,1),P,"Prototype"),
+                new("CLOUD_SAIL_STEP","돛 발판","Sail Step","T02",StageMapObjectKind.CloudSailStep,new Vector2(2,1),D,"CloudSailStep"),
                 new("LIB_INDEX_DRAWER","색인 서랍","Index Drawer","T03",StageMapObjectKind.LibIndexDrawer,new Vector2(2,1),D,"Drawer"),
                 new("LIB_LETTER_BELT","글자 벨트","Letter Belt","T03",StageMapObjectKind.LibLetterBelt,new Vector2(3,1),P,"Prototype"),
                 new("LIB_POPUP_STAIR","팝업 계단","Pop-up Stair","T03",StageMapObjectKind.LibPopupStair,new Vector2(3,2),P,"Prototype"),
-                new("LIB_SPINE_BRAKE","책등 브레이크","Spine Brake","T03",StageMapObjectKind.LibSpineBrake,new Vector2(2,1),P,"Prototype"),
+                new("LIB_SPINE_BRAKE","책등 브레이크","Spine Brake","T03",StageMapObjectKind.LibSpineBrake,new Vector2(2,1),D,"LibSpineBrake"),
                 new("LIB_CHAPTER_FORK","장 분기대","Chapter Fork","T03",StageMapObjectKind.LibChapterFork,new Vector2(2,1),P,"Prototype"),
                 new("GREEN_PETAL_CUP","꽃잎 잔","Petal Cup","T04",StageMapObjectKind.GreenPetalCup,new Vector2(2,1),P,"Prototype"),
                 new("GREEN_DEW_GLASS","이슬 유리","Dew Glass","T04",StageMapObjectKind.GreenDewGlass,new Vector2(2,1),P,"Prototype"),
@@ -267,6 +267,10 @@ namespace ANIMOL.Editor
                 case "MoonEave": AddMovingPhysics<MoonSlidingEaveObject>(root, spec.Footprint); break;
                 case "MoonPhase": root.AddComponent<BoxCollider2D>(); root.AddComponent<MoonPhaseStairObject>(); break;
                 case "MineCartFork": AddMovingPhysics<MineCartForkObject>(root, spec.Footprint); break;
+                case "CloudSailStep": AddMovingPhysics<CloudSailStepObject>(root, spec.Footprint); break;
+                case "BookmarkLift": AddMovingPhysics<BookmarkLiftObject>(root, spec.Footprint); break;
+                case "GlassVineLift": AddMovingPhysics<GlassVineLiftObject>(root, spec.Footprint); break;
+                case "LibSpineBrake": AddMovingPhysics<LibSpineBrakeObject>(root, spec.Footprint); break;
                 default: root.AddComponent<PrototypeMapObject>(); break;
             }
             var collider = root.GetComponent<BoxCollider2D>();
@@ -316,6 +320,9 @@ namespace ANIMOL.Editor
             else if (spec.Kind == StageMapObjectKind.MineMagnetPair) path = new[] { cell, cell + Vector2Int.right };
             else if (spec.Kind == StageMapObjectKind.MoonJadePendulum) path = new[] { cell + new Vector2Int(-2, 0), cell + new Vector2Int(2, 0) };
             else if (spec.Kind == StageMapObjectKind.MoonSlidingEave) path = new[] { cell, cell + Vector2Int.right };
+            else if (spec.Kind == StageMapObjectKind.CloudSailStep) path = new[] { cell, cell + new Vector2Int(3, 0) };
+            else if (spec.Kind is StageMapObjectKind.BookmarkLift or StageMapObjectKind.GlassVineLift) path = new[] { cell, cell + new Vector2Int(0, 4) };
+            else if (spec.Kind == StageMapObjectKind.LibSpineBrake) path = new[] { cell, cell + new Vector2Int(4, 0) };
             var speed = spec.Kind == StageMapObjectKind.CloudBalloonTether ? 1.25f : spec.Kind == StageMapObjectKind.LibIndexDrawer ? 2f : 2.5f;
             settings.EditorConfigure(3, StageMapObjectDirection.Right, spec.Footprint, HalfBlockPlacement.Lower,
                 SideSpringContactPolicy.FacingSideOnly, 8f, 4.5f, speed, .6f, .6f, spec.Kind == StageMapObjectKind.LibIndexDrawer ? 3f : 5f,
@@ -366,6 +373,10 @@ namespace ANIMOL.Editor
             PlaceM9B(map, defs["GREEN_SAND_RETRACE"], "LAB-RETRACE", new Vector2Int(-5, -4), Array.Empty<string>(), specs["GREEN_SAND_RETRACE"]);
             PlaceM9B(map, defs["MINE_MAGNET_PAIR"], "LAB-MAGNET-A", new Vector2Int(1, -4), new[] { "LAB-MAGNET-B" }, specs["MINE_MAGNET_PAIR"]);
             PlaceM9B(map, defs["MINE_MAGNET_PAIR"], "LAB-MAGNET-B", new Vector2Int(4, -4), new[] { "LAB-MAGNET-A" }, specs["MINE_MAGNET_PAIR"]);
+            PlaceM9B(map, defs["CLOUD_SAIL_STEP"], "LAB-SAIL", new Vector2Int(-11, 3), Array.Empty<string>(), specs["CLOUD_SAIL_STEP"]);
+            PlaceM9B(map, defs["BOOKMARK_LIFT"], "LAB-BOOKMARK", new Vector2Int(-11, -4), Array.Empty<string>(), specs["BOOKMARK_LIFT"]);
+            PlaceM9B(map, defs["GLASS_VINE_LIFT"], "LAB-VINE", new Vector2Int(8, -4), Array.Empty<string>(), specs["GLASS_VINE_LIFT"]);
+            PlaceM9B(map, defs["LIB_SPINE_BRAKE"], "LAB-SPINE", new Vector2Int(7, 3), Array.Empty<string>(), specs["LIB_SPINE_BRAKE"]);
             map.EditorMarkCollisionDataSynchronized(); EditorUtility.SetDirty(map); return map;
         }
 

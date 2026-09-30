@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd5c36df24b1524ea59a36063199343, type: 3}
+  m_Name: CLOUD_SAIL_STEP
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapObjectTypeDefinition
+  stableTypeId: CLOUD_SAIL_STEP
+  displayName: "\uB3DB \uBC1C\uD310"
+  englishDisplayName: Sail Step
+  themeId: T02
+  description: "\uBC14\uB78C \uD654\uC0B4\uD45C\uB85C \uCD9C\uBC1C\uD558\uB294 \uB3DB\uD310"
+  kind: 40
+  layer: 3
+  footprintCells: {x: 2, y: 1}
+  verticalSnapCells: 1
+  prefab: {fileID: 625745471246655870, guid: ca0648f27659fd44296599133a5823be, type: 3}
+  ghostSprite: {fileID: -6704088907361231540, guid: 5a8201ecd2c12394ca2c8aa35fad141e, type: 3}
+  icon: {fileID: -6704088907361231540, guid: 5a8201ecd2c12394ca2c8aa35fad141e, type: 3}
+  implementationLevel: 0
+  behaviorComponentIds:
+  - CloudSailStep
+  settingsSchemaVersion: 2
+  requiresLinkedPair: 0
+  defaultSettings:
+    version: 2
+    direction: 1
+    footprintCells: {x: 2, y: 1}
+    halfPlacement: 0
+    springContactPolicy: 0
+    horizontalImpulse: 8
+    verticalImpulse: 4.5
+    movementSpeed: 2.5
+    upperPauseSeconds: 0.6
+    lowerPauseSeconds: 0.6
+    activationRangeCells: 5
+    groundSpeedMultiplier: 0.55
+    endStopSeconds: 0.75
+    returnWhenEmpty: 1
+    pathCells: []
+    implementationLevel: 0
+    linkedInstanceIds: []
+    phaseSeed: 1643110169
+    resetPolicy: 0
+    routeRole: 0
+    minimumLinkCount: 0
+    prototypeNotice: 
+    warningSeconds: 0.45
+    activeSeconds: 1.5
+    recoverSeconds: 1
+    passengerPolicy: 0
+    triggerMode: 1
+    arcHeightCells: 2
+    rotationDegrees: 90
+    effectStrength: 1
+    deferWhileOccupied: 1
+  activationCondition: "\uC800\uC791 \uBC14\uB78C \uC8FC\uAE30"
+  departureCondition: "\uC885\uC810 \uC815\uCC28"
+  effectDescription: "\uBC14\uB78C \uBC29\uD5A5 \uC9E7\uC740 \uC774\uB3D9"
+  failureRecovery: "\uB099\uD558 \uCCB4\uD06C\uD3EC\uC778\uD2B8"
+  settingFieldIds:
+  - pathNodes
+  - warning
+  - moveSpeed
+  - phaseSeed
+  - passengerPolicy
+  - resetPolicy
+  - routeRole
+  authoringValidationRules:
+  - wind not occupancy triggers
+  - warning and endpoint in one portrait view
+  - safe endpoints
