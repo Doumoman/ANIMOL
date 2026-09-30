@@ -4,6 +4,7 @@ using System.Linq;
 using ANIMOL.Core;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace ANIMOL.Editor
 {
@@ -97,6 +98,41 @@ namespace ANIMOL.Editor
 
         public static Sprite ResolvePreviewSprite(StageMapObjectPlacement placement) =>
             placement == null ? null : ResolvePreviewSprite(FindType(placement.DataKey));
+
+        public static string ThemeTerrainFolder(string themeId) => themeId switch
+        {
+            "T01" => "moon", "T02" => "cloud", "T03" => "library", "T04" => "greenhouse", "T05" => "mine", _ => string.Empty
+        };
+
+        public static Tile[] GetThemeTerrainTiles(string themeId)
+        {
+            var folder = ThemeTerrainFolder(themeId);
+            if (string.IsNullOrEmpty(folder)) return Array.Empty<Tile>();
+            return AssetDatabase.FindAssets("t:Tile", new[] { $"Assets/ANIMOL/Generated/TerrainTiles/{folder}" })
+                .Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<Tile>)
+                .Where(item => item != null).OrderBy(item => item.name, StringComparer.Ordinal).ToArray();
+        }
+
+        public static Tile ResolveTerrainTile(string tileId)
+        {
+            if (string.IsNullOrWhiteSpace(tileId)) return null;
+            foreach (var folder in new[] { "moon", "cloud", "library", "greenhouse", "mine" })
+            {
+                var tile = AssetDatabase.LoadAssetAtPath<Tile>($"Assets/ANIMOL/Generated/TerrainTiles/{folder}/{tileId}.asset");
+                if (tile != null) return tile;
+            }
+            return null;
+        }
+
+        public static Sprite ResolveTerrainSprite(string tileId) => ResolveTerrainTile(tileId)?.sprite;
+
+        public static Sprite ResolveTerrainSprite(string tileId, string themeId)
+        {
+            var exact = ResolveTerrainSprite(tileId);
+            if (exact != null) return exact;
+            var folder = ThemeTerrainFolder(themeId);
+            return string.IsNullOrEmpty(folder) ? null : ResolveTerrainSprite($"{folder}_C");
+        }
 
         public static Vector3 CalculateAspectFitScale(Sprite sprite, Vector2 footprint, float unitsPerCell)
         {

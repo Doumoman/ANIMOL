@@ -165,7 +165,8 @@ namespace ANIMOL.Editor
                 };
                 var proxy = CreateVisualProxy($"[{cell.Layer}] ({cell.X},{cell.Y}) {cell.TileId} / {cell.VariantId}",
                     parent, map, StageMapAuthoringProxyRole.Cell, cell.Layer, string.Empty, -1,
-                    new Vector2Int(cell.X, cell.Y), Vector2.one, CellColor(cell), cell.Layer == StageMapLayer.Terrain ? 10 : 0);
+                    new Vector2Int(cell.X, cell.Y), Vector2.one, CellColor(cell), cell.Layer == StageMapLayer.Terrain ? 10 : 0,
+                    StageMapScenePalette.ResolveTerrainSprite(cell.TileId, map.ThemeId));
                 proxy.transform.position = CellCenter(cell.X, cell.Y, map);
             }
 

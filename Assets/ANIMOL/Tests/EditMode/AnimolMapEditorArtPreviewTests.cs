@@ -1,8 +1,10 @@
 using ANIMOL.Core;
 using ANIMOL.Editor;
+using ANIMOL.Gameplay;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace ANIMOL.Tests.EditMode
 {
@@ -92,6 +94,46 @@ namespace ANIMOL.Tests.EditMode
             Assert.That(scale.x, Is.EqualTo(scale.y).Within(.0001f));
             Assert.That(sprite.bounds.size.x * scale.x, Is.LessThanOrEqualTo(type.FootprintCells.x + .001f));
             Assert.That(sprite.bounds.size.y * scale.y, Is.LessThanOrEqualTo(type.FootprintCells.y + .001f));
+        }
+
+        [Test]
+        public void GeneratedTerrainCatalogContainsSixteenTilesPerTheme()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<StageTerrainTileCatalog>("Assets/ANIMOL/Resources/ANIMOL_TerrainTileCatalog.asset");
+            Assert.That(catalog, Is.Not.Null);
+            Assert.That(catalog.Entries.Count, Is.EqualTo(80));
+            foreach (var themeId in new[] { "T01", "T02", "T03", "T04", "T05" })
+            {
+                Assert.That(StageMapScenePalette.GetThemeTerrainTiles(themeId).Length, Is.EqualTo(16), themeId);
+                Assert.That(catalog.FindThemeDefault(themeId), Is.Not.Null, themeId);
+            }
+        }
+
+        [Test]
+        public void LegacyTerrainCellUsesCurrentThemeDefaultTileAtRuntime()
+        {
+            var root = new GameObject("ThemeTileRuntimeTest", typeof(Grid), typeof(StageMapRuntimeLoader));
+            var terrainObject = new GameObject("Terrain", typeof(Tilemap), typeof(TilemapRenderer));
+            terrainObject.transform.SetParent(root.transform, false);
+            var map = ScriptableObject.CreateInstance<StageMapDefinition>();
+            try
+            {
+                map.EditorInitializeIdentity("THEME-TILE-TEST", "T04");
+                map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+                map.EditorSetCell(0, 0, StageMapLayer.Terrain, "LEGACY_PLACEHOLDER_TILE");
+                map.EditorInitializeVariableChunksFromAuthoredContent(1f);
+                var loader = root.GetComponent<StageMapRuntimeLoader>();
+                typeof(StageMapRuntimeLoader).GetField("terrain", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+                    ?.SetValue(loader, terrainObject.GetComponent<Tilemap>());
+                loader.Load(map);
+                var catalog = Resources.Load<StageTerrainTileCatalog>("ANIMOL_TerrainTileCatalog");
+                Assert.That(terrainObject.GetComponent<Tilemap>().GetTile(Vector3Int.zero), Is.EqualTo(catalog.FindThemeDefault("T04")));
+            }
+            finally
+            {
+                Object.DestroyImmediate(root);
+                Object.DestroyImmediate(map);
+            }
         }
 
     }
