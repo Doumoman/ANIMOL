@@ -487,8 +487,10 @@ namespace ANIMOL.Editor
                 foreach (var type in types)
                 {
                     var typeIndex = Array.IndexOf(types, type);
-                    var label = $"{(type.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype ? "⚠ " : string.Empty)}{type.DisplayName}\n{type.StableTypeId}";
-                    if (GUILayout.Toggle(tool == StageMapTool.Object && objectTypeIndex == typeIndex, label, "Button", GUILayout.Height(38f)))
+                    var prefix = type.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype ? "⚠ " : string.Empty;
+                    var label = $"{prefix}{type.DisplayName}\n{type.StableTypeId}  ·  {type.FootprintCells.x:0.#}×{type.FootprintCells.y:0.#}";
+                    var content = new GUIContent(label, StageMapScenePalette.ResolvePreviewTexture(type), StageMapScenePalette.BriefDescription(type));
+                    if (GUILayout.Toggle(tool == StageMapTool.Object && objectTypeIndex == typeIndex, content, "Button", GUILayout.Height(54f)))
                     {
                         SelectLogicObjectType(typeIndex);
                     }
@@ -547,8 +549,7 @@ namespace ANIMOL.Editor
                 GUILayout.Label(placement == null ? "READY TO PLACE" : "FOCUSED MAP ELEMENT", focusedTitleStyle);
                 using (new GUILayout.HorizontalScope())
                 {
-                    var sprite = StageMapScenePalette.ResolvePreviewSprite(type);
-                    var texture = sprite == null ? null : AssetPreview.GetAssetPreview(sprite) ?? AssetPreview.GetMiniThumbnail(sprite);
+                    var texture = StageMapScenePalette.ResolvePreviewTexture(type);
                     var imageSize = compact ? 92f : 112f;
                     var imageRect = GUILayoutUtility.GetRect(imageSize, imageSize, GUILayout.Width(imageSize), GUILayout.Height(imageSize));
                     EditorGUI.DrawRect(imageRect, new Color(.035f, .045f, .075f, 1f));
@@ -560,10 +561,19 @@ namespace ANIMOL.Editor
                     {
                         GUILayout.Label(string.IsNullOrWhiteSpace(type.DisplayName) ? type.EnglishDisplayName : type.DisplayName, focusedTitleStyle);
                         GUILayout.Label($"{type.StableTypeId}  •  {type.ImplementationLevel}", EditorStyles.miniBoldLabel);
-                        if (placement != null) GUILayout.Label($"CELL {placement.X}, {placement.Y}  •  {type.FootprintCells.x:0.#}×{type.FootprintCells.y:0.#}", EditorStyles.miniLabel);
-                        GUILayout.Label(StageMapScenePalette.BriefDescription(type, compact ? 100 : 180), focusedBodyStyle);
+                        var footprint = placement?.Settings.FootprintCells ?? type.FootprintCells;
+                        GUILayout.Label($"점유 {footprint.x:0.#}×{footprint.y:0.#}칸", EditorStyles.miniLabel);
+                        if (placement != null) GUILayout.Label($"기준 셀 ({placement.X}, {placement.Y})", EditorStyles.miniLabel);
                     }
                 }
+                GUILayout.Label("설명  " + StageMapScenePalette.BriefDescription(type, compact ? 120 : 220), focusedBodyStyle);
+                if (!string.IsNullOrWhiteSpace(type.ActivationCondition))
+                    GUILayout.Label("작동  " + type.ActivationCondition.Replace('\n', ' '), focusedBodyStyle);
+                if (!string.IsNullOrWhiteSpace(type.EffectDescription) &&
+                    !string.Equals(type.EffectDescription.Trim(), StageMapScenePalette.BriefDescription(type).Trim(), StringComparison.Ordinal))
+                    GUILayout.Label("효과  " + type.EffectDescription.Replace('\n', ' '), focusedBodyStyle);
+                if (placement != null && placement.Settings.FootprintCells != type.FootprintCells)
+                    EditorGUILayout.HelpBox($"저장된 점유 크기({placement.Settings.FootprintCells.x:0.#}×{placement.Settings.FootprintCells.y:0.#})가 현재 장치 정의와 다릅니다.", MessageType.Warning);
             }
         }
 
@@ -1175,7 +1185,7 @@ namespace ANIMOL.Editor
                 var spacing = Mathf.CeilToInt(type.FootprintCells.x) + 1;
                 var secondRect = new Rect((cell.x + spacing) * units, (cell.y + yOffset) * units,
                     type.FootprintCells.x * units, type.FootprintCells.y * units);
-                DrawSpriteInScene(StageMapScenePalette.ResolvePreviewSprite(type), secondRect, .8f);
+                DrawTextureInScene(StageMapScenePalette.ResolvePreviewTexture(type), secondRect, .8f);
                 Handles.DrawSolidRectangleWithOutline(secondRect, new Color(.2f, .9f, .75f, .2f), Color.cyan);
                 validation = StageMapObjectAuthoringOperations.ValidateLinkedPairPlacement(selectedMap, type, cell, cell + new Vector2Int(spacing, 0));
             }
@@ -1185,40 +1195,39 @@ namespace ANIMOL.Editor
                 validation = StageMapObjectAuthoringOperations.ValidatePlacement(selectedMap, candidate);
             }
             var fill = validation.IsValid ? new Color(.2f, .9f, .75f, .25f) : new Color(1f, .2f, .2f, .3f);
-            DrawSpriteInScene(StageMapScenePalette.ResolvePreviewSprite(type), rect, validation.IsValid ? .8f : .35f);
+            DrawTextureInScene(StageMapScenePalette.ResolvePreviewTexture(type), rect, validation.IsValid ? .8f : .35f);
             Handles.DrawSolidRectangleWithOutline(rect, fill, validation.IsValid ? Color.cyan : Color.red);
             Handles.Label(new Vector3(rect.center.x, rect.yMax), $"{type.StableTypeId}\n{type.FootprintCells.x:0.#}×{type.FootprintCells.y:0.#}");
             SceneView.RepaintAll();
         }
 
-        private static void DrawSpriteInScene(Sprite sprite, Rect worldRect, float alpha)
+        private static void DrawTextureInScene(Texture texture, Rect worldRect, float alpha)
         {
-            if (sprite == null || sprite.texture == null) return;
+            if (texture == null) return;
             var topLeft = HandleUtility.WorldToGUIPoint(new Vector3(worldRect.xMin, worldRect.yMax));
             var bottomRight = HandleUtility.WorldToGUIPoint(new Vector3(worldRect.xMax, worldRect.yMin));
             var screenRect = Rect.MinMaxRect(Mathf.Min(topLeft.x, bottomRight.x), Mathf.Min(topLeft.y, bottomRight.y),
                 Mathf.Max(topLeft.x, bottomRight.x), Mathf.Max(topLeft.y, bottomRight.y));
-            var spriteAspect = sprite.rect.width / Mathf.Max(1f, sprite.rect.height);
+            var textureAspect = texture.width / Mathf.Max(1f, texture.height);
             var screenAspect = screenRect.width / Mathf.Max(1f, screenRect.height);
-            if (screenAspect > spriteAspect)
+            if (screenAspect > textureAspect)
             {
-                var fittedWidth = screenRect.height * spriteAspect;
+                var fittedWidth = screenRect.height * textureAspect;
                 screenRect.x += (screenRect.width - fittedWidth) * .5f;
                 screenRect.width = fittedWidth;
             }
             else
             {
-                var fittedHeight = screenRect.width / Mathf.Max(.001f, spriteAspect);
+                var fittedHeight = screenRect.width / Mathf.Max(.001f, textureAspect);
                 screenRect.y += (screenRect.height - fittedHeight) * .5f;
                 screenRect.height = fittedHeight;
             }
-            var textureRect = sprite.textureRect;
-            var uv = new Rect(textureRect.x / sprite.texture.width, textureRect.y / sprite.texture.height,
-                textureRect.width / sprite.texture.width, textureRect.height / sprite.texture.height);
             Handles.BeginGUI();
-            var previous = GUI.color; GUI.color = new Color(1f, 1f, 1f, alpha);
-            GUI.DrawTextureWithTexCoords(screenRect, sprite.texture, uv, true);
-            GUI.color = previous; Handles.EndGUI();
+            var previous = GUI.color;
+            GUI.color = new Color(1f, 1f, 1f, alpha);
+            GUI.DrawTexture(screenRect, texture, ScaleMode.ScaleToFit, true);
+            GUI.color = previous;
+            Handles.EndGUI();
         }
 
         private void DrawCampaignMarkerGhost(Vector2Int cell, float units)

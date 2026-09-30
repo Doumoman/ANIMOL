@@ -174,12 +174,19 @@ namespace ANIMOL.Editor
             {
                 var marker = T01S01ManualMapWorkflow.IsCampaignMarker(placement.Kind);
                 var footprint = placement.Settings.FootprintCells;
+                var type = StageMapScenePalette.FindType(placement.DataKey);
                 var proxy = CreateVisualProxy($"[{StageMapScenePalette.MarkerLabel(placement.Kind)}] {placement.StableId} @ ({placement.X},{placement.Y})",
                     marker ? markers.transform : logic.transform, map, StageMapAuthoringProxyRole.Object,
                     StageMapLayer.Object, placement.StableId, -1, new Vector2Int(placement.X, placement.Y), footprint,
-                    StageMapScenePalette.ObjectColor(placement.Kind), 30, StageMapScenePalette.ResolvePreviewSprite(placement));
+                    StageMapScenePalette.ObjectColor(placement.Kind), 30, marker ? StageMapScenePalette.ResolvePreviewSprite(placement) : null);
                 proxy.transform.position = FootprintCenter(placement.X, placement.Y, footprint, map,
                     placement.Kind == StageMapObjectKind.HalfBlock && placement.Settings.HalfPlacement == HalfBlockPlacement.Upper ? .5f : 0f);
+                if (!marker && type?.Prefab != null)
+                {
+                    proxy.GetComponent<SpriteRenderer>().color = new Color(.1f, .9f, .85f, .12f);
+                    CreatePrefabVisualPreview(proxy.transform, type.Prefab, footprint, map.GetEditorPreviewUnitsPerCell(), 30);
+                    CreateOccupancyOutlines(placement, logic.transform, map);
+                }
 
                 var nodes = placement.Settings.PathCells;
                 if (nodes.Count > 1) CreatePathLine(placement, paths.transform, map);
@@ -291,7 +298,7 @@ namespace ANIMOL.Editor
 
         private static void OnSelectionChanged()
         {
-            var proxy = Selection.activeGameObject == null ? null : Selection.activeGameObject.GetComponent<StageMapAuthoringProxy>();
+            var proxy = Selection.activeGameObject == null ? null : Selection.activeGameObject.GetComponentInParent<StageMapAuthoringProxy>();
             MaintainToolVisibility();
             if (proxy != null && IsOpen) CampaignMapEditorWindow.SelectWorkspaceProxy(proxy);
         }
@@ -308,7 +315,7 @@ namespace ANIMOL.Editor
             }
 
             var active = Selection.activeGameObject;
-            var proxySelected = IsOpen && active != null && active.GetComponent<StageMapAuthoringProxy>() != null;
+            var proxySelected = IsOpen && active != null && active.GetComponentInParent<StageMapAuthoringProxy>() != null;
             if (proxySelected)
             {
                 if (!workspaceHidTools)
@@ -330,7 +337,7 @@ namespace ANIMOL.Editor
         private static void OnWorkspaceSceneGUI(SceneView sceneView)
         {
             if (!IsOpen || Selection.activeGameObject == null) return;
-            var proxy = Selection.activeGameObject.GetComponent<StageMapAuthoringProxy>();
+            var proxy = Selection.activeGameObject.GetComponentInParent<StageMapAuthoringProxy>();
             if (proxy == null || proxy.Map == null) return;
 
             // A raw Transform handle only changes the disposable preview. This handle snaps to
@@ -444,6 +451,80 @@ namespace ANIMOL.Editor
             proxy.EditorConfigure(map, role, layer, stableId, nodeIndex, cell);
             proxy.EditorSetAuthoredSize(size);
             return proxy;
+        }
+
+        private static void CreatePrefabVisualPreview(Transform proxy, GameObject prefab, Vector2 footprint, float units, int sortingOrder)
+        {
+            var visualRoot = CreatePreviewObject("ART PREVIEW (ALL ACTIVE PARTS)", proxy);
+            var sourceRoot = prefab.transform;
+            foreach (var source in prefab.GetComponentsInChildren<SpriteRenderer>(true))
+            {
+                if (source.sprite == null || !source.enabled || !IsActiveInPrefab(source.transform, sourceRoot)) continue;
+                var part = CreatePreviewObject(source.gameObject.name, visualRoot.transform);
+                part.transform.localPosition = sourceRoot.InverseTransformPoint(source.transform.position);
+                part.transform.localRotation = Quaternion.Inverse(sourceRoot.rotation) * source.transform.rotation;
+                var rootScale = sourceRoot.lossyScale;
+                var sourceScale = source.transform.lossyScale;
+                part.transform.localScale = new Vector3(
+                    sourceScale.x / Mathf.Max(.0001f, rootScale.x),
+                    sourceScale.y / Mathf.Max(.0001f, rootScale.y), 1f);
+                var renderer = part.AddComponent<SpriteRenderer>();
+                renderer.sprite = source.sprite;
+                renderer.color = source.color;
+                renderer.flipX = source.flipX;
+                renderer.flipY = source.flipY;
+                renderer.drawMode = source.drawMode;
+                renderer.size = source.size;
+                renderer.maskInteraction = source.maskInteraction;
+                renderer.sortingOrder = sortingOrder + source.sortingOrder;
+            }
+
+            var renderers = visualRoot.GetComponentsInChildren<SpriteRenderer>();
+            if (renderers.Length == 0) return;
+            var bounds = renderers[0].bounds;
+            foreach (var renderer in renderers.Skip(1)) bounds.Encapsulate(renderer.bounds);
+            var target = new Vector2(Mathf.Max(.2f, footprint.x) * units, Mathf.Max(.2f, footprint.y) * units) * .9f;
+            var uniform = Mathf.Min(target.x / Mathf.Max(.001f, bounds.size.x), target.y / Mathf.Max(.001f, bounds.size.y));
+            visualRoot.transform.localScale = Vector3.one * uniform;
+            bounds = renderers[0].bounds;
+            foreach (var renderer in renderers.Skip(1)) bounds.Encapsulate(renderer.bounds);
+            visualRoot.transform.position += proxy.position - bounds.center;
+        }
+
+        private static bool IsActiveInPrefab(Transform transform, Transform root)
+        {
+            for (var current = transform; current != null; current = current.parent)
+            {
+                if (!current.gameObject.activeSelf) return false;
+                if (current == root) return true;
+            }
+            return false;
+        }
+
+        private static void CreateOccupancyOutlines(StageMapObjectPlacement placement, Transform parent, StageMapDefinition map)
+        {
+            var units = map.GetEditorPreviewUnitsPerCell();
+            foreach (var cell in StageMapDefinition.EnumeratePlacementCells(placement).Distinct())
+            {
+                var outlineObject = CreatePreviewObject($"[OCCUPIED] {placement.StableId} ({cell.x},{cell.y})", parent);
+                var line = outlineObject.AddComponent<LineRenderer>();
+                line.sharedMaterial = PathMaterial();
+                line.startColor = new Color(0f, 1f, .9f, .42f);
+                line.endColor = line.startColor;
+                line.startWidth = .035f * units;
+                line.endWidth = line.startWidth;
+                line.useWorldSpace = true;
+                line.loop = true;
+                line.positionCount = 4;
+                var x = cell.x * units;
+                var y = cell.y * units;
+                line.SetPositions(new[]
+                {
+                    new Vector3(x, y, -.01f), new Vector3(x + units, y, -.01f),
+                    new Vector3(x + units, y + units, -.01f), new Vector3(x, y + units, -.01f)
+                });
+                line.sortingOrder = 29;
+            }
         }
 
         private static void CreatePathLine(StageMapObjectPlacement placement, Transform parent, StageMapDefinition map)

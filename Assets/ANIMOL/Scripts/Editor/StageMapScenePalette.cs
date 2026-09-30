@@ -115,6 +115,18 @@ namespace ANIMOL.Editor
         public static Sprite ResolvePreviewSprite(StageMapObjectPlacement placement) =>
             placement == null ? null : ResolvePreviewSprite(FindType(placement.DataKey));
 
+        public static Texture ResolvePreviewTexture(StageMapObjectTypeDefinition type)
+        {
+            if (type == null) return null;
+            if (type.Prefab != null)
+            {
+                var prefabPreview = AssetPreview.GetAssetPreview(type.Prefab);
+                if (prefabPreview != null) return prefabPreview;
+            }
+            var sprite = ResolvePreviewSprite(type);
+            return sprite == null ? null : AssetPreview.GetAssetPreview(sprite) ?? AssetPreview.GetMiniThumbnail(sprite);
+        }
+
         public static string ThemeTerrainFolder(string themeId) => themeId switch
         {
             "T01" => "moon", "T02" => "cloud", "T03" => "library", "T04" => "greenhouse", "T05" => "mine", _ => string.Empty

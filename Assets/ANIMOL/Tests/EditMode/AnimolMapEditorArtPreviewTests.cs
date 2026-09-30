@@ -1,6 +1,7 @@
 using ANIMOL.Core;
 using ANIMOL.Editor;
 using ANIMOL.Gameplay;
+using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -31,6 +32,24 @@ namespace ANIMOL.Tests.EditMode
             foreach (var type in registry.Types)
                 if (type.ImplementationLevel == MapObjectImplementationLevel.DevPlayable)
                     Assert.That(StageMapScenePalette.ResolvePreviewSprite(type), Is.Not.Null, type.StableTypeId);
+        }
+
+        [Test]
+        public void EveryRegisteredDeviceHasVisiblePrefabArtAndReadableDescription()
+        {
+            var registry = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
+            Assert.That(registry.Types.Count, Is.EqualTo(45));
+            foreach (var type in registry.Types)
+            {
+                Assert.That(type.Prefab, Is.Not.Null, type.StableTypeId);
+                Assert.That(type.Prefab.GetComponentsInChildren<SpriteRenderer>(true),
+                    Has.Some.Matches<SpriteRenderer>(renderer => renderer.sprite != null && renderer.enabled && IsActiveInPrefab(renderer.transform, type.Prefab.transform)),
+                    type.StableTypeId);
+                Assert.That(StageMapScenePalette.BriefDescription(type), Is.Not.Empty, type.StableTypeId);
+                Assert.That(StageMapScenePalette.BriefDescription(type).Any(character => character == '\uFFFD'), Is.False, type.StableTypeId);
+                Assert.That(type.FootprintCells.x, Is.GreaterThan(0f), type.StableTypeId);
+                Assert.That(type.FootprintCells.y, Is.GreaterThan(0f), type.StableTypeId);
+            }
         }
 
         [Test]
@@ -96,6 +115,27 @@ namespace ANIMOL.Tests.EditMode
             Assert.That(sprite.bounds.size.y * scale.y, Is.LessThanOrEqualTo(type.FootprintCells.y + .001f));
         }
 
+        [TestCase("MOON_JADE_BALANCE")]
+        [TestCase("MOON_PHASE_STAIR")]
+        [TestCase("DEW_SEED_STEP")]
+        [TestCase("MINE_CART_FORK")]
+        public void PlacedDevicePreviewKeepsAllActiveArtPartsAtUniformScale(string id)
+        {
+            var type = StageMapScenePalette.FindType(id);
+            var proxy = new GameObject("PreviewProxy");
+            try
+            {
+                var method = typeof(StageMapAuthoringWorkspace).GetMethod("CreatePrefabVisualPreview",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+                method?.Invoke(null, new object[] { proxy.transform, type.Prefab, type.FootprintCells, 1f, 30 });
+                var visual = proxy.transform.Find("ART PREVIEW (ALL ACTIVE PARTS)");
+                Assert.That(visual, Is.Not.Null, id);
+                Assert.That(visual.GetComponentsInChildren<SpriteRenderer>().Length, Is.GreaterThan(1), id);
+                Assert.That(visual.localScale.x, Is.EqualTo(visual.localScale.y).Within(.0001f), id);
+            }
+            finally { Object.DestroyImmediate(proxy); }
+        }
+
         [Test]
         public void GeneratedTerrainCatalogContainsSixteenTilesPerTheme()
         {
@@ -147,6 +187,16 @@ namespace ANIMOL.Tests.EditMode
                 Object.DestroyImmediate(root);
                 Object.DestroyImmediate(map);
             }
+        }
+
+        private static bool IsActiveInPrefab(Transform transform, Transform root)
+        {
+            for (var current = transform; current != null; current = current.parent)
+            {
+                if (!current.gameObject.activeSelf) return false;
+                if (current == root) return true;
+            }
+            return false;
         }
 
     }
