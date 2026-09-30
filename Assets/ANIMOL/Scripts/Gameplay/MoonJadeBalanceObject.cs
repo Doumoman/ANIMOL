@@ -34,6 +34,8 @@ namespace ANIMOL.Gameplay
             var linkedId = settings?.LinkedInstanceIds.FirstOrDefault();
             linked = FindObjectsByType<MoonJadeBalanceObject>(FindObjectsInactive.Include, FindObjectsSortMode.None)
                 .FirstOrDefault(item => item != this && item.StableId == linkedId);
+            var art = GetComponent<AnimolOperationalArtBinding>();
+            if (art != null) art.SetVariant(linked != null && initialPosition.x > linked.initialPosition.x ? 1 : 0);
         }
 
         public void Step(float deltaTime)

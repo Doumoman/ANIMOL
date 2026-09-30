@@ -40,6 +40,11 @@ namespace ANIMOL.Gameplay
             return phasePlayer != null && phasePlayer.PlayPhase(phase);
         }
         protected void PlayIdlePhase() => PlayPhase("idle");
+        protected float GetPhaseDuration(string phase)
+        {
+            if (phasePlayer == null) phasePlayer = GetComponentInChildren<AnimolPhasePlayer>(true);
+            return phasePlayer == null ? 0f : phasePlayer.GetPhaseDuration(phase);
+        }
         public abstract void ResetRuntimeState();
     }
 

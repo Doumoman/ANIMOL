@@ -16,6 +16,12 @@ namespace ANIMOL.Gameplay
         private bool reachedEnd;
         private float stopRemaining;
         private bool phaseMoving;
+        private BoxCollider2D solid;
+        private float phaseRemaining;
+        private RailLifecycle lifecycle;
+
+        public enum RailLifecycle { Idle, Traveling, Vanishing, WaitingForClear, Respawning }
+        public RailLifecycle Lifecycle => lifecycle;
 
         public bool IsMoving => moving;
         public bool ReachedEnd => reachedEnd;
@@ -26,6 +32,7 @@ namespace ANIMOL.Gameplay
         {
             base.Configure(value, unitsPerCell);
             body = GetComponent<Rigidbody2D>(); body.bodyType = RigidbodyType2D.Kinematic; body.gravityScale = 0f;
+            solid = GetComponent<BoxCollider2D>();
             worldPath.Clear();
             if (settings.PathCells.Count == 0) worldPath.Add(initialPosition);
             else foreach (var node in settings.PathCells) worldPath.Add(WorldForCell(node));
@@ -37,9 +44,10 @@ namespace ANIMOL.Gameplay
         {
             if (passenger == null) return;
             passengers.Add(passenger);
-            if (!reachedEnd && worldPath.Count > 1)
+            if (lifecycle == RailLifecycle.Idle && worldPath.Count > 1)
             {
                 moving = true;
+                lifecycle = RailLifecycle.Traveling;
                 if (!phaseMoving) { PlayPhase("travel"); phaseMoving = true; }
             }
         }
@@ -58,11 +66,28 @@ namespace ANIMOL.Gameplay
         {
             if (body == null || settings == null || worldPath.Count < 2) return;
             passengers.RemoveWhere(item => item == null);
-            if (reachedEnd && passengers.Count == 0 && settings.ReturnWhenEmpty)
+            if (lifecycle == RailLifecycle.Vanishing)
             {
-                if (stopRemaining > 0f) { stopRemaining -= Time.fixedDeltaTime; return; }
-                direction = -1; targetIndex = worldPath.Count - 2; moving = true; reachedEnd = false;
-                PlayPhase("respawn"); phaseMoving = true;
+                phaseRemaining -= Time.fixedDeltaTime;
+                if (phaseRemaining > 0f || passengers.Count > 0) return;
+                solid.enabled = false;
+                body.position = initialPosition; transform.position = initialPosition;
+                lifecycle = RailLifecycle.WaitingForClear;
+            }
+            if (lifecycle == RailLifecycle.WaitingForClear)
+            {
+                if (IsSpawnOccupied()) return;
+                PlayPhase("respawn");
+                lifecycle = RailLifecycle.Respawning;
+                phaseRemaining = Mathf.Max(GetPhaseDuration("respawn"), .01f);
+                return;
+            }
+            if (lifecycle == RailLifecycle.Respawning)
+            {
+                phaseRemaining -= Time.fixedDeltaTime;
+                if (phaseRemaining > 0f || IsSpawnOccupied()) return;
+                solid.enabled = true; reachedEnd = false; lifecycle = RailLifecycle.Idle; PlayIdlePhase(); phaseMoving = false;
+                return;
             }
             if (!moving) return;
             var before = body.position;
@@ -71,16 +96,29 @@ namespace ANIMOL.Gameplay
             var delta = next - before;
             foreach (var passenger in passengers) passenger.position += delta;
             if ((next - worldPath[targetIndex]).sqrMagnitude > .000001f) return;
-            if (direction > 0 && targetIndex == worldPath.Count - 1) { reachedEnd = true; moving = false; stopRemaining = settings.EndStopSeconds; PlayPhase("vanish"); phaseMoving = false; }
+            if (direction > 0 && targetIndex == worldPath.Count - 1) { reachedEnd = true; moving = false; stopRemaining = settings.EndStopSeconds; PlayPhase("vanish"); lifecycle = RailLifecycle.Vanishing; phaseRemaining = Mathf.Max(GetPhaseDuration("vanish"), settings.EndStopSeconds); phaseMoving = false; }
             else if (direction < 0 && targetIndex == 0) { direction = 1; targetIndex = 1; moving = false; reachedEnd = false; PlayIdlePhase(); phaseMoving = false; }
             else targetIndex += direction;
         }
 
+        private bool IsSpawnOccupied()
+        {
+            if (solid == null) return false;
+            var center = initialPosition + (Vector2)(transform.rotation * solid.offset);
+            foreach (var hit in Physics2D.OverlapBoxAll(center, solid.size * .95f, transform.eulerAngles.z))
+            {
+                if (hit == null || hit.isTrigger || hit.transform.IsChildOf(transform)) continue;
+                if (hit.GetComponentInParent<DevPlayerController>() != null || hit.attachedRigidbody != null) return true;
+            }
+            return false;
+        }
+
         public override void ResetRuntimeState()
         {
-            passengers.Clear(); direction = 1; targetIndex = worldPath.Count > 1 ? 1 : 0; moving = false; reachedEnd = false; stopRemaining = 0f; phaseMoving = false;
+            passengers.Clear(); direction = 1; targetIndex = worldPath.Count > 1 ? 1 : 0; moving = false; reachedEnd = false; stopRemaining = 0f; phaseMoving = false; phaseRemaining = 0f; lifecycle = RailLifecycle.Idle;
             transform.position = initialPosition;
             if (body != null) { body.position = initialPosition; body.linearVelocity = Vector2.zero; }
+            if (solid != null) solid.enabled = true;
             PlayIdlePhase();
         }
     }

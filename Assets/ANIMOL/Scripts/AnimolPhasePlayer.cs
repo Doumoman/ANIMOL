@@ -29,6 +29,15 @@ namespace Animol
             return played;
         }
 
+        public float GetPhaseDuration(string phase)
+        {
+            if (_animation == null) _animation = GetComponent<Animation>();
+            if (string.IsNullOrWhiteSpace(phase)) return 0f;
+            var stateName = ResolveStateName(phase);
+            var clip = stateName == null ? null : _animation.GetClip(stateName);
+            return clip == null ? 0f : clip.length;
+        }
+
         private string ResolveStateName(string phase)
         {
             if (_animation.GetClip(phase) != null) return phase;

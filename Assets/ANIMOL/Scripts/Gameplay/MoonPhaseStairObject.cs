@@ -15,6 +15,7 @@ namespace ANIMOL.Gameplay
         public override void Configure(StageMapObjectPlacement value, float unitsPerCell)
         {
             base.Configure(value, unitsPerCell); solid = GetComponent<BoxCollider2D>(); visual = GetComponentInChildren<SpriteRenderer>();
+            GetComponent<AnimolOperationalArtBinding>()?.SetVariant(Mathf.Abs(settings.PhaseSeed) % 3);
             BuildAlternateShapePreview(); BuildPatternPlate(); ResetRuntimeState();
         }
         public bool RequestToggle()
