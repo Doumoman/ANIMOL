@@ -30,5 +30,18 @@ namespace ANIMOL.Tests.EditMode
                     Assert.That(StageMapScenePalette.ResolvePreviewSprite(type), Is.Not.Null, type.StableTypeId);
         }
 
+        [Test]
+        public void EveryDevPlayableTypeHasCompactFocusedCardDescription()
+        {
+            var registry = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
+            foreach (var type in registry.Types)
+            {
+                if (type.ImplementationLevel != MapObjectImplementationLevel.DevPlayable) continue;
+                var description = StageMapScenePalette.BriefDescription(type, 100);
+                Assert.That(description, Is.Not.Empty, type.StableTypeId);
+                Assert.That(description.Length, Is.LessThanOrEqualTo(100), type.StableTypeId);
+            }
+        }
+
     }
 }

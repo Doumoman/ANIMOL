@@ -49,6 +49,9 @@ namespace ANIMOL.Editor
         private bool pathEditing;
         private int selectedPathNode = -1;
         private Vector2 sceneLogicScroll;
+        private static GUIStyle focusedCardStyle;
+        private static GUIStyle focusedTitleStyle;
+        private static GUIStyle focusedBodyStyle;
 
         [MenuItem("ANIMOL/M7/Campaign Map Editor")]
         public static void Open() => GetWindow<CampaignMapEditorWindow>("ANIMOL Map Editor");
@@ -269,6 +272,7 @@ namespace ANIMOL.Editor
 
         private void DrawWindowPalette()
         {
+            DrawFocusedElementCard(false);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Scene View direct authoring", EditorStyles.boldLabel);
             var next = (StageMapPaletteCategory)GUILayout.Toolbar((int)paletteCategory,
@@ -329,6 +333,7 @@ namespace ANIMOL.Editor
             }
             if (scenePaletteVisible)
             {
+                DrawFocusedElementCard(true);
                 GUILayout.Label($"{selectedMap.StageId} · 16px cell / 16×16 chunk · {selectedMap.Cells.Count} cells / {selectedMap.Objects.Count} objects", EditorStyles.miniLabel);
                 var next = (StageMapPaletteCategory)GUILayout.Toolbar((int)paletteCategory,
                     new[] { "선택", "블록", "특수", "장치" });
@@ -504,6 +509,61 @@ namespace ANIMOL.Editor
                 GUILayout.Label(objectPaletteMessage, EditorStyles.wordWrappedMiniLabel);
         }
 
+        private void DrawFocusedElementCard(bool compact)
+        {
+            var placement = SelectedPlacement();
+            var type = placement != null ? StageMapScenePalette.FindType(placement.DataKey) :
+                tool == StageMapTool.Object ? SelectedObjectType() : null;
+            if (type == null) return;
+
+            EnsureFocusedCardStyles();
+            using (new GUILayout.VerticalScope(focusedCardStyle))
+            {
+                GUILayout.Label(placement == null ? "READY TO PLACE" : "FOCUSED MAP ELEMENT", focusedTitleStyle);
+                using (new GUILayout.HorizontalScope())
+                {
+                    var sprite = StageMapScenePalette.ResolvePreviewSprite(type);
+                    var texture = sprite == null ? null : AssetPreview.GetAssetPreview(sprite) ?? AssetPreview.GetMiniThumbnail(sprite);
+                    var imageSize = compact ? 92f : 112f;
+                    var imageRect = GUILayoutUtility.GetRect(imageSize, imageSize, GUILayout.Width(imageSize), GUILayout.Height(imageSize));
+                    EditorGUI.DrawRect(imageRect, new Color(.035f, .045f, .075f, 1f));
+                    if (texture != null) GUI.DrawTexture(imageRect, texture, ScaleMode.ScaleToFit, true);
+                    DrawCardBorder(imageRect, type.ImplementationLevel == MapObjectImplementationLevel.DevPlayable
+                        ? new Color(0f, 1f, .95f) : new Color(1f, .65f, .08f));
+
+                    using (new GUILayout.VerticalScope())
+                    {
+                        GUILayout.Label(string.IsNullOrWhiteSpace(type.DisplayName) ? type.EnglishDisplayName : type.DisplayName, focusedTitleStyle);
+                        GUILayout.Label($"{type.StableTypeId}  •  {type.ImplementationLevel}", EditorStyles.miniBoldLabel);
+                        if (placement != null) GUILayout.Label($"CELL {placement.X}, {placement.Y}  •  {type.FootprintCells.x:0.#}×{type.FootprintCells.y:0.#}", EditorStyles.miniLabel);
+                        GUILayout.Label(StageMapScenePalette.BriefDescription(type, compact ? 100 : 180), focusedBodyStyle);
+                    }
+                }
+            }
+        }
+
+        private static void DrawCardBorder(Rect rect, Color color)
+        {
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMin, rect.width, 3f), color);
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMax - 3f, rect.width, 3f), color);
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMin, 3f, rect.height), color);
+            EditorGUI.DrawRect(new Rect(rect.xMax - 3f, rect.yMin, 3f, rect.height), color);
+        }
+
+        private static void EnsureFocusedCardStyles()
+        {
+            if (focusedCardStyle != null) return;
+            var background = new Texture2D(8, 8, TextureFormat.RGBA32, false) { hideFlags = HideFlags.HideAndDontSave };
+            var pixels = new Color32[64];
+            for (var y = 0; y < 8; y++) for (var x = 0; x < 8; x++)
+                pixels[y * 8 + x] = x < 1 || y < 1 || x > 6 || y > 6
+                    ? new Color32(0, 238, 224, 255) : new Color32(15, 20, 38, 248);
+            background.SetPixels32(pixels); background.Apply();
+            focusedCardStyle = new GUIStyle(GUI.skin.box) { normal = { background = background }, padding = new RectOffset(10, 10, 9, 9), margin = new RectOffset(0, 0, 6, 8) };
+            focusedTitleStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 13, normal = { textColor = new Color(.2f, 1f, .95f) } };
+            focusedBodyStyle = new GUIStyle(EditorStyles.wordWrappedMiniLabel) { normal = { textColor = new Color(.88f, .92f, 1f) }, richText = true };
+        }
+
         private void ActivateCategory(StageMapPaletteCategory category)
         {
             paletteCategory = category;
@@ -546,7 +606,7 @@ namespace ANIMOL.Editor
             if (!focusedWorkspace) DrawSelectionAndPathHandles(units);
 
             var current = Event.current;
-            var overlayRect = scenePaletteVisible ? new Rect(12f, 12f, 322f, Mathf.Min(590f, sceneView.position.height - 36f)) : new Rect(12f, 12f, 52f, 30f);
+            var overlayRect = scenePaletteVisible ? new Rect(12f, 12f, 390f, Mathf.Min(680f, sceneView.position.height - 36f)) : new Rect(12f, 12f, 52f, 30f);
             DrawScenePaletteOverlay(overlayRect);
             if (current.alt || overlayRect.Contains(current.mousePosition)) return;
 

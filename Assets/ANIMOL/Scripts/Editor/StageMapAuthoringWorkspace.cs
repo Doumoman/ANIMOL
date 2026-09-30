@@ -331,6 +331,7 @@ namespace ANIMOL.Editor
             // cells and commits through the validated map authoring operations instead.
             Tools.hidden = true;
             var units = proxy.Map.GetEditorPreviewUnitsPerCell();
+            DrawFocusedProxyHighlight(proxy, units);
             EditorGUI.BeginChangeCheck();
             var moved = Handles.PositionHandle(proxy.transform.position, Quaternion.identity);
             if (EditorGUI.EndChangeCheck())
@@ -356,6 +357,19 @@ namespace ANIMOL.Editor
             handleDragging = false;
             handleProxyId = 0;
             CommitProxyMove(proxy, pendingHandleCell);
+        }
+
+        private static void DrawFocusedProxyHighlight(StageMapAuthoringProxy proxy, float units)
+        {
+            if (proxy.Role != StageMapAuthoringProxyRole.Object) return;
+            var placement = proxy.Map.Objects.FirstOrDefault(item => item.StableId == proxy.StableId);
+            if (placement == null) return;
+            var footprint = placement.Settings.FootprintCells;
+            var yOffset = placement.Kind == StageMapObjectKind.HalfBlock && placement.Settings.HalfPlacement == HalfBlockPlacement.Upper ? .5f : 0f;
+            var rect = new Rect(placement.X * units, (placement.Y + yOffset) * units,
+                Mathf.Max(.5f, footprint.x) * units, Mathf.Max(.5f, footprint.y) * units);
+            Handles.DrawSolidRectangleWithOutline(rect, new Color(0f, 1f, .95f, .08f), new Color(0f, 1f, .95f, 1f));
+            Handles.Label(new Vector3(rect.center.x, rect.yMax + .18f * units), $"▶ {placement.DataKey}", EditorStyles.whiteBoldLabel);
         }
 
         private static void CommitProxyMove(StageMapAuthoringProxy proxy, Vector2Int destination)

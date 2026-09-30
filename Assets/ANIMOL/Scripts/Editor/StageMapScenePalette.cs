@@ -98,6 +98,17 @@ namespace ANIMOL.Editor
         public static Sprite ResolvePreviewSprite(StageMapObjectPlacement placement) =>
             placement == null ? null : ResolvePreviewSprite(FindType(placement.DataKey));
 
+        public static string BriefDescription(StageMapObjectTypeDefinition type, int maxLength = 180)
+        {
+            if (type == null) return string.Empty;
+            var text = !string.IsNullOrWhiteSpace(type.EffectDescription) ? type.EffectDescription :
+                !string.IsNullOrWhiteSpace(type.Description) ? type.Description :
+                type.BehaviorComponentIds.Count > 0 ? "동작: " + string.Join(", ", type.BehaviorComponentIds) : "정적 맵 요소";
+            text = text.Replace('\r', ' ').Replace('\n', ' ').Trim();
+            maxLength = Mathf.Max(8, maxLength);
+            return text.Length <= maxLength ? text : text.Substring(0, maxLength - 1).TrimEnd() + "…";
+        }
+
         private static bool HasAncestor(Transform transform, string name)
         {
             for (var current = transform; current != null; current = current.parent)
