@@ -151,7 +151,7 @@ namespace ANIMOL.Editor
                 $"valid={errors.Count == 0}", $"registeredTypes={actualIds.Length}", $"distinctPlacedTypes={placedTypeIds.Length}",
                 $"persistedPalettePlacements={paletteMap?.Objects.Count ?? 0}", "saveReopenEditDelete=covered-by-M9B-editmode",
                 $"devPlayable={devPlayable}", $"placeablePrototype={prototypes}", "releaseCandidate=0",
-                "representativeTypes=9", $"representativePlacements={lab?.Objects.Count ?? 0}", "prototypeReadyBlocked=true",
+                "representativeTypes=13", $"representativePlacements={lab?.Objects.Count ?? 0}", "prototypeReadyBlocked=true",
                 $"stableStageIds={stages.Select(item => item.StageId).Distinct(StringComparer.Ordinal).Count()}/{stages.Length}",
                 $"ready={stages.Count(item => ContentAvailabilityResolver.Resolve(item) == ContentAvailability.Ready)}",
                 $"t01MapSha256={FileSha256(T01MapPath)}", "operationalMapAutoPlacement=false", "t06Registered=false",
@@ -164,7 +164,7 @@ namespace ANIMOL.Editor
         {
             const MapObjectImplementationLevel D = MapObjectImplementationLevel.DevPlayable;
             const MapObjectImplementationLevel P = MapObjectImplementationLevel.PlaceablePrototype;
-            return new List<M9BObjectSpec>
+            var result = new List<M9BObjectSpec>
             {
                 new("OBJ_SIDE_SPRING","방향 전환 옆 스프링","Side Spring","",StageMapObjectKind.SideSpring,Vector2.one,D,"Spring"),
                 new("OBJ_POUNDER","수직 왕복 절구","Pounder","",StageMapObjectKind.Pounder,new Vector2(2,3),D,"Pounder"),
@@ -212,6 +212,23 @@ namespace ANIMOL.Editor
                 new("MINE_CRYSTAL_LEVER","수정 레버","Crystal Lever","T05",StageMapObjectKind.MineCrystalLever,Vector2.one,P,"Prototype"),
                 new("MINE_CART_FORK","광차 분기","Mine Cart Fork","T05",StageMapObjectKind.MineCartFork,new Vector2(3,1),D,"MineCartFork")
             };
+            for (var i = 0; i < result.Count; i++)
+            {
+                var item = result[i];
+                var behavior = item.Id switch
+                {
+                    "CLOUD_SHEEP_STEP" => "CloudSheepStep",
+                    "PAGE_BRIDGE" => "PageBridge",
+                    "LIB_POPUP_STAIR" => "LibPopupStair",
+                    "DEW_SEED_STEP" => "DewSeedStep",
+                    _ => null
+                };
+                if (behavior == null) continue;
+                var footprint = item.Id == "DEW_SEED_STEP" ? new Vector2(3, 1) : item.Footprint;
+                result[i] = new M9BObjectSpec(item.Id, item.Name, item.English, item.ThemeId, item.Kind,
+                    footprint, D, behavior, item.Pair);
+            }
+            return result;
         }
 
         private static List<StageMapObjectTypeDefinition> BuildM9BDefinitions(IReadOnlyList<M9BObjectSpec> specs)
@@ -271,6 +288,10 @@ namespace ANIMOL.Editor
                 case "BookmarkLift": AddMovingPhysics<BookmarkLiftObject>(root, spec.Footprint); break;
                 case "GlassVineLift": AddMovingPhysics<GlassVineLiftObject>(root, spec.Footprint); break;
                 case "LibSpineBrake": AddMovingPhysics<LibSpineBrakeObject>(root, spec.Footprint); break;
+                case "CloudSheepStep": root.AddComponent<BoxCollider2D>(); root.AddComponent<CloudSheepStepObject>(); break;
+                case "PageBridge": AddPartPhysics<PageBridgeObject>(root, false); break;
+                case "LibPopupStair": AddPartPhysics<LibPopupStairObject>(root, true); break;
+                case "DewSeedStep": AddPartPhysics<DewSeedStepObject>(root, false); break;
                 default: root.AddComponent<PrototypeMapObject>(); break;
             }
             var collider = root.GetComponent<BoxCollider2D>();
@@ -281,6 +302,19 @@ namespace ANIMOL.Editor
 
         private static void AddMovingPhysics<T>(GameObject root, Vector2 footprint) where T : StageMapRuntimeObject
         { root.AddComponent<Rigidbody2D>(); var collider = root.AddComponent<BoxCollider2D>(); collider.size = footprint; collider.offset = footprint * .5f; root.AddComponent<T>(); }
+
+        private static void AddPartPhysics<T>(GameObject root, bool staircase) where T : StageMapRuntimeObject
+        {
+            root.AddComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+            var holder = new GameObject("OperationalPhysicsParts").transform; holder.SetParent(root.transform, false);
+            for (var i = 0; i < 3; i++)
+            {
+                var part = new GameObject($"Part_{i + 1}", typeof(BoxCollider2D)); part.transform.SetParent(holder, false);
+                part.transform.localPosition = new Vector3(i + .5f, staircase ? .35f + i * .5f : .45f);
+                part.GetComponent<BoxCollider2D>().size = new Vector2(.9f, staircase ? .3f : .35f);
+            }
+            root.AddComponent<T>();
+        }
 
         private static Sprite CreateM9BSprite(M9BObjectSpec spec)
         {
@@ -328,7 +362,7 @@ namespace ANIMOL.Editor
                 SideSpringContactPolicy.FacingSideOnly, 8f, 4.5f, speed, .6f, .6f, spec.Kind == StageMapObjectKind.LibIndexDrawer ? 3f : 5f,
                 .55f, .75f, true, path);
             settings.EditorConfigureAuthoring(spec.Level, links, StableM9BSeed(spec.Id), MapObjectResetPolicy.RespawnAndRetry,
-                MapObjectRouteRole.Required, spec.Pair ? 1 : 0,
+                spec.Level == MapObjectImplementationLevel.PlaceablePrototype ? MapObjectRouteRole.Bonus : MapObjectRouteRole.Required, spec.Pair ? 1 : 0,
                 spec.Level == MapObjectImplementationLevel.PlaceablePrototype ? "고유 동작 미구현: DEV 고스트/직렬화 전용. 운영 Ready 금지." : string.Empty);
             settings.EditorConfigureDesignBehavior(.45f, 1.5f, 1f,
                 spec.Kind is StageMapObjectKind.MoonLanternStep or StageMapObjectKind.MoonPhaseStair
@@ -377,6 +411,10 @@ namespace ANIMOL.Editor
             PlaceM9B(map, defs["BOOKMARK_LIFT"], "LAB-BOOKMARK", new Vector2Int(-11, -4), Array.Empty<string>(), specs["BOOKMARK_LIFT"]);
             PlaceM9B(map, defs["GLASS_VINE_LIFT"], "LAB-VINE", new Vector2Int(8, -4), Array.Empty<string>(), specs["GLASS_VINE_LIFT"]);
             PlaceM9B(map, defs["LIB_SPINE_BRAKE"], "LAB-SPINE", new Vector2Int(7, 3), Array.Empty<string>(), specs["LIB_SPINE_BRAKE"]);
+            PlaceM9B(map, defs["CLOUD_SHEEP_STEP"], "LAB-SHEEP", new Vector2Int(-12, 6), Array.Empty<string>(), specs["CLOUD_SHEEP_STEP"]);
+            PlaceM9B(map, defs["PAGE_BRIDGE"], "LAB-PAGE", new Vector2Int(-7, 6), Array.Empty<string>(), specs["PAGE_BRIDGE"]);
+            PlaceM9B(map, defs["LIB_POPUP_STAIR"], "LAB-POPUP", new Vector2Int(-2, 6), Array.Empty<string>(), specs["LIB_POPUP_STAIR"]);
+            PlaceM9B(map, defs["DEW_SEED_STEP"], "LAB-DEW", new Vector2Int(3, 6), Array.Empty<string>(), specs["DEW_SEED_STEP"]);
             map.EditorMarkCollisionDataSynchronized(); EditorUtility.SetDirty(map); return map;
         }
 

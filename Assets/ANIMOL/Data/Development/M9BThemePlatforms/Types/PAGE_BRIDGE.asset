@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd5c36df24b1524ea59a36063199343, type: 3}
+  m_Name: PAGE_BRIDGE
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapObjectTypeDefinition
+  stableTypeId: PAGE_BRIDGE
+  displayName: "\uD398\uC774\uC9C0 \uB2E4\uB9AC"
+  englishDisplayName: Page Bridge
+  themeId: T03
+  description: "\uC811\uD798\uACFC \uD3BC\uCE68\uC744 \uBC18\uBCF5\uD558\uB294 \uD398\uC774\uC9C0
+    \uB2E4\uB9AC"
+  kind: 22
+  layer: 3
+  footprintCells: {x: 3, y: 1}
+  verticalSnapCells: 1
+  prefab: {fileID: 5025519466646297466, guid: cfd1ea97ce3f4ef46935837c2867496b, type: 3}
+  ghostSprite: {fileID: -1509972642065585898, guid: 49b0eff979f709c4bb2be6f8a3f02ba1, type: 3}
+  icon: {fileID: -1509972642065585898, guid: 49b0eff979f709c4bb2be6f8a3f02ba1, type: 3}
+  implementationLevel: 0
+  behaviorComponentIds:
+  - PageBridge
+  settingsSchemaVersion: 2
+  requiresLinkedPair: 0
+  defaultSettings:
+    version: 2
+    direction: 1
+    footprintCells: {x: 3, y: 1}
+    halfPlacement: 0
+    springContactPolicy: 0
+    horizontalImpulse: 8
+    verticalImpulse: 4.5
+    movementSpeed: 2.5
+    upperPauseSeconds: 0.6
+    lowerPauseSeconds: 0.6
+    activationRangeCells: 5
+    groundSpeedMultiplier: 0.55
+    endStopSeconds: 0.75
+    returnWhenEmpty: 1
+    pathCells: []
+    implementationLevel: 0
+    linkedInstanceIds: []
+    phaseSeed: 1582479250
+    resetPolicy: 0
+    routeRole: 0
+    minimumLinkCount: 0
+    prototypeNotice: 
+    warningSeconds: 0.45
+    activeSeconds: 1.5
+    recoverSeconds: 1
+    passengerPolicy: 0
+    triggerMode: 1
+    arcHeightCells: 2
+    rotationDegrees: 90
+    effectStrength: 1
+    deferWhileOccupied: 1
+  activationCondition: "\uACE0\uC815 \uC8FC\uAE30\uC758 \uD3BC\uCE68 \uC608\uACE0"
+  departureCondition: "\uC811\uD798 \uC608\uACE0 \uD6C4 \uBE44\uC5B4 \uC788\uC744
+    \uB54C"
+  effectDescription: "2~3\uC7A5 \uB2E8\uBC29\uD5A5 \uC5F0\uACB0"
+  failureRecovery: "\uC544\uB798 \uCC45\uC7A5 \uC120\uBC18\uC5D0\uC11C \uC7AC\uC2DC\uB3C4"
+  settingFieldIds:
+  - warning
+  - active
+  - recover
+  - phaseSeed
+  - passengerPolicy
+  - resetPolicy
+  - routeRole
+  authoringValidationRules:
+  - 16x16-cell chunk bounds
+  - portrait landing/safe-zone preview
+  - deterministic retry
+  - occupied-surface safety

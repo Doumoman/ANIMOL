@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd5c36df24b1524ea59a36063199343, type: 3}
+  m_Name: LIB_POPUP_STAIR
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapObjectTypeDefinition
+  stableTypeId: LIB_POPUP_STAIR
+  displayName: "\uD31D\uC5C5 \uACC4\uB2E8"
+  englishDisplayName: Pop-up Stair
+  themeId: T03
+  description: "\uD0ED\uC73C\uB85C \uD3BC\uCCD0\uC838 \uACE0\uC815\uB418\uB294 \uD31D\uC5C5
+    \uACC4\uB2E8"
+  kind: 43
+  layer: 3
+  footprintCells: {x: 3, y: 2}
+  verticalSnapCells: 1
+  prefab: {fileID: 3308073673930679536, guid: 92cb54f069f7159419bd0004193e41db, type: 3}
+  ghostSprite: {fileID: -5411893538130170769, guid: 622ebc93d6a68474791dfc2d8593e80d, type: 3}
+  icon: {fileID: -5411893538130170769, guid: 622ebc93d6a68474791dfc2d8593e80d, type: 3}
+  implementationLevel: 0
+  behaviorComponentIds:
+  - LibPopupStair
+  settingsSchemaVersion: 2
+  requiresLinkedPair: 0
+  defaultSettings:
+    version: 2
+    direction: 1
+    footprintCells: {x: 3, y: 2}
+    halfPlacement: 0
+    springContactPolicy: 0
+    horizontalImpulse: 8
+    verticalImpulse: 4.5
+    movementSpeed: 2.5
+    upperPauseSeconds: 0.6
+    lowerPauseSeconds: 0.6
+    activationRangeCells: 5
+    groundSpeedMultiplier: 0.55
+    endStopSeconds: 0.75
+    returnWhenEmpty: 1
+    pathCells: []
+    implementationLevel: 0
+    linkedInstanceIds: []
+    phaseSeed: 1692638535
+    resetPolicy: 0
+    routeRole: 0
+    minimumLinkCount: 0
+    prototypeNotice: 
+    warningSeconds: 0.45
+    activeSeconds: 1.5
+    recoverSeconds: 1
+    passengerPolicy: 0
+    triggerMode: 1
+    arcHeightCells: 2
+    rotationDegrees: 90
+    effectStrength: 1
+    deferWhileOccupied: 1
+  activationCondition: "\uC791\uC740 \uD0ED \uBC1F\uC74C"
+  departureCondition: "\uB9AC\uC2A4\uD3F0 \uC815\uCC45\uC5D0 \uB530\uB77C \uCD08\uAE30\uD654"
+  effectDescription: "1~2\uB2E8 \uC704\uB85C \uD3BC\uCE68"
+  failureRecovery: "\uC810\uC720 \uC911 \uC720\uC9C0"
+  settingFieldIds:
+  - linkedIds
+  - warning
+  - active
+  - passengerPolicy
+  - resetPolicy
+  - routeRole
+  authoringValidationRules:
+  - 16x16-cell chunk bounds
+  - portrait landing/safe-zone preview
+  - deterministic retry
+  - occupied-surface safety

@@ -54,6 +54,102 @@ namespace Animol.Editor
             Debug.Log("ANIMOL pass 3 movement integration complete: K9, L2, H2, L7.");
         }
 
+        [MenuItem("ANIMOL/Integrate Stateful Platforms Pass 4")]
+        public static void IntegrateStatefulPlatformsPass4()
+        {
+            BindStateful("CLOUD_SHEEP_STEP", "K2", typeof(CloudSheepStepObject), false, false);
+            BindStateful("PAGE_BRIDGE", "L1", typeof(PageBridgeObject), true, false);
+            BindStateful("LIB_POPUP_STAIR", "L6", typeof(LibPopupStairObject), true, true);
+            BindStateful("DEW_SEED_STEP", "H1", typeof(DewSeedStepObject), true, false);
+            PromoteDefinition("CLOUD_SHEEP_STEP", "CloudSheepStep");
+            PromoteDefinition("PAGE_BRIDGE", "PageBridge");
+            PromoteDefinition("LIB_POPUP_STAIR", "LibPopupStair");
+            PromoteDefinition("DEW_SEED_STEP", "DewSeedStep");
+            SetDewFootprint();
+            EnforcePrototypeBonusPolicy();
+            AddStatefulPlatformsToLab();
+            AssetDatabase.SaveAssets();
+            Debug.Log("ANIMOL pass 4 stateful integration complete: K2, L1, L6, H1.");
+        }
+
+        private static void BindStateful(string prefabId, string artId, Type runtimeType, bool parts, bool staircase)
+        {
+            var path = $"Assets/ANIMOL/Prefabs/MapObjects/M9B/{prefabId}.prefab";
+            var generated = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/ANIMOL/Generated/Prefabs/{artId}.prefab");
+            if (generated == null) throw new InvalidOperationException($"Missing generated art prefab: {artId}");
+            var root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var existingRuntime = root.GetComponent(runtimeType); if (existingRuntime != null) UnityEngine.Object.DestroyImmediate(existingRuntime);
+                var prototype = root.GetComponent<PrototypeMapObject>(); if (prototype != null) UnityEngine.Object.DestroyImmediate(prototype);
+                foreach (var oldCollider in root.GetComponents<BoxCollider2D>()) UnityEngine.Object.DestroyImmediate(oldCollider);
+                var oldParts = root.transform.Find("OperationalPhysicsParts"); if (oldParts != null) UnityEngine.Object.DestroyImmediate(oldParts.gameObject);
+                if (parts)
+                {
+                    var body = root.GetComponent<Rigidbody2D>(); if (body == null) body = root.AddComponent<Rigidbody2D>(); body.bodyType = RigidbodyType2D.Kinematic;
+                    CreateOperationalParts(root.transform, staircase);
+                }
+                else
+                {
+                    var collider = root.AddComponent<BoxCollider2D>(); collider.size = new Vector2(2f, 1f); collider.offset = new Vector2(1f, .5f);
+                }
+                root.AddComponent(runtimeType);
+                var oldArt = root.transform.Find(ArtName); if (oldArt != null) UnityEngine.Object.DestroyImmediate(oldArt.gameObject);
+                var art = (GameObject)PrefabUtility.InstantiatePrefab(generated, root.scene); art.name = ArtName; art.transform.SetParent(root.transform, false);
+                var legacy = root.transform.Find("Visual"); if (legacy != null) legacy.gameObject.SetActive(false);
+                var binding = root.GetComponent<AnimolOperationalArtBinding>() ?? root.AddComponent<AnimolOperationalArtBinding>();
+                binding.Configure(art, AnimolOperationalArtMode.Whole);
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        private static void CreateOperationalParts(Transform root, bool staircase)
+        {
+            var holder = new GameObject("OperationalPhysicsParts").transform; holder.SetParent(root, false);
+            for (var i = 0; i < 3; i++)
+            {
+                var part = new GameObject($"Part_{i + 1}", typeof(BoxCollider2D)); part.transform.SetParent(holder, false);
+                part.transform.localPosition = new Vector3(i + .5f, staircase ? .35f + i * .5f : .45f);
+                part.GetComponent<BoxCollider2D>().size = new Vector2(.9f, staircase ? .3f : .35f);
+            }
+        }
+
+        private static void SetDewFootprint()
+        {
+            var asset = AssetDatabase.LoadMainAssetAtPath("Assets/ANIMOL/Data/Development/M9BThemePlatforms/Types/DEW_SEED_STEP.asset");
+            var serialized = new SerializedObject(asset);
+            serialized.FindProperty("footprintCells").vector2Value = new Vector2(3f, 1f);
+            serialized.FindProperty("defaultSettings.footprintCells").vector2Value = new Vector2(3f, 1f);
+            serialized.ApplyModifiedPropertiesWithoutUndo(); EditorUtility.SetDirty(asset);
+        }
+
+        private static void EnforcePrototypeBonusPolicy()
+        {
+            var map = AssetDatabase.LoadAssetAtPath<StageMapDefinition>("Assets/ANIMOL/Data/Development/M9BThemePlatforms/DEV-M9B-PALETTE-45.asset");
+            foreach (var placement in map.Objects)
+            {
+                var type = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeDefinition>($"Assets/ANIMOL/Data/Development/M9BThemePlatforms/Types/{placement.DataKey}.asset");
+                if (type == null) type = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeDefinition>($"Assets/ANIMOL/Data/Development/M9Objects/{placement.DataKey}.asset");
+                if (type == null) continue;
+                var prototype = type.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype;
+                placement.Settings.EditorConfigureAuthoring(type.ImplementationLevel, placement.Settings.LinkedInstanceIds,
+                    placement.Settings.PhaseSeed, placement.Settings.ResetPolicy, prototype ? MapObjectRouteRole.Bonus : MapObjectRouteRole.Required,
+                    placement.Settings.MinimumLinkCount, prototype ? placement.Settings.PrototypeNotice : string.Empty);
+            }
+            map.EditorMarkCollisionDataSynchronized(); EditorUtility.SetDirty(map);
+        }
+
+        private static void AddStatefulPlatformsToLab()
+        {
+            var map = AssetDatabase.LoadAssetAtPath<StageMapDefinition>("Assets/ANIMOL/Data/Development/M9BThemePlatforms/DEV-M9B-REPRESENTATIVE-LAB.asset");
+            AddLabPlacement(map, "LAB-SHEEP", "CLOUD_SHEEP_STEP", StageMapObjectKind.CloudSheepStep, new Vector2Int(-12, 6), new Vector2Int(-12, 6));
+            AddLabPlacement(map, "LAB-PAGE", "PAGE_BRIDGE", StageMapObjectKind.PageBridge, new Vector2Int(-7, 6), new Vector2Int(-7, 6));
+            AddLabPlacement(map, "LAB-POPUP", "LIB_POPUP_STAIR", StageMapObjectKind.LibPopupStair, new Vector2Int(-2, 6), new Vector2Int(-2, 6));
+            AddLabPlacement(map, "LAB-DEW", "DEW_SEED_STEP", StageMapObjectKind.DewSeedStep, new Vector2Int(3, 6), new Vector2Int(3, 6));
+            map.EditorMarkCollisionDataSynchronized(); EditorUtility.SetDirty(map);
+        }
+
         private static void BindMovement(string prefabId, string artId, Type runtimeType)
         {
             var path = $"Assets/ANIMOL/Prefabs/MapObjects/M9B/{prefabId}.prefab";

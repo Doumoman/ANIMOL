@@ -1,0 +1,1871 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e49d08035f3560d4bb7d59ac0a99bc0d, type: 3}
+  m_Name: DEV-M9B-PALETTE-45
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapDefinition
+  stageId: DEV-M9B-PALETTE-45
+  themeId: DEV
+  mapVersion: 2
+  worldUnitsPerCell: 1
+  minChunkX: 0
+  minChunkY: 0
+  chunkWidth: 4
+  chunkHeight: 3
+  authoringRevision: 144
+  collisionDataRevision: 144
+  fixedAnimalIds: []
+  initialAnimalId: 
+  mainTimeLimitSeconds: 0
+  escapeTimeLimitSeconds: 0
+  fastClearThresholdSeconds: 0
+  optionalObjectiveIds: []
+  exitRevealCutsceneSeconds: 0
+  timersAdvanceDuringExitReveal: 0
+  rewardDefinition: {fileID: 0}
+  cells: []
+  objects:
+  - stableId: M9B-OBJ_SIDE_SPRING-01
+    kind: 11
+    x: 2
+    y: 5
+    dataKey: OBJ_SIDE_SPRING
+    prefab: {fileID: 3997122105951447940, guid: bc5df3f73bf05f24fa40633f64becdb6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 575020488
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-OBJ_POUNDER-01
+    kind: 12
+    x: 10
+    y: 5
+    dataKey: OBJ_POUNDER
+    prefab: {fileID: 5702884940261429178, guid: 6b8f96d5c0c0b204fb89c7b560e8a4a3, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 3}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 10, y: 5}
+      - {x: 10, y: 2}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 162952480
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-OBJ_RICE_SLOW-01
+    kind: 13
+    x: 18
+    y: 5
+    dataKey: OBJ_RICE_SLOW
+    prefab: {fileID: 19482504414521017, guid: fadc4be8a9bf09743a868085a900b193, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 63885254
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-TILE_HALF_BLOCK-01
+    kind: 14
+    x: 26
+    y: 5
+    dataKey: TILE_HALF_BLOCK
+    prefab: {fileID: 5498945917007548034, guid: 74bdfe0f7e1a3454ba1685f5f3e57746, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1427348193
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-TILE_DROP_PLATFORM-01
+    kind: 15
+    x: 34
+    y: 5
+    dataKey: TILE_DROP_PLATFORM
+    prefab: {fileID: 7636952412111841172, guid: 5b076a7c1c37afd49850be56a78db6a0, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1693941459
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-OBJ_RAIL_PLATFORM-01
+    kind: 16
+    x: 42
+    y: 5
+    dataKey: OBJ_RAIL_PLATFORM
+    prefab: {fileID: 6360349064858146782, guid: c2d421e8158566b4699c4341f68461b5, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 42, y: 5}
+      - {x: 45, y: 5}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 674595619
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_LANTERN_STEP-01
+    kind: 17
+    x: 50
+    y: 5
+    dataKey: MOON_LANTERN_STEP
+    prefab: {fileID: 3548940752439623360, guid: 27910317445ad454db51439a42e444d4, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1729759226
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_WHALE_FERRY-01
+    kind: 18
+    x: 2
+    y: 10
+    dataKey: CLOUD_WHALE_FERRY
+    prefab: {fileID: 733899811601599969, guid: efff446f7c90ce04689e767f2107abb9, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 2, y: 10}
+      - {x: 5, y: 10}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 995323863
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_SHEEP_STEP-01
+    kind: 19
+    x: 10
+    y: 10
+    dataKey: CLOUD_SHEEP_STEP
+    prefab: {fileID: 6775264126218248231, guid: e8c24bf33246b0f4b80897a7495b7041, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 874548981
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-UPDRAFT_COLUMN-01
+    kind: 20
+    x: 18
+    y: 10
+    dataKey: UPDRAFT_COLUMN
+    prefab: {fileID: 5848682590982309350, guid: 8b2de845a492d444cbec687b5a5f50ab, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 3}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1950169766
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-SHEPHERD_BELL-01
+    kind: 21
+    x: 26
+    y: 10
+    dataKey: SHEPHERD_BELL
+    prefab: {fileID: 2047862370567701064, guid: 83302b5e738e1444984fe09d1f603092, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 2095318982
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-PAGE_BRIDGE-01
+    kind: 22
+    x: 34
+    y: 10
+    dataKey: PAGE_BRIDGE
+    prefab: {fileID: 5025519466646297466, guid: cfd1ea97ce3f4ef46935837c2867496b, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1582479250
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-BOOKMARK_LIFT-01
+    kind: 23
+    x: 42
+    y: 10
+    dataKey: BOOKMARK_LIFT
+    prefab: {fileID: 4992641860708043790, guid: ca25b29b1f5b3484c816cd51a0327009, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 795507211
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-INK_BLOT-01
+    kind: 24
+    x: 50
+    y: 10
+    dataKey: INK_BLOT
+    prefab: {fileID: 5173681212545905196, guid: f77f1edc4eb6f264387b7cc49dc4633a, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 2076282053
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-DEW_SEED_STEP-01
+    kind: 25
+    x: 2
+    y: 15
+    dataKey: DEW_SEED_STEP
+    prefab: {fileID: 9096251054592116226, guid: 9f20d26c76691124d8a50c2adfc68aa7, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 593254876
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GLASS_VINE_LIFT-01
+    kind: 26
+    x: 10
+    y: 15
+    dataKey: GLASS_VINE_LIFT
+    prefab: {fileID: 681708980935323676, guid: b7d2d9fc5ae0b8a4cbb945efa620d749, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1821911016
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-SAND_DRIP-01
+    kind: 27
+    x: 18
+    y: 15
+    dataKey: SAND_DRIP
+    prefab: {fileID: 5195786914943823636, guid: 524469e609fb8954197f5a8094fc35f9, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1202777431
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-RESONANCE_TILE-01
+    kind: 28
+    x: 26
+    y: 15
+    dataKey: RESONANCE_TILE
+    prefab: {fileID: 482033080962208420, guid: 56901c075469489418f86b70b4056cde, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1144274740
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-PRISM_SPRING-01
+    kind: 29
+    x: 34
+    y: 15
+    dataKey: PRISM_SPRING
+    prefab: {fileID: 8832612875108914027, guid: 9781e1ca8bfda214da8de11204a2aae6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 35488702
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CRYSTAL_STALACTITE-01
+    kind: 30
+    x: 42
+    y: 15
+    dataKey: CRYSTAL_STALACTITE
+    prefab: {fileID: 5353586982522675731, guid: 219f1c7b412aa164186390154d8aa355, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 2}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 609540108
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_JADE_BALANCE-01
+    kind: 31
+    x: 50
+    y: 15
+    dataKey: MOON_JADE_BALANCE
+    prefab: {fileID: 5588756124700650682, guid: f14006e8abe725d41ad1757e6b0478a6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 50, y: 15}
+      - {x: 50, y: 14}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - M9B-MOON_JADE_BALANCE-02
+      phaseSeed: 1621968956
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_RABBIT_BOWL-01
+    kind: 32
+    x: 2
+    y: 20
+    dataKey: MOON_RABBIT_BOWL
+    prefab: {fileID: 7831591326196043836, guid: 3ba492fa70de12e46b748575577e1c4c, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 797999890
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_JADE_PENDULUM-01
+    kind: 33
+    x: 10
+    y: 20
+    dataKey: MOON_JADE_PENDULUM
+    prefab: {fileID: 7442428061453185205, guid: 399a41813f29bd247baa772d29af4563, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 3}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 2036776098
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_SLIDING_EAVE-01
+    kind: 34
+    x: 18
+    y: 20
+    dataKey: MOON_SLIDING_EAVE
+    prefab: {fileID: 1326582459988703629, guid: 3add3ba2481fa1d4c931875c713a683d, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 2024351441
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_PHASE_STAIR-01
+    kind: 35
+    x: 26
+    y: 20
+    dataKey: MOON_PHASE_STAIR
+    prefab: {fileID: 5433349842854959523, guid: a59d22f152a250b43bef81a02a14ebca, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 2}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 122978990
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_BALLOON_TETHER-01
+    kind: 36
+    x: 34
+    y: 20
+    dataKey: CLOUD_BALLOON_TETHER
+    prefab: {fileID: 1167126257720556891, guid: cd455c860d8dab84da34d315a7781e2f, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 1.25
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 34, y: 20}
+      - {x: 34, y: 17}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1391036307
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_WINDMILL_BLADE-01
+    kind: 37
+    x: 42
+    y: 20
+    dataKey: CLOUD_WINDMILL_BLADE
+    prefab: {fileID: 3919333137908797759, guid: bbfc3f746bc6fef4b8b0dfad056ef963, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 923010206
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_RAINBOW_SLIDE-01
+    kind: 38
+    x: 50
+    y: 20
+    dataKey: CLOUD_RAINBOW_SLIDE
+    prefab: {fileID: 1778521037055395721, guid: d036c668101d44b40b0b4d9462b59443, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1158083629
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_RAIN_UMBRELLA-01
+    kind: 39
+    x: 2
+    y: 25
+    dataKey: CLOUD_RAIN_UMBRELLA
+    prefab: {fileID: 1147291411552588465, guid: 7843828fc6a9e184285f0aa500f8339b, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 443865734
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-CLOUD_SAIL_STEP-01
+    kind: 40
+    x: 10
+    y: 25
+    dataKey: CLOUD_SAIL_STEP
+    prefab: {fileID: 625745471246655870, guid: ca0648f27659fd44296599133a5823be, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1643110169
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-LIB_INDEX_DRAWER-01
+    kind: 41
+    x: 18
+    y: 25
+    dataKey: LIB_INDEX_DRAWER
+    prefab: {fileID: 1819304167391021500, guid: c723ebf62e0eb714aabfc5ecefbee82f, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 3
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 18, y: 25}
+      - {x: 20, y: 25}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 917099221
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-LIB_LETTER_BELT-01
+    kind: 42
+    x: 26
+    y: 25
+    dataKey: LIB_LETTER_BELT
+    prefab: {fileID: 796011839225834781, guid: 55ec562368b3fb741b0e038e857f9612, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 883517687
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-LIB_POPUP_STAIR-01
+    kind: 43
+    x: 34
+    y: 25
+    dataKey: LIB_POPUP_STAIR
+    prefab: {fileID: 3308073673930679536, guid: 92cb54f069f7159419bd0004193e41db, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 2}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1692638535
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-LIB_SPINE_BRAKE-01
+    kind: 44
+    x: 42
+    y: 25
+    dataKey: LIB_SPINE_BRAKE
+    prefab: {fileID: 818469067116428876, guid: 4e56f81537d5d27418e20172f83a3abb, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 676848664
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-LIB_CHAPTER_FORK-01
+    kind: 45
+    x: 50
+    y: 25
+    dataKey: LIB_CHAPTER_FORK
+    prefab: {fileID: 7068684900937395293, guid: 6dea57a9bbba12e4a98023345561562c, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1623002343
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GREEN_PETAL_CUP-01
+    kind: 46
+    x: 2
+    y: 30
+    dataKey: GREEN_PETAL_CUP
+    prefab: {fileID: 2241505070079770253, guid: 399f9a1bbc8c23845b9d2ab18a68f6bd, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1611384260
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GREEN_DEW_GLASS-01
+    kind: 47
+    x: 10
+    y: 30
+    dataKey: GREEN_DEW_GLASS
+    prefab: {fileID: 1256928650877731736, guid: e97be8a3eafb8624ebf65d208ca7fd89, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 303473608
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GREEN_SUNDIAL_PETAL-01
+    kind: 48
+    x: 18
+    y: 30
+    dataKey: GREEN_SUNDIAL_PETAL
+    prefab: {fileID: 5295499090788084220, guid: 2730c97747738f840b30f50673944325, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 262595872
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GREEN_SAND_RETRACE-01
+    kind: 49
+    x: 26
+    y: 30
+    dataKey: GREEN_SAND_RETRACE
+    prefab: {fileID: 2254219176391450630, guid: 9e0369b1205139940bcab548a9e862fa, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 26, y: 30}
+      - {x: 29, y: 30}
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 913010370
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-GREEN_VINE_KNOT-01
+    kind: 50
+    x: 34
+    y: 30
+    dataKey: GREEN_VINE_KNOT
+    prefab: {fileID: 5113094400234311070, guid: ae02cffe81782f5419c5e679dc0209d2, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1328247436
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_MAGNET_PAIR-01
+    kind: 51
+    x: 42
+    y: 30
+    dataKey: MINE_MAGNET_PAIR
+    prefab: {fileID: 4911653534684881073, guid: fa161b519a0be4a41b9cd40c3093b4c4, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 42, y: 30}
+      - {x: 43, y: 30}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - M9B-MINE_MAGNET_PAIR-02
+      phaseSeed: 1046929142
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_SLICK_FACET-01
+    kind: 52
+    x: 50
+    y: 30
+    dataKey: MINE_SLICK_FACET
+    prefab: {fileID: 1759727333901904711, guid: 23aaab8bfc62cbc43ad81a1d5e116a4f, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 636633585
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_PRISM_BEAM-01
+    kind: 53
+    x: 2
+    y: 35
+    dataKey: MINE_PRISM_BEAM
+    prefab: {fileID: 4337975315398032315, guid: 5bddd077e7a166c49bbba0f5f18f998a, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 1881146142
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_CRYSTAL_LEVER-01
+    kind: 54
+    x: 10
+    y: 35
+    dataKey: MINE_CRYSTAL_LEVER
+    prefab: {fileID: 331181706501605288, guid: 7bc7750064dc3c641b2cf185b9d77331, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 1, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 1
+      linkedInstanceIds: []
+      phaseSeed: 181962212
+      resetPolicy: 0
+      routeRole: 2
+      minimumLinkCount: 0
+      prototypeNotice: "\uACE0\uC720 \uB3D9\uC791 \uBBF8\uAD6C\uD604: DEV \uACE0\uC2A4\uD2B8/\uC9C1\uB82C\uD654
+        \uC804\uC6A9. \uC6B4\uC601 Ready \uAE08\uC9C0."
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_CART_FORK-01
+    kind: 55
+    x: 18
+    y: 35
+    dataKey: MINE_CART_FORK
+    prefab: {fileID: 5832718207397615102, guid: 951662ff6f2637f41802a951bd25cbe8, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 3, y: 1}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells: []
+      implementationLevel: 0
+      linkedInstanceIds: []
+      phaseSeed: 1308182130
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 0
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MOON_JADE_BALANCE-02
+    kind: 31
+    x: 58
+    y: 5
+    dataKey: MOON_JADE_BALANCE
+    prefab: {fileID: 5588756124700650682, guid: f14006e8abe725d41ad1757e6b0478a6, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 58, y: 5}
+      - {x: 58, y: 4}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - M9B-MOON_JADE_BALANCE-01
+      phaseSeed: 1621968956
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  - stableId: M9B-MINE_MAGNET_PAIR-02
+    kind: 51
+    x: 58
+    y: 10
+    dataKey: MINE_MAGNET_PAIR
+    prefab: {fileID: 4911653534684881073, guid: fa161b519a0be4a41b9cd40c3093b4c4, type: 3}
+    settings:
+      version: 2
+      direction: 1
+      footprintCells: {x: 2, y: 0.5}
+      halfPlacement: 0
+      springContactPolicy: 0
+      horizontalImpulse: 8
+      verticalImpulse: 4.5
+      movementSpeed: 2.5
+      upperPauseSeconds: 0.6
+      lowerPauseSeconds: 0.6
+      activationRangeCells: 5
+      groundSpeedMultiplier: 0.55
+      endStopSeconds: 0.75
+      returnWhenEmpty: 1
+      pathCells:
+      - {x: 58, y: 10}
+      - {x: 59, y: 10}
+      implementationLevel: 0
+      linkedInstanceIds:
+      - M9B-MINE_MAGNET_PAIR-01
+      phaseSeed: 1046929142
+      resetPolicy: 0
+      routeRole: 0
+      minimumLinkCount: 1
+      prototypeNotice: 
+      warningSeconds: 0.45
+      activeSeconds: 1.5
+      recoverSeconds: 1
+      passengerPolicy: 0
+      triggerMode: 1
+      arcHeightCells: 2
+      rotationDegrees: 90
+      effectStrength: 1
+      deferWhileOccupied: 1
+  manuallyCompleted: 0
+  reviewedMapVersion: 0
+  reviewedContentHash: 
+  reviewerNote: 
+  reviewedBubbleSeed: -1
+  reviewedBubbleCombination: []
+  reviewedPlayEnvironment: 
+  reviewedElapsedSeconds: 0
+  humanCompletionEvidence: []

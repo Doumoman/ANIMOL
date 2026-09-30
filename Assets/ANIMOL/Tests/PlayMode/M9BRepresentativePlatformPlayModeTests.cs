@@ -22,8 +22,8 @@ namespace ANIMOL.Tests
         public IEnumerator LabSpawnsFiveRepresentativeTypes_AndBothPortraitViewsKeepAllSevenPartsVisible()
         {
             var objects = Object.FindObjectsByType<StageMapRuntimeObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            Assert.That(objects.Length, Is.EqualTo(11));
-            Assert.That(objects.Select(item => item.GetType()).Distinct().Count(), Is.EqualTo(9));
+            Assert.That(objects.Length, Is.EqualTo(15));
+            Assert.That(objects.Select(item => item.GetType()).Distinct().Count(), Is.EqualTo(13));
             var camera = Camera.main;
             foreach (var size in new[] { new Vector2Int(1080, 1920), new Vector2Int(1080, 2400) })
             {

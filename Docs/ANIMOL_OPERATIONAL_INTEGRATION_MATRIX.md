@@ -1,7 +1,7 @@
 # ANIMOL 운영 연동 매트릭스
 
-기준 커밋: `3a550ca`  
-3차 결과 기준: 이 문서를 포함하는 ANIMOL 운영 연동 3차 커밋  
+기준 커밋: `187ddad`  
+4차 결과 기준: 이 문서를 포함하는 ANIMOL 운영 연동 4차 커밋  
 범위: 2차 작업의 직접 대상인 C6, M2, M6, R8을 제외한 41종. `연결됨`은 기존 운영 이벤트에 32px 아트와 phase 호출을 결합했다는 뜻이다.
 
 | ID | 운영 오브젝트 | 운영 로직 | 연결할 이벤트 / 현재 연결 | 필요한 phase | 충돌체 소유자 |
@@ -16,7 +16,7 @@
 | M4 | Moon Jade Pendulum | 있음·연결됨 | 왕복 시작→`active`, 체크포인트 리셋→`idle` | idle, active | 운영 루트 `BoxCollider2D` + kinematic body |
 | M5 | Moon Sliding Eave | 있음·연결됨 | 점유 확장→`active`, 지연 종료 복귀→`recover`, 리셋→`idle`; 별도 `warn` 규칙 없음 | idle, warn, active, recover | 운영 루트 `BoxCollider2D` + kinematic body |
 | K1 | Cloud Whale Ferry | 있음·연결됨 | 탑승 이동→`travel`, 리셋→`idle`; 종점 연출은 전용 `vanish/respawn` 클립이 없어 이동·정차 규칙 유지 | idle, travel | 운영 루트 `BoxCollider2D` + kinematic body |
-| K2 | Cloud Sheep Step | 없음 | 점유 해제 후 분산, 복귀 타이머 및 점유 중 보류 구현 필요 | idle, warn, disperse, recover | 구현 예정: 루트 발판 collider, 아트 collider 비활성 |
+| K2 | Cloud Sheep Step | 있음·4차 통과 | 마지막 탑승자 이탈→`warn`→`disperse`, 복귀 타이머→`recover`→`idle`; 재등장 영역 점유 시 고체화 보류, 반복 탑승·리셋 검증 | idle, warn, disperse, recover | 운영 루트 `BoxCollider2D`; 생성 아트 collider 비활성 |
 | K3 | Updraft Column | 없음 | 진입/체류 상승력, 이탈 종료 구현 필요 | idle, active | 구현 예정: 루트 trigger volume |
 | K4 | Shepherd Bell | 없음 | 타격/공명 반경/쿨다운 구현 필요 | idle, ring, cooldown | 구현 예정: 루트 고체 collider + 감지 trigger |
 | K5 | Cloud Balloon Tether | 있음·연결됨 | 점유 하강→`descend`, 비점유 상승→`ascend`, 리셋→`idle` | idle, ascend, descend | 운영 루트 `BoxCollider2D` + kinematic body |
@@ -24,15 +24,15 @@
 | K7 | Cloud Rainbow Slide | 없음 | 접촉 활주 가속 및 이탈 복원 구현 필요 | idle, active | 구현 예정: 루트 경사 collider |
 | K8 | Cloud Rain Umbrella | 없음 | 강우 예고, 개방, 유지, 복귀 구현 필요 | idle, warn, open, recover | 구현 예정: 루트 발판 collider + 우산 trigger |
 | K9 | Cloud Sail Step | 있음·3차 통과 | 탑승→`warn`→`travel`, 종점 대기, 하차 후 `return`, 원점→`idle`; 경로 차단·승객 운반·점유 리셋 검증 | idle, warn, travel, return | 운영 루트 `BoxCollider2D` + kinematic body |
-| L1 | Page Bridge | 없음 | 접근 예고, 펼침/개방, 폐쇄 구현 필요 | idle, warn, opening, open, closing | 구현 예정: 각 페이지 발판 collider |
+| L1 | Page Bridge | 있음·4차 통과 | 접근→`warn`→`opening`→`open`→`closing`; 점유 중 닫힘 보류·체크포인트 리셋 검증 | idle, warn, opening, open, closing | `OperationalPhysicsParts`의 페이지별 독립 `BoxCollider2D` 3개 |
 | L2 | Bookmark Lift | 있음·3차 통과 | 탑승→`ascend`, 상단→`top`, 대기 후 `descend`, 하단→`idle`; 승객 왕복 운반 검증 | idle, ascend, top, descend | 운영 루트 `BoxCollider2D` + kinematic body |
 | L3 | Ink Blot | 있음·연결됨 | 진입→`disturbed`, 마지막 이탈/리셋→`idle` | idle, disturbed | 운영 루트 trigger `Collider2D` |
 | L4 | Index Drawer | 있음·연결됨 | 접근→`opening`, 이탈→`retract`, 리셋→`idle`; 종점 도달 시 `open/extend` 세분화 가능 | idle, opening, open, extend, retract | 운영 루트 `BoxCollider2D` + kinematic body |
 | L5 | Letter Belt | 없음 | 접촉 중 컨베이어 속도 전달 구현 필요 | idle, run | 구현 예정: 루트 발판 collider |
-| L6 | Popup Stair | 없음 | 예고 없이 펼침/개방/접힘 상태와 계단별 collider 동기화 구현 필요 | idle, unfold, open, fold | 구현 예정: 계단별 `BoxCollider2D` |
+| L6 | Popup Stair | 있음·4차 통과 | 접근→`unfold`→`open`→`fold`; 점유 중 접힘 보류·체크포인트 리셋 검증 | idle, unfold, open, fold | `OperationalPhysicsParts`의 계단별 독립 `BoxCollider2D` 3개 |
 | L7 | Spine Brake | 있음·3차 통과 | 탑승→`travel`, 종점 전 감속→`brake`, 종점→`stopped`, 하차 후→`resume`, 원점→`idle`; 경로/착지 공간 차단 검증 | idle, travel, brake, stopped, resume | 운영 루트 `BoxCollider2D` + kinematic body |
 | L8 | Chapter Fork | 없음 | 좌우 선택, 선택 잠금, 리셋 구현 필요 | idle, choose_left, choose_right, left_locked, right_locked | 구현 예정: 좌우 선택 trigger + 루트 발판 collider |
-| H1 | Dew Seed Step | 없음 | 씨앗→성장→만개→시듦 순환과 고체화 시점 구현 필요 | idle, seed, grow, full, wilt | 구현 예정: 성장 발판 collider |
+| H1 | Dew Seed Step | 있음·4차 통과 | `seed`에서 좌→우 `grow`→`full`, 모두 이탈 후 `wilt`; 각 파츠 비점유 시 고체화·리셋 검증 | idle, seed, grow, full, wilt | `OperationalPhysicsParts`의 성장 발판별 독립 `BoxCollider2D` 3개 |
 | H2 | Glass Vine Lift | 있음·3차 통과 | 탑승→`ascending`, 상단 유지, 하차→`descending`, 하단→`idle`; 승객 운반·점유 리셋 검증 | idle, ascending, descending | 운영 루트 `BoxCollider2D` + kinematic body |
 | H3 | Sand Drip | 없음 | 낙하 예고, 낙하, 충돌 및 리셋 구현 필요 | idle, warn, fall, impact | 구현 예정: 낙하 body collider |
 | H4 | Petal Cup | 없음 | 점유 압축, 점프 보조, 복귀 구현 필요 | idle, compress, jump_assist, recover | 구현 예정: 루트 발판 collider |
@@ -53,4 +53,5 @@
 1. 이번 2차에서 기존 운영 이벤트가 있던 16종의 아트·phase를 먼저 연결했다.
 2. C4/C5처럼 물리는 있으나 동적 이벤트가 없는 항목은 `idle`만 사용하고, 이벤트 계약이 생긴 뒤 `active`를 연결한다.
 3. 3차에서 K9·L2·H2·L7을 DevPlayable로 승격하고 ThemePlatformLab 및 45종 생성 맵에 배치 연결했다.
-4. 운영 로직이 없는 21종은 위 표의 상태 전이와 충돌체 소유권을 먼저 구현한 뒤 phase를 연결한다. 생성 아트 프리팹 내부 collider는 운영 중 비활성화하고, 실제 물리 파츠가 collider를 소유한다.
+4. 4차에서 K2·L1·L6·H1을 DevPlayable로 승격하고 ThemePlatformLab 및 45종 생성 맵에 배치 연결했다.
+5. 운영 로직이 없는 잔여 17종은 `Bonus` 경로에만 배치할 수 있으며, 필수 통로·필수 보상 접근 경로에는 사용할 수 없다. 위 표의 상태 전이와 충돌체 소유권을 구현한 뒤 phase를 연결한다. 생성 아트 프리팹 내부 collider는 운영 중 비활성화하고, 실제 물리 파츠가 collider를 소유한다.

@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd5c36df24b1524ea59a36063199343, type: 3}
+  m_Name: CLOUD_SHEEP_STEP
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.StageMapObjectTypeDefinition
+  stableTypeId: CLOUD_SHEEP_STEP
+  displayName: "\uAD6C\uB984\uC591 \uBC1C\uD310"
+  englishDisplayName: Cloud Sheep Step
+  themeId: T02
+  description: "\uCC29\uC9C0 \uD6C4 \uC19C\uD138 \uC608\uACE0\uD615 \uC77C\uC2DC
+    \uBC1C\uD310"
+  kind: 19
+  layer: 3
+  footprintCells: {x: 2, y: 1}
+  verticalSnapCells: 1
+  prefab: {fileID: 6775264126218248231, guid: e8c24bf33246b0f4b80897a7495b7041, type: 3}
+  ghostSprite: {fileID: 5347921206779446062, guid: 3d34c505a41dadc448d77464b26aab54, type: 3}
+  icon: {fileID: 5347921206779446062, guid: 3d34c505a41dadc448d77464b26aab54, type: 3}
+  implementationLevel: 0
+  behaviorComponentIds:
+  - CloudSheepStep
+  settingsSchemaVersion: 2
+  requiresLinkedPair: 0
+  defaultSettings:
+    version: 2
+    direction: 1
+    footprintCells: {x: 2, y: 1}
+    halfPlacement: 0
+    springContactPolicy: 0
+    horizontalImpulse: 8
+    verticalImpulse: 4.5
+    movementSpeed: 2.5
+    upperPauseSeconds: 0.6
+    lowerPauseSeconds: 0.6
+    activationRangeCells: 5
+    groundSpeedMultiplier: 0.55
+    endStopSeconds: 0.75
+    returnWhenEmpty: 1
+    pathCells: []
+    implementationLevel: 0
+    linkedInstanceIds: []
+    phaseSeed: 874548981
+    resetPolicy: 0
+    routeRole: 0
+    minimumLinkCount: 0
+    prototypeNotice: 
+    warningSeconds: 0.45
+    activeSeconds: 1.5
+    recoverSeconds: 1
+    passengerPolicy: 0
+    triggerMode: 1
+    arcHeightCells: 2
+    rotationDegrees: 90
+    effectStrength: 1
+    deferWhileOccupied: 1
+  activationCondition: "\uCC29\uC9C0 \uD6C4 \uC608\uACE0"
+  departureCondition: "\uD50C\uB808\uC774\uC5B4 \uC774\uD0C8 \uD6C4 \uAD6C\uBA4D
+    \uC0C1\uD0DC"
+  effectDescription: "\uC810\uC720 \uC911 \uC720\uC9C0\uD558\uACE0 \uC774\uD6C4 \uBCF5\uC6D0"
+  failureRecovery: "\uB0AE\uC740 \uC6B0\uD68C\uCE35 \uB610\uB294 \uAD6C\uC870 \uAE30\uB958"
+  settingFieldIds:
+  - warning
+  - active
+  - recover
+  - passengerPolicy
+  - resetPolicy
+  - routeRole
+  authoringValidationRules:
+  - 16x16-cell chunk bounds
+  - portrait landing/safe-zone preview
+  - deterministic retry
+  - occupied-surface safety
