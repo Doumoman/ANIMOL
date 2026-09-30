@@ -33,5 +33,26 @@ namespace ANIMOL.Tests.EditMode
             Assert.That(type.ImplementationLevel, Is.EqualTo(MapObjectImplementationLevel.DevPlayable));
             Assert.That(type.BehaviorComponentIds, Does.Contain("MineCartFork"));
         }
+
+        [Test]
+        public void ExistingRuntimeObstacles_HaveOperationalArtBindings()
+        {
+            var paths = new[]
+            {
+                "OBJ_SIDE_SPRING", "OBJ_POUNDER", "OBJ_RICE_SLOW", "TILE_HALF_BLOCK", "TILE_DROP_PLATFORM",
+                "M9B/MOON_LANTERN_STEP", "M9B/MOON_RABBIT_BOWL", "M9B/MOON_JADE_PENDULUM", "M9B/MOON_SLIDING_EAVE",
+                "M9B/CLOUD_WHALE_FERRY", "M9B/CLOUD_BALLOON_TETHER", "M9B/INK_BLOT", "M9B/LIB_INDEX_DRAWER",
+                "M9B/GREEN_SAND_RETRACE", "M9B/PRISM_SPRING", "M9B/MINE_MAGNET_PAIR"
+            };
+            foreach (var path in paths)
+            {
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>($"Assets/ANIMOL/Prefabs/MapObjects/{path}.prefab");
+                Assert.That(prefab, Is.Not.Null, path);
+                var binding = prefab.GetComponent<AnimolOperationalArtBinding>();
+                Assert.That(binding, Is.Not.Null, path);
+                Assert.That(binding.PhasePlayer, Is.Not.Null, path);
+                Assert.That(binding.ArtRoot.GetComponentsInChildren<Collider2D>(true).All(x => !x.enabled), Is.True, path);
+            }
+        }
     }
 }

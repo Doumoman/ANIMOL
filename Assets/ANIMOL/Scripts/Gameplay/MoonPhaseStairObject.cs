@@ -33,7 +33,7 @@ namespace ANIMOL.Gameplay
             transform.rotation = Quaternion.Euler(0f, 0f, IsVertical ? settings.RotationDegrees : 0f);
             if (solid != null) solid.enabled = true;
             if (visual != null) { var color = visual.color; color.a = 1f; visual.color = color; }
-            PlayPhase("active");
+            PlayPhase(IsVertical ? "active" : "recover");
         }
         private bool HasBlockingColliderInSweptSpace() => FindBlockingColliderInSweptSpace() != null;
         private Collider2D FindBlockingColliderInSweptSpace()

@@ -12,9 +12,25 @@ namespace Animol.Editor
         [MenuItem("ANIMOL/Integrate Operational Art")]
         public static void Integrate()
         {
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/OBJ_SIDE_SPRING.prefab", "C1", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/OBJ_POUNDER.prefab", "C2", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/OBJ_RICE_SLOW.prefab", "C3", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/TILE_HALF_BLOCK.prefab", "C4", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/TILE_DROP_PLATFORM.prefab", "C5", AnimolOperationalArtMode.Whole);
             Bind("Assets/ANIMOL/Prefabs/MapObjects/OBJ_RAIL_PLATFORM.prefab", "C6", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_LANTERN_STEP.prefab", "M1", AnimolOperationalArtMode.Whole);
             Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_JADE_BALANCE.prefab", "M2", AnimolOperationalArtMode.BalancePlate);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_RABBIT_BOWL.prefab", "M3", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_JADE_PENDULUM.prefab", "M4", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_SLIDING_EAVE.prefab", "M5", AnimolOperationalArtMode.Whole);
             Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MOON_PHASE_STAIR.prefab", "M6", AnimolOperationalArtMode.MoonStair);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/CLOUD_WHALE_FERRY.prefab", "K1", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/CLOUD_BALLOON_TETHER.prefab", "K5", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/INK_BLOT.prefab", "L3", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/LIB_INDEX_DRAWER.prefab", "L4", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/GREEN_SAND_RETRACE.prefab", "H7", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/PRISM_SPRING.prefab", "R2", AnimolOperationalArtMode.Whole);
+            Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MINE_MAGNET_PAIR.prefab", "R4", AnimolOperationalArtMode.Whole);
             Bind("Assets/ANIMOL/Prefabs/MapObjects/M9B/MINE_CART_FORK.prefab", "R8", AnimolOperationalArtMode.Whole, true);
             PromoteMineCartDefinition();
             AssetDatabase.SaveAssets();

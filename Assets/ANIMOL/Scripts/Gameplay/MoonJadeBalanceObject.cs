@@ -12,6 +12,8 @@ namespace ANIMOL.Gameplay
         private Vector2 lower;
         private MoonJadeBalanceObject linked;
         private bool wasLowering;
+        private bool pairHadOccupancy;
+        private bool lastLoweredWasRight;
 
         public Vector2 UpperPosition => upper;
         public Vector2 LowerPosition => lower;
@@ -45,21 +47,45 @@ namespace ANIMOL.Gameplay
             var bothOccupied = IsOccupied && linked != null && linked.IsOccupied;
             if (bothOccupied) return;
             var target = IsOccupied ? lower : upper;
+            var becameEmpty = !IsOccupied && wasLowering;
             if (IsOccupied != wasLowering)
             {
                 PlayPhase(IsOccupied ? "active" : "active_reverse");
+                if (IsOccupied) MarkLastLowered();
                 wasLowering = IsOccupied;
             }
+            if (becameEmpty && linked != null && !linked.IsOccupied && (pairHadOccupancy || linked.pairHadOccupancy))
+                PlayPairRecover();
             var before = body.position;
             var next = Vector2.MoveTowards(before, target, settings.MovementSpeed * cellSize * Mathf.Max(0f, deltaTime));
             body.MovePosition(next);
             CarryPassengers(next - before);
         }
 
+        private bool IsRightPlate => linked != null && initialPosition.x > linked.initialPosition.x;
+
+        private void MarkLastLowered()
+        {
+            var right = IsRightPlate;
+            pairHadOccupancy = true; lastLoweredWasRight = right;
+            if (linked == null) return;
+            linked.pairHadOccupancy = true; linked.lastLoweredWasRight = right;
+        }
+
+        private void PlayPairRecover()
+        {
+            var right = lastLoweredWasRight || (linked != null && linked.lastLoweredWasRight);
+            var phase = right ? "recover_reverse" : "recover";
+            PlayPhase(phase);
+            if (linked != null) linked.PlayPhase(phase);
+            pairHadOccupancy = false;
+            if (linked != null) linked.pairHadOccupancy = false;
+        }
+
         public override void ResetRuntimeState()
         {
             ClearOccupancy();
-            wasLowering = false;
+            wasLowering = false; pairHadOccupancy = false; lastLoweredWasRight = false;
             transform.position = upper;
             if (body != null) { body.position = upper; body.linearVelocity = Vector2.zero; }
             PlayIdlePhase();

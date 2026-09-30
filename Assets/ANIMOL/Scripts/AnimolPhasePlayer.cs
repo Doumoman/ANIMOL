@@ -38,6 +38,12 @@ namespace Animol
             return clip == null ? 0f : clip.length;
         }
 
+        public bool HasPhase(string phase)
+        {
+            if (_animation == null) _animation = GetComponent<Animation>();
+            return !string.IsNullOrWhiteSpace(phase) && ResolveStateName(phase) != null;
+        }
+
         private string ResolveStateName(string phase)
         {
             if (_animation.GetClip(phase) != null) return phase;

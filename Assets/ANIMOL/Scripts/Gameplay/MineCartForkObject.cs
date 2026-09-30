@@ -95,7 +95,7 @@ namespace ANIMOL.Gameplay
             passengers.Clear(); SelectedBranch = Branch.None; State = CartState.Idle; selectRemaining = 0f;
             transform.position = initialPosition;
             if (body != null) { body.position = initialPosition; body.linearVelocity = Vector2.zero; }
-            PlayIdlePhase();
+            PlayPhase("neutral");
         }
     }
 }
