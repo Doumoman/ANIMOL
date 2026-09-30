@@ -188,6 +188,23 @@ namespace ANIMOL.Editor
             return removed;
         }
 
+        public static int RemoveWithMutualLinks(StageMapDefinition map, string stableId)
+        {
+            var target = map?.Objects.FirstOrDefault(item => item.StableId == stableId);
+            if (target == null) return 0;
+            var removeIds = new HashSet<string>(StringComparer.Ordinal) { stableId };
+            foreach (var linkedId in target.Settings.LinkedInstanceIds)
+            {
+                var linked = map.Objects.FirstOrDefault(item => item.StableId == linkedId);
+                if (linked != null && linked.Settings.LinkedInstanceIds.Contains(stableId)) removeIds.Add(linkedId);
+            }
+            CreateAutosaveBackup(map, "before-remove-set");
+            Undo.RecordObject(map, "Remove ANIMOL Map Object Set");
+            var removed = removeIds.Count(map.EditorRemoveObject);
+            Save(map);
+            return removed;
+        }
+
         public static bool Duplicate(StageMapDefinition map, string stableId, Vector2Int offset, out string newStableId,
             out StageMapObjectPlacementValidation validation)
         {

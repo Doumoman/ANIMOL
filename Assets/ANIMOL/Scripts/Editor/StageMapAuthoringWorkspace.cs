@@ -339,6 +339,7 @@ namespace ANIMOL.Editor
             if (!IsOpen || Selection.activeGameObject == null) return;
             var proxy = Selection.activeGameObject.GetComponentInParent<StageMapAuthoringProxy>();
             if (proxy == null || proxy.Map == null) return;
+            if (HandleDeleteCommand(proxy)) return;
 
             // A raw Transform handle only changes the disposable preview. This handle snaps to
             // cells and commits through the validated map authoring operations instead.
@@ -370,6 +371,32 @@ namespace ANIMOL.Editor
             handleDragging = false;
             handleProxyId = 0;
             CommitProxyMove(proxy, pendingHandleCell);
+        }
+
+        private static bool HandleDeleteCommand(StageMapAuthoringProxy proxy)
+        {
+            var current = Event.current;
+            if (current == null || (current.commandName != "Delete" && current.commandName != "SoftDelete")) return false;
+            if (current.type == EventType.ValidateCommand) { current.Use(); return true; }
+            if (current.type != EventType.ExecuteCommand) return false;
+
+            if (proxy.Role == StageMapAuthoringProxyRole.Object)
+                StageMapObjectAuthoringOperations.RemoveWithMutualLinks(proxy.Map, proxy.StableId);
+            else if (proxy.Role == StageMapAuthoringProxyRole.Cell)
+                StageMapAuthoringOperations.Erase(proxy.Map, proxy.AuthoredCell, proxy.Layer);
+            else
+            {
+                var placement = proxy.Map.Objects.FirstOrDefault(item => item.StableId == proxy.StableId);
+                if (placement != null && proxy.PathNodeIndex >= 0 && proxy.PathNodeIndex < placement.Settings.PathCells.Count)
+                {
+                    var path = placement.Settings.PathCells.Where((_, index) => index != proxy.PathNodeIndex).ToArray();
+                    StageMapObjectAuthoringOperations.SetPath(proxy.Map, proxy.StableId, path, out _);
+                }
+            }
+            Selection.activeObject = proxy.Map;
+            current.Use();
+            RebuildPreview(proxy.Map);
+            return true;
         }
 
         private static void DrawFocusedProxyHighlight(StageMapAuthoringProxy proxy, float units)

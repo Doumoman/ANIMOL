@@ -705,7 +705,18 @@ namespace ANIMOL.Editor
                 variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
                 StageMapAuthoringOperations.Paint(selectedMap, cell, layer, tileId, variantId);
             }
-            else if (tool == StageMapTool.Eraser) StageMapAuthoringOperations.Erase(selectedMap, cell, layer);
+            else if (tool == StageMapTool.Eraser)
+            {
+                var placement = StageMapScenePalette.FindObjectAtCell(selectedMap, cell);
+                if (placement != null)
+                {
+                    var removed = StageMapObjectAuthoringOperations.RemoveWithMutualLinks(selectedMap, placement.StableId);
+                    objectPaletteMessage = $"장치 {removed}개를 삭제했습니다.";
+                    selectedObjectStableId = string.Empty;
+                    selectedMarkerStableId = string.Empty;
+                }
+                else StageMapAuthoringOperations.Erase(selectedMap, cell, layer);
+            }
             else if (tool == StageMapTool.Fill)
             {
                 variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
@@ -916,7 +927,8 @@ namespace ANIMOL.Editor
             var placement = SelectedPlacement();
             if (placement != null)
             {
-                StageMapObjectAuthoringOperations.Remove(selectedMap, placement.StableId);
+                var removed = StageMapObjectAuthoringOperations.RemoveWithMutualLinks(selectedMap, placement.StableId);
+                objectPaletteMessage = $"장치 {removed}개를 삭제했습니다.";
                 selectedObjectStableId = string.Empty;
                 selectedMarkerStableId = string.Empty;
                 pathEditing = false;
@@ -1028,7 +1040,7 @@ namespace ANIMOL.Editor
                     { selectedObjectStableId = duplicateId; objectPaletteMessage = string.Join(" | ", duplicateValidation.Warnings); }
                     else objectPaletteMessage = string.Join(" | ", duplicateValidation.Errors);
                 }
-                if (GUILayout.Button("Remove")) StageMapObjectAuthoringOperations.Remove(selectedMap, selectedObjectStableId);
+                if (GUILayout.Button("Remove")) StageMapObjectAuthoringOperations.RemoveWithMutualLinks(selectedMap, selectedObjectStableId);
             }
             DrawSelectedObjectProperties(selectedObjectStableId);
         }

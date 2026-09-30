@@ -83,6 +83,69 @@ namespace ANIMOL.Tests.EditMode
         }
 
         [Test]
+        public void EditorClickPlacesCompleteDeviceAndEraserRemovesIt()
+        {
+            const string path = "Assets/ANIMOL/Data/Development/M9BThemePlatforms/__EDITOR_DEVICE_TEST.asset";
+            AssetDatabase.DeleteAsset(path);
+            var map = ScriptableObject.CreateInstance<StageMapDefinition>();
+            var window = ScriptableObject.CreateInstance<CampaignMapEditorWindow>();
+            map.EditorInitializeIdentity("EDITOR-DEVICE-TEST", "T03");
+            map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+            AssetDatabase.CreateAsset(map, path);
+            try
+            {
+                var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+                var registry = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
+                typeof(CampaignMapEditorWindow).GetField("selectedMap", flags)?.SetValue(window, map);
+                typeof(CampaignMapEditorWindow).GetField("objectRegistry", flags)?.SetValue(window, registry);
+                typeof(CampaignMapEditorWindow).GetField("objectThemeFilter", flags)?.SetValue(window, "T03");
+                var types = (StageMapObjectTypeDefinition[])typeof(CampaignMapEditorWindow).GetMethod("FilteredObjectTypes", flags)?.Invoke(window, null);
+                typeof(CampaignMapEditorWindow).GetField("objectTypeIndex", flags)?.SetValue(window,
+                    System.Array.FindIndex(types, item => item.StableTypeId == "PAGE_BRIDGE"));
+                typeof(CampaignMapEditorWindow).GetField("tool", flags)?.SetValue(window, StageMapTool.Object);
+                typeof(CampaignMapEditorWindow).GetMethod("ApplyImmediate", flags)?.Invoke(window, new object[] { new Vector2Int(2, 2) });
+
+                Assert.That(map.Objects.Count, Is.EqualTo(1));
+                Assert.That(map.Objects[0].DataKey, Is.EqualTo("PAGE_BRIDGE"));
+                Assert.That(map.Objects[0].Prefab, Is.EqualTo(registry.Find("PAGE_BRIDGE").Prefab));
+                Assert.That(map.Objects[0].Settings.FootprintCells, Is.EqualTo(registry.Find("PAGE_BRIDGE").FootprintCells));
+
+                typeof(CampaignMapEditorWindow).GetField("tool", flags)?.SetValue(window, StageMapTool.Eraser);
+                typeof(CampaignMapEditorWindow).GetMethod("ApplyImmediate", flags)?.Invoke(window, new object[] { new Vector2Int(2, 2) });
+                Assert.That(map.Objects, Is.Empty);
+            }
+            finally
+            {
+                Object.DestroyImmediate(window);
+                AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset("Assets/ANIMOL/MapBackups/EDITOR-DEVICE-TEST");
+            }
+        }
+
+        [Test]
+        public void RemovingMutuallyLinkedBalanceDeletesBothPlates()
+        {
+            const string path = "Assets/ANIMOL/Data/Development/M9BThemePlatforms/__LINKED_DELETE_TEST.asset";
+            AssetDatabase.DeleteAsset(path);
+            var map = ScriptableObject.CreateInstance<StageMapDefinition>();
+            map.EditorInitializeIdentity("LINKED-DELETE-TEST", "T01");
+            map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+            AssetDatabase.CreateAsset(map, path);
+            try
+            {
+                var type = StageMapScenePalette.FindType("MOON_JADE_BALANCE");
+                Assert.That(StageMapObjectAuthoringOperations.PlaceLinkedPair(map, type, new Vector2Int(2, 4), new Vector2Int(6, 4), out var message), Is.True, message);
+                Assert.That(StageMapObjectAuthoringOperations.RemoveWithMutualLinks(map, map.Objects[0].StableId), Is.EqualTo(2));
+                Assert.That(map.Objects, Is.Empty);
+            }
+            finally
+            {
+                AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset("Assets/ANIMOL/MapBackups/LINKED-DELETE-TEST");
+            }
+        }
+
+        [Test]
         public void JadeBalancePairCanBePlacedWithMutualStableLinks()
         {
             const string path = "Assets/ANIMOL/Data/Development/M9BThemePlatforms/__JADE_PAIR_TEST.asset";
