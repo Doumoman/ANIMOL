@@ -464,8 +464,7 @@ namespace ANIMOL.Editor
                     var label = $"{(type.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype ? "⚠ " : string.Empty)}{type.DisplayName}\n{type.StableTypeId}";
                     if (GUILayout.Toggle(tool == StageMapTool.Object && objectTypeIndex == typeIndex, label, "Button", GUILayout.Height(38f)))
                     {
-                        objectTypeIndex = typeIndex;
-                        tool = StageMapTool.Object;
+                        SelectLogicObjectType(typeIndex);
                     }
                 }
             }
@@ -575,6 +574,23 @@ namespace ANIMOL.Editor
                 StageMapPaletteCategory.LogicObjects => StageMapTool.Object,
                 _ => StageMapTool.Select
             };
+            if (category == StageMapPaletteCategory.LogicObjects)
+            {
+                selectedObjectStableId = string.Empty;
+                selectedMarkerStableId = string.Empty;
+                hasSelectedCell = false;
+            }
+            RepaintAll();
+        }
+
+        private void SelectLogicObjectType(int typeIndex)
+        {
+            objectTypeIndex = typeIndex;
+            tool = StageMapTool.Object;
+            selectedObjectStableId = string.Empty;
+            selectedMarkerStableId = string.Empty;
+            hasSelectedCell = false;
+            pathEditing = false;
             RepaintAll();
         }
 
@@ -666,6 +682,17 @@ namespace ANIMOL.Editor
                 if (type == null) StageMapAuthoringOperations.PlaceObject(selectedMap, cell, objectKind, $"{objectKind}-{Guid.NewGuid():N}");
                 else
                 {
+                    if (type.RequiresLinkedPair)
+                    {
+                        var spacing = Mathf.CeilToInt(type.FootprintCells.x) + 1;
+                        var secondCell = cell + new Vector2Int(spacing, 0);
+                        if (StageMapObjectAuthoringOperations.PlaceLinkedPair(selectedMap, type, cell, secondCell, out objectPaletteMessage))
+                        {
+                            objectStableId = string.Empty;
+                            selectedObjectStableId = string.Empty;
+                        }
+                        return;
+                    }
                     var stableId = string.IsNullOrWhiteSpace(objectStableId) ? StageMapObjectAuthoringOperations.GenerateStableId(type.Kind) : objectStableId.Trim();
                     var settings = CreatePlacementSettings(type, cell);
                     if (StageMapObjectAuthoringOperations.Place(selectedMap, type, cell, stableId, settings, out var validation))
@@ -903,8 +930,9 @@ namespace ANIMOL.Editor
                 return;
             }
             objectTypeIndex = Mathf.Clamp(objectTypeIndex, 0, types.Length - 1);
-            objectTypeIndex = EditorGUILayout.Popup("Registered type", objectTypeIndex,
+            var nextTypeIndex = EditorGUILayout.Popup("Registered type", objectTypeIndex,
                 types.Select(item => $"{item.StableTypeId} · {item.DisplayName}").ToArray());
+            if (nextTypeIndex != objectTypeIndex) SelectLogicObjectType(nextTypeIndex);
             var selectedType = types[objectTypeIndex];
             var previewSprite = StageMapScenePalette.ResolvePreviewSprite(selectedType);
             if (previewSprite != null)
@@ -922,15 +950,24 @@ namespace ANIMOL.Editor
             EditorGUILayout.LabelField("Footprint / snap", $"{selectedType.FootprintCells.x:0.#}×{selectedType.FootprintCells.y:0.#} / y {selectedType.VerticalSnapCells:0.#}");
             if (GUILayout.Button("Place registered object at helper cell"))
             {
-                var stableId = string.IsNullOrWhiteSpace(objectStableId) ? StageMapObjectAuthoringOperations.GenerateStableId(selectedType.StableTypeId) : objectStableId.Trim();
-                if (StageMapObjectAuthoringOperations.Place(selectedMap, selectedType, objectPaletteCell, stableId,
-                    CreatePlacementSettings(selectedType, objectPaletteCell), out var validation))
+                if (selectedType.RequiresLinkedPair)
                 {
-                    selectedObjectStableId = stableId;
-                    objectStableId = string.Empty;
-                    objectPaletteMessage = string.Join(" | ", validation.Warnings);
+                    var spacing = Mathf.CeilToInt(selectedType.FootprintCells.x) + 1;
+                    StageMapObjectAuthoringOperations.PlaceLinkedPair(selectedMap, selectedType, objectPaletteCell,
+                        objectPaletteCell + new Vector2Int(spacing, 0), out objectPaletteMessage);
                 }
-                else objectPaletteMessage = string.Join(" | ", validation.Errors);
+                else
+                {
+                    var stableId = string.IsNullOrWhiteSpace(objectStableId) ? StageMapObjectAuthoringOperations.GenerateStableId(selectedType.StableTypeId) : objectStableId.Trim();
+                    if (StageMapObjectAuthoringOperations.Place(selectedMap, selectedType, objectPaletteCell, stableId,
+                        CreatePlacementSettings(selectedType, objectPaletteCell), out var validation))
+                    {
+                        selectedObjectStableId = stableId;
+                        objectStableId = string.Empty;
+                        objectPaletteMessage = string.Join(" | ", validation.Warnings);
+                    }
+                    else objectPaletteMessage = string.Join(" | ", validation.Errors);
+                }
             }
             if (GUILayout.Button("Place pounder + 2-tile rice helper set"))
                 StageMapObjectAuthoringOperations.PlacePounderRiceSet(selectedMap, objectRegistry, objectPaletteCell,
@@ -1106,8 +1143,21 @@ namespace ANIMOL.Editor
             var yOffset = type.Kind == StageMapObjectKind.HalfBlock && halfPlacement == HalfBlockPlacement.Upper ? .5f : 0f;
             var rect = new Rect(cell.x * units, (cell.y + yOffset) * units,
                 type.FootprintCells.x * units, type.FootprintCells.y * units);
-            var candidate = new StageMapObjectPlacement("GHOST", type.Kind, cell.x, cell.y, type.StableTypeId, type.Prefab, CreatePlacementSettings(type, cell));
-            var validation = StageMapObjectAuthoringOperations.ValidatePlacement(selectedMap, candidate);
+            StageMapObjectPlacementValidation validation;
+            if (type.RequiresLinkedPair)
+            {
+                var spacing = Mathf.CeilToInt(type.FootprintCells.x) + 1;
+                var secondRect = new Rect((cell.x + spacing) * units, (cell.y + yOffset) * units,
+                    type.FootprintCells.x * units, type.FootprintCells.y * units);
+                DrawSpriteInScene(StageMapScenePalette.ResolvePreviewSprite(type), secondRect, .8f);
+                Handles.DrawSolidRectangleWithOutline(secondRect, new Color(.2f, .9f, .75f, .2f), Color.cyan);
+                validation = StageMapObjectAuthoringOperations.ValidateLinkedPairPlacement(selectedMap, type, cell, cell + new Vector2Int(spacing, 0));
+            }
+            else
+            {
+                var candidate = new StageMapObjectPlacement("GHOST", type.Kind, cell.x, cell.y, type.StableTypeId, type.Prefab, CreatePlacementSettings(type, cell));
+                validation = StageMapObjectAuthoringOperations.ValidatePlacement(selectedMap, candidate);
+            }
             var fill = validation.IsValid ? new Color(.2f, .9f, .75f, .25f) : new Color(1f, .2f, .2f, .3f);
             DrawSpriteInScene(StageMapScenePalette.ResolvePreviewSprite(type), rect, validation.IsValid ? .8f : .35f);
             Handles.DrawSolidRectangleWithOutline(rect, fill, validation.IsValid ? Color.cyan : Color.red);
