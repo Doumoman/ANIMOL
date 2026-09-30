@@ -416,7 +416,6 @@ namespace ANIMOL.Editor
 
         private void DrawTerrainFamilyButtons()
         {
-            DrawThemeTerrainTilePalette();
             var families = selectedMap.Cells.Where(item => item.Layer == layer && !string.IsNullOrWhiteSpace(item.TileId))
                 .Select(item => item.TileId).Distinct(StringComparer.Ordinal).OrderBy(value => value, StringComparer.Ordinal).Take(8).ToArray();
             if (families.Length > 0)
@@ -448,35 +447,6 @@ namespace ANIMOL.Editor
                     if (GUILayout.Toggle(string.Equals(terrainDesignId, style, StringComparison.Ordinal), style, "Button"))
                         terrainDesignId = style;
             }
-        }
-
-        private void DrawThemeTerrainTilePalette()
-        {
-            var tiles = StageMapScenePalette.GetThemeTerrainTiles(selectedMap?.ThemeId);
-            if (tiles.Length == 0) return;
-            GUILayout.Label($"{selectedMap.ThemeId} THEME TILES · {tiles.Length}", EditorStyles.miniBoldLabel);
-            for (var start = 0; start < tiles.Length; start += 4)
-            {
-                using (new GUILayout.HorizontalScope())
-                {
-                    for (var index = start; index < Mathf.Min(start + 4, tiles.Length); index++)
-                    {
-                        var tile = tiles[index];
-                        var texture = tile.sprite == null ? null : AssetPreview.GetAssetPreview(tile.sprite) ?? AssetPreview.GetMiniThumbnail(tile.sprite);
-                        var previous = GUI.backgroundColor;
-                        if (string.Equals(tileId, tile.name, StringComparison.Ordinal)) GUI.backgroundColor = new Color(0f, 1f, .9f);
-                        if (GUILayout.Button(new GUIContent(texture, tile.name), GUILayout.Width(48f), GUILayout.Height(48f)))
-                        {
-                            tileId = tile.name;
-                            terrainDesignId = "ANIMOL";
-                            variantId = tile.name;
-                            tool = StageMapTool.Brush;
-                        }
-                        GUI.backgroundColor = previous;
-                    }
-                }
-            }
-            GUILayout.Label(tileId, EditorStyles.miniLabel);
         }
 
         private static string ParseDesignId(string value)
