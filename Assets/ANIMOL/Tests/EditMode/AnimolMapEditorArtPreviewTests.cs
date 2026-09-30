@@ -81,5 +81,18 @@ namespace ANIMOL.Tests.EditMode
             finally { AssetDatabase.DeleteAsset(path); AssetDatabase.DeleteAsset("Assets/ANIMOL/MapBackups/JADE-PAIR-TEST"); }
         }
 
+        [TestCase("MOON_JADE_BALANCE")]
+        [TestCase("PAGE_BRIDGE")]
+        [TestCase("DEW_SEED_STEP")]
+        public void MapPreviewScalePreservesPixelAspectAndFitsFootprint(string id)
+        {
+            var type = StageMapScenePalette.FindType(id);
+            var sprite = StageMapScenePalette.ResolvePreviewSprite(type);
+            var scale = StageMapScenePalette.CalculateAspectFitScale(sprite, type.FootprintCells, 1f);
+            Assert.That(scale.x, Is.EqualTo(scale.y).Within(.0001f));
+            Assert.That(sprite.bounds.size.x * scale.x, Is.LessThanOrEqualTo(type.FootprintCells.x + .001f));
+            Assert.That(sprite.bounds.size.y * scale.y, Is.LessThanOrEqualTo(type.FootprintCells.y + .001f));
+        }
+
     }
 }

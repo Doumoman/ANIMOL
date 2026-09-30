@@ -18,6 +18,7 @@ namespace ANIMOL.Editor
         [SerializeField] private string stableId = string.Empty;
         [SerializeField] private int pathNodeIndex = -1;
         [SerializeField] private Vector2Int authoredCell;
+        [SerializeField] private Vector2 authoredSize = Vector2.one;
 
         public StageMapDefinition Map => map;
         public StageMapAuthoringProxyRole Role => role;
@@ -25,6 +26,7 @@ namespace ANIMOL.Editor
         public string StableId => stableId;
         public int PathNodeIndex => pathNodeIndex;
         public Vector2Int AuthoredCell => authoredCell;
+        public Vector2 AuthoredSize => authoredSize;
 
         public void EditorConfigure(StageMapDefinition sourceMap, StageMapAuthoringProxyRole proxyRole,
             StageMapLayer sourceLayer, string objectStableId, int nodeIndex, Vector2Int cell)
@@ -35,7 +37,10 @@ namespace ANIMOL.Editor
             stableId = objectStableId ?? string.Empty;
             pathNodeIndex = nodeIndex;
             authoredCell = cell;
+            authoredSize = Vector2.one;
         }
+
+        public void EditorSetAuthoredSize(Vector2 size) => authoredSize = size;
     }
 
     [InitializeOnLoad]
@@ -337,7 +342,7 @@ namespace ANIMOL.Editor
             if (EditorGUI.EndChangeCheck())
             {
                 pendingHandleCell = new Vector2Int(Mathf.FloorToInt(moved.x / units), Mathf.FloorToInt(moved.y / units));
-                var size = new Vector2(proxy.transform.localScale.x / units, proxy.transform.localScale.y / units);
+                var size = proxy.AuthoredSize;
                 var yOffset = 0f;
                 if (proxy.Role == StageMapAuthoringProxyRole.Object)
                 {
@@ -431,12 +436,12 @@ namespace ANIMOL.Editor
             renderer.color = authoredSprite != null ? Color.white : color;
             renderer.sortingOrder = sortingOrder;
             var units = map.GetEditorPreviewUnitsPerCell();
-            var bounds = renderer.sprite.bounds.size;
-            gameObject.transform.localScale = new Vector3(
-                Mathf.Max(.2f, size.x) * units / Mathf.Max(.001f, bounds.x),
-                Mathf.Max(.2f, size.y) * units / Mathf.Max(.001f, bounds.y), 1f);
+            gameObject.transform.localScale = authoredSprite != null
+                ? StageMapScenePalette.CalculateAspectFitScale(renderer.sprite, size, units)
+                : new Vector3(Mathf.Max(.2f, size.x) * units, Mathf.Max(.2f, size.y) * units, 1f);
             var proxy = gameObject.AddComponent<StageMapAuthoringProxy>();
             proxy.EditorConfigure(map, role, layer, stableId, nodeIndex, cell);
+            proxy.EditorSetAuthoredSize(size);
             return proxy;
         }
 

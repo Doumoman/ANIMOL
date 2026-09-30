@@ -98,6 +98,17 @@ namespace ANIMOL.Editor
         public static Sprite ResolvePreviewSprite(StageMapObjectPlacement placement) =>
             placement == null ? null : ResolvePreviewSprite(FindType(placement.DataKey));
 
+        public static Vector3 CalculateAspectFitScale(Sprite sprite, Vector2 footprint, float unitsPerCell)
+        {
+            if (sprite == null) return new Vector3(Mathf.Max(.2f, footprint.x) * unitsPerCell,
+                Mathf.Max(.2f, footprint.y) * unitsPerCell, 1f);
+            var bounds = sprite.bounds.size;
+            var targetWidth = Mathf.Max(.2f, footprint.x) * unitsPerCell;
+            var targetHeight = Mathf.Max(.2f, footprint.y) * unitsPerCell;
+            var uniform = Mathf.Min(targetWidth / Mathf.Max(.001f, bounds.x), targetHeight / Mathf.Max(.001f, bounds.y));
+            return new Vector3(uniform, uniform, 1f);
+        }
+
         public static string BriefDescription(StageMapObjectTypeDefinition type, int maxLength = 180)
         {
             if (type == null) return string.Empty;

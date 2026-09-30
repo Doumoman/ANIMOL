@@ -1172,6 +1172,20 @@ namespace ANIMOL.Editor
             var bottomRight = HandleUtility.WorldToGUIPoint(new Vector3(worldRect.xMax, worldRect.yMin));
             var screenRect = Rect.MinMaxRect(Mathf.Min(topLeft.x, bottomRight.x), Mathf.Min(topLeft.y, bottomRight.y),
                 Mathf.Max(topLeft.x, bottomRight.x), Mathf.Max(topLeft.y, bottomRight.y));
+            var spriteAspect = sprite.rect.width / Mathf.Max(1f, sprite.rect.height);
+            var screenAspect = screenRect.width / Mathf.Max(1f, screenRect.height);
+            if (screenAspect > spriteAspect)
+            {
+                var fittedWidth = screenRect.height * spriteAspect;
+                screenRect.x += (screenRect.width - fittedWidth) * .5f;
+                screenRect.width = fittedWidth;
+            }
+            else
+            {
+                var fittedHeight = screenRect.width / Mathf.Max(.001f, spriteAspect);
+                screenRect.y += (screenRect.height - fittedHeight) * .5f;
+                screenRect.height = fittedHeight;
+            }
             var textureRect = sprite.textureRect;
             var uv = new Rect(textureRect.x / sprite.texture.width, textureRect.y / sprite.texture.height,
                 textureRect.width / sprite.texture.width, textureRect.height / sprite.texture.height);
