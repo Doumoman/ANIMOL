@@ -301,7 +301,8 @@ namespace ANIMOL.Editor
                         0 => StageMapTool.Brush, 1 => StageMapTool.Eraser, 2 => StageMapTool.Line,
                         3 => StageMapTool.Rectangle, _ => StageMapTool.Fill
                     };
-                    variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
+                    if (!string.Equals(terrainDesignId, "ANIMOL", StringComparison.Ordinal))
+                        variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
                     EditorGUILayout.LabelField("Saved variant ID", variantId);
                     break;
                 case StageMapPaletteCategory.Markers:
@@ -369,21 +370,48 @@ namespace ANIMOL.Editor
 
         private void DrawNineSliceGrid()
         {
-            GUILayout.Label("9방향 블록 모양", EditorStyles.miniBoldLabel);
+            GUILayout.Label("9방향 블록 · 맵에서 보이는 위치", EditorStyles.miniBoldLabel);
+            GUILayout.Label("바깥쪽 밝은 면이 빈 공간을 향하도록 선택하세요.", EditorStyles.wordWrappedMiniLabel);
             for (var row = 0; row < 3; row++)
             {
                 using (new GUILayout.HorizontalScope())
                 {
+                    GUILayout.FlexibleSpace();
                     for (var column = 0; column < 3; column++)
                     {
                         var topology = StageMapScenePalette.NineSliceOrder[row * 3 + column];
                         var selected = terrainTopology == topology;
-                        if (GUILayout.Toggle(selected, StageMapScenePalette.TopologyGlyph(topology), "Button", GUILayout.Height(24f)))
-                            terrainTopology = topology;
+                        var tile = StageMapScenePalette.ResolveTopologyTile(selectedMap?.ThemeId, topology);
+                        var texture = tile?.sprite == null ? null : AssetPreview.GetAssetPreview(tile.sprite) ?? AssetPreview.GetMiniThumbnail(tile.sprite);
+                        using (new GUILayout.VerticalScope(GUILayout.Width(66f)))
+                        {
+                            var previous = GUI.backgroundColor;
+                            GUI.backgroundColor = selected ? new Color(0f, 1f, .88f) : Color.white;
+                            var content = new GUIContent(texture, $"{StageMapScenePalette.TopologyLabel(topology)} ({StageMapScenePalette.TopologyGlyph(topology)})");
+                            if (GUILayout.Button(content, GUILayout.Width(60f), GUILayout.Height(50f)))
+                            {
+                                terrainTopology = topology;
+                                if (tile != null)
+                                {
+                                    tileId = tile.name;
+                                    terrainDesignId = "ANIMOL";
+                                    variantId = tile.name;
+                                    tool = StageMapTool.Brush;
+                                }
+                            }
+                            GUI.backgroundColor = previous;
+                            var labelStyle = selected ? EditorStyles.miniBoldLabel : EditorStyles.centeredGreyMiniLabel;
+                            GUILayout.Label($"{StageMapScenePalette.TopologyGlyph(topology)} {StageMapScenePalette.TopologyLabel(topology)}", labelStyle,
+                                GUILayout.Width(60f));
+                        }
                     }
+                    GUILayout.FlexibleSpace();
                 }
             }
-            variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
+            GUILayout.Label($"선택: {StageMapScenePalette.TopologyLabel(terrainTopology)} {StageMapScenePalette.TopologyGlyph(terrainTopology)}  ·  {tileId}",
+                EditorStyles.helpBox);
+            if (!string.Equals(terrainDesignId, "ANIMOL", StringComparison.Ordinal))
+                variantId = StageMapScenePalette.ComposeVariantId(terrainDesignId, terrainTopology);
         }
 
         private void DrawTerrainFamilyButtons()

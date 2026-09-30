@@ -47,6 +47,22 @@ namespace ANIMOL.Editor
             _ => "■"
         };
 
+        public static string TopologyLabel(TerrainTileTopology topology) => topology switch
+        {
+            TerrainTileTopology.TopLeft => "좌상", TerrainTileTopology.Top => "상단", TerrainTileTopology.TopRight => "우상",
+            TerrainTileTopology.Left => "좌측", TerrainTileTopology.Center => "중앙", TerrainTileTopology.Right => "우측",
+            TerrainTileTopology.BottomLeft => "좌하", TerrainTileTopology.Bottom => "하단", TerrainTileTopology.BottomRight => "우하",
+            _ => topology.ToString()
+        };
+
+        public static string TopologySuffix(TerrainTileTopology topology) => topology switch
+        {
+            TerrainTileTopology.TopLeft => "NW", TerrainTileTopology.Top => "N", TerrainTileTopology.TopRight => "NE",
+            TerrainTileTopology.Left => "W", TerrainTileTopology.Center => "C", TerrainTileTopology.Right => "E",
+            TerrainTileTopology.BottomLeft => "SW", TerrainTileTopology.Bottom => "S", TerrainTileTopology.BottomRight => "SE",
+            _ => "C"
+        };
+
         public static string MarkerLabel(StageMapObjectKind kind) => kind switch
         {
             StageMapObjectKind.PlayerStart => "START",
@@ -122,6 +138,12 @@ namespace ANIMOL.Editor
                 if (tile != null) return tile;
             }
             return null;
+        }
+
+        public static Tile ResolveTopologyTile(string themeId, TerrainTileTopology topology)
+        {
+            var folder = ThemeTerrainFolder(themeId);
+            return string.IsNullOrEmpty(folder) ? null : ResolveTerrainTile($"{folder}_{TopologySuffix(topology)}");
         }
 
         public static Sprite ResolveTerrainSprite(string tileId) => ResolveTerrainTile(tileId)?.sprite;

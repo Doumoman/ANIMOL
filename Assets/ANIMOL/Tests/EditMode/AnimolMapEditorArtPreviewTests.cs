@@ -110,6 +110,19 @@ namespace ANIMOL.Tests.EditMode
         }
 
         [Test]
+        public void NineDirectionPickerResolvesEveryThemeSpriteInVisualGridOrder()
+        {
+            foreach (var themeId in new[] { "T01", "T02", "T03", "T04", "T05" })
+            foreach (var topology in StageMapScenePalette.NineSliceOrder)
+            {
+                var tile = StageMapScenePalette.ResolveTopologyTile(themeId, topology);
+                Assert.That(tile, Is.Not.Null, $"{themeId}/{topology}");
+                Assert.That(tile.sprite, Is.Not.Null, $"{themeId}/{topology}");
+                Assert.That(tile.name, Does.EndWith("_" + StageMapScenePalette.TopologySuffix(topology)));
+            }
+        }
+
+        [Test]
         public void LegacyTerrainCellUsesCurrentThemeDefaultTileAtRuntime()
         {
             var root = new GameObject("ThemeTileRuntimeTest", typeof(Grid), typeof(StageMapRuntimeLoader));
