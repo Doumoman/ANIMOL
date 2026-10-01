@@ -43,7 +43,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
                 Assert.That(MenuThemeCycle.PanAt(segment*5-.0001,segment),Is.EqualTo(MenuThemeCycle.PanAt(segment*5,segment)));
                 for(double time=segment*5-.5;time<segment*5+5;time+=.025) {
                     var pan=MenuThemeCycle.PanAt(time,segment);int crop=c.themes[segment%5].cropTop;
-                    Assert.That(Math.Abs(pan.x),Is.LessThanOrEqualTo(6));Assert.That(Math.Abs(pan.y),Is.LessThanOrEqualTo(4));
+                    Assert.That(Math.Abs(pan.x),Is.LessThanOrEqualTo(30));Assert.That(Math.Abs(pan.y),Is.LessThanOrEqualTo(4));
                     Assert.That(41-pan.x,Is.InRange(0,352-270));Assert.That(crop-pan.y,Is.InRange(0,704-600));
                 }
             }

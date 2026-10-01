@@ -16,7 +16,7 @@ namespace ANIMOL.FiveThemeMenu
     /// <summary>Explicit Play-mode evidence tool; never installed automatically.</summary>
     public sealed class MenuThemeCapture : MonoBehaviour
     {
-        private const string Output="Docs/FiveThemeMenu/Captures/";
+        private string Output="Docs/FiveThemeMenu/Captures/";
         private readonly List<string> checks=new List<string>();
         private readonly List<string> errors=new List<string>();
         private bool previousBackground;
@@ -27,6 +27,12 @@ namespace ANIMOL.FiveThemeMenu
         {
             if(!Application.isPlaying || FindFirstObjectByType<MenuThemeCapture>()!=null) throw new InvalidOperationException("Begin once in Play mode.");
             var go=new GameObject("Five theme evidence capture");DontDestroyOnLoad(go);var capture=go.AddComponent<MenuThemeCapture>();capture.StartCoroutine(capture.Run());
+        }
+        public static void BeginHierarchyReview()
+        {
+            if(!Application.isPlaying || FindFirstObjectByType<MenuThemeCapture>()!=null) throw new InvalidOperationException("Begin once in Play mode.");
+            var go=new GameObject("Authored menu evidence capture");DontDestroyOnLoad(go);var capture=go.AddComponent<MenuThemeCapture>();
+            capture.Output="Docs/MenuHierarchy/Captures/";capture.StartCoroutine(capture.Run());
         }
         public static void BeginLiveOnly()
         {

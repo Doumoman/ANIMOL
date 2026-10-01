@@ -7,14 +7,18 @@ using UnityEngine.SceneManagement;
 
 namespace ANIMOL.PortraitArtV1
 {
-    /// <summary>Installs only in the existing Bootstrap/Lobby canvases. No scene or legacy prefab rewrite.</summary>
+    /// <summary>Uses authored views in Bootstrap/Lobby; runtime creation is a legacy fallback only.</summary>
+    [DefaultExecutionOrder(100)]
     public sealed class PortraitEntryController : MonoBehaviour
     {
         public const string StartId="PA1_Start";
         public const string ModeId="SC01_Lobby";
         public PortraitArtScreen StartPrefab, ModePrefab;
-        public PortraitArtScreen StartScreen { get; private set; }
-        public PortraitArtScreen ModeScreen { get; private set; }
+        [SerializeField] private PortraitArtScreen startScreen, modeScreen;
+        public PortraitArtScreen StartScreen => startScreen;
+        public PortraitArtScreen ModeScreen => modeScreen;
+        public bool HasAuthoredViews => startScreen!=null && (gameObject.scene.name=="Bootstrap" || modeScreen!=null);
+        public void BindAuthoredViews(PortraitArtScreen start,PortraitArtScreen mode) {startScreen=start;modeScreen=mode;}
         public UiNavigationService Navigation { get; private set; }
         public IRewardLedgerAdapter Ledger { get; private set; }=new DisconnectedRewardLedgerAdapter();
         public bool OnlineModesAvailable => multiplayer != null && multiplayer.OperationalReadyEnabled;
@@ -45,7 +49,7 @@ namespace ANIMOL.PortraitArtV1
             var host=Navigation.transform.Find("SafeArea/ScreenHost");
             multiplayer=Navigation.GetComponent<MultiplayerUiPresenter>();
             bool boot=gameObject.scene.name=="Bootstrap";
-            StartScreen=Instantiate(StartPrefab,host,false); StartScreen.name=StartId;
+            if(startScreen==null) {startScreen=Instantiate(StartPrefab,host,false);startScreen.name=StartId;}
             StartScreen.Play.onClick.AddListener(()=> {
                 if(boot) Navigation.GetComponent<BootstrapPresenter>().Continue();
                 else Navigation.Navigate(ModeId,false);
@@ -54,8 +58,8 @@ namespace ANIMOL.PortraitArtV1
                 // Preserve the hidden legacy instance and all presenter references, but let
                 // existing SC01_Lobby return routes resolve to the new mode-selection view.
                 var old=host.Find(ModeId);
-                if(old!=null) { old.gameObject.SetActive(false); old.name="PA1_LegacyLobby"; }
-                ModeScreen=Instantiate(ModePrefab,host,false); ModeScreen.name=ModeId;
+                if(old!=null && old!=modeScreen?.transform) { old.gameObject.SetActive(false); old.name="PA1_LegacyLobby"; }
+                if(modeScreen==null) {modeScreen=Instantiate(ModePrefab,host,false);modeScreen.name=ModeId;}
                 ModeScreen.Back.onClick.AddListener(()=>Navigation.Navigate(StartId,false));
                 ModeScreen.Campaign.onClick.AddListener(()=>Navigation.Navigate("SC02_ThemeSelect"));
                 ModeScreen.Shop.onClick.AddListener(()=>Navigation.Navigate("SC11_Store"));

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using ANIMOL.PortraitArtV1;
 using NUnit.Framework;
 using UnityEngine;
@@ -24,10 +25,15 @@ namespace ANIMOL.FiveThemeMenu.Tests
         [UnityTest] public IEnumerator ExistingButtonsAndSharedClockSurviveSceneTransition()
         {
             yield return Load("Bootstrap");var c=Object.FindFirstObjectByType<MenuThemeCycle>();var e=Object.FindFirstObjectByType<PortraitEntryController>();
+            Assert.That(c.HasAuthoredLayout && e.HasAuthoredViews,Is.True);
+            Assert.That(Object.FindObjectsByType<PortraitEntryController>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length,Is.EqualTo(1));
             Assert.That(c.IsVisible,Is.True);Assert.That(e.StartScreen.GetComponentsInChildren<Button>().Length,Is.EqualTo(1));
             Assert.That(((RectTransform)e.StartScreen.Play.transform).anchoredPosition.y,Is.EqualTo(72));
             double before=c.Elapsed,now=Time.realtimeSinceStartupAsDouble;e.StartScreen.Play.onClick.Invoke();yield return new WaitForSecondsRealtime(.5f);
             c=Object.FindFirstObjectByType<MenuThemeCycle>();e=Object.FindFirstObjectByType<PortraitEntryController>();
+            Assert.That(c.HasAuthoredLayout && e.HasAuthoredViews,Is.True);
+            Assert.That(Object.FindObjectsByType<MenuThemeCycle>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length,Is.EqualTo(1));
+            Assert.That(e.ModeScreen.GetComponentsInChildren<Transform>(true).Count(t=>t.name.EndsWith("Readability")),Is.EqualTo(4));
             Assert.That(c.Elapsed-before,Is.EqualTo(Time.realtimeSinceStartupAsDouble-now).Within(.05));
             Assert.That(Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None).Length,Is.EqualTo(1));
             Assert.That(((RectTransform)e.ModeScreen.Campaign.transform).sizeDelta,Is.EqualTo(new Vector2(328,176)));

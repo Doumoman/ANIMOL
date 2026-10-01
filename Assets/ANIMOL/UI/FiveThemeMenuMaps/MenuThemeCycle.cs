@@ -13,12 +13,16 @@ namespace ANIMOL.FiveThemeMenu
     {
         public const double ThemeSeconds=5, FadeSeconds=.5;
         public const int Scale=4, CropLeft=41;
+        public const int HorizontalPanDots=30, VerticalPanDots=4;
         private static double epoch=-1;
         private static uint sessionSeed;
-        private MenuThemeCatalog catalog;
+        [SerializeField] private MenuThemeCatalog catalog;
         private PortraitEntryController entry;
-        private RectTransform viewport;
-        private Image outgoing, incoming, outgoingLight, incomingLight, rabbit;
+        [SerializeField] private RectTransform viewport;
+        [SerializeField] private Image outgoing, incoming, outgoingLight, incomingLight, rabbit;
+        [SerializeField] private bool authoredLayout;
+        private bool ownsRuntimeViewport;
+        public bool HasAuthoredLayout => authoredLayout && viewport!=null && outgoing!=null && incoming!=null && outgoingLight!=null && incomingLight!=null && rabbit!=null;
         public MenuThemeCatalog Catalog => catalog;
         public Image Rabbit => rabbit;
         public Image Outgoing => outgoing;
@@ -49,9 +53,21 @@ namespace ANIMOL.FiveThemeMenu
         }
         private void Awake()
         {
-            catalog=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
+            if(catalog==null) catalog=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
             if(catalog==null) { enabled=false;return; }
             if(epoch<0) epoch=Time.realtimeSinceStartupAsDouble;
+            if(HasAuthoredLayout) return;
+            CreateVisuals();ownsRuntimeViewport=true;
+        }
+        // Editor authoring calls this once; normal scene playback never builds UI.
+        public void AuthorLayout(MenuThemeCatalog source)
+        {
+            catalog=source;
+            if(!HasAuthoredLayout) CreateVisuals();
+            authoredLayout=true;RenderAt(2.25);
+        }
+        private void CreateVisuals()
+        {
             // The screen already clips oversized artwork. RectMask2D introduces a
             // one-pixel soft edge in UI/Default, breaking the exact 4x4 edge blocks.
             viewport=new GameObject("FiveThemeBackdrop",typeof(RectTransform)).GetComponent<RectTransform>();
@@ -64,13 +80,13 @@ namespace ANIMOL.FiveThemeMenu
             rabbit=MakeImage("DecorativeRabbit",viewport);rabbit.rectTransform.sizeDelta=new Vector2(96,128);
             rabbit.rectTransform.pivot=new Vector2(.5f,.5f);
         }
-        private void OnDestroy() { if(viewport!=null) Destroy(viewport.gameObject); }
+        private void OnDestroy() { if(ownsRuntimeViewport && viewport!=null) Destroy(viewport.gameObject); }
         private void LateUpdate()
         {
             if(catalog==null) return;
             if(entry==null) {
                 entry=transform.parent.GetComponentInChildren<PortraitEntryController>(true);
-                if(entry!=null) MenuThemeSkin.Apply(entry,catalog);
+                if(entry!=null && !authoredLayout) MenuThemeSkin.Apply(entry,catalog);
             }
             if(entry==null) return;
             bool visible=entry.Navigation.CurrentScreenId==PortraitEntryController.StartId || entry.Navigation.CurrentScreenId==PortraitEntryController.ModeId;
@@ -86,7 +102,7 @@ namespace ANIMOL.FiveThemeMenu
             // retained when it becomes outgoing; no crop/pan reset at any boundary.
             double phase=Math.Max(0,Math.Min(1,(seconds-(segment*ThemeSeconds-FadeSeconds))/(ThemeSeconds+FadeSeconds)));
             int sign=(segment&1)==0?1:-1;
-            return new Vector2Int(Mathf.RoundToInt((float)(-6+12*phase))*sign,Mathf.RoundToInt((float)(-4+8*phase))*sign);
+            return new Vector2Int(Mathf.RoundToInt((float)(HorizontalPanDots*(-1+2*phase)))*sign,Mathf.RoundToInt((float)(VerticalPanDots*(-1+2*phase)))*sign);
         }
         private static bool Direction(long segment)
         {

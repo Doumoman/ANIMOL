@@ -21,7 +21,8 @@ namespace ANIMOL.FiveThemeMenu
             var heading=mode.transform.Find("SectionHeading");if(heading!=null) heading.gameObject.SetActive(false);
             // Keep operational status readable over all five palettes without dimming art/UI.
             foreach(var label in new[]{mode.CurrencyState,mode.CompetitionState,mode.CooperationState,mode.Ad.transform.Find("Unavailable").GetComponent<TMP_Text>()}) {
-                var plate=new GameObject(label.name+"Readability",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image)).GetComponent<Image>();
+                var existing=label.transform.parent.Find(label.name+"Readability");
+                var plate=existing!=null ? existing.GetComponent<Image>() : new GameObject(label.name+"Readability",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image)).GetComponent<Image>();
                 plate.transform.SetParent(label.transform.parent,false);plate.transform.SetSiblingIndex(label.transform.GetSiblingIndex());
                 var p=plate.rectTransform;var l=label.rectTransform;
                 p.anchorMin=l.anchorMin;p.anchorMax=l.anchorMax;p.pivot=l.pivot;p.anchoredPosition=l.anchoredPosition;p.sizeDelta=l.sizeDelta;
