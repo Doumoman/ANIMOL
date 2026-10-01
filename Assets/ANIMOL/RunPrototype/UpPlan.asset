@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1933734888018c44fb7f2dfcc96db95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Core.RunRoutePlan
+  Legs:
+  - Id: RunLeg-A
+    X: 0
+    FloorY: 0
+    Length: 80
+    Direction: 1
+  - Id: RunLeg-B
+    X: 0
+    FloorY: 8
+    Length: 80
+    Direction: -1
+  Turn:
+    ReservedSpace:
+      x: 80
+      y: -2
+      width: 18
+      height: 24
+    Approach:
+      x: 80
+      y: 0
+      width: 12
+      height: 1
+    Landing:
+      x: 80
+      y: 8
+      width: 16
+      height: 1
+    SpringCell: {x: 94, y: -1}
+    SpringImpulse: {x: -8, y: 23}
+    Ascending: 1
+  OptionalZone:
+    x: -16
+    y: 0
+    width: 12
+    height: 8
+  Seed: 8016
