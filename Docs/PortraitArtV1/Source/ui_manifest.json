@@ -1,0 +1,375 @@
+{
+  "pack": "ANIMOL Portrait UI v1",
+  "target": "Unity 6000.3.8f1, 1080x1920 reference canvas, width match 0",
+  "import_root": "Assets/ANIMOL/UI/PortraitArtV1",
+  "sprite_import": {
+    "textureType": "Sprite",
+    "spriteMode": "Single",
+    "pixelsPerUnit": 32,
+    "filterMode": "Point",
+    "textureCompression": "Uncompressed",
+    "mipmapEnabled": false,
+    "alphaIsTransparency": true,
+    "spriteMeshType": "FullRect",
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "uiImageType": "Simple",
+    "preserveAspect": true,
+    "note": "These are whole illustrated controls; do not 9-slice the mode medallions."
+  },
+  "sprites": {
+    "button_play.png": {
+      "size_px": [
+        320,
+        114
+      ],
+      "content_px": [
+        320,
+        109
+      ],
+      "sha256": "b7ad48896533adca78b7a9767b96a699b7afe50946a1ced9b80e5a03e2a6a488"
+    },
+    "card_campaign.png": {
+      "size_px": [
+        416,
+        136
+      ],
+      "content_px": [
+        416,
+        126
+      ],
+      "sha256": "b5b8c87816c1b3384cfd681507131af0f658d732857cfe44e976df877891905f"
+    },
+    "card_competition.png": {
+      "size_px": [
+        416,
+        136
+      ],
+      "content_px": [
+        416,
+        134
+      ],
+      "sha256": "b2830e3488e804bc1c63577bbd1b9d90506a61bb8a993bf40decb69b71ba1601"
+    },
+    "card_cooperation.png": {
+      "size_px": [
+        416,
+        136
+      ],
+      "content_px": [
+        416,
+        127
+      ],
+      "sha256": "4dc4577460ec97b50a6b78a33de7f63d5b5010086be4e2395ac69659879db455"
+    },
+    "capsule_currency.png": {
+      "size_px": [
+        160,
+        48
+      ],
+      "content_px": [
+        160,
+        39
+      ],
+      "sha256": "d11948b07207a7007bfc2901c0181f643e56040e217783bc2d65673eb58c4222"
+    },
+    "icon_coin.png": {
+      "size_px": [
+        48,
+        48
+      ],
+      "content_px": [
+        47,
+        48
+      ],
+      "sha256": "15c4db610da462d2552e790f9f47452a33d73450c3d03fe764c3dc210de79954"
+    },
+    "button_ad.png": {
+      "size_px": [
+        56,
+        56
+      ],
+      "content_px": [
+        52,
+        56
+      ],
+      "sha256": "12cc3fc85fb9032f04a94c68c2c479eea1fccac8949f1e51d081b4f43ef015bb"
+    },
+    "button_shop.png": {
+      "size_px": [
+        56,
+        56
+      ],
+      "content_px": [
+        52,
+        56
+      ],
+      "sha256": "f01e3d01345ead6e36aefc352cc338c422aaf36e1ae4ec3832ed7d4da4094953"
+    },
+    "button_settings.png": {
+      "size_px": [
+        56,
+        56
+      ],
+      "content_px": [
+        56,
+        52
+      ],
+      "sha256": "435c9394673faa7699868d6ceb32651bf4e7986e485d0df7d725282abbc9fc2f"
+    },
+    "button_back.png": {
+      "size_px": [
+        56,
+        56
+      ],
+      "content_px": [
+        55,
+        56
+      ],
+      "sha256": "e1f9fc3351fdebd4015f1476dbef7df366d0267c2f3943fbda6f67b4ec99f2c1"
+    }
+  },
+  "canvas_hierarchy": "UI_CommonRoot/Canvas/SafeArea/ScreenHost (resolve actual prefab path before integration)",
+  "rect_policy": "All RectTransform values below are relative to the SafeArea rect in CanvasScaler reference pixels; position is anchoredPosition, size is sizeDelta.",
+  "screens": {
+    "Start": {
+      "interactive": [
+        "PlayButton"
+      ],
+      "artSlot": {
+        "anchorMin": [
+          0.08,
+          0
+        ],
+        "anchorMax": [
+          0.92,
+          1
+        ],
+        "offsetBottom": 500,
+        "offsetTop": -100,
+        "raycastTarget": false
+      },
+      "controls": {
+        "PlayButton": {
+          "sprite": "button_play.png",
+          "anchor": [
+            0.5,
+            0
+          ],
+          "pivot": [
+            0.5,
+            0
+          ],
+          "position": [
+            0,
+            180
+          ],
+          "size": [
+            640,
+            228
+          ],
+          "label": "플레이",
+          "action": "open ModeSelect"
+        }
+      }
+    },
+    "ModeSelect": {
+      "artSlot": {
+        "anchorMin": [
+          0.08,
+          0
+        ],
+        "anchorMax": [
+          0.92,
+          1
+        ],
+        "offsetBottom": 1100,
+        "offsetTop": -200,
+        "raycastTarget": false
+      },
+      "controls": {
+        "BackButton": {
+          "sprite": "button_back.png",
+          "anchor": [
+            0,
+            1
+          ],
+          "pivot": [
+            0,
+            1
+          ],
+          "position": [
+            32,
+            -34
+          ],
+          "size": [
+            96,
+            96
+          ],
+          "action": "return Start"
+        },
+        "CurrencyCapsule": {
+          "sprite": "capsule_currency.png",
+          "anchor": [
+            0,
+            1
+          ],
+          "pivot": [
+            0,
+            1
+          ],
+          "position": [
+            144,
+            -34
+          ],
+          "size": [
+            320,
+            96
+          ],
+          "children": [
+            "CoinIcon at +25,-21 size 54x54",
+            "CurrencyTMP live amount at +102,-45"
+          ],
+          "action": "read-only"
+        },
+        "AdButton": {
+          "sprite": "button_ad.png",
+          "anchor": [
+            1,
+            1
+          ],
+          "pivot": [
+            1,
+            1
+          ],
+          "position": [
+            -236,
+            -34
+          ],
+          "size": [
+            96,
+            96
+          ],
+          "action": "existing rewarded-ad provider only; otherwise visible disabled"
+        },
+        "ShopButton": {
+          "sprite": "button_shop.png",
+          "anchor": [
+            1,
+            1
+          ],
+          "pivot": [
+            1,
+            1
+          ],
+          "position": [
+            -134,
+            -34
+          ],
+          "size": [
+            96,
+            96
+          ],
+          "action": "existing Shop view"
+        },
+        "SettingsButton": {
+          "sprite": "button_settings.png",
+          "anchor": [
+            1,
+            1
+          ],
+          "pivot": [
+            1,
+            1
+          ],
+          "position": [
+            -32,
+            -34
+          ],
+          "size": [
+            96,
+            96
+          ],
+          "action": "existing Settings view"
+        },
+        "CampaignCard": {
+          "sprite": "card_campaign.png",
+          "anchor": [
+            0.5,
+            0
+          ],
+          "pivot": [
+            0.5,
+            0
+          ],
+          "position": [
+            0,
+            690
+          ],
+          "size": [
+            832,
+            272
+          ],
+          "label": "캠페인",
+          "action": "existing Campaign hub"
+        },
+        "CompetitionCard": {
+          "sprite": "card_competition.png",
+          "anchor": [
+            0.5,
+            0
+          ],
+          "pivot": [
+            0.5,
+            0
+          ],
+          "position": [
+            0,
+            402
+          ],
+          "size": [
+            832,
+            272
+          ],
+          "label": "경쟁전",
+          "action": "existing Competition hub; if unavailable disable"
+        },
+        "CooperationCard": {
+          "sprite": "card_cooperation.png",
+          "anchor": [
+            0.5,
+            0
+          ],
+          "pivot": [
+            0.5,
+            0
+          ],
+          "position": [
+            0,
+            114
+          ],
+          "size": [
+            832,
+            272
+          ],
+          "label": "협동",
+          "action": "existing Cooperation hub; if unavailable disable"
+        }
+      }
+    }
+  },
+  "interaction": {
+    "button": {
+      "normalTint": "#FFFFFF",
+      "highlightTint": "#FFF5DF",
+      "pressedTint": "#D9C5A9",
+      "disabledTint": "#B6B1AE",
+      "disabledAlpha": 0.55
+    },
+    "text": "TextMeshPro, not baked in art"
+  },
+  "font": "UnityImport/Fonts/pixelroborobo.otf (user supplied; create TMP Font Asset in project)",
+  "background": "No backdrop or character art is baked into sprites; preview mauve and guide boxes are illustrative only."
+}
