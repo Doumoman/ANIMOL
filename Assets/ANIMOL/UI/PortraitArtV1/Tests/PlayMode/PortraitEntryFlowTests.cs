@@ -59,7 +59,7 @@ namespace ANIMOL.PortraitArtV1.Tests
             c=Object.FindFirstObjectByType<PortraitEntryController>();
             Assert.That(c.Navigation.CurrentScreenId,Is.EqualTo(PortraitEntryController.ModeId));
             Assert.That(Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None).Length,Is.EqualTo(1));
-            foreach(var route in new[]{(c.ModeScreen.Campaign,"SC02_ThemeSelect","ThemeBackButton"),(c.ModeScreen.Shop,"SC11_Store","StoreBackButton"),(c.ModeScreen.Settings,"SC13_Settings","SettingsBackButton")}) {
+            foreach(var route in new[]{(c.ModeScreen.Campaign,"SC02_ThemeSelect","PV1_SC02_ThemeSelectBack"),(c.ModeScreen.Shop,"SC11_Store","StoreBackButton"),(c.ModeScreen.Settings,"SC13_Settings","SettingsBackButton")}) {
                 Click(route.Item1);yield return new WaitForSecondsRealtime(.25f);Assert.That(c.Navigation.CurrentScreenId,Is.EqualTo(route.Item2));
                 Click(c.Navigation.GetComponentsInChildren<Button>().First(b=>b.name==route.Item3));yield return new WaitForSecondsRealtime(.25f);
                 Assert.That(c.Navigation.CurrentScreenId,Is.EqualTo(PortraitEntryController.ModeId));

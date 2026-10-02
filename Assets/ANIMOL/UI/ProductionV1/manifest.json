@@ -1,0 +1,2209 @@
+{
+  "version": "UI-production-v1",
+  "sourceBrief": "docs/PRODUCTION_BRIEF.md",
+  "approvedLobby": "v7 unchanged; not duplicated in runtime",
+  "palette": "Sweetie16",
+  "paletteHex": [
+    "#1a1c2c",
+    "#5d275d",
+    "#b13e53",
+    "#ef7d57",
+    "#ffcd75",
+    "#a7f070",
+    "#38b764",
+    "#257179",
+    "#29366f",
+    "#3b5dc9",
+    "#41a6f6",
+    "#73eff7",
+    "#f4f4f4",
+    "#94b0c2",
+    "#566c86",
+    "#333c57"
+  ],
+  "import": {
+    "textureType": "Sprite (2D/UI)",
+    "filterMode": "Point",
+    "textureCompression": "Uncompressed",
+    "mipmapEnabled": false,
+    "alphaIsTransparency": true,
+    "automaticTrim": false,
+    "uiPPU": "match existing UI",
+    "nonUniformScale": false
+  },
+  "canvasReference": [
+    1080,
+    1920
+  ],
+  "targetResolutions": [
+    [
+      1080,
+      1920
+    ],
+    [
+      1080,
+      2400
+    ]
+  ],
+  "safeArea": "preserve existing implementation; mockups simulate 90px top/bottom",
+  "backgroundFit": "uniform cover, centered crop; no stretch",
+  "stageList": {
+    "columns": 4,
+    "rows": 5,
+    "nodes": 20,
+    "labels": "runtime data"
+  },
+  "runtimeAssets": [
+    {
+      "id": "BG_UI_Campaign_Common",
+      "path": "runtime/backgrounds/BG_UI_Campaign_Common.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Campaign_T01",
+      "path": "runtime/backgrounds/BG_UI_Campaign_T01.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C2_StageSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Campaign_T02",
+      "path": "runtime/backgrounds/BG_UI_Campaign_T02.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C2_StageSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Campaign_T03",
+      "path": "runtime/backgrounds/BG_UI_Campaign_T03.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C2_StageSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Campaign_T04",
+      "path": "runtime/backgrounds/BG_UI_Campaign_T04.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C2_StageSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Campaign_T05",
+      "path": "runtime/backgrounds/BG_UI_Campaign_T05.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C2_StageSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "BG_UI_Growth_Common",
+      "path": "runtime/backgrounds/BG_UI_Growth_Common.png",
+      "size": [
+        352,
+        704
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "backgrounds",
+      "order": 0,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "U1_UpgradeHub",
+        "U2_AccountUpgrade",
+        "U3_CharacterUpgrade"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "Thumb_Theme_T01",
+      "path": "runtime/thumbnails/Thumb_Theme_T01.png",
+      "size": [
+        224,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "thumbnails",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "Thumb_Theme_T02",
+      "path": "runtime/thumbnails/Thumb_Theme_T02.png",
+      "size": [
+        224,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "thumbnails",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "Thumb_Theme_T03",
+      "path": "runtime/thumbnails/Thumb_Theme_T03.png",
+      "size": [
+        224,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "thumbnails",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "Thumb_Theme_T04",
+      "path": "runtime/thumbnails/Thumb_Theme_T04.png",
+      "size": [
+        224,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "thumbnails",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "Thumb_Theme_T05",
+      "path": "runtime/thumbnails/Thumb_Theme_T05.png",
+      "size": [
+        224,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "thumbnails",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "source record",
+      "alpha": "opaque",
+      "repeat": false,
+      "screens": [
+        "C1_ThemeSelect",
+        "C3_StageDetail",
+        "C4_MapLoading"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Campaign_StageNode_Frame",
+      "path": "runtime/ui/UI_Campaign_StageNode_Frame.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        16,
+        18,
+        16,
+        18
+      ],
+      "marginPixels": "source record",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Campaign_ThemeCard_Frame",
+      "path": "runtime/ui/UI_Campaign_ThemeCard_Frame.png",
+      "size": [
+        288,
+        136
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "marginPixels": "source record",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Character_Rabbit_Portrait",
+      "path": "runtime/ui/UI_Character_Rabbit_Portrait.png",
+      "size": [
+        128,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "8",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Common_Button_Primary",
+      "path": "runtime/ui/UI_Common_Button_Primary.png",
+      "size": [
+        160,
+        40
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        14,
+        14,
+        14,
+        14
+      ],
+      "marginPixels": "source record",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Common_Button_Secondary",
+      "path": "runtime/ui/UI_Common_Button_Secondary.png",
+      "size": [
+        160,
+        40
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        22,
+        16,
+        22,
+        16
+      ],
+      "marginPixels": "source record",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Common_Icons_Atlas",
+      "path": "runtime/ui/UI_Common_Icons_Atlas.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "grid": [
+        6,
+        6
+      ],
+      "cell": [
+        32,
+        32
+      ],
+      "frames": 36,
+      "usage": "optional atlas; individual icon PNGs supplied"
+    },
+    {
+      "id": "UI_Common_Loading_Animation",
+      "path": "runtime/ui/UI_Common_Loading_Animation.png",
+      "size": [
+        128,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "grid": [
+        4,
+        2
+      ],
+      "cell": [
+        32,
+        32
+      ],
+      "frames": 8,
+      "fps": 8,
+      "progressMeaning": null
+    },
+    {
+      "id": "UI_Common_Panel_Main",
+      "path": "runtime/ui/UI_Common_Panel_Main.png",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "marginPixels": "source record",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Growth_Icon_Mastery",
+      "path": "runtime/ui/UI_Growth_Icon_Mastery.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Growth_Icon_MaxStamina",
+      "path": "runtime/ui/UI_Growth_Icon_MaxStamina.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Growth_Icon_StaminaEfficiency",
+      "path": "runtime/ui/UI_Growth_Icon_StaminaEfficiency.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Growth_Icon_StaminaRegen",
+      "path": "runtime/ui/UI_Growth_Icon_StaminaRegen.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_AccountGrowth",
+      "path": "runtime/ui/UI_Icon_AccountGrowth.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Active",
+      "path": "runtime/ui/UI_Icon_Active.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "meaning": "generic track symbol, no confirmed ability assigned"
+    },
+    {
+      "id": "UI_Icon_Animal",
+      "path": "runtime/ui/UI_Icon_Animal.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Back",
+      "path": "runtime/ui/UI_Icon_Back.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Bell",
+      "path": "runtime/ui/UI_Icon_Bell.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Check",
+      "path": "runtime/ui/UI_Icon_Check.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Checkpoint",
+      "path": "runtime/ui/UI_Icon_Checkpoint.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_ChevronDown",
+      "path": "runtime/ui/UI_Icon_ChevronDown.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Clock",
+      "path": "runtime/ui/UI_Icon_Clock.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Close",
+      "path": "runtime/ui/UI_Icon_Close.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_CloudConnection",
+      "path": "runtime/ui/UI_Icon_CloudConnection.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Coin",
+      "path": "runtime/ui/UI_Icon_Coin.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Construction",
+      "path": "runtime/ui/UI_Icon_Construction.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Empty",
+      "path": "runtime/ui/UI_Icon_Empty.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Error",
+      "path": "runtime/ui/UI_Icon_Error.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_ExitDoor",
+      "path": "runtime/ui/UI_Icon_ExitDoor.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Folder",
+      "path": "runtime/ui/UI_Icon_Folder.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Help",
+      "path": "runtime/ui/UI_Icon_Help.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Info",
+      "path": "runtime/ui/UI_Icon_Info.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Left",
+      "path": "runtime/ui/UI_Icon_Left.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Loading",
+      "path": "runtime/ui/UI_Icon_Loading.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Lock",
+      "path": "runtime/ui/UI_Icon_Lock.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Mastery",
+      "path": "runtime/ui/UI_Icon_Mastery.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "aliasOf": "UI_Growth_Icon_Mastery"
+    },
+    {
+      "id": "UI_Icon_MaxStamina",
+      "path": "runtime/ui/UI_Icon_MaxStamina.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "aliasOf": "UI_Growth_Icon_MaxStamina"
+    },
+    {
+      "id": "UI_Icon_Minus",
+      "path": "runtime/ui/UI_Icon_Minus.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Passive",
+      "path": "runtime/ui/UI_Icon_Passive.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "meaning": "generic track symbol, no confirmed ability assigned"
+    },
+    {
+      "id": "UI_Icon_Plus",
+      "path": "runtime/ui/UI_Icon_Plus.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Ready",
+      "path": "runtime/ui/UI_Icon_Ready.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Record",
+      "path": "runtime/ui/UI_Icon_Record.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Retry",
+      "path": "runtime/ui/UI_Icon_Retry.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Reward",
+      "path": "runtime/ui/UI_Icon_Reward.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Right",
+      "path": "runtime/ui/UI_Icon_Right.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_Selected",
+      "path": "runtime/ui/UI_Icon_Selected.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    },
+    {
+      "id": "UI_Icon_StaminaEfficiency",
+      "path": "runtime/ui/UI_Icon_StaminaEfficiency.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "aliasOf": "UI_Growth_Icon_StaminaEfficiency"
+    },
+    {
+      "id": "UI_Icon_StaminaRegen",
+      "path": "runtime/ui/UI_Icon_StaminaRegen.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false,
+      "aliasOf": "UI_Growth_Icon_StaminaRegen"
+    },
+    {
+      "id": "UI_Icon_StarPin",
+      "path": "runtime/ui/UI_Icon_StarPin.png",
+      "size": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "role": "ui",
+      "order": 10,
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "marginPixels": "4 per cell",
+      "alpha": "binary",
+      "repeat": false,
+      "screens": [
+        "all"
+      ],
+      "raycast": false
+    }
+  ],
+  "gameArtSourceAssets": [
+    {
+      "id": "BG_Game_T01_Decor",
+      "path": "game-art-provisional/BG_Game_T01_Decor.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Decor",
+      "order": 2,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": [
+        96,
+        90,
+        608,
+        285
+      ]
+    },
+    {
+      "id": "BG_Game_T01_Far",
+      "path": "game-art-provisional/BG_Game_T01_Far.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Far",
+      "order": 0,
+      "alpha": "opaque",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T01_Mid",
+      "path": "game-art-provisional/BG_Game_T01_Mid.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Mid",
+      "order": 1,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T02_Decor",
+      "path": "game-art-provisional/BG_Game_T02_Decor.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Decor",
+      "order": 2,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": [
+        96,
+        90,
+        608,
+        285
+      ]
+    },
+    {
+      "id": "BG_Game_T02_Far",
+      "path": "game-art-provisional/BG_Game_T02_Far.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Far",
+      "order": 0,
+      "alpha": "opaque",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T02_Mid",
+      "path": "game-art-provisional/BG_Game_T02_Mid.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Mid",
+      "order": 1,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T03_Decor",
+      "path": "game-art-provisional/BG_Game_T03_Decor.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Decor",
+      "order": 2,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": [
+        96,
+        90,
+        608,
+        285
+      ]
+    },
+    {
+      "id": "BG_Game_T03_Far",
+      "path": "game-art-provisional/BG_Game_T03_Far.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Far",
+      "order": 0,
+      "alpha": "opaque",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T03_Mid",
+      "path": "game-art-provisional/BG_Game_T03_Mid.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Mid",
+      "order": 1,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T04_Decor",
+      "path": "game-art-provisional/BG_Game_T04_Decor.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Decor",
+      "order": 2,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": [
+        96,
+        90,
+        608,
+        285
+      ]
+    },
+    {
+      "id": "BG_Game_T04_Far",
+      "path": "game-art-provisional/BG_Game_T04_Far.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Far",
+      "order": 0,
+      "alpha": "opaque",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T04_Mid",
+      "path": "game-art-provisional/BG_Game_T04_Mid.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Mid",
+      "order": 1,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T05_Decor",
+      "path": "game-art-provisional/BG_Game_T05_Decor.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Decor",
+      "order": 2,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": [
+        96,
+        90,
+        608,
+        285
+      ]
+    },
+    {
+      "id": "BG_Game_T05_Far",
+      "path": "game-art-provisional/BG_Game_T05_Far.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Far",
+      "order": 0,
+      "alpha": "opaque",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    },
+    {
+      "id": "BG_Game_T05_Mid",
+      "path": "game-art-provisional/BG_Game_T05_Mid.png",
+      "size": [
+        704,
+        352
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sliceLBRTop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "layer": "Mid",
+      "order": 1,
+      "alpha": "binary",
+      "raycast": false,
+      "collider": false,
+      "repeat": false,
+      "worldSize": null,
+      "pixelsPerUnit": null,
+      "status": "source plane only; confirm camera/map/PPU before actual scene use",
+      "protectedDecorNativeBox": null
+    }
+  ],
+  "states": {
+    "normal": "base reusable frame",
+    "pressed": "same frame translated native 1px for <=100ms",
+    "selected": "cyan outline + selected icon + label",
+    "focus": "gold outline + visible focus",
+    "disabled": "secondary frame + lock/reason label; reject input",
+    "locked": "lock icon + actual condition",
+    "max": "check/MAX runtime label; no purchase",
+    "processing": "loading animation + reason; disabled duplicate request",
+    "error": "error icon + reason + actual retry"
+  },
+  "levelGauges": {
+    "render": "runtime flat segmented geometry, no baked numbers",
+    "accountSteps": "catalogue; prototype10",
+    "animalSteps": "catalogue; prototype5"
+  },
+  "text": "All Korean/levels/prices/progress/stage labels remain runtime text. SVG/PNG mockups are reference only.",
+  "modal": {
+    "frame": "UI_Common_Panel_Main",
+    "dim": "runtime #1a1c2c opacity0.8",
+    "blocksUnderlying": true,
+    "back": "closes modal only"
+  },
+  "fonts": "Preserve current Unity/TMP font. Bundled subset Noto Sans KR is for editable reference SVG only.",
+  "sourceRecords": [
+    "source/campaign-a-records.json",
+    "source/campaign-b-records.json",
+    "source/growth-frames-records.json",
+    "icons-portrait-records.json",
+    "loading-animation-records.json",
+    "source/game-a-records.json",
+    "source/game-b-records.json"
+  ],
+  "layoutSource": "reference/layouts.json",
+  "actualUnityRun": false
+}
