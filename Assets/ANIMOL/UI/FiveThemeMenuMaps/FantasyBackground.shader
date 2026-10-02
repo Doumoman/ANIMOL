@@ -1,4 +1,4 @@
-Shader "Hidden/ANIMOL/FantasyBackgroundV6"
+Shader "Hidden/ANIMOL/FantasyBackgroundV7"
 {
     Properties
     {

@@ -11,7 +11,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
     {
         [Test] public void V7ImportsPreserveAllTwentyTwoOriginalPNGs()
         {
-            var paths=Directory.GetFiles("Assets/ANIMOL/UI/MainUiV6/Textures","*.png");Assert.That(paths.Length,Is.EqualTo(22));
+            var paths=Directory.GetFiles("Assets/ANIMOL/UI/MainUiV7/Textures","*.png");Assert.That(paths.Length,Is.EqualTo(22));
             foreach(var path in paths) {
                 Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Docs/Inbox/ANIMOL_main_ui_v7/runtime/assets/"+Path.GetFileName(path))));
                 var t=(TextureImporter)AssetImporter.GetAtPath(path.Replace('\\','/'));

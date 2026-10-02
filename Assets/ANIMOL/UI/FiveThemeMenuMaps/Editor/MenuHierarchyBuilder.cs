@@ -17,7 +17,7 @@ namespace ANIMOL.FiveThemeMenu.Editor
         public static void Build()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
-            if(Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV6")==null)
+            if(Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV7")==null)
                 throw new InvalidOperationException("Import the Main UI V7 catalog before authoring the menu hierarchy.");
             for(int i=0;i<SceneManager.sceneCount;i++)
                 if(SceneManager.GetSceneAt(i).isDirty) throw new InvalidOperationException("Save your scene edits before authoring.");
@@ -57,7 +57,7 @@ namespace ANIMOL.FiveThemeMenu.Editor
                 var navData=new SerializedObject(nav);navData.FindProperty("initialScreenId").stringValue=name=="Bootstrap" ? PortraitEntryController.StartId : PortraitEntryController.ModeId;navData.ApplyModifiedPropertiesWithoutUndo();
                 var cycle=nav.GetComponentInChildren<MenuThemeCycle>(true);
                 if(cycle==null) {var go=new GameObject("FiveThemeMenuCycle");go.transform.SetParent(nav.transform,false);cycle=go.AddComponent<MenuThemeCycle>();}
-                MainUiV6Builder.Apply(nav);
+                MainUiV7Builder.Apply(nav);
                 // Record every changed property on the scene's prefab instances, not on
                 // the shared prefab assets (which can contain unrelated user work).
                 foreach(var component in nav.GetComponentsInChildren<Component>(true))

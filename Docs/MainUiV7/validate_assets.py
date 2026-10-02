@@ -15,7 +15,7 @@ for path in files:
     image = Image.open(path).convert('RGBA')
     assert image.size == ((512, 96) if 'rabbit' in path.name else (352, 704))
     assert all(c[3] in (0, 255) and (c[3] == 0 or c[:3] in palette) for c in image.getdata())
-    assert path.read_bytes() == (ROOT / 'Assets/ANIMOL/UI/MainUiV6/Textures' / path.name).read_bytes()
+    assert path.read_bytes() == (ROOT / 'Assets/ANIMOL/UI/MainUiV7/Textures' / path.name).read_bytes()
 
 left = Image.open(SOURCE / 'assets/rabbit-run-left.png').convert('RGBA')
 right = Image.open(SOURCE / 'assets/rabbit-run-right.png').convert('RGBA')

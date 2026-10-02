@@ -24,7 +24,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
         }
         [UnityTearDown] public IEnumerator Cleanup() {
             Time.timeScale=1;var old=SceneManager.GetActiveScene();
-            SceneManager.SetActiveScene(SceneManager.CreateScene("V6Cleanup"));yield return SceneManager.UnloadSceneAsync(old);
+            SceneManager.SetActiveScene(SceneManager.CreateScene("MenuCleanup"));yield return SceneManager.UnloadSceneAsync(old);
         }
         [UnityTest] public IEnumerator RealEntryRoutesPauseAndReuseNativeResources()
         {
@@ -56,7 +56,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
             yield return Load("Lobby");
             var old=Object.FindFirstObjectByType<MenuThemeCycle>();var parent=old.transform.parent;
             Object.Destroy(old.gameObject);yield return null;yield return null;
-            var go=new GameObject("Generated V6 fallback");go.transform.SetParent(parent,false);
+            var go=new GameObject("Generated V7 fallback");go.transform.SetParent(parent,false);
             var replacement=go.AddComponent<MenuThemeCycle>();yield return null;yield return null;
             Assert.That(replacement.HasAuthoredLayout,Is.True);
             Assert.That(replacement.Catalog.sourceVersion,Is.EqualTo("7.0"));
@@ -65,7 +65,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
             Assert.That(replacement.IsVisible,Is.True);
             Assert.That(replacement.OwnedTextureCount,Is.EqualTo(3));
             Assert.That(parent.GetComponentsInChildren<MenuThemeCycle>(true).Length,Is.EqualTo(1));
-            Assert.That(parent.GetComponentsInChildren<RawImage>(true).Count(i=>i.name=="MainUiV6Backdrop"),Is.EqualTo(1));
+            Assert.That(parent.GetComponentsInChildren<RawImage>(true).Count(i=>i.name=="MainUiV7Backdrop"),Is.EqualTo(1));
         }
         [UnityTest] public IEnumerator NativeOutputUsesOnlySweetie16EvenDuringWipe()
         {

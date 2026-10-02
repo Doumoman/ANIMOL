@@ -38,7 +38,7 @@ namespace ANIMOL.FiveThemeMenu.Tests
                 var nav=entry.GetComponentInParent<UiNavigationService>();
                 var host=nav.transform.Find("SafeArea/ScreenHost");
                 Assert.That(entry.StartScreen.transform.parent,Is.EqualTo(host));
-                Assert.That(cycle.Output.name,Is.EqualTo("MainUiV6Backdrop"));
+                Assert.That(cycle.Output.name,Is.EqualTo("MainUiV7Backdrop"));
                 Assert.That(cycle.Output.raycastTarget,Is.False);
                 Assert.That(nav.transform.Find("FiveThemeBackdrop"),Is.Null);
                 Assert.That(cycle.Catalog.themes.Length,Is.EqualTo(5));

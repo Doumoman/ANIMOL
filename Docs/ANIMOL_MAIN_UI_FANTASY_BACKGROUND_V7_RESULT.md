@@ -4,22 +4,24 @@
 검증일: 2026-10-02  
 환경: 실제 연결된 Unity **6000.3.8f1**, Built-in Render Pipeline, Linear color space, Windows Editor.
 
+현재 경로와 단일 배경 기준은 [v7 정리 결과](ANIMOL_MAIN_UI_BACKGROUND_CLEANUP_RESULT.md)에 반영했다. 아래 적용 당시의 검증 결과와 증거는 유지하며, 폐기한 배경 파일·보고서·캡처는 현재 작업 트리에서 제거했다.
+
 ## 적용 결과
 
-기존 Bootstrap 시작 화면과 Lobby의 실제 `SC01_Lobby`에 v7을 적용했다. 이전 v6 렌더러·카탈로그·씬 참조를 재사용하고 **배경 20개 + 좌우 토끼 시트 2개 전부** v7 원본으로 교체했다. 이전 배경 이미지가 섞이지 않았으며 토끼와 합성기는 각각 하나다. 이전에 폐기한 `FiveThemeBackdrop`와 `PA1_LegacyLobby`는 복원하지 않았다.
+기존 Bootstrap 시작 화면과 Lobby의 실제 `SC01_Lobby`에 v7을 적용했다. 현재 렌더러·카탈로그·씬 참조를 유지하면서 **배경 20개 + 좌우 토끼 시트 2개 전부** v7 원본을 사용한다. 배경과 토끼 합성기는 하나이며 폐기한 배경은 사용하지 않는다.
 
 요청 경로가 처음에는 없어서 발견된 `Docs/Inbox/ANIMOL_Unity_Main_UI_v7/ANIMOL_main_ui_v7` 패키지를 요청 경로 `Docs/Inbox/ANIMOL_main_ui_v7`에 그대로 복사했다. 발견된 원래 패키지는 삭제·변경하지 않았다. `UNITY_APPLY_TASK.md` 전체, manifest, animation.js와 preview HTML의 렌더 규칙을 읽었으며 HTML에 포함된 22개 이미지도 원본과 바이트 대조했다.
 
-에셋 GUID와 연결을 보존하기 위해 런타임 경로 `Assets/ANIMOL/UI/MainUiV6`, Resources 키 `ANIMOLMainUiV6`, 기존 GameObject·shader 이름을 유지했다. **이 이름은 참조 식별자이며 실제 이미지 버전은 전부 v7**이다. 카탈로그의 `sourceVersion`은 `7.0`이다. 패키지 합성 이미지·GIF·HTML을 런타임 배경으로 사용하지 않는다.
+런타임 경로는 `Assets/ANIMOL/UI/MainUiV7`, Resources 키는 `ANIMOLMainUiV7`, 카탈로그의 `sourceVersion`은 `7.0`이다. 에셋 GUID를 보존한 채 경로·생성기·GameObject·shader 이름을 v7으로 통일했다. 패키지 합성 이미지·GIF·HTML을 런타임 배경으로 사용하지 않는다.
 
 ## 실제 연결 및 생성 경로
 
 - 씬: `Assets/ANIMOL/Scenes/Bootstrap.unity`, `Assets/ANIMOL/Scenes/Lobby.unity`.
 - 실제 흐름: `PortraitEntryController`의 `PA1_Start` Play → 기존 Bootstrap 진입 처리 → Lobby `SC01_Lobby`. 캠페인 `SC02_ThemeSelect`, 상점 `SC11_Store`, 설정 `SC13_Settings`, 뒤로 가기, 종료 확인 모달의 기존 이벤트를 유지했다.
-- `UI_CommonRoot`의 `MainUiV6Cycle`이 `MainUiV6Backdrop`을 구동한다. 배경과 불투명 채움은 SafeArea보다 먼저 그려지는 형제이며 ScreenHost·ModalHost·OverlayHost보다 아래다. 두 Graphic 모두 raycastTarget=false다.
+- `UI_CommonRoot`의 `MainUiV7Cycle`이 `MainUiV7Backdrop`을 구동한다. 배경과 불투명 채움은 SafeArea보다 먼저 그려지는 형제이며 ScreenHost·ModalHost·OverlayHost보다 아래다. 두 Graphic 모두 raycastTarget=false다.
 - 기존 UI_CommonRoot 프리팹, CanvasScaler 1080×1920, PortraitDisplayController, SafeAreaLayout, 버튼·텍스트·모달 배치를 수정하지 않았다.
-- `MainUiV6Builder.Build()`의 메뉴 표시를 **ANIMOL/Main UI V7/Import and apply to existing menus**로 갱신했다. 실행 시 v7 원본 22개를 복사·가져온 뒤 기존 두 씬에 적용한다. 실제 두 차례 연속 실행으로 재적용도 확인했다.
-- `MenuHierarchyBuilder`의 기존 `MainUiV6Builder.Apply(nav)` 연결을 유지했다. 직렬화 배경이 없는 재생성 상황은 PlayMode 테스트에서 실제 제거·재설치해 카탈로그 v7, 배경·채움 각각 하나를 확인했다. 전체 씬/맵 생성 메뉴는 실행하지 않았다.
+- `MainUiV7Builder.Build()`의 메뉴 표시를 **ANIMOL/Main UI V7/Import and apply to existing menus**로 갱신했다. 실행 시 v7 원본 22개를 복사·가져온 뒤 기존 두 씬에 적용한다. 실제 두 차례 연속 실행으로 재적용도 확인했다.
+- `MenuHierarchyBuilder`의 기존 `MainUiV7Builder.Apply(nav)` 연결을 유지했다. 직렬화 배경이 없는 재생성 상황은 PlayMode 테스트에서 실제 제거·재설치해 카탈로그 v7, 배경·채움 각각 하나를 확인했다. 전체 씬/맵 생성 메뉴는 실행하지 않았다.
 - 반복 적용 시 채움 순서가 합성 화면보다 뒤로 가던 경우를 수정하고, AuthorLayout 3회 반복 시 동일 배경·단일 채움·올바른 순서를 확인하는 EditMode 회귀 테스트를 추가했다.
 
 ## 렌더 규칙과 화면 대응

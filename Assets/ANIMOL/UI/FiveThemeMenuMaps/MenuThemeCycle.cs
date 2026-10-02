@@ -50,13 +50,13 @@ namespace ANIMOL.FiveThemeMenu
             if(scene.name!="Bootstrap" && scene.name!="Lobby") return;
             foreach(var root in scene.GetRootGameObjects()) foreach(var nav in root.GetComponentsInChildren<UiNavigationService>(true)) {
                 if(nav.GetComponent<Canvas>()==null || nav.GetComponentInChildren<MenuThemeCycle>(true)!=null) continue;
-                var go=new GameObject("MainUiV6Cycle");go.transform.SetParent(nav.transform,false);go.AddComponent<MenuThemeCycle>();
+                var go=new GameObject("MainUiV7Cycle");go.transform.SetParent(nav.transform,false);go.AddComponent<MenuThemeCycle>();
             }
         }
         private void Awake()
         {
             navigation=GetComponentInParent<UiNavigationService>();
-            if(catalog==null) catalog=Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV6");
+            if(catalog==null) catalog=Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV7");
             if(catalog==null) { enabled=false; return; }
             if(output==null) { needsFallbackSkin=true; AuthorLayout(catalog); }
         }
@@ -73,8 +73,8 @@ namespace ANIMOL.FiveThemeMenu
                 backdropFill.rectTransform.offsetMin=backdropFill.rectTransform.offsetMax=Vector2.zero;
                 backdropFill.color=Color.white;backdropFill.raycastTarget=false;
             }
-            if(output!=null) {backdropFill.transform.SetAsFirstSibling();Fit();return;}
-            output=new GameObject("MainUiV6Backdrop",typeof(RectTransform),typeof(CanvasRenderer),typeof(RawImage)).GetComponent<RawImage>();
+            if(output!=null) {output.name="MainUiV7Backdrop";backdropFill.transform.SetAsFirstSibling();Fit();return;}
+            output=new GameObject("MainUiV7Backdrop",typeof(RectTransform),typeof(CanvasRenderer),typeof(RawImage)).GetComponent<RawImage>();
             output.transform.SetParent(transform.parent,false);
             output.transform.SetSiblingIndex(transform.parent.Find("SafeArea").GetSiblingIndex());
             output.rectTransform.anchorMin=output.rectTransform.anchorMax=output.rectTransform.pivot=new Vector2(.5f,.5f);
