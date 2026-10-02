@@ -1,0 +1,44 @@
+{
+  "job_id": "e5777eae80624883b721f05abe8004ee",
+  "status": "failed",
+  "mode": "EditMode",
+  "started_unix_ms": 1790958103687,
+  "finished_unix_ms": 1790958111593,
+  "last_update_unix_ms": 1790958111593,
+  "progress": {
+    "completed": 7,
+    "total": 7,
+    "current_test_full_name": null,
+    "current_test_started_unix_ms": 1790958111335,
+    "last_finished_test_full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.SerializedSpriteSubassetsKeepTheirNewSourceTexture",
+    "last_finished_unix_ms": 1790958111557,
+    "stuck_suspected": false,
+    "editor_is_focused": false,
+    "blocked_reason": null,
+    "failures_so_far": [
+      {
+        "full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.ChangedGuidRebindsStaticPrefabImageAndInactiveRenderer",
+        "message": "  Expected: not equal to \"22e35748ced78c84c89a3eb547eb0150\"\r\n  But was:  \"22e35748ced78c84c89a3eb547eb0150\"\r\n"
+      },
+      {
+        "full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.DuplicateFileNamesNeverPickAnArbitraryReplacement",
+        "message": "  Expected string length 18 but was 35. Strings differ at index 0.\r\n  Expected: \"Ambiguous filename\"\r\n  But was:  \"Missing or ambiguous named subasset\"\r\n  -----------^\r\n"
+      },
+      {
+        "full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.ImportAutomaticallyRepairsWithoutARebuildButton",
+        "message": "  Expected: False\r\n  But was:  True\r\n"
+      },
+      {
+        "full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.NamedSheetFramesRestoreSlicingAndAnimationAndTileReferences",
+        "message": "  Expected is <System.String[2]>, actual is <System.Linq.Enumerable+SelectArrayIterator`2[UnityEngine.Sprite,System.String]>\r\n  Values differ at index [0]\r\n  Expected string length 3 but was 12. Strings differ at index 0.\r\n  Expected: \"ear\"\r\n  But was:  \"replace_me_0\"\r\n  -----------^\r\n"
+      },
+      {
+        "full_name": "ANIMOL.NamedArt.Tests.NamedArtReferenceTests.SceneRebindsWithoutNewObjectsAndDefersUnsavedEdits",
+        "message": "System.InvalidOperationException : Cannot create a new scene additively with an untitled scene unsaved."
+      }
+    ],
+    "failures_capped": false
+  },
+  "error": null,
+  "result": null
+}
