@@ -9,11 +9,11 @@ namespace ANIMOL.FiveThemeMenu.Tests
 {
     public class MenuThemePolicyTests
     {
-        [Test] public void V6ImportsPreserveAllTwentyTwoOriginalPNGs()
+        [Test] public void V7ImportsPreserveAllTwentyTwoOriginalPNGs()
         {
             var paths=Directory.GetFiles("Assets/ANIMOL/UI/MainUiV6/Textures","*.png");Assert.That(paths.Length,Is.EqualTo(22));
             foreach(var path in paths) {
-                Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Docs/Inbox/ANIMOL_main_ui_v6/runtime/assets/"+Path.GetFileName(path))));
+                Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Docs/Inbox/ANIMOL_main_ui_v7/runtime/assets/"+Path.GetFileName(path))));
                 var t=(TextureImporter)AssetImporter.GetAtPath(path.Replace('\\','/'));
                 Assert.That(t.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(t.mipmapEnabled,Is.False);
                 Assert.That(t.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));Assert.That(t.npotScale,Is.EqualTo(TextureImporterNPOTScale.None));

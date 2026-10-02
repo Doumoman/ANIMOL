@@ -18,7 +18,7 @@ namespace ANIMOL.FiveThemeMenu.Editor
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
             if(Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV6")==null)
-                throw new InvalidOperationException("Import the Main UI V6 catalog before authoring the menu hierarchy.");
+                throw new InvalidOperationException("Import the Main UI V7 catalog before authoring the menu hierarchy.");
             for(int i=0;i<SceneManager.sceneCount;i++)
                 if(SceneManager.GetSceneAt(i).isDirty) throw new InvalidOperationException("Save your scene edits before authoring.");
             foreach(string name in new[]{"Bootstrap","Lobby"}) {

@@ -59,6 +59,9 @@ namespace ANIMOL.FiveThemeMenu.Tests
             var go=new GameObject("Generated V6 fallback");go.transform.SetParent(parent,false);
             var replacement=go.AddComponent<MenuThemeCycle>();yield return null;yield return null;
             Assert.That(replacement.HasAuthoredLayout,Is.True);
+            Assert.That(replacement.Catalog.sourceVersion,Is.EqualTo("7.0"));
+            Assert.That(parent.GetComponentsInChildren<RawImage>(true).Count(i=>i.name=="MainUiBackdropFill"),Is.EqualTo(1));
+            Assert.That(parent.Find("MainUiBackdropFill").GetComponent<RawImage>().raycastTarget,Is.False);
             Assert.That(replacement.IsVisible,Is.True);
             Assert.That(replacement.OwnedTextureCount,Is.EqualTo(3));
             Assert.That(parent.GetComponentsInChildren<MenuThemeCycle>(true).Length,Is.EqualTo(1));

@@ -7,16 +7,18 @@ using UnityEngine.UI;
 
 namespace ANIMOL.FiveThemeMenu
 {
-    /// <summary>V6 native pixel compositor. Local clock pauses while hidden; scene entry restarts at T01.</summary>
+    /// <summary>V7 native pixel compositor (retains existing serialized asset identities). Local clock pauses while hidden; scene entry restarts at T01.</summary>
     [DefaultExecutionOrder(500)]
     public sealed class MenuThemeCycle : MonoBehaviour
     {
         [SerializeField] private FantasyBackgroundCatalog catalog;
         [SerializeField] private RawImage output;
+        [SerializeField] private RawImage backdropFill;
         [SerializeField] private uint seed;
         private UiNavigationService navigation;
         private Material material;
         private RenderTexture current, previous, final;
+        private Texture2D fillPixel;
         private bool focused=true, paused, wasVisible, needsFallbackSkin;
         private double elapsed;
         public bool HasAuthoredLayout => catalog!=null && output!=null;
@@ -27,7 +29,10 @@ namespace ANIMOL.FiveThemeMenu
         public double Elapsed => elapsed;
         public double DisplayTime { get; private set; }
         public int ThemeIndex => FantasyBackgroundPolicy.ThemeAt(DisplayTime);
-        public int FrameIndex => FantasyBackgroundPolicy.FrameAt(DisplayTime);
+        public int FrameIndex => InspectionFrame ?? FantasyBackgroundPolicy.FrameAt(DisplayTime);
+        public int? InspectionFrame { get; set; }
+        public int? InspectionCameraDirection { get; set; }
+        public int? InspectionRabbitDirection { get; set; }
         public int CameraDirection => FantasyBackgroundPolicy.Direction((long)(DisplayTime/5),91,seed);
         public int RabbitDirection => FantasyBackgroundPolicy.Direction((long)(DisplayTime/5),314,seed);
         public double? InspectionTime { get; set; }
@@ -58,7 +63,17 @@ namespace ANIMOL.FiveThemeMenu
         public void AuthorLayout(FantasyBackgroundCatalog source)
         {
             catalog=source;
-            if(output!=null) return;
+            if(backdropFill==null) {
+                var oldFill=transform.parent.Find("MainUiBackdropFill");
+                if(oldFill!=null) { if(Application.isPlaying) Destroy(oldFill.gameObject); else DestroyImmediate(oldFill.gameObject); }
+                backdropFill=new GameObject("MainUiBackdropFill",typeof(RectTransform),typeof(CanvasRenderer),typeof(RawImage)).GetComponent<RawImage>();
+                backdropFill.transform.SetParent(transform.parent,false);
+                backdropFill.transform.SetSiblingIndex(transform.parent.Find("SafeArea").GetSiblingIndex());
+                backdropFill.rectTransform.anchorMin=Vector2.zero;backdropFill.rectTransform.anchorMax=Vector2.one;
+                backdropFill.rectTransform.offsetMin=backdropFill.rectTransform.offsetMax=Vector2.zero;
+                backdropFill.color=Color.white;backdropFill.raycastTarget=false;
+            }
+            if(output!=null) {backdropFill.transform.SetAsFirstSibling();Fit();return;}
             output=new GameObject("MainUiV6Backdrop",typeof(RectTransform),typeof(CanvasRenderer),typeof(RawImage)).GetComponent<RawImage>();
             output.transform.SetParent(transform.parent,false);
             output.transform.SetSiblingIndex(transform.parent.Find("SafeArea").GetSiblingIndex());
@@ -78,6 +93,7 @@ namespace ANIMOL.FiveThemeMenu
                 if(entry!=null && controls!=null) { MenuThemeSkin.Apply(entry,controls); needsFallbackSkin=false; }
             }
             bool visible=navigation.CurrentScreenId==PortraitEntryController.StartId || navigation.CurrentScreenId==PortraitEntryController.ModeId;
+            if(backdropFill!=null && backdropFill.gameObject.activeSelf!=visible) backdropFill.gameObject.SetActive(visible);
             if(output.gameObject.activeSelf!=visible) output.gameObject.SetActive(visible);
             if(!visible || !focused || paused) { wasVisible=false; return; }
             Fit();
@@ -88,7 +104,8 @@ namespace ANIMOL.FiveThemeMenu
         private void Fit()
         {
             var rect=((RectTransform)output.transform.parent).rect;
-            float scale=Mathf.Max(rect.width/352,rect.height/704);
+            // Width fit preserves the entire rabbit corridor on tall displays; the fill covers any letterbox.
+            float scale=rect.width/352;
             output.rectTransform.sizeDelta=new Vector2(352,704)*scale;
             output.rectTransform.anchoredPosition=Vector2.zero;
         }
@@ -102,9 +119,13 @@ namespace ANIMOL.FiveThemeMenu
         private void EnsureResources()
         {
             if(material!=null) return;
-            material=new Material(catalog.compositor){name="Main UI V6 compositor",hideFlags=HideFlags.DontSave};
-            current=Allocate("V6 current"); previous=Allocate("V6 previous"); final=Allocate("V6 native output");
+            material=new Material(catalog.compositor){name="Main UI V7 compositor",hideFlags=HideFlags.DontSave};
+            current=Allocate("V7 current"); previous=Allocate("V7 previous"); final=Allocate("V7 native output");
             output.texture=final;
+            // A texture avoids dark-color quantization in Canvas linear vertex colors.
+            fillPixel=new Texture2D(1,1,TextureFormat.RGBA32,false,false){name="V7 opaque base",filterMode=FilterMode.Point,hideFlags=HideFlags.DontSave};
+            fillPixel.SetPixel(0,0,new Color32(26,28,44,255));fillPixel.Apply(false,true);
+            if(backdropFill!=null) backdropFill.texture=fillPixel;
         }
         public void RenderAt(double seconds)
         {
@@ -124,23 +145,25 @@ namespace ANIMOL.FiveThemeMenu
         }
         private void Draw(RenderTexture target,long slot,double p)
         {
-            var theme=catalog.themes[slot%5];int direction=FantasyBackgroundPolicy.Direction(slot,91,seed);
+            var theme=catalog.themes[slot%5];int direction=InspectionCameraDirection ?? FantasyBackgroundPolicy.Direction(slot,91,seed);
             material.SetTexture("_Far",theme.far);material.SetTexture("_Mid",theme.mid);
             material.SetTexture("_Platform",theme.platform);material.SetTexture("_Near",theme.near);
             SetRect("_FarRect",FantasyBackgroundPolicy.Plane(p,direction,1.16f,.30f));
             SetRect("_MidRect",FantasyBackgroundPolicy.Plane(p,direction,1.36f,.62f));
             SetRect("_NearRect",FantasyBackgroundPolicy.Plane(p,direction,1.60f,1.60f));
-            int run=FantasyBackgroundPolicy.Direction(slot,314,seed);
+            int run=InspectionRabbitDirection ?? FantasyBackgroundPolicy.Direction(slot,314,seed);
             material.SetTexture("_Rabbit",run==1?catalog.rabbitRight:catalog.rabbitLeft);
             material.SetFloat("_RabbitX",FantasyBackgroundPolicy.RabbitX(p,run));material.SetFloat("_Frame",FrameIndex);
             Graphics.Blit(null,target,material,0);
         }
         private void SetRect(string name,RectInt r) => material.SetVector(name,new Vector4(r.x,r.y,r.width,r.height));
-        private void OnDisable() { wasVisible=false; Release(); if(output!=null) output.gameObject.SetActive(false); }
-        private void OnDestroy() { Release(); if(output!=null) Destroy(output.gameObject); }
+        private void OnDisable() { wasVisible=false; Release(); if(output!=null) output.gameObject.SetActive(false); if(backdropFill!=null) backdropFill.gameObject.SetActive(false); }
+        private void OnDestroy() { Release(); if(output!=null) Destroy(output.gameObject); if(backdropFill!=null) Destroy(backdropFill.gameObject); }
         private void Release()
         {
             if(output!=null) output.texture=null;
+            if(backdropFill!=null) backdropFill.texture=null;
+            if(fillPixel!=null) Destroy(fillPixel);fillPixel=null;
             ReleaseTexture(ref current);ReleaseTexture(ref previous);ReleaseTexture(ref final);
             if(material!=null) Destroy(material); material=null;
         }

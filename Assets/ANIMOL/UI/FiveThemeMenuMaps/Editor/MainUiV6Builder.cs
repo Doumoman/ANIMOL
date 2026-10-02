@@ -11,12 +11,17 @@ namespace ANIMOL.FiveThemeMenu.Editor
     public static class MainUiV6Builder
     {
         public const string Root="Assets/ANIMOL/UI/MainUiV6";
-        [MenuItem("ANIMOL/Main UI V6/Import and apply to existing menus")]
+        [MenuItem("ANIMOL/Main UI V7/Import and apply to existing menus")]
         public static void Build()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
             for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)
                 if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty) throw new InvalidOperationException("Unsaved scene changes.");
+            // Retain the existing GUIDs while replacing the complete runtime bundle.
+            const string source="Docs/Inbox/ANIMOL_main_ui_v7/runtime/assets";
+            var originals=Directory.GetFiles(source,"*.png");
+            if(originals.Length!=22) throw new InvalidDataException("V7 requires all 22 original PNGs.");
+            foreach(var file in originals) File.Copy(file,Root+"/Textures/"+Path.GetFileName(file),true);
             AssetDatabase.Refresh();
             foreach(var file in Directory.GetFiles(Root+"/Textures","*.png")) {
                 var path=file.Replace('\\','/');var t=(TextureImporter)AssetImporter.GetAtPath(path);
@@ -30,6 +35,7 @@ namespace ANIMOL.FiveThemeMenu.Editor
             const string pathCatalog=Root+"/Resources/ANIMOLMainUiV6.asset";
             var catalog=AssetDatabase.LoadAssetAtPath<FantasyBackgroundCatalog>(pathCatalog);
             if(catalog==null) {catalog=ScriptableObject.CreateInstance<FantasyBackgroundCatalog>();AssetDatabase.CreateAsset(catalog,pathCatalog);}
+            catalog.sourceVersion="7.0";
             catalog.themes=Enumerable.Range(1,5).Select(i=>new FantasyBackgroundCatalog.Theme {
                 far=Texture($"T{i:00}-far"),mid=Texture($"T{i:00}-mid"),platform=Texture($"T{i:00}-platform"),near=Texture($"T{i:00}-near")
             }).ToArray();

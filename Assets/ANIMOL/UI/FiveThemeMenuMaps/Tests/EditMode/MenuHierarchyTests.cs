@@ -9,6 +9,22 @@ namespace ANIMOL.FiveThemeMenu.Tests
 {
     public class MenuHierarchyTests
     {
+        [Test] public void ReapplyingLayoutKeepsOneV7BackdropAboveItsFill()
+        {
+            var scene=EditorSceneManager.OpenPreviewScene("Assets/ANIMOL/Scenes/Lobby.unity");
+            try {
+                var c=scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<MenuThemeCycle>(true)).Single();
+                var output=c.Output;
+                for(int i=0;i<3;i++) c.AuthorLayout(c.Catalog);
+                Assert.That(c.Output,Is.SameAs(output));
+                Assert.That(c.Catalog.sourceVersion,Is.EqualTo("7.0"));
+                var fill=c.transform.parent.GetComponentsInChildren<UnityEngine.UI.RawImage>(true).Where(x=>x.name=="MainUiBackdropFill").ToArray();
+                Assert.That(fill.Length,Is.EqualTo(1));
+                Assert.That(fill[0].transform.GetSiblingIndex(),Is.LessThan(output.transform.GetSiblingIndex()));
+                Assert.That(output.transform.GetSiblingIndex(),Is.LessThan(c.transform.parent.Find("SafeArea").GetSiblingIndex()));
+                Assert.That(fill[0].raycastTarget,Is.False);
+            } finally {EditorSceneManager.ClosePreviewScene(scene);}
+        }
         [TestCase("Bootstrap")]
         [TestCase("Lobby")]
         public void SavedScenesContainViewsAndBackdropBeforePlay(string name)
