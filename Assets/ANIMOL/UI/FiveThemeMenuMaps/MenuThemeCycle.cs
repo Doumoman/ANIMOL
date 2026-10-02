@@ -7,145 +7,143 @@ using UnityEngine.UI;
 
 namespace ANIMOL.FiveThemeMenu
 {
-    /// <summary>Decorative menu only. Never writes gameplay time, inputs, rewards or scene assets.</summary>
+    /// <summary>V6 native pixel compositor. Local clock pauses while hidden; scene entry restarts at T01.</summary>
     [DefaultExecutionOrder(500)]
     public sealed class MenuThemeCycle : MonoBehaviour
     {
-        public const double ThemeSeconds=5, FadeSeconds=.5;
-        public const int Scale=4, CropLeft=41;
-        public const int HorizontalPanDots=30, VerticalPanDots=4;
-        private static double epoch=-1;
-        private static uint sessionSeed;
-        [SerializeField] private MenuThemeCatalog catalog;
-        private PortraitEntryController entry;
-        [SerializeField] private RectTransform viewport;
-        [SerializeField] private Image outgoing, incoming, outgoingLight, incomingLight, rabbit;
-        [SerializeField] private bool authoredLayout;
-        private bool ownsRuntimeViewport;
-        public bool HasAuthoredLayout => authoredLayout && viewport!=null && outgoing!=null && incoming!=null && outgoingLight!=null && incomingLight!=null && rabbit!=null;
-        public MenuThemeCatalog Catalog => catalog;
-        public Image Rabbit => rabbit;
-        public Image Outgoing => outgoing;
-        public Image Incoming => incoming;
-        public bool IsVisible => viewport!=null && viewport.gameObject.activeSelf;
-        public double Elapsed => Math.Max(0,Time.realtimeSinceStartupAsDouble-epoch);
+        [SerializeField] private FantasyBackgroundCatalog catalog;
+        [SerializeField] private RawImage output;
+        [SerializeField] private uint seed;
+        private UiNavigationService navigation;
+        private Material material;
+        private RenderTexture current, previous, final;
+        private bool focused=true, paused, wasVisible, needsFallbackSkin;
+        private double elapsed;
+        public bool HasAuthoredLayout => catalog!=null && output!=null;
+        public FantasyBackgroundCatalog Catalog => catalog;
+        public RawImage Output => output;
+        public RenderTexture NativeFrame => final;
+        public bool IsVisible => output!=null && output.gameObject.activeSelf;
+        public double Elapsed => elapsed;
         public double DisplayTime { get; private set; }
-        public int ThemeIndex { get; private set; }
-        public float Blend { get; private set; }
-        public bool Leftward { get; private set; }
-        // Explicit QA override: absent in normal operation; does not affect shared session clock.
+        public int ThemeIndex => FantasyBackgroundPolicy.ThemeAt(DisplayTime);
+        public int FrameIndex => FantasyBackgroundPolicy.FrameAt(DisplayTime);
+        public int CameraDirection => FantasyBackgroundPolicy.Direction((long)(DisplayTime/5),91,seed);
+        public int RabbitDirection => FantasyBackgroundPolicy.Direction((long)(DisplayTime/5),314,seed);
         public double? InspectionTime { get; set; }
-        public bool? InspectionLeftward { get; set; }
+        public uint Seed { get => seed; set => seed=value; }
+        public int OwnedTextureCount => final==null ? 0 : 3;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetSession() { epoch=-1;sessionSeed=unchecked((uint)Environment.TickCount);SceneManager.sceneLoaded-=Install; }
+        private static void ResetSession() => SceneManager.sceneLoaded-=Install;
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void Subscribe() { SceneManager.sceneLoaded-=Install;SceneManager.sceneLoaded+=Install; }
+        private static void Subscribe() { SceneManager.sceneLoaded-=Install; SceneManager.sceneLoaded+=Install; }
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void InstallCurrent() => Install(SceneManager.GetActiveScene(),LoadSceneMode.Single);
         private static void Install(Scene scene,LoadSceneMode mode)
         {
             if(scene.name!="Bootstrap" && scene.name!="Lobby") return;
             foreach(var root in scene.GetRootGameObjects()) foreach(var nav in root.GetComponentsInChildren<UiNavigationService>(true)) {
-                if(nav.GetComponent<Canvas>()==null || nav.transform.Find("SafeArea/ScreenHost")==null || nav.GetComponentInChildren<MenuThemeCycle>(true)!=null) continue;
-                var go=new GameObject("FiveThemeMenuCycle");go.transform.SetParent(nav.transform,false);go.AddComponent<MenuThemeCycle>();
+                if(nav.GetComponent<Canvas>()==null || nav.GetComponentInChildren<MenuThemeCycle>(true)!=null) continue;
+                var go=new GameObject("MainUiV6Cycle");go.transform.SetParent(nav.transform,false);go.AddComponent<MenuThemeCycle>();
             }
         }
         private void Awake()
         {
-            if(catalog==null) catalog=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
-            if(catalog==null) { enabled=false;return; }
-            if(epoch<0) epoch=Time.realtimeSinceStartupAsDouble;
-            if(HasAuthoredLayout) return;
-            CreateVisuals();ownsRuntimeViewport=true;
+            navigation=GetComponentInParent<UiNavigationService>();
+            if(catalog==null) catalog=Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV6");
+            if(catalog==null) { enabled=false; return; }
+            if(output==null) { needsFallbackSkin=true; AuthorLayout(catalog); }
         }
-        // Editor authoring calls this once; normal scene playback never builds UI.
-        public void AuthorLayout(MenuThemeCatalog source)
+        public void AuthorLayout(FantasyBackgroundCatalog source)
         {
             catalog=source;
-            if(!HasAuthoredLayout) CreateVisuals();
-            authoredLayout=true;RenderAt(2.25);
+            if(output!=null) return;
+            output=new GameObject("MainUiV6Backdrop",typeof(RectTransform),typeof(CanvasRenderer),typeof(RawImage)).GetComponent<RawImage>();
+            output.transform.SetParent(transform.parent,false);
+            output.transform.SetSiblingIndex(transform.parent.Find("SafeArea").GetSiblingIndex());
+            output.rectTransform.anchorMin=output.rectTransform.anchorMax=output.rectTransform.pivot=new Vector2(.5f,.5f);
+            output.raycastTarget=false;output.color=Color.white;
+            // Background is a sibling of SafeArea: no screen tween, clipping, tint or input interception.
+            Fit();
         }
-        private void CreateVisuals()
-        {
-            // The screen already clips oversized artwork. RectMask2D introduces a
-            // one-pixel soft edge in UI/Default, breaking the exact 4x4 edge blocks.
-            viewport=new GameObject("FiveThemeBackdrop",typeof(RectTransform)).GetComponent<RectTransform>();
-            viewport.SetParent(transform.parent,false);
-            viewport.anchorMin=Vector2.zero;viewport.anchorMax=Vector2.one;viewport.offsetMin=viewport.offsetMax=Vector2.zero;
-            // Background goes immediately behind the existing SafeArea and all its UI.
-            viewport.SetSiblingIndex(transform.parent.Find("SafeArea").GetSiblingIndex());
-            outgoing=MakeImage("OutgoingScene",viewport);outgoingLight=MakeImage("OutgoingLight",outgoing.transform);
-            incoming=MakeImage("IncomingScene",viewport);incomingLight=MakeImage("IncomingLight",incoming.transform);
-            rabbit=MakeImage("DecorativeRabbit",viewport);rabbit.rectTransform.sizeDelta=new Vector2(96,128);
-            rabbit.rectTransform.pivot=new Vector2(.5f,.5f);
-        }
-        private void OnDestroy() { if(ownsRuntimeViewport && viewport!=null) Destroy(viewport.gameObject); }
+        private void OnApplicationFocus(bool value) { focused=value; wasVisible=false; }
+        private void OnApplicationPause(bool value) { paused=value; wasVisible=false; }
         private void LateUpdate()
         {
-            if(catalog==null) return;
-            if(entry==null) {
-                entry=transform.parent.GetComponentInChildren<PortraitEntryController>(true);
-                if(entry!=null && !authoredLayout) MenuThemeSkin.Apply(entry,catalog);
+            if(!HasAuthoredLayout || navigation==null) return;
+            if(needsFallbackSkin) {
+                var entry=navigation.GetComponentInChildren<PortraitEntryController>(true);
+                var controls=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
+                if(entry!=null && controls!=null) { MenuThemeSkin.Apply(entry,controls); needsFallbackSkin=false; }
             }
-            if(entry==null) return;
-            bool visible=entry.Navigation.CurrentScreenId==PortraitEntryController.StartId || entry.Navigation.CurrentScreenId==PortraitEntryController.ModeId;
-            viewport.gameObject.SetActive(visible);
-            if(!visible) return;
-            RenderAt(InspectionTime ?? Elapsed);
+            bool visible=navigation.CurrentScreenId==PortraitEntryController.StartId || navigation.CurrentScreenId==PortraitEntryController.ModeId;
+            if(output.gameObject.activeSelf!=visible) output.gameObject.SetActive(visible);
+            if(!visible || !focused || paused) { wasVisible=false; return; }
+            Fit();
+            if(wasVisible) elapsed+=Time.unscaledDeltaTime;
+            wasVisible=true;
+            RenderAt(InspectionTime ?? elapsed);
         }
-        public static int IndexAt(double seconds) => (int)(Math.Floor(Math.Max(0,seconds)/ThemeSeconds)%5);
-        public static float FadeAt(double seconds) => Mathf.Clamp01((float)((Math.Max(0,seconds)%ThemeSeconds-(ThemeSeconds-FadeSeconds))/FadeSeconds));
-        public static Vector2Int PanAt(double seconds,long segment)
+        private void Fit()
         {
-            // Incoming lives for 0.5 s BEFORE its own 5 s slot. Its absolute phase is
-            // retained when it becomes outgoing; no crop/pan reset at any boundary.
-            double phase=Math.Max(0,Math.Min(1,(seconds-(segment*ThemeSeconds-FadeSeconds))/(ThemeSeconds+FadeSeconds)));
-            int sign=(segment&1)==0?1:-1;
-            return new Vector2Int(Mathf.RoundToInt((float)(HorizontalPanDots*(-1+2*phase)))*sign,Mathf.RoundToInt((float)(VerticalPanDots*(-1+2*phase)))*sign);
+            var rect=((RectTransform)output.transform.parent).rect;
+            float scale=Mathf.Max(rect.width/352,rect.height/704);
+            output.rectTransform.sizeDelta=new Vector2(352,704)*scale;
+            output.rectTransform.anchoredPosition=Vector2.zero;
         }
-        private static bool Direction(long segment)
+        private static RenderTexture Allocate(string name)
         {
-            // Per-session pseudo-random choice, stable when revisiting a QA sample;
-            // isolated from UnityEngine.Random and therefore gameplay random state.
-            uint x=unchecked(sessionSeed+(uint)segment*0x9E3779B9u);x^=x>>16;x*=0x7FEB352Du;x^=x>>15;
-            return (x&1)!=0;
+            var rt=new RenderTexture(352,704,0,RenderTextureFormat.ARGB32,RenderTextureReadWrite.sRGB) {
+                name=name,filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Clamp,
+                useMipMap=false,autoGenerateMips=false,antiAliasing=1,hideFlags=HideFlags.DontSave
+            };rt.Create();return rt;
+        }
+        private void EnsureResources()
+        {
+            if(material!=null) return;
+            material=new Material(catalog.compositor){name="Main UI V6 compositor",hideFlags=HideFlags.DontSave};
+            current=Allocate("V6 current"); previous=Allocate("V6 previous"); final=Allocate("V6 native output");
+            output.texture=final;
         }
         public void RenderAt(double seconds)
         {
-            DisplayTime=Math.Max(0,seconds);long segment=(long)Math.Floor(DisplayTime/ThemeSeconds);
-            ThemeIndex=IndexAt(DisplayTime);Blend=FadeAt(DisplayTime);
-            DrawLayer(outgoing,outgoingLight,ThemeIndex,PanAt(DisplayTime,segment),1);
-            DrawLayer(incoming,incomingLight,(ThemeIndex+1)%5,PanAt(DisplayTime,segment+1),Blend);
-            incoming.gameObject.SetActive(Blend>0);
-            Leftward=InspectionLeftward ?? Direction(segment);
-            float local=(float)(DisplayTime-segment*ThemeSeconds);
-            // Leave fully before the fade. Re-enter from outside at the next slot;
-            // one rabbit renderer, never ghosted/doubled across differing ground heights.
-            float phase=Mathf.Clamp01(local/4.5f);
-            float x=Mathf.Lerp(-64,1144,Leftward?1-phase:phase);
-            var pan=PanAt(DisplayTime,segment);
-            float foot=(catalog.themes[ThemeIndex].footY-catalog.themes[ThemeIndex].cropTop+pan.y)*Scale;
-            rabbit.sprite=catalog.rabbitFrames[(int)Math.Floor(DisplayTime*10)%8];
-            rabbit.rectTransform.anchoredPosition=new Vector2(Mathf.Round(x/4)*4,-foot+14*Scale);
-            rabbit.rectTransform.localScale=new Vector3(Leftward?-1:1,1,1);
+            if(!HasAuthoredLayout) return;
+            EnsureResources(); DisplayTime=Math.Max(0,seconds);
+            long slot=(long)Math.Floor(DisplayTime/5);double local=DisplayTime-slot*5;
+            bool oldSrgb=GL.sRGBWrite;var oldActive=RenderTexture.active;
+            try {
+                GL.sRGBWrite=QualitySettings.activeColorSpace==ColorSpace.Linear;
+                Draw(current,slot,local/5);
+                if(slot>0 && local<.36) {
+                    Draw(previous,slot-1,.999);
+                    material.SetTexture("_Previous",previous);material.SetFloat("_Threshold",(float)(local/.36*1.22-.11));
+                    Graphics.Blit(current,final,material,1);
+                } else Graphics.CopyTexture(current,final);
+            } finally {GL.sRGBWrite=oldSrgb;RenderTexture.active=oldActive;}
         }
-        private void DrawLayer(Image image,Image light,int index,Vector2Int pan,float alpha)
+        private void Draw(RenderTexture target,long slot,double p)
         {
-            var theme=catalog.themes[index];image.sprite=theme.scene;
-            image.rectTransform.sizeDelta=new Vector2(1408,2816);
-            image.rectTransform.anchoredPosition=new Vector2((-CropLeft+pan.x)*Scale,(theme.cropTop-pan.y)*Scale);
-            image.color=new Color(1,1,1,alpha);
-            light.sprite=theme.light;light.rectTransform.sizeDelta=new Vector2(288,1120);
-            light.rectTransform.anchoredPosition=new Vector2(208,-80);
-            light.color=new Color(1,1,1,.12f*alpha);
+            var theme=catalog.themes[slot%5];int direction=FantasyBackgroundPolicy.Direction(slot,91,seed);
+            material.SetTexture("_Far",theme.far);material.SetTexture("_Mid",theme.mid);
+            material.SetTexture("_Platform",theme.platform);material.SetTexture("_Near",theme.near);
+            SetRect("_FarRect",FantasyBackgroundPolicy.Plane(p,direction,1.16f,.30f));
+            SetRect("_MidRect",FantasyBackgroundPolicy.Plane(p,direction,1.36f,.62f));
+            SetRect("_NearRect",FantasyBackgroundPolicy.Plane(p,direction,1.60f,1.60f));
+            int run=FantasyBackgroundPolicy.Direction(slot,314,seed);
+            material.SetTexture("_Rabbit",run==1?catalog.rabbitRight:catalog.rabbitLeft);
+            material.SetFloat("_RabbitX",FantasyBackgroundPolicy.RabbitX(p,run));material.SetFloat("_Frame",FrameIndex);
+            Graphics.Blit(null,target,material,0);
         }
-        private static Image MakeImage(string name,Transform parent)
+        private void SetRect(string name,RectInt r) => material.SetVector(name,new Vector4(r.x,r.y,r.width,r.height));
+        private void OnDisable() { wasVisible=false; Release(); if(output!=null) output.gameObject.SetActive(false); }
+        private void OnDestroy() { Release(); if(output!=null) Destroy(output.gameObject); }
+        private void Release()
         {
-            var image=new GameObject(name,typeof(RectTransform),typeof(CanvasRenderer),typeof(Image)).GetComponent<Image>();
-            image.transform.SetParent(parent,false);image.raycastTarget=false;image.type=Image.Type.Simple;
-            var r=image.rectTransform;r.anchorMin=r.anchorMax=r.pivot=new Vector2(0,1);
-            return image;
+            if(output!=null) output.texture=null;
+            ReleaseTexture(ref current);ReleaseTexture(ref previous);ReleaseTexture(ref final);
+            if(material!=null) Destroy(material); material=null;
         }
+        private static void ReleaseTexture(ref RenderTexture rt) { if(rt==null) return;rt.Release();Destroy(rt);rt=null; }
     }
 }

@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -11,42 +9,41 @@ namespace ANIMOL.FiveThemeMenu.Tests
 {
     public class MenuThemePolicyTests
     {
-        [Test] public void ImportedSpritesMatchManifestAndPixelSettings()
+        [Test] public void V6ImportsPreserveAllTwentyTwoOriginalPNGs()
         {
-            var m=JObject.Parse(File.ReadAllText("Docs/FiveThemeMenu/Source/manifest.json"));
-            foreach(var p in ((JObject)m["assets"]).Properties()) {
-                string path="Assets/ANIMOL/UI/FiveThemeMenuMaps/Sprites/"+p.Name;
-                using(var sha=SHA256.Create()) Assert.That(BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(path))).Replace("-","").ToLowerInvariant(),Is.EqualTo((string)p.Value["sha256"]),path);
-                var i=(TextureImporter)AssetImporter.GetAtPath(path);
-                Assert.That(i.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(i.spritePixelsPerUnit,Is.EqualTo(32));Assert.That(i.mipmapEnabled,Is.False);Assert.That(i.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));
-            }
-            var c=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
-            Assert.That(c.themes.Select(t=>t.id),Is.EqualTo(m["themeOrder"].Values<string>()));
-            Assert.That(c.themes.Select(t=>t.cropTop),Is.EqualTo(new[]{52,52,48,39,33}));
-            Assert.That(c.themes.All(t=>(t.footY-t.cropTop)*4==1488),Is.True);
-            Assert.That(c.rabbitFrames.Length,Is.EqualTo(8));Assert.That(c.rabbitFrames.All(s=>s.rect.size==new Vector2(24,32)),Is.True);
-        }
-        [Test] public void FiveSecondSlotsAndHalfSecondFadeIncludeLoop()
-        {
-            for(int segment=0;segment<30;segment++) {
-                Assert.That(MenuThemeCycle.IndexAt(segment*5),Is.EqualTo(segment%5));
-                Assert.That(MenuThemeCycle.FadeAt(segment*5+4.5),Is.Zero);
-                Assert.That(MenuThemeCycle.FadeAt(segment*5+4.75),Is.EqualTo(.5f).Within(.0001));
-                Assert.That(MenuThemeCycle.FadeAt(segment*5+4.999),Is.GreaterThan(.997));
-                Assert.That(MenuThemeCycle.FadeAt((segment+1)*5),Is.Zero);
+            var paths=Directory.GetFiles("Assets/ANIMOL/UI/MainUiV6/Textures","*.png");Assert.That(paths.Length,Is.EqualTo(22));
+            foreach(var path in paths) {
+                Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Docs/Inbox/ANIMOL_main_ui_v6/runtime/assets/"+Path.GetFileName(path))));
+                var t=(TextureImporter)AssetImporter.GetAtPath(path.Replace('\\','/'));
+                Assert.That(t.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(t.mipmapEnabled,Is.False);
+                Assert.That(t.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));Assert.That(t.npotScale,Is.EqualTo(TextureImporterNPOTScale.None));
+                foreach(string platform in new[]{"Standalone","Android","iPhone","WebGL"}) Assert.That(t.GetPlatformTextureSettings(platform).overridden,Is.False);
+                var tex=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                Assert.That(new Vector2Int(tex.width,tex.height),Is.EqualTo(path.Contains("rabbit")?new Vector2Int(512,96):new Vector2Int(352,704)));
             }
         }
-        [Test] public void IncomingPanContinuesAtBoundaryAndNeverExposesEitherPortraitViewport()
+        [Test] public void ExactSlotsFramesAndBinaryWipe()
         {
-            var c=Resources.Load<MenuThemeCatalog>("ANIMOLFiveThemeMenu");
-            for(int segment=0;segment<20;segment++) {
-                Assert.That(MenuThemeCycle.PanAt(segment*5-.0001,segment),Is.EqualTo(MenuThemeCycle.PanAt(segment*5,segment)));
-                for(double time=segment*5-.5;time<segment*5+5;time+=.025) {
-                    var pan=MenuThemeCycle.PanAt(time,segment);int crop=c.themes[segment%5].cropTop;
-                    Assert.That(Math.Abs(pan.x),Is.LessThanOrEqualTo(30));Assert.That(Math.Abs(pan.y),Is.LessThanOrEqualTo(4));
-                    Assert.That(41-pan.x,Is.InRange(0,352-270));Assert.That(crop-pan.y,Is.InRange(0,704-600));
-                }
+            for(int i=0;i<30;i++) {
+                Assert.That(FantasyBackgroundPolicy.ThemeAt(i*5),Is.EqualTo(i%5));
+                Assert.That(FantasyBackgroundPolicy.FrameAt(i/14.0+.000001),Is.EqualTo(i%8));
             }
+            for(int y=0;y<704;y+=8) for(int x=0;x<352;x+=8) {
+                Assert.That(FantasyBackgroundPolicy.NewBlock(x,y,0),Is.False);
+                Assert.That(FantasyBackgroundPolicy.NewBlock(x,y,.36),Is.True);
+                Assert.That(FantasyBackgroundPolicy.NewBlock(x,y,.18),Is.EqualTo(FantasyBackgroundPolicy.NewBlock(x+7,y+7,.18)));
+            }
+        }
+        [Test] public void FixedGroundAndIndependentReproducibleDirections()
+        {
+            Assert.That(FantasyBackgroundPolicy.RabbitY+90,Is.EqualTo(526));
+            Assert.That(FantasyBackgroundPolicy.RabbitX(0,1),Is.EqualTo(-64));Assert.That(FantasyBackgroundPolicy.RabbitX(1,1),Is.EqualTo(352));
+            Assert.That(FantasyBackgroundPolicy.RabbitX(0,-1),Is.EqualTo(352));Assert.That(FantasyBackgroundPolicy.RabbitX(1,-1),Is.EqualTo(-64));
+            var pairs=Enumerable.Range(0,100).Select(i=>FantasyBackgroundPolicy.Direction(i,91)+","+FantasyBackgroundPolicy.Direction(i,314)).Distinct().ToArray();
+            Assert.That(pairs.Length,Is.EqualTo(4));
+            for(int i=0;i<100;i++) Assert.That(FantasyBackgroundPolicy.Direction(i,91,42),Is.EqualTo(FantasyBackgroundPolicy.Direction(i,91,42)));
+            Assert.That(FantasyBackgroundPolicy.Plane(1,1,1,0),Is.EqualTo(new RectInt(0,0,352,704)));
+            Assert.That(FantasyBackgroundPolicy.Plane(1,1,1.6f,1.6f).y,Is.GreaterThan(FantasyBackgroundPolicy.Plane(0,1,1.6f,1.6f).y));
         }
     }
 }

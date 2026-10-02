@@ -55,10 +55,9 @@ namespace ANIMOL.PortraitArtV1
                 else Navigation.Navigate(ModeId,false);
             });
             if(!boot) {
-                // Preserve the hidden legacy instance and all presenter references, but let
-                // existing SC01_Lobby return routes resolve to the new mode-selection view.
+                // Retire the legacy visual instance; existing return routes resolve to the active mode view.
                 var old=host.Find(ModeId);
-                if(old!=null && old!=modeScreen?.transform) { old.gameObject.SetActive(false); old.name="PA1_LegacyLobby"; }
+                if(old!=null && old!=modeScreen?.transform) { old.gameObject.SetActive(false); old.name="PA1_RetiredLobby"; Destroy(old.gameObject); }
                 if(modeScreen==null) {modeScreen=Instantiate(ModePrefab,host,false);modeScreen.name=ModeId;}
                 ModeScreen.Back.onClick.AddListener(()=>Navigation.Navigate(StartId,false));
                 ModeScreen.Campaign.onClick.AddListener(()=>Navigation.Navigate("SC02_ThemeSelect"));
