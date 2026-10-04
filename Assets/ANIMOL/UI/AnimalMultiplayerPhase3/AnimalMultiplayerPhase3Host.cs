@@ -33,7 +33,7 @@ namespace ANIMOL.AnimalMultiplayerPhase3
         // and the distinction between null and empty AllowedAnimalIds. No protocol is invented here.
         public bool Open(MultiplayerSelectionRequest request)
         {
-            if (navigation == null || Presenter.IsCommitting || request == null ||
+            if (navigation == null || Presenter.IsCommitting || Presenter.IsMultiplayerModalOpen || request == null ||
                 AnimalUiRules.IsReadonlyMultiplayerFixture(request)) return false;
             context = request.Clone();
             if (navigation.CurrentScreenId != ScreenId) returnScreen = navigation.CurrentScreenId;

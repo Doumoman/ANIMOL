@@ -66,7 +66,7 @@ namespace ANIMOL.AnimalUiV2
 
         public static bool ValidateMultiplayerContext(AnimalCatalog catalog, MultiplayerSelectionRequest multiplayer, out string reason)
         {
-            if (catalog == null || multiplayer == null || string.IsNullOrWhiteSpace(multiplayer.ModeId) ||
+            if (catalog == null || multiplayer == null || string.IsNullOrWhiteSpace(multiplayer.ModeId) || string.IsNullOrWhiteSpace(multiplayer.DisplayName) ||
                 string.IsNullOrWhiteSpace(multiplayer.EntryIntent))
             { reason = "멀티플레이 모드 또는 입장 방식 연결 전"; return false; }
             var requirements = multiplayer.Requirements;
@@ -114,7 +114,18 @@ namespace ANIMOL.AnimalUiV2
             if (!backendReady || !snapshotValid || snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
             { reason = "멀티플레이 사용 권한 또는 스냅샷 버전 연결 전"; return false; }
             if (!ValidateMultiplayerContext(catalog, multiplayer, out reason) || !ValidateMultiplayerSnapshot(snapshot, out reason)) return false;
+            if (!ValidateMultiplayerSnapshotContext(snapshot, multiplayer, out reason)) return false;
             return ValidateLoadout(catalog, snapshot, loadout, AnimalUiMode.MultiplayerAnimalSelect, null, multiplayer, out reason);
+        }
+
+        public static bool ValidateMultiplayerSnapshotContext(AnimalUiSnapshot snapshot, MultiplayerSelectionRequest context, out string reason)
+        {
+            if (!ValidateMultiplayerSnapshot(snapshot, out reason)) return false;
+            if (context == null || string.IsNullOrWhiteSpace(snapshot.ContextId) || snapshot.ContextId != context.ModeId ||
+                string.IsNullOrWhiteSpace(snapshot.PolicyRevision) || snapshot.PolicyRevision != context.Requirements?.PolicyRevision ||
+                string.IsNullOrWhiteSpace(snapshot.EntryIntent) || snapshot.EntryIntent != context.EntryIntent)
+            { reason = "조회한 모드·정책·진입 의도가 현재 문맥과 다릅니다. 새로고침해주세요."; return false; }
+            reason = null; return true;
         }
 
         public static bool IsReadonlyMultiplayerFixture(MultiplayerSelectionRequest multiplayer) => multiplayer != null &&

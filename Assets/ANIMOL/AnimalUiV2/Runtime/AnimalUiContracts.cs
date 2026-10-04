@@ -51,9 +51,10 @@ namespace ANIMOL.AnimalUiV2
     {
         public readonly List<AnimalProgress> Animals = new List<AnimalProgress>();
         public string Revision;
-        // Stage authority must identify the context it actually read. Not used for upgrade snapshots.
+        // Selection authority identifies the context it actually read. Not used for upgrade snapshots.
         public string ContextId;
         public string PolicyRevision;
+        public string EntryIntent; // Multiplayer authority echo; never inferred from the UI request.
         public long? CoinBalance;
         public AnimalProgress Find(string id) => Animals.Find(a => string.Equals(a.AnimalId, id, StringComparison.Ordinal));
     }

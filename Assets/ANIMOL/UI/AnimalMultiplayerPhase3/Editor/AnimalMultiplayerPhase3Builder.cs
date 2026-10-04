@@ -52,7 +52,10 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Editor
                 root.AddComponent<AnimalMultiplayerWidthFit>();
                 var presenter = root.GetComponent<AnimalUiPresenter>();
                 presenter.Catalog = catalog;
-                presenter.Backend = null;
+                var adapter = root.AddComponent<AnimalMultiplayerProjectAdapter>();
+                adapter.Catalog = catalog;
+                adapter.IdMap = AssetDatabase.LoadAssetAtPath<AnimalMultiplayerIdMap>(MapPath);
+                presenter.Backend = adapter;
                 presenter.OpenReadonlyPreviewOnStart = false;
                 var host = root.AddComponent<AnimalMultiplayerPhase3Host>();
                 host.Presenter = presenter;
@@ -66,6 +69,25 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Editor
             }
             finally { PrefabUtility.UnloadPrefabContents(root); }
             Debug.Log("Animal Multiplayer Phase 3 production assets created. Existing operational assets are preserved on rerun.");
+        }
+
+        [MenuItem("ANIMOL/Animal UI v2/Connect production Multiplayer Phase 3 adapter")]
+        public static void ConnectProjectAdapter()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
+            var root = PrefabUtility.LoadPrefabContents(PrefabPath);
+            try
+            {
+                var presenter = root.GetComponent<AnimalUiPresenter>();
+                if (presenter.Backend != null && !(presenter.Backend is AnimalMultiplayerProjectAdapter))
+                    throw new InvalidOperationException("Existing project backend is preserved; review its binding first.");
+                var adapter = root.GetComponent<AnimalMultiplayerProjectAdapter>() ?? root.AddComponent<AnimalMultiplayerProjectAdapter>();
+                adapter.Catalog = presenter.Catalog;
+                adapter.IdMap = root.GetComponent<AnimalMultiplayerPhase3Host>().IdMap;
+                presenter.Backend = adapter;
+                PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
         }
 
         private static void Stretch(RectTransform rect)

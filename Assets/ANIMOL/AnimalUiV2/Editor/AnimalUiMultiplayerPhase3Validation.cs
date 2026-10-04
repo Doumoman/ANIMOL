@@ -37,7 +37,7 @@ namespace ANIMOL.AnimalUiV2.Editor
             var loadout = new AnimalLoadout { Ground = "Rabbit", Special = "DreamFox", Air = "Swallow" };
             var context = new MultiplayerSelectionRequest
             {
-                ModeId = "EDITOR_MODE_ONLY", EntryIntent = "EDITOR_INTENT_ONLY", InitialLoadout = loadout.Clone(),
+                ModeId = "EDITOR_MODE_ONLY", DisplayName = "EDITOR ONLY", EntryIntent = "EDITOR_INTENT_ONLY", InitialLoadout = loadout.Clone(),
                 Requirements = new SelectionRequirements
                 {
                     RequiredRoles = new[] { AnimalRole.Ground, AnimalRole.Special, AnimalRole.Air },
@@ -149,7 +149,8 @@ namespace ANIMOL.AnimalUiV2.Editor
 
         private static AnimalUiSnapshot CreateGrantedSnapshot(AnimalCatalog catalog)
         {
-            var snapshot = new AnimalUiSnapshot { Revision = "EDITOR_SNAPSHOT_ONLY" };
+            var snapshot = new AnimalUiSnapshot { Revision = "EDITOR_SNAPSHOT_ONLY", ContextId = "EDITOR_MODE_ONLY",
+                PolicyRevision = "EDITOR_POLICY_ONLY", EntryIntent = "EDITOR_INTENT_ONLY" };
             foreach (var animal in catalog.Animals) snapshot.Animals.Add(new AnimalProgress
             { AnimalId = animal.Id, Implemented = true, HasContextPermission = true, CanUseInContext = true });
             return snapshot;

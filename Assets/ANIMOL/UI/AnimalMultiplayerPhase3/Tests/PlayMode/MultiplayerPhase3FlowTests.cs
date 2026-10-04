@@ -48,7 +48,7 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
                 Assert.IsNull(host.Context.ModeId); Assert.IsNull(host.Context.EntryIntent);
                 Assert.IsNull(host.Context.Requirements.PolicyRevision);
                 Assert.That(host.Context.Requirements.RepresentativeRole, Is.EqualTo((AnimalRole)(-1)));
-                Assert.IsNull(P.Backend); Assert.That(P.Draft.Fingerprint(), Is.EqualTo("||"));
+                Assert.That(P.Backend, Is.TypeOf<AnimalMultiplayerProjectAdapter>()); Assert.That(P.Draft.Fingerprint(), Is.EqualTo("||"));
                 Assert.IsFalse(P.View.Primary.interactable);
                 P.View.Primary.onClick.Invoke(); Assert.IsFalse(P.View.Modal.activeSelf);
                 Assert.That(source.PreviewParticipantCount, Is.EqualTo(participants));
@@ -124,7 +124,8 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
                 Requirements = new SelectionRequirements { RequiredRoles = new[] { AnimalRole.Ground, AnimalRole.Special, AnimalRole.Air }, RepresentativeRole = AnimalRole.Air, PolicyRevision = "TEST_ONLY_POLICY" }
             };
             var backend = host.gameObject.AddComponent<MultiplayerPhase3Fixture>();
-            backend.Snapshot = new AnimalUiSnapshot { Revision = "TEST_ONLY_READ" };
+            backend.Snapshot = new AnimalUiSnapshot { Revision = "TEST_ONLY_READ", ContextId = context.ModeId,
+                PolicyRevision = context.Requirements.PolicyRevision, EntryIntent = context.EntryIntent };
             string longEffect = string.Join("\n", Enumerable.Repeat("장문 표시 검사 전용입니다. 실제 서비스의 능력이나 레벨이 아닙니다.", 25));
             foreach (var animal in P.Catalog.Animals)
                 backend.Snapshot.Animals.Add(new AnimalProgress { AnimalId = animal.Id, Implemented = animal.Id != "Otter",

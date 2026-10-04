@@ -20,6 +20,7 @@ namespace ANIMOL.AnimalUiV2
         public event Action<AnimalUiCommitResult> UpgradeAccepted;
         public event Action CampaignRefreshRequested;
         public bool IsCommitting => _pending || _uncertain;
+        public bool IsMultiplayerModalOpen => _mode == AnimalUiMode.MultiplayerAnimalSelect && _modalVisible;
         public AnimalLoadout Draft => _draft.Clone();
         public string InspectedAnimalId => _animalId;
 
@@ -106,7 +107,7 @@ namespace ANIMOL.AnimalUiV2
         }
         private bool BeginOpen(AnimalUiMode mode)
         {
-            if (IsCommitting) return false;
+            if (IsCommitting || IsMultiplayerModalOpen) return false;
             string error = null;
             if (Catalog == null || !Catalog.IsValid(out error))
             { Debug.LogError(Catalog == null ? "AnimalCatalog가 연결되지 않았습니다." : error, this); return false; }
@@ -146,6 +147,7 @@ namespace ANIMOL.AnimalUiV2
             _reads = new CancellationTokenSource(); var token = _reads.Token;
             _activeQuote = _passiveQuote = null;
             _snapshotValid = false;
+            if (_mode == AnimalUiMode.MultiplayerAnimalSelect) _snapshot = new AnimalUiSnapshot();
             if (Backend == null)
             { _snapshot = new AnimalUiSnapshot(); _status = "데이터 연결 전 · 15종 일러스트 열람"; Render(); return; }
             _reading = true; _status = "최신 정보를 확인하고 있습니다."; Render();
@@ -157,7 +159,7 @@ namespace ANIMOL.AnimalUiV2
                 if (!IsCurrent(generation, epoch, token)) return;
                 if (_mode == AnimalUiMode.MultiplayerAnimalSelect &&
                     (!AnimalUiRules.ValidateMultiplayerContext(Catalog, _multiplayer, out var contextError) ||
-                     !AnimalUiRules.ValidateMultiplayerSnapshot(snapshot, out contextError)))
+                     !AnimalUiRules.ValidateMultiplayerSnapshotContext(snapshot, _multiplayer, out contextError)))
                     throw new InvalidOperationException(contextError);
                 _snapshot = snapshot ?? throw new InvalidOperationException("동물 스냅샷이 비어 있습니다.");
                 _snapshotValid = true;
@@ -455,7 +457,7 @@ namespace ANIMOL.AnimalUiV2
             { _uncertain = true; ShowRetryModal(); return; }
             _uncertain = false; _modalVisible = false; View.Modal.SetActive(false);
             if (result.Snapshot != null && (_commitMode != AnimalUiMode.MultiplayerAnimalSelect ||
-                AnimalUiRules.ValidateMultiplayerSnapshot(result.Snapshot, out _))) _snapshot = result.Snapshot;
+                AnimalUiRules.ValidateMultiplayerSnapshotContext(result.Snapshot, _multiplayer, out _))) _snapshot = result.Snapshot;
             _status = result.Message ?? (result.Status == CommitStatus.Accepted ? "요청이 승인되었습니다." : "요청을 완료하지 못했습니다.");
             if (result.Status != CommitStatus.Accepted && _commitMode != AnimalUiMode.CharacterUpgrade)
             {

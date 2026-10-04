@@ -18,7 +18,10 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
             var root = AssetDatabase.LoadAssetAtPath<GameObject>(AnimalMultiplayerPhase3Builder.PrefabPath);
             Assert.NotNull(root);
             var p = root.GetComponent<AnimalUiPresenter>();
-            Assert.IsFalse(p.OpenReadonlyPreviewOnStart); Assert.IsNull(p.Backend);
+            Assert.IsFalse(p.OpenReadonlyPreviewOnStart); Assert.That(p.Backend, Is.TypeOf<AnimalMultiplayerProjectAdapter>());
+            var adapter = (AnimalMultiplayerProjectAdapter)p.Backend;
+            Assert.That(adapter.Catalog, Is.SameAs(p.Catalog));
+            Assert.That(AssetDatabase.GetAssetPath(adapter.IdMap), Is.EqualTo(AnimalMultiplayerPhase3Builder.MapPath));
             Assert.That(AssetDatabase.GetAssetPath(p.Catalog), Is.EqualTo(AnimalMultiplayerPhase3Builder.CatalogPath));
             Assert.IsEmpty(root.GetComponentsInChildren<Canvas>(true));
             Assert.IsEmpty(root.GetComponentsInChildren<EventSystem>(true));
@@ -55,6 +58,24 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
                 var settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings);
                 Assert.That(settings.spriteMeshType, Is.EqualTo(SpriteMeshType.FullRect));
             }
+        }
+        [Test] public void MappingRejectsUnknownAmbiguousAndIncompleteIdentityInBothDirections()
+        {
+            var original = AssetDatabase.LoadAssetAtPath<AnimalMultiplayerIdMap>(AnimalMultiplayerPhase3Builder.MapPath);
+            var map = UnityEngine.Object.Instantiate(original);
+            try
+            {
+                Assert.IsNull(map.ToArtId("rabbit")); Assert.IsNull(map.ToArtId("DEV_GROUND"));
+                Assert.IsNull(map.ToProjectAnimal(null)); Assert.IsNull(map.ToProjectAnimal(" "));
+                var rabbit = map.ToProjectAnimal("Rabbit");
+                map.Entries = new[] { new AnimalMultiplayerIdMap.Entry { ArtId = "Rabbit", CampaignAnimal = rabbit },
+                    new AnimalMultiplayerIdMap.Entry { ArtId = "Wolf", CampaignAnimal = rabbit } };
+                Assert.IsNull(map.ToArtId("RABBIT")); Assert.IsNull(map.ToProjectAnimal("Rabbit"));
+                map.Entries = new[] { new AnimalMultiplayerIdMap.Entry { ArtId = null, CampaignAnimal = rabbit } };
+                Assert.IsNull(map.ToArtId("RABBIT")); Assert.IsNull(map.ToProjectAnimal(null));
+                map.Entries = null; Assert.IsNull(map.ToArtId("RABBIT")); Assert.IsNull(map.ToProjectAnimal("Rabbit"));
+            }
+            finally { UnityEngine.Object.DestroyImmediate(map); }
         }
     }
 }

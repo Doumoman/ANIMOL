@@ -11187,6 +11187,7 @@ GameObject:
   - component: {fileID: 5704342098195794582}
   - component: {fileID: 2417977798309208325}
   - component: {fileID: 2273993163396096294}
+  - component: {fileID: 3372939121344709952}
   m_Layer: 0
   m_Name: MultiplayerAnimalSelect
   m_TagString: Untagged
@@ -11298,7 +11299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.AnimalUiV2::ANIMOL.AnimalUiV2.AnimalUiPresenter
   Catalog: {fileID: 11400000, guid: 9763955ac86bb6c47aeeebcdeda4831a, type: 2}
   View: {fileID: 4406916761112763631}
-  Backend: {fileID: 0}
+  Backend: {fileID: 3372939121344709952}
   PreviewMode: 2
   OpenReadonlyPreviewOnStart: 0
 --- !u!114 &2417977798309208325
@@ -11326,4 +11327,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ANIMOL.AnimalMultiplayerPhase3::ANIMOL.AnimalMultiplayerPhase3.AnimalMultiplayerPhase3Host
   Presenter: {fileID: 5704342098195794582}
+  IdMap: {fileID: 11400000, guid: 64cc279183eab9046a9d27f476b46795, type: 2}
+--- !u!114 &3372939121344709952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8988676800803716790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0106e1b83fa48b94f890c4347a01eed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.AnimalMultiplayerPhase3::ANIMOL.AnimalMultiplayerPhase3.AnimalMultiplayerProjectAdapter
+  Catalog: {fileID: 11400000, guid: 9763955ac86bb6c47aeeebcdeda4831a, type: 2}
   IdMap: {fileID: 11400000, guid: 64cc279183eab9046a9d27f476b46795, type: 2}
