@@ -20,13 +20,18 @@ namespace ANIMOL.AnimalUiV2.Editor
         private static Sprite _panel, _primary, _secondary, _check, _lock;
 
         [MenuItem("ANIMOL/Animal UI v2/Build Preview")]
-        public static void BuildPreview() => BuildDemo(false);
+        public static void BuildPreview() => BuildDemo(null);
 
         [MenuItem("ANIMOL/Animal UI v2/Build Upgrade Phase 1")]
-        public static void BuildUpgradePhase1() => BuildDemo(true);
+        public static void BuildUpgradePhase1() => BuildDemo(AnimalUiMode.CharacterUpgrade);
 
-        private static void BuildDemo(bool upgradeOnly)
+        [MenuItem("ANIMOL/Animal UI v2/Build Stage Phase 2")]
+        public static void BuildStagePhase2() => BuildDemo(AnimalUiMode.StageAnimalSelect);
+
+        private static void BuildDemo(AnimalUiMode? singleMode)
         {
+            bool upgradeOnly = singleMode == AnimalUiMode.CharacterUpgrade;
+            bool stageOnly = singleMode == AnimalUiMode.StageAnimalSelect;
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Play 모드를 종료한 뒤 프리뷰를 생성해주세요.");
             // Never replace/unload the user's loaded scenes. Temporary content is built in an additive scene only.
             var originalActive = SceneManager.GetActiveScene();
@@ -40,30 +45,36 @@ namespace ANIMOL.AnimalUiV2.Editor
                 _secondary = Sprite("Frames/UI_Common_Button_Secondary.png"); _check = Sprite("Icons/UI_Icon_Check.png"); _lock = Sprite("Icons/UI_Icon_Lock.png");
                 var catalog = BuildCatalog();
                 if (upgradeOnly) AnimalUiV2Validation.RunUpgradeContractChecks(catalog);
+                else if (stageOnly) AnimalUiV2Validation.RunStageContractChecks(catalog);
                 else AnimalUiV2Validation.RunContractChecks(catalog);
                 temporary = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
                 SceneManager.SetActiveScene(temporary);
-                var demoRoot = new GameObject(upgradeOnly ? "AnimalUpgradePhase1ReadonlyDemo" : "AnimalUiV2ReadonlyDemo");
+                var demoRoot = new GameObject(upgradeOnly ? "AnimalUpgradePhase1ReadonlyDemo" : stageOnly ? "AnimalStagePhase2ReadonlyDemo" : "AnimalUiV2ReadonlyDemo");
                 var screens = new List<AnimalUiPresenter>();
-                var modes = upgradeOnly ? new[] { AnimalUiMode.CharacterUpgrade } : (AnimalUiMode[])Enum.GetValues(typeof(AnimalUiMode));
+                var modes = singleMode.HasValue ? new[] { singleMode.Value } : (AnimalUiMode[])Enum.GetValues(typeof(AnimalUiMode));
                 foreach (AnimalUiMode mode in modes)
                 {
                     var instance = BuildScreen(mode, catalog);
+                    if (stageOnly) instance.OpenReadonlyPreviewOnStart = false;
                     var prefabPath = Generated + "/" + mode + ".prefab";
                     PrefabUtility.SaveAsPrefabAsset(instance.gameObject, prefabPath);
                     instance.transform.SetParent(demoRoot.transform, false);
-                    instance.gameObject.SetActive(mode == AnimalUiMode.CharacterUpgrade); screens.Add(instance);
+                    instance.gameObject.SetActive(singleMode.HasValue ? mode == singleMode.Value : mode == AnimalUiMode.CharacterUpgrade); screens.Add(instance);
                 }
                 if (upgradeOnly)
                 {
                     var host = demoRoot.AddComponent<AnimalUpgradePhase1DemoHost>(); host.Screen = screens[0];
+                }
+                else if (stageOnly)
+                {
+                    var host = demoRoot.AddComponent<AnimalStagePhase2DemoHost>(); host.Screen = screens[0];
                 }
                 else
                 {
                     var switcher = demoRoot.AddComponent<AnimalUiDemoSwitcher>(); switcher.Screens = screens.ToArray();
                 }
                 EnsureDemoEventSystem();
-                string sceneName = upgradeOnly ? "AnimalUpgradePhase1Demo.unity" : "AnimalUiV2Demo.unity";
+                string sceneName = upgradeOnly ? "AnimalUpgradePhase1Demo.unity" : stageOnly ? "AnimalStagePhase2Demo.unity" : "AnimalUiV2Demo.unity";
                 if (!EditorSceneManager.SaveScene(temporary, Generated + "/" + sceneName))
                     throw new IOException("프리뷰 씬을 저장하지 못했습니다.");
                 Debug.Log("ANIMOL Animal UI 생성 완료. Generated/" + sceneName + "를 열고 Play를 누르세요. Backend 미연결 상태에서는 일러스트 열람만 가능합니다.");
@@ -147,6 +158,7 @@ namespace ANIMOL.AnimalUiV2.Editor
             view.HeroRole = Text("Role", hero.transform, 348, 146, 564, 46, "지상 동물", 30, Teal);
             view.HeroDescription = Text("Description", hero.transform, 348, 208, 564, 72, "동물 초상과 정보를 확인합니다.", 24, Ink);
             view.HeroState = Text("Availability", hero.transform, 348, 292, 564, 68, "데이터 연결 전", 26, Teal);
+            view.SelectionDetailsButton = Button("SelectionDetails", hero.transform, 348, 292, 300, 132, "동물 정보", false);
             var tabs = Node("RoleTabs", content.transform); Top(Rect(tabs), 772, 972, 132); view.TabsPanel = Rect(tabs);
             view.RoleTabs = new Button[3]; view.RoleLabels = new Text[3];
             for (int i = 0; i < 3; i++)
@@ -208,7 +220,7 @@ namespace ANIMOL.AnimalUiV2.Editor
             view.ModalBody = Text("Body", viewport.transform, 0, 0, 852, 424, "설명", 32, Ink, TextAnchor.UpperLeft);
             var fitter = view.ModalBody.gameObject.AddComponent<ContentSizeFitter>(); fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             var bodyRect = Rect(view.ModalBody.gameObject); bodyRect.pivot = new Vector2(0, 1); bodyRect.anchorMin = bodyRect.anchorMax = new Vector2(0, 1);
-            var scrollRect = scroll.GetComponent<ScrollRect>(); scrollRect.viewport = Rect(viewport); scrollRect.content = bodyRect; scrollRect.movementType = ScrollRect.MovementType.Clamped;
+            var scrollRect = scroll.GetComponent<ScrollRect>(); scrollRect.viewport = Rect(viewport); scrollRect.content = bodyRect; scrollRect.movementType = ScrollRect.MovementType.Clamped; view.ModalBodyScroll = scrollRect;
             view.ModalCancel = Button("Cancel", panel.transform, 60, 620, 402, 132, "취소", false); view.ModalCancelLabel = view.ModalCancel.GetComponentInChildren<Text>();
             view.ModalConfirm = Button("Confirm", panel.transform, 510, 620, 402, 132, "확정", true); view.ModalConfirmLabel = view.ModalConfirm.GetComponentInChildren<Text>();
         }

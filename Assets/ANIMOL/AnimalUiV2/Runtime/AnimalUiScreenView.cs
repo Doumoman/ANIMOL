@@ -21,6 +21,7 @@ namespace ANIMOL.AnimalUiV2
         public Text HeroRole;
         public Text HeroDescription;
         public Text HeroState;
+        public Button SelectionDetailsButton;
         public Button[] RoleTabs;
         public Text[] RoleLabels;
         public RectTransform RosterContent;
@@ -45,6 +46,7 @@ namespace ANIMOL.AnimalUiV2
         public GameObject Modal;
         public Text ModalTitle;
         public Text ModalBody;
+        public ScrollRect ModalBodyScroll;
         public Text ModalConfirmLabel;
         public Button ModalConfirm;
         public Button ModalCancel;
@@ -59,23 +61,29 @@ namespace ANIMOL.AnimalUiV2
             SelectionInfo.gameObject.SetActive(!upgrade);
             InfoPanel.gameObject.SetActive(!upgrade);
             Balances.gameObject.SetActive(upgrade);
-            PrimaryLabel.text = upgrade ? "강화 정보 새로고침" : mode == AnimalUiMode.StageAnimalSelect ? "선택 완료" : "대기방으로";
+            bool stage = mode == AnimalUiMode.StageAnimalSelect;
+            PrimaryLabel.text = upgrade ? "강화 정보 새로고침" : stage ? "스테이지 시작" : "대기방으로";
+            if (SelectionDetailsButton != null) SelectionDetailsButton.gameObject.SetActive(stage);
             // Header and footer remain fixed inside Safe Area; the middle content scrolls on shorter screens.
-            Top(TabsPanel, upgrade ? 0 : 772, 132);
-            Top(RosterPanel, upgrade ? 156 : 928, upgrade ? 284 : 592);
-            Top(HeroPanel, upgrade ? 464 : 328, 420);
+            Top(TabsPanel, upgrade ? 0 : stage ? 940 : 772, 132);
+            Top(RosterPanel, upgrade ? 156 : stage ? 1096 : 928, upgrade ? 284 : 592);
+            Top(HeroPanel, upgrade ? 464 : 328, stage ? 588 : 420);
             Top(TracksPanel, 908, 744);
-            Top(InfoPanel, 1544, 164);
-            BodyContent.sizeDelta = new Vector2(0, upgrade ? 1664 : 1720);
+            Top(InfoPanel, stage ? 1712 : 1544, 164);
+            SelectionInfo.rectTransform.anchoredPosition = new Vector2(60, stage ? -42 : -60);
+            SelectionInfo.rectTransform.sizeDelta = new Vector2(852, stage ? 80 : 44);
+            BodyContent.sizeDelta = new Vector2(0, upgrade ? 1664 : stage ? 1888 : 1720);
+            var stateRect = HeroState.rectTransform;
+            stateRect.anchoredPosition = new Vector2(stage ? 60 : 348, stage ? -448 : -292);
+            stateRect.sizeDelta = new Vector2(stage ? 852 : 564, 68);
             RosterLayout.cellSize = upgrade ? new Vector2(180, 284) : new Vector2(308, 284);
             RosterLayout.spacing = upgrade ? new Vector2(18, 0) : new Vector2(24, 24);
             RosterLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             RosterLayout.constraintCount = upgrade ? 5 : 3;
             RosterContent.sizeDelta = new Vector2(972, upgrade ? 284 : 592);
             RosterScroll.horizontal = false; RosterScroll.vertical = false;
-            // A non-scrolling nested ScrollRect still captures drag events from the five cards.
-            // Let upgrade roster gestures reach the outer content scroll.
-            RosterScroll.enabled = !upgrade;
+            // This roster never scrolls independently; route card drags to BodyScroll.
+            RosterScroll.enabled = false;
             BodyScroll.verticalNormalizedPosition = 1;
         }
         private static void Top(RectTransform rect, float top, float height)

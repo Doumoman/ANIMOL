@@ -75,7 +75,7 @@ namespace ANIMOL.AnimalUiV2
     {
         public string StageId;
         public string DisplayName;
-        public CampaignSelectionPolicy Policy = CampaignSelectionPolicy.AllowedPool;
+        public CampaignSelectionPolicy Policy = CampaignSelectionPolicy.Fixed;
         public string[] AllowedAnimalIds = Array.Empty<string>();
         public AnimalLoadout FixedLoadout = new AnimalLoadout();
         public AnimalLoadout InitialLoadout = new AnimalLoadout();
@@ -151,6 +151,12 @@ namespace ANIMOL.AnimalUiV2
         public string SnapshotRevision;
         public string PolicyRevision;
         public AnimalLoadout Loadout;
+        // The presenter keeps its request private; services receive copies, including on retry.
+        public SelectionCommitRequest Clone() => new SelectionCommitRequest
+        {
+            ActionId = ActionId, ContextId = ContextId, SnapshotRevision = SnapshotRevision,
+            PolicyRevision = PolicyRevision, Loadout = Loadout?.Clone()
+        };
     }
 
     public sealed class AnimalUiCommitResult
@@ -161,6 +167,9 @@ namespace ANIMOL.AnimalUiV2
         // Backend-owned stage-entry / room-entry receipt. Only Accepted emits navigation.
         public string AcceptanceToken;
         public AnimalLoadout AcceptedLoadout;
+        // Phase 2 maps these from the actual stage-entry receipt, never from a guessed UI success.
+        public string AcceptedContextId;
+        public string AcceptedPolicyRevision;
     }
 
     public sealed class AnimalUiReadRequest

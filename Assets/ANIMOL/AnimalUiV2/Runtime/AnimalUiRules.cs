@@ -4,6 +4,64 @@ namespace ANIMOL.AnimalUiV2
 {
     public static class AnimalUiRules
     {
+        public static bool ValidateFixedStageContext(AnimalCatalog catalog, StageSelectionRequest stage, out string reason)
+        {
+            if (catalog == null || stage == null || string.IsNullOrWhiteSpace(stage.StageId))
+            { reason = "스테이지 연결 전"; return false; }
+            if (stage.Policy != CampaignSelectionPolicy.Fixed)
+            { reason = "2단계 캠페인은 지정 동물 편성만 지원합니다."; return false; }
+            var requirements = stage.Requirements;
+            if (requirements == null || string.IsNullOrWhiteSpace(requirements.PolicyRevision))
+            { reason = "스테이지 정책 버전 연결 전"; return false; }
+            if (requirements.RequiredRoles == null || requirements.RequiredRoles.Length != 3 ||
+                !Enum.IsDefined(typeof(AnimalRole), requirements.RepresentativeRole))
+            { reason = "지상·특수·공중 지정 슬롯을 확인해주세요."; return false; }
+            var roles = new System.Collections.Generic.HashSet<AnimalRole>();
+            foreach (var role in requirements.RequiredRoles)
+            {
+                if (!Enum.IsDefined(typeof(AnimalRole), role) || !roles.Add(role))
+                { reason = "지정 슬롯 설정을 확인해주세요."; return false; }
+                var animal = catalog.Find(stage.FixedLoadout?.Get(role));
+                if (animal == null || animal.Role != role)
+                { reason = RoleName(role) + " 지정 동물 연결 전"; return false; }
+            }
+            reason = null; return true;
+        }
+
+        // Shared by button, confirmation, commit and the phase-2 adapter dispatch guard.
+        public static bool CanConfirmFixedStage(AnimalCatalog catalog, AnimalUiSnapshot snapshot, AnimalLoadout loadout,
+            StageSelectionRequest stage, bool backendReady, bool snapshotValid, out string reason)
+        {
+            if (!backendReady || !snapshotValid || snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
+            { reason = "스테이지 사용 권한 또는 스냅샷 버전 연결 전"; return false; }
+            if (!ValidateFixedStageContext(catalog, stage, out reason)) return false;
+            if (loadout == null || loadout.Fingerprint() != stage.FixedLoadout.Fingerprint())
+            { reason = "스테이지가 지정한 편성과 일치하지 않습니다."; return false; }
+            return ValidateLoadout(catalog, snapshot, loadout, AnimalUiMode.StageAnimalSelect, stage, null, out reason);
+        }
+
+        public static bool ValidateFixedStageDispatch(AnimalCatalog catalog, AnimalUiSnapshot snapshot,
+            StageSelectionRequest stage, SelectionCommitRequest request, out string reason)
+        {
+            if (!CanConfirmFixedStage(catalog, snapshot, request?.Loadout, stage, true, true, out reason)) return false;
+            if (string.IsNullOrWhiteSpace(request.ActionId) || request.ContextId != stage.StageId ||
+                string.IsNullOrWhiteSpace(request.SnapshotRevision) || request.SnapshotRevision != snapshot.Revision ||
+                string.IsNullOrWhiteSpace(request.PolicyRevision) || request.PolicyRevision != stage.Requirements.PolicyRevision)
+            { reason = "요청의 스테이지·스냅샷·정책 버전이 일치하지 않습니다."; return false; }
+            reason = null; return true;
+        }
+
+        public static bool IsAcceptedFixedStageResult(AnimalCatalog catalog, AnimalUiSnapshot snapshot,
+            StageSelectionRequest stage, SelectionCommitRequest request, AnimalUiCommitResult result, out string reason)
+        {
+            if (!ValidateFixedStageDispatch(catalog, snapshot, stage, request, out reason)) return false;
+            if (result == null || result.Status != CommitStatus.Accepted || string.IsNullOrWhiteSpace(result.AcceptanceToken) ||
+                result.AcceptedContextId != request.ContextId || result.AcceptedPolicyRevision != request.PolicyRevision ||
+                result.AcceptedLoadout == null || result.AcceptedLoadout.Fingerprint() != request.Loadout.Fingerprint())
+            { reason = "스테이지 입장 승인 내역을 다시 확인해주세요."; return false; }
+            return CanConfirmFixedStage(catalog, result.Snapshot ?? snapshot, result.AcceptedLoadout, stage, true, true, out reason);
+        }
+
         // Used by the purchase button, confirmation and commit. The backend still owns charging.
         public static bool CanPurchaseUpgrade(AnimalCatalog catalog, AnimalUiSnapshot snapshot, UpgradeQuote quote,
             bool backendReady, bool snapshotValid, out string reason)
