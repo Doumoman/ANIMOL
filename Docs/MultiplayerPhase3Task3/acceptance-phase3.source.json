@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "project": "ANIMOL",
+  "phase": 3,
+  "title": "Multiplayer pre-room animal selection",
+  "scope": "Existing multiplayer host -> select Ground/Special/Air draft -> actual authoritative room-entry acceptance -> existing waiting-room flow",
+  "rules": {
+    "players": "4-8 via existing mode service",
+    "cross_player_duplicate_animals": "allowed",
+    "campaign": "Fixed; preserve phase 2",
+    "growth": "preserve phase 1",
+    "required_roles": [
+      "Ground",
+      "Special",
+      "Air"
+    ],
+    "new_matchmaking_or_waiting_room_system": false
+  },
+  "production_environment": {
+    "actual_project_connected": false,
+    "unity_editor_available": false,
+    "actual_backend_connected": false,
+    "actual_room_entry_executed": false,
+    "status": "not_run"
+  },
+  "evidence_policy": "Standalone model/HTML/source checks never mark these production cases passed. Record actual evidence per case after running in the project.",
+  "cases": [
+    {
+      "id": "P3-HOST-01",
+      "area": "Host",
+      "given": "실제 기존 멀티플레이 진입 경로",
+      "when": "동물 선택 창을 연다",
+      "expected": "실제 ModeId/DisplayName/EntryIntent/InitialLoadout과 모드 정책을 전달한다. 시안 값을 운영 데이터로 복사하지 않는다.",
+      "method": "host request capture + current catalog/intent contract review",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-HOST-02",
+      "area": "Host",
+      "given": "요청 전 임시 편성을 바꾼 상태",
+      "when": "뒤로 또는 취소한다",
+      "expected": "원래 편성을 반환하고 기존 진입 화면으로 복귀한다. 계정/저장 변경, 입장 서비스, 대기방 이동은 0회다.",
+      "method": "initial/draft/save comparison + service/navigation counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-HOST-03",
+      "area": "Host",
+      "given": "PREVIEW_ONLY 데모와 운영 프리팹",
+      "when": "운영 씬의 진입과 의존성을 확인한다",
+      "expected": "운영 자동 시안 열기를 끈다. 데모 Host/EventSystem/권한 예시를 운영에 연결하지 않는다. 실제 호스트만 문맥을 전달한다.",
+      "method": "scene/prefab dependency review + runtime host request capture",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ART-01",
+      "area": "Art",
+      "given": "최신 v17 원본 15종 아트와 실제 모듈 카탈로그",
+      "when": "파일과 실제 ID 매핑을 확인한다",
+      "expected": "원본 PNG 바이트와 128x160 전체 캔버스·여백·공용 16색을 유지한다. 15종 안정 ID와 프로젝트 ID는 명시적인 양방향 매핑이다.",
+      "method": "SHA-256/dimensions/palette + bidirectional mapping roundtrip",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ART-02",
+      "area": "Art",
+      "given": "1080x1920/1080x2400 및 Safe Area",
+      "when": "역할 탭·카드·큰 초상·3슬롯·장문 정보·확인 모달을 본다",
+      "expected": "귀·핀·날개를 추가로 자르지 않는다. Single/Full Rect/Point/무압축/mipmap 없음/preserveAspect를 사용하며 하단 버튼과 긴 실제 이름이 접근 가능하다.",
+      "method": "Unity Game View screenshots + importer/prefab inspection",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-DATA-01",
+      "area": "Data",
+      "given": "성장 또는 능력 정보가 미정인 동물",
+      "when": "카드와 상세를 열람한다",
+      "expected": "15종 열람은 가능하며 미정 레벨은 --, 설명은 설정 대기로 표시한다. 능력·해금·가격·방 인원·보유 수를 임의로 운영 값에 채우지 않는다.",
+      "method": "actual catalog/read response fixtures + screenshots",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-01",
+      "area": "Selection",
+      "given": "각 역할에서 실제 권한이 있는 동물",
+      "when": "탭과 카드를 바꿔 선택한다",
+      "expected": "Ground/Special/Air 해당 임시 슬롯만 바뀐다. 계정/저장 편성과 입장 서비스 호출은 변경되지 않는다. 다른 역할 슬롯과 현재 모드/진입 의도를 유지한다.",
+      "method": "draft role comparison + save/service counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-02",
+      "area": "Selection",
+      "given": "Implemented/HasContextPermission/CanUseInContext 중 하나가 false인 동물",
+      "when": "열람과 슬롯 선택을 시도한다",
+      "expected": "아트 열람은 가능하지만 슬롯 선택과 해당 편성 입장은 차단한다. 실제 불가 이유를 표시한다.",
+      "method": "permission truth table fixtures + dispatch counter",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-03",
+      "area": "Selection",
+      "given": "실제 서비스가 허용한 미보유 동물",
+      "when": "Unlocked=false이고 구현/문맥 권한/사용 가능이 true인 동물을 선택한다",
+      "expected": "보유 여부만으로 막지 않는다. 반대로 보유만 true인 권한 없는 동물은 선택되지 않는다.",
+      "method": "trial/grant and ownership-only fixtures",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-04",
+      "area": "Selection",
+      "given": "유효한 선택 3종과 다른 미구현 열람 동물",
+      "when": "편성을 확인한다",
+      "expected": "선택한 3종의 유효성만 입장 조건으로 확인한다. 다른 12종의 미구현/미보유를 전체 입장 조건으로 만들지 않는다.",
+      "method": "selected-three-valid/other-animals-invalid fixture",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-05",
+      "area": "Selection",
+      "given": "AllowedAnimalIds가 null인 실제 문맥",
+      "when": "선택 풀과 입장을 확인한다",
+      "expected": "추가 클라이언트 풀 제한은 적용하지 않지만 구현/권한/역할과 서버의 실제 허용 풀 검증은 유지한다.",
+      "method": "null-pool fixture + authoritative service review",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-06",
+      "area": "Selection",
+      "given": "AllowedAnimalIds가 빈 배열이거나 실제 제한 풀인 문맥",
+      "when": "동물을 열람하고 선택/확정을 시도한다",
+      "expected": "빈 배열은 허용 동물 없음이다. 제한 풀 밖 동물은 선택/입장하지 않는다. null과 빈 배열을 같은 의미로 변환하지 않는다.",
+      "method": "empty/restricted pool fixtures + dispatch counter",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-SELECT-07",
+      "area": "Selection",
+      "given": "서로 다른 플레이어가 같은 동물을 고르는 기존 경쟁전",
+      "when": "실제 모드에서 선택과 입장을 확인한다",
+      "expected": "두 플레이어가 각자 실제 권한을 갖고 있으면 같은 동물 사용을 허용한다. 공유 선점/예약/중복 금지 조건을 추가하지 않는다. 기존 4~8인 운영 규칙을 유지한다.",
+      "method": "multi-account integration scenario + current mode policy review",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-CONTEXT-01",
+      "area": "Context",
+      "given": "누락 또는 잘못된 모드/진입 의도/필수 역할/대표 역할/정책/조회 버전",
+      "when": "선택 창을 열거나 확정한다",
+      "expected": "정확한 실제 문맥과 Ground/Special/Air 각각 1회인 필수 역할이 없으면 입장 요청은 0회다. PREVIEW_ONLY는 실제 서비스로 보내지 않는다.",
+      "method": "invalid context/requirements/revision/preview fixtures",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-CONTEXT-02",
+      "area": "Context",
+      "given": "역할 오류·누락 슬롯·알 수 없는 ID가 있는 편성",
+      "when": "확인 또는 입장을 시도한다",
+      "expected": "실제 카탈로그 역할과 필요한 3슬롯에 맞지 않으면 차단한다. ID를 표시 이름이나 배열 순서로 추정하지 않는다.",
+      "method": "malformed loadout fixtures + dispatch counter",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-READ-01",
+      "area": "Read",
+      "given": "실제 Backend 미연결·권한 조회 지연/실패",
+      "when": "역할 탭과 버튼 상태를 확인한다",
+      "expected": "15종은 열람 가능하다. 실제 문맥·권한·버전이 확인되기 전 입장은 비활성화된다. 로컬 시안 상태가 사용 권한을 부여하지 않는다.",
+      "method": "missing backend/delayed/error fixtures",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-READ-02",
+      "area": "Read",
+      "given": "이전 모드 조회와 최신 모드 조회가 겹친 상태",
+      "when": "이전 응답이 늦게 도착한다",
+      "expected": "이전 조회가 최신 모드 이름·권한·임시 편성·버전을 덮어쓰지 않는다.",
+      "method": "out-of-order snapshot fixtures",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-01",
+      "area": "Entry",
+      "given": "유효한 선택 3종과 다른 현재 열람 동물",
+      "when": "전체 편성 확인 모달을 열고 취소한다",
+      "expected": "모달은 실제 모드와 선택 3종 전체를 표시한다. 취소는 입장 요청·저장 변경·대기방 이동 0회다.",
+      "method": "modal comparison + counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-02",
+      "area": "Entry",
+      "given": "유효한 확인 모달과 지연된 서비스 응답",
+      "when": "확정 연타·뒤로·편성 변경·다른 모드/진입 의도 재진입을 시도한다",
+      "expected": "ActionId/실제 ModeId인 ContextId/SnapshotRevision/PolicyRevision/EntryIntent/정확 Loadout의 한 요청만 보낸다. 처리 중 변경·뒤로·새 진입을 차단한다. 확인 모달 동안 공개 Refresh/SetBackend로 확인한 데이터나 어댑터를 교체하지 못한다.",
+      "method": "request content capture + delayed service + call counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-03",
+      "area": "Entry",
+      "given": "아직 승인되지 않은 요청",
+      "when": "서비스와 호스트 경로를 확인한다",
+      "expected": "실제 서비스가 계정·모드·진입 의도·현재 허용 풀·구현/권한·정책/조회 버전·멱등성을 다시 검증한다. 승인 전 호스트의 추가 방 입장 처리·대기방 이동·임의 저장 변경은 0회다.",
+      "method": "authoritative validator review + pre-accept counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-04",
+      "area": "Entry",
+      "given": "실제 입장 서비스의 정상 Accepted receipt",
+      "when": "승인 결과를 받는다",
+      "expected": "실제 AcceptanceToken이 유효하고 AcceptedContextId/AcceptedPolicyRevision/AcceptedEntryIntent/AcceptedLoadout이 제출 내용과 정확히 일치한다. 기존 대기방 흐름에 한 번 전달한다.",
+      "method": "actual receipt mapping + navigation/handoff counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-05",
+      "area": "Entry",
+      "given": "Accepted지만 빈/공백 토큰·누락/다른 모드/정책/진입 의도·다른/잘못된 편성",
+      "when": "결과를 받는다",
+      "expected": "대기방으로 이동하지 않는다. 승인 정보는 실제 receipt에서만 매핑하고 요청 값을 복사해 승인으로 꾸미지 않는다. 결과 확인 상태를 유지한다.",
+      "method": "malformed receipt fixtures + navigation counter + adapter inspection",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-06",
+      "area": "Entry",
+      "given": "같은 승인 이벤트 중복·호스트 중복 구독·화면 재진입",
+      "when": "승인이 다시 전달되는 상황을 만든다",
+      "expected": "화면 수명에 맞춘 단일 구독과 기존 중앙 요청/receipt 소비 보장으로 같은 방 입장·대기방 전달을 한 번만 실행한다.",
+      "method": "duplicate event/receipt/reentry + host counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-07",
+      "area": "Entry",
+      "given": "확인 뒤 최신 권한·허용 풀·정책/조회 버전·진입 의도가 바뀐 상태",
+      "when": "입장 서비스의 확정 Rejected/Unavailable을 받는다",
+      "expected": "실제 이유를 표시한다. 수동 최신 조회와 필요 시 호스트의 새 문맥/확인 전에는 다시 확정하지 않는다. 거절된 ActionId의 내용을 바꿔 재사용하지 않는다.",
+      "method": "stale authority/version/intent fixtures + manual refresh path",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-08",
+      "area": "Entry",
+      "given": "Unknown·타임아웃·예외로 결과가 미확인",
+      "when": "결과 다시 확인을 수행한다",
+      "expected": "같은 ActionId/ContextId/SnapshotRevision/PolicyRevision/EntryIntent/Loadout으로 재확인한다. 요청 전체를 불변 보관하고 새 요청·편성 변경·뒤로·재진입·중복 대기방 진입을 차단한다. 어댑터는 원래 문맥·요청·권한 Snapshot 복사본을 후속 조회 cache와 독립적으로 유지한다.",
+      "method": "retry identity/payload capture + idempotent recovery counters",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-ENTRY-09",
+      "area": "Entry",
+      "given": "보호 메서드에서 받은 문맥/요청/편성 객체",
+      "when": "서비스가 전달 객체를 변경하거나 재시도한다",
+      "expected": "Presenter가 보관한 요청과 호스트 원본 문맥을 변경하지 못한다. 매 호출 복사본이 전달되며 ActionId와 EntryIntent를 포함한 원래 요청을 재시도한다.",
+      "method": "mutation-at-service-boundary fixture + original request comparison",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-LIFE-01",
+      "area": "Lifecycle",
+      "given": "처리 중 화면 비활성화·앱 복귀와 기존 중앙 요청 관리자",
+      "when": "결과를 다시 조회한다",
+      "expected": "요청 ID·진입 의도·편성·결과를 보존한다. 늦은 응답이 임의 새 화면을 이동시키지 않고 새 입장으로 반복하지 않는다. 실제 취소 계약 없이 취소를 가정하지 않는다.",
+      "method": "host lifecycle/pending manager integration scenario",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-LIFE-02",
+      "area": "Lifecycle",
+      "given": "결과 조회/앱 복귀 보존/승인 receipt 필드가 기존 서비스에 미지원",
+      "when": "연결과 보고서를 검토한다",
+      "expected": "미지원 항목을 구체적으로 기록한다. 미확인 요청을 실패로 추정하거나 새 입장/가짜 승인을 허용하지 않는다. 필수 보장이 없으면 운영 완료로 보고하지 않는다.",
+      "method": "service capability review + unsupported contract report",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-REGRESSION-01",
+      "area": "Regression",
+      "given": "기존 1단계 성장·2단계 캠페인·메인 UI·대기방 흐름",
+      "when": "각 기존 기능을 실행한다",
+      "expected": "동물 강화는 기존 성장 계약, 캠페인은 고정 3종을 유지한다. 메인 배경·발판·토끼 연출과 기존 대기방을 유지하고 새 매칭 서버/방 목록/대기방 UX를 추가하지 않는다.",
+      "method": "actual regression walkthrough + diff review",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-GENERATOR-01",
+      "area": "Generator",
+      "given": "실제 Unity의 단계3 생성/검증 메뉴",
+      "when": "Build Multiplayer Phase 3 및 Validate Multiplayer Phase 3를 실행한다",
+      "expected": "단계3 메뉴는 공용 카탈로그와 MultiplayerAnimalSelect.prefab/AnimalMultiplayerPhase3Demo.unity만 생성한다. 1·2단계 운영 프리팹을 덮어쓰지 않는다. 실제 컴파일과 검증 결과를 기록한다.",
+      "method": "Unity generated file inventory + compile/validation logs",
+      "production_status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "P3-REPORT-01",
+      "area": "Evidence",
+      "given": "독립 패키지/모델/HTML 검사와 실제 프로젝트 검증",
+      "when": "단계3 결과를 보고한다",
+      "expected": "파일·독립 미리보기 검사와 실제 Unity/Game View/입장 서비스/대기방 전달 검증을 구분한다. 실행하지 않은 검사를 통과로 쓰지 않는다. 필수 운영 연결이 남으면 전체 완료로 보고하지 않는다.",
+      "method": "evidence report review",
+      "production_status": "not_run",
+      "evidence": []
+    }
+  ],
+  "standalone_verification": {
+    "javascript_model_tests": 63,
+    "javascript_model_status": "passed",
+    "scope": "Pure JavaScript design model only; no real account, C#, Unity, room entry or waiting-room handoff"
+  },
+  "authored_unity_checks": {
+    "multiplayer_contract_checks": 75,
+    "executed": false,
+    "status": "not_run"
+  }
+}

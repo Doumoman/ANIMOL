@@ -1,0 +1,390 @@
+{
+  "phase": 3,
+  "date": "2026-10-04",
+  "production_environment": {
+    "actual_project_connected": true,
+    "unity_editor_available": true,
+    "actual_backend_connected": false,
+    "actual_room_entry_executed": false
+  },
+  "overall": "incomplete",
+  "counts": {
+    "partial": 14,
+    "passed": 13,
+    "not_run": 4
+  },
+  "cases": [
+    {
+      "id": "P3-HOST-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 3버튼 진입 확인. 운영 ModeId/의도/원래 편성/정책 소유자 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-HOST-02",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 뒤로/원래 빈 편성, fixture 변경 후 원래 3종 반환 확인. 운영 저장 편성/DB 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-HOST-03",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 씬 EventSystem 1개, 데모 없음, 운영 자동 시안 false, PREVIEW_ONLY 차단",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ART-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "PNG 15/15 보존. 실제 양방향 ID는 Rabbit 1종, 14종 미매핑",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ART-02",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "두 해상도/Safe Area/15종/스크롤/모달 검사. 실제 최장 운영 이름·실기기 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-DATA-01",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 미연결 상태 전체 15종 열람, --/설정 대기, 가짜 레벨/권한 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "fixture에서 해당 역할 슬롯만 변경, 실제 계정 권한/저장 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-02",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "Unity 각 권한 조건/ownership-only/불가 편성 호출 0회",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-03",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "Unlocked=false 허용 fixture 통과. 실제 grant 서비스 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-04",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "유효 3종 외 미구현 수달 열람에도 전체 확인 가능",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-05",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "null pool 추가 제한 없음 확인. 서버 실제 풀 재검증 미지원",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-06",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "빈/제한 pool 열람 가능·무효 선택/요청 0회",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-SELECT-07",
+      "status": "not_run",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 다계정/4~8인 입장 없음. 기존 Core 계약 검사만 통과",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-CONTEXT-01",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "누락/중복 역할/대표/버전/PREVIEW_ONLY 요청 0회",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-CONTEXT-02",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "역할 오류·누락 슬롯·미지 ID 요청 0회",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-READ-01",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 Backend 미연결 차단, fixture 지연/오류 검사",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-READ-02",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "Unity 지연 Task의 이전 응답이 새 모드를 덮어쓰지 않음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "전체 3종 fixture 모달·취소 0회. 실제 운영 모드/권한 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-02",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "fixture 요청 6필드/1회/잠금/Refresh/SetBackend 확인. 실제 서비스 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-03",
+      "status": "not_run",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 서비스 재검증 계약 없음. fixture 승인 전 SC06 이동 0회만 확인",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-04",
+      "status": "not_run",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 receipt/기존 대기방 승인 전달 미연결",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-05",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "잘못된 토큰/문맥/정책/의도/편성은 Unknown, 이동 0회",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-06",
+      "status": "not_run",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "중앙 receipt consumer/운영 구독 없음. fixture 이벤트 중복 차단만 확인",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-07",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "fixture 최종 거절/사유/수동 조회/새 ID 통과. 서버 권한 변경 미실행",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-08",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "fixture 동일 ActionId/payload 재확인/독립 cache 통과. 운영 멱등 결과 조회 없음",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-ENTRY-09",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "Unity adapter mutation/deep-copy 검사, 원래 문맥/요청 불변",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-LIFE-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "같은 객체 비활성화/재활성화만 통과. 중앙 보존/씬 파괴/OS 복귀 미지원",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-LIFE-02",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "미지원 조회는 추가 보호 호출 0회, Unknown 유지·사유 표시·미완료 보고",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-REGRESSION-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "기존 UI 회귀 통과. v7 기존 정책 1실패, 캠페인 실제 고정3/승인 미완료",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-GENERATOR-01",
+      "status": "partial",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "compile/validator/기존 생성물 보존 확인. Build 메뉴 이번 작업 재실행 안 함",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    },
+    {
+      "id": "P3-REPORT-01",
+      "status": "passed",
+      "scope": "Actual Unity client/fixture only; production dependencies stated explicitly",
+      "reason": "실제 Unity/fixture/파일/운영 서비스 결과 분리, 미실행 항목 명시",
+      "evidence": [
+        "../ANIMOL_MULTIPLAYER_PHASE3_TASK3_RESULT.md",
+        "test-summary.json",
+        "playmode-multiplayer.json",
+        "live-project-audit.json"
+      ]
+    }
+  ]
+}

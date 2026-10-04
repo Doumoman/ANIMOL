@@ -119,7 +119,7 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
         {
             var context = new MultiplayerSelectionRequest
             {
-                ModeId = "TEST_ONLY_MODE", DisplayName = "표시 검사 전용 · 실제 모드 아님", EntryIntent = "opaque host value / TEST_ONLY",
+                ModeId = "TEST_ONLY_MODE", DisplayName = "TEST ONLY · " + string.Join(" · ", Enumerable.Repeat("긴 모드 이름 표시 검사", 8)), EntryIntent = "opaque host value / TEST_ONLY",
                 InitialLoadout = new AnimalLoadout { Ground = "Rabbit", Special = "DreamFox", Air = "Swallow" }, AllowedAnimalIds = null,
                 Requirements = new SelectionRequirements { RequiredRoles = new[] { AnimalRole.Ground, AnimalRole.Special, AnimalRole.Air }, RepresentativeRole = AnimalRole.Air, PolicyRevision = "TEST_ONLY_POLICY" }
             };
@@ -143,10 +143,14 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Tests
             foreach (int height in new[] { 1920, 2400 })
             {
                 yield return SetResolution(height, true);
+                yield return Capture("fixture_long_mode_" + height + ".png");
+                var subtitle = P.View.Subtitle.GetComponent<PixelTextBridge>(); subtitle.Synchronize();
+                Assert.IsFalse(subtitle.Overflow, "Long fixture mode name must fit the header, with full text accessible in details.");
                 P.View.SelectionDetailsButton.onClick.Invoke(); yield return null; yield return null; yield return null;
                 var scroll = P.View.ModalBodyScroll;
                 var bridge = P.View.ModalBody.GetComponent<PixelTextBridge>(); bridge.Synchronize(); Assert.IsFalse(bridge.Overflow);
                 Assert.That(P.View.ModalBody.text, Does.Contain(longEffect).And.Contain(int.MaxValue.ToString()).And.Contain("독립 패시브 마지막 설명"));
+                Assert.That(P.View.ModalBody.text, Does.Contain(context.DisplayName));
                 yield return Capture("fixture_" + height + "_detail_top.png");
                 scroll.StopMovement(); scroll.verticalNormalizedPosition = 0; yield return null; yield return null;
                 yield return Capture("fixture_" + height + "_detail_bottom.png"); P.View.ModalCancel.onClick.Invoke();
