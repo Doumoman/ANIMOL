@@ -43,7 +43,9 @@ namespace ANIMOL.FiveThemeMenu.Tests
                 e.Navigation.Back();yield return null;yield return null;
                 Assert.That(c.IsVisible,Is.True);Assert.That(c.NativeFrame,Is.SameAs(resource));
             }
-            Assert.That(e.ModeScreen.Ad.interactable || e.ModeScreen.Competition.interactable || e.ModeScreen.Cooperation.interactable,Is.False);
+            Assert.That(e.ModeScreen.Ad.interactable || e.ModeScreen.Cooperation.interactable,Is.False);
+            Assert.That(e.OnlineModesAvailable,Is.False);
+            Assert.That(e.ModeScreen.Competition.interactable,Is.EqualTo(e.CompetitiveBrowsingAvailable));
             double before=c.Elapsed;Time.timeScale=0;yield return new WaitForSecondsRealtime(.1f);Assert.That(c.Elapsed,Is.GreaterThan(before));
             c.SendMessage("OnApplicationFocus",false);before=c.Elapsed;yield return new WaitForSecondsRealtime(.1f);Assert.That(c.Elapsed,Is.EqualTo(before));
             c.SendMessage("OnApplicationFocus",true);yield return null;yield return null;Assert.That(c.Elapsed-before,Is.LessThan(.1));

@@ -154,11 +154,13 @@ namespace ANIMOL.AnimalUiV2
         public string SnapshotRevision;
         public string PolicyRevision;
         public AnimalLoadout Loadout;
+        // Captured opaque host intent; retries keep this value unchanged.
+        public string EntryIntent;
         // The presenter keeps its request private; services receive copies, including on retry.
         public SelectionCommitRequest Clone() => new SelectionCommitRequest
         {
             ActionId = ActionId, ContextId = ContextId, SnapshotRevision = SnapshotRevision,
-            PolicyRevision = PolicyRevision, Loadout = Loadout?.Clone()
+            PolicyRevision = PolicyRevision, Loadout = Loadout?.Clone(), EntryIntent = EntryIntent
         };
     }
 
@@ -173,6 +175,8 @@ namespace ANIMOL.AnimalUiV2
         // Phase 2 maps these from the actual stage-entry receipt, never from a guessed UI success.
         public string AcceptedContextId;
         public string AcceptedPolicyRevision;
+        // Map this from the actual room-entry receipt, never from the UI request.
+        public string AcceptedEntryIntent;
     }
 
     public sealed class AnimalUiReadRequest

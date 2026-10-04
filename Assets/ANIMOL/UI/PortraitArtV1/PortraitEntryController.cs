@@ -22,6 +22,8 @@ namespace ANIMOL.PortraitArtV1
         public UiNavigationService Navigation { get; private set; }
         public IRewardLedgerAdapter Ledger { get; private set; }=new DisconnectedRewardLedgerAdapter();
         public bool OnlineModesAvailable => multiplayer != null && multiplayer.OperationalReadyEnabled;
+        // A local selection view can be inspected without claiming the match service is available.
+        public bool CompetitiveBrowsingAvailable { get; set; }
         // No operational rewarded-ad provider exists. Configuration flags or DEV approval are not proof.
         public bool RewardedAdAvailable => false;
         private MultiplayerUiPresenter multiplayer;
@@ -63,7 +65,7 @@ namespace ANIMOL.PortraitArtV1
                 ModeScreen.Campaign.onClick.AddListener(()=>Navigation.Navigate("SC02_ThemeSelect"));
                 ModeScreen.Shop.onClick.AddListener(()=>Navigation.Navigate("SC11_Store"));
                 ModeScreen.Settings.onClick.AddListener(()=>Navigation.Navigate("SC13_Settings"));
-                ModeScreen.Competition.onClick.AddListener(()=> { if(OnlineModesAvailable) Navigation.Navigate("SC05_CompetitiveHub"); });
+                ModeScreen.Competition.onClick.AddListener(()=> { if(OnlineModesAvailable || CompetitiveBrowsingAvailable) Navigation.Navigate("SC05_CompetitiveHub"); });
                 ModeScreen.Cooperation.onClick.AddListener(()=> { if(OnlineModesAvailable) Navigation.Navigate("SC08_CoopHub"); });
                 // Intentionally no Ad.onClick handler: never synthesize an approval/grant.
             }
@@ -89,9 +91,9 @@ namespace ANIMOL.PortraitArtV1
             // Integer raster sizes, including Int32.MaxValue, without changing the capsule/hit rect.
             ModeScreen.Currency.fontSize=ModeScreen.Currency.text.Length>10 ? 16 : 32;
             ModeScreen.Ad.interactable=RewardedAdAvailable;
-            ModeScreen.Competition.interactable=OnlineModesAvailable;
+            ModeScreen.Competition.interactable=OnlineModesAvailable || CompetitiveBrowsingAvailable;
             ModeScreen.Cooperation.interactable=OnlineModesAvailable;
-            ModeScreen.CompetitionState.text=OnlineModesAvailable ? "기존 경쟁 허브" : "서버 미연결";
+            ModeScreen.CompetitionState.text=OnlineModesAvailable ? "기존 경쟁 허브" : CompetitiveBrowsingAvailable ? "동물 열람 · 입장 미연결" : "서버 미연결";
             ModeScreen.CooperationState.text=OnlineModesAvailable ? "기존 협동 허브" : "서버 미연결";
         }
     }

@@ -66,14 +66,9 @@ namespace ANIMOL.AnimalUiV2
         private void Start()
         {
             if (_opened || !OpenReadonlyPreviewOnStart) return;
-            var requirements = new SelectionRequirements { RequiredRoles = new[] { AnimalRole.Ground, AnimalRole.Special, AnimalRole.Air } };
             if (PreviewMode == AnimalUiMode.CharacterUpgrade) OpenUpgrade("Rabbit");
             else if (PreviewMode == AnimalUiMode.StageAnimalSelect) OpenCampaign(AnimalStagePhase2DemoHost.CreateReadonlyFixture());
-            else OpenMultiplayer(new MultiplayerSelectionRequest
-            {
-                ModeId = "PREVIEW_ONLY", DisplayName = "대기방 전 선택 미리보기", Requirements = requirements,
-                InitialLoadout = new AnimalLoadout { Ground = "Rabbit", Special = "DreamFox", Air = "Swallow" }
-            });
+            else OpenMultiplayer(AnimalMultiplayerPhase3DemoHost.CreateReadonlyFixture());
         }
         private void OnEnable() { if (_uncertain && View != null) ShowRetryModal(); }
         private void OnDisable()
@@ -85,6 +80,8 @@ namespace ANIMOL.AnimalUiV2
         public void SetBackend(AnimalUiBackendBehaviour backend)
         {
             if (IsCommitting) throw new InvalidOperationException("처리 결과 확인 중에는 backend를 교체할 수 없습니다.");
+            if (_mode == AnimalUiMode.MultiplayerAnimalSelect && _modalVisible)
+                throw new InvalidOperationException("멀티플레이 확인 창을 닫은 뒤 backend를 교체해주세요.");
             CancelReads(); Backend = backend;
             if (_opened && isActiveAndEnabled) Refresh();
         }
@@ -143,7 +140,8 @@ namespace ANIMOL.AnimalUiV2
         }
         private async void RefreshWithStatus(string outcome)
         {
-            if (!_opened || !isActiveAndEnabled || IsCommitting) return;
+            if (!_opened || !isActiveAndEnabled || IsCommitting ||
+                (_mode == AnimalUiMode.MultiplayerAnimalSelect && _modalVisible)) return;
             CancelReads(); int generation = _readGeneration, epoch = _epoch;
             _reads = new CancellationTokenSource(); var token = _reads.Token;
             _activeQuote = _passiveQuote = null;
@@ -157,6 +155,10 @@ namespace ANIMOL.AnimalUiV2
                 var snapshot = await backend.ReadSnapshotAsync(new AnimalUiReadRequest
                 { Mode = _mode, Stage = _stage?.Clone(), Multiplayer = _multiplayer?.Clone() }, token);
                 if (!IsCurrent(generation, epoch, token)) return;
+                if (_mode == AnimalUiMode.MultiplayerAnimalSelect &&
+                    (!AnimalUiRules.ValidateMultiplayerContext(Catalog, _multiplayer, out var contextError) ||
+                     !AnimalUiRules.ValidateMultiplayerSnapshot(snapshot, out contextError)))
+                    throw new InvalidOperationException(contextError);
                 _snapshot = snapshot ?? throw new InvalidOperationException("동물 스냅샷이 비어 있습니다.");
                 _snapshotValid = true;
                 if (_mode == AnimalUiMode.CharacterUpgrade)
@@ -218,9 +220,10 @@ namespace ANIMOL.AnimalUiV2
             if (_mode == AnimalUiMode.CharacterUpgrade) { Refresh(); return; }
             if (_mode == AnimalUiMode.StageAnimalSelect && _stage.Policy == CampaignSelectionPolicy.Fixed)
                 _status = _stage.FixedLoadout.Get(animal.Role) == id ? "지정 동물 정보 열람 · 편성 유지" : "다른 동물 정보 열람 · 지정 편성 유지";
-            else if (AnimalUiRules.IsSelectable(animal, _snapshot, _mode, _stage, _multiplayer, out var reason))
+            else if (!_reading && _snapshotValid && AnimalUiRules.IsSelectable(animal, _snapshot, _mode, _stage, _multiplayer, out _))
             { _draft.Set(animal.Role, id); _status = null; _selectionRequest = null; }
-            else _status = reason;
+            else
+            { AnimalUiRules.IsSelectable(animal, _snapshot, _mode, _stage, _multiplayer, out var reason); _status = _snapshotValid && !_reading ? reason : "정보 열람 · 최신 사용 권한 연결 전"; }
             Render();
         }
         private string Availability(AnimalDefinition animal)
@@ -252,7 +255,7 @@ namespace ANIMOL.AnimalUiV2
             View.HeroRole.text = animal == null ? "" : AnimalUiRules.RoleName(animal.Role) + " 동물";
             View.HeroDescription.text = Backend == null ? "일러스트 미리보기 · 플레이 데이터 연결 전" : upgrade ? "액티브와 패시브를 각각 강화합니다." :
                 _mode == AnimalUiMode.StageAnimalSelect && _stage.Policy == CampaignSelectionPolicy.Fixed ? "지정 편성을 유지하며 동물 정보를 열람합니다." : "카드를 누르면 해당 역할의 초안이 바뀝니다.";
-            if (_mode == AnimalUiMode.StageAnimalSelect)
+            if (!upgrade)
                 View.HeroDescription.text = "액티브: " + SelectionEffect(progress?.ActiveDescription) + "\n패시브: " + SelectionEffect(progress?.PassiveDescription);
             View.HeroState.text = Availability(animal);
             View.Balances.text = "코인 " + Number(_snapshot.CoinBalance) + "  ·  " + (animal?.DisplayName ?? "동물") + " 숙련도 " + Number(progress?.MasteryBalance);
@@ -275,7 +278,8 @@ namespace ANIMOL.AnimalUiV2
                 bool fixedStage = _mode == AnimalUiMode.StageAnimalSelect && _stage.Policy == CampaignSelectionPolicy.Fixed;
                 string badge = upgrade ? (_animalId == definition.Id ? "열람 중" : "") : fixedStage ?
                     (_draft.Get(_role) == definition.Id ? "지정 동물" : _animalId == definition.Id ? "열람 중" : "열람") :
-                    _draft.Get(_role) == definition.Id ? "선택됨" : selectable ? "" : "열람 가능";
+                    _draft.Get(_role) == definition.Id ? (_animalId == definition.Id ? "선택됨 · 열람" : "선택됨") :
+                    _animalId == definition.Id ? "열람 중" : selectable && _snapshotValid && !_reading ? "선택 가능" : "열람 가능";
                 _cards[i].Bind(definition, badge, upgrade ? _animalId == definition.Id : _draft.Get(_role) == definition.Id,
                     state != null && !state.Unlocked && !state.CanUseInContext, ChooseAnimal);
                 _cards[i].Button.interactable = !IsCommitting && !_modalVisible;
@@ -284,7 +288,7 @@ namespace ANIMOL.AnimalUiV2
             RenderTrack(View.PassiveTrack, _passiveQuote, progress, UpgradeTrack.Passive);
             View.SelectionInfo.text = _mode == AnimalUiMode.StageAnimalSelect ?
                 (_stage.Policy == CampaignSelectionPolicy.Fixed ? "지정 편성 · 동물 변경 불가" : _stage.Policy == CampaignSelectionPolicy.AllowedPool ? "스테이지 허용 동물 안에서 선택" : _stage.Policy == CampaignSelectionPolicy.Free ? "사용 가능한 동물을 역할별로 선택" : "스테이지 정책 연결 전") :
-                "승인된 편성으로만 대기방에 입장합니다.";
+                "지상·특수·공중 편성 · 플레이어 간 동물 중복 허용";
             bool valid = !upgrade && CanSubmitSelection(out _);
             CanSubmitSelection(out var invalidReason);
             if (View.SelectionDetailsButton != null) View.SelectionDetailsButton.interactable = !_reading && !IsCommitting && !_modalVisible;
@@ -342,21 +346,23 @@ namespace ANIMOL.AnimalUiV2
             if (_mode == AnimalUiMode.CharacterUpgrade) { Refresh(); return; }
             if (!CanSubmitSelection(out var reason)) { _status = reason; Render(); return; }
             ShowModal(_mode == AnimalUiMode.StageAnimalSelect ? "이 지정 편성으로 시작할까요?" : "이 편성으로 입장할까요?",
-                (_mode == AnimalUiMode.StageAnimalSelect ? (_stage.DisplayName ?? _stage.StageId) + "\n\n" : "") + LoadoutSummary(_draft), "확정", () => CommitSelection(false));
+                (_mode == AnimalUiMode.StageAnimalSelect ? (_stage.DisplayName ?? _stage.StageId) : (_multiplayer.DisplayName ?? _multiplayer.ModeId)) +
+                "\n\n" + LoadoutSummary(_draft), "확정", () => CommitSelection(false));
         }
         private bool CanSubmitSelection(out string reason)
         {
             if (_mode == AnimalUiMode.StageAnimalSelect)
                 return AnimalUiRules.CanConfirmFixedStage(Catalog, _snapshot, _draft, _stage, Backend != null, _snapshotValid, out reason);
-            if (!_snapshotValid) { reason = "동물 사용 권한 연결 전"; return false; }
-            return AnimalUiRules.ValidateLoadout(Catalog, _snapshot, _draft, _mode, _stage, _multiplayer, out reason);
+            return AnimalUiRules.CanConfirmMultiplayer(Catalog, _snapshot, _draft, _multiplayer, Backend != null, _snapshotValid, out reason);
         }
         private void ShowSelectionDetails()
         {
-            if (_mode != AnimalUiMode.StageAnimalSelect || _reading || IsCommitting || _modalVisible) return;
+            if (_mode == AnimalUiMode.CharacterUpgrade || _reading || IsCommitting || _modalVisible) return;
             var animal = Catalog.Find(_animalId); if (animal == null) return;
             var progress = _snapshot.Find(_animalId);
-            string marker = _stage?.FixedLoadout?.Get(animal.Role) == animal.Id ? "스테이지 지정 동물" : "정보 열람 · 지정 편성 유지";
+            string marker = _mode == AnimalUiMode.StageAnimalSelect ?
+                (_stage?.FixedLoadout?.Get(animal.Role) == animal.Id ? "스테이지 지정 동물" : "정보 열람 · 지정 편성 유지") :
+                (_draft.Get(animal.Role) == animal.Id ? "현재 선택한 동물 · 정보 열람" : "정보 열람 · 현재 선택과 별개");
             ShowModal(animal.DisplayName + " · 동물 정보", marker + "\n" + AnimalUiRules.RoleName(animal.Role) + " 동물\n" +
                 Availability(animal) + "\n\n액티브 · Lv. " + (progress == null || progress.ActiveLevel < 0 ? "--" : progress.ActiveLevel.ToString()) +
                 "\n" + DisplayEffect(progress?.ActiveDescription) + "\n\n패시브 · Lv. " +
@@ -423,7 +429,8 @@ namespace ANIMOL.AnimalUiV2
                 if (!CanSubmitSelection(out var reason)) { _status = reason; CloseModal(); return; }
                 var normalized = AnimalUiRules.NormalizeLoadout(_draft, Requirements);
                 _selectionRequest = new SelectionCommitRequest { ActionId = Guid.NewGuid().ToString("N"), ContextId = _mode == AnimalUiMode.StageAnimalSelect ? _stage.StageId : _multiplayer.ModeId,
-                    SnapshotRevision = _snapshot.Revision, PolicyRevision = Requirements.PolicyRevision, Loadout = normalized };
+                    SnapshotRevision = _snapshot.Revision, PolicyRevision = Requirements.PolicyRevision, Loadout = normalized,
+                    EntryIntent = _mode == AnimalUiMode.MultiplayerAnimalSelect ? _multiplayer.EntryIntent : null };
             }
             if (_selectionRequest == null) return;
             _commitMode = _mode;
@@ -438,21 +445,22 @@ namespace ANIMOL.AnimalUiV2
             catch (Exception exception) { result = new AnimalUiCommitResult { Status = CommitStatus.Unknown, Message = exception.Message }; }
             if (epoch != _epoch || !isActiveAndEnabled) return;
             _pending = false;
-            if (result == null || result.Status == CommitStatus.Unknown) { _uncertain = true; ShowRetryModal(); return; }
+            if (result == null || result.Status == CommitStatus.Unknown ||
+                (_commitMode == AnimalUiMode.MultiplayerAnimalSelect && !Enum.IsDefined(typeof(CommitStatus), result.Status))) { _uncertain = true; ShowRetryModal(); return; }
             if (result.Status == CommitStatus.Accepted && _commitMode == AnimalUiMode.StageAnimalSelect &&
                 !AnimalUiRules.IsAcceptedFixedStageResult(Catalog, _snapshot, _stage, _selectionRequest, result, out _))
             { _uncertain = true; ShowRetryModal(); return; }
             if (result.Status == CommitStatus.Accepted && _commitMode == AnimalUiMode.MultiplayerAnimalSelect &&
-                (string.IsNullOrWhiteSpace(result.AcceptanceToken) || result.AcceptedLoadout == null ||
-                 !AnimalUiRules.ValidateLoadout(Catalog, result.Snapshot ?? _snapshot, result.AcceptedLoadout, _commitMode, _stage, _multiplayer, out _)))
+                !AnimalUiRules.IsAcceptedMultiplayerResult(Catalog, _snapshot, _multiplayer, _selectionRequest, result, out _))
             { _uncertain = true; ShowRetryModal(); return; }
             _uncertain = false; _modalVisible = false; View.Modal.SetActive(false);
-            if (result.Snapshot != null) _snapshot = result.Snapshot;
+            if (result.Snapshot != null && (_commitMode != AnimalUiMode.MultiplayerAnimalSelect ||
+                AnimalUiRules.ValidateMultiplayerSnapshot(result.Snapshot, out _))) _snapshot = result.Snapshot;
             _status = result.Message ?? (result.Status == CommitStatus.Accepted ? "요청이 승인되었습니다." : "요청을 완료하지 못했습니다.");
             if (result.Status != CommitStatus.Accepted && _commitMode != AnimalUiMode.CharacterUpgrade)
             {
                 _snapshotValid = false;
-                _status += " 최신 스테이지 사용 권한을 새로고침해주세요.";
+                _status += _commitMode == AnimalUiMode.StageAnimalSelect ? " 최신 스테이지 사용 권한을 새로고침해주세요." : " 최신 모드 사용 권한을 새로고침해주세요.";
             }
             _upgradeRequest = null; _selectionRequest = null; Render();
             if (result.Status == CommitStatus.Accepted)

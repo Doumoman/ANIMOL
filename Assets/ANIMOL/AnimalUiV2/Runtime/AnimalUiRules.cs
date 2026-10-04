@@ -64,6 +64,89 @@ namespace ANIMOL.AnimalUiV2
             return CanConfirmFixedStage(catalog, result.Snapshot ?? snapshot, result.AcceptedLoadout, stage, true, true, out reason);
         }
 
+        public static bool ValidateMultiplayerContext(AnimalCatalog catalog, MultiplayerSelectionRequest multiplayer, out string reason)
+        {
+            if (catalog == null || multiplayer == null || string.IsNullOrWhiteSpace(multiplayer.ModeId) ||
+                string.IsNullOrWhiteSpace(multiplayer.EntryIntent))
+            { reason = "멀티플레이 모드 또는 입장 방식 연결 전"; return false; }
+            var requirements = multiplayer.Requirements;
+            if (requirements == null || string.IsNullOrWhiteSpace(requirements.PolicyRevision) ||
+                requirements.RequiredRoles == null || requirements.RequiredRoles.Length != 3 ||
+                !Enum.IsDefined(typeof(AnimalRole), requirements.RepresentativeRole))
+            { reason = "지상·특수·공중 슬롯과 모드 정책 버전을 확인해주세요."; return false; }
+            var roles = new System.Collections.Generic.HashSet<AnimalRole>();
+            foreach (var role in requirements.RequiredRoles)
+                if (!Enum.IsDefined(typeof(AnimalRole), role) || !roles.Add(role))
+                { reason = "멀티플레이 슬롯 설정을 확인해주세요."; return false; }
+            foreach (AnimalRole role in Enum.GetValues(typeof(AnimalRole)))
+            {
+                var id = multiplayer.InitialLoadout?.Get(role);
+                if (string.IsNullOrWhiteSpace(id)) continue; // No previous choice is a valid unknown state.
+                var animal = catalog.Find(id);
+                if (animal == null || animal.Role != role)
+                { reason = "기존 편성의 동물 ID와 역할을 확인해주세요."; return false; }
+            }
+            // No other-player roster is consulted. Competition permits duplicate animals across players.
+            if (multiplayer.AllowedAnimalIds != null)
+            {
+                var ids = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+                foreach (var id in multiplayer.AllowedAnimalIds)
+                    if (string.IsNullOrWhiteSpace(id) || catalog.Find(id) == null || !ids.Add(id))
+                    { reason = "모드의 허용 동물 목록을 확인해주세요."; return false; }
+            }
+            reason = null; return true;
+        }
+
+        public static bool ValidateMultiplayerSnapshot(AnimalUiSnapshot snapshot, out string reason)
+        {
+            if (snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
+            { reason = "멀티플레이 권한 스냅샷 버전 연결 전"; return false; }
+            var ids = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+            foreach (var animal in snapshot.Animals)
+                if (animal == null || string.IsNullOrWhiteSpace(animal.AnimalId) || !ids.Add(animal.AnimalId))
+                { reason = "동물 권한 스냅샷의 ID 또는 중복 항목을 확인해주세요."; return false; }
+            reason = null; return true;
+        }
+
+        public static bool CanConfirmMultiplayer(AnimalCatalog catalog, AnimalUiSnapshot snapshot, AnimalLoadout loadout,
+            MultiplayerSelectionRequest multiplayer, bool backendReady, bool snapshotValid, out string reason)
+        {
+            if (!backendReady || !snapshotValid || snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
+            { reason = "멀티플레이 사용 권한 또는 스냅샷 버전 연결 전"; return false; }
+            if (!ValidateMultiplayerContext(catalog, multiplayer, out reason) || !ValidateMultiplayerSnapshot(snapshot, out reason)) return false;
+            return ValidateLoadout(catalog, snapshot, loadout, AnimalUiMode.MultiplayerAnimalSelect, null, multiplayer, out reason);
+        }
+
+        public static bool IsReadonlyMultiplayerFixture(MultiplayerSelectionRequest multiplayer) => multiplayer != null &&
+            (multiplayer.ModeId == "PREVIEW_ONLY" || multiplayer.EntryIntent == "PREVIEW_ONLY" ||
+             multiplayer.Requirements?.PolicyRevision == "PREVIEW_ONLY");
+
+        public static bool ValidateMultiplayerDispatch(AnimalCatalog catalog, AnimalUiSnapshot snapshot,
+            MultiplayerSelectionRequest multiplayer, SelectionCommitRequest request, out string reason)
+        {
+            if (IsReadonlyMultiplayerFixture(multiplayer))
+            { reason = "읽기 전용 예시 문맥은 실제 입장 서비스에 보내지 않습니다."; return false; }
+            if (!CanConfirmMultiplayer(catalog, snapshot, request?.Loadout, multiplayer, true, true, out reason)) return false;
+            if (string.IsNullOrWhiteSpace(request.ActionId) || request.ContextId != multiplayer.ModeId ||
+                string.IsNullOrWhiteSpace(request.SnapshotRevision) || request.SnapshotRevision != snapshot.Revision ||
+                string.IsNullOrWhiteSpace(request.PolicyRevision) || request.PolicyRevision != multiplayer.Requirements.PolicyRevision ||
+                string.IsNullOrWhiteSpace(request.EntryIntent) || request.EntryIntent != multiplayer.EntryIntent)
+            { reason = "요청의 모드·입장 방식·스냅샷·정책 버전이 일치하지 않습니다."; return false; }
+            reason = null; return true;
+        }
+
+        public static bool IsAcceptedMultiplayerResult(AnimalCatalog catalog, AnimalUiSnapshot snapshot,
+            MultiplayerSelectionRequest multiplayer, SelectionCommitRequest request, AnimalUiCommitResult result, out string reason)
+        {
+            if (!ValidateMultiplayerDispatch(catalog, snapshot, multiplayer, request, out reason)) return false;
+            if (result == null || result.Status != CommitStatus.Accepted || string.IsNullOrWhiteSpace(result.AcceptanceToken) ||
+                result.AcceptedContextId != request.ContextId || result.AcceptedPolicyRevision != request.PolicyRevision ||
+                result.AcceptedEntryIntent != request.EntryIntent || result.AcceptedLoadout == null ||
+                result.AcceptedLoadout.Fingerprint() != request.Loadout.Fingerprint())
+            { reason = "대기방 입장 승인 내역을 다시 확인해주세요."; return false; }
+            return CanConfirmMultiplayer(catalog, result.Snapshot ?? snapshot, result.AcceptedLoadout, multiplayer, true, true, out reason);
+        }
+
         // Used by the purchase button, confirmation and commit. The backend still owns charging.
         public static bool CanPurchaseUpgrade(AnimalCatalog catalog, AnimalUiSnapshot snapshot, UpgradeQuote quote,
             bool backendReady, bool snapshotValid, out string reason)

@@ -69,10 +69,15 @@ namespace ANIMOL.PortraitArtV1.Tests
         [UnityTest] public IEnumerator UnavailableServicesStayVisibleDisabledAndNeverUseDevCoinBalance()
         {
             yield return Load("Lobby");var c=Object.FindFirstObjectByType<PortraitEntryController>();
-            foreach(var button in new[]{c.ModeScreen.Ad,c.ModeScreen.Competition,c.ModeScreen.Cooperation}) {
+            foreach(var button in new[]{c.ModeScreen.Ad,c.ModeScreen.Cooperation}) {
                 Assert.That(button.gameObject.activeInHierarchy,Is.True);Assert.That(button.interactable,Is.False);
                 button.onClick.Invoke();Assert.That(c.Navigation.CurrentScreenId,Is.EqualTo(PortraitEntryController.ModeId));
             }
+            Assert.IsFalse(c.OnlineModesAvailable);
+            Assert.That(c.ModeScreen.Competition.interactable,Is.EqualTo(c.CompetitiveBrowsingAvailable));
+            c.ModeScreen.Competition.onClick.Invoke();
+            Assert.That(c.Navigation.CurrentScreenId,Is.EqualTo(c.CompetitiveBrowsingAvailable ? "SC05_CompetitiveHub" : PortraitEntryController.ModeId));
+            if(c.CompetitiveBrowsingAvailable) c.Navigation.Back();
             Assert.That(c.ModeScreen.Currency.text,Is.EqualTo("--"));Assert.That(c.Ledger.VerifiedCoinBalance,Is.Null);
             Assert.That(c.BindVerifiedLedger(new DevRewardLedgerAdapter(12500,3,"2030-01-02")),Is.False);
             Assert.That(c.ModeScreen.Currency.text,Is.EqualTo("--"));

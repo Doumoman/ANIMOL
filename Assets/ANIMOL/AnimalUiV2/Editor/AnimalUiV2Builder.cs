@@ -28,10 +28,14 @@ namespace ANIMOL.AnimalUiV2.Editor
         [MenuItem("ANIMOL/Animal UI v2/Build Stage Phase 2")]
         public static void BuildStagePhase2() => BuildDemo(AnimalUiMode.StageAnimalSelect);
 
+        [MenuItem("ANIMOL/Animal UI v2/Build Multiplayer Phase 3")]
+        public static void BuildMultiplayerPhase3() => BuildDemo(AnimalUiMode.MultiplayerAnimalSelect);
+
         private static void BuildDemo(AnimalUiMode? singleMode)
         {
             bool upgradeOnly = singleMode == AnimalUiMode.CharacterUpgrade;
             bool stageOnly = singleMode == AnimalUiMode.StageAnimalSelect;
+            bool multiplayerOnly = singleMode == AnimalUiMode.MultiplayerAnimalSelect;
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Play 모드를 종료한 뒤 프리뷰를 생성해주세요.");
             // Never replace/unload the user's loaded scenes. Temporary content is built in an additive scene only.
             var originalActive = SceneManager.GetActiveScene();
@@ -46,16 +50,17 @@ namespace ANIMOL.AnimalUiV2.Editor
                 var catalog = BuildCatalog();
                 if (upgradeOnly) AnimalUiV2Validation.RunUpgradeContractChecks(catalog);
                 else if (stageOnly) AnimalUiV2Validation.RunStageContractChecks(catalog);
+                else if (multiplayerOnly) AnimalUiMultiplayerPhase3Validation.RunContractChecks(catalog);
                 else AnimalUiV2Validation.RunContractChecks(catalog);
                 temporary = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Additive);
                 SceneManager.SetActiveScene(temporary);
-                var demoRoot = new GameObject(upgradeOnly ? "AnimalUpgradePhase1ReadonlyDemo" : stageOnly ? "AnimalStagePhase2ReadonlyDemo" : "AnimalUiV2ReadonlyDemo");
+                var demoRoot = new GameObject(upgradeOnly ? "AnimalUpgradePhase1ReadonlyDemo" : stageOnly ? "AnimalStagePhase2ReadonlyDemo" : multiplayerOnly ? "AnimalMultiplayerPhase3ReadonlyDemo" : "AnimalUiV2ReadonlyDemo");
                 var screens = new List<AnimalUiPresenter>();
                 var modes = singleMode.HasValue ? new[] { singleMode.Value } : (AnimalUiMode[])Enum.GetValues(typeof(AnimalUiMode));
                 foreach (AnimalUiMode mode in modes)
                 {
                     var instance = BuildScreen(mode, catalog);
-                    if (stageOnly) instance.OpenReadonlyPreviewOnStart = false;
+                    if (stageOnly || multiplayerOnly) instance.OpenReadonlyPreviewOnStart = false;
                     var prefabPath = Generated + "/" + mode + ".prefab";
                     PrefabUtility.SaveAsPrefabAsset(instance.gameObject, prefabPath);
                     instance.transform.SetParent(demoRoot.transform, false);
@@ -69,12 +74,16 @@ namespace ANIMOL.AnimalUiV2.Editor
                 {
                     var host = demoRoot.AddComponent<AnimalStagePhase2DemoHost>(); host.Screen = screens[0];
                 }
+                else if (multiplayerOnly)
+                {
+                    var host = demoRoot.AddComponent<AnimalMultiplayerPhase3DemoHost>(); host.Screen = screens[0];
+                }
                 else
                 {
                     var switcher = demoRoot.AddComponent<AnimalUiDemoSwitcher>(); switcher.Screens = screens.ToArray();
                 }
                 EnsureDemoEventSystem();
-                string sceneName = upgradeOnly ? "AnimalUpgradePhase1Demo.unity" : stageOnly ? "AnimalStagePhase2Demo.unity" : "AnimalUiV2Demo.unity";
+                string sceneName = upgradeOnly ? "AnimalUpgradePhase1Demo.unity" : stageOnly ? "AnimalStagePhase2Demo.unity" : multiplayerOnly ? "AnimalMultiplayerPhase3Demo.unity" : "AnimalUiV2Demo.unity";
                 if (!EditorSceneManager.SaveScene(temporary, Generated + "/" + sceneName))
                     throw new IOException("프리뷰 씬을 저장하지 못했습니다.");
                 Debug.Log("ANIMOL Animal UI 생성 완료. Generated/" + sceneName + "를 열고 Play를 누르세요. Backend 미연결 상태에서는 일러스트 열람만 가능합니다.");
