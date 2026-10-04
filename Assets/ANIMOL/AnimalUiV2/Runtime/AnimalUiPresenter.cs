@@ -136,7 +136,8 @@ namespace ANIMOL.AnimalUiV2
         {
             _readGeneration++; _reads?.Cancel(); _reads?.Dispose(); _reads = null; _reading = false;
         }
-        public async void Refresh()
+        public void Refresh() => RefreshWithStatus(null);
+        private async void RefreshWithStatus(string outcome)
         {
             if (!_opened || !isActiveAndEnabled || IsCommitting) return;
             CancelReads(); int generation = _readGeneration, epoch = _epoch;
@@ -164,7 +165,7 @@ namespace ANIMOL.AnimalUiV2
                     _activeQuote = MatchingQuote(active, id, UpgradeTrack.Active);
                     _passiveQuote = MatchingQuote(passive, id, UpgradeTrack.Passive);
                 }
-                _status = null;
+                _status = outcome;
             }
             catch (OperationCanceledException)
             {
@@ -223,7 +224,7 @@ namespace ANIMOL.AnimalUiV2
             {
                 var progress = _snapshot.Find(animal.Id);
                 if (progress == null) return "데이터 연결 전";
-                if (!progress.Implemented) return "플레이 준비 중";
+                if (!progress.Implemented) return string.IsNullOrEmpty(progress.AvailabilityMessage) ? "플레이 준비 중" : progress.AvailabilityMessage;
                 if (!progress.Unlocked) return string.IsNullOrEmpty(progress.AvailabilityMessage) ? "잠김" : progress.AvailabilityMessage;
                 return "성장 정보 연결됨";
             }
@@ -289,7 +290,7 @@ namespace ANIMOL.AnimalUiV2
             view.Effect.text = _reading ? "강화 정보 조회 중" : "현재: " + DisplayEffect(effect);
             if (quote?.State != UpgradeQuoteState.Maximum && !_reading) view.Effect.text += "\n다음: " + DisplayEffect(quote?.NextEffect);
             view.Cost.text = quote == null ? "비용 -- · 설정 대기" : quote.State == UpgradeQuoteState.Maximum ? "최대 강화 완료" :
-                quote.Costs.Count > 0 || quote.IsFree ? FormatCosts(quote) : quote.Message ?? "비용 정보 준비 중";
+                quote.Costs.Count > 0 || quote.IsFree ? FormatCosts(quote) : "비용 -- · 설정 대기";
             view.ButtonLabel.text = quote?.State == UpgradeQuoteState.Maximum ? "MAX" : quote?.State == UpgradeQuoteState.InsufficientFunds ? "재화 부족" : "강화";
             view.UpgradeButton.interactable = CanUpgrade(quote) && !_reading && !IsCommitting && !_modalVisible;
             view.DetailsButton.interactable = !IsCommitting && !_modalVisible;
@@ -393,7 +394,13 @@ namespace ANIMOL.AnimalUiV2
                     else MultiplayerAccepted?.Invoke(result);
                 }
             }
-            else { _activeQuote = _passiveQuote = null; Render(); }
+            else
+            {
+                _activeQuote = _passiveQuote = null; Render();
+                // A definitive refusal ends this request. Re-read before another confirmation,
+                // retaining the service's refusal reason after the refresh.
+                if (_commitMode == AnimalUiMode.CharacterUpgrade) RefreshWithStatus(_status);
+            }
         }
         public void Back()
         {

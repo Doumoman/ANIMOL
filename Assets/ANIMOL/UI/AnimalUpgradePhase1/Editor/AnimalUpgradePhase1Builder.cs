@@ -57,6 +57,7 @@ namespace ANIMOL.AnimalUpgradePhase1.Editor
                 var host = root.AddComponent<AnimalUpgradePhase1Host>();
                 host.Presenter = presenter;
                 host.IdMap = AssetDatabase.LoadAssetAtPath<AnimalUpgradeIdMap>(MapPath);
+                BindProjectBackend(root);
                 var profile = AssetDatabase.LoadAssetAtPath<PixelTypographyProfile>("Assets/ANIMOL/Typography/PixelTypographyProfile.asset");
                 if (profile == null) throw new InvalidOperationException("Existing Korean typography profile missing.");
                 foreach (var text in root.GetComponentsInChildren<Text>(true))
@@ -65,6 +66,32 @@ namespace ANIMOL.AnimalUpgradePhase1.Editor
             }
             finally { PrefabUtility.UnloadPrefabContents(root); }
             Debug.Log("Animal Upgrade Phase 1 production assets created. Existing operational assets are preserved on rerun.");
+        }
+
+        [MenuItem("ANIMOL/Animal UI v2/Connect production Upgrade Phase 1 project backend")]
+        public static void ConnectProjectBackend()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
+            var root = PrefabUtility.LoadPrefabContents(PrefabPath);
+            try
+            {
+                BindProjectBackend(root);
+                PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
+            }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+
+        private static void BindProjectBackend(GameObject root)
+        {
+            var presenter = root.GetComponent<AnimalUiPresenter>();
+            if (presenter.Backend != null && !(presenter.Backend is AnimalUpgradeProjectAdapter))
+                throw new InvalidOperationException("An existing custom backend must not be overwritten.");
+            var backend = root.GetComponent<AnimalUpgradeProjectAdapter>() ?? root.AddComponent<AnimalUpgradeProjectAdapter>();
+            // Preserve project-owned assignments on subsequent runs.
+            if (backend.IdMap == null) backend.IdMap = AssetDatabase.LoadAssetAtPath<AnimalUpgradeIdMap>(MapPath);
+            if (backend.GrowthPolicy == null) backend.GrowthPolicy = AssetDatabase.LoadAssetAtPath<GrowthEconomyPolicyCatalog>("Assets/ANIMOL/Data/Meta/GrowthEconomyPolicyCatalog.asset");
+            if (backend.UpgradeCatalog == null) backend.UpgradeCatalog = AssetDatabase.LoadAssetAtPath<CharacterUpgradeCatalog>("Assets/ANIMOL/Data/Meta/CharacterUpgradeCatalog.asset");
+            presenter.Backend = backend;
         }
 
         private static void Stretch(RectTransform rect)

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace ANIMOL.AnimalUpgradePhase1
 {
-    /// <summary>Read-only task 1 entry. Both existing hub buttons retain their navigation route.</summary>
+    /// <summary>Both existing hub buttons retain their navigation route.</summary>
     [DefaultExecutionOrder(800)]
     public sealed class AnimalUpgradePhase1Host : MonoBehaviour
     {

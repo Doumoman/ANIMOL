@@ -28,14 +28,14 @@ namespace ANIMOL.AnimalUpgradePhase1.Tests
             presenter = nav.GetComponentInChildren<AnimalUpgradePhase1Host>(true).Presenter;
         }
 
-        [UnityTest] public IEnumerator BothHubRoutesBrowseAndReturnWithoutDemoOrBackend()
+        [UnityTest] public IEnumerator BothHubRoutesBrowseAndReturnWithoutDemoOrPurchases()
         {
             foreach (var route in new[] { "PV1_Character", "UpgradeHubCharacterButton" })
             {
                 nav.Navigate("SC10_UpgradeHub"); Button(route).onClick.Invoke(); yield return null;
                 Assert.That(nav.CurrentScreenId, Is.EqualTo(AnimalUpgradePhase1Host.ScreenId));
                 Assert.IsTrue(presenter.isActiveAndEnabled);
-                Assert.IsNull(presenter.Backend);
+                Assert.That(presenter.Backend, Is.TypeOf<AnimalUpgradeProjectAdapter>());
                 Assert.That(Object.FindObjectsByType<EventSystem>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
                 Assert.IsNull(Object.FindFirstObjectByType<AnimalUiDemoSwitcher>());
                 Assert.IsNull(Object.FindFirstObjectByType<AnimalUpgradePhase1DemoHost>());
@@ -109,14 +109,14 @@ namespace ANIMOL.AnimalUpgradePhase1.Tests
                             Assert.That(v.HeroName.text, Is.EqualTo(animal.DisplayName));
                             Assert.That(v.HeroRole.text, Does.Contain(AnimalUiRules.RoleName(role)));
                             Assert.That(v.HeroPortrait.sprite, Is.SameAs(animal.Portrait));
-                            Assert.That(v.HeroState.text, Is.EqualTo("데이터 연결 전"));
+                            Assert.That(v.HeroState.text, Is.EqualTo(animal.Id == "Rabbit" ? "성장 설정 대기" : "ID 설정 대기"));
                             Assert.That(v.ActiveTrack.Level.text, Is.EqualTo("Lv. --"));
                             Assert.That(v.PassiveTrack.Level.text, Is.EqualTo("Lv. --"));
                             Assert.That(v.ActiveTrack.Cost.text, Does.Contain("설정 대기"));
                             Assert.IsFalse(v.ActiveTrack.UpgradeButton.interactable);
                             Assert.IsFalse(v.PassiveTrack.UpgradeButton.interactable);
                             Assert.That(v.Balances.text, Does.Contain(animal.DisplayName + " 숙련도 --"));
-                            Assert.IsNull(presenter.Backend);
+                            Assert.That(presenter.Backend, Is.TypeOf<AnimalUpgradeProjectAdapter>());
                             AssertContained(v.HeroPortrait.rectTransform, v.BodyScroll.viewport);
                             AssertContained(card.Portrait.rectTransform, v.RosterScroll.viewport);
                             Assert.IsNull(card.Portrait.GetComponent<Mask>());

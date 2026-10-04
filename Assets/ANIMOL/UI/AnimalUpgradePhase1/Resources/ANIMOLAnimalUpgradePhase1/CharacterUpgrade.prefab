@@ -1274,6 +1274,7 @@ GameObject:
   - component: {fileID: 6968845796581148843}
   - component: {fileID: 3712487759313068517}
   - component: {fileID: 7483593533580127088}
+  - component: {fileID: 1995268643288206889}
   m_Layer: 0
   m_Name: CharacterUpgrade
   m_TagString: Untagged
@@ -1383,7 +1384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.AnimalUiV2::ANIMOL.AnimalUiV2.AnimalUiPresenter
   Catalog: {fileID: 11400000, guid: ed5ac4e80d682a9469cf6d629812d4b9, type: 2}
   View: {fileID: 2844134327574572936}
-  Backend: {fileID: 0}
+  Backend: {fileID: 1995268643288206889}
   PreviewMode: 0
   OpenReadonlyPreviewOnStart: 0
 --- !u!114 &3712487759313068517
@@ -1412,6 +1413,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a936916e2b371f748abf40e7460390ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ANIMOL.AnimalUpgradePhase1::ANIMOL.AnimalUpgradePhase1.AnimalUpgradeWidthFit
+--- !u!114 &1995268643288206889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135044590849936079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949f48fb8b1f9bb44a95cb0b5e5ec682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.AnimalUpgradePhase1::ANIMOL.AnimalUpgradePhase1.AnimalUpgradeProjectAdapter
+  IdMap: {fileID: 11400000, guid: 6a5f56214c2bbf7448e18f1dd69b6c5e, type: 2}
+  GrowthPolicy: {fileID: 11400000, guid: fabd67e8dff264e4e937a1f369e36d09, type: 2}
+  UpgradeCatalog: {fileID: 11400000, guid: 2a200a11b53802d4daec8da9436ac787, type: 2}
 --- !u!1 &2191209225278824146
 GameObject:
   m_ObjectHideFlags: 0

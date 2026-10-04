@@ -18,7 +18,11 @@ namespace ANIMOL.AnimalUpgradePhase1.Tests
             Assert.NotNull(root);
             var p = root.GetComponent<AnimalUiPresenter>();
             Assert.IsFalse(p.OpenReadonlyPreviewOnStart);
-            Assert.IsNull(p.Backend);
+            Assert.That(p.Backend, Is.TypeOf<AnimalUpgradeProjectAdapter>());
+            var backend = (AnimalUpgradeProjectAdapter)p.Backend;
+            Assert.NotNull(backend.IdMap);
+            Assert.NotNull(backend.GrowthPolicy);
+            Assert.NotNull(backend.UpgradeCatalog);
             Assert.That(AssetDatabase.GetAssetPath(p.Catalog), Is.EqualTo(AnimalUpgradePhase1Builder.CatalogPath));
             Assert.IsEmpty(root.GetComponentsInChildren<Canvas>(true));
             Assert.IsEmpty(root.GetComponentsInChildren<EventSystem>(true));
