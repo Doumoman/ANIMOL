@@ -11,6 +11,7 @@ using W=ANIMOL.MissingUiV1.Project.MissingUtilityWidgets;
 namespace ANIMOL.MissingUiV1.Project.Multiplayer
 {
     public enum MissingMultiplayerScreen { Hub,Custom,Create,Join,Room }
+    public enum MissingMultiplayerContextAction { Normal,Ranked,Create,Lookup,Join }
 
     public sealed class MissingMultiplayerView:MonoBehaviour
     {
@@ -23,6 +24,8 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
         private UiNavigationService navigation;
         private UiModalStack modals;
         private readonly List<Action> removeListeners=new List<Action>();
+        // Optional DEV context reader. This port cannot submit an admission or grant online access.
+        public Action<MissingMultiplayerContextAction> DevContextRequested;
         public AnimalMultiplayerPhase3Host Host=>navigation==null?null:navigation.GetComponent<AnimalMultiplayerPhase3Entry>()?.Host;
         public bool CanNavigate=>isActiveAndEnabled&&navigation!=null&&(modals==null||modals.Count==0)&&Host!=null&&!Host.Presenter.IsCommitting&&!Host.Presenter.IsMultiplayerModalOpen;
 
@@ -126,13 +129,20 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
                 if(button.GetComponent<UiButtonFeedback>()==null)button.gameObject.AddComponent<UiButtonFeedback>();
             Bind(Back,()=>{if(CanNavigate)navigation.Back();});
             Bind(Custom,()=>Navigate(MissingMultiplayerScreen.Custom));Bind(Create,()=>Navigate(MissingMultiplayerScreen.Create));Bind(Join,()=>Navigate(MissingMultiplayerScreen.Join));
-            Bind(NormalBrowse,BrowseOnly);Bind(RankedBrowse,BrowseOnly);Bind(Browse,BrowseOnly);Bind(Paste,PasteCode);
-            // No operational lookup/create/join/ready/invite/leave contracts exist. No listeners for those actions.
+            Bind(NormalBrowse,()=>BrowseOnly(MissingMultiplayerContextAction.Normal));
+            Bind(RankedBrowse,()=>BrowseOnly(MissingMultiplayerContextAction.Ranked));
+            Bind(Browse,()=>BrowseOnly(MissingMultiplayerContextAction.Create));Bind(Paste,PasteCode);
+            Bind(Lookup,()=>RequestDevContext(MissingMultiplayerContextAction.Lookup));
+            Bind(Entry,()=>RequestDevContext(Screen==MissingMultiplayerScreen.Join?MissingMultiplayerContextAction.Join:MissingMultiplayerContextAction.Create));
+            // Ready/start/leave remain disconnected. Lookup and Entry buttons default to disabled.
         }
         private void OnDisable(){foreach(var remove in removeListeners)remove();removeListeners.Clear();}
         private void Bind(Button b,UnityAction a){if(b==null)return;b.onClick.AddListener(a);removeListeners.Add(()=>b.onClick.RemoveListener(a));}
         private void Navigate(MissingMultiplayerScreen kind){if(CanNavigate)navigation.Navigate(ScreenId(kind));}
-        private void BrowseOnly(){if(CanNavigate)Host.OpenUnconfigured();}
+        private void BrowseOnly(MissingMultiplayerContextAction action)
+        {if(!CanNavigate)return;if(DevContextRequested!=null)DevContextRequested(action);else Host.OpenUnconfigured();}
+        private void RequestDevContext(MissingMultiplayerContextAction action)
+        {if(CanNavigate)DevContextRequested?.Invoke(action);}
         private void PasteCode()
         {
             if(!CanNavigate)return;

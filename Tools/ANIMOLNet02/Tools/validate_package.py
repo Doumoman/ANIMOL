@@ -68,7 +68,9 @@ def main():
     assert 'ANIMOL_NET_UI_DEV' in runtime['defineConstraints']
     assert assemblies['ANIMOL.NetUiDev.Editor']['includePlatforms'] == ['Editor']
     assert not assemblies['ANIMOL.NetUiDev.Editor'].get('defineConstraints'), 'DEV menu must work with symbol off'
-    external = {'UnityEngine.TestRunner','UnityEditor.TestRunner'}
+    external = {'UnityEngine.TestRunner', 'UnityEditor.TestRunner', 'UnityEngine.UI', 'Unity.TextMeshPro',
+                'ANIMOL.Runtime', 'ANIMOL.AnimalUiV2', 'ANIMOL.AnimalMultiplayerPhase3',
+                'ANIMOL.MissingUiV1.Project', 'ANIMOL.MissingUiV1.Multiplayer'}
     for assembly in assemblies.values():
         for reference in assembly.get('references', []):
             assert reference in assemblies or reference in external, 'Unknown assembly reference: '+reference

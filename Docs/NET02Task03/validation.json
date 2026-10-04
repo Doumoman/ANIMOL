@@ -1,0 +1,118 @@
+{
+  "date_kst": "2026-10-05",
+  "scope": "TASK 03 read-only DEV context binding; admission adapter remains TASK 04",
+  "unity": "6000.3.8f1",
+  "tests": [
+    {
+      "artifact": "Logs/NET02-task03-edit.xml",
+      "sha256": "bbe9633420b545ffd5f5dd56a7ac06f09a96b7da937db96f19f12c951e325828",
+      "result": "Passed",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MultiplayerPhase3AdapterTests",
+          "total": "25",
+          "result": "Passed"
+        },
+        {
+          "name": "MultiplayerPhase3AssetTests",
+          "total": "3",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiInvariantTests",
+          "total": "18",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiProjectContextTests",
+          "total": "22",
+          "result": "Passed"
+        },
+        {
+          "name": "CommercialPolishPolicyTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task03-play.xml",
+      "sha256": "e9f2d2bf842cfbd3eeac7b2ea9c9e257c46b9471539f6c1946a845ce662b8c3e",
+      "result": "Passed",
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MissingMultiplayerFlowTests",
+          "total": "6",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiProjectBindingFlowTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task03-off-edit.xml",
+      "sha256": "99a3b3ac3590de270996498211bf75007a1bf432d03ea90f26c956dc792461a4",
+      "result": "Passed",
+      "total": 31,
+      "passed": 31,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MultiplayerPhase3AdapterTests",
+          "total": "25",
+          "result": "Passed"
+        },
+        {
+          "name": "MultiplayerPhase3AssetTests",
+          "total": "3",
+          "result": "Passed"
+        },
+        {
+          "name": "CommercialPolishPolicyTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task03-off-play.xml",
+      "sha256": "ef759663a7e0374bfe3ae74401d7aa04814c58e21729c7713ebd6c7423cb5944",
+      "result": "Passed",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MissingMultiplayerFlowTests",
+          "total": "6",
+          "result": "Passed"
+        }
+      ]
+    }
+  ],
+  "server": {
+    "artifact": "Logs/NET02-task03-server.log",
+    "sha256": "e80de2449ec2008524ff71894fb9ad3c001c3d3929e5cc9d553eee368f9610bb",
+    "passed": 25,
+    "failed": 0
+  },
+  "preexisting_paths_verified_unchanged": 1411,
+  "define_restored": "OFF; exact original ProjectSettings bytes restored",
+  "known_warnings": [
+    "Existing Missing UI utility/store missing script references in PlayMode.",
+    "Python 3.14 HTTPError ResourceWarning in existing server tests."
+  ],
+  "not_verified": [
+    "Actual owner-supplied animal/mode/account configuration is absent.",
+    "Full production-data UI/HTTP admission, SC06 receipt consumption, APK and device/LAN validation are subsequent tasks."
+  ]
+}
