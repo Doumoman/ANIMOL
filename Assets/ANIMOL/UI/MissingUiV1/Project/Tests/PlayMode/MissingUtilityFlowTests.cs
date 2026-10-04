@@ -75,7 +75,7 @@ namespace ANIMOL.MissingUiV1.Project.Tests
         }
         [UnityTest] public IEnumerator ResetCancelIsReadOnlyAndConfirmUsesExistingEightKeyReset()
         {
-            var files=Directory.GetFiles(Application.persistentDataPath,"*",SearchOption.AllDirectories).ToDictionary(p=>p,File.ReadAllBytes);
+            var files=GameSaveFiles().ToDictionary(p=>p,File.ReadAllBytes);
             View(MissingUtilityScreen.Settings).Controls.onClick.Invoke();yield return Settle();var c=View(MissingUtilityScreen.Controls);
             c.Size.value=1.3f;c.Position.value=.07f;c.Opacity.value=.4f;c.LeftHand.isOn=true;c.Drop.isOn=true;c.LargeText.isOn=true;c.Vibration.isOn=false;
             var snapshot=Values();c.ResetControls.onClick.Invoke();yield return Settle();Assert.That(modals.Count,Is.EqualTo(1));
@@ -85,7 +85,7 @@ namespace ANIMOL.MissingUiV1.Project.Tests
             Assert.That(modals.Count,Is.Zero);Assert.That(MobileControlPreferences.SizeScale,Is.EqualTo(1));Assert.That(MobileControlPreferences.HorizontalOffset,Is.Zero);
             Assert.That(MobileControlPreferences.Opacity,Is.EqualTo(.82f));Assert.IsFalse(MobileControlPreferences.LargeText);Assert.IsTrue(MobileControlPreferences.Vibration);
             Assert.That(MobileControlPreferences.Language,Is.EqualTo(UiLanguage.Korean));Assert.That(MobileControlPreferences.Handedness,Is.EqualTo(ControlHandedness.Right));Assert.IsFalse(MobileControlPreferences.UseDedicatedDropButton);
-            CollectionAssert.AreEquivalent(files.Keys,Directory.GetFiles(Application.persistentDataPath,"*",SearchOption.AllDirectories));
+            CollectionAssert.AreEquivalent(files.Keys,GameSaveFiles());
             foreach(var kv in files)CollectionAssert.AreEqual(kv.Value,File.ReadAllBytes(kv.Key),kv.Key);
         }
         [UnityTest] public IEnumerator PointerSliderToggleAndModalRaycastUseExistingInputOwner()
@@ -168,6 +168,12 @@ namespace ANIMOL.MissingUiV1.Project.Tests
             }
         }
         private static float[] Values()=>new[]{MobileControlPreferences.SizeScale,MobileControlPreferences.HorizontalOffset,MobileControlPreferences.Opacity,MobileControlPreferences.LargeText?1:0,MobileControlPreferences.Vibration?1:0,(float)MobileControlPreferences.Language,(float)MobileControlPreferences.Handedness,MobileControlPreferences.UseDedicatedDropButton?1:0};
+        private static IEnumerable<string> GameSaveFiles()=>Directory.GetFiles(Application.persistentDataPath,"*",SearchOption.AllDirectories).Where(p=>
+        {
+            var relative=Path.GetRelativePath(Application.persistentDataPath,p).Replace('\\','/');
+            // Unity rotates its own telemetry independently of the UI or game save contract.
+            return !(relative.StartsWith("Unity/",StringComparison.Ordinal)&&(relative.Contains("/Editor/Analytics/")||relative.Contains("/Insights/")));
+        });
         private static IEnumerator Settle(){for(int i=0;i<10;i++)yield return null;Canvas.ForceUpdateCanvases();}
         private static void AssertInside(RectTransform child,RectTransform parent)
         {
