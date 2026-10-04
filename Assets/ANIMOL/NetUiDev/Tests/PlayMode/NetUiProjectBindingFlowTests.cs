@@ -63,7 +63,8 @@ namespace Animol.NetUiDev.Tests
             Assert.AreEqual(1, source.Lookups); Assert.IsTrue(join.Entry.interactable);
             Assert.AreEqual(MissingMultiplayerView.ScreenId(MissingMultiplayerScreen.Join), nav.CurrentScreenId);
             join.Entry.onClick.Invoke(); yield return null;
-            Assert.AreEqual(2, source.Lookups); Assert.AreEqual(2, source.Contexts);
+            // TASK 04 also reads fresh authority when the Phase3 presenter opens.
+            Assert.AreEqual(3, source.Lookups); Assert.AreEqual(3, source.Contexts);
             Assert.AreEqual(AnimalMultiplayerPhase3Host.ScreenId, nav.CurrentScreenId);
             Assert.AreEqual("TEST_MODE", nav.GetComponent<AnimalMultiplayerPhase3Entry>().Host.Context.ModeId);
             Assert.AreEqual("Unconfigured", NetUiDevCoordinator.Instance.RequestState);

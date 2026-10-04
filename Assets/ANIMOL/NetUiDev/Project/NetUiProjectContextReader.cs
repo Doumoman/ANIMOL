@@ -34,6 +34,7 @@ namespace Animol.NetUiDev.Project
         public NetUiLookupResponse Lookup;
         public string GrowthPolicy;
         public string RoomCode;
+        public string Route;
     }
 
     public sealed class NetUiProjectContextReader
@@ -123,7 +124,7 @@ namespace Animol.NetUiDev.Project
                 }
                 NetUiValidation.Require(AnimalUiRules.CanConfirmMultiplayer(artCatalog, snapshot, request.InitialLoadout, request, true, true, out var reason),
                     "PROJECT_LOADOUT_OR_PERMISSION_UNCONFIGURED");
-                return new NetUiBoundContext { Request = request, Snapshot = snapshot, Lookup = lookup, GrowthPolicy = policy.GrowthPolicy, RoomCode = code };
+                return new NetUiBoundContext { Request = request, Snapshot = snapshot, Lookup = lookup, GrowthPolicy = policy.GrowthPolicy, RoomCode = code, Route = route };
             }
             finally { reading = false; }
         }

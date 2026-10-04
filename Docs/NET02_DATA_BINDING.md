@@ -2,6 +2,8 @@
 
 기준일: 2026-10-05. TASK 03의 DEV 조회·변환·기존 UI 연결을 적용했다. 운영 데이터와 실제 입장 승인은 아직 미구성이다. TASK 04의 Phase3 snapshot/입장 어댑터 연결은 별도 작업이다.
 
+후속 상태: [TASK 04](NET02_TASK04_RESULT.md)에서 DEV snapshot/입장 어댑터와 Unknown 복구를 연결했다. 아래는 TASK 03 완료 시점의 기록이며 실제 데이터 미구성 상태는 유지된다.
+
 ## 실제 공급자와 매핑
 
 | 항목 | 공급자 | 적용 방식 / 현재 상태 |
@@ -11,7 +13,7 @@
 | ModeId·DisplayName·PolicyRevision·대표 역할·허용 풀 | NET02 `/v1/catalog`의 `Modes` | 명시적으로 선택한 ID와 서버 정책 일치 확인. 배열 순서나 이름으로 추측하지 않음 |
 | opaque EntryIntent | 서버 `Modes[].EntryIntents` + 로컬 DEV 모드 라우팅 설정 | public/create/join Kind와 정확히 일치해야 함. UI 버튼 이름을 intent로 전송하지 않음 |
 | 일반·랭크 성장 정책 | 로컬 DEV `Modes[].GrowthPolicy` | 일반은 OwnedProgress, 랭크는 RankedMaximumPreset. 동일 ModeId 사용과 정책 혼동을 거절. 성장 수치 자체는 공급되지 않음 |
-| 초기 3종·revision·종별 사용 권한 | `/v1/context`의 Context/Snapshot | 선택된 3종의 역할·구현·HasContextPermission·CanUseInContext 및 허용 풀 검증. Unlocked만으로 허용하지 않음 |
+| 초기 3종·revision·종별 사용 권한 | `/v1/multiplayer/context`의 Context/Snapshot | 선택된 3종의 역할·구현·HasContextPermission·CanUseInContext 및 허용 풀 검증. Unlocked만으로 허용하지 않음 |
 | 코드 참가의 모드·정책·인원·상태 | `/v1/room/lookup` | 실제 조회 응답의 ModeId를 사용. Waiting, 최대 4명, 빈 자리, 현 카탈로그 정책 일치를 확인한 다음 context 조회 |
 | DEV 계정·endpoint·자격 증명 | `Application.persistentDataPath/ANIMOLNet02/connection.json` | 별도 로컬 설정. 게임 AccountIdentityState와 ExternalServiceConfiguration 변경 없음 |
 

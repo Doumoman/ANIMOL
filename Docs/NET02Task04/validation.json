@@ -1,0 +1,202 @@
+{
+  "date_kst": "2026-10-05",
+  "scope": "TASK 04 Phase3 DEV admission through one coordinator; actual SC06 navigation remains TASK 05",
+  "unity": "6000.3.8f1",
+  "tests": [
+    {
+      "artifact": "Logs/NET02-task04-edit.xml",
+      "sha256": "c84d6e15541254735ba2b22df60901eeeecf92bffb5873efbc32de20d1d8a124",
+      "result": "Passed",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MultiplayerPhase3AdapterTests",
+          "total": "25",
+          "result": "Passed"
+        },
+        {
+          "name": "MultiplayerPhase3AssetTests",
+          "total": "3",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiInvariantTests",
+          "total": "18",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiProjectContextTests",
+          "total": "22",
+          "result": "Passed"
+        },
+        {
+          "name": "CommercialPolishPolicyTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task04-play.xml",
+      "sha256": "e641c5eccb823700e6946740ce95ee445a30688579b95aa452305257515063b9",
+      "result": "Passed",
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MultiplayerPhase3TransactionTests",
+          "total": "5",
+          "result": "Passed"
+        },
+        {
+          "name": "MissingMultiplayerFlowTests",
+          "total": "6",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiAdmissionHttpTests",
+          "total": "5",
+          "result": "Passed"
+        },
+        {
+          "name": "NetUiProjectBindingFlowTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task04-off-edit.xml",
+      "sha256": "a1713918f776418e3214d1e1e3ecf1d0548bc5bd32942315ba2e3945a06dd991",
+      "result": "Passed",
+      "total": 31,
+      "passed": 31,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MultiplayerPhase3AdapterTests",
+          "total": "25",
+          "result": "Passed"
+        },
+        {
+          "name": "MultiplayerPhase3AssetTests",
+          "total": "3",
+          "result": "Passed"
+        },
+        {
+          "name": "CommercialPolishPolicyTests",
+          "total": "3",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02-task04-off-play.xml",
+      "sha256": "9f42c6d075fd8b21239bc5d7a9cce1e8821b2a71fc590bf45957efc3077e6263",
+      "result": "Passed",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "MissingMultiplayerFlowTests",
+          "total": "6",
+          "result": "Passed"
+        }
+      ]
+    }
+  ],
+  "server": {
+    "artifact": "Logs/NET02-task04-server.log",
+    "sha256": "f59ba1b7f17e7b1b546e8d9cf189f872bfc8f88b7e645d57c55314fd4872d9f4",
+    "passed": 25,
+    "failed": 0
+  },
+  "http_fixture": {
+    "scope": "Isolated real HTTP/SQLite fixture; no production IDs",
+    "requests_by_endpoint": {
+      "/v1/dev/session": 5,
+      "/v1/catalog": 21,
+      "/v1/multiplayer/context": 11,
+      "/v1/room/entry": 6,
+      "/v1/room/state": 6,
+      "/v1/room/leave": 5,
+      "/v1/room/result": 3
+    }
+  },
+  "redacted_counters": [
+    {
+      "Test": "CancelZeroConfirmOnceAndSingleCentralConsumption",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "CoordinatorRestartRestoresUnknownAndRejectsAccountSwitch",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 0,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 0,
+      "AcceptedPresentations": 0,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "LostResponseReconcilesSameDurablePayloadWithoutResubmit",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "ServerPolicyChangeRejectsAndRequiresManualRefreshAndNewAction",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 2,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "TamperedReceiptStaysUnknownUntilOriginalServerReceipt",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    }
+  ],
+  "initial_test_harness_corrections": [
+    "Reset fixture counters between NUnit cases.",
+    "Update TASK 03 expected lookup count to include TASK 04 fresh Phase3 snapshot read."
+  ],
+  "preexisting_paths_verified_unchanged": 1411,
+  "define_restored": "OFF; original ProjectSettings bytes restored",
+  "known_warnings": [
+    "Existing Missing UI utility/store missing script references.",
+    "Python 3.14 HTTPError ResourceWarning."
+  ],
+  "limits": [
+    "Real owner species/mode/account configuration remains absent.",
+    "Restart test destroys coordinator and reloads Lobby; no OS process kill/device validation.",
+    "Central receipt callback tested with a fixture consumer; actual SC06 binding/navigation is TASK 05."
+  ]
+}

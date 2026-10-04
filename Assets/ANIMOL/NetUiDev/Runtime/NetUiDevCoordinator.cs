@@ -32,6 +32,15 @@ namespace Animol.NetUiDev
         // which alone coordinates acknowledgment with the existing SC06 consumer.
         public event Action AcceptedReceiptReady;
         public string AccountId { get { return accountId; } }
+        public string ServerUrl => serverUrl;
+        // Redacted, process-local diagnostics. No credentials, action IDs or receipt tokens.
+        public int SubmissionCount { get; private set; }
+        public int ResultQueryCount { get; private set; }
+        public int ReceiptNotificationCount { get; private set; }
+        public int ReceiptConsumeCount { get; private set; }
+        public int AcceptedPresentationCount { get; private set; }
+        public void RecordAcceptedPresentation() { AcceptedPresentationCount++; }
+        public NetUiEntryRequest StoredRequest => journal == null || string.IsNullOrEmpty(journal.Record.RequestJson) ? null : Copy(journal.ReadRequest());
         public bool BlocksNewEntry { get { return admissionInFlight || (journal != null && journal.BlocksNewEntry); } }
         public string PendingActionId { get { return journal == null || string.IsNullOrEmpty(journal.Record.RequestJson) ? null : journal.ReadRequest().ActionId; } }
         public string RequestState { get { return journal == null ? "Unconfigured" : (journal.Record.RoomLeftConfirmed ? "Left" : journal.Record.State); } }
@@ -65,11 +74,13 @@ namespace Animol.NetUiDev
             NetUiHttpClient.EnsureDevelopment();
             NetUiValidation.Require(serviceReads == 0 && !admissionInFlight && !contextInFlight && !roomMutationInFlight && !roomPollInFlight && !BlocksNewEntry, "RESOLVE_CURRENT_ACTION_BEFORE_SWITCHING_SESSION");
             NetUiValidation.Require(!string.IsNullOrWhiteSpace(devAccountId), "DEV_ACCOUNT_ID_REQUIRED");
-            serverUrl = NetUiValidation.NormalizeServerUrl(url, Application.isMobilePlatform);
-            accountId = devAccountId;
+            // Validate recovery scope before mutating any live account/endpoint fields.
+            var normalized = NetUiValidation.NormalizeServerUrl(url, Application.isMobilePlatform);
+            var nextJournal = new NetUiRequestJournal(normalized, devAccountId, devClientSlot);
+            var nextClient = new NetUiHttpClient(normalized);
+            serverUrl = normalized; accountId = devAccountId;
             explicitProjectIdMap = Copy(projectMap) ?? new NetUiIdMapEntry[0];
-            client = new NetUiHttpClient(serverUrl);
-            journal = new NetUiRequestJournal(serverUrl, accountId, devClientSlot);
+            client = nextClient; journal = nextJournal;
             client.SessionToken = journal.Record.SessionToken;
             context = null; catalog = null; room = null; polling = false; lastNotifiedReceipt = null;
             PublishState(RequestState, "");
@@ -162,6 +173,15 @@ namespace Animol.NetUiDev
         public NetUiArtLoadout ToArtLoadout(NetUiLoadout actualLoadout)
         { return NetUiValidation.ToArt(actualLoadout, catalog, explicitProjectIdMap); }
 
+        public void BindRecoveryProjectMap(NetUiIdMapEntry[] projectMap)
+        {
+            RequireConfigured();
+            NetUiValidation.Require(catalog != null && StoredRequest != null, "READ_CATALOG_AND_RESTORE_REQUEST_FIRST");
+            var candidate = Copy(projectMap);
+            NetUiValidation.ToArt(StoredRequest.Loadout, catalog, candidate);
+            explicitProjectIdMap = candidate; // Rebind identity only; never replace scope, session or payload.
+        }
+
         public async Task<NetUiEntryResult> SubmitEntryAsync(NetUiEntryRequest confirmedRequest)
         {
             RequireConfigured();
@@ -171,7 +191,7 @@ namespace Animol.NetUiDev
             journal.Begin(immutable);
             admissionInFlight = true;
             PublishState("Pending", "");
-            try { return ApplyResult(await client.SubmitJsonAsync(journal.Record.RequestJson)); }
+            try { SubmissionCount++; return ApplyResult(await client.SubmitJsonAsync(journal.Record.RequestJson)); }
             catch (Exception exception) { return SetUnknown(exception); }
             finally { admissionInFlight = false; }
         }
@@ -183,7 +203,7 @@ namespace Animol.NetUiDev
             if (journal.Record.State == "Accepted" || journal.Record.State == "Rejected" || journal.Record.State == "Unavailable")
             { NotifyReceipt(); return Copy(journal.ReadResult()); }
             admissionInFlight = true;
-            try { return ApplyResult(await client.ResolveJsonAsync(journal.Record.RequestJson)); }
+            try { ResultQueryCount++; return ApplyResult(await client.ResolveJsonAsync(journal.Record.RequestJson)); }
             catch (Exception exception) { return SetUnknown(exception); }
             finally { admissionInFlight = false; }
         }
@@ -198,7 +218,7 @@ namespace Animol.NetUiDev
             journal.MarkRetryPending();
             admissionInFlight = true;
             PublishState("Pending", "RETRYING_ORIGINAL_ACTION");
-            try { return ApplyResult(await client.SubmitJsonAsync(journal.Record.RequestJson)); }
+            try { SubmissionCount++; return ApplyResult(await client.SubmitJsonAsync(journal.Record.RequestJson)); }
             catch (Exception exception) { return SetUnknown(exception); }
             finally { admissionInFlight = false; }
         }
@@ -235,7 +255,9 @@ namespace Animol.NetUiDev
                 // Existing consumer must bind the real RoomId/receipt, then navigate.
                 // Return true only after its own idempotent room delivery succeeds.
                 if (!existingSc06Consumer(Copy(result), Copy(artLoadout))) return false;
-                return journal.Consume(result.ActionId, result.AcceptanceToken);
+                bool consumed = journal.Consume(result.ActionId, result.AcceptanceToken);
+                if (consumed) ReceiptConsumeCount++;
+                return consumed;
             }
             finally { deliveringReceipt = false; }
         }
@@ -246,6 +268,7 @@ namespace Animol.NetUiDev
             var result = journal.ReadResult();
             if (lastNotifiedReceipt == result.AcceptanceToken) return;
             lastNotifiedReceipt = result.AcceptanceToken;
+            ReceiptNotificationCount++;
             try { AcceptedReceiptReady?.Invoke(); }
             catch (Exception) { Debug.LogWarning("NET02 receipt subscriber failed; receipt remains available for explicit delivery retry."); }
         }
