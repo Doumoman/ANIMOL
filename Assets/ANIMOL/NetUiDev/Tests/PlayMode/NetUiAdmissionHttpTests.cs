@@ -31,7 +31,7 @@ namespace Animol.NetUiDev.Tests
         private UiNavigationService navigation;
         [Serializable] private sealed class Counters
         {
-            public string Test, Scope = "Isolated real HTTP fixture; no production IDs", State;
+            public string Test, Scope = "Isolated real HTTP fixture; no production IDs", State, ActionTagSha256;
             public int Submissions, ResultQueries, ReceiptNotifications, AcceptedPresentations, ReceiptConsumptions, WaitingRoomNavigations;
         }
 
@@ -96,6 +96,7 @@ namespace Animol.NetUiDev.Tests
                 string output = Path.Combine(Application.dataPath, "../Logs/NET02Task" + (Environment.GetEnvironmentVariable("ANIMOL_NET02_TEST_STAGE") ?? "04")); Directory.CreateDirectory(output);
                 File.WriteAllText(Path.Combine(output, TestContext.CurrentContext.Test.Name + ".json"), JsonUtility.ToJson(new Counters {
                     Test = TestContext.CurrentContext.Test.Name, State = service.RequestState, Submissions = service.SubmissionCount,
+                    ActionTagSha256 = ActionTag(service.StoredRequest?.ActionId),
                     ResultQueries = service.ResultQueryCount, ReceiptNotifications = service.ReceiptNotificationCount,
                     AcceptedPresentations = service.AcceptedPresentationCount, ReceiptConsumptions = service.ReceiptConsumeCount,
                     WaitingRoomNavigations = navigations }, true));
@@ -122,6 +123,12 @@ namespace Animol.NetUiDev.Tests
             if (service != null) Object.Destroy(service.gameObject);
             if (fixtureArt != null) Object.Destroy(fixtureArt);
             yield return null;
+        }
+        private static string ActionTag(string actionId)
+        {
+            if (string.IsNullOrEmpty(actionId)) return "";
+            using (var hash = System.Security.Cryptography.SHA256.Create())
+                return BitConverter.ToString(hash.ComputeHash(System.Text.Encoding.UTF8.GetBytes(actionId))).Replace("-", "").Substring(0, 12);
         }
         [UnityTest] public IEnumerator CancelZeroConfirmOnceAndSingleCentralConsumption()
         {

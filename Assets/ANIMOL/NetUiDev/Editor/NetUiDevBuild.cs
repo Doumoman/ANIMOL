@@ -26,6 +26,7 @@ namespace Animol.NetUiDev.Editor
         public static void BuildWindows()
         {
             string[] scenes = Preflight(NamedBuildTarget.Standalone);
+            byte[] originalSettings = CaptureSettings();
             string output = "Builds/ANIMOLNet02UiDev/Windows/ANIMOLNet02Dev.exe";
             Directory.CreateDirectory(Path.GetDirectoryName(output));
             string oldName = PlayerSettings.productName;
@@ -44,13 +45,18 @@ namespace Animol.NetUiDev.Editor
                     options = BuildOptions.Development
                 }));
             }
-            finally { PlayerSettings.productName = oldName; PlayerSettings.forceSingleInstance = oldSingle; PlayerSettings.insecureHttpOption = oldHttp; }
+            finally
+            {
+                PlayerSettings.productName = oldName; PlayerSettings.forceSingleInstance = oldSingle; PlayerSettings.insecureHttpOption = oldHttp;
+                RestoreSettings(originalSettings);
+            }
         }
 
         [MenuItem("ANIMOL/NET02 Existing UI DEV/2 Build Android Development APK")]
         public static void BuildAndroid()
         {
             string[] scenes = Preflight(NamedBuildTarget.Android);
+            byte[] originalSettings = CaptureSettings();
             string output = "Builds/ANIMOLNet02UiDev/Android/ANIMOLNet02Dev.apk";
             Directory.CreateDirectory(Path.GetDirectoryName(output));
             string oldName = PlayerSettings.productName;
@@ -90,6 +96,7 @@ namespace Animol.NetUiDev.Editor
                 PlayerSettings.Android.targetArchitectures = oldArchitectures;
                 PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, oldBackend);
                 PlayerSettings.insecureHttpOption = oldHttp;
+                RestoreSettings(originalSettings);
             }
         }
 
@@ -109,6 +116,21 @@ namespace Animol.NetUiDev.Editor
         }
         private static bool HasDefine(NamedBuildTarget target)
         { return PlayerSettings.GetScriptingDefineSymbols(target).Split(';').Contains(Define); }
+        private const string SettingsPath = "ProjectSettings/ProjectSettings.asset";
+        private static byte[] CaptureSettings()
+        {
+            AssetDatabase.SaveAssets();
+            return File.ReadAllBytes(SettingsPath);
+        }
+        private static void RestoreSettings(byte[] original)
+        {
+            // BuildPlayer serializes temporary values. Setters alone may not flush before
+            // a batch Editor exits, and cannot restore an originally absent Android ID key.
+            AssetDatabase.SaveAssets();
+            File.WriteAllBytes(SettingsPath, original);
+            AssetDatabase.ImportAsset(SettingsPath, ImportAssetOptions.ForceUpdate);
+            Debug.Log("NET02 original PlayerSettings restored (including absent platform keys).");
+        }
         private static void SetDefine(NamedBuildTarget target, bool enabled)
         {
             var values = PlayerSettings.GetScriptingDefineSymbols(target).Split(';').Where(value => !string.IsNullOrWhiteSpace(value) && value != Define).ToList();
@@ -116,6 +138,24 @@ namespace Animol.NetUiDev.Editor
             PlayerSettings.SetScriptingDefineSymbols(target, string.Join(";", values));
         }
         private static void CheckReport(BuildReport report)
-        { if (report.summary.result != BuildResult.Succeeded) throw new InvalidOperationException("NET02 build failed: " + report.summary.result); Debug.Log("NET02 development build: " + report.summary.outputPath); }
+        {
+            var summary = report.summary;
+            Directory.CreateDirectory("Logs");
+            File.WriteAllText("Logs/NET02-build-" + summary.platform + ".json", JsonUtility.ToJson(new Evidence {
+                Target = summary.platform.ToString(), Result = summary.result.ToString(), Output = summary.outputPath,
+                Bytes = summary.totalSize.ToString(), Seconds = summary.totalTime.TotalSeconds,
+                Errors = summary.totalErrors, Warnings = summary.totalWarnings, Development = true,
+                Scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray() }, true));
+            if (summary.result != BuildResult.Succeeded) throw new InvalidOperationException("NET02 build failed: " + summary.result);
+            Debug.Log("NET02 development build: " + summary.outputPath);
+        }
+        [Serializable] private sealed class Evidence
+        {
+            public string Target, Result, Output, Bytes;
+            public double Seconds;
+            public int Errors, Warnings;
+            public bool Development;
+            public string[] Scenes;
+        }
     }
 }

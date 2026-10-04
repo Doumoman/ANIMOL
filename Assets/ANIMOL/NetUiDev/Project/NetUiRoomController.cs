@@ -175,6 +175,7 @@ namespace Animol.NetUiDev.Project
         private void Render(NetUiRoomState state)
         {
             var mode = NetUiValidation.FindMode(service.CurrentCatalog, state.ModeId);
+            Words(view.Body.content.Find("RoomIdentity"), "HeadingText", "승인된 방 정보", "Approved room");
             Words(view.transform, "RoomIdentityText", "방 코드 " + state.RoomCode + " · 방장 " + state.OwnerAccountId + "\n현재 인원 " + state.Participants.Length + " / 4 · " + mode.DisplayName + "\n정책 " + state.PolicyRevision,
                 "Code " + state.RoomCode + " · Host " + state.OwnerAccountId + "\nPlayers " + state.Participants.Length + " / 4 · " + mode.DisplayName + "\nPolicy " + state.PolicyRevision);
             for (int i = 0; i < view.ParticipantSlots.Length; i++)

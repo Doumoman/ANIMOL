@@ -16,6 +16,7 @@ import uuid
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--stage', choices=['04', '05', '06'], default='06')
+    parser.add_argument('--graphics', action='store_true', help='Enable GPU-backed portrait render verification')
     args = parser.parse_args()
     prefix = 'NET02-task' + args.stage
     package = Path(__file__).resolve().parent.parent
@@ -55,7 +56,8 @@ def main():
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         environment = dict(os.environ, ANIMOL_NET02_TEST_URL=f'http://127.0.0.1:{server.server_port}',
-                           ANIMOL_NET02_TEST_CONFIG=str(config), ANIMOL_NET02_TEST_FAULT=str(fault), ANIMOL_NET02_TEST_STAGE=args.stage)
+                           ANIMOL_NET02_TEST_CONFIG=str(config), ANIMOL_NET02_TEST_FAULT=str(fault), ANIMOL_NET02_TEST_STAGE=args.stage,
+                           ANIMOL_NET02_TEST_GRAPHICS='1' if args.graphics else '0')
         unity = shutil.which('unity')
         if not unity:
             raise RuntimeError('Unity CLI is required')
@@ -68,7 +70,7 @@ def main():
                 'MultiplayerPhase3TransactionTests.InactivePending;MultiplayerPhase3TransactionTests.LateRead;'
                 'MultiplayerPhase3TransactionTests.EachPermission;MultiplayerPhase3TransactionTests.MalformedContext',
                 '--output', 'Logs/' + prefix + '-play.xml', '--timeout', '300', '--format', 'json', '--',
-                '-nographics', '-logFile', 'Logs/' + prefix + '-play.log', '-animolNet02Slot', 'test_' + uuid.uuid4().hex[:20]],
+                *([] if args.graphics else ['-nographics']), '-logFile', 'Logs/' + prefix + '-play.log', '-animolNet02Slot', 'test_' + uuid.uuid4().hex[:20]],
                 cwd=project, env=environment)
         finally:
             server.shutdown(); server.server_close(); thread.join(); store.close()
