@@ -284,19 +284,33 @@ namespace ANIMOL.AnimalUiV2
         private void RenderTrack(AnimalUpgradeTrackView view, UpgradeQuote quote, AnimalProgress progress, UpgradeTrack track)
         {
             view.Title.text = track == UpgradeTrack.Active ? "액티브 강화 · 상세" : "패시브 강화 · 상세";
-            int level = quote?.CurrentLevel ?? (track == UpgradeTrack.Active ? progress?.ActiveLevel ?? -1 : progress?.PassiveLevel ?? -1);
+            int knownLevel = track == UpgradeTrack.Active ? progress?.ActiveLevel ?? -1 : progress?.PassiveLevel ?? -1;
+            int level = quote != null && quote.CurrentLevel >= 0 ? quote.CurrentLevel : knownLevel;
             view.Level.text = level < 0 ? "Lv. --" : "Lv. " + level + (quote?.State == UpgradeQuoteState.Maximum ? " · MAX" : quote != null && quote.NextLevel >= 0 ? " → " + quote.NextLevel : "");
             string effect = quote?.CurrentEffect ?? (track == UpgradeTrack.Active ? progress?.ActiveDescription : progress?.PassiveDescription);
-            view.Effect.text = _reading ? "강화 정보 조회 중" : "현재: " + DisplayEffect(effect);
-            if (quote?.State != UpgradeQuoteState.Maximum && !_reading) view.Effect.text += "\n다음: " + DisplayEffect(quote?.NextEffect);
+            view.Effect.text = _reading ? "강화 정보 조회 중" : "현재: " + CompactEffect(effect);
+            if (quote?.State != UpgradeQuoteState.Maximum && !_reading) view.Effect.text += "\n다음: " + CompactEffect(quote?.NextEffect);
             view.Cost.text = quote == null ? "비용 -- · 설정 대기" : quote.State == UpgradeQuoteState.Maximum ? "최대 강화 완료" :
-                quote.Costs.Count > 0 || quote.IsFree ? FormatCosts(quote) : "비용 -- · 설정 대기";
+                quote.Costs.Count > 0 || quote.IsFree ? CompactCosts(quote) : "비용 -- · 설정 대기";
             view.ButtonLabel.text = quote?.State == UpgradeQuoteState.Maximum ? "MAX" : quote?.State == UpgradeQuoteState.InsufficientFunds ? "재화 부족" : "강화";
             view.UpgradeButton.interactable = CanUpgrade(quote) && !_reading && !IsCommitting && !_modalVisible;
             view.DetailsButton.interactable = !IsCommitting && !_modalVisible;
         }
         private bool CanUpgrade(UpgradeQuote quote) => AnimalUiRules.CanPurchaseUpgrade(Catalog, _snapshot, quote, Backend != null, _snapshotValid, out _);
         private static string DisplayEffect(string effect) => string.IsNullOrWhiteSpace(effect) ? "-- · 설정 대기" : effect;
+        private static string CompactEffect(string effect)
+        {
+            string text = DisplayEffect(effect).Replace('\n', ' ').Replace('\r', ' ');
+            var elements = new System.Globalization.StringInfo(text);
+            if (elements.LengthInTextElements <= 40) return text;
+            // Do not cut rich-text tags. Full, unmodified content is retained in both modals.
+            return text.Contains("<") ? "전체 효과는 상세에서 확인" : elements.SubstringByTextElements(0, 40) + "… (상세)";
+        }
+        private static string CompactCosts(UpgradeQuote quote)
+        {
+            string text = FormatCosts(quote);
+            return text.Length <= 42 && !text.Contains("\n") ? text : "비용 " + quote.Costs.Count + "종 · 상세 확인";
+        }
         private static string Number(long? value) => value.HasValue ? value.Value.ToString("N0") : "--";
         private static string FormatCosts(UpgradeQuote quote) => quote.IsFree && quote.Costs.Count == 0 ? "무료 (설정된 비용)" :
             string.Join(" · ", quote.Costs.Select(cost => (cost.DisplayName ?? cost.CurrencyId) + " " + cost.Amount.ToString("N0")));
@@ -334,6 +348,11 @@ namespace ANIMOL.AnimalUiV2
         {
             _modalVisible = true; _modalAction = action; View.ModalTitle.text = title; View.ModalBody.text = body;
             View.ModalConfirmLabel.text = confirm; View.ModalCancelLabel.text = "취소"; View.Modal.SetActive(true); Render();
+            var scroll = View.ModalBody.GetComponentInParent<UnityEngine.UI.ScrollRect>();
+            if (scroll != null)
+            {
+                Canvas.ForceUpdateCanvases(); scroll.StopMovement(); scroll.verticalNormalizedPosition = 1;
+            }
         }
         private void ShowRetryModal() => ShowModal("처리 결과 확인", "응답을 확인하지 못했습니다.\n같은 요청 ID로 결과를 다시 확인합니다.\n확인 전에는 편성과 비용을 바꾸지 않습니다.", "결과 다시 확인", () =>
         {

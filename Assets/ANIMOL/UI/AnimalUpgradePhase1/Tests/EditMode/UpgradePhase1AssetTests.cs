@@ -53,6 +53,7 @@ namespace ANIMOL.AnimalUpgradePhase1.Tests
             foreach (AnimalRole role in System.Enum.GetValues(typeof(AnimalRole))) Assert.That(catalog.ForRole(role).Count(), Is.EqualTo(5));
             foreach (var animal in catalog.Animals)
             {
+                Assert.That(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(animal.Portrait)), Does.EndWith("_" + animal.Id));
                 Assert.That(animal.Portrait.rect.size, Is.EqualTo(new Vector2(128, 160)));
                 var importer = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(animal.Portrait));
                 Assert.That(importer.spriteImportMode, Is.EqualTo(SpriteImportMode.Single));

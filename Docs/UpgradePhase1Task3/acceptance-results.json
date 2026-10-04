@@ -1,0 +1,208 @@
+{
+  "schema": "animol.animal-upgrade.acceptance.phase1.v1",
+  "source_sha256": "36d1bbf49bf090bac03763796f35700ae7bb944c6182f52db4f8ef03fb93076f",
+  "phase": 1,
+  "scope": "AnimalUpgradeOnly",
+  "production_complete": false,
+  "actual_growth_service_connected": false,
+  "actual_server_transactions_run": 0,
+  "all_cases_required_for_production": true,
+  "cases": [
+    {
+      "id": "P1-SCOPE-01",
+      "expected": "동물 강화만 운영 연결한다. 스테이지·멀티플레이 선택창의 진입·제출·씬 이동은 이번 단계에 추가하지 않는다.",
+      "result": "통과",
+      "notes": "동물 강화 경로만 연결, 선택 운영 연결 추가 없음",
+      "fully_met": true
+    },
+    {
+      "id": "P1-SCOPE-02",
+      "expected": "두 메서드는 CommitStatus.Unavailable과 분명한 안내를 반환하며 기존 스테이지/방 서비스를 호출하지 않는다.",
+      "result": "통과",
+      "notes": "두 submit Unavailable 및 무전송 코드/호출 검사",
+      "fully_met": true
+    },
+    {
+      "id": "P1-IMPORT-01",
+      "expected": "AGENTS.md와 실제 코드·asset을 기준으로 적용한다. 존재를 확인하지 않은 과거 경로·메서드를 연결 지점으로 사용하지 않는다.",
+      "result": "통과",
+      "notes": "지침·실제 코드/asset·작업 1/2 확인",
+      "fully_met": true
+    },
+    {
+      "id": "P1-IMPORT-02",
+      "expected": "실제 Unity 컴파일이 통과하고 기존 계정 공통 성장 UI·v7 로비·캠페인/멀티플레이 진입이 유지된다.",
+      "result": "통과",
+      "notes": "컴파일 및 현재 운영 진입/비활성 정책 회귀 통과",
+      "fully_met": true
+    },
+    {
+      "id": "P1-ART-01",
+      "expected": "최신 Rabbit 포함 15종의 PNG 해시·128x160 크기·전체 캔버스가 원본과 일치한다. Stable ID를 실제 프로젝트 ID에 명시적으로 매핑한다.",
+      "result": "부분",
+      "notes": "원본 15/15 동일, 실명 ID는 Rabbit→RABBIT만 확인",
+      "fully_met": false
+    },
+    {
+      "id": "P1-ART-02",
+      "expected": "원본이 비율 그대로 보이며 프레임/마스크가 귀·클로버 핀·날개를 추가로 자르지 않는다. Point/무압축/mipmap 없음/Full Rect/비율 유지로 표시한다.",
+      "result": "통과",
+      "notes": "15종 importer/카드/큰 초상/캔버스/비율 검사",
+      "fully_met": true
+    },
+    {
+      "id": "P1-ART-03",
+      "expected": "텍스트와 초상·버튼이 겹치지 않고 스크롤로 모든 내용을 읽을 수 있다. 고정 하단 버튼과 터치 영역은 Safe Area 안에 있다.",
+      "result": "부분",
+      "notes": "양 해상도/모의 Safe Area/장문 fixture 통과. 실제 최대 데이터와 모바일 기기 미검증",
+      "fully_met": false
+    },
+    {
+      "id": "P1-ROSTER-01",
+      "expected": "각 탭이 5종을 올바른 이름과 역할로 보여준다. 카드 선택 후 큰 초상과 해당 동물의 성장 트랙이 함께 바뀐다.",
+      "result": "부분",
+      "notes": "5/5/5와 선택 갱신 통과. 실제 트랙 데이터 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-ROSTER-02",
+      "expected": "열람만으로 캠페인/멀티플레이 편성·동물 해금·레벨·재화가 바뀌지 않는다. 기존 강화 허브로 돌아간다.",
+      "result": "부분",
+      "notes": "현재 프로젝트 상태 보존/허브 반환 통과. 동물 영속 저장·서버 상태 비교 불가",
+      "fully_met": false
+    },
+    {
+      "id": "P1-ROSTER-03",
+      "expected": "초상과 이름은 열람 가능하고 실제 불가 이유 또는 설정 대기가 표시된다. 강화 호출은 0회다.",
+      "result": "통과",
+      "notes": "미매핑/미구현 열람과 구매 차단",
+      "fully_met": true
+    },
+    {
+      "id": "P1-DATA-01",
+      "expected": "코인은 Snapshot.CoinBalance에서, 숙련도는 선택 동물의 AnimalProgress.MasteryBalance에서 표시한다. 다른 동물의 숙련도나 전역 숙련도로 대체하지 않는다.",
+      "result": "부분",
+      "notes": "ledger 경계 및 동물별 UI fixture 통과. 실제 숙련도 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-DATA-02",
+      "expected": "현재/다음 레벨·현재/다음 효과·비용·상한은 각각 실제 데이터와 일치한다. 두 트랙을 같은 데이터로 복제하지 않는다.",
+      "result": "미검증",
+      "notes": "실제 동물 active/passive catalog·저장소 미제공",
+      "fully_met": false
+    },
+    {
+      "id": "P1-DATA-03",
+      "expected": "알려진 값만 보이고 미정 값은 --/설정 대기로 표시한다. 임의 가격·효과·Lv.5 상한·해금 조건을 생성하지 않고 구매를 차단한다.",
+      "result": "통과",
+      "notes": "운영 unknown과 데이터 누락 UI guard 검사",
+      "fully_met": true
+    },
+    {
+      "id": "P1-DATA-04",
+      "expected": "늦은 A 조회가 B의 코인 표시·숙련도·레벨·효과·견적을 덮어쓰지 않는다.",
+      "result": "통과(UI 통제)",
+      "notes": "의도적으로 순서를 뒤집은 snapshot/quote 응답 무시",
+      "fully_met": true
+    },
+    {
+      "id": "P1-DATA-05",
+      "expected": "누락 비용은 무료로 처리하지 않는다. 명시적 무료/0 비용은 실제 서비스가 제공한 경우에만 허용한다.",
+      "result": "부분",
+      "notes": "누락 비용 차단, 명시적 free/0 fixture만 허용. 실제 무료 데이터 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-DATA-06",
+      "expected": "전체 효과와 모든 실제 비용을 읽을 수 있으며 compact 표시만으로 중요한 비용이 사라지지 않는다.",
+      "result": "부분",
+      "notes": "전체 장문/8종 비용 모달 fixture 통과. 실제 최장 비용/효과 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-STATE-01",
+      "expected": "이유가 표시되고 구매 버튼은 비활성화된다. 강화 요청이 0회다.",
+      "result": "부분",
+      "notes": "현재 Unconfigured/Unavailable 및 locked/미구현 UI fixture 통과. 실제 해금 조회 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-STATE-02",
+      "expected": "실제 재화 부족 또는 MAX가 표시되고 강화 요청이 0회다. MAX 레벨과 효과는 실제 데이터다.",
+      "result": "부분",
+      "notes": "부족/MAX UI 요청 0회. 실제 잔액/상한 카탈로그 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-STATE-03",
+      "expected": "미연결/조회/실패 상태를 표시하고 새로고침으로 재조회할 수 있다. 유효한 조회·견적 전에는 구매하지 않는다.",
+      "result": "통과(UI 통제)",
+      "notes": "미연결/읽기 대기/실패에서 차단하고 새로고침 회복",
+      "fully_met": true
+    },
+    {
+      "id": "P1-TRADE-01",
+      "expected": "동물·트랙·레벨 변화·전체 비용·다음 효과가 보인다. 취소 후 요청은 0회이고 코인·숙련도·레벨은 유지된다.",
+      "result": "부분",
+      "notes": "확인 모달/취소 0회 fixture 통과. 실제 Ready 견적 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-02",
+      "expected": "ActionId·AnimalId·Track·QuoteToken·ExpectedCurrentLevel을 갖는 요청 한 건만 처리된다. 처리 중 동물/트랙 변경과 중복 제출을 차단한다.",
+      "result": "부분",
+      "notes": "5개 요청 필드/연타 1회 fixture 통과. 실제 서비스 요청 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-03",
+      "expected": "코인·숙련도·레벨을 낙관적으로 차감/증가하거나 저장하지 않는다. 실제 성장 서비스의 결과를 기다린다.",
+      "result": "부분",
+      "notes": "승인 전 UI 불변 통과. 실제 동물 저장소 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-04",
+      "expected": "기존 서비스가 버전·예상 레벨·잔액을 다시 검증한다. 오래된 견적은 거절하며 최신 정보로 다시 확인하게 한다.",
+      "result": "미검증",
+      "notes": "거절 후 최신 표시 fixture만 통과. 서비스 가격/레벨/잔액 재검증 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-05",
+      "expected": "기존 거래가 재화 차감과 레벨 변경을 원자적으로 확정하고 최신 상태를 반환/재조회한다. 화면과 실제 저장 데이터가 일치하며 UpgradeAccepted는 승인 결과에만 발생한다.",
+      "result": "미검증",
+      "notes": "Accepted 화면/event fixture만 통과. 원자적 거래·실제 저장 일치 미검증",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-06",
+      "expected": "실제 거절/불가 이유를 표시한다. 임의 레벨·재화 변경이 없으며 최신 정보로 재확인할 수 있다.",
+      "result": "부분",
+      "notes": "현재 Unavailable 및 거절 이유/재조회 fixture 통과. 실거래 거절 없음",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-07",
+      "expected": "같은 ActionId와 같은 요청 내용으로 결과를 확인한다. 새 구매를 만들지 않고 중복 차감이 없다. 결과 확정 전 다른 거래·화면 취소로 불확실 상태를 지우지 않는다.",
+      "result": "부분",
+      "notes": "Unknown 동일 요청 유지 통과. 실제 멱등 조회/중복 차감 검증 불가",
+      "fully_met": false
+    },
+    {
+      "id": "P1-TRADE-08",
+      "expected": "늦은 결과로 새 화면에 강제 동작을 만들지 않는다. 기존 중앙 요청 관리 계약에 따라 요청 ID와 최종 결과를 확인한다. 거래가 취소된 것으로 추정하거나 새 요청으로 반복하지 않는다.",
+      "result": "부분",
+      "notes": "같은 객체 비활성/재진입 통과. 중앙 요청 관리·기기 앱 복귀 미검증",
+      "fully_met": false
+    },
+    {
+      "id": "P1-REPORT-01",
+      "expected": "파일/아트/독립 미리보기 검사와 Unity 컴파일/Game View/실제 저장·서버 검증을 구분한다. 실행하지 않은 검사를 통과로 표시하지 않는다. 필수 운영 연결이 남으면 전체 완료로 쓰지 않는다.",
+      "result": "통과",
+      "notes": "패키지/운영 UI/fixture/실제 서비스 증빙 분리, 전체 완료 주장 없음",
+      "fully_met": true
+    }
+  ]
+}
