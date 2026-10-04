@@ -18,7 +18,9 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             var root = AssetDatabase.LoadAssetAtPath<GameObject>(AnimalStagePhase2Builder.PrefabPath);
             Assert.NotNull(root);
             var p = root.GetComponent<AnimalUiPresenter>();
-            Assert.IsFalse(p.OpenReadonlyPreviewOnStart); Assert.IsNull(p.Backend);
+            Assert.IsFalse(p.OpenReadonlyPreviewOnStart); Assert.That(p.Backend, Is.TypeOf<AnimalStageProjectAdapter>());
+            var adapter = (AnimalStageProjectAdapter)p.Backend;
+            Assert.That(adapter.Catalog, Is.SameAs(p.Catalog)); Assert.NotNull(adapter.StageCatalog); Assert.NotNull(adapter.IdMap);
             Assert.IsNull(p.View.CampaignBackground, "Host resolves actual selected stage theme.");
             Assert.That(AssetDatabase.GetAssetPath(p.Catalog), Is.EqualTo(AnimalStagePhase2Builder.CatalogPath));
             Assert.IsEmpty(root.GetComponentsInChildren<Canvas>(true));

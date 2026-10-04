@@ -90,7 +90,7 @@ namespace ANIMOL.AnimalUiV2.Editor
             check(catalog.IsValid(out _), "카탈로그 유효성"); check(catalog.Animals.Count == 15, "15종 초상");
             check(Enum.GetValues(typeof(AnimalRole)).Cast<AnimalRole>().All(role => catalog.ForRole(role).Count() == 5), "역할별 5종");
             // These synthetic values test contracts only. They never populate the actual stage catalogue/account.
-            var snapshot = new AnimalUiSnapshot { Revision = "EDITOR_SNAPSHOT_ONLY" };
+            var snapshot = new AnimalUiSnapshot { Revision = "EDITOR_SNAPSHOT_ONLY", ContextId = "EDITOR_STAGE_ONLY", PolicyRevision = "EDITOR_POLICY_ONLY" };
             foreach (var animal in catalog.Animals) snapshot.Animals.Add(new AnimalProgress
             { AnimalId = animal.Id, Implemented = true, Unlocked = true, HasContextPermission = true, CanUseInContext = true });
             var loadout = new AnimalLoadout { Ground = "Rabbit", Special = "DreamFox", Air = "Swallow" };
@@ -102,6 +102,8 @@ namespace ANIMOL.AnimalUiV2.Editor
             Func<bool> can = () => AnimalUiRules.CanConfirmFixedStage(catalog, snapshot, loadout, stage, true, true, out _);
             Func<bool> dispatch = () => AnimalUiRules.ValidateFixedStageDispatch(catalog, snapshot, stage, request, out _);
             check(can(), "실제 권한 형태의 Fixed 지정3편성 허용"); check(dispatch(), "문맥/버전 일치 요청 허용");
+            snapshot.ContextId = "OTHER"; check(!can(), "다른 스테이지 조회 응답 차단"); snapshot.ContextId = stage.StageId;
+            snapshot.PolicyRevision = "OTHER"; check(!can(), "다른 정책 조회 응답 차단"); snapshot.PolicyRevision = stage.Requirements.PolicyRevision;
             check(!AnimalUiRules.CanConfirmFixedStage(catalog, snapshot, loadout, stage, false, true, out _), "backend 미연결 시작 차단");
             check(!AnimalUiRules.CanConfirmFixedStage(catalog, snapshot, loadout, stage, true, false, out _), "조회 실패/미검증 시작 차단");
             snapshot.Revision = " "; check(!can(), "스냅샷 버전 공백 차단"); snapshot.Revision = request.SnapshotRevision;

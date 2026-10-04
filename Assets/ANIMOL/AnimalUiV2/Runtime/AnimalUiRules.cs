@@ -35,6 +35,8 @@ namespace ANIMOL.AnimalUiV2
             if (!backendReady || !snapshotValid || snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
             { reason = "스테이지 사용 권한 또는 스냅샷 버전 연결 전"; return false; }
             if (!ValidateFixedStageContext(catalog, stage, out reason)) return false;
+            if (snapshot.ContextId != stage.StageId || snapshot.PolicyRevision != stage.Requirements.PolicyRevision)
+            { reason = "조회한 스테이지·정책 버전이 현재 문맥과 다릅니다."; return false; }
             if (loadout == null || loadout.Fingerprint() != stage.FixedLoadout.Fingerprint())
             { reason = "스테이지가 지정한 편성과 일치하지 않습니다."; return false; }
             return ValidateLoadout(catalog, snapshot, loadout, AnimalUiMode.StageAnimalSelect, stage, null, out reason);

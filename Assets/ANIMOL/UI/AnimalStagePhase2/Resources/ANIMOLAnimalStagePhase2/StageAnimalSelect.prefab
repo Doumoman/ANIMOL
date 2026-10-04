@@ -1895,6 +1895,7 @@ GameObject:
   - component: {fileID: 8925886100989626777}
   - component: {fileID: 449238256613192292}
   - component: {fileID: 8312868151364549625}
+  - component: {fileID: 121245966627041337}
   m_Layer: 0
   m_Name: StageAnimalSelect
   m_TagString: Untagged
@@ -2006,7 +2007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.AnimalUiV2::ANIMOL.AnimalUiV2.AnimalUiPresenter
   Catalog: {fileID: 11400000, guid: ac34da6daae27ba4d9a9b45a7006369c, type: 2}
   View: {fileID: 7016199609721193017}
-  Backend: {fileID: 0}
+  Backend: {fileID: 121245966627041337}
   PreviewMode: 1
   OpenReadonlyPreviewOnStart: 0
 --- !u!114 &449238256613192292
@@ -2034,6 +2035,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ANIMOL.AnimalStagePhase2::ANIMOL.AnimalStagePhase2.AnimalStagePhase2Host
   Presenter: {fileID: 8925886100989626777}
+  IdMap: {fileID: 11400000, guid: e2e1b63023ec99146baac259f00e95b1, type: 2}
+--- !u!114 &121245966627041337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990734440499537256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7633dbfec85a8874aa1afb9d56c5a179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.AnimalStagePhase2::ANIMOL.AnimalStagePhase2.AnimalStageProjectAdapter
+  Catalog: {fileID: 11400000, guid: ac34da6daae27ba4d9a9b45a7006369c, type: 2}
+  StageCatalog: {fileID: 11400000, guid: 4573c9e43e4a1b14c9f4050140930204, type: 2}
   IdMap: {fileID: 11400000, guid: e2e1b63023ec99146baac259f00e95b1, type: 2}
 --- !u!1 &2035133880572100221
 GameObject:

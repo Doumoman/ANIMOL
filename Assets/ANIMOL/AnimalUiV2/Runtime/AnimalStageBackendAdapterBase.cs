@@ -17,18 +17,22 @@ namespace ANIMOL.AnimalUiV2
 
         public sealed override async Task<AnimalUiSnapshot> ReadSnapshotAsync(AnimalUiReadRequest context, CancellationToken cancellationToken)
         {
+            // Every new attempt revokes the previous dispatch authority, including invalid/cancelled reads.
+            int generation = ++_readGeneration;
+            _lastSnapshot = null; _lastContext = null;
+            cancellationToken.ThrowIfCancellationRequested();
             if (context == null || context.Mode != AnimalUiMode.StageAnimalSelect)
                 throw new InvalidOperationException("이 어댑터는 2단계 스테이지 동물 확인만 연결합니다.");
             var stage = context.Stage?.Clone();
             if (!AnimalUiRules.ValidateFixedStageContext(Catalog, stage, out var reason)) throw new InvalidOperationException(reason);
             if (stage.StageId == "PREVIEW_ONLY" || stage.Requirements.PolicyRevision == "PREVIEW_ONLY")
                 throw new InvalidOperationException("읽기 전용 예시 문맥을 실제 스테이지 서비스에 보내지 않습니다.");
-            int generation = ++_readGeneration;
-            _lastSnapshot = null; _lastContext = null;
             var snapshot = await ReadStageSnapshotAsync(stage.Clone(), cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
             if (snapshot == null || string.IsNullOrWhiteSpace(snapshot.Revision))
                 throw new InvalidOperationException("실제 스테이지 사용 권한과 스냅샷 버전을 연결해주세요.");
+            if (snapshot.ContextId != stage.StageId || snapshot.PolicyRevision != stage.Requirements.PolicyRevision)
+                throw new InvalidOperationException("조회한 스테이지·정책 버전이 요청 문맥과 다릅니다.");
             if (generation == _readGeneration) { _lastSnapshot = snapshot; _lastContext = stage; }
             return snapshot;
         }

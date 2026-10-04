@@ -18,6 +18,7 @@ namespace ANIMOL.AnimalUiV2
         public event Action<AnimalUiCommitResult> MultiplayerAccepted;
         public event Action<AnimalUiMode, AnimalLoadout> Cancelled;
         public event Action<AnimalUiCommitResult> UpgradeAccepted;
+        public event Action CampaignRefreshRequested;
         public bool IsCommitting => _pending || _uncertain;
         public AnimalLoadout Draft => _draft.Clone();
         public string InspectedAnimalId => _animalId;
@@ -46,7 +47,7 @@ namespace ANIMOL.AnimalUiV2
         private void Awake()
         {
             View.Back.onClick.AddListener(Back);
-            View.Refresh.onClick.AddListener(() => Refresh());
+            View.Refresh.onClick.AddListener(RequestRefresh);
             View.Primary.onClick.AddListener(Primary);
             View.ActiveTrack.UpgradeButton.onClick.AddListener(() => ConfirmUpgrade(UpgradeTrack.Active));
             View.PassiveTrack.UpgradeButton.onClick.AddListener(() => ConfirmUpgrade(UpgradeTrack.Passive));
@@ -134,6 +135,12 @@ namespace ANIMOL.AnimalUiV2
             _readGeneration++; _reads?.Cancel(); _reads?.Dispose(); _reads = null; _reading = false;
         }
         public void Refresh() => RefreshWithStatus(null);
+        private void RequestRefresh()
+        {
+            if (_reading || IsCommitting || _modalVisible) return;
+            if (_mode == AnimalUiMode.StageAnimalSelect && CampaignRefreshRequested != null) CampaignRefreshRequested.Invoke();
+            else Refresh();
+        }
         private async void RefreshWithStatus(string outcome)
         {
             if (!_opened || !isActiveAndEnabled || IsCommitting) return;

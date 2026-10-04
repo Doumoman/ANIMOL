@@ -35,13 +35,24 @@ namespace ANIMOL.AnimalStagePhase2
             navigation = GetComponentInParent<UiNavigationService>();
             source = navigation == null ? null : navigation.GetComponent<ProductionController>();
             Presenter.Cancelled += ReturnToList;
+            Presenter.CampaignRefreshRequested += OpenSelectedStage;
             OpenSelectedStage();
         }
-        private void OnDisable() => Presenter.Cancelled -= ReturnToList;
+        private void OnDisable()
+        {
+            Presenter.Cancelled -= ReturnToList;
+            Presenter.CampaignRefreshRequested -= OpenSelectedStage;
+        }
         public void OpenSelectedStage()
         {
             if (Presenter.IsCommitting) return;
             var stage = source == null ? null : source.SelectedStage;
+            if (Presenter.Backend is AnimalStageProjectAdapter project)
+            {
+                project.StageCatalog = source?.Catalog?.Campaign;
+                project.IdMap = IdMap;
+                project.Catalog = Presenter.Catalog;
+            }
             context = AnimalStageContext.Read(stage, IdMap, Presenter.Catalog);
             AccessPolicySummary = AnimalStageContext.AccessSummary(stage);
             // Existing ProductionCatalog art keys are keyed by the selected asset's ThemeId, not list position.
@@ -53,7 +64,8 @@ namespace ANIMOL.AnimalStagePhase2
         private void LateUpdate()
         {
             // This reports catalog access rules, not an account-specific admission grant.
-            if (Presenter != null && Presenter.Backend == null) Presenter.View.SelectionInfo.text = AccessPolicySummary;
+            if (Presenter != null && (Presenter.Backend == null || Presenter.Backend is AnimalStageProjectAdapter))
+                Presenter.View.SelectionInfo.text = AccessPolicySummary;
         }
         private void ReturnToList(AnimalUiMode mode, AnimalLoadout original)
         {

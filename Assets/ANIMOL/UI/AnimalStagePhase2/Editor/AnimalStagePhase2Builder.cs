@@ -57,6 +57,7 @@ namespace ANIMOL.AnimalStagePhase2.Editor
                 var host = root.AddComponent<AnimalStagePhase2Host>();
                 host.Presenter = presenter;
                 host.IdMap = AssetDatabase.LoadAssetAtPath<AnimalStageIdMap>(MapPath);
+                BindProjectBackend(root);
                 presenter.View.CampaignBackground = null;
                 presenter.View.Background.sprite = null;
                 PrepareRoster(root);
@@ -86,6 +87,26 @@ namespace ANIMOL.AnimalStagePhase2.Editor
                 card.name = "RosterCard" + i;
                 card.gameObject.SetActive(true);
             }
+        }
+
+        [MenuItem("ANIMOL/Animal UI v2/Connect production Stage Phase 2 project backend")]
+        public static void ConnectProjectBackend()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
+            var root = PrefabUtility.LoadPrefabContents(PrefabPath);
+            try { BindProjectBackend(root); PrefabUtility.SaveAsPrefabAsset(root, PrefabPath); }
+            finally { PrefabUtility.UnloadPrefabContents(root); }
+        }
+        private static void BindProjectBackend(GameObject root)
+        {
+            var presenter = root.GetComponent<AnimalUiPresenter>();
+            if (presenter.Backend != null && !(presenter.Backend is AnimalStageProjectAdapter))
+                throw new InvalidOperationException("An existing custom stage backend must not be overwritten.");
+            var backend = root.GetComponent<AnimalStageProjectAdapter>() ?? root.AddComponent<AnimalStageProjectAdapter>();
+            if (backend.Catalog == null) backend.Catalog = presenter.Catalog;
+            if (backend.IdMap == null) backend.IdMap = AssetDatabase.LoadAssetAtPath<AnimalStageIdMap>(MapPath);
+            if (backend.StageCatalog == null) backend.StageCatalog = AssetDatabase.LoadAssetAtPath<CampaignCatalog>("Assets/ANIMOL/Data/Campaign/CampaignCatalog.asset");
+            presenter.Backend = backend;
         }
     }
 }

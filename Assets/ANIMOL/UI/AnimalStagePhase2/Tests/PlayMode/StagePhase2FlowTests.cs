@@ -50,7 +50,7 @@ namespace ANIMOL.AnimalStagePhase2.Tests
                 Assert.NotNull(P.View.CampaignBackground);
                 Assert.That(P.View.Background.sprite, Is.SameAs(P.View.CampaignBackground));
                 Assert.That(P.Draft.Fingerprint(), Is.EqualTo(theme == 0 ? "Rabbit||" : "||"));
-                Assert.IsNull(P.Backend);
+                Assert.That(P.Backend, Is.TypeOf<AnimalStageProjectAdapter>());
                 Assert.IsFalse(P.View.Primary.interactable);
                 P.View.Primary.onClick.Invoke();
                 Assert.IsFalse(P.View.Modal.activeSelf);
@@ -163,7 +163,7 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             yield return Open(0); yield return new WaitForSecondsRealtime(.5f);
             host.enabled = false;
             var backend = host.gameObject.AddComponent<StagePhase2PresentationFixture>();
-            backend.Snapshot = new AnimalUiSnapshot { Revision = "TEST_ONLY" };
+            backend.Snapshot = new AnimalUiSnapshot { Revision = "TEST_ONLY", ContextId = "TEST_ONLY", PolicyRevision = "TEST_ONLY" };
             string effect = string.Join("\n", Enumerable.Repeat("실제 서비스 데이터가 아닌 장문 표시 검사 문자열입니다. 액티브와 패시브 설명을 끝까지 확인합니다.", 20));
             foreach (var animal in P.Catalog.Animals)
                 backend.Snapshot.Animals.Add(new AnimalProgress { AnimalId = animal.Id, Implemented = true, Unlocked = true,
@@ -194,6 +194,65 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             yield return Capture(Path.Combine(output, "fixture_only_fixed_roster_confirmation.png"));
             P.View.ModalCancel.onClick.Invoke(); Assert.That(backend.Submissions, Is.Zero);
             Assert.That(source.LoadRequests, Is.Zero);
+            P.SetBackend(null); Object.Destroy(backend); host.enabled = true;
+        }
+
+        [UnityTest] public IEnumerator ManualRefreshRebuildsHostContextAndNeverLoads()
+        {
+            yield return Open(0);
+            var stage = source.SelectedStage;
+            var changed = Object.Instantiate(stage);
+            // An in-memory catalog update fixture. Never changes the source asset.
+            typeof(ANIMOL.Core.CampaignStageDefinition).GetField("contentVersion", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .SetValue(changed, stage.ContentVersion + 1);
+            var property = typeof(ProductionController).GetProperty("SelectedStage");
+            try
+            {
+                property.SetValue(source, changed);
+                string previous = host.Context.Requirements.PolicyRevision;
+                Assert.IsTrue(P.View.Refresh.interactable);
+                P.View.Refresh.onClick.Invoke(); yield return null;
+                Assert.That(host.Context.Requirements.PolicyRevision, Is.Not.EqualTo(previous));
+                Assert.That(P.Draft.Fingerprint(), Is.EqualTo("Rabbit||"));
+                Assert.IsFalse(P.View.Primary.interactable);
+                Assert.That(source.LoadRequests, Is.Zero);
+            }
+            finally { property.SetValue(source, stage); Object.Destroy(changed); }
+        }
+
+        [UnityTest] public IEnumerator FixtureOnlyUnknownKeepsSameRequestAcrossDisableAndCannotLoad()
+        {
+            yield return Open(0); host.enabled = false;
+            var backend = host.gameObject.AddComponent<StagePhase2PresentationFixture>();
+            var context = AnimalStagePhase2DemoHost.CreateReadonlyFixture();
+            context.StageId = "TEST_ONLY"; context.Requirements.PolicyRevision = "TEST_ONLY";
+            backend.Snapshot = new AnimalUiSnapshot { Revision = "TEST_ONLY", ContextId = context.StageId, PolicyRevision = "TEST_ONLY" };
+            foreach (var a in P.Catalog.Animals)
+                backend.Snapshot.Animals.Add(new AnimalProgress { AnimalId = a.Id, Implemented = context.FixedLoadout.Get(a.Role) == a.Id,
+                    HasContextPermission = true, CanUseInContext = true, Unlocked = false });
+            var pending = new System.Threading.Tasks.TaskCompletionSource<AnimalUiCommitResult>();
+            backend.OnCampaign = _ => pending.Task;
+            P.SetBackend(backend); P.OpenCampaign(context); yield return null;
+            P.View.Primary.onClick.Invoke(); P.View.ModalCancel.onClick.Invoke(); Assert.That(backend.Submissions, Is.Zero);
+            P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke();
+            Assert.That(backend.Submissions, Is.EqualTo(1)); Assert.IsTrue(P.IsCommitting);
+            Assert.IsFalse(P.OpenCampaign(new StageSelectionRequest { StageId = "OTHER" }));
+            P.View.Back.onClick.Invoke(); P.View.ModalCancel.onClick.Invoke(); P.View.Refresh.onClick.Invoke();
+            Assert.IsTrue(P.IsCommitting); Assert.That(source.LoadRequests, Is.Zero);
+            pending.SetException(new System.TimeoutException("TEST_ONLY timeout")); yield return null; yield return null;
+            Assert.IsTrue(P.IsCommitting);
+            host.enabled = true; // The real host must also refuse to replace an uncertain request.
+            host.gameObject.SetActive(false); yield return null; host.gameObject.SetActive(true); yield return null;
+            Assert.IsTrue(P.IsCommitting);
+            backend.OnCampaign = _ => System.Threading.Tasks.Task.FromResult(new AnimalUiCommitResult { Status = CommitStatus.Unavailable, Message = "TEST_ONLY final refusal" });
+            P.View.ModalConfirm.onClick.Invoke(); yield return null;
+            Assert.That(backend.Submissions, Is.EqualTo(2));
+            var first = backend.Requests[0]; var retry = backend.Requests[1];
+            Assert.That(retry.ActionId, Is.EqualTo(first.ActionId)); Assert.That(retry.ContextId, Is.EqualTo(first.ContextId));
+            Assert.That(retry.SnapshotRevision, Is.EqualTo(first.SnapshotRevision)); Assert.That(retry.PolicyRevision, Is.EqualTo(first.PolicyRevision));
+            Assert.That(retry.Loadout.Fingerprint(), Is.EqualTo(first.Loadout.Fingerprint()));
+            Assert.IsFalse(P.IsCommitting); Assert.IsFalse(P.View.Primary.interactable);
+            Assert.That(P.View.Status.text, Does.Contain("TEST_ONLY final refusal")); Assert.That(source.LoadRequests, Is.Zero);
             P.SetBackend(null); Object.Destroy(backend); host.enabled = true;
         }
 

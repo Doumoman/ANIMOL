@@ -9,12 +9,14 @@ namespace ANIMOL.AnimalStagePhase2.Tests
     {
         public AnimalUiSnapshot Snapshot;
         public int Submissions;
+        public System.Func<SelectionCommitRequest, Task<AnimalUiCommitResult>> OnCampaign;
+        public readonly System.Collections.Generic.List<SelectionCommitRequest> Requests = new System.Collections.Generic.List<SelectionCommitRequest>();
         public override Task<AnimalUiSnapshot> ReadSnapshotAsync(AnimalUiReadRequest context, CancellationToken token) => Task.FromResult(Snapshot);
         public override Task<UpgradeQuote> QuoteUpgradeAsync(string id, UpgradeTrack track, CancellationToken token) =>
             Task.FromResult(new UpgradeQuote { State = UpgradeQuoteState.Unavailable });
         public override Task<AnimalUiCommitResult> TryUpgradeAsync(UpgradeCommitRequest request, CancellationToken token) => Unavailable();
         public override Task<AnimalUiCommitResult> SubmitCampaignAsync(StageSelectionRequest context, SelectionCommitRequest request, CancellationToken token)
-        { Submissions++; return Unavailable(); }
+        { Submissions++; Requests.Add(request.Clone()); return OnCampaign == null ? Unavailable() : OnCampaign(request); }
         public override Task<AnimalUiCommitResult> SubmitMultiplayerAsync(MultiplayerSelectionRequest context, SelectionCommitRequest request, CancellationToken token) => Unavailable();
         private static Task<AnimalUiCommitResult> Unavailable() => Task.FromResult(new AnimalUiCommitResult { Status = CommitStatus.Unavailable });
     }
