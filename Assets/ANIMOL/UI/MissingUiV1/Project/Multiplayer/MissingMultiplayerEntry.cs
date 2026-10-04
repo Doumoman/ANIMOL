@@ -51,8 +51,17 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
             if(id!="SC06_MatchRoom"||room==null)return;
             // Existing SC06 also hosts isolated development previews, including coop. Preserve that
             // route and its own policy; never present its generated participants as operational data.
-            bool development=GetComponent<MultiplayerUiPresenter>().PreviewParticipantCount>0;
-            foreach(var item in originalRoom)if(item.child!=null)item.child.SetActive(development&&item.active);
+            int participants=GetComponent<MultiplayerUiPresenter>().PreviewParticipantCount;
+            bool development=participants>0;
+            foreach(var item in originalRoom)
+            {
+                if(item.child==null)continue;
+                int slot=0;
+                bool participantRow=item.child.name.StartsWith("RoomParticipant_",System.StringComparison.Ordinal)&&
+                    int.TryParse(item.child.name.Substring("RoomParticipant_".Length),out slot);
+                // Screen activation must not re-enable empty slots hidden by the DEV presenter.
+                item.child.SetActive(development&&(participantRow ? slot>0&&slot<=participants : item.active));
+            }
             room.gameObject.SetActive(!development);
         }
         private void OnDestroy(){if(navigation!=null)navigation.ScreenChanged-=OnScreenChanged;}

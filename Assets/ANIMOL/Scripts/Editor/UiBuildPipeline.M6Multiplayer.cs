@@ -48,24 +48,47 @@ namespace ANIMOL.Editor
 
         private static void BuildM6RoomPreview(GameObject root)
         {
+            TrimNet02RoomRows(root);
             var old = root.transform.Find("RoomParticipants");
             if (old != null) old.gameObject.SetActive(false);
             SetRect(root.transform.Find("MatchRoomMode") as RectTransform, new Vector2(.5f, .82f), new Vector2(1300, 52));
             EnsureLabel(root, "RoomCapacity", "가변 참가자", 25, new Vector2(.5f, .75f), new Vector2(1300, 40));
             EnsureLabel(root, "RoomGrowthMode", "성장 적용", 24, new Vector2(.5f, .69f), new Vector2(1200, 38));
             EnsureLabel(root, "RoomDuplicateRule", "중복 규칙", 24, new Vector2(.5f, .63f), new Vector2(1250, 38));
-            for (var i = 0; i < 8; i++)
+            for (var i = 0; i < MultiplayerModeRules.CompetitiveParticipants.Maximum; i++)
             {
-                var column = i < 4 ? .28f : .72f;
-                var row = i % 4;
                 EnsureLabel(root, $"RoomParticipant_{i + 1:00}", $"P{i + 1} · Connected · 선택 대기", 22,
-                    new Vector2(column, .55f - row * .072f), new Vector2(700, 36));
+                    new Vector2(.5f, .55f - i * .072f), new Vector2(700, 36));
             }
             EnsureLabel(root, "RoomAuthorityTruth", "DEV UI 상태만 변경 · 운영 성공 없음", 22, new Vector2(.5f, .21f), new Vector2(1250, 38));
-            EnsureButton(root, "RoomParticipantCountToggleButton", "4명 ↔ 8명", new Vector2(.73f, .11f), new Vector2(300, 64), Cyan);
+            EnsureButton(root, "RoomParticipantCountToggleButton", "경쟁 4명 고정", new Vector2(.73f, .11f), new Vector2(300, 64), Cyan);
+            root.transform.Find("RoomParticipantCountToggleButton").GetComponent<Button>().interactable = false;
             EnsureButton(root, "RoomConnectionPreviewButton", "끊김→복구 미리보기", new Vector2(.53f, .11f), new Vector2(330, 64), Panel);
             SetRect(root.transform.Find("RoomAnimalSelectButton") as RectTransform, new Vector2(.32f, .11f), new Vector2(350, 64));
             SetRect(root.transform.Find("MatchRoomBackButton") as RectTransform, new Vector2(.1f, .06f), new Vector2(280, 62));
+        }
+
+        [MenuItem("ANIMOL/NET02 Existing UI DEV/Apply TASK 02 Room Capacity")]
+        public static void ApplyNet02RoomCapacity()
+        {
+            // Do not run the full UI builder over the user's portrait/layout changes.
+            MutatePrefab("SC06_MatchRoom", root =>
+            {
+                TrimNet02RoomRows(root);
+                var button = root.transform.Find("RoomParticipantCountToggleButton")?.GetComponent<Button>();
+                var label = button == null ? null : button.GetComponentInChildren<Text>(true);
+                if (label != null) label.text = "경쟁 4명 고정";
+                if (button != null) button.interactable = false; // Runtime enables it for coop only.
+            });
+        }
+
+        private static void TrimNet02RoomRows(GameObject root)
+        {
+            int maximum = Math.Max(MultiplayerModeRules.CompetitiveParticipants.Maximum, MultiplayerModeRules.CoopParticipants.Maximum);
+            foreach (var row in root.GetComponentsInChildren<Text>(true))
+                if (row.name.StartsWith("RoomParticipant_", StringComparison.Ordinal) &&
+                    int.TryParse(row.name.Substring("RoomParticipant_".Length), out var slot) && slot > maximum)
+                    UnityEngine.Object.DestroyImmediate(row.gameObject);
         }
 
         private static void BuildM6SelectionPreview(GameObject root)
@@ -139,7 +162,7 @@ namespace ANIMOL.Editor
                 errors.Add("Competitive preview must expose one ground/air/special slot without same-player duplicate roles.");
             if (coop == null || coop.SlotCount != 2 || coop.AllowDuplicates)
                 errors.Add("Existing coop two-slot duplicate rule changed.");
-            if (!MultiplayerModeRules.CompetitiveParticipants.Contains(4) || !MultiplayerModeRules.CompetitiveParticipants.Contains(8) ||
+            if (!MultiplayerModeRules.CompetitiveParticipants.Contains(4) || MultiplayerModeRules.CompetitiveParticipants.Contains(5) ||
                 MultiplayerModeRules.CompetitiveParticipants.Contains(3) || !MultiplayerModeRules.CoopParticipants.Contains(2) ||
                 !MultiplayerModeRules.CoopParticipants.Contains(4) || MultiplayerModeRules.CoopParticipants.Contains(5))
                 errors.Add("Multiplayer participant ranges are invalid.");
@@ -165,7 +188,7 @@ namespace ANIMOL.Editor
             var roomRows = room == null ? 0 : room.GetComponentsInChildren<Text>(true).Count(x => x.name.StartsWith("RoomParticipant_", StringComparison.Ordinal));
             var competitiveHud = AssetDatabase.LoadAssetAtPath<GameObject>($"{UiPrefabFolder}/HUD_Competitive.prefab");
             var coopHud = AssetDatabase.LoadAssetAtPath<GameObject>($"{UiPrefabFolder}/HUD_Coop.prefab");
-            if (roomRows != 8) errors.Add("Match room does not contain eight variable participant rows.");
+            if (roomRows != 4) errors.Add("Match room must contain exactly four participant rows.");
             foreach (var required in new[] { "CompetitiveSeriesState", "CompetitiveMapResults", "CompetitiveBubbleAuthority", "CompetitiveFinishWindow", "CompetitiveHudConnectionState", "CompetitiveNoCombat" })
                 if (competitiveHud == null || competitiveHud.GetComponentsInChildren<Transform>(true).All(x => x.name != required)) errors.Add("Competitive HUD missing " + required);
             foreach (var required in new[] { "CoopRosterState", "CoopReconnectState", "CoopLocationPingButton" })
@@ -185,7 +208,7 @@ namespace ANIMOL.Editor
 
             return new List<string>
             {
-                "competitiveParticipantRange=4-8", "coopParticipantRange=2-4", $"roomParticipantRows={roomRows}",
+                "competitiveParticipantRange=4-4", "customMinimum=server-policy", "coopParticipantRange=2-4", $"roomParticipantRows={roomRows}",
                 "competitiveRoleSlots=3", "competitiveCrossParticipantDuplicates=true", "coopDuplicateRulePreserved=true", "coopCompletionRequiresThreeBubblesAndAllExits=true",
                 "competitiveSeriesMaps=3", "competitiveBodyAttack=false", "competitiveKnockback=false",
                 "rankedGrowth=MAX_PRESET", "casualCoopGrowth=OWNED_PROGRESS", "operationalReady=false",
@@ -193,13 +216,12 @@ namespace ANIMOL.Editor
             };
         }
 
-        public static string OpenM6CompetitiveRoomForCapture(bool eightPlayers, bool ranked, bool disconnected)
+        public static string OpenM6CompetitiveRoomForCapture(bool ranked, bool disconnected)
         {
             InvokeRuntimeButton("CompetitiveButton");
             InvokeRuntimeButton(ranked ? "RankedDevPreviewButton" : "CompetitiveDevPreviewButton");
-            if (eightPlayers) InvokeRuntimeButton("RoomParticipantCountToggleButton");
             if (disconnected) InvokeRuntimeButton("RoomConnectionPreviewButton");
-            return $"competitiveRoom={(eightPlayers ? 8 : 4)} ranked={ranked} disconnected={disconnected}";
+            return $"competitiveRoom=4 ranked={ranked} disconnected={disconnected}";
         }
 
         public static string OpenM6CoopRoomForCapture(bool fourPlayers, bool disconnected)
@@ -213,7 +235,7 @@ namespace ANIMOL.Editor
 
         public static string OpenM6CompetitiveHudForCapture(bool ranked, bool completeSeries, bool restored)
         {
-            OpenM6CompetitiveRoomForCapture(true, ranked, false);
+            OpenM6CompetitiveRoomForCapture(ranked, false);
             if (restored)
             {
                 InvokeRuntimeButton("RoomConnectionPreviewButton");

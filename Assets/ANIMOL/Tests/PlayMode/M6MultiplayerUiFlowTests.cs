@@ -12,22 +12,26 @@ namespace ANIMOL.Tests
     public sealed class M6MultiplayerUiFlowTests
     {
         [UnityTest]
-        public IEnumerator CompetitiveFourAndEightPlayerThreeMapPreview_RemainsNonOperational()
+        public IEnumerator CompetitiveFourPlayerThreeMapPreview_RejectsCountToggleAndRemainsNonOperational()
         {
             SceneManager.LoadScene("Lobby");
-            yield return null;
+            // Allow the current portrait / Missing UI installers to finish.
+            for (var frame = 0; frame < 6; frame++) yield return null;
             var navigation = Object.FindFirstObjectByType<UiNavigationService>();
             var presenter = Object.FindFirstObjectByType<MultiplayerUiPresenter>();
             var root = navigation.transform;
 
-            Click(root, "CompetitiveButton");
+            // Exercise the isolated legacy DEV route; operational entry remains unavailable.
+            Assert.That(navigation.Navigate("SC05_CompetitiveHub"), Is.True);
             Click(root, "CompetitiveDevPreviewButton");
             Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(4));
             Assert.That(ActiveParticipantRows(root), Is.EqualTo(4));
             Assert.That(Text(root, "RoomGrowthMode"), Does.Contain("보유 성장치"));
+            Assert.That(FindButton(root, "RoomParticipantCountToggleButton").interactable, Is.False);
             Click(root, "RoomParticipantCountToggleButton");
-            Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(8));
-            Assert.That(ActiveParticipantRows(root), Is.EqualTo(8));
+            Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(4));
+            Assert.That(ActiveParticipantRows(root), Is.EqualTo(4));
+            Assert.That(Text(root, "MatchRoomMode"), Does.Not.Contain("8명"));
             Click(root, "RoomConnectionPreviewButton");
             Assert.That(Text(root, "RoomParticipant_02"), Does.Contain("Disconnected"));
 
@@ -57,14 +61,19 @@ namespace ANIMOL.Tests
         public IEnumerator RankedPreview_UsesMaximumGrowthAndSupportsDisconnectRecoveryStates()
         {
             SceneManager.LoadScene("Lobby");
-            yield return null;
+            // Allow the current portrait / Missing UI installers to finish.
+            for (var frame = 0; frame < 6; frame++) yield return null;
             var navigation = Object.FindFirstObjectByType<UiNavigationService>();
             var presenter = Object.FindFirstObjectByType<MultiplayerUiPresenter>();
             var root = navigation.transform;
 
-            Click(root, "CompetitiveButton");
+            // Exercise the isolated legacy DEV route; operational entry remains unavailable.
+            Assert.That(navigation.Navigate("SC05_CompetitiveHub"), Is.True);
             Click(root, "RankedDevPreviewButton");
             Assert.That(presenter.IsRankedPreview, Is.True);
+            Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(4));
+            Assert.That(ActiveParticipantRows(root), Is.EqualTo(4));
+            Assert.That(FindButton(root, "RoomParticipantCountToggleButton").interactable, Is.False);
             Assert.That(Text(root, "RoomGrowthMode"), Does.Contain("최대치 동일 프리셋"));
             Assert.That(presenter.OperationalReadyEnabled, Is.False);
             Click(root, "RoomConnectionPreviewButton");
@@ -83,16 +92,18 @@ namespace ANIMOL.Tests
         public IEnumerator CoopTwoAndFourPlayerHud_ShowsTeamObjectiveReconnectEmoteAndPingPorts()
         {
             SceneManager.LoadScene("Lobby");
-            yield return null;
+            // Allow the current portrait / Missing UI installers to finish.
+            for (var frame = 0; frame < 6; frame++) yield return null;
             var navigation = Object.FindFirstObjectByType<UiNavigationService>();
             var presenter = Object.FindFirstObjectByType<MultiplayerUiPresenter>();
             var root = navigation.transform;
 
-            Click(root, "CoopButton");
+            Assert.That(navigation.Navigate("SC08_CoopHub"), Is.True);
             Click(root, "CoopDevPreviewButton");
             Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(2));
             Assert.That(ActiveParticipantRows(root), Is.EqualTo(2));
             Assert.That(Text(root, "RoomDuplicateRule"), Does.Contain("모드 데이터"));
+            Assert.That(FindButton(root, "RoomParticipantCountToggleButton").interactable, Is.True);
             Click(root, "RoomParticipantCountToggleButton");
             Assert.That(presenter.PreviewParticipantCount, Is.EqualTo(4));
             Assert.That(ActiveParticipantRows(root), Is.EqualTo(4));
@@ -110,7 +121,7 @@ namespace ANIMOL.Tests
         }
 
         private static int ActiveParticipantRows(Transform root) => root.GetComponentsInChildren<Text>(true)
-            .Count(x => x.name.StartsWith("RoomParticipant_") && x.gameObject.activeSelf);
+            .Count(x => x.name.StartsWith("RoomParticipant_") && x.gameObject.activeInHierarchy);
         private static string Text(Transform root, string name) => root.GetComponentsInChildren<Text>(true).First(x => x.name == name).text;
         private static void Click(Transform root, string name) => FindButton(root, name).onClick.Invoke();
         private static Button FindButton(Transform root, string name) => root.GetComponentsInChildren<Button>(true).First(x => x.name == name);

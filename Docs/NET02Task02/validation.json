@@ -1,0 +1,90 @@
+{
+  "date_kst": "2026-10-05",
+  "scope": "NET02 TASK 02 competitive capacity; actual UI HTTP binding remains subsequent work",
+  "unity": "6000.3.8f1",
+  "tests": [
+    {
+      "artifact": "Logs/NET02Task02/editmode.xml",
+      "sha256": "1cc40f60896c72c76d2333b27b50cf9dc486f797c8f48a6355113ef4ba1ca701",
+      "result": "Passed",
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "failures": []
+    },
+    {
+      "artifact": "Logs/NET02Task02/playmode.xml",
+      "sha256": "3d19121e182952650b1305b3588f2957d5a8828f5f8d5e2add0078ebaf01f510",
+      "result": "Failed(Child)",
+      "total": 5,
+      "passed": 2,
+      "failed": 3,
+      "failures": [
+        {
+          "name": "ANIMOL.Tests.M6MultiplayerUiFlowTests.CompetitiveFourPlayerThreeMapPreview_RejectsCountToggleAndRemainsNonOperational",
+          "message": "System.InvalidOperationException : Sequence contains no matching element"
+        },
+        {
+          "name": "ANIMOL.Tests.M6MultiplayerUiFlowTests.CoopTwoAndFourPlayerHud_ShowsTeamObjectiveReconnectEmoteAndPingPorts",
+          "message": "System.InvalidOperationException : Sequence contains no matching element"
+        },
+        {
+          "name": "ANIMOL.Tests.M6MultiplayerUiFlowTests.RankedPreview_UsesMaximumGrowthAndSupportsDisconnectRecoveryStates",
+          "message": "System.InvalidOperationException : Sequence contains no matching element"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02Task02/playmode-final.xml",
+      "sha256": "0b47e54fc2bc72aacdcbdeb8777c0c8139fbc013c38c50c3a47c2aaa110aab34",
+      "result": "Failed(Child)",
+      "total": 5,
+      "passed": 4,
+      "failed": 1,
+      "failures": [
+        {
+          "name": "ANIMOL.Tests.M6MultiplayerUiFlowTests.CoopTwoAndFourPlayerHud_ShowsTeamObjectiveReconnectEmoteAndPingPorts",
+          "message": "  Expected: 2\n  But was:  4\n"
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02Task02/playmode-verified.xml",
+      "sha256": "ba7cb3cf643c4d20107f5ebf24c6b0273f31dd77f556a0b28a5a433edd8c2eac",
+      "result": "Passed",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "failures": []
+    }
+  ],
+  "server": {
+    "passed": 25,
+    "failed": 0,
+    "artifact": "Logs/NET02Task02/server-tests.txt",
+    "concurrent_capacity": "Owner + five parallel join requests: three accepted, two ROOM_FULL, exactly four participants; cross-player duplicate animals accepted."
+  },
+  "preservation": {
+    "baseline_dirty_untracked": 1411,
+    "outside_task_byte_identical": 1406,
+    "existing_modified_files_intentionally_edited": [
+      "Assets/ANIMOL/Prefabs/UI/SC06_MatchRoom.prefab",
+      "Assets/ANIMOL/Scripts/Core/MultiplayerMatchContracts.cs",
+      "Assets/ANIMOL/Scripts/Editor/UiBuildPipeline.M6Multiplayer.cs",
+      "Assets/ANIMOL/Scripts/UI/MultiplayerUiPresenter.cs",
+      "Assets/ANIMOL/Tests/EditMode/M6MultiplayerContractTests.cs"
+    ],
+    "staging": "Only task delta on already-dirty source/prefab paths; prior portrait/layout/core changes left unstaged. Surplus prefab rows removed intentionally.",
+    "settings_service_flags_coop_data_unchanged": true,
+    "temporary_font_line_endings_restored": [
+      "Assets/ANIMOL/Typography/NotoSansSymbols2-Regular_Fallback.asset",
+      "Assets/ANIMOL/Typography/Pixelroborobo_Fallback.asset",
+      "Assets/ANIMOL/Typography/Symbols_Fallback.asset"
+    ]
+  },
+  "limitations": [
+    "No real UI HTTP admission, device test, screenshot or Player build.",
+    "Prior missing-script warnings and Python HTTPError ResourceWarnings remain.",
+    "First two PlayMode runs failed; obsolete test entry and empty-row visibility were corrected before the final five-pass run."
+  ]
+}

@@ -8,14 +8,52 @@ namespace ANIMOL.Tests
     public sealed class M6MultiplayerContractTests
     {
         [Test]
-        public void ParticipantRanges_AreCompetitiveFourToEightAndCoopTwoToFour()
+        public void ParticipantRanges_ArePublicCompetitiveFourAndCoopTwoToFour()
         {
             Assert.That(MultiplayerModeRules.CompetitiveParticipants.Contains(4), Is.True);
-            Assert.That(MultiplayerModeRules.CompetitiveParticipants.Contains(8), Is.True);
+            Assert.That(MultiplayerModeRules.CompetitiveParticipants.Contains(5), Is.False);
+            Assert.That(MultiplayerModeRules.CompetitiveParticipants.Contains(8), Is.False);
             Assert.That(MultiplayerModeRules.CompetitiveParticipants.Contains(3), Is.False);
             Assert.That(MultiplayerModeRules.CoopParticipants.Contains(2), Is.True);
             Assert.That(MultiplayerModeRules.CoopParticipants.Contains(4), Is.True);
             Assert.That(MultiplayerModeRules.CoopParticipants.Contains(5), Is.False);
+        }
+
+        [TestCase(3)]
+        [TestCase(5)]
+        [TestCase(8)]
+        public void CompetitiveCapacity_RejectsInvalidCountWithoutHidingParticipants(int count)
+        {
+            var room = new MultiplayerRoomPreviewState(GameModeKind.Competitive, 4, false);
+            var participants = room.Participants.ToArray();
+            Assert.That(room.SetParticipantCount(count), Is.False);
+            CollectionAssert.AreEqual(participants, room.Participants);
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => new CompetitiveParticipantSelectionService(
+                Enumerable.Range(1, count).Select(i => "P" + i),
+                System.Array.Empty<CampaignAnimalUnlockRule>(), CampaignAnimalUnlockSnapshot.DevelopmentOnly()));
+        }
+
+        [Test]
+        public void CompetitivePreviewToggle_RemainsFourAndCoopStillTogglesTwoToFour()
+        {
+            var competitive = new MultiplayerRoomPreviewState(GameModeKind.Competitive, 4, false);
+            var ranked = new MultiplayerRoomPreviewState(GameModeKind.Ranked, 4, true);
+            Assert.That(competitive.ToggleMinimumMaximum(), Is.EqualTo(4));
+            Assert.That(ranked.ToggleMinimumMaximum(), Is.EqualTo(4));
+            Assert.That(competitive.GrowthMode, Is.EqualTo(GrowthPresentationMode.OwnedProgress));
+            Assert.That(ranked.GrowthMode, Is.EqualTo(GrowthPresentationMode.RankedMaximumPreset));
+            var coop = new MultiplayerRoomPreviewState(GameModeKind.Coop, 2, false);
+            Assert.That(coop.ToggleMinimumMaximum(), Is.EqualTo(4));
+            Assert.That(coop.ToggleMinimumMaximum(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void RoomPrefab_HasExactlyFourNamedParticipantRows()
+        {
+            var room = AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/ANIMOL/Prefabs/UI/SC06_MatchRoom.prefab");
+            var rows = room.GetComponentsInChildren<UnityEngine.Transform>(true)
+                .Where(t => t.name.StartsWith("RoomParticipant_", System.StringComparison.Ordinal)).Select(t => t.name).ToArray();
+            CollectionAssert.AreEquivalent(new[] { "RoomParticipant_01", "RoomParticipant_02", "RoomParticipant_03", "RoomParticipant_04" }, rows);
         }
 
         [Test]

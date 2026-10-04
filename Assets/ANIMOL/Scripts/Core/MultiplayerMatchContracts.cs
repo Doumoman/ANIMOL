@@ -25,7 +25,8 @@ namespace ANIMOL.Core
 
     public static class MultiplayerModeRules
     {
-        public static ParticipantCountRange CompetitiveParticipants => new ParticipantCountRange(4, 8);
+        // Public competitive preview/start policy. Custom admission minimum belongs to its server policy.
+        public static ParticipantCountRange CompetitiveParticipants => new ParticipantCountRange(4, 4);
         public static ParticipantCountRange CoopParticipants => new ParticipantCountRange(2, 4);
         public static int CompetitiveMapCount => 3;
         public static bool AllowCompetitiveBodyAttack => false;

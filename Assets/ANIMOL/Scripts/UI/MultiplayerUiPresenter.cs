@@ -132,10 +132,8 @@ namespace ANIMOL.UI
 
         private void ToggleParticipantCount()
         {
-            if (roomPreview == null) return;
+            if (roomPreview == null || currentPreview.Mode != GameModeKind.Coop) return;
             roomPreview.ToggleMinimumMaximum();
-            if (currentPreview.Mode != GameModeKind.Coop)
-                competitiveSelection = CreateCompetitiveSelection(roomPreview.Participants.Select(x => x.ParticipantId));
             connectionPreviewStep = 0;
             RefreshRoom();
         }
@@ -153,7 +151,7 @@ namespace ANIMOL.UI
         {
             if (roomPreview == null || currentPreview == null) return;
             var mode = currentPreview.Mode == GameModeKind.Coop ? "협동" : rankedPreview ? "랭크 경쟁" : "일반 경쟁";
-            var range = currentPreview.Mode == GameModeKind.Coop ? "2~4명" : "4~8명";
+            var range = currentPreview.Mode == GameModeKind.Coop ? "2~4명" : "4명";
             SetText("MatchRoomMode", $"DEV PREVIEW ONLY · {mode} · {roomPreview.Participants.Count}명 / {range}");
             SetText("RoomCapacity", $"가변 참가자 {roomPreview.Participants.Count}명 ✓ · 운영 참가자/방 코드는 서버 미연결");
             SetText("RoomGrowthMode", roomPreview.GrowthMode == GrowthPresentationMode.RankedMaximumPreset
@@ -162,10 +160,14 @@ namespace ANIMOL.UI
             SetText("RoomDuplicateRule", currentPreview.Mode == GameModeKind.Coop
                 ? $"협동 중복: 모드 데이터 {(currentPreview.AllowDuplicates ? "허용" : "금지")}"
                 : "경쟁: 참가자 간 동일 동물 허용 ✓ · 각자 지상/공중/특수 1개");
-            for (var i = 0; i < 8; i++)
+            foreach (var label in GetComponentsInChildren<Text>(true))
             {
-                var label = FindByName<Text>($"RoomParticipant_{i + 1:00}");
-                if (label == null) continue;
+                const string prefix = "RoomParticipant_";
+                if (!label.name.StartsWith(prefix, StringComparison.Ordinal) ||
+                    !int.TryParse(label.name.Substring(prefix.Length), out var slot)) continue;
+                var i = slot - 1;
+                // Also hide surplus legacy rows if an older prefab is loaded.
+                if (i < 0) { label.gameObject.SetActive(false); continue; }
                 label.gameObject.SetActive(i < roomPreview.Participants.Count);
                 if (i >= roomPreview.Participants.Count) continue;
                 var participant = roomPreview.Participants[i];
@@ -173,7 +175,11 @@ namespace ANIMOL.UI
                 label.text = $"{participant.DisplayName} · {participant.Connection} · {readiness}";
             }
             var countButton = FindByName<Button>("RoomParticipantCountToggleButton");
-            if (countButton != null) SetButtonText(countButton, currentPreview.Mode == GameModeKind.Coop ? "2명 ↔ 4명" : "4명 ↔ 8명");
+            if (countButton != null)
+            {
+                countButton.interactable = currentPreview.Mode == GameModeKind.Coop;
+                SetButtonText(countButton, currentPreview.Mode == GameModeKind.Coop ? "2명 ↔ 4명" : "경쟁 4명 고정");
+            }
             SetText("RoomAuthorityTruth", "DEV UI 상태만 변경 · 운영 Ready/순위/보상/서버 참가자 생성 없음");
         }
 
