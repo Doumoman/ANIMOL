@@ -1,0 +1,254 @@
+{
+  "type": "object",
+  "properties": {
+    "SchemaVersion": {
+      "const": 1
+    },
+    "SessionNamespace": {
+      "const": "ANIMOL_NET02_DEV"
+    },
+    "Animals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "AnimalId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "StableArtId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "Role": {
+            "enum": [
+              "Ground",
+              "Special",
+              "Air"
+            ]
+          },
+          "Implemented": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "AnimalId",
+          "StableArtId",
+          "Role",
+          "Implemented"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "Modes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ModeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "DisplayName": {
+            "type": "string",
+            "minLength": 1
+          },
+          "PolicyRevision": {
+            "type": "string",
+            "minLength": 1
+          },
+          "AllowedAnimalIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "RepresentativeRole": {
+            "enum": [
+              "Ground",
+              "Special",
+              "Air"
+            ]
+          },
+          "EntryIntents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "IntentId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "Kind": {
+                  "enum": [
+                    "create",
+                    "join",
+                    "public"
+                  ]
+                }
+              },
+              "required": [
+                "IntentId",
+                "Kind"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1
+          },
+          "Options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "OptionId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "AllowedValues": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                },
+                "DefaultValue": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "OptionId",
+                "AllowedValues",
+                "DefaultValue"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "PublicStartCount": {
+            "const": 4
+          },
+          "CustomStartMinimum": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 4
+          }
+        },
+        "required": [
+          "ModeId",
+          "DisplayName",
+          "PolicyRevision",
+          "AllowedAnimalIds",
+          "RepresentativeRole",
+          "EntryIntents",
+          "Options"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "Accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "AccountId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "DevAccessKey": {
+            "type": "string",
+            "minLength": 1
+          },
+          "UnlockedAnimalIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "InitialLoadout": {
+            "type": "object",
+            "properties": {
+              "Ground": {
+                "type": "string",
+                "minLength": 1
+              },
+              "Special": {
+                "type": "string",
+                "minLength": 1
+              },
+              "Air": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "Ground",
+              "Special",
+              "Air"
+            ],
+            "additionalProperties": false
+          },
+          "ModePermissions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ModeId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "IntentIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                },
+                "AllowedAnimalIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "ModeId",
+                "IntentIds",
+                "AllowedAnimalIds"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "AccountId",
+          "DevAccessKey",
+          "UnlockedAnimalIds",
+          "InitialLoadout",
+          "ModePermissions"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "FixtureOnly": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "SchemaVersion",
+    "SessionNamespace",
+    "Animals",
+    "Modes",
+    "Accounts"
+  ],
+  "additionalProperties": false,
+  "title": "ANIMOL NET02 DEV config schema (documentation only; not a runtime config)",
+  "description": "Empty arrays are valid and deny sessions/admission. Explicit IDs require verified project owners; never use TEST_* fixture IDs as production mappings."
+}

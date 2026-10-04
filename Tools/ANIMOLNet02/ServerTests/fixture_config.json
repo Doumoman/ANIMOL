@@ -1,0 +1,313 @@
+{
+  "SchemaVersion": 1,
+  "SessionNamespace": "ANIMOL_NET02_DEV",
+  "FixtureOnly": true,
+  "Animals": [
+    {
+      "AnimalId": "TEST_GROUND",
+      "StableArtId": "TEST_ART_Ground",
+      "Role": "Ground",
+      "Implemented": true
+    },
+    {
+      "AnimalId": "TEST_SPECIAL",
+      "StableArtId": "TEST_ART_Special",
+      "Role": "Special",
+      "Implemented": true
+    },
+    {
+      "AnimalId": "TEST_AIR",
+      "StableArtId": "TEST_ART_Air",
+      "Role": "Air",
+      "Implemented": true
+    },
+    {
+      "AnimalId": "TEST_UNIMPLEMENTED",
+      "StableArtId": "TEST_ART_EXTRA",
+      "Role": "Ground",
+      "Implemented": false
+    }
+  ],
+  "Modes": [
+    {
+      "ModeId": "TEST_COMPETITION",
+      "DisplayName": "TEST fixture competition",
+      "PolicyRevision": "TEST_POLICY_1",
+      "AllowedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR",
+        "TEST_UNIMPLEMENTED"
+      ],
+      "RepresentativeRole": "Ground",
+      "EntryIntents": [
+        {
+          "IntentId": "TEST_CREATE_INTENT",
+          "Kind": "create"
+        },
+        {
+          "IntentId": "TEST_JOIN_INTENT",
+          "Kind": "join"
+        },
+        {
+          "IntentId": "TEST_PUBLIC_INTENT",
+          "Kind": "public"
+        }
+      ],
+      "Options": [
+        {
+          "OptionId": "TEST_SPEED",
+          "AllowedValues": [
+            "TEST_NORMAL",
+            "TEST_FAST"
+          ],
+          "DefaultValue": "TEST_NORMAL"
+        }
+      ],
+      "PublicStartCount": 4,
+      "CustomStartMinimum": 2
+    }
+  ],
+  "Accounts": [
+    {
+      "AccountId": "TEST_ACCOUNT_1",
+      "DevAccessKey": "TEST_KEY_1",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_2",
+      "DevAccessKey": "TEST_KEY_2",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_3",
+      "DevAccessKey": "TEST_KEY_3",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_4",
+      "DevAccessKey": "TEST_KEY_4",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_5",
+      "DevAccessKey": "TEST_KEY_5",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_6",
+      "DevAccessKey": "TEST_KEY_6",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_7",
+      "DevAccessKey": "TEST_KEY_7",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    },
+    {
+      "AccountId": "TEST_ACCOUNT_8",
+      "DevAccessKey": "TEST_KEY_8",
+      "UnlockedAnimalIds": [
+        "TEST_GROUND",
+        "TEST_SPECIAL",
+        "TEST_AIR"
+      ],
+      "InitialLoadout": {
+        "Ground": "TEST_GROUND",
+        "Special": "TEST_SPECIAL",
+        "Air": "TEST_AIR"
+      },
+      "ModePermissions": [
+        {
+          "ModeId": "TEST_COMPETITION",
+          "IntentIds": [
+            "TEST_CREATE_INTENT",
+            "TEST_JOIN_INTENT",
+            "TEST_PUBLIC_INTENT"
+          ],
+          "AllowedAnimalIds": [
+            "TEST_GROUND",
+            "TEST_SPECIAL",
+            "TEST_AIR",
+            "TEST_UNIMPLEMENTED"
+          ]
+        }
+      ]
+    }
+  ]
+}

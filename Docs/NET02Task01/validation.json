@@ -1,0 +1,148 @@
+{
+  "date_kst": "2026-10-05",
+  "scope": "TASK 01 source inspection, collision-free import and foundation verification; no UI server binding",
+  "unity": "6000.3.8f1",
+  "python": "3.14.5",
+  "archive_sha256": "e67463b8a5371a3b47b8581dc7d34f0b8b9ceb996d1be859b3d1a4a668a4691b",
+  "import": {
+    "files": 40,
+    "assets": 11,
+    "support_files": 29,
+    "destination_collisions": 0,
+    "adjusted_package_files": [
+      "Tools/validate_package.py"
+    ]
+  },
+  "test_runs": [
+    {
+      "artifact": "Logs/NET02Task01/editmode.xml",
+      "sha256": "f9b4c693589c339e15b90f42d1e169521b3a13e5a49f8765e8350c98c771a11d",
+      "dev_define": false,
+      "result": "Passed",
+      "total": 28,
+      "passed": 28,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "ANIMOL.AnimalMultiplayerPhase3.Tests.MultiplayerPhase3AdapterTests",
+          "total": 25,
+          "passed": 25,
+          "failed": 0
+        },
+        {
+          "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests",
+          "total": 3,
+          "passed": 3,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02Task01/dev-editmode.xml",
+      "sha256": "0a6ec983909a79857c3af8961be679e0eb3d8a8172d240710c436865dfc6955a",
+      "dev_define": true,
+      "result": "Passed",
+      "total": 46,
+      "passed": 46,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "ANIMOL.AnimalMultiplayerPhase3.Tests.MultiplayerPhase3AdapterTests",
+          "total": 25,
+          "passed": 25,
+          "failed": 0
+        },
+        {
+          "name": "Animol.NetUiDev.Tests.NetUiInvariantTests",
+          "total": 18,
+          "passed": 18,
+          "failed": 0
+        },
+        {
+          "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests",
+          "total": 3,
+          "passed": 3,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02Task01/dev-playmode.xml",
+      "sha256": "94b46c55991c3fcd5278a07c7adfa76273ccc4f9c3c5b11e93fc9cc0dbc28758",
+      "dev_define": true,
+      "result": "Passed",
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "ANIMOL.AnimalMultiplayerPhase3.Tests.MultiplayerPhase3TransactionTests",
+          "total": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        {
+          "name": "ANIMOL.MissingUiV1.Project.Multiplayer.Tests.MissingMultiplayerFlowTests",
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "artifact": "Logs/NET02Task01/release-editmode.xml",
+      "sha256": "4cbbc7738095298acdf05f5aadee60f960beb3def74f8195d47a9be777ad4730",
+      "dev_define": false,
+      "result": "Passed",
+      "total": 28,
+      "passed": 28,
+      "failed": 0,
+      "fixtures": [
+        {
+          "name": "ANIMOL.AnimalMultiplayerPhase3.Tests.MultiplayerPhase3AdapterTests",
+          "total": 25,
+          "passed": 25,
+          "failed": 0
+        },
+        {
+          "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests",
+          "total": 3,
+          "passed": 3,
+          "failed": 0
+        }
+      ]
+    }
+  ],
+  "server_tests": {
+    "result": "PASS",
+    "passed": 25,
+    "failed": 0,
+    "artifact": "Logs/NET02Task01/server-tests.txt",
+    "note": "Fixture HTTP/SQLite tests only; Python 3.14 HTTPError ResourceWarnings observed."
+  },
+  "static_package": {
+    "status": "PASS",
+    "csharp_files": 7,
+    "asmdefs": 3,
+    "handoff_sha256": "36534a620f752d064b4238da17847d8978db3001df228b9ba0bca2db13b810c3",
+    "note": "Static package checks only; Unity compilation and NUnit/device execution are unverified."
+  },
+  "limits": [
+    "Initial extraScriptingDefines command did not enable constrained runtime; the 28-test initial run is symbol-off only. DEV run used the actual build-menu Enable method.",
+    "Initial broad PlayMode run stopped by this task because capture tests yield WaitForEndOfFrame in batch mode. No pass claimed for that run; retried only 11 non-capture tests.",
+    "Symbol-off verification is Editor compilation/tests, not a release Player or IL2CPP build.",
+    "No operational animal/mode/permission mapping, actual UI HTTP admission, Windows/Android build or device test.",
+    "Known missing script warnings in pre-existing utility/store prefabs remain."
+  ],
+  "preservation": {
+    "existing_dirty_and_untracked_files_checked": 1411,
+    "changed": [],
+    "project_settings_byte_identical_to_before": true,
+    "test_generated_changes_removed": [
+      "Assets/ANIMOL/Typography/NotoSansSymbols2-Regular_Fallback.asset",
+      "Assets/ANIMOL/Typography/Pixelroborobo_Fallback.asset",
+      "Assets/ANIMOL/Typography/Symbols_Fallback.asset",
+      "Docs/MissingUiV1Task3/fixture-pending-unknown.json"
+    ]
+  }
+}

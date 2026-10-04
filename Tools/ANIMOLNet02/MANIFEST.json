@@ -1,0 +1,215 @@
+{
+  "package": "ANIMOL_NET02_UI_SERVER_LINK",
+  "version": "1.0.0",
+  "created_kst": "2026-10-05T04:52:27.699029+09:00",
+  "source_handoff_date": "2026-10-05",
+  "protocol": "ANIMOL_NET02",
+  "scope": "Existing-UI DEV HTTP lobby integration source + mandatory project binding tasks; 4 maximum; no gameplay",
+  "validation": {
+    "server_http": "25/25 PASS",
+    "cloud_runner": "6/6 PASS",
+    "unity_compile": "NOT RUN",
+    "unity_nunit": "18 AUTHORED, NOT RUN",
+    "apk_build": "NOT RUN",
+    "existing_ui_binding": "REQUIRED IN PROJECT",
+    "device_tests": "NOT RUN",
+    "cloud_deployment": "NOT RUN"
+  },
+  "files": [
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Editor/ANIMOL.NetUiDev.Editor.asmdef",
+      "bytes": 362,
+      "sha256": "9f4d75e5854808299bb096d1a00a1d12c5644f822250da0fcd3b59f1e6875dd0"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Editor/NetUiDevBuild.cs",
+      "bytes": 7559,
+      "sha256": "dde1289062f4117332e8be123635c21f232be98086c2a8e66bc0f510ff7eeda5"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/ANIMOL.NetUiDev.asmdef",
+      "bytes": 359,
+      "sha256": "0e184ab0e2f4b88ac77781aa3bb8a655072f1e2fffcd5cd23b188b6e08a0b712"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/NetUiDevCoordinator.cs",
+      "bytes": 21273,
+      "sha256": "42b045e8dd59d5a7e29f7b5793c589e24ed8df840117aa41c3406a372030bbc2"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/NetUiDtos.cs",
+      "bytes": 5666,
+      "sha256": "a00c171b40e5492a52a58ea42701405c94c7d89e7fd8d648f75bbf583edfb8e0"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/NetUiHttpClient.cs",
+      "bytes": 5219,
+      "sha256": "6f346656231294d55d7154c851dcdf42f323f7b26b50709ae11fa207d9130af8"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/NetUiRequestJournal.cs",
+      "bytes": 8051,
+      "sha256": "1d4465f8af6bdc47cdd4935aa4c594f5d353a27021a3790db324026e65011b40"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/NetUiValidation.cs",
+      "bytes": 12634,
+      "sha256": "0ff65d1d51567e5c30da78ff1363cde2b671c0684b7e4763410e9b4ef07744a5"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Runtime/link.xml",
+      "bytes": 96,
+      "sha256": "da6bbd7c2440104838fbe87b2960d40c4e1458557d99737cc750cbdcb6750419"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Tests/Editor/ANIMOL.NetUiDev.Tests.asmdef",
+      "bytes": 469,
+      "sha256": "ff773ee9b70b2139fe534c7f7420d1aaa787d811f6463c5929771b2a70b1092a"
+    },
+    {
+      "path": "Assets/ANIMOL/NetUiDev/Tests/Editor/NetUiInvariantTests.cs",
+      "bytes": 8148,
+      "sha256": "5ad0bae7c379fca1f146ae08f99ac8edd6da664a554786dbb95753c4027bf833"
+    },
+    {
+      "path": "Docs/ANDROID_LAN_TEST.md",
+      "bytes": 5310,
+      "sha256": "91bf91071b8b917098cbf98c9cc4e6de54710fb8bcccccc527f912e38b68ea03"
+    },
+    {
+      "path": "Docs/ANIMOL_UI_IMPLEMENTATION_AND_SERVER_HANDOFF.md",
+      "bytes": 41005,
+      "sha256": "36534a620f752d064b4238da17847d8978db3001df228b9ba0bca2db13b810c3"
+    },
+    {
+      "path": "Docs/CLIENT_BINDING.md",
+      "bytes": 7700,
+      "sha256": "32612a34f17189483e50b8ce3abad2a39fb5a47584419a293b7b57140f8a4dc2"
+    },
+    {
+      "path": "Docs/CLOUD_TRANSITION.md",
+      "bytes": 3134,
+      "sha256": "9b40321c008e53e567faf4be1440eb2b171b4b197eb01db1c60fabcc2fa0382a"
+    },
+    {
+      "path": "Docs/DATA_MAPPING.md",
+      "bytes": 4344,
+      "sha256": "67e5fd9e50585c0bb12fc8d8afc1b48f4ef40a50040e22f2170717ff9d65da00"
+    },
+    {
+      "path": "Docs/Evidence/cloud_runner_checks.json",
+      "bytes": 343,
+      "sha256": "78b4f7b0a7ad3e54c847a8c905e45bdde78af5c14cb7aa633f60bfafc5b8d195"
+    },
+    {
+      "path": "Docs/Evidence/server_http_tests.txt",
+      "bytes": 4045,
+      "sha256": "87ecea2ae854c3c399e113da8ed3c71df725daf2f3953347e63246963149e795"
+    },
+    {
+      "path": "Docs/Evidence/static_package_checks.json",
+      "bytes": 250,
+      "sha256": "10c431a828f2a470d2f26e20c751f90499228e9e46ceb5bae7a25727b094e7c3"
+    },
+    {
+      "path": "Docs/NET02_PROJECT_APPLY.md",
+      "bytes": 12471,
+      "sha256": "dd457aed7aa45f3e91e64d11fa2ee696525118cda630d692795930886a80935c"
+    },
+    {
+      "path": "Docs/NET02_RESULT_TEMPLATE.md",
+      "bytes": 1591,
+      "sha256": "ae9529809ed97a6af02e9547fc24ea7d3134247fdad0b7b4e770eb10ff3990b6"
+    },
+    {
+      "path": "Docs/VALIDATION_STATUS.md",
+      "bytes": 2996,
+      "sha256": "3a69d58a0abbfa8d8522b30d820610f1a2595bca538f3c7a26e8052ae0cba644"
+    },
+    {
+      "path": "README_FIRST.md",
+      "bytes": 5531,
+      "sha256": "b99b77f445325cade2ada0e18156d250dbcd0c79a8f4eece0067e99b737a7b5c"
+    },
+    {
+      "path": "Server/API.md",
+      "bytes": 11717,
+      "sha256": "7f956144c9c7be8c34a4b6dab89181b2b8df062985b3c072889ab037170a385c"
+    },
+    {
+      "path": "Server/config.empty.json",
+      "bytes": 117,
+      "sha256": "b38f1e6a94b9e570e832ae15a3a005735b779a0fef15527947670f6074a069ee"
+    },
+    {
+      "path": "Server/config.schema.example.json",
+      "bytes": 6339,
+      "sha256": "a10682c9b55b5feb20ba94f775a5c9083d3c9a3eb660df7f1137cb5ebbae9fcd"
+    },
+    {
+      "path": "Server/run-server.ps1",
+      "bytes": 538,
+      "sha256": "250612466957d9bd3f5b755a8fdf6e991485885d1f7b12cb8275c880017c4779"
+    },
+    {
+      "path": "Server/run-server.sh",
+      "bytes": 159,
+      "sha256": "68c108450852b239bde56f0939c1ddde75e172eac8b7a9279e957c22bb591f1e"
+    },
+    {
+      "path": "Server/server.env.example",
+      "bytes": 434,
+      "sha256": "7799d4fa048162223f4dcf1b2fec104aaa3a3a8a1430c3fdcedf9f9023f1c9f0"
+    },
+    {
+      "path": "Server/server.py",
+      "bytes": 29289,
+      "sha256": "e9f4de58bc30c790fed527a0c45793015cdba85c7dec3e928423e0e9caefe608"
+    },
+    {
+      "path": "ServerTests/fixture_config.json",
+      "bytes": 7237,
+      "sha256": "f2060b4ecd0fac11c058fffdd1aedd1fa7004cc43d53a0287adf3b3cc2c9c29a"
+    },
+    {
+      "path": "ServerTests/test_http_lobby.py",
+      "bytes": 18397,
+      "sha256": "8a58b39339c162cb0392a7636cc95590c7f9b9a6fb29caf1cfbc15ee50453981"
+    },
+    {
+      "path": "Tools/Cloud/animol-net02.env.example",
+      "bytes": 256,
+      "sha256": "c38ea28d83f79b18719f97a44e78f86b8387e1ae47c996d4d63fb40482921e27"
+    },
+    {
+      "path": "Tools/Cloud/animol-net02.service",
+      "bytes": 487,
+      "sha256": "946a487fedcb0a537076d61c058a55824c8fd37a14b9ab6e1e5af5ceb3834aa4"
+    },
+    {
+      "path": "Tools/Cloud/run-server.sh",
+      "bytes": 1073,
+      "sha256": "d487b6c0b3653f116ee7c84323b336650461703897ab4f37deb9448845cae464"
+    },
+    {
+      "path": "Tools/RunServerTests.ps1",
+      "bytes": 309,
+      "sha256": "7f6197277acb0ac8bc9aef4676fc63d98a5245cf78e249dc70d655f88ddb2e0c"
+    },
+    {
+      "path": "Tools/StartLanServer.ps1",
+      "bytes": 1100,
+      "sha256": "6390b06855b67d1925e1ac75e28c4c98138cfa609fd3f6003ee93004fe42f8e0"
+    },
+    {
+      "path": "Tools/StartWindowsClients.ps1",
+      "bytes": 789,
+      "sha256": "798af69178c0b5bb44c0649106939f33af029f936d2249bb764c96c6dc29b987"
+    },
+    {
+      "path": "Tools/validate_package.py",
+      "bytes": 4469,
+      "sha256": "d69871ad44c8d3c67dae1fb9a59652e9e319a3f1a056ef25fc8cf94d684efcb7"
+    }
+  ]
+}
