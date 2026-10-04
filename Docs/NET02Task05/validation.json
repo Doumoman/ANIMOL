@@ -1,0 +1,148 @@
+{
+  "date_kst": "2026-10-05",
+  "tests": [
+    {
+      "artifact": "Logs/NET02-task05-edit.xml",
+      "sha256": "7e12a7eb75435f358f6d6dd97881acd6f889963a39272baf217c21e0b3105be1",
+      "total": 73,
+      "passed": 73,
+      "failed": 0
+    },
+    {
+      "artifact": "Logs/NET02-task05-play.xml",
+      "sha256": "0871d8ca34ef9e76d91ae151f217a951e59e42859e6f9adbc2b1e3cad5e43b05",
+      "total": 24,
+      "passed": 24,
+      "failed": 0
+    }
+  ],
+  "server_passed": 25,
+  "counters": [
+    {
+      "Test": "CancelZeroConfirmOnceAndSingleCentralConsumption",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "ConsumedRoomRestoresWithoutSecondSubmissionOrConsumption",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 2
+    },
+    {
+      "Test": "CoordinatorRestartRestoresUnknownAndRejectsAccountSwitch",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 0,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 0,
+      "AcceptedPresentations": 0,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "LostLeaveKeepsReceiptAndReconcilesSavedRoomAfter404",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Left",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 1
+    },
+    {
+      "Test": "LostResponseReconcilesSameDurablePayloadWithoutResubmit",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "OsBackCannotEscapeUnknownAdmissionBeforeCentralRecovery",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 1
+    },
+    {
+      "Test": "PollFailureDisablesActionsAndReconnectRestoresAuthoritativeState",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 1
+    },
+    {
+      "Test": "RoomFourPlayersCopyReadyStartAndConfirmedLeaveUseExistingSc06",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Left",
+      "Submissions": 1,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 1,
+      "WaitingRoomNavigations": 1
+    },
+    {
+      "Test": "ServerPolicyChangeRejectsAndRequiresManualRefreshAndNewAction",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 2,
+      "ResultQueries": 0,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    },
+    {
+      "Test": "TamperedReceiptStaysUnknownUntilOriginalServerReceipt",
+      "Scope": "Isolated real HTTP fixture; no production IDs",
+      "State": "Accepted",
+      "Submissions": 1,
+      "ResultQueries": 1,
+      "ReceiptNotifications": 1,
+      "AcceptedPresentations": 1,
+      "ReceiptConsumptions": 0,
+      "WaitingRoomNavigations": 0
+    }
+  ],
+  "http": {
+    "scope": "Isolated real HTTP/SQLite fixture; no production IDs",
+    "requests_by_endpoint": {
+      "/v1/dev/session": 14,
+      "/v1/catalog": 49,
+      "/v1/multiplayer/context": 25,
+      "/v1/room/entry": 15,
+      "/v1/room/state": 29,
+      "/v1/room/leave": 14,
+      "/v1/room/result": 4,
+      "/v1/room/ready": 4,
+      "/v1/room/start": 1
+    }
+  },
+  "existing_changes": "1411 paths preserved; UiNavigationService existing content preserved around two new BackOverride lines",
+  "next": "DEV remains temporarily ON for TASK 06 builds; restore original settings before final delivery."
+}

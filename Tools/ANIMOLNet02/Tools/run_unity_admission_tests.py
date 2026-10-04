@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Isolated Unity/real HTTP test runner. No production config, art assets or credentials."""
 import collections
+import argparse
 import importlib.util
 import json
 import os
@@ -13,6 +14,10 @@ import uuid
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--stage', choices=['04', '05', '06'], default='06')
+    args = parser.parse_args()
+    prefix = 'NET02-task' + args.stage
     package = Path(__file__).resolve().parent.parent
     project = package.parent.parent
     spec = importlib.util.spec_from_file_location('net02_server_fixture', package / 'Server/server.py')
@@ -28,7 +33,13 @@ def main():
         class ObservedStore(module.LobbyStore):
             def request(self, method, path, token, body):
                 counts[path] += 1
+                mode = fault.read_text(encoding='utf-8-sig').strip() if fault.exists() else ''
+                if path == '/v1/room/state' and mode == 'state-unavailable':
+                    return 503, {'Status': 'Unavailable', 'Reason': 'TEST_OFFLINE'}
                 status, result = super().request(method, path, token, body)
+                if path == '/v1/room/leave' and mode == 'lost-leave':
+                    fault.unlink()
+                    return 200, {}
                 if path == '/v1/room/entry' and fault.exists():
                     mode = fault.read_text(encoding='utf-8-sig').strip()
                     fault.unlink()
@@ -44,7 +55,7 @@ def main():
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
         environment = dict(os.environ, ANIMOL_NET02_TEST_URL=f'http://127.0.0.1:{server.server_port}',
-                           ANIMOL_NET02_TEST_CONFIG=str(config), ANIMOL_NET02_TEST_FAULT=str(fault))
+                           ANIMOL_NET02_TEST_CONFIG=str(config), ANIMOL_NET02_TEST_FAULT=str(fault), ANIMOL_NET02_TEST_STAGE=args.stage)
         unity = shutil.which('unity')
         if not unity:
             raise RuntimeError('Unity CLI is required')
@@ -56,12 +67,12 @@ def main():
                 'MissingMultiplayerFlowTests.ExistingCoop;MultiplayerPhase3TransactionTests.RefusalReason;'
                 'MultiplayerPhase3TransactionTests.InactivePending;MultiplayerPhase3TransactionTests.LateRead;'
                 'MultiplayerPhase3TransactionTests.EachPermission;MultiplayerPhase3TransactionTests.MalformedContext',
-                '--output', 'Logs/NET02-task04-play.xml', '--timeout', '240', '--format', 'json', '--',
-                '-nographics', '-logFile', 'Logs/NET02-task04-play.log', '-animolNet02Slot', 'test_' + uuid.uuid4().hex[:20]],
+                '--output', 'Logs/' + prefix + '-play.xml', '--timeout', '300', '--format', 'json', '--',
+                '-nographics', '-logFile', 'Logs/' + prefix + '-play.log', '-animolNet02Slot', 'test_' + uuid.uuid4().hex[:20]],
                 cwd=project, env=environment)
         finally:
             server.shutdown(); server.server_close(); thread.join(); store.close()
-            (project / 'Logs/NET02-task04-http-counts.json').write_text(
+            (project / ('Logs/' + prefix + '-http-counts.json')).write_text(
                 json.dumps({'scope': 'Isolated real HTTP/SQLite fixture; no production IDs',
                             'requests_by_endpoint': dict(counts)}, indent=2) + '\n', encoding='utf-8')
         return result.returncode

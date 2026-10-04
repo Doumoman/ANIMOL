@@ -161,6 +161,7 @@ namespace Animol.NetUiDev
         public static void ValidateRoom(NetUiRoomState state, NetUiCatalog catalog, NetUiIdMapEntry[] map)
         {
             Require(state != null && !string.IsNullOrWhiteSpace(state.RoomId) && state.Capacity == 4 && state.Participants != null && state.Participants.Length <= 4, "ROOM_STATE_INVALID");
+            Require(state.Phase == "Waiting" || state.Phase == "Started" || state.Phase == "Aborted", "ROOM_PHASE_INVALID");
             var accounts = new HashSet<string>(StringComparer.Ordinal);
             int owners = 0;
             foreach (var participant in state.Participants)

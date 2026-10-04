@@ -6,6 +6,17 @@ namespace Animol.NetUiDev.Tests
     // Explicit fixture IDs only. None are production ANIMOL animal/mode IDs.
     public sealed class NetUiInvariantTests
     {
+        [Test] public void ConfirmedLeaveBeforeUiDeliveryDoesNotPretendReceiptWasConsumed()
+        {
+            var journal = Journal(Guid.NewGuid().ToString("N")); var request = Request();
+            journal.Begin(request); journal.Apply(Accepted(request)); journal.ConfirmLeft();
+            Assert.IsFalse(journal.BlocksNewEntry); Assert.IsFalse(journal.Record.ReceiptConsumed); Assert.IsTrue(journal.Record.RoomLeftConfirmed);
+        }
+        [Test] public void UnknownRoomPhaseCannotRenderAsWaiting()
+        {
+            Assert.Throws<InvalidOperationException>(() => NetUiValidation.ValidateRoom(new NetUiRoomState {
+                RoomId = "fixture-room", Capacity = 4, Phase = "unexpected", Participants = new NetUiParticipant[0] }, Catalog(), Map()));
+        }
         private NetUiEntryRequest Request(string action = "fixture-action")
         { return new NetUiEntryRequest { ActionId = action, ContextId = "fixture-mode", EntryIntent = "fixture-create", SnapshotRevision = "fixture-snapshot", PolicyRevision = "fixture-policy", RoomCode = "", Loadout = new NetUiLoadout { Ground = "fixture-ground", Special = "fixture-special", Air = "fixture-air" }, Options = new NetUiOptionValue[0] }; }
         private NetUiEntryResult Accepted(NetUiEntryRequest request)

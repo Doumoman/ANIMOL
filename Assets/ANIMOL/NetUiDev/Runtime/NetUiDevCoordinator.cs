@@ -46,6 +46,8 @@ namespace Animol.NetUiDev
         public string RequestState { get { return journal == null ? "Unconfigured" : (journal.Record.RoomLeftConfirmed ? "Left" : journal.Record.State); } }
         public bool HasActiveRoomReceipt { get { return journal != null && journal.Record.State == "Accepted" && !journal.Record.RoomLeftConfirmed; } }
         public bool RequiresReceiptDelivery { get { return HasActiveRoomReceipt && !journal.Record.ReceiptConsumed; } }
+        public bool IsRoomOperationInFlight => roomPollInFlight || roomMutationInFlight;
+        public bool IsRoomPolling => polling;
         public NetUiRoomState CurrentRoom { get { return Copy(room); } }
         public NetUiCatalog CurrentCatalog { get { return Copy(catalog); } }
 
@@ -243,7 +245,7 @@ namespace Animol.NetUiDev
         public bool TryDeliverAccepted(Func<NetUiEntryResult, NetUiArtLoadout, bool> existingSc06Consumer)
         {
             RequireConfigured();
-            if (deliveringReceipt || journal.Record.State != "Accepted" || journal.Record.ReceiptConsumed) return false;
+            if (deliveringReceipt || !HasActiveRoomReceipt || journal.Record.ReceiptConsumed) return false;
             NetUiValidation.Require(existingSc06Consumer != null && catalog != null, "EXISTING_SC06_CONSUMER_OR_CATALOG_REQUIRED");
             var result = journal.ReadResult();
             NetUiValidation.ValidateReceipt(journal.ReadRequest(), result);
@@ -264,7 +266,7 @@ namespace Animol.NetUiDev
 
         private void NotifyReceipt()
         {
-            if (journal == null || catalog == null || journal.Record.State != "Accepted" || journal.Record.ReceiptConsumed) return;
+            if (!HasActiveRoomReceipt || catalog == null || journal.Record.ReceiptConsumed) return;
             var result = journal.ReadResult();
             if (lastNotifiedReceipt == result.AcceptanceToken) return;
             lastNotifiedReceipt = result.AcceptanceToken;
@@ -298,7 +300,7 @@ namespace Animol.NetUiDev
             var receipt = journal.ReadResult();
             if (receipt != null && receipt.Status == "Accepted")
             {
-                NetUiValidation.Require(state.RoomId == receipt.RoomId && state.ModeId == receipt.AcceptedContextId && state.PolicyRevision == receipt.AcceptedPolicyRevision, "ROOM_RECEIPT_MISMATCH");
+                NetUiValidation.Require(state.RoomId == receipt.RoomId && state.RoomCode == receipt.RoomCode && state.ModeId == receipt.AcceptedContextId && state.PolicyRevision == receipt.AcceptedPolicyRevision, "ROOM_RECEIPT_MISMATCH");
                 int selfCount = 0;
                 foreach (var participant in state.Participants)
                     if (participant.AccountId == accountId) { selfCount++; NetUiValidation.Require(NetUiValidation.SameLoadout(participant.Loadout, receipt.AcceptedLoadout), "ROOM_SELF_LOADOUT_MISMATCH"); }
@@ -325,7 +327,9 @@ namespace Animol.NetUiDev
         }
         public async Task LeaveRoomAsync()
         {
-            RequireRoomMutation(room == null || room.CanLeave, "LEAVE_NOT_ALLOWED_OR_RECEIPT_PENDING");
+            RequireConfigured();
+            NetUiValidation.Require(HasActiveRoomReceipt && !roomMutationInFlight && !roomPollInFlight && !admissionInFlight &&
+                (room == null || room.CanLeave), "LEAVE_NOT_ALLOWED_OR_REQUEST_BUSY");
             roomMutationInFlight = true;
             try
             {
@@ -343,7 +347,7 @@ namespace Animol.NetUiDev
             finally { roomMutationInFlight = false; }
         }
         private void RequireRoomMutation(bool permitted, string reason)
-        { RequireConfigured(); NetUiValidation.Require(HasActiveRoomReceipt && journal.Record.ReceiptConsumed && !roomMutationInFlight && !admissionInFlight && permitted, reason); }
+        { RequireConfigured(); NetUiValidation.Require(HasActiveRoomReceipt && journal.Record.ReceiptConsumed && !roomMutationInFlight && !roomPollInFlight && !admissionInFlight && permitted, reason); }
 
         public void BeginRoomPolling()
         { RequireConfigured(); NetUiValidation.Require(HasActiveRoomReceipt, "ACCEPTED_ACTIVE_ROOM_REQUIRED"); pollGeneration++; polling = true; nextPoll = Time.unscaledTime; }

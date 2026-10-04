@@ -52,7 +52,7 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
             // Existing SC06 also hosts isolated development previews, including coop. Preserve that
             // route and its own policy; never present its generated participants as operational data.
             int participants=GetComponent<MultiplayerUiPresenter>().PreviewParticipantCount;
-            bool development=participants>0;
+            bool development=participants>0&&room.DevRoomRequested==null;
             foreach(var item in originalRoom)
             {
                 if(item.child==null)continue;

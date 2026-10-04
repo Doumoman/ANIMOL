@@ -11,7 +11,8 @@ using W=ANIMOL.MissingUiV1.Project.MissingUtilityWidgets;
 namespace ANIMOL.MissingUiV1.Project.Multiplayer
 {
     public enum MissingMultiplayerScreen { Hub,Custom,Create,Join,Room }
-    public enum MissingMultiplayerContextAction { Normal,Ranked,Create,Lookup,Join }
+    public enum MissingMultiplayerContextAction { Normal,Ranked,Create,Lookup,Join,LeaveSaved }
+    public enum MissingMultiplayerRoomAction { Ready,Start,Leave,Copy }
 
     public sealed class MissingMultiplayerView:MonoBehaviour
     {
@@ -26,6 +27,8 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
         private readonly List<Action> removeListeners=new List<Action>();
         // Optional DEV context reader. This port cannot submit an admission or grant online access.
         public Action<MissingMultiplayerContextAction> DevContextRequested;
+        public Action<MissingMultiplayerRoomAction> DevRoomRequested;
+        public bool DevLeaveSavedEntry;
         public AnimalMultiplayerPhase3Host Host=>navigation==null?null:navigation.GetComponent<AnimalMultiplayerPhase3Entry>()?.Host;
         public bool CanNavigate=>isActiveAndEnabled&&navigation!=null&&(modals==null||modals.Count==0)&&Host!=null&&!Host.Presenter.IsCommitting&&!Host.Presenter.IsMultiplayerModalOpen;
 
@@ -133,8 +136,12 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
             Bind(RankedBrowse,()=>BrowseOnly(MissingMultiplayerContextAction.Ranked));
             Bind(Browse,()=>BrowseOnly(MissingMultiplayerContextAction.Create));Bind(Paste,PasteCode);
             Bind(Lookup,()=>RequestDevContext(MissingMultiplayerContextAction.Lookup));
-            Bind(Entry,()=>RequestDevContext(Screen==MissingMultiplayerScreen.Join?MissingMultiplayerContextAction.Join:MissingMultiplayerContextAction.Create));
-            // Ready/start/leave remain disconnected. Lookup and Entry buttons default to disabled.
+            Bind(Entry,()=>RequestDevContext(DevLeaveSavedEntry?MissingMultiplayerContextAction.LeaveSaved:Screen==MissingMultiplayerScreen.Join?MissingMultiplayerContextAction.Join:MissingMultiplayerContextAction.Create));
+            Bind(Ready,()=>RoomAction(MissingMultiplayerRoomAction.Ready));
+            Bind(StartMatch,()=>RoomAction(MissingMultiplayerRoomAction.Start));
+            Bind(Leave,()=>RoomAction(MissingMultiplayerRoomAction.Leave));
+            Bind(Copy,()=>RoomAction(MissingMultiplayerRoomAction.Copy));
+            // All DEV actions default to disabled until authoritative state is supplied.
         }
         private void OnDisable(){foreach(var remove in removeListeners)remove();removeListeners.Clear();}
         private void Bind(Button b,UnityAction a){if(b==null)return;b.onClick.AddListener(a);removeListeners.Add(()=>b.onClick.RemoveListener(a));}
@@ -143,6 +150,8 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer
         {if(!CanNavigate)return;if(DevContextRequested!=null)DevContextRequested(action);else Host.OpenUnconfigured();}
         private void RequestDevContext(MissingMultiplayerContextAction action)
         {if(CanNavigate)DevContextRequested?.Invoke(action);}
+        private void RoomAction(MissingMultiplayerRoomAction action)
+        {if(CanNavigate)DevRoomRequested?.Invoke(action);}
         private void PasteCode()
         {
             if(!CanNavigate)return;

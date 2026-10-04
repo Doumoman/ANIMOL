@@ -8,5 +8,5 @@
 2. TASK 02 경쟁 4인 정책 이관 — [적용 결과](NET02_TASK02_RESULT.md)
 3. TASK 03 실제 데이터와 모드 문맥 공급 — [적용 결과·미구성 데이터](NET02_DATA_BINDING.md)
 4. TASK 04 Phase3 어댑터와 중앙 입장 관리 연결 — [적용 및 검증 결과](NET02_TASK04_RESULT.md)
-5. TASK 05 승인 소비·SC06 상태·복귀 연결 — 후속 작업
+5. TASK 05 승인 소비·SC06 상태·복귀 연결 — [적용 및 검증 결과](NET02_TASK05_RESULT.md)
 6. TASK 06 검증·Android DEV 빌드·결과 — 후속 작업

@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace Animol.NetUiDev.Tests
 {
-    public sealed class NetUiAdmissionHttpTests
+    public sealed partial class NetUiAdmissionHttpTests
     {
         private NetUiDevCoordinator service;
         private AnimalMultiplayerProjectAdapter adapter;
@@ -93,7 +93,7 @@ namespace Animol.NetUiDev.Tests
         {
             if (service != null)
             {
-                string output = Path.Combine(Application.dataPath, "../Logs/NET02Task04"); Directory.CreateDirectory(output);
+                string output = Path.Combine(Application.dataPath, "../Logs/NET02Task" + (Environment.GetEnvironmentVariable("ANIMOL_NET02_TEST_STAGE") ?? "04")); Directory.CreateDirectory(output);
                 File.WriteAllText(Path.Combine(output, TestContext.CurrentContext.Test.Name + ".json"), JsonUtility.ToJson(new Counters {
                     Test = TestContext.CurrentContext.Test.Name, State = service.RequestState, Submissions = service.SubmissionCount,
                     ResultQueries = service.ResultQueryCount, ReceiptNotifications = service.ReceiptNotificationCount,
@@ -104,6 +104,11 @@ namespace Animol.NetUiDev.Tests
             if (faultPath != null && File.Exists(faultPath)) File.Delete(faultPath);
             if (presenter != null) presenter.MultiplayerAccepted -= Presented;
             if (navigation != null) navigation.ScreenChanged -= Navigated;
+            if (navigation != null && navigation.GetComponent<NetUiRoomController>() != null) Object.Destroy(navigation.GetComponent<NetUiRoomController>());
+            yield return null;
+            if (service != null) { service.StopRoomPolling(); while (service.IsRoomOperationInFlight) yield return null; }
+            foreach (var remote in remoteRooms) yield return Wait(remote.Item1.LeaveAsync(remote.Item2));
+            remoteRooms.Clear();
             if (service != null && service.BlocksNewEntry)
             {
                 yield return Wait(service.GetCatalogAsync()); service.BindRecoveryProjectMap(map);

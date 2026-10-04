@@ -12,6 +12,7 @@ namespace ANIMOL.UI
         private readonly Stack<string> history = new Stack<string>();
         public string CurrentScreenId { get; private set; } = string.Empty;
         public event Action<string> ScreenChanged;
+        public Func<bool> BackOverride;
 
         private void Awake()
         {
@@ -43,6 +44,7 @@ namespace ANIMOL.UI
 
         public bool Back()
         {
+            if (BackOverride?.Invoke() == true) return true;
             if (history.Count == 0) return false;
             return Navigate(history.Pop(), false);
         }

@@ -26,6 +26,7 @@ namespace Animol.NetUiDev.Project
         private string verifiedCode;
         private AnimalMultiplayerProjectAdapter adapter;
         private AnimalUiPresenter presenter;
+        private NetUiRoomController roomController;
         public NetUiBoundContext CurrentContext { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -59,6 +60,8 @@ namespace Animol.NetUiDev.Project
             if (navigation == null) yield break;
             presenter = navigation.GetComponent<AnimalMultiplayerPhase3Entry>()?.Host?.Presenter;
             adapter = presenter == null ? null : presenter.Backend as AnimalMultiplayerProjectAdapter;
+            roomController = GetComponent<NetUiRoomController>() ?? gameObject.AddComponent<NetUiRoomController>();
+            roomController.Initialize(NetUiDevCoordinator.Instance, () => NetUiProjectContextReader.BuildProjectMap(presenter.Catalog, adapter.IdMap));
             if (presenter != null) presenter.MultiplayerAccepted += AcceptedPresented;
             views = navigation.GetComponentsInChildren<MissingMultiplayerView>(true);
             foreach (var view in views)
@@ -85,7 +88,7 @@ namespace Animol.NetUiDev.Project
         }
         private void AcceptedPresented(AnimalUiCommitResult result)
         {
-            // Presentation only. TASK 05 consumes/navigates exclusively through TryDeliverAccepted.
+            // Presentation only. The room controller consumes/navigates through TryDeliverAccepted.
             if (result.Status == CommitStatus.Accepted) NetUiDevCoordinator.Instance?.RecordAcceptedPresentation();
         }
         private void ScreenChanged(string id) { generation++; verifiedCode = null; RefreshButtons(); }
@@ -126,6 +129,8 @@ namespace Animol.NetUiDev.Project
             try
             {
                 var service = NetUiDevCoordinator.Instance;
+                if (action == MissingMultiplayerContextAction.LeaveSaved)
+                { await roomController.LeaveSavedAsync(); return; }
                 if (service != null && service.BlocksNewEntry)
                 {
                     // The journal supplies the original full payload, never a new UI request.
@@ -134,6 +139,7 @@ namespace Animol.NetUiDev.Project
                     string message = result.Status == "Accepted" ? "입장 승인 확인 · 대기방 연결 대기" :
                         result.Status == "Unknown" ? "입장 결과 미확정 · 같은 요청 결과를 다시 확인해 주세요." : "입장 거절 · 최신 정보를 조회한 뒤 다시 확인해 주세요.";
                     SetText(view, join ? "CodeNotice" : "PolicyUnavailable", message + " " + result.Reason, result.Status + " · " + result.Reason);
+                    if (result.Status == "Accepted") await roomController.RestoreAsync();
                     return;
                 }
                 await EnsureConnected(view);
@@ -156,6 +162,7 @@ namespace Animol.NetUiDev.Project
                 {
                     NetUiValidation.Require(adapter != null, "EXISTING_PHASE3_ADAPTER_MISSING");
                     adapter.DevAuthority = new NetUiPhase3Authority(NetUiDevCoordinator.Instance, reader, context);
+                    roomController.SetReturnScreen(navigation.CurrentScreenId);
                     if (!view.Host.Open(context.Request))
                         SetText(view, join ? "CodeNotice" : "PolicyUnavailable", "동물 선택 화면을 열 수 없습니다.", "Animal selection is unavailable.");
                 }
@@ -176,8 +183,9 @@ namespace Animol.NetUiDev.Project
             foreach (var view in views)
             {
                 if (view.Lookup != null) view.Lookup.interactable = available;
-                if (view.Entry != null) view.Entry.interactable = available &&
-                    (view.Screen == MissingMultiplayerScreen.Create || (verifiedCode != null && view.Code.Field.text == verifiedCode));
+                if (view.Entry != null) view.Entry.interactable = view.DevLeaveSavedEntry
+                    ? !busy && NetUiDevCoordinator.Instance.HasActiveRoomReceipt
+                    : available && (view.Screen == MissingMultiplayerScreen.Create || (verifiedCode != null && view.Code.Field.text == verifiedCode));
             }
         }
         private static void Label(Button button, string ko, string en)

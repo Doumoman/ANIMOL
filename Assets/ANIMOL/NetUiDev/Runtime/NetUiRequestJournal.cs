@@ -121,7 +121,8 @@ namespace Animol.NetUiDev
 
         public void ConfirmLeft()
         {
-            NetUiValidation.Require(record.State == "Accepted" && record.ReceiptConsumed, "ACCEPTED_ROOM_RECEIPT_REQUIRED");
+            NetUiValidation.Require(record.State == "Accepted", "ACCEPTED_ROOM_RECEIPT_REQUIRED");
+            NetUiValidation.ValidateReceipt(ReadRequest(), ReadResult());
             record.RoomLeftConfirmed = true;
             Save();
         }
