@@ -9,9 +9,11 @@ namespace ANIMOL.AnimalStagePhase2.Tests
     {
         public AnimalUiSnapshot Snapshot;
         public int Submissions;
+        public System.Func<AnimalUiReadRequest, Task<AnimalUiSnapshot>> OnRead;
         public System.Func<SelectionCommitRequest, Task<AnimalUiCommitResult>> OnCampaign;
         public readonly System.Collections.Generic.List<SelectionCommitRequest> Requests = new System.Collections.Generic.List<SelectionCommitRequest>();
-        public override Task<AnimalUiSnapshot> ReadSnapshotAsync(AnimalUiReadRequest context, CancellationToken token) => Task.FromResult(Snapshot);
+        public override Task<AnimalUiSnapshot> ReadSnapshotAsync(AnimalUiReadRequest context, CancellationToken token) =>
+            OnRead == null ? Task.FromResult(Snapshot) : OnRead(context);
         public override Task<UpgradeQuote> QuoteUpgradeAsync(string id, UpgradeTrack track, CancellationToken token) =>
             Task.FromResult(new UpgradeQuote { State = UpgradeQuoteState.Unavailable });
         public override Task<AnimalUiCommitResult> TryUpgradeAsync(UpgradeCommitRequest request, CancellationToken token) => Unavailable();

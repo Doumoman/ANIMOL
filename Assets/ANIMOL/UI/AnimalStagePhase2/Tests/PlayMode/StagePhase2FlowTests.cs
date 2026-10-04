@@ -58,6 +58,9 @@ namespace ANIMOL.AnimalStagePhase2.Tests
                 Assert.That(Object.FindObjectsByType<EventSystem>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
                 Assert.IsNull(Object.FindFirstObjectByType<AnimalStagePhase2DemoHost>());
                 Assert.IsNull(Object.FindFirstObjectByType<AnimalUiDemoSwitcher>());
+                yield return new WaitForSecondsRealtime(.5f);
+                string output = Path.Combine(Path.GetTempPath(), "ANIMOL-StagePhase2-Captures"); Directory.CreateDirectory(output);
+                yield return Capture(Path.Combine(output, "actual_" + stage.StageId + ".png"));
                 P.View.Back.onClick.Invoke(); yield return null;
                 Assert.That(nav.CurrentScreenId, Is.EqualTo("SC03_StageSelect"));
                 Assert.IsTrue(source.StageScroll.gameObject.activeInHierarchy);
@@ -181,8 +184,12 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             Assert.That(P.View.ModalBody.text, Does.Contain(effect).And.Contain(int.MaxValue.ToString()).And.Contain("독립 패시브 검사"));
             var scroll = P.View.ModalBodyScroll;
             Assert.That(scroll.content.rect.height, Is.GreaterThan(scroll.viewport.rect.height));
-            scroll.verticalNormalizedPosition = 0; yield return null;
+            scroll.StopMovement(); scroll.verticalNormalizedPosition = 0; yield return null; yield return null;
             Assert.That(scroll.content.anchoredPosition.y, Is.GreaterThan(0));
+            var modalTypography = P.View.ModalBody.GetComponent<PixelTextBridge>();
+            modalTypography.Synchronize();
+            Assert.IsFalse(modalTypography.Overflow, "Full modal text must fit its scroll content, including the final passive description.");
+            Assert.That(scroll.verticalNormalizedPosition, Is.EqualTo(0).Within(.01f));
             string output = Path.Combine(Path.GetTempPath(), "ANIMOL-StagePhase2-Captures"); Directory.CreateDirectory(output);
             yield return Capture(Path.Combine(output, "fixture_only_long_detail.png"));
             P.View.ModalCancel.onClick.Invoke();
@@ -194,6 +201,40 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             yield return Capture(Path.Combine(output, "fixture_only_fixed_roster_confirmation.png"));
             P.View.ModalCancel.onClick.Invoke(); Assert.That(backend.Submissions, Is.Zero);
             Assert.That(source.LoadRequests, Is.Zero);
+#if UNITY_EDITOR
+            var setup = System.AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType("ANIMOL.Editor.PortraitGameViewSetup")).First(t => t != null);
+            foreach (int height in new[] { 1920, 2400 })
+            foreach (bool inset in new[] { false, true })
+            {
+                setup.GetMethod("SelectFixedResolution").Invoke(null, new object[] { 1080, height, "ANIMOL Phase2 QA" });
+                yield return null; yield return null;
+                var safe = nav.GetComponentInChildren<SafeAreaLayout>(); safe.enabled = true; safe.Apply();
+                if (inset)
+                {
+                    safe.enabled = false; var rect = (RectTransform)safe.transform;
+                    rect.anchorMin = new Vector2(48f / 1080, 96f / height);
+                    rect.anchorMax = new Vector2(1 - 48f / 1080, 1 - 120f / height);
+                }
+                yield return null; yield return null;
+                P.View.SelectionDetailsButton.onClick.Invoke(); yield return null; yield return null; yield return null;
+                modalTypography.Synchronize(); Assert.IsFalse(modalTypography.Overflow);
+                AssertContained((RectTransform)P.View.ModalCancel.transform, (RectTransform)safe.transform);
+                AssertContained((RectTransform)P.View.ModalConfirm.transform, (RectTransform)safe.transform);
+                string prefix = "fixture_only_" + height + (inset ? "_safe" : "_full");
+                scroll.StopMovement(); scroll.verticalNormalizedPosition = 1; yield return null;
+                yield return Capture(Path.Combine(output, prefix + "_detail_top.png"));
+                scroll.verticalNormalizedPosition = 0; yield return null; yield return null;
+                Assert.That(scroll.verticalNormalizedPosition, Is.EqualTo(0).Within(.01f));
+                yield return Capture(Path.Combine(output, prefix + "_detail_bottom.png"));
+                P.View.ModalCancel.onClick.Invoke(); P.View.Primary.onClick.Invoke(); yield return null; yield return null;
+                if (scroll.content.rect.height > scroll.viewport.rect.height)
+                    Assert.That(scroll.verticalNormalizedPosition, Is.EqualTo(1).Within(.01f));
+                else AssertContained(scroll.content, scroll.viewport);
+                yield return Capture(Path.Combine(output, prefix + "_confirmation.png"));
+                P.View.ModalCancel.onClick.Invoke();
+                safe.enabled = true; safe.Apply();
+            }
+#endif
             P.SetBackend(null); Object.Destroy(backend); host.enabled = true;
         }
 
@@ -255,6 +296,137 @@ namespace ANIMOL.AnimalStagePhase2.Tests
             Assert.That(P.View.Status.text, Does.Contain("TEST_ONLY final refusal")); Assert.That(source.LoadRequests, Is.Zero);
             P.SetBackend(null); Object.Destroy(backend); host.enabled = true;
         }
+
+        [UnityTest] public IEnumerator FixtureOnlyLateStageReadCannotOverwriteCurrentStage()
+        {
+            yield return Open(0); host.enabled = false;
+            var backend = AttachFixture(out var a);
+            var b = a.Clone(); b.StageId = "TEST_ONLY_B";
+            var delayed = new System.Threading.Tasks.TaskCompletionSource<AnimalUiSnapshot>();
+            var old = backend.Snapshot;
+            old.Find("Rabbit").ActiveDescription = "OLD_A";
+            backend.Snapshot = FixtureSnapshot(b);
+            backend.Snapshot.Find("Rabbit").ActiveDescription = "CURRENT_B";
+            backend.Snapshot.Find("Rabbit").PassiveDescription = "PASSIVE_B";
+            backend.OnRead = r => r.Stage.StageId == a.StageId ? delayed.Task : System.Threading.Tasks.Task.FromResult(backend.Snapshot);
+            P.OpenCampaign(a); yield return null;
+            Assert.IsFalse(P.View.Primary.interactable);
+            P.OpenCampaign(b); yield return null;
+            Assert.That(P.View.HeroDescription.text, Does.Contain("CURRENT_B").And.Contain("PASSIVE_B"));
+            delayed.SetResult(old); yield return null; yield return null;
+            Assert.That(P.View.HeroDescription.text, Does.Contain("CURRENT_B").And.Not.Contain("OLD_A"));
+            P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke(); yield return null;
+            Assert.That(backend.Requests.Single().ContextId, Is.EqualTo(b.StageId));
+            Assert.That(source.LoadRequests, Is.Zero);
+        }
+
+        [UnityTest] public IEnumerator FixtureOnlyInvalidAuthorityNeverDispatchesEvenWhenButtonsInvoked()
+        {
+            yield return Open(0); host.enabled = false;
+            var backend = AttachFixture(out var context);
+            foreach (string fault in new[] { "implemented", "grant", "usable", "ownershipOnly", "context", "policy", "revision", "role", "representative" })
+            {
+                var request = context.Clone(); backend.Snapshot = FixtureSnapshot(request);
+                var rabbit = backend.Snapshot.Find("Rabbit");
+                if (fault == "implemented") rabbit.Implemented = false;
+                if (fault == "grant") rabbit.HasContextPermission = false;
+                if (fault == "usable") rabbit.CanUseInContext = false;
+                if (fault == "ownershipOnly") { rabbit.Unlocked = true; rabbit.HasContextPermission = false; rabbit.CanUseInContext = false; }
+                if (fault == "context") backend.Snapshot.ContextId = "OTHER";
+                if (fault == "policy") backend.Snapshot.PolicyRevision = "OTHER";
+                if (fault == "revision") backend.Snapshot.Revision = " ";
+                if (fault == "role") request.FixedLoadout.Air = "Wolf";
+                if (fault == "representative") request.Requirements.RepresentativeRole = (AnimalRole)99;
+                P.OpenCampaign(request); yield return null;
+                Assert.IsFalse(P.View.Primary.interactable, fault);
+                P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke();
+                Assert.IsFalse(P.View.Modal.activeSelf, fault);
+                Assert.That(backend.Submissions, Is.Zero, fault);
+                Assert.That(source.LoadRequests, Is.Zero, fault);
+            }
+        }
+
+        [UnityTest] public IEnumerator FixtureOnlyMalformedReceiptsStayUnknownThenExactReceiptEmitsOnce()
+        {
+            yield return Open(0); host.enabled = false;
+            var backend = AttachFixture(out var context);
+            int accepted = 0; P.CampaignAccepted += _ => accepted++;
+            string fault = "token";
+            backend.OnCampaign = request =>
+            {
+                var result = Receipt(request);
+                if (fault == "token") result.AcceptanceToken = " ";
+                if (fault == "context") result.AcceptedContextId = "OTHER";
+                if (fault == "policy") result.AcceptedPolicyRevision = "OTHER";
+                if (fault == "loadout") result.AcceptedLoadout.Ground = "Wolf";
+                return System.Threading.Tasks.Task.FromResult(result);
+            };
+            P.OpenCampaign(context); yield return null;
+            P.View.Primary.onClick.Invoke(); P.View.ModalCancel.onClick.Invoke(); Assert.That(backend.Submissions, Is.Zero);
+            P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke(); yield return null;
+            foreach (string next in new[] { "context", "policy", "loadout", "valid" })
+            {
+                Assert.That(accepted, Is.Zero); Assert.IsTrue(P.IsCommitting);
+                Assert.That(source.LoadRequests, Is.Zero);
+                Assert.IsFalse(P.OpenCampaign(context));
+                fault = next; P.View.ModalConfirm.onClick.Invoke(); yield return null;
+            }
+            Assert.That(accepted, Is.EqualTo(1)); Assert.IsFalse(P.IsCommitting);
+            Assert.That(backend.Submissions, Is.EqualTo(5));
+            Assert.That(backend.Requests.Select(r => JsonUtility.ToJson(r)).Distinct().Count(), Is.EqualTo(1));
+            P.View.ModalConfirm.onClick.Invoke(); P.View.Primary.onClick.Invoke();
+            host.gameObject.SetActive(false); yield return null; host.gameObject.SetActive(true); yield return null;
+            P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke();
+            Assert.That(accepted, Is.EqualTo(1)); Assert.That(backend.Submissions, Is.EqualTo(5));
+            // This observes a presenter event only. No production receipt consumer or loader is installed.
+            Assert.That(source.LoadRequests, Is.Zero);
+        }
+
+        [UnityTest] public IEnumerator FixtureOnlyLateAcceptanceWhileInactiveRequiresSameRequestReconciliation()
+        {
+            yield return Open(0); host.enabled = false;
+            var backend = AttachFixture(out var context);
+            int accepted = 0; P.CampaignAccepted += _ => accepted++;
+            var pending = new System.Threading.Tasks.TaskCompletionSource<AnimalUiCommitResult>();
+            backend.OnCampaign = _ => pending.Task;
+            P.OpenCampaign(context); yield return null;
+            P.View.Primary.onClick.Invoke(); P.View.ModalConfirm.onClick.Invoke();
+            var original = backend.Requests.Single();
+            host.gameObject.SetActive(false); yield return null;
+            pending.SetResult(Receipt(original)); yield return null; yield return null;
+            Assert.That(accepted, Is.Zero); Assert.That(source.LoadRequests, Is.Zero);
+            host.gameObject.SetActive(true); yield return null;
+            Assert.IsTrue(P.IsCommitting); Assert.IsFalse(P.OpenCampaign(context));
+            backend.OnCampaign = r => System.Threading.Tasks.Task.FromResult(Receipt(r));
+            P.View.ModalConfirm.onClick.Invoke(); yield return null;
+            Assert.That(accepted, Is.EqualTo(1)); Assert.That(backend.Submissions, Is.EqualTo(2));
+            Assert.That(JsonUtility.ToJson(backend.Requests[1]), Is.EqualTo(JsonUtility.ToJson(original)));
+            Assert.That(source.LoadRequests, Is.Zero);
+        }
+
+        private StagePhase2PresentationFixture AttachFixture(out StageSelectionRequest context)
+        {
+            context = AnimalStagePhase2DemoHost.CreateReadonlyFixture();
+            context.StageId = "TEST_ONLY_A"; context.Requirements.PolicyRevision = "TEST_ONLY_POLICY";
+            var backend = host.gameObject.AddComponent<StagePhase2PresentationFixture>();
+            backend.Snapshot = FixtureSnapshot(context); P.SetBackend(backend); return backend;
+        }
+        private AnimalUiSnapshot FixtureSnapshot(StageSelectionRequest context)
+        {
+            var snapshot = new AnimalUiSnapshot { ContextId = context.StageId, PolicyRevision = context.Requirements.PolicyRevision, Revision = "TEST_ONLY_READ" };
+            foreach (var a in P.Catalog.Animals)
+            {
+                bool designated = context.FixedLoadout.Get(a.Role) == a.Id;
+                snapshot.Animals.Add(new AnimalProgress { AnimalId = a.Id, Implemented = designated,
+                    HasContextPermission = designated, CanUseInContext = designated, Unlocked = false });
+            }
+            return snapshot;
+        }
+        private static AnimalUiCommitResult Receipt(SelectionCommitRequest request) => new AnimalUiCommitResult
+        {
+            Status = CommitStatus.Accepted, AcceptanceToken = "TEST_ONLY_RECEIPT", AcceptedContextId = request.ContextId,
+            AcceptedPolicyRevision = request.PolicyRevision, AcceptedLoadout = request.Loadout.Clone()
+        };
 
         private static IEnumerator Capture(string path)
         {

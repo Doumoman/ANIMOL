@@ -12,6 +12,8 @@ namespace ANIMOL.Typography
     public sealed class PixelTextBridge : BaseMeshEffect
     {
         public PixelTypographyProfile Profile;
+        // Opt-in for scroll content whose legacy Text metrics differ from the rendered TMP font.
+        public bool SizeScrollContentToText;
         public Text Source { get; private set; }
         public TextMeshProUGUI Display { get; private set; }
         private string lastText;
@@ -19,6 +21,8 @@ namespace ANIMOL.Typography
         private float lastRequested, lastScale;
         private TextAnchor lastAlignment;
         private bool lastRich;
+        private bool lastSizeScrollContent;
+        private LayoutElement scrollLayout;
         public bool Overflow { get; private set; }
         public float PhysicalPointSize => Display == null ? 0 : Display.fontSize * Display.canvas.scaleFactor;
 
@@ -64,21 +68,31 @@ namespace ANIMOL.Typography
             float scale = Mathf.Max(.01f, Display.canvas != null ? Display.canvas.scaleFactor : 1);
             float requested = Source.resizeTextForBestFit ? Source.resizeTextMaxSize : Source.fontSize;
             var size = Source.rectTransform.rect.size;
-            if (lastText == Source.text && lastSize == size && lastRequested == requested && lastScale == scale && lastAlignment == Source.alignment && lastRich == Source.supportRichText) return;
+            if (lastText == Source.text && lastSize == size && lastRequested == requested && lastScale == scale && lastAlignment == Source.alignment && lastRich == Source.supportRichText && lastSizeScrollContent == SizeScrollContentToText) return;
             lastText = Source.text; lastSize = size; lastRequested = requested; lastScale = scale; lastAlignment = Source.alignment; lastRich = Source.supportRichText;
+            lastSizeScrollContent = SizeScrollContentToText;
             Display.text = Source.text; Display.richText = Source.supportRichText;
             Display.alignment = Alignment(Source.alignment);
+            Display.lineSpacing = SizeScrollContentToText ? 12 : 4;
             // 16px source grid, integer physical magnification. Never fractional best-fit smoothing.
             int pixels = Mathf.Max(requested * scale >= 20 ? 32 : 16, Mathf.RoundToInt(requested * scale / 16f) * 16);
             for (; pixels > 16; pixels -= 16)
             {
                 Display.fontSize = pixels / scale;
                 var preferred = Display.GetPreferredValues(Display.text, Mathf.Max(1,size.x), Mathf.Infinity);
-                if (preferred.x <= size.x + .5f && preferred.y <= size.y + .5f) break;
+                if (preferred.x <= size.x + .5f && (SizeScrollContentToText || preferred.y <= size.y + .5f)) break;
             }
             Display.fontSize = pixels / scale;
             Display.text = BalancedParagraphs(Source.text, Mathf.Max(1,size.x));
             var measured = Display.GetPreferredValues(Display.text, Mathf.Max(1,size.x), Mathf.Infinity);
+            if (SizeScrollContentToText)
+            {
+                // ContentSizeFitter uses this higher-priority measurement instead of legacy Text.
+                // Measure after paragraph balancing, which can introduce additional wrapped lines.
+                if (scrollLayout == null) scrollLayout = GetComponent<LayoutElement>() ?? gameObject.AddComponent<LayoutElement>();
+                scrollLayout.layoutPriority = 1;
+                scrollLayout.preferredHeight = Mathf.Ceil(measured.y) + 2;
+            }
             Overflow = measured.x > size.x + 1 || measured.y > size.y + 1;
             Profile.EnsurePointSampling();
         }

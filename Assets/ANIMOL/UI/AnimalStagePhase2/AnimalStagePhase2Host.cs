@@ -19,6 +19,12 @@ namespace ANIMOL.AnimalStagePhase2
         public StageSelectionRequest Context => context?.Clone();
         public string AccessPolicySummary { get; private set; }
 
+        private void Awake()
+        {
+            var bridge = Presenter.View.ModalBody.GetComponent<ANIMOL.Typography.PixelTextBridge>();
+            if (bridge != null) bridge.SizeScrollContentToText = true;
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Reset() => SceneManager.sceneLoaded -= Install;
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
