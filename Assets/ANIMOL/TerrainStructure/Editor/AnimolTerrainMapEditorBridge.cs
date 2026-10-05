@@ -19,6 +19,7 @@ namespace Animol.TerrainStructure.Editor
         public static Action Changed { get; private set; }
         public static string Label { get; private set; }
         public static Action<AnimolTerrainSavedMap> Validate { get; private set; }
+        private static bool reverting;
 
         public static void Bind(UnityEngine.Object owner, Func<AnimolTerrainSavedMap> read,
             Action<AnimolTerrainSavedMap> write, Action changed, string label, Action<AnimolTerrainSavedMap> validate = null)
@@ -41,37 +42,51 @@ namespace Animol.TerrainStructure.Editor
         public static void Commit(AnimolTerrainSavedMap candidate, string undoName)
         {
             if (!IsBound) throw new InvalidOperationException("Load and bind a map first.");
+            // Undo callbacks may rebind another editor window. Pin this transaction's owner
+            // and callbacks so failure recovery always restores the asset that was written.
+            var owner = Owner; var write = Write; var changed = Changed;
             Validate?.Invoke(candidate);
+            var snapshot = EditorJsonUtility.ToJson(owner);
             // Host must record any additional touched assets in this same group and
             // run its bounds/object/path/revision validation before committing.
             Undo.IncrementCurrentGroup();
             int group = Undo.GetCurrentGroup();
             Undo.SetCurrentGroupName(undoName);
-            Undo.RecordObject(Owner, undoName);
+            Undo.RecordObject(owner, undoName);
             try
             {
-                Write(candidate);
-                EditorUtility.SetDirty(Owner);
+                write(candidate);
+                EditorUtility.SetDirty(owner);
                 Undo.FlushUndoRecordObjects();
-                if (Changed != null) Changed();
+                changed?.Invoke();
                 Undo.CollapseUndoOperations(group);
             }
             catch
             {
                 Undo.FlushUndoRecordObjects();
-                Undo.RevertAllDownToGroup(group);
-                EditorUtility.SetDirty(Owner);
-                AssetDatabase.SaveAssetIfDirty(Owner);
-                if (Changed != null) Changed();
+                RevertUndoGroup(group);
+                EditorJsonUtility.FromJsonOverwrite(snapshot, owner);
+                EditorUtility.SetDirty(owner);
+                AssetDatabase.SaveAssetIfDirty(owner);
+                try { changed?.Invoke(); } catch { /* Keep the original render/write exception. */ }
                 throw;
             }
         }
 
         private static void AfterUndo()
         {
-            if (!IsBound || Changed == null) return;
+            if (reverting || !IsBound || Changed == null) return;
             try { EditorUtility.SetDirty(Owner); AssetDatabase.SaveAssetIfDirty(Owner); Changed(); }
             catch (Exception ex) { Debug.LogException(ex); }
+        }
+
+        // Failed transactions restore their snapshot and preview explicitly after Undo.
+        // Do not run the normal Undo preview callback on the intermediate rollback state.
+        public static void RevertUndoGroup(int group)
+        {
+            reverting = true;
+            try { Undo.RevertAllDownToGroup(group); }
+            finally { reverting = false; }
         }
     }
 }

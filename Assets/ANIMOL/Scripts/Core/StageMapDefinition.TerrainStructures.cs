@@ -12,6 +12,7 @@ namespace ANIMOL.Core
     {
         [SerializeField] private AnimolTerrainPlacementCollection terrainPlacements = new AnimolTerrainPlacementCollection();
         public AnimolTerrainPlacementCollection TerrainPlacements => terrainPlacements;
+        public void EditorInvalidateTerrainDerivedCache() { collisionDataRevision = -1; }
         public bool HasTerrainStructures => terrainPlacements != null &&
             (terrainPlacements.schemaVersion != 3 || terrainPlacements.placements == null || terrainPlacements.placements.Count > 0);
 

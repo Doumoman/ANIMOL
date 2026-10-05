@@ -6,6 +6,7 @@ Shader "ANIMOL/Source Art Sweetie16"
         _AlphaCutoff ("Alpha cutoff", Range(0,1)) = 0.85
         _HasExclude ("Source neighbour exclusion", Float) = 0
         _ExcludeRect ("Excluded source UV rectangle", Vector) = (0,0,0,0)
+        _PreviewOpacity ("Preview opacity after source cutoff", Range(0,1)) = 1
     }
     SubShader
     {
@@ -23,6 +24,7 @@ Shader "ANIMOL/Source Art Sweetie16"
             float _AlphaCutoff;
             float _HasExclude;
             float4 _ExcludeRect;
+            float _PreviewOpacity;
             struct appdata { float4 vertex:POSITION; float2 uv:TEXCOORD0; float4 color:COLOR; };
             struct v2f { float4 vertex:SV_POSITION; float2 uv:TEXCOORD0; float4 color:COLOR; };
             v2f vert(appdata v) { v2f o; o.vertex=UnityObjectToClipPos(v.vertex); o.uv=v.uv; o.color=v.color; return o; }
@@ -62,7 +64,7 @@ Shader "ANIMOL/Source Art Sweetie16"
                     float3 p=palette(n); float3 delta=source.rgb-p; float d=dot(delta,delta);
                     if(d<best) { best=d; output=p; }
                 }
-                return float4(output,1);
+                return float4(output * _PreviewOpacity, _PreviewOpacity);
             }
             ENDCG
         }

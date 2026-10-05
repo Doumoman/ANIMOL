@@ -58,7 +58,7 @@ namespace ANIMOL.Editor
             registry.bindings.Add(new StageTerrainStyleBinding { themeId = theme, tileId = tile, variantId = variant, styleId = style, preferred = preferred });
         }
 
-        public static void Write(StageMapDefinition map, AnimolTerrainSavedMap candidate)
+        public static void Validate(StageMapDefinition map, AnimolTerrainSavedMap candidate)
         {
             var registry = StageTerrainStructureRegistry.Load();
             map.ValidateTerrainCandidate(registry, candidate);
@@ -79,6 +79,12 @@ namespace ANIMOL.Editor
                 }
             }
             finally { UnityEngine.Object.DestroyImmediate(scratch); }
+        }
+
+        public static void Write(StageMapDefinition map, AnimolTerrainSavedMap candidate)
+        {
+            Validate(map, candidate);
+            var registry = StageTerrainStructureRegistry.Load();
             var snapshot = EditorJsonUtility.ToJson(map);
             if (AssetDatabase.Contains(map)) StageMapBackupService.CreateBackup(map, "autosave-before-terrain-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
             Undo.RecordObject(map, "Edit ANIMOL Terrain Structure");

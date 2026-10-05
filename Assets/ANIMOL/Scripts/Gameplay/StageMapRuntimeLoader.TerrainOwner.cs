@@ -11,6 +11,10 @@ namespace ANIMOL.Gameplay
     {
         private GameObject generatedTerrainOwner;
         private Tilemap generatedOneWay;
+        private bool standaloneDevelopmentOwner;
+        // The V4 development session has no baked scene terrain. Ordinary-cell-only maps
+        // therefore need this same operational owner, even when placements are empty.
+        public void ConfigureStandaloneDevelopmentOwner() { standaloneDevelopmentOwner = true; }
         private readonly Dictionary<GameObject, bool> suspendedLegacyTerrain = new Dictionary<GameObject, bool>();
 
         // The existing M9 local-play builder binds only map/objects and bakes greybox segments.
@@ -18,7 +22,7 @@ namespace ANIMOL.Gameplay
         private void PrepareTerrainPhysicsOwner(StageMapDefinition definition, bool structures)
         {
             if (generatedOneWay != null) generatedOneWay.ClearAllTiles();
-            if (!structures)
+            if (!structures && !standaloneDevelopmentOwner)
             {
                 foreach (var pair in suspendedLegacyTerrain) if (pair.Key != null) pair.Key.SetActive(pair.Value);
                 suspendedLegacyTerrain.Clear();

@@ -331,6 +331,40 @@ namespace ANIMOL.Editor
             Save(map);
         }
 
+        // V4 settings editor supplies a detached copy. Validate before touching the original,
+        // retain the placement's identity/prefab, and advance authoring exactly once.
+        public static bool ApplySettings(StageMapDefinition map, string stableId, StageMapObjectSettings settings,
+            out StageMapObjectPlacementValidation validation)
+        {
+            var source = map?.Objects.FirstOrDefault(item => item.StableId == stableId);
+            validation = new StageMapObjectPlacementValidation();
+            if (source == null) { validation.Errors.Add("Source object was not found."); return false; }
+            var candidate = new StageMapObjectPlacement(source.StableId, source.Kind, source.X, source.Y, source.DataKey, source.Prefab, settings);
+            validation = ValidatePlacement(map, candidate, stableId);
+            if (!validation.IsValid) return false;
+            CreateAutosaveBackup(map, "before-settings");
+            Undo.RecordObject(map, "Edit ANIMOL Object Settings");
+            map.EditorPlaceObject(candidate.StableId, candidate.Kind, candidate.X, candidate.Y, candidate.DataKey, candidate.Prefab, candidate.Settings);
+            Save(map); return true;
+        }
+
+        public static StageMapObjectSettings PlacementSettings(StageMapObjectTypeDefinition type, Vector2Int cell)
+        {
+            var s = type.DefaultSettings.Clone();
+            var path = s.PathCells.ToArray();
+            switch (type.Kind)
+            {
+                case StageMapObjectKind.Pounder: case StageMapObjectKind.CloudBalloonTether: path = new[] {cell,cell+new Vector2Int(0,-3)}; break;
+                case StageMapObjectKind.RailPlatform: path = new[] {cell,cell+new Vector2Int(4,0)}; break;
+                case StageMapObjectKind.MoonJadeBalance: path = new[] {cell,cell+Vector2Int.down}; break;
+                case StageMapObjectKind.LibIndexDrawer: path = new[] {cell,cell+new Vector2Int((int)s.Direction*2,0)}; break;
+                case StageMapObjectKind.GreenSandRetrace: path = new[] {cell,cell+new Vector2Int(3,0)}; break;
+                case StageMapObjectKind.MineMagnetPair: case StageMapObjectKind.MoonSlidingEave: path = new[] {cell,cell+new Vector2Int((int)s.Direction,0)}; break;
+                case StageMapObjectKind.MoonJadePendulum: path = new[] {cell+new Vector2Int(-2,0),cell+new Vector2Int(2,0)}; break;
+            }
+            s.EditorSetPathCells(path); return s;
+        }
+
         public static string GenerateStableId(StageMapObjectKind kind) => $"{kind.ToString().ToUpperInvariant()}-{Guid.NewGuid():N}";
         public static string GenerateStableId(string stableTypeId) => $"{stableTypeId}-{Guid.NewGuid():N}";
 

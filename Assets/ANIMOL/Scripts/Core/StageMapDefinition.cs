@@ -626,8 +626,27 @@ namespace ANIMOL.Core
 
         private void NotifyAuthoredChange()
         {
+            if (editorBatchDepth > 0) { editorBatchChanged = true; return; }
             authoringRevision = Math.Max(1, authoringRevision + 1);
             InvalidateHumanReview();
+        }
+
+        [NonSerialized] private int editorBatchDepth;
+        [NonSerialized] private bool editorBatchChanged;
+        public void EditorBatchAuthoredChanges(Action action)
+        {
+            editorBatchDepth++;
+            bool completed = false;
+            try { action(); completed = true; }
+            finally
+            {
+                editorBatchDepth--;
+                if (editorBatchDepth == 0)
+                {
+                    var changed = editorBatchChanged; editorBatchChanged = false;
+                    if (completed && changed) NotifyAuthoredChange();
+                }
+            }
         }
 
         private static bool CellInsideChunkBounds(int x, int y, RectInt chunkBounds) => chunkBounds.width > 0 && chunkBounds.height > 0 &&

@@ -336,6 +336,7 @@ namespace ANIMOL.Editor
 
         private static void OnWorkspaceSceneGUI(SceneView sceneView)
         {
+            if (TerrainEditorSceneEditor.Active || TerrainEditorSession.Active) return;
             if (!IsOpen || Selection.activeGameObject == null) return;
             var proxy = Selection.activeGameObject.GetComponentInParent<StageMapAuthoringProxy>();
             if (proxy == null || proxy.Map == null) return;

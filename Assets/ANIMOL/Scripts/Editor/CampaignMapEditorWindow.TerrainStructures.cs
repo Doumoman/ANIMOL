@@ -16,6 +16,7 @@ namespace ANIMOL.Editor
         private Vector2 structureScroll;
         private void BindTerrainStructures()
         {
+            if (TerrainEditorSession.Active || TerrainEditorSceneEditor.Active) return;
             if (boundTerrainMap != null && boundTerrainMap != selectedMap) AnimolTerrainMapEditorBridge.Unbind(boundTerrainMap);
             boundTerrainMap = selectedMap;
             if (selectedMap == null) return;
@@ -26,7 +27,7 @@ namespace ANIMOL.Editor
                 candidate => map.ValidateTerrainCandidate(StageTerrainStructureRegistry.Load(), candidate));
         }
         private void UnbindTerrainStructures()
-        { if (boundTerrainMap != null) AnimolTerrainMapEditorBridge.Unbind(boundTerrainMap); boundTerrainMap = null; }
+        { if (!TerrainEditorSession.Active && !TerrainEditorSceneEditor.Active && boundTerrainMap != null) AnimolTerrainMapEditorBridge.Unbind(boundTerrainMap); boundTerrainMap = null; }
 
         private void DrawTerrainStructurePanel()
         {
@@ -63,11 +64,12 @@ namespace ANIMOL.Editor
                     EditorGUILayout.LabelField(entry.id + "\n" + entry.width + "×" + entry.height +
                         (entry.kind == "Structure" ? $" · 고체 {solid} · 빈 셀 {entry.width * entry.height - solid}" : $" · 추가 충돌 0 · 받침 {support}"), GUILayout.Height(50));
                     using (new EditorGUI.DisabledScope(theme != selectedMap.ThemeId))
-                        if (GUILayout.Button("배치/편집", GUILayout.Width(80))) AnimolTerrainMapEditorWindow.OpenForCatalogEntry(entry.id);
+                        if (GUILayout.Button("배치/편집", GUILayout.Width(80))) TerrainEditorSceneEditor.Open(selectedMap, entry.id);
                 }
             }
             EditorGUILayout.EndScrollView();
-            EditorGUILayout.HelpBox("부품 창에서 좌표 배치, 셀 마스크 ghost, instance 전체 이동/삭제를 사용합니다. 저장 대상은 현재 StageMapDefinition입니다.", MessageType.None);
+            if (GUILayout.Button("시각 편집 열기 · Scene View V4", GUILayout.Height(32))) TerrainEditorSceneEditor.Open(selectedMap);
+            EditorGUILayout.HelpBox("Scene View 안에서 팔레트·배치·이동·저장·시험 플레이를 사용합니다. 저장 대상은 현재 StageMapDefinition입니다.", MessageType.None);
         }
     }
 }

@@ -59,13 +59,12 @@ namespace ANIMOL.Editor
         [MenuItem("ANIMOL/M8/Variable Chunk Map Editor")]
         public static void OpenM8() => Open();
 
-        [MenuItem("ANIMOL/Map Editor/Scene Palette %#m")]
+        [MenuItem("ANIMOL/Map Editor/Scene Palette")]
         public static void OpenScenePalette()
         {
             var window = GetWindow<CampaignMapEditorWindow>("ANIMOL Map Editor");
             if (Selection.activeObject is StageMapDefinition map) window.SelectMap(map, false);
-            window.scenePaletteVisible = true;
-            window.FocusSceneAuthoring();
+            if (window.selectedMap != null) TerrainEditorSceneEditor.Open(window.selectedMap);
         }
 
         public static CampaignMapEditorWindow OpenForManualSession(StageMapDefinition map, string backupPath)
@@ -82,7 +81,6 @@ namespace ANIMOL.Editor
             window.Focus();
             if (map != null) Selection.activeObject = map;
             window.RepaintAll();
-            if (map != null) EditorApplication.delayCall += () => StageMapAuthoringWorkspace.Open(map, true);
             return window;
         }
 
@@ -126,7 +124,7 @@ namespace ANIMOL.Editor
         {
             catalog = AssetDatabase.LoadAssetAtPath<CampaignCatalog>(CampaignCatalogGenerator.CatalogPath);
             objectRegistry = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
-            SceneView.duringSceneGui += OnSceneGui;
+            // V4 retires this legacy editing UI. This window only selects a canonical map.
             Undo.undoRedoPerformed += RepaintAll;
             EditorApplication.update += SyncSelectedMapAsset;
             BindTerrainStructures();
@@ -168,9 +166,21 @@ namespace ANIMOL.Editor
             {
                 DrawCatalogPanel();
                 authoringScroll = EditorGUILayout.BeginScrollView(authoringScroll);
-                DrawAuthoringPanel();
+                DrawV4Launcher();
                 EditorGUILayout.EndScrollView();
             }
+        }
+
+        private void DrawV4Launcher()
+        {
+            EditorGUILayout.LabelField("ANIMOL 맵 제작기 V4", EditorStyles.boldLabel);
+            selectedMap = (StageMapDefinition)EditorGUILayout.ObjectField("편집할 맵", selectedMap, typeof(StageMapDefinition), false);
+            EditorGUILayout.HelpBox("새 제작기는 Scene View 한 화면에서 맵·실루엣 팔레트·편집을 제공합니다. 시험 플레이만 Game View에서 실행합니다.", MessageType.Info);
+            if (selectedMap == null) return;
+            EditorGUILayout.LabelField(selectedMap.StageId + " · " + selectedMap.ThemeId + " · revision " + selectedMap.AuthoringRevision);
+            EditorGUILayout.LabelField($"셀 {selectedMap.Cells.Count} · 객체 {selectedMap.Objects.Count} · 구조 배치 {selectedMap.TerrainPlacements.placements.Count}");
+            if (GUILayout.Button("새 맵 제작기 열기", GUILayout.Height(48))) TerrainEditorSceneEditor.Open(selectedMap);
+            EditorGUILayout.HelpBox("기존 Scene View 팔레트와 별도 Saved Map Editor는 이 작업 흐름에서 사용하지 않습니다. 정본 맵과 v3 저장·충돌 계약은 유지됩니다.", MessageType.None);
         }
 
         private void DrawCatalogPanel()
@@ -1391,11 +1401,7 @@ namespace ANIMOL.Editor
             }
 
             RepaintAll();
-            if (!openWorkspace || map == null) return;
-            EditorApplication.delayCall += () =>
-            {
-                if (selectedMap == map) StageMapAuthoringWorkspace.Open(map, true);
-            };
+            // Merely selecting a map must not replace the user's open/unsaved scenes.
         }
 
         private static void EnsureFolder(string path)
