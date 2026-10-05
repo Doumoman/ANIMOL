@@ -1,0 +1,119 @@
+ANIMOL 타일 구조 v3 연결 결과 — 2026-10-05
+
+작업 환경
+C:/Users/user/Documents/GitHub/ANIMOL. 실제 AGENTS.md 및 작업 전 git status 확인.
+ProjectVersion.txt와 연결된 실행 Editor 모두 Unity 6000.3.8f1.
+기존 미커밋 변경과 미추적 authoring/workspace 소스는 보존하고 이번 커밋에 포함하지 않는다.
+
+적용 결과와 사용 방법
+기존 Campaign Map Editor에 원본 디자인 60부품(Structure 40, InteriorOverlay 20)
+테마 필터와 Sprite thumbnail 패널을 추가했다. '배치/편집'으로 현재 맵에 Bind된
+Saved Map Editor를 열어 좌표 배치, ghost, 완성 instance 전체 이동/삭제를 수행한다.
+운영 정본은 기존 StageMapDefinition이다. 별도 sample map asset을 운영 정본으로 만들지 않았다.
+T01-S01의 기존 지형 110셀, 객체, revision 199는 유지했다. 새 지형 제작 도구를 연결했으며,
+기존 레벨을 임의 재설계하거나 Ready로 승인하지 않았다.
+
+원본과 카탈로그
+Assets/ANIMOL/TerrainStructure/Data/editor_tile_catalog.json이 v3 정본이다.
+원본 SourceArt PNG 5장, source_art_frames.json, 카탈로그는 ZIP과 바이트/SHA256 일치.
+Initialize Shown Design Art를 실제 실행하여 Sprite frame 60개, 구조 stamp 40개 생성.
+Stamp 생성도 v3 solidRows를 읽도록 수정했다. v2 source_art_stamps의 Fill rows는 충돌에 쓰지 않는다.
+Sprite subasset은 원본 texture의 지정 rect를 참조한다. 원본 PNG 재생성/파일 크롭/교체 없음.
+DebugArt는 설치하거나 게임 아트로 사용하지 않았다. 제공된 palette Shader와 Material 사용.
+
+실제 저장·에디터 경로
+CampaignMapEditorWindow → 원본 썸네일 패널 → AnimolTerrainMapEditorBridge
+→ StageMapDefinition.ReadTerrain → AnimolTerrainPlacementEngine
+→ StageTerrainStructureIntegration.Write → 기존 StageMapObjectAuthoringOperations의
+  footprint/path/overlap 검증(폐기 가능한 candidate clone에서 실행)
+→ StageMapDefinition.EditorApplyTerrainCandidate.
+기존 StageMapBackupService로 변경 전 백업, 한 map asset/Undo group에 transaction 기록.
+변경 없는 일반 셀의 tileId/variant와 객체는 그대로 유지한다.
+candidate당 authoring revision 1회 증가, derived collision revision -1로 무효화.
+changed는 기존 workspace preview 갱신만 예약하며 정본/revision을 다시 변경하지 않는다.
+프리뷰 callback 실패 시 Undo 복원 후 저장 파일도 다시 저장하여 메모리/디스크 상태를 복구한다.
+기존 일반 브러시는 EditorSetCell/EditorEraseCell의 소유권 guard를 거친다.
+#셀 부분 삭제/덮어쓰기는 거부, .셀 일반 지형 배치는 허용한다.
+받침 상실 장식은 일반 셀 수정 transaction에서 함께 제거한다.
+구조물이 걸친 청크 축소는 완성 instance 이동/삭제를 먼저 하도록 거부한다.
+
+실제 런타임 경로
+CampaignRuntimeBootstrap → StageMapRuntimeLoader.Load → Engine.Resolve
+→ StageTerrainStructureRuntime → 기존 operational Terrain TilemapCollider2D.
+완성 아트에는 Collider가 없고 #만 Grid collider tile로 합친다. .에는 새 충돌이 없다.
+frameId로 SourceFrame을 찾아 원본 Sprite/Material, art child offset/균등배율을 적용한다.
+구조/일반 terrain/장식 sorting order는 10/20/30. 기존 workspace는 같은 상대 순서 5/10/15.
+맵 전역 instance 사전과 GetCoveredChunks로 전체 그림 범위의 모든 16셀청크를 색인한다.
+원점 청크를 숨겨도 다른 청크가 보이면 같은 완성 instance를 유지한다.
+
+기존 M9 Save + Local Play는 회색 박스 충돌을 굽고 loader에 Terrain Tilemap을 연결하지 않았다.
+이 경우 operational loader가 Grid/Tilemap을 소유하도록 보완했다. 정확한 M9 생성 root와
+segment 이름에 해당하는 기존 지형만 비활성화하여 중복 충돌을 없앤다. 기존 일방통행 ID는
+별도 Tilemap/PlatformEffector2D를 유지한다. legacy-only 맵 로드 시 기존 회색 지형을 복원한다.
+패키지 MapPreview는 별도 additive 진단 씬이며 운영 loader/물리 owner가 아니다.
+StageMapRuntimeFactory의 기존 객체 Configure/reset 경로를 읽고 그대로 유지했다.
+
+저장 schema와 호환성
+StageMapDefinition에 terrainPlacements: AnimolTerrainPlacementCollection(schemaVersion=3) 추가.
+instanceId/catalogId/catalogVersion/maskHash/themeId/styleId/x/y/orientation=None 저장.
+기존 cells/objects 필드와 9방향 enum은 대체하지 않는다. placement를 content hash에 포함하고
+변경 시 기존 human completion review를 무효화한다. 보상/Ready 성공을 연출하거나 부여하지 않는다.
+
+Resources/ANIMOL_TerrainStructureRegistry는 정본 JSON과 frame asset 참조 및 명시적인
+tileId/variant 대응표다. 기존 registry의 정확한 ID/variant 및 알려진 DEV/M9 ID를 Txx_A
+호환 스타일로 등록한다. 새 B/C/D 일반 셀 선택은 Txx_B/C/D@CENTER variant로 명시한다.
+대응 없는 variant를 기본 스타일로 추측하거나 누락하지 않고 오류로 표시한다.
+현재 campaign map 8개를 read adapter로 읽었으며 모두 대응표 검증을 통과했다.
+기존 호스트에는 구조물 소유 셀의 직렬화 캐시가 없다. base/owner 충돌은 손상으로 거부한다.
+hash/version/schema/orientation/theme/duplicated instanceId 오류는 자동 복구하지 않는다.
+알 수 없는 object type/dataKey 및 settings version 999를 포함한 기존 객체 전체 직렬화가
+terrain transaction에서 보존되는 것을 검증했다. 소스에 없는 raw-JSON 필드를 추측해 추가하지 않았다.
+Unity가 읽지 못하는 임의의 미래 필드까지 보존한다고 주장하지 않는다.
+
+실제 실행한 검증
+1. Unity C# compile 오류 0. Runtime/Editor 및 테스트 asmdef 참조, Editor-only 분리 확인.
+2. ANIMOL/Terrain Structure/Validate Saved Map Contract 메뉴 실제 실행 성공.
+3. TerrainStructureIntegrationTests: EditMode 13/13 PASS.
+   60 frame/40 stamp, 모든 #/.의 실제 TilemapCollider2D OverlapPoint,
+   20 Fill의 추가 충돌 0/받침 거부/삭제 후 ground 유지,
+   T01_D 12×5/52 solid/8 void, T03_D 닫힌 바닥,
+   음수 좌표/15,15 경계跨배치/전역 owner/전체 이동·삭제,
+   기존 브러시 # 거부/.발판 표시, 9방향/variant/객체 저장 보존,
+   bounds/object footprint/swept path, 잘못된 hash/version/orientation/theme/owner 거부,
+   배치·이동·삭제·cascade Undo/Redo, 저장·재임포트·editor 재오픈,
+   주입된 preview 실패 후 디스크 rollback, 실제 M9 loader 구성 검증 포함.
+4. TerrainStructurePlayModeTests: 1/1 PASS.
+   실제 DevPlayerController가 5테마×4주요부품=20개에 착지하며 발판 높이를 확인했다.
+5. M7CampaignMapDevFlowTests: PlayMode 2/2 PASS.
+6. CampaignCoreTests: 22/22 PASS. 기존 Ready/보상 관련 core coverage 포함.
+7. CommercialPolishPolicyTests: 3/3 PASS.
+8. 기존 map 관련 EditMode 선택: 63/64 PASS.
+   기존 M9T01ContentTests의 108셀 고정 기대값과 현재 사용자 T01-S01의 110셀이 달라 1개 FAIL.
+   맵 파일은 이번 작업에서 변경하지 않았다(마지막 쓰기 2026-09-30).
+   해당 테스트를 통과시키기 위해 사용자 셀을 삭제하거나 기대값을 바꾸지 않았다.
+9. 두 Editor를 연 상태에서 실제 domain reload 요청 후 T01-S01 Bind 유지, revision 199 유지.
+10. MainParts-UnityShader.png: Unity Camera가 실제 Shader/Material로 렌더링한 20주요부품.
+    원본 아트와 palette, 상단/측면/밑마감 외형을 육안 확인했다.
+실행 원문은 Docs/Validation/TerrainStructureV3의 JSON 기록에 있다.
+SourceIntegrity.json은 파일 바이트/hash 확인이며 Unity/C# 실행 테스트로 표기하지 않았다.
+Python reference-model PASS를 Unity PASS로 대체한 항목은 없다.
+
+미검증과 한계
+Android/iOS player build, 실기기 GPU별 비교, 전체 레벨 수동 완주,
+측면·밑면에서의 조작감에 대한 사람의 최종 플레이 승인은 수행하지 않았다.
+실제 Collider 셀 검증/상단 착지와 Shader 캡처가 이 수동 품질 승인을 대체하지 않는다.
+마스크와 catalogVersion은 변경하지 않았다. 운영 Ready/보상 자격도 변경하지 않았다.
+현재 파일이 이미 갖고 있는 모든 미추적 의존 소스를 이 작업 커밋에 끌어들이지 않았다.
+
+수정 파일 묶음
+Scripts/Core/StageMapDefinition.cs, StageMapDefinition.TerrainStructures.cs
+Scripts/Editor/CampaignMapEditorWindow.cs, CampaignMapEditorWindow.TerrainStructures.cs
+Scripts/Editor/StageTerrainStructureIntegration.cs, StageTerrainStructureWorkspacePreview.cs
+Scripts/Gameplay/StageMapRuntimeLoader.cs, StageMapRuntimeLoader.TerrainOwner.cs
+Scripts/Gameplay/StageTerrainStructureRegistry.cs, StageTerrainStructureRuntime.cs
+Scripts 및 Tests의 Runtime/Editor/EditMode/PlayMode asmdef
+TerrainStructure의 Runtime/Editor/Data/SourceArt/Shader/Generated 자산과 Unity meta
+Resources/ANIMOL_TerrainStructureRegistry.asset
+Tests/EditMode/TerrainStructureIntegrationTests.cs
+Tests/PlayMode/TerrainStructurePlayModeTests.cs
+본 보고서 및 Docs/Validation/TerrainStructureV3 실행 증거

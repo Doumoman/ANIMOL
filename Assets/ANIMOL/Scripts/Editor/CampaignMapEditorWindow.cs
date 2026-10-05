@@ -9,9 +9,9 @@ namespace ANIMOL.Editor
 {
     public enum StageMapTool { Select, Brush, Eraser, Line, Rectangle, Fill, Stamp, Object, CampaignMarker, EditPath }
 
-    public sealed class CampaignMapEditorWindow : EditorWindow
+    public sealed partial class CampaignMapEditorWindow : EditorWindow
     {
-        private StageMapDefinition selectedMap;
+        [SerializeField] private StageMapDefinition selectedMap;
         private CampaignCatalog catalog;
         private StageMapTool tool;
         private StageMapLayer layer = StageMapLayer.Terrain;
@@ -129,6 +129,7 @@ namespace ANIMOL.Editor
             SceneView.duringSceneGui += OnSceneGui;
             Undo.undoRedoPerformed += RepaintAll;
             EditorApplication.update += SyncSelectedMapAsset;
+            BindTerrainStructures();
         }
 
         private void OnDisable()
@@ -136,10 +137,12 @@ namespace ANIMOL.Editor
             SceneView.duringSceneGui -= OnSceneGui;
             Undo.undoRedoPerformed -= RepaintAll;
             EditorApplication.update -= SyncSelectedMapAsset;
+            UnbindTerrainStructures();
         }
 
         private void RepaintAll()
         {
+            BindTerrainStructures();
             Repaint();
             StageMapAuthoringWorkspace.ScheduleRefresh(selectedMap);
             SceneView.RepaintAll();
@@ -223,6 +226,7 @@ namespace ANIMOL.Editor
 
                 DrawChunkAuthoring();
 
+                DrawTerrainStructurePanel();
                 DrawWindowPalette();
                 for (var i = 0; i < layerVisibility.Length; i++)
                     layerVisibility[i] = EditorGUILayout.ToggleLeft($"Show {(StageMapLayer)i}", layerVisibility[i]);

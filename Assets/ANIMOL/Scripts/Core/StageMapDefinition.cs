@@ -272,7 +272,7 @@ namespace ANIMOL.Core
     }
 
     [CreateAssetMenu(menuName = "ANIMOL/Campaign/Stage Map", fileName = "StageMapDefinition")]
-    public sealed class StageMapDefinition : ScriptableObject
+    public sealed partial class StageMapDefinition : ScriptableObject
     {
         public const int SourceCellPixels = 16;
         public const int TilesPerChunk = 16;
@@ -384,6 +384,14 @@ namespace ANIMOL.Core
             var cellCount = cells.Count(cell => CellToChunk(cell.X, cell.Y) == chunk);
             var objectIds = objects.Where(item => CellToChunk(item.X, item.Y) == chunk)
                 .Select(item => item.StableId).OrderBy(id => id, StringComparer.Ordinal).ToArray();
+            if (HasTerrainStructures)
+            {
+                var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
+                cellCount += resolved.solids.Values.Count(c => !string.IsNullOrEmpty(c.ownerId) && CellToChunk(c.cell.x, c.cell.y) == chunk);
+                objectIds = objectIds.Concat(terrainPlacements.placements.Where(p =>
+                    Animol.TerrainStructure.AnimolTerrainPlacementEngine.GetCoveredChunks(resolved.entriesById[p.catalogId], new Vector2Int(p.x, p.y)).Contains(chunk))
+                    .Select(p => p.instanceId)).ToArray();
+            }
             return new StageMapChunkOccupancy(chunk, cellCount, objectIds);
         }
 
@@ -398,6 +406,8 @@ namespace ANIMOL.Core
 
         public void EditorSetCell(int x, int y, StageMapLayer layer, string tileId, string variantId = "")
         {
+            if (layer == StageMapLayer.Terrain && HasTerrainStructures)
+            { EditStructuredBaseCell(x, y, tileId, variantId, string.IsNullOrWhiteSpace(tileId)); return; }
             EnsureInitialChunkContains(x, y);
             if (!ContainsCell(x, y)) throw new InvalidOperationException($"Cell ({x},{y}) is outside the authored chunk bounds {ChunkBounds}.");
             EditorEraseCell(x, y, layer);
@@ -407,6 +417,7 @@ namespace ANIMOL.Core
 
         public bool EditorEraseCell(int x, int y, StageMapLayer layer)
         {
+            if (layer == StageMapLayer.Terrain && HasTerrainStructures) return EditStructuredBaseCell(x, y, null, null, true);
             var removed = cells.RemoveAll(cell => cell.X == x && cell.Y == y && cell.Layer == layer) > 0;
             if (removed) NotifyAuthoredChange();
             return removed;
@@ -421,6 +432,13 @@ namespace ANIMOL.Core
             GameObject prefab, StageMapObjectSettings settings)
         {
             if (string.IsNullOrWhiteSpace(stableId)) throw new ArgumentException("Object stable ID is required.", nameof(stableId));
+            if (HasTerrainStructures)
+            {
+                var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
+                var candidate = new StageMapObjectPlacement(stableId, kind, x, y, dataKey, prefab, settings);
+                if (EnumeratePlacementCells(candidate).Any(c => resolved.solids.TryGetValue(c, out var solid) && !string.IsNullOrEmpty(solid.ownerId)))
+                    throw new InvalidOperationException("Object footprint/path overlaps a structure-owned # cell.");
+            }
             EnsureInitialChunkContains(x, y);
             if (!ContainsCell(x, y)) throw new InvalidOperationException($"Object {stableId} at ({x},{y}) is outside the authored chunk bounds {ChunkBounds}.");
             objects.RemoveAll(item => item.StableId == stableId);
@@ -461,6 +479,14 @@ namespace ANIMOL.Core
         public bool EditorTrySetChunkBounds(RectInt requested, bool deleteOutsideData, out StageMapChunkRemovalImpact impact)
         {
             impact = AnalyzeChunkBoundsChange(requested);
+            if (HasTerrainStructures)
+            {
+                var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
+                foreach (var placement in terrainPlacements.placements)
+                    if (Animol.TerrainStructure.AnimolTerrainPlacementEngine.GetCoveredChunks(resolved.entriesById[placement.catalogId],
+                        new Vector2Int(placement.x, placement.y)).Any(chunk => !requested.Contains(chunk)))
+                        throw new InvalidOperationException("Move/delete complete structure instances before removing their covered chunks.");
+            }
             if (requested.width <= 0 || requested.height <= 0) return false;
             if (impact.HasOccupiedData && !deleteOutsideData) return false;
             if (deleteOutsideData)
@@ -574,6 +600,7 @@ namespace ANIMOL.Core
                 .Append('|').Append(string.Join(",", optionalObjectiveIds ?? Array.Empty<string>()));
             foreach (var cell in cells.OrderBy(x => x.Layer).ThenBy(x => x.X).ThenBy(x => x.Y).ThenBy(x => x.TileId))
                 builder.Append("|C:").Append((int)cell.Layer).Append(':').Append(cell.X).Append(':').Append(cell.Y).Append(':').Append(cell.TileId).Append(':').Append(cell.VariantId);
+            if (HasTerrainStructures) builder.Append("|TerrainStructures:").Append(JsonUtility.ToJson(terrainPlacements));
             foreach (var item in objects.OrderBy(x => x.StableId, StringComparer.Ordinal))
             {
                 var settings = item.Settings;
@@ -709,7 +736,12 @@ namespace ANIMOL.Core
             if (map.Objects.Any(item => item.Settings.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype &&
                                         item.Settings.RouteRole == MapObjectRouteRole.Required))
                 report.Errors.Add("PlaceablePrototype objects cannot be assigned to a required route or required reward access path.");
-            if (map.CollisionDataRevision != map.AuthoringRevision) report.Errors.Add("Derived collision data revision is stale.");
+            if (map.HasTerrainStructures || map.CollisionDataRevision == -1)
+            {
+                try { map.ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load()); }
+                catch (Exception ex) { report.Errors.Add(ex.Message); }
+            }
+            else if (map.CollisionDataRevision != map.AuthoringRevision) report.Errors.Add("Derived collision data revision is stale.");
             return report;
         }
 

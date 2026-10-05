@@ -18,7 +18,7 @@ namespace ANIMOL.Gameplay
         public bool DevelopmentPlaceholder => developmentPlaceholder;
     }
 
-    public sealed class StageMapRuntimeLoader : MonoBehaviour
+    public sealed partial class StageMapRuntimeLoader : MonoBehaviour
     {
         [SerializeField] private StageMapDefinition map;
         [SerializeField] private Tilemap background;
@@ -44,6 +44,10 @@ namespace ANIMOL.Gameplay
             if (definition == null) throw new ArgumentNullException(nameof(definition));
             var structural = StageMapValidator.ValidateStructure(definition);
             if (!structural.IsValid) throw new InvalidOperationException(string.Join(" | ", structural.Errors));
+            // Resolve pinned masks before touching the existing preview/physics cache.
+            var structureRegistry = definition.HasTerrainStructures ? StageTerrainStructureRegistry.Load() : null;
+            if (structureRegistry != null) definition.ResolveTerrain(structureRegistry);
+            PrepareTerrainPhysicsOwner(definition, structureRegistry != null);
             map = definition;
             ConfigureGridScale(definition.WorldUnitsPerCell);
             if (background != null) background.ClearAllTiles();
@@ -66,8 +70,17 @@ namespace ANIMOL.Gameplay
                     if (tile == null) continue;
                 }
                 var tilemap = ResolveLayer(cell.Layer);
+                if (generatedTerrainOwner != null && cell.Layer == StageMapLayer.Terrain &&
+                    cell.TileId == "M9_MOON_ONE_WAY_16PX_PLACEHOLDER") tilemap = generatedOneWay;
                 if (tilemap != null) tilemap.SetTile(new Vector3Int(cell.X, cell.Y, 0), tile);
             }
+            var structures = GetComponent<StageTerrainStructureRuntime>();
+            if (structureRegistry != null)
+            {
+                if (structures == null) structures = gameObject.AddComponent<StageTerrainStructureRuntime>();
+                structures.Build(definition, terrain, structureRegistry);
+            }
+            else if (structures != null) structures.Clear();
             SpawnAuthoredObjects(definition);
             if (terrain != null) terrain.CompressBounds();
             Physics2D.SyncTransforms();
