@@ -37,7 +37,10 @@ namespace ANIMOL.Gameplay
                 generatedOneWay = NewOwnedTilemap("LegacyOneWayCells", generatedTerrainOwner.transform);
                 var body = generatedOneWay.gameObject.AddComponent<Rigidbody2D>(); body.bodyType = RigidbodyType2D.Static;
                 var effector = generatedOneWay.gameObject.AddComponent<PlatformEffector2D>(); effector.useOneWay = true;
-                generatedOneWay.GetComponent<TilemapCollider2D>().usedByEffector = true;
+                var composite=generatedOneWay.gameObject.AddComponent<CompositeCollider2D>();
+                composite.geometryType=CompositeCollider2D.GeometryType.Polygons;
+                generatedOneWay.GetComponent<TilemapCollider2D>().compositeOperation=Collider2D.CompositeOperation.Merge;
+                composite.usedByEffector=true;
             }
             if (generatedTerrainOwner == null) return; // Campaign scene already has its operational owner.
             generatedTerrainOwner.SetActive(true);

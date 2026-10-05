@@ -62,6 +62,10 @@ namespace ANIMOL.Development
         public float zoom = 10;
         public string partId = "", instanceId = "", query = "", theme = "CURRENT", style = "ALL", category = "ALL";
         public string tool = "Place";
+        public bool freeShape, freeSelected;
+        public string freeStyle="", freeTool="Paint", freePreset="rectangle_5x3";
+        public int freeBrush=1;
+        public Vector2Int freeSelection;
         public bool grid = true, masks = true, information = false;
         public float paletteHeight = .25f;
     }

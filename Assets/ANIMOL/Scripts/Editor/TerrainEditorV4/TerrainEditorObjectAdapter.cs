@@ -40,7 +40,6 @@ namespace ANIMOL.Editor
             try
             {
                 var resolved=Map.ResolveTerrain(Terrain);
-                foreach(var c in resolved.solids.Values.Where(c=>!string.IsNullOrEmpty(c.ownerId)))scratch.EditorAddValidationTerrainCell(c.cell);
                 if(edit.operation=="Pair")
                 {
                     var pairValidation=StageMapObjectAuthoringOperations.ValidateLinkedPairPlacement(scratch,type,edit.origin,edit.second);

@@ -12,7 +12,7 @@ namespace Animol.TerrainStructure
     /// inspection. A successful edit returns a deep map copy and advances revision
     /// exactly once; a failure returns null and never changes the input map.
     /// </summary>
-    public static class AnimolTerrainPlacementEngine
+    public static partial class AnimolTerrainPlacementEngine
     {
         public const string StructureKind = "Structure";
         public const string InteriorOverlayKind = "InteriorOverlay";
@@ -184,7 +184,9 @@ namespace Animol.TerrainStructure
             if (!Resolve(catalog, map, out resolved, out error)) return false;
             AnimolTerrainCellResult occupied;
             if (resolved.solids.TryGetValue(cell, out occupied) && HasText(occupied.ownerId))
-                return Fail("Cell is owned by structure " + occupied.ownerId + "; edit the complete placement.", out error);
+                return Fail(occupied.ownerId.StartsWith("free:",StringComparison.Ordinal)
+                    ? "자유형 지형 모드에서 이 셀을 편집하세요."
+                    : "Cell is owned by structure " + occupied.ownerId + "; edit the complete placement.", out error);
             if (solid && !KnownStyle(resolved.entriesById, map.themeId, styleId))
                 return Fail("Unknown style for this map theme: " + styleId, out error);
             AnimolTerrainBaseCell previous = FindBaseCell(map, cell);
@@ -205,6 +207,7 @@ namespace Animol.TerrainStructure
             AnimolTerrainSavedMap copy = new AnimolTerrainSavedMap
             {
                 schemaVersion = source.schemaVersion, revision = source.revision, themeId = source.themeId,
+                freeShape = source.freeShape?.Copy() ?? new FreeShapeLayer(),
                 baseCells = source.baseCells == null ? null : new List<AnimolTerrainBaseCell>(),
                 placements = source.placements == null ? null : new List<AnimolTerrainPlacement>()
             };
@@ -279,6 +282,16 @@ namespace Animol.TerrainStructure
                 { cell = position, ownerId = "", themeId = cell.themeId, styleId = cell.styleId });
             }
 
+            try
+            {
+                foreach(var cell in FreeShapeTopology.Index(map.freeShape).Values)
+                {
+                    if(!KnownStyle(built.entriesById,map.themeId,cell.styleId))return Fail("Free-shape style does not match map theme: "+cell.styleId,out error);
+                    if(built.solids.ContainsKey(cell.Position))return Fail("Free-shape overlaps existing terrain at "+cell.Position,out error);
+                    built.solids.Add(cell.Position,new AnimolTerrainCellResult{cell=cell.Position,ownerId="free:"+cell.x+","+cell.y,themeId=map.themeId,styleId=cell.styleId});
+                }
+            }
+            catch(Exception ex){return Fail(ex.Message,out error);}
             HashSet<string> owners = new HashSet<string>(StringComparer.Ordinal);
             foreach (AnimolTerrainPlacement placement in map.placements)
             {

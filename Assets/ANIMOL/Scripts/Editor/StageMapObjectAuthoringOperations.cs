@@ -49,6 +49,11 @@ namespace ANIMOL.Editor
                 result.Errors.Add("Footprint/path overlaps another authored object.");
             var solidTerrain = new HashSet<Vector2Int>(map.Cells.Where(item => item.Layer == StageMapLayer.Terrain)
                 .Select(item => new Vector2Int(item.X, item.Y)));
+            if(map.HasTerrainStructures)
+            {
+                try { solidTerrain.UnionWith(map.ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load()).solids.Keys); }
+                catch(Exception ex){result.Errors.Add(ex.Message);return result;}
+            }
             if (RequiresPath(candidate.Kind) && cells.Skip(1).Any(solidTerrain.Contains))
                 result.Errors.Add("Moving path crosses authored terrain.");
             if (candidate.Kind == StageMapObjectKind.Pounder && candidate.Settings.PathCells.Count < 2)

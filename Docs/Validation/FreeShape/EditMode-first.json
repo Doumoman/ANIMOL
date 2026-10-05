@@ -1,0 +1,83 @@
+{
+  "status": "completed",
+  "duration": 46.22,
+  "summary": {
+    "total": 10,
+    "passed": 6,
+    "failed": 4,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.All16FixturesResolveOccupancyAndOperationalColliderIncludingEmptyHoles",
+      "Status": "Failed",
+      "Duration": 4.1978363,
+      "Message": "UnityEngine.MissingComponentException : There is no 'Grid' attached to the \"FreeShape artwork · no collider\" game object, but a script is trying to access it.\nYou probably need to add a Grid to the game object \"FreeShape artwork · no collider\". Or your script needs to check if the component is attached before using it.",
+      "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Grid.set_cellSize (UnityEngine.Vector3 value) [0x00006] in <fd71b7efce6a43749420344d102e6b43>:0 \r\n  at ANIMOL.Gameplay.FreeShapeTerrainRenderer.Rebuild (Animol.TerrainStructure.FreeShapeLayer layer, System.Single units) [0x0003a] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\FreeShapeTerrainRenderer.cs:27 \r\n  at ANIMOL.Gameplay.StageTerrainStructureRuntime.Build (ANIMOL.Core.StageMapDefinition map, UnityEngine.Tilemaps.Tilemap physicsOwner, ANIMOL.Gameplay.StageTerrainStructureRegistry registry) [0x0030a] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\StageTerrainStructureRuntime.cs:60 \r\n  at ANIMOL.Gameplay.StageMapRuntimeLoader.Load (ANIMOL.Core.StageMapDefinition definition) [0x002d8] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\StageMapRuntimeLoader.cs:81 \r\n  at ANIMOL.Tests.FreeShapeTerrainTests.All16FixturesResolveOccupancyAndOperationalColliderIncludingEmptyHoles () [0x000ca] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\EditMode\\FreeShapeTerrainTests.cs:65 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.All3760SpritesHaveCorrectStableRectDirectionAndSettings",
+      "Status": "Passed",
+      "Duration": 1.1189406,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.CSharpMatchesPackageJavaScript256RawAnd567PhaseHashVectors",
+      "Status": "Passed",
+      "Duration": 0.921561,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.DiagonalAndDifferentStylesRemainSeparateAndGlobalSeamConnects",
+      "Status": "Passed",
+      "Duration": 5.5359163,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.IncrementalRendererUpdatesThreeByThreeAndDependentMotifsOnly",
+      "Status": "Failed",
+      "Duration": 3.6807379,
+      "Message": "UnityEngine.MissingComponentException : There is no 'Grid' attached to the \"Free visual\" game object, but a script is trying to access it.\nYou probably need to add a Grid to the game object \"Free visual\". Or your script needs to check if the component is attached before using it.",
+      "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Grid.set_cellSize (UnityEngine.Vector3 value) [0x00006] in <fd71b7efce6a43749420344d102e6b43>:0 \r\n  at ANIMOL.Gameplay.FreeShapeTerrainRenderer.Rebuild (Animol.TerrainStructure.FreeShapeLayer layer, System.Single units) [0x0003a] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\FreeShapeTerrainRenderer.cs:27 \r\n  at ANIMOL.Tests.FreeShapeTerrainTests.IncrementalRendererUpdatesThreeByThreeAndDependentMotifsOnly () [0x0002c] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\EditMode\\FreeShapeTerrainTests.cs:116 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.InvalidContractsDuplicateStylesBoundsObjectsAndPreviewFailureLeaveMapIntact",
+      "Status": "Passed",
+      "Duration": 6.3453477,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.MotifMarginStyleLossAndV3OverlayCascadeAreDerivedWithUndo",
+      "Status": "Failed",
+      "Duration": 3.9128894,
+      "Message": "  Expected: not equal to 0\r\n  But was:  0\r\n",
+      "StackTrace": "at ANIMOL.Tests.FreeShapeTerrainTests.MotifMarginStyleLossAndV3OverlayCascadeAreDerivedWithUndo () [0x00031] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\EditMode\\FreeShapeTerrainTests.cs:94\r\n"
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.PaintEraseMoveDeleteUndoAndDiskRoundTripAreSingleTransactions",
+      "Status": "Passed",
+      "Duration": 14.0467013,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.SceneCandidateCancelAndCommitNeverModifySourceDuringDrag",
+      "Status": "Failed",
+      "Duration": 1.0715738,
+      "Message": "  자유형 배치 불가: There is no 'Grid' attached to the \"FreeShape candidate · not saved\" game object, but a script is trying to access it.\nYou probably need to add a Grid to the game object \"FreeShape candidate · not saved\". Or your script needs to check if the component is attached before using it.\r\n  Expected: True\r\n  But was:  False\r\n",
+      "StackTrace": "at ANIMOL.Tests.FreeShapeTerrainTests.SceneCandidateCancelAndCommitNeverModifySourceDuringDrag () [0x00073] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\EditMode\\FreeShapeTerrainTests.cs:122\r\n"
+    },
+    {
+      "FullName": "ANIMOL.Tests.FreeShapeTerrainTests.V3OwnedCellsAndExistingOrdinaryCellsAreProtectedAndArchVoidAllowed",
+      "Status": "Passed",
+      "Duration": 5.2253683,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

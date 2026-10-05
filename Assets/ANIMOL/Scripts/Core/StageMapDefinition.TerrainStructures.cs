@@ -11,9 +11,12 @@ namespace ANIMOL.Core
     public sealed partial class StageMapDefinition
     {
         [SerializeField] private AnimolTerrainPlacementCollection terrainPlacements = new AnimolTerrainPlacementCollection();
+        [SerializeField] private FreeShapeLayer freeShapeTerrain = new FreeShapeLayer();
+        public FreeShapeLayer FreeShapeTerrain => freeShapeTerrain;
+        public bool HasFreeShape => freeShapeTerrain != null && freeShapeTerrain.HasData;
         public AnimolTerrainPlacementCollection TerrainPlacements => terrainPlacements;
         public void EditorInvalidateTerrainDerivedCache() { collisionDataRevision = -1; }
-        public bool HasTerrainStructures => terrainPlacements != null &&
+        public bool HasTerrainStructures => HasFreeShape || terrainPlacements != null &&
             (terrainPlacements.schemaVersion != 3 || terrainPlacements.placements == null || terrainPlacements.placements.Count > 0);
 
         public AnimolTerrainSavedMap ReadTerrain(StageTerrainStructureRegistry registry)
@@ -21,7 +24,8 @@ namespace ANIMOL.Core
             if (terrainPlacements == null || terrainPlacements.schemaVersion != 3 || terrainPlacements.placements == null)
                 throw new InvalidOperationException("Unsupported terrain placement schema; original serialized data is preserved.");
             var dto = new AnimolTerrainSavedMap { themeId = themeId, revision = authoringRevision,
-                schemaVersion = terrainPlacements.schemaVersion, placements = terrainPlacements.placements };
+                schemaVersion = terrainPlacements.schemaVersion, placements = terrainPlacements.placements,
+                freeShape = freeShapeTerrain?.Copy() ?? new FreeShapeLayer() };
             foreach (var cell in cells.Where(c => c.Layer == StageMapLayer.Terrain))
                 dto.baseCells.Add(new AnimolTerrainBaseCell { x = cell.X, y = cell.Y, themeId = themeId,
                     styleId = registry.Style(themeId, cell.TileId, cell.VariantId) });
@@ -56,6 +60,12 @@ namespace ANIMOL.Core
             if (candidate == null || candidate.themeId != themeId || candidate.revision != authoringRevision + 1)
                 throw new InvalidOperationException("Stale candidate or changed map identity/revision.");
             if (!Engine.Resolve(registry.Catalog, candidate, out var resolved, out var error)) throw new InvalidOperationException(error);
+            if(candidate.freeShape!=null && candidate.freeShape.HasData)
+            {
+                if(!Mathf.Approximately(worldUnitsPerCell,1))throw new InvalidOperationException("자유형 지형은 1셀=1unit 설정이 필요합니다. 맵 설정에서 먼저 지정하세요.");
+                var art=FreeShapeArtRegistry.Load();
+                foreach(var style in candidate.freeShape.cells.Select(c=>c.styleId).Distinct())art.Style(style);
+            }
             foreach (var p in candidate.placements)
             {
                 var e = resolved.entriesById[p.catalogId];
@@ -100,6 +110,7 @@ namespace ANIMOL.Core
                 }
             }
             var copy = Engine.CloneMap(candidate);
+            freeShapeTerrain = copy.freeShape;
             cells = replacement;
             terrainPlacements = new AnimolTerrainPlacementCollection { schemaVersion = copy.schemaVersion, placements = copy.placements };
             NotifyAuthoredChange();

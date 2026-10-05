@@ -67,9 +67,7 @@ namespace ANIMOL.Editor
             try
             {
                 scratch.EditorApplyTerrainCandidate(registry, candidate);
-                var resolved = scratch.ResolveTerrain(registry);
-                foreach (var c in resolved.solids.Values.Where(c => !string.IsNullOrEmpty(c.ownerId)))
-                    scratch.EditorAddValidationTerrainCell(c.cell);
+                scratch.ResolveTerrain(registry);
                 foreach (var item in scratch.Objects)
                 {
                     var before = StageMapObjectAuthoringOperations.ValidatePlacement(map, map.Objects.First(o => o.StableId == item.StableId), item.StableId);

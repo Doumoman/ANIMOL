@@ -64,6 +64,8 @@ namespace ANIMOL.Development
                 var e = resolved.entriesById[p.catalogId];
                 StageTerrainStructureRuntime.CreateArt(root.transform, p, e, adapter.Terrain.Frame(e.frameId), units, e.kind == "Structure" ? 10 : 30);
             }
+            if(map.HasFreeShape)
+            {var free=new GameObject("FreeShape artwork");free.transform.SetParent(root.transform,false);free.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,units);}
             foreach (var p in map.Objects)
             {
                 var art = CopySprites(p.Prefab != null ? p.Prefab : adapter.Objects?.Find(p)?.Prefab, root.transform);

@@ -457,7 +457,8 @@ namespace ANIMOL.Core
         {
             if (unitsPerCell <= 0f) throw new ArgumentOutOfRangeException(nameof(unitsPerCell));
             var positions = cells.Select(cell => new Vector2Int(cell.X, cell.Y))
-                .Concat(objects.SelectMany(EnumeratePlacementCells)).ToArray();
+                .Concat(objects.SelectMany(EnumeratePlacementCells))
+                .Concat(Animol.TerrainStructure.FreeShapeTopology.Index(freeShapeTerrain).Keys).ToArray();
             if (positions.Length == 0)
             {
                 minChunkX = 0; minChunkY = 0; chunkWidth = 1; chunkHeight = 1;
@@ -479,6 +480,8 @@ namespace ANIMOL.Core
         public bool EditorTrySetChunkBounds(RectInt requested, bool deleteOutsideData, out StageMapChunkRemovalImpact impact)
         {
             impact = AnalyzeChunkBoundsChange(requested);
+            if (HasFreeShape && freeShapeTerrain.cells.Any(c => !requested.Contains(CellToChunk(c.x,c.y))))
+                throw new InvalidOperationException("자유형 지형을 이동/삭제한 뒤 청크를 축소하세요.");
             if (HasTerrainStructures)
             {
                 var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
@@ -506,6 +509,7 @@ namespace ANIMOL.Core
         {
             var removedCells = cells.Where(cell => !CellInsideChunkBounds(cell.X, cell.Y, requested)).
                 Select(cell => $"{cell.Layer}@({cell.X},{cell.Y})={cell.TileId}").OrderBy(value => value, StringComparer.Ordinal).ToArray();
+            removedCells=removedCells.Concat(Animol.TerrainStructure.FreeShapeTopology.Index(freeShapeTerrain).Keys.Where(p=>!requested.Contains(CellToChunk(p.x,p.y))).Select(p=>"FreeShape@"+p)).ToArray();
             var removedObjects = objects.Where(item => EnumeratePlacementCells(item).Any(cell => !CellInsideChunkBounds(cell.x, cell.y, requested))).
                 Select(item => $"{item.StableId}:{item.Kind}@({item.X},{item.Y})").OrderBy(value => value, StringComparer.Ordinal).ToArray();
             return new StageMapChunkRemovalImpact(requested, removedCells, removedObjects);
@@ -601,6 +605,7 @@ namespace ANIMOL.Core
             foreach (var cell in cells.OrderBy(x => x.Layer).ThenBy(x => x.X).ThenBy(x => x.Y).ThenBy(x => x.TileId))
                 builder.Append("|C:").Append((int)cell.Layer).Append(':').Append(cell.X).Append(':').Append(cell.Y).Append(':').Append(cell.TileId).Append(':').Append(cell.VariantId);
             if (HasTerrainStructures) builder.Append("|TerrainStructures:").Append(JsonUtility.ToJson(terrainPlacements));
+            if (HasFreeShape) builder.Append("|FreeShapeTerrain:").Append(JsonUtility.ToJson(freeShapeTerrain));
             foreach (var item in objects.OrderBy(x => x.StableId, StringComparer.Ordinal))
             {
                 var settings = item.Settings;

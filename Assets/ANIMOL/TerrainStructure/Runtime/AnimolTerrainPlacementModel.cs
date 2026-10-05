@@ -76,6 +76,7 @@ namespace Animol.TerrainStructure
     [Serializable]
     public sealed class AnimolTerrainSavedMap
     {
+        public FreeShapeLayer freeShape = new FreeShapeLayer();
         public int schemaVersion = 3;
         public int revision;
         public string themeId;

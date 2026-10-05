@@ -18,6 +18,7 @@ namespace ANIMOL.Gameplay
         private readonly HashSet<Vector2Int> visibleChunks = new HashSet<Vector2Int>();
         private readonly Dictionary<string, Vector2Int[]> coveredChunks = new Dictionary<string, Vector2Int[]>();
         private Tile ownedCellTile;
+        private GameObject freeShapeArt;
 
         public void Build(StageMapDefinition map, Tilemap physicsOwner, StageTerrainStructureRegistry registry)
         {
@@ -29,7 +30,7 @@ namespace ANIMOL.Gameplay
             }
             Clear();
             LogicalGrid = resolved;
-            if (physicsOwner == null && resolved.placements.Count > 0) throw new InvalidOperationException("Operational terrain Tilemap physics owner is missing.");
+            if (physicsOwner == null && (resolved.placements.Count > 0 || map.HasFreeShape)) throw new InvalidOperationException("Operational terrain Tilemap physics owner is missing.");
             if (physicsOwner != null)
             {
                 if (physicsOwner.GetComponent<TilemapCollider2D>() == null) throw new InvalidOperationException("Operational terrain TilemapCollider2D is missing.");
@@ -55,12 +56,15 @@ namespace ANIMOL.Gameplay
                     owners.Add(p.instanceId); visibleChunks.Add(chunk);
                 }
             }
+            if(map.HasFreeShape)
+            {freeShapeArt=new GameObject("FreeShape artwork · no collider");freeShapeArt.transform.SetParent(transform,false);freeShapeArt.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,map.GetEditorPreviewUnitsPerCell());}
             physicsOwner?.GetComponent<TilemapCollider2D>()?.ProcessTilemapChanges();
             BuiltRevision = map.AuthoringRevision;
         }
 
         public void SetChunkVisible(Vector2Int chunk, bool visible)
         {
+            if(freeShapeArt!=null)freeShapeArt.GetComponent<FreeShapeTerrainRenderer>().SetChunkVisible(chunk,visible);
             if (visible) visibleChunks.Add(chunk); else visibleChunks.Remove(chunk);
             if (!ChunkOwners.TryGetValue(chunk, out var owners)) return;
             foreach (var id in owners) Instances[id].SetActive(coveredChunks[id].Any(visibleChunks.Contains));
@@ -82,6 +86,7 @@ namespace ANIMOL.Gameplay
 
         public void Clear()
         {
+            if(freeShapeArt!=null){freeShapeArt.SetActive(false);DestroyOwned(freeShapeArt);freeShapeArt=null;}
             foreach (var instance in Instances.Values) if (instance != null) { instance.SetActive(false); DestroyOwned(instance); }
             Instances.Clear(); ChunkOwners.Clear(); coveredChunks.Clear(); visibleChunks.Clear();
             if (ownedCellTile != null) DestroyOwned(ownedCellTile);
