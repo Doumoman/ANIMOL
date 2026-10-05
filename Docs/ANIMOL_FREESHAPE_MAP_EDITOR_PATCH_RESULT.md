@@ -165,3 +165,31 @@ v3 Data/SourceArt/Generated는 Git 변경이 없으며, 원본 5장/60프레임/
 모바일 실기기 빌드·성능 및 사람이 판단하는 최종 아트 승인은 별도다. 신규 기능 테스트와 Scene 시험 플레이는 캠페인 운영 Ready/보상 승인이나 스테이지 할당 완료를 의미하지 않는다.
 
 스타일 사이와 v3 사이의 전용 전환 아트는 패키지에 없어 독립된 재료 경계로 표시한다. seed는 저장·Undo·재열기 계약과 테스트를 갖췄고 기본 0을 사용하지만, 이번 패널에는 별도 seed 변경 UI를 추가하지 않았다. 범위 밖 자유형 셀이 남은 청크 축소는 먼저 해당 덩어리를 이동/삭제하도록 거부한다.
+
+## 후속 수정: 배치 지연과 아트 품질 조사 (2026-10-06)
+
+코드 수정 커밋: `b7b6bb3` — `Batch terrain backup and map imports per stroke`.
+
+배치마다 나타나는 로딩을 줄이기 위해 `StageTerrainStructureIntegration.Write`의 백업 생성과 맵 저장을 하나의 동기식 AssetDatabase 임포트 묶음으로 처리했다. 변경 전 백업 파일을 매 stroke마다 작성하고, 맵은 commit 반환 전에 저장한다. 저장 간격을 늘리거나 백업을 생략하지 않았다. `finally`에서 임포트 재개를 보장하며, 프레임 사이에 AssetDatabase를 정지해 두지 않는다. API 근거: [Unity StartAssetEditing](https://docs.unity3d.com/kr/current/ScriptReference/AssetDatabase.StartAssetEditing.html).
+
+처음 분리 측정한 340셀 후보의 비용은 검증 7.03ms, 백업 1,090.51ms, 적용 5.76ms, 저장 669.82ms였다. 기존 방식의 백업 ImportAsset와 맵 저장이 별도로 임포트를 일으키는 비용이 컸다. 같은 임시 맵에 기존 Write 순서와 수정한 실제 Adapter.Commit을 번갈아 3회 실행한 결과:
+
+| 방식 | 3회 측정 | 평균 |
+|---|---|---:|
+| 기존 별도 임포트 | 1392.71 / 1332.32 / 1346.98ms | 1357.34ms |
+| 임포트 묶음 | 1005.63 / 1007.30 / 1079.14ms | 1030.69ms |
+
+평균 약 24.1% 감소했다. 초기 냉간 측정과 반복 측정은 구분한다. 로딩 표시 횟수를 UI 계측으로 세지는 않았으며, 로딩 제거 또는 0ms 저장으로 보고하지 않는다. 여전히 동기 저장에 약 1초가 걸릴 수 있다. 원시 수치는 `Validation/FreeShapePolish/PhaseTimingBefore.json`, `CommitTiming.json`에 있다. 기존 경로 비교는 임시 맵에서 이전 Write 순서를 재현했고, 수정 경로는 실제 Scene Adapter와 preview callback을 포함했다.
+
+새 `BatchedCommitStillImportsBeforeChangeBackupAndSavesEveryStroke` 검사는 두 번의 stroke 각각에서 변경 전 전체 JSON이 임포트된 백업과 일치하고, 디스크 재임포트와 한 번의 Undo가 유지되는지 확인한다. 후속 검증 기록은 `Validation/FreeShapePolish`에 분리했다. 기존 본문에 기록한 최초 적용 당시 결과는 덮어쓰지 않았다.
+
+후속 실제 Unity 결과: 컴파일 오류 0, 자유형 EditMode 13/13, v3 통합 13/13, CommercialPolishPolicyTests 3/3, 자유형 PlayMode 2/2 통과. 작업 시작 때 기록한 `Assets/ANIMOL/Data`의 기존 181개 asset 파일 SHA256은 종료 시 모두 같았다. 사용자가 이후 수정한 DEV-FREESHAPE도 그대로 보존했다. 측정용 DEV-POLISH-PROBE 및 해당 백업만 제거하고 이전 사용자 맵 창으로 복귀했다.
+
+아트는 T01_A/B/C/D의 16×16 사각형을 실제 `FreeShapeTerrainRenderer`로 512×512px 렌더하고 패키지 `Samples/<style>/maximum_rectangle_16x16.png`와 비교했다. **네 스타일 모두 보이는 영역 RGB 차이 0, 알파 차이 0 (각 262,144픽셀)**이다. 결과 이미지도 직접 열어 검사했다. 해당 예시의 질감 반복·마감 품질은 Unity에서 새로 발생한 배치 오차가 아니라 원본 패키지에 있는 표현이다. 다른 모양과 나머지 16스타일 전체를 픽셀 비교했다고 확대 해석하지 않는다.
+
+- [비교 수치](Validation/FreeShapePolish/ArtParity.json)
+- [Unity T01_A 렌더](Validation/FreeShapePolish/Unity-T01_A.png)
+- [비교 재현 스크립트](Validation/FreeShapePolish/RenderArtParity.cs): 패키지 원본이 설치된 프로젝트에서 `unity command eval_file --file Docs/Validation/FreeShapePolish/RenderArtParity.cs --format json`.
+- [LLM 아트 수정본 요청문](ANIMOL_FREESHAPE_ART_V2_REWORK_REQUEST.txt)
+
+외곽 프레임과 내부 질감을 분리 제작한 아트 수정본을 받도록 요청문을 준비했다. 이음새를 숨기기 위해 Sprite를 임의 이동/확대/크롭하거나 논리 마스크·물리를 변경하지 않았다. 원본 PNG와 저장 아트 버전은 그대로다. 아트 수정본을 받아 적용하고 미관을 재검수하는 단계는 아직 수행하지 않았다.
