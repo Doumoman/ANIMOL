@@ -135,5 +135,21 @@ namespace ANIMOL.Tests
                 TerrainEditorSceneEditor.Adapter.Undo();Assert.That(map.FreeShapeTerrain.cells,Is.Empty);TerrainEditorSceneEditor.Adapter.Redo();Assert.That(map.FreeShapeTerrain.cells.Count,Is.EqualTo(200));
             }finally{TerrainEditorSceneEditor.Close();if(previous!=null)TerrainEditorSceneEditor.Open(previous);}
         }
+        [Test] public void BatchedCommitStillImportsBeforeChangeBackupAndSavesEveryStroke()
+        {
+            var before=EditorJsonUtility.ToJson(map,true);var revision=map.AuthoringRevision;
+            Edit(new[]{new Vector2Int(2,2)});
+            var first=StageMapBackupService.FindLatest(map);
+            Assert.That(AssetDatabase.LoadAssetAtPath<TextAsset>(first)?.text,Is.EqualTo(before));
+            Assert.That(map.AuthoringRevision,Is.EqualTo(revision+1));
+            before=EditorJsonUtility.ToJson(map,true);
+            Edit(new[]{new Vector2Int(3,2)});
+            var second=StageMapBackupService.FindLatest(map);
+            Assert.That(second,Is.Not.EqualTo(first));
+            Assert.That(AssetDatabase.LoadAssetAtPath<TextAsset>(second)?.text,Is.EqualTo(before));
+            AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);
+            Assert.That(adapter.Read().freeShape.cells.Count,Is.EqualTo(2));
+            adapter.Undo();Assert.That(map.FreeShapeTerrain.cells.Count,Is.EqualTo(1));
+        }
     }
 }

@@ -84,20 +84,27 @@ namespace ANIMOL.Editor
             Validate(map, candidate);
             var registry = StageTerrainStructureRegistry.Load();
             var snapshot = EditorJsonUtility.ToJson(map);
-            if (AssetDatabase.Contains(map)) StageMapBackupService.CreateBackup(map, "autosave-before-terrain-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
-            Undo.RecordObject(map, "Edit ANIMOL Terrain Structure");
+            // Import the before-change backup and saved map in one pass. Keep this
+            // synchronous scope inside the transaction; never pause imports across frames.
+            AssetDatabase.StartAssetEditing();
             try
             {
-                map.EditorApplyTerrainCandidate(registry, candidate);
-                EditorUtility.SetDirty(map);
-                AssetDatabase.SaveAssetIfDirty(map);
+                if (AssetDatabase.Contains(map)) StageMapBackupService.CreateBackup(map, "autosave-before-terrain-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
+                Undo.RecordObject(map, "Edit ANIMOL Terrain Structure");
+                try
+                {
+                    map.EditorApplyTerrainCandidate(registry, candidate);
+                    EditorUtility.SetDirty(map);
+                    AssetDatabase.SaveAssetIfDirty(map);
+                }
+                catch
+                {
+                    EditorJsonUtility.FromJsonOverwrite(snapshot, map);
+                    EditorUtility.SetDirty(map); AssetDatabase.SaveAssetIfDirty(map);
+                    Refresh(map); throw;
+                }
             }
-            catch
-            {
-                EditorJsonUtility.FromJsonOverwrite(snapshot, map);
-                EditorUtility.SetDirty(map); AssetDatabase.SaveAssetIfDirty(map);
-                Refresh(map); throw;
-            }
+            finally { AssetDatabase.StopAssetEditing(); }
         }
 
         public static void Refresh(StageMapDefinition map)
