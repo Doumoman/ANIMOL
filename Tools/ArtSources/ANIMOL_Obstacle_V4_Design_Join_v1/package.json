@@ -1,0 +1,6 @@
+{
+ "name":"animol-obstacle-v4-design-join","version":"1.0.0","private":true,"type":"module",
+ "scripts":{"test":"node --test Tests/visual_resolver.test.mjs","verify:pixels":"python Tools/verify_pixel_art.py","verify:preview":"node Tools/verify_native_preview.mjs"},
+ "engines":{"node":">=24.19.0"},"dependencies":{"sharp":"0.35.4","@napi-rs/canvas":"0.1.100"},
+ "optionalDependencies":{"playwright":"1.62.1"}
+}

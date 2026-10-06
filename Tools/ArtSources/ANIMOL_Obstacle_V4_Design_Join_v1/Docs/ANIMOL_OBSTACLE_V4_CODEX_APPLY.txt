@@ -1,0 +1,102 @@
+ANIMOL 장애물 v4 테마 디자인·자유 블록 접합 그래픽 적용 명령
+대상 프로젝트: C:/Users/user/Documents/GitHub/ANIMOL
+자료: ANIMOL_Obstacle_V4_Design_Join_v1.zip
+작업 ID: OVG01_V4_OBSTACLE_GRAPHICS
+
+사용자가 승인한 범위는 v4 디자인을 참고한 장애물 아트와 지형 접합 그래픽 추가다.
+AGENTS.md와 현재 Git 변경·작업 소유권 규칙을 먼저 읽고 기존 소유자 구현을 확장해라.
+이번 패키지는 실제 Unity 적용 결과가 아니다. 아래 항목을 직접 구현·검증하고 결과를 보고해라.
+
+1. 현재 상태와 정본 확인
+프로젝트 Unity 6000.3.8f1 및 실제 버전을 확인한다.
+현재 설치된 FreeShapeLayer.artVersion과 V4 Registry 존재 여부를 읽는다.
+원본 v4 이름은 ANIMOL_FreeShape_Sprites_joint_finish_v4이며 20스타일·32px·47마스크·4위상이다.
+Docs/OBSTACLE_THEME_DESIGN_KO.md, GRAPHIC_JOIN_CONTRACT_KO.md, 새 catalog 및 C# 코어를 읽는다.
+기존 45종, CommonDevices 실험 코드와 실제 운영 장치 타입의 대응을 조사한다.
+실험용 CommonDeviceTile를 운영 StageMapRuntimeFactory에 그대로 교체하지 않는다.
+현재 장치의 위치·종류·방향·상태·SurfaceEnabled를 그래픽 스냅샷으로 읽는 adapter를 만든다.
+
+2. 소스 설치와 버전
+패키지를 Tools/ArtSources/ANIMOL_Obstacle_V4_Design_Join_v1에 보관하고 manifest를 검사한다.
+신규 그래픽 코드는 실제 프로젝트 네임스페이스·asmdef를 찾아 맞춘다.
+예시 설치 경로: Assets/ANIMOL/ObstacleGraphicsV1/{Runtime,Editor,Art,Data}.
+소스 Runtime/ObstacleVisualResolver.cs를 이식하되 이미 같은 책임 클래스가 있으면 해당 구현을 확장한다.
+원본 지형 artVersion=4와 장애물 visualVersion=1을 구분한다.
+v4가 설치되지 않았으면 원본 v4 적용 명령으로 별도 Registry를 설치하고 검증한다.
+현재 사용자 맵을 설치나 창 열기만으로 artVersion=4로 바꾸지 않는다.
+기존 v1/v2/v3/v4 `.meta`·GUID·GlobalObjectId·맵·seed·revision·Ready·보상을 보존한다.
+
+3. 아트 임포트
+신규 Runtime 기능 아트는 Art/MechanismAtlas.png 한 장과 Data/mechanism_catalog.json을 사용한다.
+원본 v4 몸체 텍스처는 기존 FreeShapeArtRegistry 참조를 재사용한다. 같은 몸체를 중복 설치·로드하지 않는다.
+메커니즘 atlas는 576×396, rect top-left, 163개의 32×32 Sprite, padding2다.
+JSON y는 atlasHeight-y-height로 변환한다. PPU32, 중앙 pivot, FullRect를 사용한다.
+Point, Compression None, mipmap Off, 원본 정상 sRGB 설정. SpriteAtlas를 사용하면 Atlas 설정도 확인한다.
+추가 Collider·PhysicsShape를 생성하지 않는다. 기능 PNG의 알파 모양으로 점유를 추론하지 않는다.
+Concept_50_Theme_Skins.png와 SourceArt/미리보기는 Runtime으로 임포트하지 않는다.
+원본 body texture에서 32×8 상판 strip을 정의할 때 원본 픽셀을 그대로 사용한다.
+중앙 pivot의 strip 위치는 (x+0.5,y+0.875), 기능/몸체 위치는 (x+0.5,y+0.5)다.
+32×8 상판은 표시용이며 기존 TOP 물리를 0.25셀 두께 고체로 바꾸지 않는다.
+
+4. 그래픽 연결 선택기
+기존 FreeShapeTerrainRenderer / Registry와 실제 장치 표시 책임 경로를 찾아 연결한다.
+새 선택기는 물리 틱의 상태 갱신 후 스냅샷만 읽는다. game state를 쓰지 않는다.
+themeId/styleId/artVersion/joinGroup이 같을 때만 연결한다.
+FULL C02/C03/C08/C10은 free terrain과 같은 body occupancy를 그래픽 계산에 사용한다.
+반대로 free terrain도 이 FULL 장치를 그래픽 이웃으로 읽어 같은 공유 경계의 끝캡을 제거한다.
+논리 지형 점유나 실제 Collider 소유자를 이 렌더용 occupancy로 교체하지 않는다.
+TOP C01/C05/C06/C09는 body mask에 넣지 않고 같은 높이의 상판만 연결한다.
+FULL 옆 TOP이면 FULL 몸체는 유지하고 상단8px만 capMask strip으로 교체한다.
+AIR C04/C07은 body·cap mask에 넣지 않고 해당 공중 셀의 기능 표시만 그린다.
+M02/R01/R03은 지역 후보임을 유지하고 기존 구현 상태가 확인된 개발 검증에서만 표시한다.
+47마스크·대각선 게이팅·전역 좌표/seed 기반 resolveVariant를 그대로 재사용한다.
+지형을 통째로 회전·미러·비균등 확대·Shader 재색칠하지 않는다.
+장치의 기능 면이 가려진 배치나 미등록 Sprite key는 명시적으로 오류로 표시한다.
+
+5. 상태와 dirty 갱신
+기능 그림은 기존 실제 상태/방향을 받아 catalog key를 선택한다.
+Pending은 warn 그림이지만 SurfaceEnabled는 실제 런타임 값이다.
+C09 접근 Pending과 이탈 Warn의 상판 활성 값이 다른 것을 보존한다.
+고체화 점유 보호와 이탈 시점·위험 위상은 기존 게임 서비스가 계속 처리한다.
+C02 반사 전 vx 크기·vy·스태미나·가속/대시 잔여시간을 그래픽 작업으로 변경하지 않는다.
+4~8인 경기에서 렌더용 별도 랜덤 위상·별도 타이머·개별 리스폰 전체 리셋을 만들지 않는다.
+설치 후 Undo/Redo·상태 변경·지형/장치 삭제·이동은 변경 전후 위치의3×3을 다시 선택한다.
+큰 문양의 support 변경은 해당 위치 주변36개 anchor를 다시 검사한다.
+장치를 큰 문양 지지로 추가하지 않고 기존 문양이 기능 표시를 덮지 않게 한다.
+청크 밖 이웃과 음수 좌표는 전역 정본에서 읽는다.
+원본 자유형 저장 schema는 보존하고 Sprite index와 렌더 마스크를 저장 정본에 중복 기록하지 않는다.
+
+6. 테마별 아트 적용 명령 묶음
+T01: 기존 옥판·청록 벽돌·산호 명암·자두 받침과 둥근 끝을 유지한다.
+     C01~C10의 월궁 기능 스킨을 등록하고 달그릇은 지역 후보로 분리한다.
+T02: 압축구름·짐목·계류 결합 스타일을 원본대로 사용한다.
+     양털은 C06, 상승/순풍은 C07. 다른 기능을 새 지역 타입으로 중복 등록하지 않는다.
+T03: 제본 종이·책등·팝업 교 구조를 유지한다.
+     팝업 C09·활자 벨트 C08을 명확히 구분한다. 잉크 정지판을 이번 변경에 추가하지 않는다.
+T04: 응결 유리·모래 적층·덩굴 매듭·모래관 교 구조를 유지한다.
+     꽃받침 C06·새싹 C09를 공통 계약으로 표시하고 무제한 영구 발판 기능을 추가하지 않는다.
+T05: 어긋난 암층·수정맥·톱니·쐐기 구조를 유지한다.
+     매끈한 수정 C10은 자연 감속만 표시하고 공명/대전은 지역 후보로 분리한다.
+모든 테마에서 화살표·경고 색·상태 읽기 요소는 같게 유지한다.
+
+7. 픽셀 아트 확인
+원본 v4 아틀라스80장의 SHA256과 새 atlas의 팔레트·alpha0/255·32px rect를 확인한다.
+1px 외곽선, 계획한 곡선 계단, 상판 높이, 외곽·안쪽 끝·셀 경계·줄눈을1×/8×로 캡처한다.
+새 랜덤 점, 디더링, 불필요한2×2 검은 선, 들쭉날쭉한 곡선과 중복 끝선을 추가하지 않는다.
+정상 단색 면·구조 그림자·v4 의도한 둥근 코너를 Doubles라고 지우지 않는다.
+블러·선형 필터·반투명 가장자리로 오류를 숨기지 않는다.
+패키지의 후보0개 결과를 전체 미관 승인이나 기존 v4 전체 후보0개로 확대하지 않는다.
+
+8. 개발 검증과 완료 판정
+운영 맵과 분리된 DEV-OBSTACLE-V4-JOIN을 만든다. 실제 기존 Local Play 경로와 플레이어를 사용한다.
+20스타일 ×10공통의 바닥/벽/단차 접합, TOP 하부 통과, AIR 미참여, 비활성 후 끝캡 복구를 확인한다.
+모든 raw256와4위상, 음수·청크 경계, 방향 면 차단, 중복 소유를 검사한다.
+Scene/Runtime 같은 좌표·seed·상태의 실제 렌더 픽셀이 일치하는지 비교한다.
+한 번의 paint commit, Undo/Redo, 저장/재열기, 장치 이동/삭제, 실패 rollback을 검사한다.
+기존 자유형·지형 통합·상용 품질 검사와 이번 그래픽 경로의 의미 있는 테스트를 실행한다.
+현재 프로젝트에 있는 실제 테스트명을 사용하고 패키지의 JS PASS를 Unity PASS로 기록하지 않는다.
+프로파일러에서 변경셀 갱신·atlas 메모리·renderer 수를 기록한다. 매 프레임 전체 맵 재생성을 피한다.
+운영 사용자 맵과 원래 Collider·각 동물 이동·C02 속도 반사의 전후 값이 보존되는지 확인한다.
+Docs/ANIMOL_OBSTACLE_V4_GRAPHICS_PATCH_RESULT.md에 실제 변경 파일·신규 Sprite 수·Registry 경로·
+원본 보존·개발 맵·컴파일/테스트·1×/8× 캡처·성능·미검증 항목을 기록해라.
+미실행 검사는 미실행으로, 실제 저장소/에셋 제약은 구체적인 이유와 위치로 보고해라.

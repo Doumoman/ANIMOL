@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var art=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.FreeShapeTerrainRenderer>(UnityEngine.FindObjectsSortMode.None);var owners=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.StageMapRuntimeObject>(UnityEngine.FindObjectsSortMode.None);var graphics=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.ObstacleGraphics.ObstacleRuntimeGraphics>(UnityEngine.FindObjectsSortMode.None);return new { playing=UnityEditor.EditorApplication.isPlaying, session=ANIMOL.Editor.TerrainEditorSession.Active, players=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.DevPlayerController>(UnityEngine.FindObjectsSortMode.None).Length, devices=owners.Length, graphics=graphics.Length, art=art.Length, newArtColliders=System.Linq.Enumerable.Sum(art,r=>r.GetComponentsInChildren<UnityEngine.Collider2D>().Length), atlasBytes=UnityEngine.Profiling.Profiler.GetRuntimeMemorySizeLong(ANIMOL.Gameplay.ObstacleGraphics.ObstacleArtRegistry.Load().entries[0].sprite.texture) };"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "playing": true,
+        "session": true,
+        "players": 1,
+        "devices": 8,
+        "graphics": 1,
+        "art": 1,
+        "newArtColliders": 0,
+        "atlasBytes": 1825664
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

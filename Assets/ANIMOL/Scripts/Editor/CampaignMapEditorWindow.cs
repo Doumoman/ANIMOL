@@ -85,7 +85,7 @@ namespace ANIMOL.Editor
                     {
                         using (new EditorGUI.DisabledScope(selectedMap == null || selectedStage.MapDefinition == selectedMap))
                             if (GUILayout.Button("선택한 맵 연결")) Run(() => CampaignMapAccess.Link(catalog, selectedStage, selectedMap));
-                        if (selectedStage.MapDefinition == null && GUILayout.Button("빈 V4 맵 생성 및 연결"))
+                        if (selectedStage.MapDefinition == null && GUILayout.Button("빈 V6 맵 생성 및 연결"))
                             Run(() => { selectedMap = CampaignMapAccess.CreateAndLink(catalog, selectedStage); Edit(selectedMap); });
                         using (new EditorGUI.DisabledScope(selectedStage.MapDefinition == null))
                             if (GUILayout.Button("연결된 맵 편집")) Edit(selectedStage.MapDefinition);

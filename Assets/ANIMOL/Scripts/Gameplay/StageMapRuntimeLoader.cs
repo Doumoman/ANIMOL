@@ -82,6 +82,16 @@ namespace ANIMOL.Gameplay
             }
             else if (structures != null) structures.Clear();
             SpawnAuthoredObjects(definition);
+            var freeArt=GetComponentsInChildren<FreeShapeTerrainRenderer>(true).FirstOrDefault(r=>r.gameObject.activeSelf);
+            if(definition.Objects.Any(p=>ObstacleGraphics.ObstacleSnapshotAdapter.Kind(p.Kind)!=null))
+            {
+                if(freeArt==null){var go=new GameObject("FreeShape artwork");go.transform.SetParent(transform,false);freeArt=go.AddComponent<FreeShapeTerrainRenderer>();}
+                var graphics=GetComponent<ObstacleGraphics.ObstacleRuntimeGraphics>();
+                if(graphics==null)graphics=gameObject.AddComponent<ObstacleGraphics.ObstacleRuntimeGraphics>();
+                graphics.Configure(definition,runtimeObjectRoot,freeArt);
+            }
+            else if(GetComponent<ObstacleGraphics.ObstacleRuntimeGraphics>() is { } oldGraphics)
+            {if(freeArt!=null)freeArt.Rebuild(definition.FreeShapeTerrain,definition.WorldUnitsPerCell);if(Application.isPlaying)Destroy(oldGraphics);else DestroyImmediate(oldGraphics);}
             if (terrain != null) terrain.CompressBounds();
             Physics2D.SyncTransforms();
             var worldBounds = definition.GetWorldBounds();
@@ -118,6 +128,7 @@ namespace ANIMOL.Gameplay
             for (var i = runtimeObjectRoot.childCount - 1; i >= 0; i--)
             {
                 var child = runtimeObjectRoot.GetChild(i).gameObject;
+                child.SetActive(false); // Detach the old physics/visual owner before deferred Destroy.
                 if (Application.isPlaying) Destroy(child); else DestroyImmediate(child);
             }
             foreach (var placement in definition.Objects)

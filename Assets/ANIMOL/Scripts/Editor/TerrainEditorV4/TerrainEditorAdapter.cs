@@ -42,7 +42,12 @@ namespace ANIMOL.Editor
             Read(); Bind();
         }
         public AnimolTerrainSavedMap Read() => Map.ReadTerrain(Terrain);
-        public void Validate(AnimolTerrainSavedMap candidate) => StageTerrainStructureIntegration.Validate(Map,candidate);
+        public void Validate(AnimolTerrainSavedMap candidate)
+        {
+            StageTerrainStructureIntegration.Validate(Map,candidate);
+            var devices=TerrainEditorArt.ObstaclePreview(Map);
+            if(devices.Count>0)ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Validate(candidate.freeShape,devices);
+        }
         private void Bind()
         {
             AnimolTerrainMapEditorBridge.Bind(Map,Read,c=>StageTerrainStructureIntegration.Write(Map,c),

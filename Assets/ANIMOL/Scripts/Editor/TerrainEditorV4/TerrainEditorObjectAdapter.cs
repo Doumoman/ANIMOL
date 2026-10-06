@@ -36,6 +36,14 @@ namespace ANIMOL.Editor
             if(marker && edit.operation=="Place" && candidate.Kind is StageMapObjectKind.PlayerStart or StageMapObjectKind.Exit && Map.Objects.Any(o=>o.Kind==candidate.Kind))throw new InvalidOperationException("START/EXIT는 하나만 배치할 수 있습니다.");
             if(type!=null && !string.IsNullOrEmpty(type.ThemeId) && type.ThemeId!="COMMON" && type.ThemeId!=Map.ThemeId)
                 throw new InvalidOperationException("다른 테마 객체는 현재 맵에 배치할 수 없습니다.");
+            if(ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(candidate.Kind)!=null)
+            {
+                var devices=TerrainEditorArt.ObstaclePreview(Map);
+                var old=Map.Objects.FirstOrDefault(o=>o.StableId==candidate.StableId);
+                if(old!=null)devices.Remove(new Vector2Int(old.X,old.Y));
+                devices[new Vector2Int(candidate.X,candidate.Y)]=ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Read(Map,candidate);
+                ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Validate(Map.FreeShapeTerrain,devices);
+            }
             var scratch=UnityEngine.Object.Instantiate(Map);
             try
             {

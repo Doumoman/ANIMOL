@@ -1,4 +1,7 @@
 using System.Linq;
+using System.Collections.Generic;
+using ANIMOL.Gameplay.ObstacleGraphics;
+using Animol.TerrainStructure;
 using ANIMOL.Core;
 using ANIMOL.Gameplay;
 using UnityEngine;
@@ -64,10 +67,12 @@ namespace ANIMOL.Development
                 var e = resolved.entriesById[p.catalogId];
                 StageTerrainStructureRuntime.CreateArt(root.transform, p, e, adapter.Terrain.Frame(e.frameId), units, e.kind == "Structure" ? 10 : 30);
             }
-            if(map.HasFreeShape)
-            {var free=new GameObject("FreeShape artwork");free.transform.SetParent(root.transform,false);free.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,units);}
+            var obstacles=ObstaclePreview(map);
+            if(map.HasFreeShape || obstacles.Count>0)
+            {var free=new GameObject("FreeShape artwork");free.transform.SetParent(root.transform,false);free.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,units,obstacles);}
             foreach (var p in map.Objects)
             {
+                if(obstacles.ContainsKey(new Vector2Int(p.X,p.Y)) && ObstacleSnapshotAdapter.Kind(p.Kind)!=null)continue;
                 var art = CopySprites(p.Prefab != null ? p.Prefab : adapter.Objects?.Find(p)?.Prefab, root.transform);
                 art.name = p.StableId;
                 art.transform.localPosition = new Vector3(p.X, p.Y, 0) * units;
@@ -82,6 +87,35 @@ namespace ANIMOL.Development
             }
             SetLayer(root);
             return root;
+        }
+
+        public static Dictionary<Vector2Int,GraphicCell> ObstaclePreview(StageMapDefinition map)
+        {
+            var cells=new Dictionary<Vector2Int,GraphicCell>();
+            foreach(var p in map.Objects)
+            {
+                try
+                {
+                    var cell=ObstacleSnapshotAdapter.Read(map,p);if(cell==null)continue;
+                    var candidate=new Dictionary<Vector2Int,GraphicCell>(cells);candidate.Add(new Vector2Int(p.X,p.Y),cell);
+                    ObstacleSnapshotAdapter.Validate(map.FreeShapeTerrain,candidate);cells=candidate;
+                }
+                catch(System.InvalidOperationException){ /* Unbound legacy device keeps its original artwork; authoring validates explicitly. */ }
+            }
+            return cells;
+        }
+        public static GameObject BuildObstacle(StageMapDefinition map,StageMapObjectPlacement placement,Transform parent)
+        {
+            var root=new GameObject("V6 obstacle preview");root.transform.SetParent(parent,false);
+            var cell=ObstacleSnapshotAdapter.Read(map,placement);
+            var position=new Vector2Int(placement.X,placement.Y);float units=map.GetEditorPreviewUnitsPerCell();
+            var devices=ObstaclePreview(map);devices.Remove(position);
+            var old=map.Objects.FirstOrDefault(p=>p.StableId==placement.StableId);if(old!=null)devices.Remove(new Vector2Int(old.X,old.Y));
+            devices[position]=cell;var context=ObstacleSnapshotAdapter.Merge(map.FreeShapeTerrain,devices);
+            root.transform.localPosition=-(Vector3)(Vector2)position*units;
+            root.AddComponent<FreeShapeTerrainRenderer>().Rebuild(new FreeShapeLayer{seed=map.FreeShapeTerrain.seed},units,
+                new Dictionary<Vector2Int,GraphicCell>{{position,cell}},context);
+            SetLayer(root);return root;
         }
 
         public static void SetLayer(GameObject root)

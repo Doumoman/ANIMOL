@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var r=UnityEngine.Object.FindFirstObjectByType<ANIMOL.Gameplay.FreeShapeTerrainRenderer>();var t=ANIMOL.Gameplay.ObstacleGraphics.ObstacleArtRegistry.Load().entries[0].sprite.texture;return new { lastChangedCells=r.LastUpdatedCells,lastMotifs=r.LastUpdatedMotifs,renderers=r.GetComponentsInChildren<UnityEngine.Renderer>().Length,lastRebuildMilliseconds=r.LastMilliseconds,atlasReadable=t.isReadable };"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "lastChangedCells": 72,
+        "lastMotifs": 3,
+        "renderers": 25,
+        "lastRebuildMilliseconds": 0.9939,
+        "atlasReadable": false
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

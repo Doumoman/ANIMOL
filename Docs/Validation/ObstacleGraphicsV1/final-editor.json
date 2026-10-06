@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var map=UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Core.StageMapDefinition>(ANIMOL.Editor.ObstacleGraphicsDevelopment.MapPath);ANIMOL.Editor.TerrainEditorSceneEditor.Open(map);ANIMOL.Editor.TerrainEditorSceneEditor.SetObstacleMode();return new { version=UnityEngine.Application.unityVersion, playing=UnityEditor.EditorApplication.isPlaying, editorOpen=ANIMOL.Editor.TerrainEditorSceneEditor.Active, map=map.StageId, artVersion=map.FreeShapeTerrain.artVersion, sprites=ANIMOL.Gameplay.ObstacleGraphics.ObstacleArtRegistry.Load().entries.Length };"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "version": "6000.3.8f1",
+        "playing": false,
+        "editorOpen": true,
+        "map": "DEV-OBSTACLE-V6-JOIN",
+        "artVersion": 6,
+        "sprites": 163
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

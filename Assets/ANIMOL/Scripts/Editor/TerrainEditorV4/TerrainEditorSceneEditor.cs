@@ -113,8 +113,9 @@ namespace ANIMOL.Editor
                 view.LookAtDirect(state.center,Quaternion.identity,state.zoom);
                 parts.Clear();
                 parts.AddRange(adapter.Markers.Where(p=>p.marker is StageMapObjectKind.PlayerStart or StageMapObjectKind.Exit or StageMapObjectKind.Checkpoint or StageMapObjectKind.BubbleCandidate));
+                parts.AddRange(adapter.Objects.Types.Where(d=>d!=null).Select(d=>new TerrainEditorPart{id=d.StableTypeId,name=d.DisplayName,theme=string.IsNullOrEmpty(d.ThemeId)?"COMMON":d.ThemeId,category="Obstacles",size=d.FootprintCells,obj=d}));
                 state.freeShape=true;state.freeStyle=adapter.Map.ThemeId+"_A";Refresh();view.Focus();
-                status=$"Scene 편집 · {adapter.Map.StageId} · 자유형 V4 + 캠페인 마커 · 저장 revision {adapter.Map.AuthoringRevision}";
+                status=$"Scene 편집 · {adapter.Map.StageId} · 자유형 V6 + 장애물 + 캠페인 마커 · 저장 revision {adapter.Map.AuthoringRevision}";
             }
             catch(Exception ex){Release(true);status=ex.Message;Debug.LogError("ANIMOL Scene editor: "+ex.Message);}
         }
@@ -130,7 +131,7 @@ namespace ANIMOL.Editor
             {
                 var free=artwork.GetComponentInChildren<FreeShapeTerrainRenderer>(true);
                 if(free==null && map.HasFreeShape){var go=new GameObject("FreeShape artwork");go.transform.SetParent(artwork.transform,false);go.layer=TerrainEditorArt.PreviewLayer;go.hideFlags=HideFlags.HideAndDontSave;free=go.AddComponent<FreeShapeTerrainRenderer>();}
-                if(free!=null){free.gameObject.SetActive(true);free.Rebuild(map.FreeShapeTerrain??new FreeShapeLayer(),map.GetEditorPreviewUnitsPerCell());}
+                if(free!=null){free.gameObject.SetActive(true);free.Rebuild(map.FreeShapeTerrain??new FreeShapeLayer(),map.GetEditorPreviewUnitsPerCell(),TerrainEditorArt.ObstaclePreview(map));}
                 status="저장 완료 · revision "+map.AuthoringRevision;view?.Repaint();return;
             }
             var root=new GameObject("ANIMOL Scene artwork · not saved");SceneManager.MoveGameObjectToScene(root,scene);
@@ -212,16 +213,19 @@ namespace ANIMOL.Editor
         private static void DrawPalette()
         {
             if(state.freeShape){DrawFreePalette();return;}
+            if(state.category=="Obstacles"){DrawObstaclePalette();return;}
             EditorGUI.DrawRect(paletteRect,TerrainEditorScreen.Panel);
             GUILayout.BeginArea(new Rect(8,paletteRect.y+5,paletteRect.width-16,30));
             GUILayout.BeginHorizontal();
-            if(GUILayout.Button("자유형 지형 V4",buttonStyle,GUILayout.Width(135)))Run(()=>SetFreeShapeMode(true));
+            if(GUILayout.Button("자유형 지형 V6",buttonStyle,GUILayout.Width(135)))Run(()=>SetFreeShapeMode(true));
+            if(GUILayout.Button("장애물",buttonStyle,GUILayout.Width(90)))SetObstacleMode();
             GUILayout.Label("캠페인 마커 · 선택 후 맵을 클릭하세요",labelStyle);
             GUILayout.EndHorizontal();GUILayout.EndArea();
             float width=Mathf.Min(150,(paletteRect.width-40)/4);
-            for(int i=0;i<parts.Count;i++)
+            var markerParts=parts.Where(p=>p.marker.HasValue).ToArray();
+            for(int i=0;i<markerParts.Length;i++)
             {
-                var part=parts[i];var rect=new Rect(8+i*(width+6),paletteRect.y+42,width,Mathf.Max(30,paletteRect.height-52));
+                var part=markerParts[i];var rect=new Rect(8+i*(width+6),paletteRect.y+42,width,Mathf.Max(30,paletteRect.height-52));
                 var old=GUI.backgroundColor;
                 if(part.id==state.partId)GUI.backgroundColor=TerrainEditorScreen.Gold;
                 if(GUI.Button(rect,part.name,buttonStyle))SelectPart(part.id);
@@ -260,6 +264,12 @@ namespace ANIMOL.Editor
                 var obj=adapter.Map.Objects.FirstOrDefault(o=>o.StableId==state.instanceId);
                 if(obj!=null)
                 {
+                    if(ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(obj.Kind)!=null)
+                    {
+                        try{ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Read(adapter.Map,obj);}
+                        catch(InvalidOperationException problem){EditorGUILayout.HelpBox(problem.Message,MessageType.Error);}
+                        if(GUILayout.Button("선택 재료 적용: "+state.freeStyle,buttonStyle))Run(()=>{var changed=obj.Settings.Clone();changed.EditorSetObstacleStyle(state.freeStyle);adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId=obj.StableId,settings=changed});});
+                    }
                     var signature=obj.StableId+":"+adapter.Map.AuthoringRevision;
                     if(signature!=settingsKey)
                     {if(settings!=null)UnityEngine.Object.DestroyImmediate(settings);settings=ScriptableObject.CreateInstance<TerrainEditorSettingsDraft>();settings.hideFlags=HideFlags.HideAndDontSave;settings.value=obj.Settings.Clone();settingsKey=signature;}
@@ -331,6 +341,8 @@ namespace ANIMOL.Editor
                 {
                     objectCandidate=new TerrainEditorObjectEdit{operation=move?"Move":"Place",definitionId=part.id,instanceId=move?state.instanceId:part.id+"-"+Guid.NewGuid().ToString("N"),origin=point};
                     if(!move && part.obj?.RequiresLinkedPair==true){objectCandidate.operation=pairAnchor.HasValue?"Pair":"PairAnchor";objectCandidate.second=point;if(pairAnchor.HasValue)objectCandidate.origin=pairAnchor.Value;}
+                    if(!move && part.obj!=null && ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(part.obj.Kind)!=null)
+                    {objectCandidate.settings=StageMapObjectAuthoringOperations.PlacementSettings(part.obj,point);objectCandidate.settings.EditorSetObstacleStyle(state.freeStyle);}
                     adapter.ValidateObject(objectCandidate);
                 }
                 else throw new InvalidOperationException("하단 팔레트에서 부품을 선택하세요.");
@@ -381,12 +393,20 @@ namespace ANIMOL.Editor
         }
         private static void ShowGhost()
         {
-            if(ghostId!=ghostPart?.id || ghost==null)
+            var nextGhostId=ghostPart?.id;
+            if(ghostPart?.obj!=null && ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(ghostPart.obj.Kind)!=null)
+                nextGhostId+="|"+state.freeStyle+"|"+origin+"|"+adapter.Map.AuthoringRevision;
+            if(ghostId!=nextGhostId || ghost==null)
             {
-                DestroyGhost();ghostId=ghostPart?.id;
+                DestroyGhost();ghostId=nextGhostId;
                 var parent=new GameObject("Scene placement ghost");SceneManager.MoveGameObjectToScene(parent,scene);ghost=parent;
                 if(ghostPart?.terrain!=null)StageTerrainStructureRuntime.CreateArt(parent.transform,new AnimolTerrainPlacement{instanceId="ghost",catalogId=ghostPart.id},ghostPart.terrain,adapter.Terrain.Frame(ghostPart.terrain.frameId),adapter.Map.GetEditorPreviewUnitsPerCell(),100);
-                else if(ghostPart?.obj!=null)TerrainEditorArt.CopySprites(ghostPart.obj.Prefab,parent.transform);
+                else if(ghostPart?.obj!=null)
+                {
+                    if(ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(ghostPart.obj.Kind)!=null && objectCandidate!=null && valid)
+                        TerrainEditorArt.BuildObstacle(adapter.Map,adapter.ObjectCandidate(objectCandidate),parent.transform);
+                    else TerrainEditorArt.CopySprites(ghostPart.obj.Prefab,parent.transform);
+                }
                 foreach(var r in ghost.GetComponentsInChildren<SpriteRenderer>())
                 {r.sortingOrder=100;if(r.sharedMaterial.HasProperty("_PreviewOpacity")){var m=new Material(r.sharedMaterial);m.SetFloat("_PreviewOpacity",.5f);r.sharedMaterial=m;ghostMaterials.Add(m);}else r.color=new Color(1,1,1,.5f);}
                 foreach(var t in ghost.GetComponentsInChildren<Transform>())t.gameObject.hideFlags=HideFlags.HideAndDontSave;

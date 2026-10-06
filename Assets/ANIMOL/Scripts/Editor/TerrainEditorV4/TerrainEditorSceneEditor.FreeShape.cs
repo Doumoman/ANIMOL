@@ -40,7 +40,8 @@ namespace ANIMOL.Editor
         {
             var registry=SelectedFreeShapeArt;EditorGUI.DrawRect(paletteRect,TerrainEditorScreen.Panel);
             GUILayout.BeginArea(new Rect(5,paletteRect.y+4,paletteRect.width-10,52));GUILayout.BeginHorizontal();
-            if(GUILayout.Button("캠페인 마커",buttonStyle,GUILayout.Width(110)))SetFreeShapeMode(false);
+            if(GUILayout.Button("캠페인 마커",buttonStyle,GUILayout.Width(110))){SetFreeShapeMode(false);state.category="Markers";}
+            if(GUILayout.Button("장애물",buttonStyle,GUILayout.Width(85)))SetObstacleMode();
             string current=adapter.Map.ThemeId;
             if(!state.freeStyle.StartsWith(current+"_",StringComparison.Ordinal))state.freeStyle=current+"_A";
             GUILayout.Label(current+" "+registry.Style(current+"_A").themeName,smallStyle,GUILayout.Width(155));
@@ -168,7 +169,7 @@ namespace ANIMOL.Editor
         private static void ShowFreePreview(FreeShapeLayer layer)
         {
             if(freePreview==null){freePreview=new GameObject("FreeShape candidate · not saved");SceneManager.MoveGameObjectToScene(freePreview,scene);freePreview.layer=TerrainEditorArt.PreviewLayer;freePreview.hideFlags=HideFlags.HideAndDontSave;freePreviewRenderer=freePreview.AddComponent<FreeShapeTerrainRenderer>();}
-            freePreview.SetActive(true);freePreviewRenderer.Rebuild(layer,adapter.Map.GetEditorPreviewUnitsPerCell());freePreviewRenderer.SetOpacity(.75f);
+            freePreview.SetActive(true);freePreviewRenderer.Rebuild(layer,adapter.Map.GetEditorPreviewUnitsPerCell(),TerrainEditorArt.ObstaclePreview(adapter.Map));freePreviewRenderer.SetOpacity(.75f);
             if(artwork!=null)foreach(var r in artwork.GetComponentsInChildren<FreeShapeTerrainRenderer>(true))r.gameObject.SetActive(false);
         }
         private static void HideFreePreview()

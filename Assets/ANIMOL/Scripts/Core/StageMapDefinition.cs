@@ -69,6 +69,10 @@ namespace ANIMOL.Core
         [SerializeField] private float effectStrength = 1f;
         [SerializeField] private bool deferWhileOccupied = true;
 
+        [SerializeField] private string obstacleStyleId = string.Empty;
+        public string ObstacleStyleId => obstacleStyleId;
+        public void EditorSetObstacleStyle(string styleId) => obstacleStyleId = styleId ?? string.Empty;
+
         public int Version => version;
         public StageMapObjectDirection Direction => direction;
         public Vector2 FootprintCells => footprintCells;
@@ -579,6 +583,7 @@ namespace ANIMOL.Core
                     .Append(':').Append(settings.UpperPauseSeconds).Append(':').Append(settings.LowerPauseSeconds).Append(':').Append(settings.ActivationRangeCells)
                     .Append(':').Append(settings.GroundSpeedMultiplier).Append(':').Append(settings.EndStopSeconds).Append(':').Append(settings.ReturnWhenEmpty)
                     .Append(':').Append(item.Prefab == null ? string.Empty : item.Prefab.name);
+                if (!string.IsNullOrEmpty(settings.ObstacleStyleId)) builder.Append("|ObstacleStyle:").Append(settings.ObstacleStyleId);
                 foreach (var node in settings.PathCells) builder.Append('@').Append(node.x).Append(',').Append(node.y);
             }
             using var hash = SHA256.Create();
