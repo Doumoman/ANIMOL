@@ -19,7 +19,6 @@ namespace ANIMOL.PortraitArtV1.Editor
         private static readonly Color Ink=new Color32(77,43,30,255);
         private static TMP_FontAsset font;
 
-        [MenuItem("ANIMOL/Portrait Art V1/Build imported UI")]
         public static void Build()
         {
             if(EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play Mode first.");

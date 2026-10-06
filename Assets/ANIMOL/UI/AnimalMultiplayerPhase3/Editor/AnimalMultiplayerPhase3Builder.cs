@@ -17,7 +17,6 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Editor
         public const string CatalogPath = Root + "/AnimalCatalog.asset";
         public const string MapPath = Root + "/AnimalMultiplayerIdMap.asset";
 
-        [MenuItem("ANIMOL/Animal UI v2/Create missing production Multiplayer Phase 3 assets")]
         public static void CreateMissingProductionAssets()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
@@ -71,7 +70,6 @@ namespace ANIMOL.AnimalMultiplayerPhase3.Editor
             Debug.Log("Animal Multiplayer Phase 3 production assets created. Existing operational assets are preserved on rerun.");
         }
 
-        [MenuItem("ANIMOL/Animal UI v2/Connect production Multiplayer Phase 3 adapter")]
         public static void ConnectProjectAdapter()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");

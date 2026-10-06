@@ -37,7 +37,6 @@ namespace ANIMOL.Editor
             { Id = id; Name = name; English = english; ThemeId = themeId; Kind = kind; Footprint = footprint; Level = level; Behavior = behavior; Pair = pair; }
         }
 
-        [MenuItem("ANIMOL/M9B Theme Platforms/0 Audit (No Asset Mutation)")]
         public static void AuditM9BThemePlatforms()
         {
             if (!File.Exists("Docs/ANIMOL_M9_PORTRAIT_RESULT.md") || !File.Exists("Docs/ANIMOL_M9_PORTRAIT_OBJECTS_RESULT.md"))
@@ -61,7 +60,6 @@ namespace ANIMOL.Editor
             WriteM9BLog("audit.txt", lines);
         }
 
-        [MenuItem("ANIMOL/M9B Theme Platforms/1 Build Catalog and DEV Labs")]
         public static void ApplyM9BThemePlatforms()
         {
             var baseline = RequireM9BAudit();
@@ -83,7 +81,6 @@ namespace ANIMOL.Editor
             Debug.Log("[ANIMOL][M9B] 5 themes, 45 authorable types, and representative DEV lab generated; campaign maps untouched.");
         }
 
-        [MenuItem("ANIMOL/M9B Theme Platforms/2 Capture Portrait DEV Lab")]
         public static void CaptureM9BThemePlatformLab()
         {
             var scene = EditorSceneManager.OpenScene(DevelopmentBuildScenePolicy.ThemePlatformLabPath, OpenSceneMode.Single);
@@ -99,7 +96,6 @@ namespace ANIMOL.Editor
             WriteM9BLog("portrait-capture.txt", new[] { "capture1080x1920=created", "capture1080x2400=created", "horizontalVisibleCells=12", "extraTallVerticalCells=5.33" });
         }
 
-        [MenuItem("ANIMOL/M9B Theme Platforms/3 Validate")]
         public static void ValidateM9BThemePlatforms()
         {
             var baseline = RequireM9BAudit();

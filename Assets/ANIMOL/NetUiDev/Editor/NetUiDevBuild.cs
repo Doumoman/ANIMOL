@@ -11,18 +11,15 @@ namespace Animol.NetUiDev.Editor
     public static class NetUiDevBuild
     {
         private const string Define = "ANIMOL_NET_UI_DEV";
-        [MenuItem("ANIMOL/NET02 Existing UI DEV/0 Enable DEV Define")]
         public static void Enable()
         {
             SetDefine(NamedBuildTarget.Standalone, true);
             SetDefine(NamedBuildTarget.Android, true);
             Debug.Log("NET02 enabled. Wait for script recompilation, connect the existing adapters/SC06, then build with existing Bootstrap/Lobby scenes.");
         }
-        [MenuItem("ANIMOL/NET02 Existing UI DEV/9 Disable DEV Define")]
         public static void Disable()
         { SetDefine(NamedBuildTarget.Standalone, false); SetDefine(NamedBuildTarget.Android, false); }
 
-        [MenuItem("ANIMOL/NET02 Existing UI DEV/1 Build Windows Development")]
         public static void BuildWindows()
         {
             string[] scenes = Preflight(NamedBuildTarget.Standalone);
@@ -52,7 +49,6 @@ namespace Animol.NetUiDev.Editor
             }
         }
 
-        [MenuItem("ANIMOL/NET02 Existing UI DEV/2 Build Android Development APK")]
         public static void BuildAndroid()
         {
             string[] scenes = Preflight(NamedBuildTarget.Android);

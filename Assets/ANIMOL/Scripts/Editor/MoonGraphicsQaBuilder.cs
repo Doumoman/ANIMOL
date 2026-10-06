@@ -24,7 +24,6 @@ namespace ANIMOL.Editor
         private static readonly Color Ink = Hex("172A3D"), Stone = Hex("294259"), Shade = Hex("20354C"), Jade = Hex("78BBAE"), Light = Hex("C8E5CB"), Gold = Hex("DCB16D");
         private static int meshIndex;
 
-        [MenuItem("ANIMOL/Graphics QA/Build Moon Representative Scene")]
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit play mode first.");

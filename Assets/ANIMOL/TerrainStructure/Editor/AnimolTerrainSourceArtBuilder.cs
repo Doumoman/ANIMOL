@@ -26,7 +26,6 @@ namespace Animol.TerrainStructure.Editor
         [Serializable] private sealed class StampEntry { public string id,styleId,frameId; public int width,height; public string[] rows; }
         [Serializable] private sealed class StampCatalog { public StampEntry[] stamps; }
 
-        [MenuItem("ANIMOL/Terrain Structure/Initialize Shown Design Art")]
         public static void Initialize()
         {
             TextAsset a=AssetDatabase.LoadAssetAtPath<TextAsset>(Root+"/Data/source_art_frames.json");

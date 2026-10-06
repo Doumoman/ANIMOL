@@ -19,7 +19,21 @@ namespace ANIMOL.Gameplay
         public TextAsset catalogJson;
         public AnimolTerrainArtFrameDefinition[] frames = Array.Empty<AnimolTerrainArtFrameDefinition>();
         public List<StageTerrainStyleBinding> bindings = new List<StageTerrainStyleBinding>();
-        public AnimolTerrainCatalogData Catalog => JsonUtility.FromJson<AnimolTerrainCatalogData>(catalogJson.text);
+        [NonSerialized] private AnimolTerrainCatalogData cachedCatalog;
+        [NonSerialized] private string cachedJson;
+        public AnimolTerrainCatalogData Catalog
+        {
+            get
+            {
+                if (catalogJson == null) throw new InvalidOperationException("Terrain catalog JSON is missing.");
+                var json = catalogJson.text;
+                if (cachedCatalog == null || cachedJson != json)
+                { cachedCatalog = JsonUtility.FromJson<AnimolTerrainCatalogData>(json); cachedJson = json; }
+                return cachedCatalog;
+            }
+        }
+        private void OnEnable() { cachedCatalog = null; cachedJson = null; }
+        private void OnValidate() { cachedCatalog = null; cachedJson = null; }
         public static StageTerrainStructureRegistry Load() => Resources.Load<StageTerrainStructureRegistry>("ANIMOL_TerrainStructureRegistry")
             ?? throw new InvalidOperationException("Initialize the ANIMOL terrain structure registry first.");
         public AnimolTerrainArtFrameDefinition Frame(string id) => frames.FirstOrDefault(f => f != null && f.name == id)

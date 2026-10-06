@@ -17,7 +17,6 @@ namespace ANIMOL.AnimalStagePhase2.Editor
         public const string CatalogPath = Root + "/AnimalCatalog.asset";
         public const string MapPath = Root + "/AnimalStageIdMap.asset";
 
-        [MenuItem("ANIMOL/Animal UI v2/Create missing production Stage Phase 2 assets")]
         public static void CreateMissingProductionAssets()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
@@ -89,7 +88,6 @@ namespace ANIMOL.AnimalStagePhase2.Editor
             }
         }
 
-        [MenuItem("ANIMOL/Animal UI v2/Connect production Stage Phase 2 project backend")]
         public static void ConnectProjectBackend()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");

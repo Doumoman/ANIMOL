@@ -26,7 +26,6 @@ namespace ANIMOL.Editor
         [Serializable] private class Fixtures {public FreeShapeFixture[] fixtures;}
         public static string HashFile(string path){using(var sha=SHA256.Create())return BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(path))).Replace("-","").ToLowerInvariant();}
         private static T Read<T>(string path)=>JsonUtility.FromJson<T>(File.ReadAllText(Source+"/"+path));
-        [MenuItem("ANIMOL/Terrain Free Shape/Initialize Package")]
         public static void Initialize()
         {
             var timer=System.Diagnostics.Stopwatch.StartNew();

@@ -8,7 +8,6 @@ namespace ANIMOL.AnimalUiV2.Editor
 {
     public static class AnimalUiV2Validation
     {
-        [MenuItem("ANIMOL/Animal UI v2/Validate Stage Phase 2")]
         public static void ValidateStagePhase2()
         {
             const string generated = AnimalUiV2Builder.Root + "/Generated/";
@@ -25,7 +24,6 @@ namespace ANIMOL.AnimalUiV2.Editor
             Debug.Log("ANIMOL 스테이지 동물 확인 2단계 계약/import/prefab 연결 검사 통과: " + (checks + 4) + "개. 실제 Play 모드와 기존 스테이지 입장 서비스 검증은 별도로 실행하세요.");
         }
 
-        [MenuItem("ANIMOL/Animal UI v2/Validate Upgrade Phase 1")]
         public static void ValidateUpgradePhase1()
         {
             const string generated = AnimalUiV2Builder.Root + "/Generated/";
@@ -38,7 +36,6 @@ namespace ANIMOL.AnimalUiV2.Editor
             Debug.Log("ANIMOL 동물 강화 1단계 계약/import/prefab 연결 검사 통과: " + (checks + 1) + "개. 실제 Play 모드와 저장/차감 서비스 검증은 별도로 실행하세요.");
         }
 
-        [MenuItem("ANIMOL/Animal UI v2/Validate Generated")]
         public static void ValidateGenerated()
         {
             const string generated = AnimalUiV2Builder.Root + "/Generated/";

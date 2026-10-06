@@ -17,7 +17,6 @@ namespace ANIMOL.Typography.Editor
         public const string Root = "Assets/ANIMOL/Typography";
         public const string ProfilePath = Root + "/PixelTypographyProfile.asset";
         public const string FontPath = Root + "/Pixelroborobo_UI.asset";
-        [MenuItem("ANIMOL/Pixel Typography/Build pilot fonts")]
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play Mode first.");
@@ -89,7 +88,6 @@ namespace ANIMOL.Typography.Editor
             foreach(var texture in font.atlasTextures) { texture.filterMode=FilterMode.Point; texture.wrapMode=TextureWrapMode.Clamp;texture.anisoLevel=0;AssetDatabase.AddObjectToAsset(texture,font); }
             EditorUtility.SetDirty(font); return font;
         }
-        [MenuItem("ANIMOL/Pixel Typography/Approve common UI after visual QA")]
         public static void ApproveCommon()
         {
             var profile=AssetDatabase.LoadAssetAtPath<PixelTypographyProfile>(ProfilePath);

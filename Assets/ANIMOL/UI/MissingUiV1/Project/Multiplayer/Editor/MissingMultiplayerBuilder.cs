@@ -9,7 +9,6 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer.Editor
     public static class MissingMultiplayerBuilder
     {
         public const string Root="Assets/ANIMOL/UI/MissingUiV1/Project/Resources/ANIMOLMissingUiV1/Multiplayer";
-        [MenuItem("ANIMOL/Missing UI V1/Build Project Task 3 Multiplayer")]
         public static void Build()
         {
             var utility=AssetDatabase.LoadAssetAtPath<MissingUtilityArt>("Assets/ANIMOL/UI/MissingUiV1/Project/Resources/ANIMOLMissingUiV1/UtilityArt.asset");

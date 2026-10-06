@@ -13,7 +13,6 @@ namespace ANIMOL.FiveThemeMenu.Editor
     /// <summary>Author scene overrides only. Never applies changes to legacy UI prefabs.</summary>
     public static class MenuHierarchyBuilder
     {
-        [MenuItem("ANIMOL/Five Theme Menu/Author Bootstrap and Lobby hierarchy")]
         public static void Build()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");

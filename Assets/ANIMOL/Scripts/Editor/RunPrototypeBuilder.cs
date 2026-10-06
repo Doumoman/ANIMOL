@@ -18,7 +18,6 @@ namespace ANIMOL.Editor
         public const string DownScene = Root + "/RunDown.unity";
         public const string UpScene = Root + "/RunUp.unity";
 
-        [MenuItem("ANIMOL/Run Prototype/Build isolated 80 tile stages")]
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop play mode first.");
@@ -77,9 +76,7 @@ namespace ANIMOL.Editor
             text.raycastTarget = false; text.alignment = TextAnchor.UpperLeft; return text;
         }
 
-        [MenuItem("ANIMOL/Run Prototype/Open descent")]
         public static void OpenDown() => Open(DownScene);
-        [MenuItem("ANIMOL/Run Prototype/Open ascent")]
         public static void OpenUp() => Open(UpScene);
         private static void Open(string path)
         {
@@ -88,7 +85,6 @@ namespace ANIMOL.Editor
                 if (SceneManager.GetSceneAt(i).isDirty) throw new InvalidOperationException("Preserve unsaved scene changes first.");
             EditorSceneManager.OpenScene(path); PortraitGameViewSetup.Use1080x1920();
         }
-        [MenuItem("ANIMOL/Run Prototype/Capture current case in Play Mode")]
         public static void Capture()
         {
             var session = UnityEngine.Object.FindFirstObjectByType<RunPrototypeSession>();

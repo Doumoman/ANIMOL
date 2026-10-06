@@ -13,7 +13,6 @@ namespace Animol.Editor
         public const string CatalogPath = "Assets/ANIMOL/Resources/ANIMOL_TerrainTileCatalog.asset";
         private const string TileRoot = "Assets/ANIMOL/Generated/TerrainTiles";
 
-        [MenuItem("ANIMOL/Integrate Theme Terrain Tiles")]
         public static void Integrate()
         {
             EnsureFolder("Assets/ANIMOL/Resources");

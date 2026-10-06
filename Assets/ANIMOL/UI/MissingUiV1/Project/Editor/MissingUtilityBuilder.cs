@@ -10,7 +10,6 @@ namespace ANIMOL.MissingUiV1.Project.Editor
 {
     public static class MissingUtilityBuilder
     {
-        [MenuItem("ANIMOL/Missing UI V1/Build Project Task 2 Settings and Account")]
         public static void Build()
         {
             var root=MissingUiProjectBuilder.ResourcesPath;

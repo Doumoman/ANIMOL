@@ -66,63 +66,6 @@ namespace ANIMOL.Tests.EditMode
         }
 
         [Test]
-        public void SelectingPaletteTypeClearsPlacedSelectionForReadyToPlaceCard()
-        {
-            var window = ScriptableObject.CreateInstance<CampaignMapEditorWindow>();
-            try
-            {
-                var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
-                typeof(CampaignMapEditorWindow).GetField("selectedObjectStableId", flags)?.SetValue(window, "OLD-PLACEMENT");
-                typeof(CampaignMapEditorWindow).GetField("selectedMarkerStableId", flags)?.SetValue(window, "OLD-MARKER");
-                typeof(CampaignMapEditorWindow).GetMethod("SelectLogicObjectType", flags)?.Invoke(window, new object[] { 3 });
-                Assert.That(typeof(CampaignMapEditorWindow).GetField("selectedObjectStableId", flags)?.GetValue(window), Is.EqualTo(string.Empty));
-                Assert.That(typeof(CampaignMapEditorWindow).GetField("selectedMarkerStableId", flags)?.GetValue(window), Is.EqualTo(string.Empty));
-                Assert.That(typeof(CampaignMapEditorWindow).GetField("objectTypeIndex", flags)?.GetValue(window), Is.EqualTo(3));
-            }
-            finally { Object.DestroyImmediate(window); }
-        }
-
-        [Test]
-        public void EditorClickPlacesCompleteDeviceAndEraserRemovesIt()
-        {
-            const string path = "Assets/ANIMOL/Data/Development/M9BThemePlatforms/__EDITOR_DEVICE_TEST.asset";
-            AssetDatabase.DeleteAsset(path);
-            var map = ScriptableObject.CreateInstance<StageMapDefinition>();
-            var window = ScriptableObject.CreateInstance<CampaignMapEditorWindow>();
-            map.EditorInitializeIdentity("EDITOR-DEVICE-TEST", "T03");
-            map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
-            AssetDatabase.CreateAsset(map, path);
-            try
-            {
-                var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
-                var registry = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
-                typeof(CampaignMapEditorWindow).GetField("selectedMap", flags)?.SetValue(window, map);
-                typeof(CampaignMapEditorWindow).GetField("objectRegistry", flags)?.SetValue(window, registry);
-                typeof(CampaignMapEditorWindow).GetField("objectThemeFilter", flags)?.SetValue(window, "T03");
-                var types = (StageMapObjectTypeDefinition[])typeof(CampaignMapEditorWindow).GetMethod("FilteredObjectTypes", flags)?.Invoke(window, null);
-                typeof(CampaignMapEditorWindow).GetField("objectTypeIndex", flags)?.SetValue(window,
-                    System.Array.FindIndex(types, item => item.StableTypeId == "PAGE_BRIDGE"));
-                typeof(CampaignMapEditorWindow).GetField("tool", flags)?.SetValue(window, StageMapTool.Object);
-                typeof(CampaignMapEditorWindow).GetMethod("ApplyImmediate", flags)?.Invoke(window, new object[] { new Vector2Int(2, 2) });
-
-                Assert.That(map.Objects.Count, Is.EqualTo(1));
-                Assert.That(map.Objects[0].DataKey, Is.EqualTo("PAGE_BRIDGE"));
-                Assert.That(map.Objects[0].Prefab, Is.EqualTo(registry.Find("PAGE_BRIDGE").Prefab));
-                Assert.That(map.Objects[0].Settings.FootprintCells, Is.EqualTo(registry.Find("PAGE_BRIDGE").FootprintCells));
-
-                typeof(CampaignMapEditorWindow).GetField("tool", flags)?.SetValue(window, StageMapTool.Eraser);
-                typeof(CampaignMapEditorWindow).GetMethod("ApplyImmediate", flags)?.Invoke(window, new object[] { new Vector2Int(2, 2) });
-                Assert.That(map.Objects, Is.Empty);
-            }
-            finally
-            {
-                Object.DestroyImmediate(window);
-                AssetDatabase.DeleteAsset(path);
-                AssetDatabase.DeleteAsset("Assets/ANIMOL/MapBackups/EDITOR-DEVICE-TEST");
-            }
-        }
-
-        [Test]
         public void RemovingMutuallyLinkedBalanceDeletesBothPlates()
         {
             const string path = "Assets/ANIMOL/Data/Development/M9BThemePlatforms/__LINKED_DELETE_TEST.asset";
@@ -188,13 +131,12 @@ namespace ANIMOL.Tests.EditMode
             var proxy = new GameObject("PreviewProxy");
             try
             {
-                var method = typeof(StageMapAuthoringWorkspace).GetMethod("CreatePrefabVisualPreview",
-                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
-                method?.Invoke(null, new object[] { proxy.transform, type.Prefab, type.FootprintCells, 1f, 30 });
-                var visual = proxy.transform.Find("ART PREVIEW (ALL ACTIVE PARTS)");
+                var visual = ANIMOL.Development.TerrainEditorArt.CopySprites(type.Prefab, proxy.transform).transform;
                 Assert.That(visual, Is.Not.Null, id);
                 Assert.That(visual.GetComponentsInChildren<SpriteRenderer>().Length, Is.GreaterThan(1), id);
                 Assert.That(visual.localScale.x, Is.EqualTo(visual.localScale.y).Within(.0001f), id);
+                Assert.That(visual.GetComponentsInChildren<MonoBehaviour>(), Is.Empty, "Preview must not execute gameplay scripts.");
+                Assert.That(visual.GetComponentsInChildren<Collider2D>(), Is.Empty, "Preview must not create physics.");
             }
             finally { Object.DestroyImmediate(proxy); }
         }

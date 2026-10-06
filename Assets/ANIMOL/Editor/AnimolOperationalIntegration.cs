@@ -10,7 +10,6 @@ namespace Animol.Editor
     {
         private const string ArtName = "ANIMOL_32px_Art";
 
-        [MenuItem("ANIMOL/Integrate Operational Art")]
         public static void Integrate()
         {
             Bind("Assets/ANIMOL/Prefabs/MapObjects/OBJ_SIDE_SPRING.prefab", "C1", AnimolOperationalArtMode.Whole);
@@ -38,7 +37,6 @@ namespace Animol.Editor
             Debug.Log("ANIMOL operational art integration complete: C6, M2, M6, R8.");
         }
 
-        [MenuItem("ANIMOL/Integrate Movement Platforms Pass 3")]
         public static void IntegrateMovementPlatformsPass3()
         {
             BindMovement("CLOUD_SAIL_STEP", "K9", typeof(CloudSailStepObject));
@@ -54,7 +52,6 @@ namespace Animol.Editor
             Debug.Log("ANIMOL pass 3 movement integration complete: K9, L2, H2, L7.");
         }
 
-        [MenuItem("ANIMOL/Integrate Stateful Platforms Pass 4")]
         public static void IntegrateStatefulPlatformsPass4()
         {
             BindStateful("CLOUD_SHEEP_STEP", "K2", typeof(CloudSheepStepObject), false, false);

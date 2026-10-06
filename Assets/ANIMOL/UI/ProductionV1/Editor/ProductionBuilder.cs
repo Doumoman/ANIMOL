@@ -44,7 +44,6 @@ namespace ANIMOL.ProductionV1.Editor
                     if(PrefabUtility.IsPartOfPrefabInstance(t.gameObject))PrefabUtility.RecordPrefabInstancePropertyModifications(t.gameObject);
             }
         }
-        [MenuItem("ANIMOL/UI Production V1/Apply authored hierarchy to menus")]
         public static void AuthorScenes()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode)throw new System.InvalidOperationException("Stop Play first.");
@@ -103,7 +102,6 @@ namespace ANIMOL.ProductionV1.Editor
             }
             EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
         }
-        [MenuItem("ANIMOL/UI Production V1/Import art and catalog")]
         public static void Build()
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode)throw new System.InvalidOperationException("Stop Play before importing.");

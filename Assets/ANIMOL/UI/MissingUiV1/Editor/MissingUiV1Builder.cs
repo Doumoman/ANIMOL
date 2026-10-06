@@ -16,7 +16,6 @@ namespace ANIMOL.MissingUiV1.Editor
     public sealed class MissingUiV1BuilderWindow : EditorWindow
     {
         private Object _font;
-        [MenuItem("ANIMOL/Missing UI V1/Build Missing UI V1")]
         public static void Open() { GetWindow<MissingUiV1BuilderWindow>("Missing UI V1"); }
         private void OnGUI()
         {
@@ -77,7 +76,6 @@ namespace ANIMOL.MissingUiV1.Editor
             Debug.Log("Missing UI V1: " + catalog.screens.Length + " independent design prefabs and read-only preview scene generated. Existing production scenes/prefabs were not modified.");
         }
 
-        [MenuItem("ANIMOL/Missing UI V1/Validate Missing UI V1")]
         public static void ValidateMissingUiV1()
         {
             var catalog = ReadCatalog();

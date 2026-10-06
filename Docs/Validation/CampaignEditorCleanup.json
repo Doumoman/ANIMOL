@@ -1,0 +1,483 @@
+{
+  "unity": "6000.3.8f1",
+  "graphics": "Direct3D11",
+  "runs": [
+    {
+      "name": "focused_edit",
+      "id": "2",
+      "testcasecount": "70",
+      "result": "Failed(Child)",
+      "total": "70",
+      "passed": "66",
+      "failed": "4",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-06 09:03:51Z",
+      "end-time": "2026-10-06 09:09:06Z",
+      "duration": "315.2575061"
+    },
+    {
+      "name": "edit_recheck",
+      "id": "2",
+      "testcasecount": "13",
+      "result": "Passed",
+      "total": "13",
+      "passed": "13",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-06 09:10:15Z",
+      "end-time": "2026-10-06 09:11:14Z",
+      "duration": "58.812096"
+    },
+    {
+      "name": "play",
+      "id": "2",
+      "testcasecount": "7",
+      "result": "Passed",
+      "total": "7",
+      "passed": "7",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-06 09:11:40Z",
+      "end-time": "2026-10-06 09:13:16Z",
+      "duration": "96.4591502"
+    },
+    {
+      "name": "final_stroke_recheck",
+      "mode": "EditMode",
+      "duration": 74.24,
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  ],
+  "latest_results": [
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.BackupIsLocalAndMismatchedRestoreLeavesMapUntouched",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.BrowsingCampaignNeverTakesOwnershipFromLiveAdapter",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.ExistingUnlinkedMapCannotBeDuplicatedByCreate",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.InstalledEditorSupportsRemovingRetiredMenus",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.LinksExactAssetOutsideConventionalPathAndReloadsWithoutChangingReadiness",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.NewStageCreatesOneLinkedV4MapWithUsableBounds",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.SceneOpensReadOnlyWithFourMarkersAndRejectsHugeStrokeWithoutWriting",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.TerrainCatalogIsCachedAndReplacedWhenSourceChanges",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.WrongIdentityIsRejectedWithoutChangingStageFile",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.EveryDevPlayableTypeHasAnEditorPreviewSprite",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.EveryDevPlayableTypeHasCompactFocusedCardDescription",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.EveryRegisteredDeviceHasVisiblePrefabArtAndReadableDescription",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.GeneratedTerrainCatalogContainsSixteenTilesPerTheme",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.JadeBalancePairCanBePlacedWithMutualStableLinks",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.LegacyTerrainCellUsesCurrentThemeDefaultTileAtRuntime",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.MapPreviewScalePreservesPixelAspectAndFitsFootprint(\"MOON_JADE_BALANCE\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.MapPreviewScalePreservesPixelAspectAndFitsFootprint(\"PAGE_BRIDGE\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.MapPreviewScalePreservesPixelAspectAndFitsFootprint(\"DEW_SEED_STEP\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.NineDirectionPickerResolvesEveryThemeSpriteInVisualGridOrder",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.OperationalTypePreviewUsesSpriteFromBoundAnimolArt(\"CLOUD_SHEEP_STEP\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.OperationalTypePreviewUsesSpriteFromBoundAnimolArt(\"PAGE_BRIDGE\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.OperationalTypePreviewUsesSpriteFromBoundAnimolArt(\"LIB_POPUP_STAIR\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.OperationalTypePreviewUsesSpriteFromBoundAnimolArt(\"DEW_SEED_STEP\")",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.PlacedDevicePreviewKeepsAllActiveArtPartsAtUniformScale(\"MOON_JADE_BALANCE\")",
+      "result": "Passed",
+      "run": "edit_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.PlacedDevicePreviewKeepsAllActiveArtPartsAtUniformScale(\"MOON_PHASE_STAIR\")",
+      "result": "Passed",
+      "run": "edit_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.PlacedDevicePreviewKeepsAllActiveArtPartsAtUniformScale(\"DEW_SEED_STEP\")",
+      "result": "Passed",
+      "run": "edit_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.PlacedDevicePreviewKeepsAllActiveArtPartsAtUniformScale(\"MINE_CART_FORK\")",
+      "result": "Passed",
+      "run": "edit_recheck"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.AnimolMapEditorArtPreviewTests.RemovingMutuallyLinkedBalanceDeletesBothPlates",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests.ImportantEventsScaleUpWithoutUsingHitStop",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests.OrdinaryActionsStaySubtleAndNeverInterruptPlay",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.EditMode.CommercialPolishPolicyTests.SharedEasingHasStableEndpoints",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(1).CommitWritesLocalBeforeChangeBackupWithoutImportingAndSavesEveryStroke",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(1).ObjectFootprintAndSweptPathSeeFreeShapeAndRejectBeforeSave",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(1).PaintEraseMoveDeleteUndoAndDiskRoundTripAreSingleTransactions",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(1).SceneCandidateCancelAndCommitNeverModifySourceDuringDrag",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(2).CommitWritesLocalBeforeChangeBackupWithoutImportingAndSavesEveryStroke",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(2).ObjectFootprintAndSweptPathSeeFreeShapeAndRejectBeforeSave",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(2).PaintEraseMoveDeleteUndoAndDiskRoundTripAreSingleTransactions",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(2).SceneCandidateCancelAndCommitNeverModifySourceDuringDrag",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(4).CommitWritesLocalBeforeChangeBackupWithoutImportingAndSavesEveryStroke",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(4).ObjectFootprintAndSweptPathSeeFreeShapeAndRejectBeforeSave",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(4).PaintEraseMoveDeleteUndoAndDiskRoundTripAreSingleTransactions",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapeTerrainTests(4).SceneCandidateCancelAndCommitNeverModifySourceDuringDrag",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.All105ThumbnailsAreTransparentAndCachedBySourceHash",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.ExistingSixMarkerKindsRemainAuthorableWithUniqueStart",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.HostFootprintFailureDoesNotWriteOrRevise",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.LinkedPairAndMutualDeleteUseOneRevisionAndOneUndo",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.ObjectAdapterUsesStableRegistryIdentityAndOneRevisionPerEdit",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.ObjectPreviewFailureRestoresMemoryDiskAndRevision",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.OpenReadSaveDisposeWithoutEditDoesNotChangeMapFile",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.OrdinaryBrushProtectsOwnedCellsAndPaintsArchVoid",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.OverlayCascadeIsOneTransactionAndUndoRestoresIdentities",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.PinnedHashVersionOrientationAndDuplicateIdsFailBeforeSave",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.PlacementMoveDeleteAreSingleRevisionWithNativeUndoAndDisk",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.PreviewFailureRestoresMemoryDiskAndRevision",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.UnknownVariantBlocksReadAndUnchangedKnownVariantIsRetained",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainEditorV4Tests.WrongThemeAndUnsupportedOwnerCannotBeSilentlyMapped",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.AllFortyStructuresUseOperationalCellColliderOnly",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.AllSixtyFramesAndFortyStampsUseCanonicalMaskAndOriginalSheets",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.AssetSaveReimportEditorReopenAndFailedChangedCallbackRestoreDisk",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.BoundsObjectFootprintAndSweptPathBlockCandidateBeforeSave",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.ChunkOwnershipSurvivesOriginUnloadMoveAndDelete",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.EveryOverlayRequiresInteriorSupportAndDeletionPreservesGround",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.ExactLegacyVariantsObjectsAndUnknownSettingsSurviveRoundTrip",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.ExistingBrushRejectsOwnedCellsButAllowsVisibleArchPlatform",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.ExistingM9LocalPlayGetsOnePhysicsOwnerAndKeepsOneWayEffector",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.GroundEraseAndOverlayCascadeUndoTogether",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.HostTransactionsUndoRedoOnceAndChangedDoesNotChangeRevision",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.InvalidCandidatesLeaveCanonicalAndRuntimeCacheUnchanged",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructureIntegrationTests.UnmappedCellAndUnknownSchemaAreReportedWithoutRewritingData",
+      "result": "Passed",
+      "run": "focused_edit"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(1).ActualPlayerLandsOnAllTwentyStylesAndNoArtOwnsPhysics",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(1).ExistingOneWayLetsBodyRiseThroughAndSupportsFallAlongsideFreeSolid",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(2).ActualPlayerLandsOnAllTwentyStylesAndNoArtOwnsPhysics",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(2).ExistingOneWayLetsBodyRiseThroughAndSupportsFallAlongsideFreeSolid",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(4).ActualPlayerLandsOnAllTwentyStylesAndNoArtOwnsPhysics",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.FreeShapePlayModeTests(4).ExistingOneWayLetsBodyRiseThroughAndSupportsFallAlongsideFreeSolid",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.TerrainStructurePlayModeTests.ActualPlayerLandsOnAllTwentyMainPartsAndArchVoidRemainsOpen",
+      "result": "Passed",
+      "run": "play"
+    },
+    {
+      "name": "ANIMOL.Tests.CampaignMapAccessTests.StartingAnotherStrokeDiscardsThePreviousCandidate",
+      "result": "Passed",
+      "run": "final_stroke_recheck"
+    }
+  ],
+  "all_latest_passed": true,
+  "editor_crash_evidence": "Pre-task Editor.log: nvwgf2umx -> Unity D3D12DeviceState::ClearRenderTargets, m_CmdState == kEmpty assertions. Not proof of map-data corruption.",
+  "earlier_attempts": [
+    "The -nographics run crashed in a pre-existing Camera.Render parity test.",
+    "Two broad legacy-art runs were stopped without a final verdict; focused relevant tests were run instead."
+  ],
+  "interactive": {
+    "graphics": "Direct3D11",
+    "first_open_ms": 443,
+    "map_switch_ms": {
+      "T01-S01": 3,
+      "T01-S02": 24,
+      "T01-S03": 3,
+      "T01-S04": 4,
+      "T01-S05": 4,
+      "T01-S06": 3,
+      "T01-S07": 3,
+      "T02-S01": 3
+    },
+    "all_map_files_unchanged": true,
+    "console_errors": 0,
+    "menu_items": 6,
+    "scene_markers": 4
+  }
+}

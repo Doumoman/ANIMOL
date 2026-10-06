@@ -11,7 +11,6 @@ namespace ANIMOL.MissingUiV1.Project.Editor
     {
         public const string Root="Assets/ANIMOL/UI/MissingUiV1";
         public const string ResourcesPath=Root+"/Project/Resources/ANIMOLMissingUiV1";
-        [MenuItem("ANIMOL/Missing UI V1/Build Project Task 1 Store and Modals")]
         public static void Build()
         {
             var profile=AssetDatabase.LoadAssetAtPath<PixelTypographyProfile>("Assets/ANIMOL/Typography/PixelTypographyProfile.asset");

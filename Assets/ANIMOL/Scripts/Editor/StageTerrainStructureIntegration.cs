@@ -14,7 +14,6 @@ namespace ANIMOL.Editor
         public const string Root = "Assets/ANIMOL/TerrainStructure";
         public const string RegistryPath = "Assets/ANIMOL/Resources/ANIMOL_TerrainStructureRegistry.asset";
 
-        [MenuItem("ANIMOL/Terrain Structure/Register In Campaign Editor")]
         public static void Initialize()
         {
             AnimolTerrainSourceArtBuilder.Initialize();
@@ -84,12 +83,9 @@ namespace ANIMOL.Editor
             Validate(map, candidate);
             var registry = StageTerrainStructureRegistry.Load();
             var snapshot = EditorJsonUtility.ToJson(map);
-            // Import the before-change backup and saved map in one pass. Keep this
-            // synchronous scope inside the transaction; never pause imports across frames.
-            AssetDatabase.StartAssetEditing();
-            try
+            // Local JSON backups do not enter the import pipeline. Save only this map.
             {
-                if (AssetDatabase.Contains(map)) StageMapBackupService.CreateBackup(map, "autosave-before-terrain-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
+                if (AssetDatabase.Contains(map)) CampaignMapBackupStore.CreateBackup(map, "autosave-before-terrain-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
                 Undo.RecordObject(map, "Edit ANIMOL Terrain Structure");
                 try
                 {
@@ -104,7 +100,6 @@ namespace ANIMOL.Editor
                     Refresh(map); throw;
                 }
             }
-            finally { AssetDatabase.StopAssetEditing(); }
         }
 
         public static void Refresh(StageMapDefinition map)

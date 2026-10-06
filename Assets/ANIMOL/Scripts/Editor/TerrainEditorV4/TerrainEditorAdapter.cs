@@ -14,17 +14,20 @@ namespace ANIMOL.Editor
     public sealed partial class TerrainEditorAdapter : ITerrainEditorAdapter
     {
         private readonly string guid;
+        private StageMapDefinition cachedMap;
         public StageMapDefinition Map
         {
             get
             {
-                var map = AssetDatabase.LoadAssetAtPath<StageMapDefinition>(AssetDatabase.GUIDToAssetPath(guid));
+                var map = cachedMap != null ? cachedMap : (cachedMap = AssetDatabase.LoadAssetAtPath<StageMapDefinition>(AssetDatabase.GUIDToAssetPath(guid)));
                 if (map == null || !EditorUtility.IsPersistent(map)) throw new InvalidOperationException("정본 맵 에셋 연결이 끊겼습니다.");
                 return map;
             }
         }
         public StageTerrainStructureRegistry Terrain => StageTerrainStructureRegistry.Load();
-        public StageMapObjectTypeRegistry Objects { get; }
+        private StageMapObjectTypeRegistry objects;
+        public StageMapObjectTypeRegistry Objects => objects != null ? objects :
+            (objects = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset"));
         public Font Font { get; }
         public Sprite ButtonSprite { get; }
         public event Action Changed;
@@ -34,12 +37,8 @@ namespace ANIMOL.Editor
         {
             guid = assetGuid;
             Markers=StageMapScenePalette.MarkerKinds.Select(kind=>new TerrainEditorPart{id="marker:"+StageMapScenePalette.MarkerLabel(kind),name=StageMapScenePalette.MarkerLabel(kind),marker=kind,theme="COMMON",style="",size=Vector2.one,category=kind is StageMapObjectKind.Hole or StageMapObjectKind.Spike?"Hazard":"Object"}).ToArray();
-            Objects = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset");
             Font = AssetDatabase.LoadAssetAtPath<Font>("Assets/ANIMOL/Fonts/pixelroborobo.otf");
-            // Existing ANIMOL button art; absence falls back to the same flat panel treatment.
-            var sprites = AssetDatabase.FindAssets("t:Sprite",new[]{"Assets/ANIMOL/UI/ProductionV1"});
-            foreach(var id in sprites)
-            { var path=AssetDatabase.GUIDToAssetPath(id); if(path.IndexOf("button",StringComparison.OrdinalIgnoreCase)>=0){ButtonSprite=AssetDatabase.LoadAssetAtPath<Sprite>(path);break;} }
+            // The Scene editor uses flat controls; no project-wide sprite search at startup.
             Read(); Bind();
         }
         public AnimolTerrainSavedMap Read() => Map.ReadTerrain(Terrain);
@@ -76,7 +75,7 @@ namespace ANIMOL.Editor
         {
             RequireEdit();var map=Map;if(operation=="Units" && Mathf.Approximately(map.WorldUnitsPerCell,1))return;var before=EditorJsonUtility.ToJson(map);
             UnityEditor.Undo.IncrementCurrentGroup();int group=UnityEditor.Undo.GetCurrentGroup();
-            StageMapBackupService.CreateBackup(map,"autosave-v4-bounds-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
+            CampaignMapBackupStore.CreateBackup(map,"autosave-v4-bounds-"+DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff"));
             UnityEditor.Undo.RecordObject(map,"Configure ANIMOL map");
             try
             {

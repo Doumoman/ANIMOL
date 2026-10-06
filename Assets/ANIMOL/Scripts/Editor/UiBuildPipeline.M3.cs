@@ -18,7 +18,6 @@ namespace ANIMOL.Editor
         private const string EmoteCatalogPath = MetaDataFolder + "/EmoteCatalog.asset";
         private const string ServiceConfigPath = ServiceDataFolder + "/ExternalServiceConfiguration.asset";
 
-        [MenuItem("ANIMOL/Build/M3 Meta UI")]
         public static void BuildM3Menu()
         {
             BuildM0(); BuildM1(); BuildM2(); BuildM3(); ValidateM3();

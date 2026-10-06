@@ -73,7 +73,6 @@ namespace Animol.Editor
             public AtlasTheme[] themes;
         }
 
-        [MenuItem("ANIMOL/Import 32px Atlases")]
         public static void Import()
         {
             try

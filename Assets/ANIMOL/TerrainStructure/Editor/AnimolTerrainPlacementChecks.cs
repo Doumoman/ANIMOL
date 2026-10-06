@@ -14,7 +14,6 @@ namespace Animol.TerrainStructure.Editor
     {
         private const string Root = "Assets/ANIMOL/TerrainStructure/Data/";
 
-        [MenuItem("ANIMOL/Terrain Structure/Validate Saved Map Contract")]
         public static void Run()
         {
             AnimolTerrainCatalogData catalog = JsonUtility.FromJson<AnimolTerrainCatalogData>(Load("editor_tile_catalog.json"));

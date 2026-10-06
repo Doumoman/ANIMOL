@@ -17,7 +17,6 @@ namespace ANIMOL.AnimalUpgradePhase1.Editor
         public const string CatalogPath = Root + "/AnimalCatalog.asset";
         public const string MapPath = Root + "/AnimalUpgradeIdMap.asset";
 
-        [MenuItem("ANIMOL/Animal UI v2/Create missing production Upgrade Phase 1 assets")]
         public static void CreateMissingProductionAssets()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
@@ -68,7 +67,6 @@ namespace ANIMOL.AnimalUpgradePhase1.Editor
             Debug.Log("Animal Upgrade Phase 1 production assets created. Existing operational assets are preserved on rerun.");
         }
 
-        [MenuItem("ANIMOL/Animal UI v2/Connect production Upgrade Phase 1 project backend")]
         public static void ConnectProjectBackend()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");

@@ -68,16 +68,15 @@ namespace ANIMOL.Editor
             EditorApplication.update+=()=>
             {
                 if(EditorApplication.isCompiling || EditorApplication.isUpdating)return;
-                if(adapter==null){Recover();return;}
+                if(adapter==null)return;
                 if(view==null)Release(true);
                 else if(held && EditorWindow.focusedWindow!=view)Cancel(false);
             };
             EditorApplication.delayCall+=Recover;
         }
-        [MenuItem("ANIMOL/Map Editor/Open Scene Editor V4 %#m")]
         public static void OpenSelected()
         {
-            var map=Selection.activeObject as StageMapDefinition??StageMapAuthoringWorkspace.CurrentMap;
+            var map=Selection.activeObject as StageMapDefinition ?? (Selection.activeObject as CampaignStageDefinition)?.MapDefinition;
             if(map==null){CampaignMapEditorWindow.Open();return;}Open(map);
         }
         public static void Open(StageMapDefinition map,string selectedPart="")
@@ -87,7 +86,7 @@ namespace ANIMOL.Editor
             if(Active && adapter.Map==map){if(selectedPart!="")SelectPart(selectedPart);view.Focus();return;}
             Release(false);
             SessionState.SetString(Key+"guid",AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(map)));
-            state=new TerrainEditorViewState{partId=selectedPart,center=map.EditorPreviewCellBounds.center*map.GetEditorPreviewUnitsPerCell(),zoom=Mathf.Min(18,Mathf.Max(8,map.EditorPreviewCellBounds.height*.5f))};
+            state=new TerrainEditorViewState{freeShape=true,freeStyle=map.ThemeId+"_A",partId=selectedPart,center=map.EditorPreviewCellBounds.center*map.GetEditorPreviewUnitsPerCell(),zoom=Mathf.Min(18,Mathf.Max(8,map.EditorPreviewCellBounds.height*.5f))};
             SessionState.SetBool(Key+"active",true);Build();
         }
         private static void Recover()
@@ -110,14 +109,11 @@ namespace ANIMOL.Editor
                 view.in2DMode=true;view.orthographic=true;view.sceneLighting=false;view.drawGizmos=false;
                 view.LookAtDirect(state.center,Quaternion.identity,state.zoom);
                 parts.Clear();
-                foreach(var e in adapter.Terrain.Catalog.entries)
-                    parts.Add(new TerrainEditorPart{id=e.id,name=e.styleId.Last()+" "+RoleLabel(e.role),theme=e.themeId,style=e.styleId.Last().ToString(),category=e.kind=="InteriorOverlay"?"Interior":e.role=="Bridge"?"BigBridge":e.role.Contains("Wall")||e.role.Contains("Ceiling")?"Wall/Ceiling":e.role=="Mass"?"Mass":"Platform",size=new Vector2(e.width,e.height),terrain=e});
-                foreach(var o in adapter.Objects.Types.Where(o=>o!=null))
-                    parts.Add(new TerrainEditorPart{id=o.StableTypeId,name=o.DisplayName,theme=string.IsNullOrEmpty(o.ThemeId)?"COMMON":o.ThemeId,style="",category=o.Layer==StageMapLayer.Decoration?"Decoration":o.Kind is StageMapObjectKind.Pounder or StageMapObjectKind.Spike?"Hazard":"Special",size=o.FootprintCells,obj=o});
-                parts.AddRange(adapter.Markers);Refresh();view.Focus();
-                status=$"Scene 편집 · {adapter.Map.StageId} · 60부품 + 45객체 + 6기존 marker · 저장 revision {adapter.Map.AuthoringRevision}";
+                parts.AddRange(adapter.Markers.Where(p=>p.marker is StageMapObjectKind.PlayerStart or StageMapObjectKind.Exit or StageMapObjectKind.Checkpoint or StageMapObjectKind.BubbleCandidate));
+                state.freeShape=true;state.freeStyle=adapter.Map.ThemeId+"_A";Refresh();view.Focus();
+                status=$"Scene 편집 · {adapter.Map.StageId} · 자유형 V4 + 캠페인 마커 · 저장 revision {adapter.Map.AuthoringRevision}";
             }
-            catch(Exception ex){status=ex.Message;Release(true);Debug.LogError("ANIMOL Scene editor: "+ex.Message);}
+            catch(Exception ex){Release(true);status=ex.Message;Debug.LogError("ANIMOL Scene editor: "+ex.Message);}
         }
         private static string RoleLabel(string role)=>role switch{"Platform"=>"발판","Bridge"=>"다리","Mass"=>"몸체","FillPatch"=>"질감","WallCorner"=>"L벽",_=>role};
         private static void Refresh()
@@ -202,9 +198,10 @@ namespace ANIMOL.Editor
             if(GUILayout.Button("Undo",buttonStyle))Run(adapter.Undo);
             if(GUILayout.Button("Redo",buttonStyle))Run(adapter.Redo);
             if(GUILayout.Button("시험 플레이",buttonStyle))Run(()=>{adapter.Save();var report=StageMapValidator.ValidateStructure(adapter.Map);if(!report.IsValid)throw new InvalidOperationException(string.Join(" | ",report.Errors));TerrainEditorSession.OpenForSceneTest(adapter.Map);});
+            if(GUILayout.Button("캠페인",buttonStyle,GUILayout.Width(65)))CampaignMapEditorWindow.Open();
             if(GUILayout.Button("닫기",buttonStyle,GUILayout.Width(45)))EditorApplication.delayCall+=Close;
             if(width<720){GUILayout.EndHorizontal();GUILayout.BeginHorizontal();}
-            foreach(var tool in (state.freeShape?new[]{("Paint","칠하기 B"),("Erase","지우기 E"),("Rect","영역 R"),("RectErase","영역−"),("Select","덩어리")} : new[]{("Place","배치"),("Select","선택"),("Delete","삭제"),("Brush","1셀+"),("Erase","1셀−")}))
+            foreach(var tool in (state.freeShape?new[]{("Paint","칠하기 B"),("Erase","지우기 E"),("Rect","영역 R"),("RectErase","영역−"),("Select","덩어리")} : new[]{("Place","배치"),("Select","선택"),("Delete","삭제")}))
             {var old=GUI.backgroundColor;if((state.freeShape?state.freeTool:state.tool)==tool.Item1)GUI.backgroundColor=TerrainEditorScreen.Gold;if(GUILayout.Button(tool.Item2,buttonStyle)){Cancel(false);if(state.freeShape)state.freeTool=tool.Item1;else state.tool=tool.Item1;}GUI.backgroundColor=old;}
             state.grid=GUILayout.Toggle(state.grid,"격자",buttonStyle);state.masks=GUILayout.Toggle(state.masks,"마스크",buttonStyle);
             GUILayout.EndHorizontal();GUILayout.EndArea();
@@ -213,38 +210,20 @@ namespace ANIMOL.Editor
         {
             if(state.freeShape){DrawFreePalette();return;}
             EditorGUI.DrawRect(paletteRect,TerrainEditorScreen.Panel);
-            GUILayout.BeginArea(new Rect(paletteRect.x+5,paletteRect.y+4,paletteRect.width-10,34));GUILayout.BeginHorizontal();
-            if(GUILayout.Button("자유형 지형",buttonStyle,GUILayout.Width(100)))Run(()=>SetFreeShapeMode(true));
-            var themes=new[]{"CURRENT","ALL","T01","T02","T03","T04","T05","COMMON"};
-            var themeLabels=new[]{"현재 테마 + 공통","전체 테마","T01 월궁","T02 구름고래목장","T03 별빛룬도서관","T04 시간유리온실","T05 오로라수정광산","공통"};
-            state.theme=themes[EditorGUILayout.Popup(Mathf.Max(0,Array.IndexOf(themes,state.theme)),themeLabels,GUILayout.Width(Mathf.Min(170,paletteRect.width*.2f)))];
-            var categories=new[]{"ALL","Platform","BigBridge","Wall/Ceiling","Mass","Interior","Special","Hazard","Object","Decoration"};
-            state.category=categories[EditorGUILayout.Popup(Mathf.Max(0,Array.IndexOf(categories,state.category)),new[]{"전체 분류","발판","큰 다리","벽 / 천장","큰 몸체","내부 질감","특수 발판","장애물","맵 객체","장식"},GUILayout.Width(Mathf.Min(140,paletteRect.width*.17f)))];
-            var styles=new[]{"ALL","A","B","C","D"};state.style=styles[EditorGUILayout.Popup(Mathf.Max(0,Array.IndexOf(styles,state.style)),styles,GUILayout.Width(50))];
-            GUI.SetNextControlName("TerrainSearch");state.query=GUILayout.TextField(state.query,GUI.skin.FindStyle("ToolbarSearchTextField")??EditorStyles.textField,GUILayout.MinWidth(80));
-            if(GUILayout.Button("높이",buttonStyle,GUILayout.Width(50)))state.paletteHeight=state.paletteHeight<.1f?.25f:state.paletteHeight<.35f?.4f:.06f;
+            GUILayout.BeginArea(new Rect(8,paletteRect.y+5,paletteRect.width-16,30));
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Button("자유형 지형 V4",buttonStyle,GUILayout.Width(135)))Run(()=>SetFreeShapeMode(true));
+            GUILayout.Label("캠페인 마커 · 선택 후 맵을 클릭하세요",labelStyle);
             GUILayout.EndHorizontal();GUILayout.EndArea();
-            if(state.paletteHeight<.1f)return;
-            var theme=state.theme=="CURRENT"?adapter.Map.ThemeId:state.theme;
-            var visible=parts.Where(p=>(theme=="ALL" || p.theme==theme || state.theme=="CURRENT"&&p.theme=="COMMON")&&(state.category=="ALL"||state.category==p.category)&&(state.style=="ALL"||state.style==p.style)&&(string.IsNullOrWhiteSpace(state.query)||(p.name+" "+p.id).IndexOf(state.query,StringComparison.OrdinalIgnoreCase)>=0)).ToArray();
-            var area=new Rect(4,paletteRect.y+36,paletteRect.width-8,paletteRect.height-38);float cardHeight=(area.height-18)/2,cardWidth=Mathf.Max(116,cardHeight*1.3f);
-            paletteScroll=GUI.BeginScrollView(area,paletteScroll,new Rect(0,0,Mathf.Ceil(visible.Length/2f)*(cardWidth+5),area.height-16),true,false);
-            for(int i=0;i<visible.Length;i++)
+            float width=Mathf.Min(150,(paletteRect.width-40)/4);
+            for(int i=0;i<parts.Count;i++)
             {
-                var part=visible[i];var rect=new Rect(i/2*(cardWidth+5),i%2*(cardHeight+3),cardWidth,cardHeight);
-                bool selected=part.id==state.partId;EditorGUI.DrawRect(rect,selected?TerrainEditorScreen.Hex("5d275d"):TerrainEditorScreen.Ink);
-                if(selected){var border=new Rect(rect.x,rect.y,rect.width,2);EditorGUI.DrawRect(border,TerrainEditorScreen.Gold);}
-                var thumb=adapter.Thumbnail(part);bool over=rect.Contains(Event.current.mousePosition);
-                var image=new Rect(rect.x+4,rect.y+3,rect.width-8,rect.height-23);
-                if(thumb.silhouette!=null)GUI.DrawTexture(image,over||selected?thumb.color:thumb.silhouette,ScaleMode.ScaleToFit,true);
-                else GUI.Label(image,new GUIContent("! "+part.name,thumb.diagnostic),labelStyle);
-                var shortName=part.name.Length>7?part.name.Substring(0,6)+"…":part.name;
-                GUI.Label(new Rect(rect.x+4,rect.yMax-20,rect.width-8,18),(selected?"✓ ":"")+shortName+" "+part.size.x+"×"+part.size.y,smallStyle);
-                if(part.IsOverlay)GUI.Label(new Rect(rect.xMax-46,rect.y+2,45,18),"충돌 0",smallStyle);
-                if(over){status=Details(part)+(thumb.diagnostic==null?"":" · "+thumb.diagnostic);view.Repaint();}
-                if(GUI.Button(rect,new GUIContent("",part.id),GUIStyle.none))SelectPart(part.id);
+                var part=parts[i];var rect=new Rect(8+i*(width+6),paletteRect.y+42,width,Mathf.Max(30,paletteRect.height-52));
+                var old=GUI.backgroundColor;
+                if(part.id==state.partId)GUI.backgroundColor=TerrainEditorScreen.Gold;
+                if(GUI.Button(rect,part.name,buttonStyle))SelectPart(part.id);
+                GUI.backgroundColor=old;
             }
-            GUI.EndScrollView();
         }
         public static void SelectPart(string id){Cancel(false);state.freeShape=false;state.partId=id;state.instanceId="";state.tool="Place";state.information=true;mapSettings=false;status=Details(SelectedPart);view?.Repaint();}
         private static TerrainEditorPart SelectedPart=>parts.FirstOrDefault(p=>p.id==state.partId);
@@ -364,8 +343,8 @@ namespace ANIMOL.Editor
         {CancelFree();if(inputControl!=0 && GUIUtility.hotControl==inputControl)GUIUtility.hotControl=0;held=false;dragging=false;panning=false;spaceHeld=false;candidate=null;objectCandidate=null;key=null;pairAnchor=null;hover=false;valid=false;if(ghost!=null)ghost.SetActive(false);if(select)state.tool="Select";status="후보 취소 · 정본 변경 없음";}
         private static void Pick(Vector2Int point)
         {
-            var ids=adapter.Read().placements.Where(p=>{var a=parts.First(t=>t.id==p.catalogId);return new Rect(p.x,p.y,a.size.x,a.size.y).Contains(point);})
-                .OrderBy(p=>parts.First(t=>t.id==p.catalogId).IsOverlay?0:1).Select(p=>p.instanceId)
+            var ids=adapter.Read().placements.Where(p=>{var a=parts.FirstOrDefault(t=>t.id==p.catalogId);return a!=null && new Rect(p.x,p.y,a.size.x,a.size.y).Contains(point);})
+                .OrderBy(p=>parts.FirstOrDefault(t=>t.id==p.catalogId).IsOverlay?0:1).Select(p=>p.instanceId)
                 .Concat(adapter.Map.Objects.Where(o=>StageMapDefinition.EnumeratePlacementCells(o).Contains(point)).Select(o=>o.StableId)).ToArray();
             string next=string.Join("|",ids);pickIndex=point==pickCell&&next==pickSignature?(pickIndex+1)%Mathf.Max(1,ids.Length):0;pickCell=point;pickSignature=next;
             state.instanceId=ids.Length==0?"":ids[pickIndex];state.information=ids.Length>0;origin=SelectionOrigin();mapSettings=false;
@@ -373,9 +352,10 @@ namespace ANIMOL.Editor
         }
         private static TerrainEditorPart SelectionPart()
         {
+            if(string.IsNullOrEmpty(state.instanceId))return null;
             var p=adapter?.Read().placements.FirstOrDefault(p=>p.instanceId==state.instanceId);if(p!=null)return parts.FirstOrDefault(t=>t.id==p.catalogId);
             var o=adapter?.Map.Objects.FirstOrDefault(o=>o.StableId==state.instanceId);if(o==null)return null;
-            var type=adapter.Objects.Find(o);return type!=null?parts.FirstOrDefault(t=>t.obj==type):parts.FirstOrDefault(t=>t.marker==o.Kind);
+            return parts.FirstOrDefault(t=>t.marker==o.Kind);
         }
         private static Vector2Int SelectionOrigin()
         {
@@ -410,8 +390,9 @@ namespace ANIMOL.Editor
             float units=adapter.Map.GetEditorPreviewUnitsPerCell();var bounds=adapter.Map.EditorPreviewCellBounds;
             if(state.grid)
             {
-                for(int x=bounds.xMin;x<=bounds.xMax;x++){Handles.color=x%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(x,bounds.yMin,0)*units,new Vector3(x,bounds.yMax,0)*units);}
-                for(int y=bounds.yMin;y<=bounds.yMax;y++){Handles.color=y%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(bounds.xMin,y,0)*units,new Vector3(bounds.xMax,y,0)*units);}
+                int stepX=Mathf.Max(1,Mathf.CeilToInt(bounds.width/256f)),stepY=Mathf.Max(1,Mathf.CeilToInt(bounds.height/256f));
+                for(int x=bounds.xMin;x<=bounds.xMax;x+=stepX){Handles.color=x%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(x,bounds.yMin,0)*units,new Vector3(x,bounds.yMax,0)*units);}
+                for(int y=bounds.yMin;y<=bounds.yMax;y+=stepY){Handles.color=y%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(bounds.xMin,y,0)*units,new Vector3(bounds.xMax,y,0)*units);}
             }
             if(state.freeShape){DrawFreeWorld();return;}
             var selected=SelectionPart();if(selected!=null)DrawBox(new Rect(SelectionOrigin(),selected.size),TerrainEditorScreen.Gold,false);

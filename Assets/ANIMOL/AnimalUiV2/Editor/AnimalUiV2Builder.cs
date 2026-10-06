@@ -19,16 +19,12 @@ namespace ANIMOL.AnimalUiV2.Editor
         private static Font _font;
         private static Sprite _panel, _primary, _secondary, _check, _lock;
 
-        [MenuItem("ANIMOL/Animal UI v2/Build Preview")]
         public static void BuildPreview() => BuildDemo(null);
 
-        [MenuItem("ANIMOL/Animal UI v2/Build Upgrade Phase 1")]
         public static void BuildUpgradePhase1() => BuildDemo(AnimalUiMode.CharacterUpgrade);
 
-        [MenuItem("ANIMOL/Animal UI v2/Build Stage Phase 2")]
         public static void BuildStagePhase2() => BuildDemo(AnimalUiMode.StageAnimalSelect);
 
-        [MenuItem("ANIMOL/Animal UI v2/Build Multiplayer Phase 3")]
         public static void BuildMultiplayerPhase3() => BuildDemo(AnimalUiMode.MultiplayerAnimalSelect);
 
         private static void BuildDemo(AnimalUiMode? singleMode)

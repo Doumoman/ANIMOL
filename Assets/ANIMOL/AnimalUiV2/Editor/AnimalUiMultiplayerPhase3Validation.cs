@@ -11,7 +11,6 @@ namespace ANIMOL.AnimalUiV2.Editor
     /// <summary>Editor contract/import checks. Run in the actual Unity project; these are not local execution results.</summary>
     public static class AnimalUiMultiplayerPhase3Validation
     {
-        [MenuItem("ANIMOL/Animal UI v2/Validate Multiplayer Phase 3")]
         public static void ValidateMultiplayerPhase3()
         {
             const string generated = AnimalUiV2Builder.Root + "/Generated/";

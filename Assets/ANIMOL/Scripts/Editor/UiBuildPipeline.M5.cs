@@ -17,7 +17,6 @@ namespace ANIMOL.Editor
     {
         private const string M5LogName = "animol-m5-validation.txt";
 
-        [MenuItem("ANIMOL/Build/M5 Acceptance Validation")]
         public static void RunM5AcceptanceValidation() => ValidateM5();
 
         static partial void BuildM5()

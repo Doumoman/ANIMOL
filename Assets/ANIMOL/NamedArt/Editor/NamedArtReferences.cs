@@ -210,12 +210,10 @@ namespace ANIMOL.NamedArt.Editor
             }
             finally { Busy = false; }
         }
-        [MenuItem("ANIMOL/Art References/Index current named sprites")]
         public static void IndexProject()
         {
             var i = CaptureAll(); Debug.Log($"[NamedArt] Indexed {i.Sources.Count} named sources and {i.Containers.Sum(c => c.Slots.Count)} reference slots.");
         }
-        [MenuItem("ANIMOL/Art References/Repair references by name")]
         public static void RepairProject()
         {
             var r = Repair(); Debug.Log($"[NamedArt] Rebound {r.ChangedSlots} slots; {r.Issues.Count} issues. See Library/ANIMOLNamedArtLastReport.json.");

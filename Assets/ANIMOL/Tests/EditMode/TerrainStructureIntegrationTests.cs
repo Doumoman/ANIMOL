@@ -264,13 +264,17 @@ namespace ANIMOL.Tests
                 ? System.IO.Directory.GetFiles("Assets/ANIMOL/MapBackups/"+map.StageId,"*.json") : Array.Empty<string>();
             try {
                 var window=CampaignMapEditorWindow.OpenForWorkspace(map);
+                Assert.That(AnimolTerrainMapEditorBridge.IsBound,Is.False);
+                var adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
                 Assert.That(AnimolTerrainMapEditorBridge.Owner,Is.EqualTo(map));
                 AnimolTerrainMapEditorBridge.Commit(Place(map,"T01_D_Source",new Vector2Int(-1,-1)),"Saved placement");
                 var expected=JsonUtility.ToJson(map.ReadTerrain(registry));
-                window.Close(); Assert.That(AnimolTerrainMapEditorBridge.IsBound,Is.False);
+                window.Close(); Assert.That(AnimolTerrainMapEditorBridge.Owner,Is.EqualTo(map));
+                adapter.Dispose(); Assert.That(AnimolTerrainMapEditorBridge.IsBound,Is.False);
                 AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);
                 var reloaded=AssetDatabase.LoadAssetAtPath<StageMapDefinition>(path);
                 window=CampaignMapEditorWindow.OpenForWorkspace(reloaded);
+                adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
                 Assert.That(JsonUtility.ToJson(AnimolTerrainMapEditorBridge.Read()),Is.EqualTo(expected));
                 var originalDisk=System.IO.File.ReadAllText(path);
                 var id=reloaded.TerrainPlacements.placements.Single().instanceId;
@@ -280,7 +284,7 @@ namespace ANIMOL.Tests
                 Assert.Throws<InvalidOperationException>(()=>AnimolTerrainMapEditorBridge.Commit(moved,"Must rollback"));
                 Assert.That(JsonUtility.ToJson(reloaded.ReadTerrain(registry)),Is.EqualTo(expected));
                 Assert.That(System.IO.File.ReadAllText(path),Is.EqualTo(originalDisk));
-                window.Close();
+                window.Close(); adapter.Dispose();
             } finally {
                 AssetDatabase.DeleteAsset(path);
                 if(System.IO.Directory.Exists("Assets/ANIMOL/MapBackups/TERRAIN-INTEGRATION-TEST"))

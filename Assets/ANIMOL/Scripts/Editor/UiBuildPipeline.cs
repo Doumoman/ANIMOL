@@ -9,7 +9,6 @@ namespace ANIMOL.Editor
 {
     public static partial class UiBuildPipeline
     {
-        [MenuItem("ANIMOL/Build/M0 Core Data")]
         public static void BuildM0()
         {
             try
