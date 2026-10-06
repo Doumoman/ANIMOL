@@ -10,9 +10,6 @@ using UnityEngine.Tilemaps;
 
 namespace ANIMOL.Tests
 {
-    [TestFixture(1)]
-    [TestFixture(2)]
-    [TestFixture(4)]
     [TestFixture(6)]
     public sealed class FreeShapePlayModeTests
     {

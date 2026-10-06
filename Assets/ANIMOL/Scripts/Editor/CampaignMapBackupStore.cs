@@ -32,6 +32,7 @@ namespace ANIMOL.Editor
             try
             {
                 EditorJsonUtility.FromJsonOverwrite(json, scratch);
+                ANIMOL.Gameplay.FreeShapeArtRegistry.Load(scratch.FreeShapeTerrain);
                 if (scratch.StageId != originalStageId || scratch.ThemeId != map.ThemeId)
                     throw new InvalidOperationException("Backup identity does not match the selected map.");
             }

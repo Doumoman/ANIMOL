@@ -60,7 +60,7 @@ namespace ANIMOL.Editor
                 var serialized = new SerializedObject(map);
                 serialized.FindProperty("worldUnitsPerCell").floatValue = 1;
                 serialized.ApplyModifiedPropertiesWithoutUndo();
-                map.FreeShapeTerrain.artVersion = 4;
+                map.FreeShapeTerrain.artVersion = Animol.TerrainStructure.FreeShapeLayer.ArtVersion;
                 AssetDatabase.CreateAsset(map, path);
                 Link(catalog, stage, map);
                 AssetDatabase.SaveAssetIfDirty(map);

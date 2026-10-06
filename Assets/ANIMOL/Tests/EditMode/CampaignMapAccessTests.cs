@@ -24,7 +24,7 @@ namespace ANIMOL.Tests
             map=ScriptableObject.CreateInstance<StageMapDefinition>();map.EditorInitializeIdentity(id,"T01");
             map.EditorTrySetChunkBounds(new RectInt(0,0,2,2),false,out _);
             var data=new SerializedObject(map);data.FindProperty("worldUnitsPerCell").floatValue=1;data.ApplyModifiedPropertiesWithoutUndo();
-            map.FreeShapeTerrain.artVersion=4;
+            map.FreeShapeTerrain.artVersion=6;
             AssetDatabase.CreateAsset(map,folder+"/not-the-stage-name.asset");
             stage=ScriptableObject.CreateInstance<CampaignStageDefinition>();
             data=new SerializedObject(stage);data.FindProperty("stageId").stringValue=id;data.FindProperty("themeId").stringValue="T01";data.ApplyModifiedPropertiesWithoutUndo();
@@ -78,7 +78,7 @@ namespace ANIMOL.Tests
             Assert.That(stage.MapDefinition,Is.Null);
             Assert.That(AssetDatabase.LoadMainAssetAtPath(CampaignMapAccess.MapFolder+"/"+id+".asset"),Is.Null);
         }
-        [Test] public void NewStageCreatesOneLinkedV4MapWithUsableBounds()
+        [Test] public void NewStageCreatesOneLinkedV6MapWithUsableBounds()
         {
             AssetDatabase.DeleteAsset(folder+"/not-the-stage-name.asset");map=null;
             var path=CampaignMapAccess.MapFolder+"/"+id+".asset";
@@ -86,7 +86,7 @@ namespace ANIMOL.Tests
             {
                 map=CampaignMapAccess.CreateAndLink(catalog,stage);
                 Assert.That(stage.MapDefinition,Is.SameAs(map));
-                Assert.That(map.FreeShapeTerrain.artVersion,Is.EqualTo(4));
+                Assert.That(map.FreeShapeTerrain.artVersion,Is.EqualTo(6));
                 Assert.That(map.WorldUnitsPerCell,Is.EqualTo(1));Assert.That(map.ContainsCell(0,0),Is.True);
                 Assert.That(CampaignMapAccess.FindConventionalMap(stage),Is.SameAs(map));
                 Assert.That(CampaignMapAccess.CreateAndLink(catalog,stage),Is.SameAs(map));

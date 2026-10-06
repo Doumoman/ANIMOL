@@ -51,11 +51,7 @@ namespace ANIMOL.Editor
             int chosen=EditorGUILayout.Popup(index,fixtures.Select(f=>FixtureLabel(f.id)).ToArray(),GUILayout.Width(Mathf.Min(210,paletteRect.width*.34f)));state.freePreset=fixtures[chosen].id;
             if(GUILayout.Button("프리셋 그리기",buttonStyle,GUILayout.Width(100))){Cancel(false);state.freeTool="Preset";}
             GUILayout.Label("도구: "+FreeToolLabel()+" · seed "+(adapter.Map.FreeShapeTerrain?.seed??0),smallStyle);
-            GUILayout.Label("현재 맵 아트",smallStyle,GUILayout.Width(78));
-            var versions=FreeShapeArtRegistry.InstalledVersions();
-            int selectedVersion=Array.IndexOf(versions,registry.version);
-            int selectedNext=EditorGUILayout.Popup(selectedVersion,versions.Select(v=>"V"+v).ToArray(),GUILayout.Width(60));
-            if(selectedNext>=0 && selectedNext!=selectedVersion)Run(()=>ChangeFreeShapeArtVersion(versions[selectedNext]));
+            GUILayout.Label("타일 아트 V6",smallStyle,GUILayout.Width(110));
             GUILayout.EndHorizontal();GUILayout.EndArea();
             var styles=registry.styles.Where(s=>s.themeId==state.freeStyle.Split('_')[0]).ToArray();float cw=Mathf.Max(225,(paletteRect.width-28)/4);float ch=paletteRect.height-62;
             freeScroll=GUI.BeginScrollView(new Rect(4,paletteRect.y+60,paletteRect.width-8,ch),freeScroll,new Rect(0,0,(cw+4)*4,ch-17),false,false);
@@ -75,13 +71,6 @@ namespace ANIMOL.Editor
                 if(GUI.Button(rect,new GUIContent("",s.displayName+" · "+FreeToolLabel()),GUIStyle.none)){Cancel(false);state.freeStyle=s.styleId;state.freeSelected=false;}
             }
             GUI.EndScrollView();
-        }
-        public static void ChangeFreeShapeArtVersion(int version)
-        {
-            Cancel(false);
-            adapter.ChangeFreeShapeArtVersion(version);
-            status="현재 맵 아트 v"+version+" 저장 완료 · revision "+adapter.Map.AuthoringRevision;
-            view?.Repaint();
         }
         private static string FixtureLabel(string id)=>id switch {"rectangle_5x3"=>"사각형 5×3","open_u_pit"=>"U자 구덩이","closed_hole"=>"닫힌 내부 구멍","asymmetric_stairs"=>"비대칭 계단","large_chunk_seam_34x6"=>"청크 경계 34×6",_=>id};
         private static string FreeToolLabel()=>state.freeTool switch{"Paint"=>"칠하기","Erase"=>"지우기","Rect"=>"사각 칠하기","RectErase"=>"사각 지우기","Select"=>"덩어리 이동","Preset"=>"프리셋",_=>state.freeTool};

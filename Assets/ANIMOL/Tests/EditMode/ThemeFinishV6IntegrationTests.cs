@@ -34,13 +34,13 @@ namespace ANIMOL.Tests
                 {
                     var path=AssetDatabase.GetAssetPath(installed.cells[v*47]);paths.Add(path);
                     Assert.That(path,Does.StartWith(FreeShapeArtV6Builder.Root+"/Art/Atlases/"));
-                    Assert.That(FreeShapeArtV2Builder.HashFile(path),Is.EqualTo(FreeShapeArtV2Builder.HashFile(FreeShapeArtV6Builder.Source+"/"+s.variants[v].atlas)));
+                    Assert.That(FreeShapeArtV6Builder.HashFile(path),Is.EqualTo(FreeShapeArtV6Builder.HashFile(FreeShapeArtV6Builder.Source+"/"+s.variants[v].atlas)));
                     Assert.That(installed.cells.Skip(v*47).Take(47).All(c=>AssetDatabase.GetAssetPath(c)==path),Is.True);
                     CheckImport(path,SpriteImportMode.Multiple,new Vector2(.5f,.5f));
                 }
                 var motif=AssetDatabase.GetAssetPath(installed.motif);paths.Add(motif);
                 Assert.That(motif,Does.StartWith(FreeShapeArtV6Builder.Root+"/Art/Motifs/"));
-                Assert.That(FreeShapeArtV2Builder.HashFile(motif),Is.EqualTo(FreeShapeArtV2Builder.HashFile(FreeShapeArtV6Builder.Source+"/"+s.panels.motif)));
+                Assert.That(FreeShapeArtV6Builder.HashFile(motif),Is.EqualTo(FreeShapeArtV6Builder.HashFile(FreeShapeArtV6Builder.Source+"/"+s.panels.motif)));
                 CheckImport(motif,SpriteImportMode.Single,Vector2.zero);
             }
             Assert.That(paths.Count,Is.EqualTo(100));
@@ -58,24 +58,25 @@ namespace ANIMOL.Tests
             Assert.Throws<InvalidOperationException>(()=>FreeShapeArtRegistry.Load("OTHER",6));
             Assert.Throws<InvalidOperationException>(()=>FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,99));
             Assert.Throws<InvalidOperationException>(()=>FreeShapeArtRegistry.Load(new FreeShapeLayer{artVersion=6,schemaVersion=2}));
-            foreach(int v in new[]{3,5})if(!FreeShapeArtRegistry.InstalledVersions().Contains(v))
+            foreach(int v in new[]{1,2,3,4,5})
                 Assert.Throws<InvalidOperationException>(()=>FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,v));
         }
-        [Test] public void SceneBrushUsesSelectedVersionAndUndoRestoresPalette()
+        [Test] public void SceneBrushAndUndoRemainFixedToV6()
         {
             var map=ScriptableObject.CreateInstance<StageMapDefinition>();string path="Assets/TEST-V6-SCENE-"+Guid.NewGuid().ToString("N")+".asset";
             try
             {
-                map.EditorInitializeIdentity("TEST-V6-SCENE","T03");map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-1,-1,3,3),false,out _);map.FreeShapeTerrain.artVersion=4;
+                map.EditorInitializeIdentity("TEST-V6-SCENE","T03");map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-1,-1,3,3),false,out _);map.FreeShapeTerrain.artVersion=6;
                 AssetDatabase.CreateAsset(map,path);var before=File.ReadAllBytes(path);
                 TerrainEditorSceneEditor.Open(map);Assert.That(File.ReadAllBytes(path),Is.EqualTo(before));
-                Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(4));
-                TerrainEditorSceneEditor.ChangeFreeShapeArtVersion(6);Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
-                TerrainEditorSceneEditor.Adapter.Undo();Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(4));
-                TerrainEditorSceneEditor.Adapter.Redo();Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
+                Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
                 TerrainEditorSceneEditor.State.freeTool="Paint";TerrainEditorSceneEditor.State.freeBrush=1;
                 TerrainEditorSceneEditor.BeginFreeStroke(new Vector2Int(-1,-1));TerrainEditorSceneEditor.CommitFreeStroke();
                 Assert.That(map.FreeShapeTerrain.artVersion,Is.EqualTo(6));Assert.That(map.FreeShapeTerrain.cells.Single().styleId,Is.EqualTo("T03_A"));
+                TerrainEditorSceneEditor.Adapter.Undo();Assert.That(map.FreeShapeTerrain.cells,Is.Empty);
+                Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
+                TerrainEditorSceneEditor.Adapter.Redo();Assert.That(map.FreeShapeTerrain.cells.Count,Is.EqualTo(1));
+                Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
                 TerrainEditorSceneEditor.Close();AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);TerrainEditorSceneEditor.Open(map);
                 Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
             }

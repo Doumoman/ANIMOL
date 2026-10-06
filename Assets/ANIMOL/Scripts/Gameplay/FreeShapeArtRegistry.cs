@@ -16,28 +16,26 @@ namespace ANIMOL.Gameplay
     public sealed class FreeShapeArtRegistry : ScriptableObject
     {
         public string contractId, sourceHash;
-        public int version=1;
+        public int version=FreeShapeLayer.ArtVersion;
         public int[] canonicalMasks,rawToCanonical,rawToIndex;
         public FreeShapeStyleArt[] styles;
         public FreeShapeFixture[] fixtures;
         public Material material;
         private Dictionary<string,FreeShapeStyleArt> lookup;
         private bool validated;
-        public static FreeShapeArtRegistry Load()=>Load(FreeShapeLayer.Contract,1);
+        public static FreeShapeArtRegistry Load()=>Load(FreeShapeLayer.Contract,FreeShapeLayer.ArtVersion);
         public static FreeShapeArtRegistry Load(FreeShapeLayer layer)
         {
             if(layer!=null && layer.schemaVersion!=1)throw new InvalidOperationException("Unsupported free-shape schema: "+layer.schemaVersion);
-            return Load(layer?.artContract??FreeShapeLayer.Contract,layer?.artVersion??1);
+            return Load(layer?.artContract??FreeShapeLayer.Contract,layer?.artVersion??FreeShapeLayer.ArtVersion);
         }
-        public static int[] InstalledVersions() => Enumerable.Range(1,6).Where(v =>
-            Resources.Load<FreeShapeArtRegistry>(v==1?"ANIMOL_FreeShapeArt":"ANIMOL_FreeShapeArtV"+v)!=null).ToArray();
         public static FreeShapeArtRegistry Load(string contract,int artVersion)
         {
             if(contract!=FreeShapeLayer.Contract || !FreeShapeLayer.SupportsArtVersion(artVersion))
                 throw new InvalidOperationException("Unsupported free-shape art contract/version: "+contract+" / "+artVersion);
-            var registry=Resources.Load<FreeShapeArtRegistry>(artVersion==1?"ANIMOL_FreeShapeArt":"ANIMOL_FreeShapeArtV"+artVersion);
+            var registry=Resources.Load<FreeShapeArtRegistry>("ANIMOL_FreeShapeArtV6");
             if(registry==null || registry.contractId!=contract || registry.version!=artVersion)
-                throw new InvalidOperationException("Missing free-shape art v"+artVersion+". Run its Terrain Free Shape initialization menu.");
+                throw new InvalidOperationException("Missing free-shape art v"+artVersion+". Install the V6 free-shape art package.");
             if(!registry.validated)registry.ValidateComplete();
             return registry;
         }
