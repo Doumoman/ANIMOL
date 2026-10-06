@@ -72,7 +72,7 @@ namespace ANIMOL.Tests.EditMode
             AssetDatabase.DeleteAsset(path);
             var map = ScriptableObject.CreateInstance<StageMapDefinition>();
             map.EditorInitializeIdentity("LINKED-DELETE-TEST", "T01");
-            map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+            map.EditorTrySetCellBounds(new RectInt(0,0,16,16), true, out _);
             AssetDatabase.CreateAsset(map, path);
             try
             {
@@ -95,7 +95,7 @@ namespace ANIMOL.Tests.EditMode
             AssetDatabase.DeleteAsset(path);
             var map = ScriptableObject.CreateInstance<StageMapDefinition>();
             map.EditorInitializeIdentity("JADE-PAIR-TEST", "T01");
-            map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+            map.EditorTrySetCellBounds(new RectInt(0,0,16,16), true, out _);
             AssetDatabase.CreateAsset(map, path);
             try
             {
@@ -177,9 +177,9 @@ namespace ANIMOL.Tests.EditMode
             try
             {
                 map.EditorInitializeIdentity("THEME-TILE-TEST", "T04");
-                map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), true, out _);
+                map.EditorTrySetCellBounds(new RectInt(0,0,16,16), true, out _);
                 map.EditorSetCell(0, 0, StageMapLayer.Terrain, "LEGACY_PLACEHOLDER_TILE");
-                map.EditorInitializeVariableChunksFromAuthoredContent(1f);
+                map.EditorInitializeBoundsFromAuthoredContent(1f);
                 var loader = root.GetComponent<StageMapRuntimeLoader>();
                 typeof(StageMapRuntimeLoader).GetField("terrain", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
                     ?.SetValue(loader, terrainObject.GetComponent<Tilemap>());

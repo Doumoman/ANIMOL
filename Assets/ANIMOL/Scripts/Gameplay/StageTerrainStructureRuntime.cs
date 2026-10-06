@@ -8,15 +8,12 @@ using UnityEngine.Tilemaps;
 
 namespace ANIMOL.Gameplay
 {
-    // Map-global lifetime. Chunk visibility never owns, splits or respawns the complete sprite.
+    // Map-global lifetime. Each complete sprite remains owned by its authored instance.
     public sealed class StageTerrainStructureRuntime : MonoBehaviour
     {
         public readonly Dictionary<string, GameObject> Instances = new Dictionary<string, GameObject>(StringComparer.Ordinal);
-        public readonly Dictionary<Vector2Int, HashSet<string>> ChunkOwners = new Dictionary<Vector2Int, HashSet<string>>();
         public AnimolTerrainResolveResult LogicalGrid { get; private set; }
         public int BuiltRevision { get; private set; } = -1;
-        private readonly HashSet<Vector2Int> visibleChunks = new HashSet<Vector2Int>();
-        private readonly Dictionary<string, Vector2Int[]> coveredChunks = new Dictionary<string, Vector2Int[]>();
         private Tile ownedCellTile;
         private GameObject freeShapeArt;
 
@@ -48,26 +45,11 @@ namespace ANIMOL.Gameplay
                 var e = resolved.entriesById[p.catalogId];
                 var instance = CreateArt(transform, p, e, registry.Frame(e.frameId), map.GetEditorPreviewUnitsPerCell(), e.kind == "Structure" ? 10 : 30);
                 Instances.Add(p.instanceId, instance);
-                var chunks = AnimolTerrainPlacementEngine.GetCoveredChunks(e, new Vector2Int(p.x, p.y));
-                coveredChunks.Add(p.instanceId, chunks);
-                foreach (var chunk in chunks)
-                {
-                    if (!ChunkOwners.TryGetValue(chunk, out var owners)) ChunkOwners.Add(chunk, owners = new HashSet<string>());
-                    owners.Add(p.instanceId); visibleChunks.Add(chunk);
-                }
             }
             if(map.HasFreeShape)
             {freeShapeArt=new GameObject("FreeShape artwork · no collider");freeShapeArt.transform.SetParent(transform,false);freeShapeArt.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,map.GetEditorPreviewUnitsPerCell());}
             physicsOwner?.GetComponent<TilemapCollider2D>()?.ProcessTilemapChanges();
             BuiltRevision = map.AuthoringRevision;
-        }
-
-        public void SetChunkVisible(Vector2Int chunk, bool visible)
-        {
-            if(freeShapeArt!=null)freeShapeArt.GetComponent<FreeShapeTerrainRenderer>().SetChunkVisible(chunk,visible);
-            if (visible) visibleChunks.Add(chunk); else visibleChunks.Remove(chunk);
-            if (!ChunkOwners.TryGetValue(chunk, out var owners)) return;
-            foreach (var id in owners) Instances[id].SetActive(coveredChunks[id].Any(visibleChunks.Contains));
         }
 
         public static GameObject CreateArt(Transform parent, AnimolTerrainPlacement p, AnimolTerrainCatalogEntry e,
@@ -88,7 +70,7 @@ namespace ANIMOL.Gameplay
         {
             if(freeShapeArt!=null){freeShapeArt.SetActive(false);DestroyOwned(freeShapeArt);freeShapeArt=null;}
             foreach (var instance in Instances.Values) if (instance != null) { instance.SetActive(false); DestroyOwned(instance); }
-            Instances.Clear(); ChunkOwners.Clear(); coveredChunks.Clear(); visibleChunks.Clear();
+            Instances.Clear();
             if (ownedCellTile != null) DestroyOwned(ownedCellTile);
             LogicalGrid = null; BuiltRevision = -1;
         }

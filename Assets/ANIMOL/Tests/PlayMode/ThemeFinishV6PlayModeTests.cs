@@ -9,6 +9,7 @@ using UnityEngine.TestTools;
 
 namespace ANIMOL.Tests
 {
+    [Category("CellBoundsRegression")]
     public sealed class ThemeFinishV6PlayModeTests
     {
         [UnityTest] public IEnumerator PhysicalBodyFallsThroughEmptyHoleAndLandsOnInnerFloorForEveryThemeStyle()
@@ -19,7 +20,7 @@ namespace ANIMOL.Tests
             {
                 foreach(var style in FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,6).styles)
                 {
-                    if(map!=null)Object.Destroy(map);map=ScriptableObject.CreateInstance<StageMapDefinition>();map.EditorInitializeIdentity("V6-HOLE-PLAY",style.themeId);map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-2,-2,4,4),false,out _);
+                    if(map!=null)Object.Destroy(map);map=ScriptableObject.CreateInstance<StageMapDefinition>();map.EditorInitializeIdentity("V6-HOLE-PLAY",style.themeId);map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-32,-32,64,64),false,out _);
                     var rows=new[]{"#####","#...#","#...#","#...#","#...#","#...#","#####"};
                     var points=FreeShapeTopology.FromRows(rows,new Vector2Int(-17,-17));
                     Assert.That(AnimolTerrainPlacementEngine.TryEditFreeShape(terrain.Catalog,map.ReadTerrain(terrain),points,false,style.styleId,out var dto,out var error),Is.True,error);dto.freeShape.artVersion=6;map.EditorApplyTerrainCandidate(terrain,dto);loader.Load(map);

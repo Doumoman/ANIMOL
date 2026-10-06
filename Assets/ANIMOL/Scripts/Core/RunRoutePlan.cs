@@ -29,10 +29,10 @@ namespace ANIMOL.Core
         public bool Ascending;
     }
 
-    /// <summary>Macro reservations precede terrain decoration; storage remains StageMapDefinition's 16-cell chunks.</summary>
+    /// <summary>Macro reservations precede terrain decoration; storage uses cell coordinates.</summary>
     public sealed class RunRoutePlan : ScriptableObject
     {
-        public const int MinimumRunTiles = 5 * StageMapDefinition.TilesPerChunk;
+        public const int MinimumRunTiles = 80;
         public const string SolidTile = "RUN_PROTO_SOLID";
         public const string OneWayTile = "RUN_PROTO_ONEWAY";
         public const string ApproachTile = "RUN_PROTO_APPROACH_ONEWAY";
@@ -45,7 +45,7 @@ namespace ANIMOL.Core
         {
             var plan = CreateInstance<RunRoutePlan>();
             plan.Seed = seed;
-            // Both legs span five complete storage chunks. Connector starts at x=80, never in the 80-tile budget.
+            // Both legs span 80 cells. Connector starts at x=80, never in the 80-tile budget.
             plan.Legs = new[] { new RunLeg("RunLeg-A", 0, ascending ? 0 : 8, MinimumRunTiles, 1),
                                 new RunLeg("RunLeg-B", 0, ascending ? 8 : 0, MinimumRunTiles, -1) };
             plan.Turn = new TurnConnector {
@@ -67,9 +67,9 @@ namespace ANIMOL.Core
         {
             if (map.Cells.Count != 0 || map.Objects.Count != 0)
                 throw new InvalidOperationException("Only an empty prototype map may be populated.");
-            if (Legs.Any(leg => leg.Length < MinimumRunTiles)) throw new InvalidOperationException("RunLeg is shorter than five chunks.");
+            if (Legs.Any(leg => leg.Length < MinimumRunTiles)) throw new InvalidOperationException("RunLeg is shorter than 80 cells.");
             map.EditorInitializeIdentity(Turn.Ascending ? "RUN-PROTO-UP" : "RUN-PROTO-DOWN", "T01");
-            map.EditorTrySetChunkBounds(new RectInt(-1, -1, 8, 3), false, out _);
+            map.EditorTrySetCellBounds(new RectInt(-16,-16,128,48), false, out _);
             // Phase 1 reservations are complete above. Phase 2 materializes the continuous required route.
             foreach (var leg in Legs)
                 WriteFloor(map, new RectInt(leg.X, leg.FloorY, leg.Length, 1), SurfaceFor(leg.FloorY));
@@ -84,8 +84,8 @@ namespace ANIMOL.Core
                 int x = -3 - step * 3, y = Legs[0].FloorY + step;
                 if (!IsReserved(x, y)) WriteFloor(map, new RectInt(x, y, 2, 1), OneWayTile);
             }
-            map.EditorInitializeVariableChunksFromAuthoredContent(1f);
-            map.EditorTrySetChunkBounds(new RectInt(-1, -1, 8, 3), false, out _);
+            map.EditorInitializeBoundsFromAuthoredContent(1f);
+            map.EditorTrySetCellBounds(new RectInt(-16,-16,128,48), false, out _);
             map.EditorMarkCollisionDataSynchronized();
         }
 

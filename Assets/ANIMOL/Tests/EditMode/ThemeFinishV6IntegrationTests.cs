@@ -15,6 +15,7 @@ using Engine=Animol.TerrainStructure.AnimolTerrainPlacementEngine;
 
 namespace ANIMOL.Tests
 {
+    [Category("CellBoundsRegression")]
     public sealed class ThemeFinishV6IntegrationTests
     {
         [Serializable] private class Catalog {public Style[] styles;}
@@ -66,7 +67,7 @@ namespace ANIMOL.Tests
             var map=ScriptableObject.CreateInstance<StageMapDefinition>();string path="Assets/TEST-V6-SCENE-"+Guid.NewGuid().ToString("N")+".asset";
             try
             {
-                map.EditorInitializeIdentity("TEST-V6-SCENE","T03");map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-1,-1,3,3),false,out _);map.FreeShapeTerrain.artVersion=6;
+                map.EditorInitializeIdentity("TEST-V6-SCENE","T03");map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-16,-16,48,48),false,out _);map.FreeShapeTerrain.artVersion=6;
                 AssetDatabase.CreateAsset(map,path);var before=File.ReadAllBytes(path);
                 TerrainEditorSceneEditor.Open(map);Assert.That(File.ReadAllBytes(path),Is.EqualTo(before));
                 Assert.That(TerrainEditorSceneEditor.SelectedFreeShapeArt.version,Is.EqualTo(6));
@@ -88,7 +89,7 @@ namespace ANIMOL.Tests
             var go=new GameObject("V6 incremental holes");var renderer=go.AddComponent<FreeShapeTerrainRenderer>();TerrainEditorAdapter adapter=null;
             try
             {
-                map.EditorInitializeIdentity("TEST-V6-HOLES","T01");map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-2,-2,4,4),false,out _);map.FreeShapeTerrain.artVersion=6;
+                map.EditorInitializeIdentity("TEST-V6-HOLES","T01");map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-32,-32,64,64),false,out _);map.FreeShapeTerrain.artVersion=6;
                 AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
                 adapter.Changed+=()=>renderer.Rebuild(map.FreeShapeTerrain,1);
                 var art=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,6);

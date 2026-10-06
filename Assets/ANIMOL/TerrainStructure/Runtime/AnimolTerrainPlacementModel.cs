@@ -9,7 +9,6 @@ namespace Animol.TerrainStructure
     {
         public int version = 3;
         public float cellUnits = 1f;
-        public int chunkSize = 16;
         public AnimolTerrainCatalogEntry[] entries = new AnimolTerrainCatalogEntry[0];
     }
 

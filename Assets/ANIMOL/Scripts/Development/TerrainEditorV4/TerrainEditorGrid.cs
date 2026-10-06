@@ -22,9 +22,9 @@ namespace ANIMOL.Development
                 var min=(Vector2)screen.MapCamera.ViewportToWorldPoint(new Vector3(0,0,50))/units;
                 var max=(Vector2)screen.MapCamera.ViewportToWorldPoint(new Vector3(1,1,50))/units;
                 for(int x=Mathf.FloorToInt(min.x);x<=Mathf.CeilToInt(max.x);x++)
-                    Line(vh,Local(new Vector2(x,min.y)),Local(new Vector2(x,max.y)),x%16==0?TerrainEditorScreen.Blue:TerrainEditorScreen.Panel,x%16==0?1.4f:.5f);
+                    Line(vh,Local(new Vector2(x,min.y)),Local(new Vector2(x,max.y)),TerrainEditorScreen.Panel,.5f);
                 for(int y=Mathf.FloorToInt(min.y);y<=Mathf.CeilToInt(max.y);y++)
-                    Line(vh,Local(new Vector2(min.x,y)),Local(new Vector2(max.x,y)),y%16==0?TerrainEditorScreen.Blue:TerrainEditorScreen.Panel,y%16==0?1.4f:.5f);
+                    Line(vh,Local(new Vector2(min.x,y)),Local(new Vector2(max.x,y)),TerrainEditorScreen.Panel,.5f);
             }
             if(screen.SelectedBounds.HasValue)Box(vh,screen.SelectedBounds.Value,TerrainEditorScreen.Gold,2,false);
             if(!screen.GhostVisible)return;

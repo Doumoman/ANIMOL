@@ -40,8 +40,8 @@ namespace ANIMOL.Editor
             var outside = cells.Where(cell => !map.CanAuthorCell(cell.x, cell.y)).ToArray();
             if (outside.Length > 0)
             {
-                var chunks = outside.Select(cell => StageMapDefinition.CellToChunk(cell.x, cell.y)).Distinct().OrderBy(x => x.x).ThenBy(x => x.y);
-                result.Errors.Add("Footprint/path crosses authored chunks. Expand the map to include: " + string.Join(", ", chunks));
+                var outsideCells = outside.Distinct().OrderBy(x => x.x).ThenBy(x => x.y);
+                result.Errors.Add("Footprint/path crosses map bounds. Expand the map to include: " + string.Join(", ", outsideCells));
             }
             var occupiedByObjects = new HashSet<Vector2Int>(map.Objects.Where(item => item.StableId != replacingStableId)
                 .SelectMany(StageMapDefinition.EnumeratePlacementCells));
@@ -101,13 +101,13 @@ namespace ANIMOL.Editor
                 if (rotationCells.Where(cell => !ownCells.Contains(cell)).Any(solidTerrain.Contains))
                     result.Errors.Add("Moon phase stair rotated footprint crosses authored terrain.");
                 if (rotationCells.Any(cell => !map.CanAuthorCell(cell.x, cell.y)))
-                    result.Errors.Add("Moon phase stair rotated footprint crosses authored chunks.");
+                    result.Errors.Add("Moon phase stair rotated footprint crosses map bounds.");
             }
             if (candidate.Kind == StageMapObjectKind.SideSpring)
             {
                 var landingX = candidate.X + (candidate.Settings.Direction == StageMapObjectDirection.Left ? -3 : 3);
                 if (!map.CanAuthorCell(landingX, candidate.Y + 2))
-                    result.Warnings.Add("Side spring predicted landing leaves authored chunks; expand/view the landing route before play.");
+                    result.Warnings.Add("Side spring predicted landing leaves map bounds; expand/view the landing route before play.");
             }
             if (candidate.Kind == StageMapObjectKind.Pounder && candidate.Settings.WarningSeconds <= 0f)
                 result.Errors.Add("Pounder requires a visible pre-drop warning time.");

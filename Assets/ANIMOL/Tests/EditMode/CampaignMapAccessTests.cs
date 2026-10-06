@@ -11,6 +11,7 @@ using UnityEngine;
 
 namespace ANIMOL.Tests
 {
+    [Category("CellBoundsRegression")]
     public sealed class CampaignMapAccessTests
     {
         private string folder, id;
@@ -22,7 +23,7 @@ namespace ANIMOL.Tests
             id="CAMPAIGN-ACCESS-"+Guid.NewGuid().ToString("N");
             folder="Assets/"+id; AssetDatabase.CreateFolder("Assets",id);
             map=ScriptableObject.CreateInstance<StageMapDefinition>();map.EditorInitializeIdentity(id,"T01");
-            map.EditorTrySetChunkBounds(new RectInt(0,0,2,2),false,out _);
+            map.EditorTrySetCellBounds(new RectInt(0,0,32,32),false,out _);
             var data=new SerializedObject(map);data.FindProperty("worldUnitsPerCell").floatValue=1;data.ApplyModifiedPropertiesWithoutUndo();
             map.FreeShapeTerrain.artVersion=6;
             AssetDatabase.CreateAsset(map,folder+"/not-the-stage-name.asset");

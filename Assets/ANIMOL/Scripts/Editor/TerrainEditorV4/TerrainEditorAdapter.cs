@@ -60,6 +60,26 @@ namespace ANIMOL.Editor
         public void Redo() { RequireEdit(); Bind(); UnityEditor.Undo.PerformRedo(); }
         public void Exit() => TerrainEditorSession.Close();
         public void Dispose() { var map=AssetDatabase.LoadAssetAtPath<StageMapDefinition>(AssetDatabase.GUIDToAssetPath(guid));if(map!=null)AnimolTerrainMapEditorBridge.Unbind(map); DisposeThumbnails(); Changed=null; }
+        public void ResizeMap(RectInt bounds)
+        {
+            RequireEdit(); var map=Map; if(bounds==map.CellBounds)return;
+            var before=EditorJsonUtility.ToJson(map);var disk=System.IO.File.ReadAllBytes(AssetDatabase.GetAssetPath(map));
+            UnityEditor.Undo.IncrementCurrentGroup();int group=UnityEditor.Undo.GetCurrentGroup();
+            CampaignMapBackupStore.CreateBackup(map,"before-resize");UnityEditor.Undo.RecordObject(map,"Resize map in cells");
+            try
+            {
+                if(!map.EditorTrySetCellBounds(bounds,false,out _))throw new InvalidOperationException("맵 범위는 양수 크기여야 하며 기존 지형과 객체를 모두 포함해야 합니다.");
+                map.EditorInvalidateTerrainDerivedCache();EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
+                UnityEditor.Undo.FlushUndoRecordObjects();Notify();UnityEditor.Undo.CollapseUndoOperations(group);
+            }
+            catch
+            {
+                UnityEditor.Undo.FlushUndoRecordObjects();AnimolTerrainMapEditorBridge.RevertUndoGroup(group);
+                EditorJsonUtility.FromJsonOverwrite(before,map);EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
+                if(!System.IO.File.ReadAllBytes(AssetDatabase.GetAssetPath(map)).SequenceEqual(disk))System.IO.File.WriteAllBytes(AssetDatabase.GetAssetPath(map),disk);
+                try{Notify();}catch{}throw;
+            }
+        }
         public void EditMapConfiguration(string operation)
         {
             RequireEdit();var map=Map;if(operation=="Units" && Mathf.Approximately(map.WorldUnitsPerCell,1))return;var before=EditorJsonUtility.ToJson(map);
@@ -74,7 +94,7 @@ namespace ANIMOL.Editor
                     var serialized=new SerializedObject(map);serialized.FindProperty("worldUnitsPerCell").floatValue=1;serialized.ApplyModifiedPropertiesWithoutUndo();
                     map.EditorNotifyAuthoredPropertiesChanged();
                 }
-                else if(!StageMapAuthoringOperations.AddChunk(map,(StageMapChunkEdge)Enum.Parse(typeof(StageMapChunkEdge),operation)))throw new InvalidOperationException("청크 확장 실패");
+                else if(!StageMapAuthoringOperations.ExpandBounds(map,(StageMapBoundsEdge)Enum.Parse(typeof(StageMapBoundsEdge),operation)))throw new InvalidOperationException("맵 범위 확장 실패");
                 map.EditorInvalidateTerrainDerivedCache();EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
                 UnityEditor.Undo.FlushUndoRecordObjects();Notify();UnityEditor.Undo.CollapseUndoOperations(group);
             }

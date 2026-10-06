@@ -62,7 +62,7 @@ namespace ANIMOL.Gameplay
 
         private void BuildTerrain()
         {
-            var root = new GameObject("Prototype terrain from 16x16 chunk cells").transform;
+            var root = new GameObject("Prototype terrain").transform;
             root.SetParent(transform, false);
             foreach (var row in Map.Cells.Where(c => c.Layer == StageMapLayer.Terrain).GroupBy(c => new { c.Y, c.TileId }))
             {
@@ -86,9 +86,9 @@ namespace ANIMOL.Gameplay
             }
             foreach (var leg in Plan.Legs)
             {
-                for (int x = 0; x <= 80; x += 16)
+                for (int x = 0; x <= 80; x += 20)
                 {
-                    Rect(root, "Chunk seam marker", new Vector2(x, leg.FloorY + .4f), new Vector2(.04f, .65f), new Color32(76, 114, 134, 255), 3);
+                    Rect(root, "Distance marker", new Vector2(x, leg.FloorY + .4f), new Vector2(.04f, .65f), new Color32(76, 114, 134, 255), 3);
                     Label(root, $"{(leg.Direction > 0 ? x : 80 - x):00} / 80 {(leg.Direction > 0 ? ">" : "<")}", new Vector2(x + 1, leg.FloorY + 2.3f), .21f);
                 }
             }

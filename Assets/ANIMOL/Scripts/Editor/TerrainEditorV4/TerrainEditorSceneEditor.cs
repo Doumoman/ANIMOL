@@ -20,7 +20,10 @@ namespace ANIMOL.Editor
     public static partial class TerrainEditorSceneEditor
     {
         private const string Key="ANIMOL.SceneTerrainV4.";
-        private const string Title="ANIMOL · Map V4";
+        private const string Title="ANIMOL · Map Editor";
+        private static RectInt boundsDraft;
+        private static StageMapDefinition boundsDraftMap;
+        private static int boundsDraftRevision=-1;
         private static readonly PropertyInfo CustomScene=typeof(SceneView).GetProperty("customScene",BindingFlags.Instance|BindingFlags.NonPublic);
         private static readonly PropertyInfo CullingMask=typeof(SceneView).GetProperty("overrideSceneCullingMask",BindingFlags.Instance|BindingFlags.NonPublic);
         private static Scene scene;
@@ -234,10 +237,16 @@ namespace ANIMOL.Editor
             infoScroll=GUILayout.BeginScrollView(infoScroll);
             if(mapSettings)
             {
-                GUILayout.Label(adapter.Map.StageId+"\n청크 "+adapter.Map.ChunkBounds+"\n셀 크기 "+adapter.Map.WorldUnitsPerCell+" unit",labelStyle);
+                GUILayout.Label(adapter.Map.StageId+"\n맵 범위(셀) "+adapter.Map.CellBounds+"\n셀 크기 "+adapter.Map.WorldUnitsPerCell+" unit",labelStyle);
                 if(adapter.Map.WorldUnitsPerCell<=0)EditorGUILayout.HelpBox("현재 미설정: 편집 미리보기만 1unit을 사용합니다.",MessageType.Warning);
                 if(GUILayout.Button("1셀 = 1unit 설정",buttonStyle))Run(()=>adapter.EditMapConfiguration("Units"));
-                foreach(var edge in new[]{"Left","Right","Bottom","Top"})if(GUILayout.Button(edge+" +16셀",buttonStyle))Run(()=>adapter.EditMapConfiguration(edge));
+                if(boundsDraftMap!=adapter.Map || boundsDraftRevision!=adapter.Map.AuthoringRevision)
+                {boundsDraftMap=adapter.Map;boundsDraftRevision=adapter.Map.AuthoringRevision;boundsDraft=adapter.Map.EditorPreviewCellBounds;}
+                var min=EditorGUILayout.Vector2IntField("시작 X / Y",boundsDraft.position);
+                var size=EditorGUILayout.Vector2IntField("너비 / 높이 (셀)",boundsDraft.size);
+                boundsDraft=new RectInt(min,size);
+                if(GUILayout.Button("맵 범위 적용",buttonStyle))Run(()=>adapter.ResizeMap(boundsDraft));
+                GUILayout.Label("1셀 단위 · 기존 지형/객체를 자르는 축소는 거부합니다.",smallStyle);
             }
             else
             {
@@ -391,8 +400,8 @@ namespace ANIMOL.Editor
             if(state.grid)
             {
                 int stepX=Mathf.Max(1,Mathf.CeilToInt(bounds.width/256f)),stepY=Mathf.Max(1,Mathf.CeilToInt(bounds.height/256f));
-                for(int x=bounds.xMin;x<=bounds.xMax;x+=stepX){Handles.color=x%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(x,bounds.yMin,0)*units,new Vector3(x,bounds.yMax,0)*units);}
-                for(int y=bounds.yMin;y<=bounds.yMax;y+=stepY){Handles.color=y%16==0?TerrainEditorScreen.Blue:new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(bounds.xMin,y,0)*units,new Vector3(bounds.xMax,y,0)*units);}
+                for(int x=bounds.xMin;x<=bounds.xMax;x+=stepX){Handles.color=new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(x,bounds.yMin,0)*units,new Vector3(x,bounds.yMax,0)*units);}
+                for(int y=bounds.yMin;y<=bounds.yMax;y+=stepY){Handles.color=new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(bounds.xMin,y,0)*units,new Vector3(bounds.xMax,y,0)*units);}
             }
             if(state.freeShape){DrawFreeWorld();return;}
             var selected=SelectionPart();if(selected!=null)DrawBox(new Rect(SelectionOrigin(),selected.size),TerrainEditorScreen.Gold,false);

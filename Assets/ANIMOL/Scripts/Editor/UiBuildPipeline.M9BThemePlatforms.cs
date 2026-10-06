@@ -375,7 +375,7 @@ namespace ANIMOL.Editor
 
         private static StageMapDefinition BuildPaletteRoundTripMap(IReadOnlyList<M9BObjectSpec> specs, IReadOnlyList<StageMapObjectTypeDefinition> definitions)
         {
-            var map = LoadOrCreateM9BMap(M9BPaletteMapPath, "DEV-M9B-PALETTE-45", new RectInt(0, 0, 4, 3));
+            var map = LoadOrCreateM9BMap(M9BPaletteMapPath, "DEV-M9B-PALETTE-45", new RectInt(0, 0, 64, 48));
             var typeLookup = definitions.ToDictionary(item => item.StableTypeId, StringComparer.Ordinal);
             var ids = specs.ToDictionary(item => item.Id, item => $"M9B-{item.Id}-01", StringComparer.Ordinal);
             ids["MOON_JADE_BALANCE-B"] = "M9B-MOON_JADE_BALANCE-02";
@@ -393,7 +393,7 @@ namespace ANIMOL.Editor
 
         private static StageMapDefinition BuildRepresentativeLabMap(IReadOnlyList<StageMapObjectTypeDefinition> definitions)
         {
-            var map = LoadOrCreateM9BMap(M9BLabMapPath, "DEV-M9B-REPRESENTATIVE-LAB", new RectInt(-1, -1, 2, 2));
+            var map = LoadOrCreateM9BMap(M9BLabMapPath, "DEV-M9B-REPRESENTATIVE-LAB", new RectInt(-16, -16, 32, 32));
             var specs = Specs().ToDictionary(item => item.Id, StringComparer.Ordinal);
             var defs = definitions.ToDictionary(item => item.StableTypeId, StringComparer.Ordinal);
             PlaceM9B(map, defs["MOON_JADE_BALANCE"], "LAB-BALANCE-A", new Vector2Int(-5, 1), new[] { "LAB-BALANCE-B" }, specs["MOON_JADE_BALANCE"]);
@@ -414,14 +414,14 @@ namespace ANIMOL.Editor
             map.EditorMarkCollisionDataSynchronized(); EditorUtility.SetDirty(map); return map;
         }
 
-        private static StageMapDefinition LoadOrCreateM9BMap(string path, string id, RectInt chunks)
+        private static StageMapDefinition LoadOrCreateM9BMap(string path, string id, RectInt bounds)
         {
             var map = AssetDatabase.LoadAssetAtPath<StageMapDefinition>(path);
             if (map == null) { map = ScriptableObject.CreateInstance<StageMapDefinition>(); AssetDatabase.CreateAsset(map, path); }
             foreach (var placement in map.Objects.ToArray()) map.EditorRemoveObject(placement.StableId);
             map.EditorInitializeIdentity(id, "DEV");
-            if (map.WorldUnitsPerCell <= 0f) map.EditorInitializeVariableChunksFromAuthoredContent(1f);
-            if (!map.EditorTrySetChunkBounds(chunks, true, out _)) throw new InvalidOperationException($"Cannot configure DEV chunks for {id}.");
+            if (map.WorldUnitsPerCell <= 0f) map.EditorInitializeBoundsFromAuthoredContent(1f);
+            if (!map.EditorTrySetCellBounds(bounds, true, out _)) throw new InvalidOperationException($"Cannot configure DEV cell bounds for {id}.");
             return map;
         }
 

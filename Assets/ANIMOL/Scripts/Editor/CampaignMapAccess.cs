@@ -56,7 +56,7 @@ namespace ANIMOL.Editor
             try
             {
                 map.EditorInitializeIdentity(stage.StageId, stage.ThemeId);
-                map.EditorTrySetChunkBounds(new RectInt(0, 0, 1, 1), false, out _);
+                map.EditorTrySetCellBounds(new RectInt(0,0,32,24), false, out _);
                 var serialized = new SerializedObject(map);
                 serialized.FindProperty("worldUnitsPerCell").floatValue = 1;
                 serialized.ApplyModifiedPropertiesWithoutUndo();

@@ -28,6 +28,8 @@ namespace ANIMOL.Editor
             if (map == null || string.IsNullOrWhiteSpace(backupAssetPath) || !File.Exists(Path.GetFullPath(backupAssetPath))) return false;
             var originalStageId = map.StageId;
             var json = File.ReadAllText(Path.GetFullPath(backupAssetPath));
+            if(!json.Contains("\"minCellX\"") || !json.Contains("\"cellWidth\""))
+                throw new InvalidOperationException("This backup predates cell-based map bounds; explicit migration is required.");
             var scratch = UnityEngine.Object.Instantiate(map);
             try
             {

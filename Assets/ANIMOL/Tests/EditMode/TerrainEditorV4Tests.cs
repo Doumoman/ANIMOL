@@ -13,6 +13,7 @@ using Engine=Animol.TerrainStructure.AnimolTerrainPlacementEngine;
 
 namespace ANIMOL.Tests
 {
+    [Category("CellBoundsRegression")]
     public sealed class TerrainEditorV4Tests
     {
         private StageMapDefinition map;
@@ -22,8 +23,8 @@ namespace ANIMOL.Tests
         {
             map=ScriptableObject.CreateInstance<StageMapDefinition>();
             var id="TEST-UIV4-"+Guid.NewGuid().ToString("N");
-            map.EditorInitializeIdentity(id,"T01");map.EditorInitializeVariableChunksFromAuthoredContent(1);
-            map.EditorTrySetChunkBounds(new RectInt(-2,-2,5,5),false,out _);map.EditorMarkCollisionDataSynchronized();
+            map.EditorInitializeIdentity(id,"T01");map.EditorInitializeBoundsFromAuthoredContent(1);
+            map.EditorTrySetCellBounds(new RectInt(-32,-32,80,80),false,out _);map.EditorMarkCollisionDataSynchronized();
             path="Assets/"+id+".asset";backup=StageMapBackupService.BackupRoot+"/"+id;
             AssetDatabase.CreateAsset(map,path);AssetDatabase.SaveAssetIfDirty(map);
             adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
@@ -47,7 +48,7 @@ namespace ANIMOL.Tests
             adapter.Commit(move,"Move");var saved=File.ReadAllText(path);
             Assert.That(map.AuthoringRevision,Is.EqualTo(rev+2));
             var e=adapter.Terrain.Catalog.entries.Single(x=>x.id=="T01_D_Source");
-            Assert.That(Engine.GetCoveredChunks(e,new Vector2Int(15,15)).Length,Is.EqualTo(4));
+            Assert.That(map.ResolveTerrain(adapter.Terrain).solids.Count,Is.EqualTo(52));
             adapter.Undo();Assert.That(adapter.Read().placements.Single().x,Is.EqualTo(-1));
             adapter.Redo();Assert.That(adapter.Read().placements.Single().instanceId,Is.EqualTo(id));Assert.That(File.ReadAllText(path),Is.EqualTo(saved));
             Assert.That(Engine.TryDelete(adapter.Terrain.Catalog,adapter.Read(),id,out var delete,out _),Is.True);adapter.Commit(delete,"Delete");

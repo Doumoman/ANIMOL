@@ -43,7 +43,7 @@ namespace ANIMOL.Core
             {
                 var e = result.entriesById[p.catalogId];
                 if (!ContainsCell(p.x, p.y) || !ContainsCell(p.x + e.width - 1, p.y + e.height - 1))
-                    throw new InvalidOperationException("Structure footprint is outside authored chunks: " + p.instanceId);
+                    throw new InvalidOperationException("Structure footprint is outside map bounds: " + p.instanceId);
             }
             return result;
         }
@@ -71,10 +71,10 @@ namespace ANIMOL.Core
             {
                 var e = resolved.entriesById[p.catalogId];
                 if (!ContainsCell(p.x, p.y) || !ContainsCell(p.x + e.width - 1, p.y + e.height - 1))
-                    throw new InvalidOperationException("Structure art footprint is outside authored chunks: " + p.instanceId);
+                    throw new InvalidOperationException("Structure art footprint is outside map bounds: " + p.instanceId);
                 if (!registry.Frame(e.frameId).ValidateForFootprint(e.width, e.height, out error)) throw new InvalidOperationException(error);
             }
-            if (resolved.solids.Keys.Any(p => !ContainsCell(p.x, p.y))) throw new InvalidOperationException("Terrain is outside authored chunks.");
+            if (resolved.solids.Keys.Any(p => !ContainsCell(p.x, p.y))) throw new InvalidOperationException("Terrain is outside map bounds.");
             var previous = ResolveTerrain(registry);
             var added = new HashSet<Vector2Int>(resolved.solids.Keys.Except(previous.solids.Keys));
             foreach (var item in objects)

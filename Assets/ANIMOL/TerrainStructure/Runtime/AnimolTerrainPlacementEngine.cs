@@ -24,7 +24,6 @@ namespace Animol.TerrainStructure
             if (catalog == null) return Fail("Catalog is missing.", out error);
             if (catalog.version <= 0) return Fail("Catalog version must be positive.", out error);
             if (catalog.cellUnits != 1f) return Fail("This contract requires cellUnits = 1.", out error);
-            if (catalog.chunkSize != 16) return Fail("This contract requires chunkSize = 16.", out error);
             if (catalog.entries == null || catalog.entries.Length == 0)
                 return Fail("Catalog entries are missing.", out error);
 
@@ -226,28 +225,6 @@ namespace Animol.TerrainStructure
             if (divisor <= 0) throw new ArgumentOutOfRangeException("divisor", "Divisor must be positive.");
             int quotient = value / divisor;
             return value % divisor < 0 ? quotient - 1 : quotient;
-        }
-
-        /// <summary>All footprint chunks, including arch void and overlay support.</summary>
-        public static Vector2Int[] GetCoveredChunks(AnimolTerrainCatalogEntry entry, Vector2Int origin,
-            int chunkSize = 16)
-        {
-            if (entry == null) throw new ArgumentNullException("entry");
-            if (chunkSize <= 0) throw new ArgumentOutOfRangeException("chunkSize");
-            string error;
-            if (!ValidFootprint(entry, origin.x, origin.y, out error))
-                throw new ArgumentOutOfRangeException("origin", error);
-            int right = (int)((long)origin.x + entry.width - 1L);
-            int top = (int)((long)origin.y + entry.height - 1L);
-            int leftChunk = FloorDiv(origin.x, chunkSize);
-            int rightChunk = FloorDiv(right, chunkSize);
-            int bottomChunk = FloorDiv(origin.y, chunkSize);
-            int topChunk = FloorDiv(top, chunkSize);
-            List<Vector2Int> chunks = new List<Vector2Int>();
-            for (long y = bottomChunk; y <= topChunk; y++)
-                for (long x = leftChunk; x <= rightChunk; x++)
-                    chunks.Add(new Vector2Int((int)x, (int)y));
-            return chunks.ToArray();
         }
 
         private static bool ResolveCore(AnimolTerrainCatalogData catalog, AnimolTerrainSavedMap map,

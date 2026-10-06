@@ -275,7 +275,6 @@ namespace ANIMOL.Core
     public sealed partial class StageMapDefinition : ScriptableObject
     {
         public const int SourceCellPixels = 16;
-        public const int TilesPerChunk = 16;
 
         [Header("Stable identity")]
         [SerializeField] private string stageId = string.Empty;
@@ -284,11 +283,11 @@ namespace ANIMOL.Core
         [Tooltip("0 means product world scale is still unconfigured. The editor uses a clearly marked DEV preview fallback.")]
         [SerializeField] private float worldUnitsPerCell;
 
-        [Header("Variable chunk bounds - 16 x 16 cells per chunk")]
-        [SerializeField] private int minChunkX;
-        [SerializeField] private int minChunkY;
-        [SerializeField] private int chunkWidth;
-        [SerializeField] private int chunkHeight;
+        [Header("Map bounds in cells")]
+        [SerializeField] private int minCellX;
+        [SerializeField] private int minCellY;
+        [SerializeField] private int cellWidth;
+        [SerializeField] private int cellHeight;
         [SerializeField] private int authoringRevision;
         [SerializeField] private int collisionDataRevision;
 
@@ -322,22 +321,9 @@ namespace ANIMOL.Core
         public string ThemeId => themeId;
         public int MapVersion => mapVersion;
         public float WorldUnitsPerCell => worldUnitsPerCell;
-        public RectInt ChunkBounds => new RectInt(minChunkX, minChunkY, chunkWidth, chunkHeight);
-        public RectInt CellBounds => new RectInt(minChunkX * TilesPerChunk, minChunkY * TilesPerChunk,
-            chunkWidth * TilesPerChunk, chunkHeight * TilesPerChunk);
-        public bool HasValidChunkBounds => chunkWidth > 0 && chunkHeight > 0;
-        public RectInt EditorPreviewChunkBounds => HasValidChunkBounds
-            ? ChunkBounds
-            : new RectInt(0, 0, 1, 1);
-        public RectInt EditorPreviewCellBounds
-        {
-            get
-            {
-                var bounds = EditorPreviewChunkBounds;
-                return new RectInt(bounds.xMin * TilesPerChunk, bounds.yMin * TilesPerChunk,
-                    bounds.width * TilesPerChunk, bounds.height * TilesPerChunk);
-            }
-        }
+        public RectInt CellBounds => new RectInt(minCellX,minCellY,cellWidth,cellHeight);
+        public bool HasValidCellBounds => cellWidth > 0 && cellHeight > 0;
+        public RectInt EditorPreviewCellBounds => HasValidCellBounds ? CellBounds : new RectInt(0,0,32,24);
         public int AuthoringRevision => authoringRevision;
         public int CollisionDataRevision => collisionDataRevision;
         public IReadOnlyList<string> FixedAnimalIds => fixedAnimalIds;
@@ -367,32 +353,14 @@ namespace ANIMOL.Core
 
         public StageMapCell FindCell(int x, int y, StageMapLayer layer) => cells.FirstOrDefault(cell => cell.X == x && cell.Y == y && cell.Layer == layer);
 
-        public static Vector2Int CellToChunk(int x, int y) => new Vector2Int(FloorDiv(x, TilesPerChunk), FloorDiv(y, TilesPerChunk));
-        public bool ContainsCell(int x, int y) => HasValidChunkBounds && CellBounds.Contains(new Vector2Int(x, y));
+        public bool ContainsCell(int x, int y) => HasValidCellBounds && CellBounds.Contains(new Vector2Int(x, y));
         public bool CanAuthorCell(int x, int y) => ContainsCell(x, y) ||
-                                                   (!HasValidChunkBounds && EditorPreviewCellBounds.Contains(new Vector2Int(x, y)));
-        public bool ContainsChunk(Vector2Int chunk) => HasValidChunkBounds && ChunkBounds.Contains(chunk);
+                                                   (!HasValidCellBounds && EditorPreviewCellBounds.Contains(new Vector2Int(x, y)));
         public Rect GetWorldBounds()
         {
             var bounds = CellBounds;
             return new Rect(bounds.xMin * worldUnitsPerCell, bounds.yMin * worldUnitsPerCell,
                 bounds.width * worldUnitsPerCell, bounds.height * worldUnitsPerCell);
-        }
-
-        public StageMapChunkOccupancy GetChunkOccupancy(Vector2Int chunk)
-        {
-            var cellCount = cells.Count(cell => CellToChunk(cell.X, cell.Y) == chunk);
-            var objectIds = objects.Where(item => CellToChunk(item.X, item.Y) == chunk)
-                .Select(item => item.StableId).OrderBy(id => id, StringComparer.Ordinal).ToArray();
-            if (HasTerrainStructures)
-            {
-                var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
-                cellCount += resolved.solids.Values.Count(c => !string.IsNullOrEmpty(c.ownerId) && CellToChunk(c.cell.x, c.cell.y) == chunk);
-                objectIds = objectIds.Concat(terrainPlacements.placements.Where(p =>
-                    Animol.TerrainStructure.AnimolTerrainPlacementEngine.GetCoveredChunks(resolved.entriesById[p.catalogId], new Vector2Int(p.x, p.y)).Contains(chunk))
-                    .Select(p => p.instanceId)).ToArray();
-            }
-            return new StageMapChunkOccupancy(chunk, cellCount, objectIds);
         }
 
         public void EditorInitializeIdentity(string stableStageId, string stableThemeId)
@@ -408,8 +376,8 @@ namespace ANIMOL.Core
         {
             if (layer == StageMapLayer.Terrain && HasTerrainStructures)
             { EditStructuredBaseCell(x, y, tileId, variantId, string.IsNullOrWhiteSpace(tileId)); return; }
-            EnsureInitialChunkContains(x, y);
-            if (!ContainsCell(x, y)) throw new InvalidOperationException($"Cell ({x},{y}) is outside the authored chunk bounds {ChunkBounds}.");
+            EnsureInitialBoundsContain(x, y);
+            if (!ContainsCell(x, y)) throw new InvalidOperationException($"Cell ({x},{y}) is outside the authored cell bounds {CellBounds}.");
             EditorEraseCell(x, y, layer);
             if (!string.IsNullOrWhiteSpace(tileId)) cells.Add(new StageMapCell(x, y, layer, tileId, variantId));
             NotifyAuthoredChange();
@@ -439,8 +407,8 @@ namespace ANIMOL.Core
                 if (EnumeratePlacementCells(candidate).Any(c => resolved.solids.TryGetValue(c, out var solid) && !string.IsNullOrEmpty(solid.ownerId)))
                     throw new InvalidOperationException("Object footprint/path overlaps a structure-owned # cell.");
             }
-            EnsureInitialChunkContains(x, y);
-            if (!ContainsCell(x, y)) throw new InvalidOperationException($"Object {stableId} at ({x},{y}) is outside the authored chunk bounds {ChunkBounds}.");
+            EnsureInitialBoundsContain(x, y);
+            if (!ContainsCell(x, y)) throw new InvalidOperationException($"Object {stableId} at ({x},{y}) is outside the authored cell bounds {CellBounds}.");
             objects.RemoveAll(item => item.StableId == stableId);
             objects.Add(new StageMapObjectPlacement(stableId, kind, x, y, dataKey, prefab, settings));
             NotifyAuthoredChange();
@@ -453,66 +421,61 @@ namespace ANIMOL.Core
             return removed;
         }
 
-        public void EditorInitializeVariableChunksFromAuthoredContent(float unitsPerCell)
+        public void EditorInitializeBoundsFromAuthoredContent(float unitsPerCell)
         {
             if (unitsPerCell <= 0f) throw new ArgumentOutOfRangeException(nameof(unitsPerCell));
             var positions = cells.Select(cell => new Vector2Int(cell.X, cell.Y))
                 .Concat(objects.SelectMany(EnumeratePlacementCells))
                 .Concat(Animol.TerrainStructure.FreeShapeTopology.Index(freeShapeTerrain).Keys).ToArray();
-            if (positions.Length == 0)
-            {
-                minChunkX = 0; minChunkY = 0; chunkWidth = 1; chunkHeight = 1;
-            }
-            else
-            {
-                var chunks = positions.Select(position => CellToChunk(position.x, position.y)).ToArray();
-                minChunkX = chunks.Min(chunk => chunk.x);
-                minChunkY = chunks.Min(chunk => chunk.y);
-                chunkWidth = chunks.Max(chunk => chunk.x) - minChunkX + 1;
-                chunkHeight = chunks.Max(chunk => chunk.y) - minChunkY + 1;
-            }
+            minCellX = positions.Length==0 ? 0 : positions.Min(p=>p.x);
+            minCellY = positions.Length==0 ? 0 : positions.Min(p=>p.y);
+            cellWidth = positions.Length==0 ? 32 : positions.Max(p=>p.x)-minCellX+1;
+            cellHeight = positions.Length==0 ? 24 : positions.Max(p=>p.y)-minCellY+1;
             worldUnitsPerCell = unitsPerCell;
             mapVersion = Math.Max(2, mapVersion);
             NotifyAuthoredChange();
             EditorMarkCollisionDataSynchronized();
         }
 
-        public bool EditorTrySetChunkBounds(RectInt requested, bool deleteOutsideData, out StageMapChunkRemovalImpact impact)
+        public bool EditorTrySetCellBounds(RectInt requested, bool deleteOutsideData, out StageMapBoundsRemovalImpact impact)
         {
-            impact = AnalyzeChunkBoundsChange(requested);
-            if (HasFreeShape && freeShapeTerrain.cells.Any(c => !requested.Contains(CellToChunk(c.x,c.y))))
-                throw new InvalidOperationException("자유형 지형을 이동/삭제한 뒤 청크를 축소하세요.");
+            impact = AnalyzeCellBoundsChange(requested);
+            if (requested.width<=0 || requested.height<=0 || (long)requested.x+requested.width>int.MaxValue || (long)requested.y+requested.height>int.MaxValue) return false;
+            if (requested==CellBounds) return true;
+            if (HasFreeShape && freeShapeTerrain.cells.Any(c => !requested.Contains(new Vector2Int(c.x,c.y))))
+                throw new InvalidOperationException("범위 밖의 자유형 지형을 이동하거나 삭제한 뒤 맵을 줄이세요.");
             if (HasTerrainStructures)
             {
                 var resolved = ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load());
                 foreach (var placement in terrainPlacements.placements)
-                    if (Animol.TerrainStructure.AnimolTerrainPlacementEngine.GetCoveredChunks(resolved.entriesById[placement.catalogId],
-                        new Vector2Int(placement.x, placement.y)).Any(chunk => !requested.Contains(chunk)))
-                        throw new InvalidOperationException("Move/delete complete structure instances before removing their covered chunks.");
+                    if (!requested.Contains(new Vector2Int(placement.x,placement.y)) ||
+                        !requested.Contains(new Vector2Int(placement.x+resolved.entriesById[placement.catalogId].width-1,placement.y+resolved.entriesById[placement.catalogId].height-1)))
+                        throw new InvalidOperationException("Move/delete complete structure instances before shrinking the map bounds.");
             }
             if (requested.width <= 0 || requested.height <= 0) return false;
             if (impact.HasOccupiedData && !deleteOutsideData) return false;
             if (deleteOutsideData)
             {
-                cells.RemoveAll(cell => !CellInsideChunkBounds(cell.X, cell.Y, requested));
-                objects.RemoveAll(item => EnumeratePlacementCells(item).Any(cell => !CellInsideChunkBounds(cell.x, cell.y, requested)));
+                cells.RemoveAll(cell => !CellInsideBounds(cell.X, cell.Y, requested));
+                objects.RemoveAll(item => EnumeratePlacementCells(item).Any(cell => !CellInsideBounds(cell.x, cell.y, requested)));
             }
-            minChunkX = requested.xMin;
-            minChunkY = requested.yMin;
-            chunkWidth = requested.width;
-            chunkHeight = requested.height;
+            minCellX = requested.xMin;
+            minCellY = requested.yMin;
+            cellWidth = requested.width;
+            cellHeight = requested.height;
             NotifyAuthoredChange();
+            EditorInvalidateTerrainDerivedCache();
             return true;
         }
 
-        public StageMapChunkRemovalImpact AnalyzeChunkBoundsChange(RectInt requested)
+        public StageMapBoundsRemovalImpact AnalyzeCellBoundsChange(RectInt requested)
         {
-            var removedCells = cells.Where(cell => !CellInsideChunkBounds(cell.X, cell.Y, requested)).
+            var removedCells = cells.Where(cell => !CellInsideBounds(cell.X, cell.Y, requested)).
                 Select(cell => $"{cell.Layer}@({cell.X},{cell.Y})={cell.TileId}").OrderBy(value => value, StringComparer.Ordinal).ToArray();
-            removedCells=removedCells.Concat(Animol.TerrainStructure.FreeShapeTopology.Index(freeShapeTerrain).Keys.Where(p=>!requested.Contains(CellToChunk(p.x,p.y))).Select(p=>"FreeShape@"+p)).ToArray();
-            var removedObjects = objects.Where(item => EnumeratePlacementCells(item).Any(cell => !CellInsideChunkBounds(cell.x, cell.y, requested))).
+            removedCells=removedCells.Concat(Animol.TerrainStructure.FreeShapeTopology.Index(freeShapeTerrain).Keys.Where(p=>!requested.Contains(p)).Select(p=>"FreeShape@"+p)).ToArray();
+            var removedObjects = objects.Where(item => EnumeratePlacementCells(item).Any(cell => !CellInsideBounds(cell.x, cell.y, requested))).
                 Select(item => $"{item.StableId}:{item.Kind}@({item.X},{item.Y})").OrderBy(value => value, StringComparer.Ordinal).ToArray();
-            return new StageMapChunkRemovalImpact(requested, removedCells, removedObjects);
+            return new StageMapBoundsRemovalImpact(requested, removedCells, removedObjects);
         }
 
         public void EditorNotifyAuthoredPropertiesChanged()
@@ -593,7 +556,7 @@ namespace ANIMOL.Core
         {
             var builder = new StringBuilder();
             builder.Append(stageId).Append('|').Append(themeId).Append('|').Append(mapVersion).Append('|').Append(worldUnitsPerCell)
-                .Append('|').Append(minChunkX).Append(':').Append(minChunkY).Append(':').Append(chunkWidth).Append(':').Append(chunkHeight)
+                .Append('|').Append(minCellX).Append(':').Append(minCellY).Append(':').Append(cellWidth).Append(':').Append(cellHeight)
                 .Append('|').Append(mainTimeLimitSeconds).Append('|').Append(escapeTimeLimitSeconds).Append('|').Append(fastClearThresholdSeconds)
                 .Append('|').Append(exitRevealCutsceneSeconds).Append('|').Append(timersAdvanceDuringExitReveal)
                 .Append('|').Append(rewardDefinition == null ? string.Empty :
@@ -622,11 +585,11 @@ namespace ANIMOL.Core
             return BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(builder.ToString()))).Replace("-", string.Empty).ToLowerInvariant();
         }
 
-        private void EnsureInitialChunkContains(int x, int y)
+        private void EnsureInitialBoundsContain(int x, int y)
         {
-            if (HasValidChunkBounds) return;
-            var chunk = CellToChunk(x, y);
-            minChunkX = chunk.x; minChunkY = chunk.y; chunkWidth = 1; chunkHeight = 1;
+            if (HasValidCellBounds) return;
+            minCellX = Math.Min(0,x); minCellY = Math.Min(0,y);
+            cellWidth = checked(Math.Max(32,x+1)-minCellX); cellHeight = checked(Math.Max(24,y+1)-minCellY);
         }
 
         private void NotifyAuthoredChange()
@@ -654,8 +617,8 @@ namespace ANIMOL.Core
             }
         }
 
-        private static bool CellInsideChunkBounds(int x, int y, RectInt chunkBounds) => chunkBounds.width > 0 && chunkBounds.height > 0 &&
-            chunkBounds.Contains(CellToChunk(x, y));
+        private static bool CellInsideBounds(int x, int y, RectInt bounds) => bounds.width > 0 && bounds.height > 0 &&
+            bounds.Contains(new Vector2Int(x,y));
 
         public static IEnumerable<Vector2Int> EnumeratePlacementCells(StageMapObjectPlacement placement)
         {
@@ -699,28 +662,13 @@ namespace ANIMOL.Core
         }
     }
 
-    public sealed class StageMapChunkOccupancy
-    {
-        public Vector2Int Chunk { get; }
-        public int CellCount { get; }
-        public IReadOnlyList<string> ObjectIds { get; }
-        public int ObjectCount => ObjectIds.Count;
-        public bool IsEmpty => CellCount == 0 && ObjectCount == 0;
-        public StageMapChunkOccupancy(Vector2Int chunk, int cellCount, IReadOnlyList<string> objectIds)
-        {
-            Chunk = chunk;
-            CellCount = cellCount;
-            ObjectIds = objectIds ?? Array.Empty<string>();
-        }
-    }
-
-    public sealed class StageMapChunkRemovalImpact
+    public sealed class StageMapBoundsRemovalImpact
     {
         public RectInt RequestedBounds { get; }
         public IReadOnlyList<string> RemovedCells { get; }
         public IReadOnlyList<string> RemovedObjects { get; }
         public bool HasOccupiedData => RemovedCells.Count > 0 || RemovedObjects.Count > 0;
-        public StageMapChunkRemovalImpact(RectInt requestedBounds, IReadOnlyList<string> removedCells, IReadOnlyList<string> removedObjects)
+        public StageMapBoundsRemovalImpact(RectInt requestedBounds, IReadOnlyList<string> removedCells, IReadOnlyList<string> removedObjects)
         {
             RequestedBounds = requestedBounds;
             RemovedCells = removedCells ?? Array.Empty<string>();
@@ -742,11 +690,11 @@ namespace ANIMOL.Core
             if (map == null) { report.Errors.Add("Map asset is missing."); return report; }
             if (string.IsNullOrWhiteSpace(map.StageId) || string.IsNullOrWhiteSpace(map.ThemeId)) report.Errors.Add("Stable stage/theme identity is missing.");
             if (map.MapVersion < 1) report.Errors.Add("Map version must be positive.");
-            if (!map.HasValidChunkBounds) report.Errors.Add("Chunk bounds must have positive width and height.");
+            if (!map.HasValidCellBounds) report.Errors.Add("Cell bounds must have positive width and height.");
             if (map.WorldUnitsPerCell <= 0f) report.Errors.Add("ANIMOL product world cell size is unconfigured.");
-            if (map.Cells.Any(cell => !map.ContainsCell(cell.X, cell.Y))) report.Errors.Add("One or more authored cells are outside the declared chunk bounds.");
+            if (map.Cells.Any(cell => !map.ContainsCell(cell.X, cell.Y))) report.Errors.Add("One or more authored cells are outside the declared cell bounds.");
             if (map.Objects.SelectMany(StageMapDefinition.EnumeratePlacementCells).Any(cell => !map.ContainsCell(cell.x, cell.y)))
-                report.Errors.Add("One or more map object footprints/paths are outside the declared chunk bounds.");
+                report.Errors.Add("One or more map object footprints/paths are outside the declared cell bounds.");
             if (map.Cells.GroupBy(cell => (cell.X, cell.Y, cell.Layer)).Any(group => group.Count() > 1)) report.Errors.Add("Duplicate map cell/layer entries exist.");
             if (map.Objects.Any(item => string.IsNullOrWhiteSpace(item.StableId)) || map.Objects.GroupBy(item => item.StableId, StringComparer.Ordinal).Any(group => group.Count() > 1))
                 report.Errors.Add("Map object stable IDs are missing or duplicated.");

@@ -1,0 +1,62 @@
+﻿{
+    "success":  true,
+    "command":  "command test_status",
+    "data":  {
+                 "command":  "test_status",
+                 "parameters":  {
+
+                                },
+                 "result":  {
+                                "status":  "completed",
+                                "duration":  43.51,
+                                "summary":  {
+                                                "total":  4,
+                                                "passed":  3,
+                                                "failed":  1,
+                                                "skipped":  0,
+                                                "inconclusive":  0
+                                            },
+                                "results":  [
+                                                {
+                                                    "FullName":  "ANIMOL.Tests.FreeShapePlayModeTests(6).ActualPlayerLandsOnAllTwentyStylesAndNoArtOwnsPhysics",
+                                                    "Status":  "Passed",
+                                                    "Duration":  21.9982098,
+                                                    "Message":  null,
+                                                    "StackTrace":  null
+                                                },
+                                                {
+                                                    "FullName":  "ANIMOL.Tests.FreeShapePlayModeTests(6).ExistingOneWayLetsBodyRiseThroughAndSupportsFallAlongsideFreeSolid",
+                                                    "Status":  "Passed",
+                                                    "Duration":  1.4797849,
+                                                    "Message":  null,
+                                                    "StackTrace":  null
+                                                },
+                                                {
+                                                    "FullName":  "ANIMOL.Tests.PlayMode.CellBoundsPlayModeTests.NonAlignedCellBoundsKeepFourPhysicalWallsAndPlayerInside",
+                                                    "Status":  "Failed",
+                                                    "Duration":  0.0066555,
+                                                    "Message":  "System.InvalidOperationException : Derived collision data revision is stale.",
+                                                    "StackTrace":  "  at ANIMOL.Gameplay.StageMapRuntimeLoader.Load (ANIMOL.Core.StageMapDefinition definition) [0x0037d] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\StageMapRuntimeLoader.cs:93 \r\n  at ANIMOL.Tests.PlayMode.CellBoundsPlayModeTests+\u003cNonAlignedCellBoundsKeepFourPhysicalWallsAndPlayerInside\u003ed__0.MoveNext () [0x000bc] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CellBoundsPlayModeTests.cs:20 \r\n  at UnityEngine.TestTools.TestEnumerator+\u003cExecute\u003ed__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44 "
+                                                },
+                                                {
+                                                    "FullName":  "ANIMOL.Tests.ThemeFinishV6PlayModeTests.PhysicalBodyFallsThroughEmptyHoleAndLandsOnInnerFloorForEveryThemeStyle",
+                                                    "Status":  "Passed",
+                                                    "Duration":  20.0085704,
+                                                    "Message":  null,
+                                                    "StackTrace":  null
+                                                }
+                                            ]
+                            },
+                 "target":  {
+                                "host":  "127.0.0.1",
+                                "port":  7800,
+                                "projectPath":  "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+                            }
+             },
+    "errors":  [
+
+               ],
+    "warnings":  [
+
+                 ]
+}

@@ -17,13 +17,11 @@ namespace ANIMOL.Tests.EditMode
             var plan = RunRoutePlan.Reserve(up); var map = ScriptableObject.CreateInstance<StageMapDefinition>();
             try
             {
-                Assert.That(StageMapDefinition.TilesPerChunk, Is.EqualTo(16));
                 Assert.That(plan.Legs.Length, Is.EqualTo(2));
                 plan.PopulateEmptyMap(map);
                 foreach (var leg in plan.Legs)
                 {
                     Assert.That(plan.ContinuousFloorLength(map, leg), Is.EqualTo(80));
-                    Assert.That(Enumerable.Range(leg.X, leg.Length).Select(x => StageMapDefinition.CellToChunk(x, leg.FloorY).x).Distinct().Count(), Is.EqualTo(5));
                     Assert.That(leg.Corridor.Overlaps(plan.Turn.ReservedSpace), Is.False);
                     for (int x = leg.X; x < leg.X + leg.Length; x++)
                         for (int y = leg.FloorY + 1; y < leg.FloorY + 4; y++) Assert.That(map.FindCell(x, y, StageMapLayer.Terrain), Is.Null);

@@ -30,15 +30,15 @@ namespace ANIMOL.Tests
             try
             {
                 map.EditorInitializeIdentity("TERRAIN-PLAY-QA", "T01");
-                map.EditorInitializeVariableChunksFromAuthoredContent(1f);
-                map.EditorTrySetChunkBounds(new RectInt(-2,-2,6,6),false,out _);
+                map.EditorInitializeBoundsFromAuthoredContent(1f);
+                map.EditorTrySetCellBounds(new RectInt(-32,-32,96,96),false,out _);
                 foreach (var entry in registry.Catalog.entries.Where(e => e.role == "Platform" || (e.role == "Bridge" && e.kind == "Structure")))
                 {
                     // New identity in a fresh transient map keeps real production maps unchanged.
                     Object.Destroy(map); map = ScriptableObject.CreateInstance<StageMapDefinition>();
                     map.EditorInitializeIdentity("TERRAIN-PLAY-QA",entry.themeId);
-                    map.EditorInitializeVariableChunksFromAuthoredContent(1f);
-                    map.EditorTrySetChunkBounds(new RectInt(-2,-2,6,6),false,out _);
+                    map.EditorInitializeBoundsFromAuthoredContent(1f);
+                    map.EditorTrySetCellBounds(new RectInt(-32,-32,96,96),false,out _);
                     Assert.That(AnimolTerrainPlacementEngine.TryPlace(registry.Catalog,map.ReadTerrain(registry),entry.id,Vector2Int.zero,out var candidate,out var error),Is.True,error);
                     map.EditorApplyTerrainCandidate(registry,candidate); loader.Load(map);
                     player.transform.position = new Vector3(2.5f,entry.height+1.5f,0); body.linearVelocity=Vector2.zero;

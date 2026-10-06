@@ -18,6 +18,7 @@ using Object=UnityEngine.Object;
 namespace ANIMOL.Tests
 {
 
+    [Category("CellBoundsRegression")]
     public sealed class ThemeFinishV6ParityTests
     {
         private const int artVersion=6;
@@ -44,7 +45,7 @@ namespace ANIMOL.Tests
                     TerrainEditorAdapter adapter=null;
                     try
                     {
-                        map.EditorInitializeIdentity("THEME-V6-PARITY",style.themeId);map.EditorInitializeVariableChunksFromAuthoredContent(1);map.EditorTrySetChunkBounds(new RectInt(-3,-3,8,8),false,out _);
+                        map.EditorInitializeIdentity("THEME-V6-PARITY",style.themeId);map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-48,-48,128,128),false,out _);
                         AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
                         foreach(var fixture in JsonUtility.FromJson<Fixtures>(File.ReadAllText(Source+"/Fixtures.json")).fixtures)
                         {

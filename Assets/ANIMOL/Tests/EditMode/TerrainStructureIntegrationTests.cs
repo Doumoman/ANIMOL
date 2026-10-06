@@ -29,7 +29,7 @@ namespace ANIMOL.Tests
         {
             var map = ScriptableObject.CreateInstance<StageMapDefinition>(); cleanup.Add(map);
             map.EditorInitializeIdentity("TERRAIN-INTEGRATION-TEST", theme);
-            map.EditorTrySetChunkBounds(new RectInt(-2, -2, 6, 6), false, out _);
+            map.EditorTrySetCellBounds(new RectInt(-32,-32,96,96), false, out _);
             var so = new SerializedObject(map); so.FindProperty("worldUnitsPerCell").floatValue = 1; so.ApplyModifiedPropertiesWithoutUndo();
             map.EditorMarkCollisionDataSynchronized(); return map;
         }
@@ -129,24 +129,18 @@ namespace ANIMOL.Tests
             Assert.That(loader.ResolveLayer(StageMapLayer.Terrain).GetSprite(new Vector3Int(4, 0, 0)), Is.Not.Null);
         }
 
-        [Test] public void ChunkOwnershipSurvivesOriginUnloadMoveAndDelete()
+        [Test] public void MapOwnershipSurvivesMoveAndDelete()
         {
             Assert.That(new[] { Engine.FloorDiv(-1,16), Engine.FloorDiv(-16,16), Engine.FloorDiv(-17,16) }, Is.EqualTo(new[] {-1,-1,-2}));
             var map = Map(); map.EditorApplyTerrainCandidate(registry, Place(map, "T01_D_Source", new Vector2Int(15,15)));
             var loader = Loader(); loader.Load(map); var runtime = loader.GetComponent<StageTerrainStructureRuntime>();
             var id = map.TerrainPlacements.placements[0].instanceId;
-            Assert.That(runtime.ChunkOwners.Count, Is.EqualTo(4));
-            var instance = runtime.Instances[id]; runtime.SetChunkVisible(Vector2Int.zero, false);
-            Assert.That(instance.activeSelf, Is.True); Assert.That(runtime.Instances[id], Is.SameAs(instance));
-            foreach (var chunk in runtime.ChunkOwners.Keys.ToArray()) runtime.SetChunkVisible(chunk, false);
-            Assert.That(instance.activeSelf, Is.False); runtime.SetChunkVisible(Vector2Int.one, true);
-            Assert.That(instance.activeSelf, Is.True);
+            Assert.That(runtime.Instances[id].activeSelf,Is.True);
             Assert.That(Engine.TryMove(registry.Catalog, map.ReadTerrain(registry), id, new Vector2Int(-1,-1), out var moved, out var error), Is.True, error);
             map.EditorApplyTerrainCandidate(registry, moved); loader.Load(map);
-            Assert.That(runtime.ChunkOwners.Keys.Any(p => p.x < 0 && p.y < 0), Is.True);
             Assert.That(Engine.TryDelete(registry.Catalog, map.ReadTerrain(registry), id, out var deleted, out error), Is.True, error);
             map.EditorApplyTerrainCandidate(registry, deleted); loader.Load(map);
-            Assert.That(runtime.Instances, Is.Empty); Assert.That(runtime.ChunkOwners, Is.Empty);
+            Assert.That(runtime.Instances, Is.Empty);
         }
 
         [Test] public void HostTransactionsUndoRedoOnceAndChangedDoesNotChangeRevision()

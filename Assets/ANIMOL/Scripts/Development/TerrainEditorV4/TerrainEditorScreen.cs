@@ -79,13 +79,13 @@ namespace ANIMOL.Development
             mapSettingsText=Label("Map configuration details",mapSettings,"",18);Stretch(mapSettingsText.rectTransform,new Vector2(.04f,.55f),new Vector2(.96f,.96f));
             var units=Button("Configure cell units",mapSettings,"1셀 = 1unit 설정",.05f,.95f,()=>Run(()=>{Adapter.EditMapConfiguration("Units");UpdateMapSettings();}));
             Stretch(units.GetComponent<RectTransform>(),new Vector2(.05f,.37f),new Vector2(.95f,.51f));
-            var edges=new[]{"Left","Right","Bottom","Top"};var labels=new[]{"왼쪽 +16","오른쪽 +16","아래 +16","위 +16"};
+            var edges=new[]{"Left","Right","Bottom","Top"};var labels=new[]{"왼쪽 +1","오른쪽 +1","아래 +1","위 +1"};
             for(int i=0;i<4;i++){var edge=edges[i];var b=Button("Expand "+edge,mapSettings,labels[i],.04f+i*.24f,.26f+i*.24f,()=>Run(()=>{Adapter.EditMapConfiguration(edge);UpdateMapSettings();}));Stretch(b.GetComponent<RectTransform>(),new Vector2(.04f+i*.24f,.18f),new Vector2(.26f+i*.24f,.32f));}
             var close=Button("Close map configuration",mapSettings,"닫기",.3f,.7f,()=>mapSettings.gameObject.SetActive(false));Stretch(close.GetComponent<RectTransform>(),new Vector2(.3f,.02f),new Vector2(.7f,.14f));
             mapSettings.gameObject.SetActive(false);
         }
         private void UpdateMapSettings()
-        {mapSettingsText.text=Adapter.Map.StageId+" · "+Adapter.Map.ThemeId+"\n청크 "+Adapter.Map.ChunkBounds+"\n셀 크기 "+Adapter.Map.WorldUnitsPerCell+(Adapter.Map.WorldUnitsPerCell<=0?" (미설정 · 편집 미리보기 1unit)":" unit")+"\n기존 API로 범위 확장 · 16셀 청크";}
+        {mapSettingsText.text=Adapter.Map.StageId+" · "+Adapter.Map.ThemeId+"\n맵 범위(셀) "+Adapter.Map.CellBounds+"\n셀 크기 "+Adapter.Map.WorldUnitsPerCell+(Adapter.Map.WorldUnitsPerCell<=0?" (미설정 · 편집 미리보기 1unit)":" unit")+"\n1셀 단위 범위 확장";}
 
         public void Refresh()
         {

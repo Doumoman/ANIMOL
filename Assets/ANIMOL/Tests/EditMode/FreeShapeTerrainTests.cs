@@ -15,6 +15,7 @@ using Engine=Animol.TerrainStructure.AnimolTerrainPlacementEngine;
 namespace ANIMOL.Tests
 {
     [TestFixture(6)]
+    [Category("CellBoundsRegression")]
     public sealed class FreeShapeTerrainTests
     {
         private readonly int artVersion;
@@ -27,8 +28,8 @@ namespace ANIMOL.Tests
         [SetUp] public void Setup()
         {
             map=ScriptableObject.CreateInstance<StageMapDefinition>();var id="TEST-FREESHAPE-"+Guid.NewGuid().ToString("N");
-            map.EditorInitializeIdentity(id,"T01");map.EditorInitializeVariableChunksFromAuthoredContent(1);
-            map.EditorTrySetChunkBounds(new RectInt(-3,-3,8,8),false,out _);map.EditorMarkCollisionDataSynchronized();
+            map.EditorInitializeIdentity(id,"T01");map.EditorInitializeBoundsFromAuthoredContent(1);
+            map.EditorTrySetCellBounds(new RectInt(-48,-48,128,128),false,out _);map.EditorMarkCollisionDataSynchronized();
             map.FreeShapeTerrain.artVersion=artVersion;
             path="Assets/"+id+".asset";backup=StageMapBackupService.BackupRoot+"/"+id;AssetDatabase.CreateAsset(map,path);AssetDatabase.SaveAssetIfDirty(map);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
         }
@@ -85,7 +86,6 @@ namespace ANIMOL.Tests
             var vectors=JsonUtility.FromJson<Vectors>(File.ReadAllText("Docs/Validation/ThemeFinishV6/Expected/ReferenceVectors.json"));var art=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);
             for(int i=0;i<256;i++){Assert.That(FreeShapeTopology.Canonical(i),Is.EqualTo(vectors.raw[i]));Assert.That(art.rawToCanonical[i],Is.EqualTo(vectors.raw[i]));Assert.That(art.canonicalMasks[art.rawToIndex[i]],Is.EqualTo(vectors.raw[i]));}
             foreach(var v in vectors.vectors){Assert.That(FreeShapeTopology.Variant(v.x,v.y,v.seed),Is.EqualTo(v.variant));Assert.That(FreeShapeTopology.Hash(v.style,v.x,v.y,v.seed),Is.EqualTo(v.hash));}
-            Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-1,-16)),Is.EqualTo(new Vector2Int(-1,-1)));Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-17,15)),Is.EqualTo(new Vector2Int(-2,0)));
         }
         [Test] public void All16FixturesResolveOccupancyAndOperationalColliderIncludingEmptyHoles()
         {
@@ -99,7 +99,6 @@ namespace ANIMOL.Tests
                 var runtime=root.GetComponent<StageTerrainStructureRuntime>();Assert.That(runtime.LogicalGrid.solids.Count,Is.EqualTo(points.Count));
                 var render=root.GetComponentInChildren<FreeShapeTerrainRenderer>();Assert.That(render.GetComponentsInChildren<Collider2D>(),Is.Empty);
                 Assert.That(render.GetComponentsInChildren<Tilemap>().Sum(t=>t.GetUsedTilesCount()>0?t.GetTilesBlock(t.cellBounds).Count(v=>v!=null):0),Is.EqualTo(points.Count));
-                runtime.SetChunkVisible(new Vector2Int(-1,-1),false);Assert.That(runtime.LogicalGrid.solids.Count,Is.EqualTo(points.Count));runtime.SetChunkVisible(new Vector2Int(-1,-1),true);
             }}finally{UnityEngine.Object.DestroyImmediate(root);}
         }
         [Test] public void PaintEraseMoveDeleteUndoAndDiskRoundTripAreSingleTransactions()
@@ -117,7 +116,7 @@ namespace ANIMOL.Tests
             Edit(new[]{new Vector2Int(15,15),new Vector2Int(16,15),new Vector2Int(17,16)});Edit(new[]{new Vector2Int(15,16)},false,"T01_B");
             var cells=FreeShapeTopology.Index(map.FreeShapeTerrain);Assert.That(FreeShapeTopology.Raw(cells,new Vector2Int(15,15)),Is.EqualTo(4));
             Assert.That(FreeShapeTopology.Component(map.FreeShapeTerrain,new Vector2Int(15,15)).Count,Is.EqualTo(2));Assert.That(FreeShapeTopology.Component(map.FreeShapeTerrain,new Vector2Int(17,16)).Count,Is.EqualTo(1));
-            var touches=FreeShapeTopology.AffectedCells(new[]{new Vector2Int(15,15)}).Select(FreeShapeTopology.Chunk).Distinct().Count();Assert.That(touches,Is.EqualTo(4));
+            Assert.That(FreeShapeTopology.AffectedCells(new[]{new Vector2Int(15,15)}).Count,Is.EqualTo(9));
         }
         [Test] public void MotifMarginStyleLossAndV3OverlayCascadeAreDerivedWithUndo()
         {
@@ -144,7 +143,7 @@ namespace ANIMOL.Tests
         [Test] public void IncrementalRendererUpdatesThreeByThreeAndDependentMotifsOnly()
         {
             Edit(Rectangle(-2,-2,36,12));var go=new GameObject("Free visual");var render=go.AddComponent<FreeShapeTerrainRenderer>();
-            try{render.Rebuild(map.FreeShapeTerrain,1);int chunks=render.ChunkCount;Edit(new[]{new Vector2Int(15,5)},true);render.Rebuild(map.FreeShapeTerrain,1);Assert.That(render.LastUpdatedCells,Is.EqualTo(9));Assert.That(render.LastUpdatedMotifs,Is.LessThanOrEqualTo(1));Assert.That(render.ChunkCount,Is.EqualTo(chunks));Assert.That(go.GetComponentsInChildren<Collider2D>(),Is.Empty);}finally{UnityEngine.Object.DestroyImmediate(go);}
+            try{render.Rebuild(map.FreeShapeTerrain,1);Assert.That(render.TilemapCount,Is.EqualTo(1));Edit(new[]{new Vector2Int(15,5)},true);render.Rebuild(map.FreeShapeTerrain,1);Assert.That(render.LastUpdatedCells,Is.EqualTo(9));Assert.That(render.LastUpdatedMotifs,Is.LessThanOrEqualTo(1));Assert.That(render.TilemapCount,Is.EqualTo(1));Assert.That(go.GetComponentsInChildren<Collider2D>(),Is.Empty);}finally{UnityEngine.Object.DestroyImmediate(go);}
         }
         [Test] public void ObjectFootprintAndSweptPathSeeFreeShapeAndRejectBeforeSave()
         {

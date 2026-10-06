@@ -42,7 +42,6 @@ namespace Animol.TerrainStructure
         }
         public static int FloorMod(long value,int n)=>(int)((value%n+n)%n);
         public static int Variant(int x,int y,int seed)=>FloorMod((long)x+(seed&1),2)+2*FloorMod(-(long)y+((seed>>1)&1),2);
-        public static Vector2Int Chunk(Vector2Int p)=>new Vector2Int(AnimolTerrainPlacementEngine.FloorDiv(p.x,16),AnimolTerrainPlacementEngine.FloorDiv(p.y,16));
         public static uint Hash(string style,int x,int y,int seed)
         {
             string text=style+"|"+x.ToString(CultureInfo.InvariantCulture)+"|"+y.ToString(CultureInfo.InvariantCulture)+"|"+seed.ToString(CultureInfo.InvariantCulture);

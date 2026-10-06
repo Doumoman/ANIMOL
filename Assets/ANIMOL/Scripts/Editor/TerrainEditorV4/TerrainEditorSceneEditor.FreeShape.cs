@@ -72,7 +72,7 @@ namespace ANIMOL.Editor
             }
             GUI.EndScrollView();
         }
-        private static string FixtureLabel(string id)=>id switch {"rectangle_5x3"=>"사각형 5×3","open_u_pit"=>"U자 구덩이","closed_hole"=>"닫힌 내부 구멍","asymmetric_stairs"=>"비대칭 계단","large_chunk_seam_34x6"=>"청크 경계 34×6",_=>id};
+        private static string FixtureLabel(string id)=>id switch {"rectangle_5x3"=>"사각형 5×3","open_u_pit"=>"U자 구덩이","closed_hole"=>"닫힌 내부 구멍","asymmetric_stairs"=>"비대칭 계단","large_chunk_seam_34x6"=>"긴 지형 34×6",_=>id};
         private static string FreeToolLabel()=>state.freeTool switch{"Paint"=>"칠하기","Erase"=>"지우기","Rect"=>"사각 칠하기","RectErase"=>"사각 지우기","Select"=>"덩어리 이동","Preset"=>"프리셋",_=>state.freeTool};
         private static void DrawFixtureArt(Rect area,string style,FreeShapeFixture fixture,bool silhouette)
         {
