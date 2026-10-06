@@ -1,0 +1,2310 @@
+{
+  "schemaVersion": 1,
+  "contractId": "ANIMOL_FREE_SHAPE_BLOB47_V1",
+  "cellUnits": 1,
+  "cellPixels": 32,
+  "quarterPixels": 16,
+  "spritePPU": 32,
+  "topology": "8-neighbor lookup; diagonals require both adjacent orthogonal cells",
+  "occupancyConnectivity": 4,
+  "emptyCenterSprite": null,
+  "artDependsOnAlpha": false,
+  "bitOrder": {
+    "N": 1,
+    "NE": 2,
+    "E": 4,
+    "SE": 8,
+    "S": 16,
+    "SW": 32,
+    "W": 64,
+    "NW": 128
+  },
+  "canonicalMasks": [
+    0,
+    1,
+    4,
+    5,
+    7,
+    16,
+    17,
+    20,
+    21,
+    23,
+    28,
+    29,
+    31,
+    64,
+    65,
+    68,
+    69,
+    71,
+    80,
+    81,
+    84,
+    85,
+    87,
+    92,
+    93,
+    95,
+    112,
+    113,
+    116,
+    117,
+    119,
+    124,
+    125,
+    127,
+    193,
+    197,
+    199,
+    209,
+    213,
+    215,
+    221,
+    223,
+    241,
+    245,
+    247,
+    253,
+    255
+  ],
+  "rawToCanonical": [
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    16,
+    17,
+    16,
+    17,
+    20,
+    21,
+    20,
+    23,
+    16,
+    17,
+    16,
+    17,
+    28,
+    29,
+    28,
+    31,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    16,
+    17,
+    16,
+    17,
+    20,
+    21,
+    20,
+    23,
+    16,
+    17,
+    16,
+    17,
+    28,
+    29,
+    28,
+    31,
+    64,
+    65,
+    64,
+    65,
+    68,
+    69,
+    68,
+    71,
+    64,
+    65,
+    64,
+    65,
+    68,
+    69,
+    68,
+    71,
+    80,
+    81,
+    80,
+    81,
+    84,
+    85,
+    84,
+    87,
+    80,
+    81,
+    80,
+    81,
+    92,
+    93,
+    92,
+    95,
+    64,
+    65,
+    64,
+    65,
+    68,
+    69,
+    68,
+    71,
+    64,
+    65,
+    64,
+    65,
+    68,
+    69,
+    68,
+    71,
+    112,
+    113,
+    112,
+    113,
+    116,
+    117,
+    116,
+    119,
+    112,
+    113,
+    112,
+    113,
+    124,
+    125,
+    124,
+    127,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    16,
+    17,
+    16,
+    17,
+    20,
+    21,
+    20,
+    23,
+    16,
+    17,
+    16,
+    17,
+    28,
+    29,
+    28,
+    31,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    0,
+    1,
+    0,
+    1,
+    4,
+    5,
+    4,
+    7,
+    16,
+    17,
+    16,
+    17,
+    20,
+    21,
+    20,
+    23,
+    16,
+    17,
+    16,
+    17,
+    28,
+    29,
+    28,
+    31,
+    64,
+    193,
+    64,
+    193,
+    68,
+    197,
+    68,
+    199,
+    64,
+    193,
+    64,
+    193,
+    68,
+    197,
+    68,
+    199,
+    80,
+    209,
+    80,
+    209,
+    84,
+    213,
+    84,
+    215,
+    80,
+    209,
+    80,
+    209,
+    92,
+    221,
+    92,
+    223,
+    64,
+    193,
+    64,
+    193,
+    68,
+    197,
+    68,
+    199,
+    64,
+    193,
+    64,
+    193,
+    68,
+    197,
+    68,
+    199,
+    112,
+    241,
+    112,
+    241,
+    116,
+    245,
+    116,
+    247,
+    112,
+    241,
+    112,
+    241,
+    124,
+    253,
+    124,
+    255
+  ],
+  "rawToIndex": [
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    5,
+    6,
+    5,
+    6,
+    7,
+    8,
+    7,
+    9,
+    5,
+    6,
+    5,
+    6,
+    10,
+    11,
+    10,
+    12,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    5,
+    6,
+    5,
+    6,
+    7,
+    8,
+    7,
+    9,
+    5,
+    6,
+    5,
+    6,
+    10,
+    11,
+    10,
+    12,
+    13,
+    14,
+    13,
+    14,
+    15,
+    16,
+    15,
+    17,
+    13,
+    14,
+    13,
+    14,
+    15,
+    16,
+    15,
+    17,
+    18,
+    19,
+    18,
+    19,
+    20,
+    21,
+    20,
+    22,
+    18,
+    19,
+    18,
+    19,
+    23,
+    24,
+    23,
+    25,
+    13,
+    14,
+    13,
+    14,
+    15,
+    16,
+    15,
+    17,
+    13,
+    14,
+    13,
+    14,
+    15,
+    16,
+    15,
+    17,
+    26,
+    27,
+    26,
+    27,
+    28,
+    29,
+    28,
+    30,
+    26,
+    27,
+    26,
+    27,
+    31,
+    32,
+    31,
+    33,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    5,
+    6,
+    5,
+    6,
+    7,
+    8,
+    7,
+    9,
+    5,
+    6,
+    5,
+    6,
+    10,
+    11,
+    10,
+    12,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    0,
+    1,
+    0,
+    1,
+    2,
+    3,
+    2,
+    4,
+    5,
+    6,
+    5,
+    6,
+    7,
+    8,
+    7,
+    9,
+    5,
+    6,
+    5,
+    6,
+    10,
+    11,
+    10,
+    12,
+    13,
+    34,
+    13,
+    34,
+    15,
+    35,
+    15,
+    36,
+    13,
+    34,
+    13,
+    34,
+    15,
+    35,
+    15,
+    36,
+    18,
+    37,
+    18,
+    37,
+    20,
+    38,
+    20,
+    39,
+    18,
+    37,
+    18,
+    37,
+    23,
+    40,
+    23,
+    41,
+    13,
+    34,
+    13,
+    34,
+    15,
+    35,
+    15,
+    36,
+    13,
+    34,
+    13,
+    34,
+    15,
+    35,
+    15,
+    36,
+    26,
+    42,
+    26,
+    42,
+    28,
+    43,
+    28,
+    44,
+    26,
+    42,
+    26,
+    42,
+    31,
+    45,
+    31,
+    46
+  ],
+  "quarterModuleKeys": [
+    "NW_IN",
+    "NW_TOP",
+    "NW_SIDE",
+    "NW_OUTER",
+    "NW_INNER",
+    "NE_IN",
+    "NE_TOP",
+    "NE_SIDE",
+    "NE_OUTER",
+    "NE_INNER",
+    "SW_IN",
+    "SW_BOTTOM",
+    "SW_SIDE",
+    "SW_OUTER",
+    "SW_INNER",
+    "SE_IN",
+    "SE_BOTTOM",
+    "SE_SIDE",
+    "SE_OUTER",
+    "SE_INNER"
+  ],
+  "spritesPerStyle": 47,
+  "styleCount": 20,
+  "expectedBaseSpriteCount": 940,
+  "styleIds": [
+    "T01_A",
+    "T01_B",
+    "T01_C",
+    "T01_D",
+    "T02_A",
+    "T02_B",
+    "T02_C",
+    "T02_D",
+    "T03_A",
+    "T03_B",
+    "T03_C",
+    "T03_D",
+    "T04_A",
+    "T04_B",
+    "T04_C",
+    "T04_D",
+    "T05_A",
+    "T05_B",
+    "T05_C",
+    "T05_D"
+  ],
+  "themes": [
+    {
+      "id": "T01",
+      "name": "월궁"
+    },
+    {
+      "id": "T02",
+      "name": "구름고래목장"
+    },
+    {
+      "id": "T03",
+      "name": "별가루도서관"
+    },
+    {
+      "id": "T04",
+      "name": "시간유리온실"
+    },
+    {
+      "id": "T05",
+      "name": "오로라수정광산"
+    }
+  ],
+  "cells": [
+    {
+      "index": 0,
+      "canonicalMask": 0,
+      "fileSuffix": "mask000.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "OUTER",
+          "moduleKey": "NW_OUTER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "OUTER",
+          "moduleKey": "NE_OUTER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "OUTER",
+          "moduleKey": "SW_OUTER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "OUTER",
+          "moduleKey": "SE_OUTER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "canonicalMask": 1,
+      "fileSuffix": "mask001.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "OUTER",
+          "moduleKey": "SW_OUTER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "OUTER",
+          "moduleKey": "SE_OUTER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "canonicalMask": 4,
+      "fileSuffix": "mask004.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "OUTER",
+          "moduleKey": "NW_OUTER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "OUTER",
+          "moduleKey": "SW_OUTER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "canonicalMask": 5,
+      "fileSuffix": "mask005.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "OUTER",
+          "moduleKey": "SW_OUTER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "canonicalMask": 7,
+      "fileSuffix": "mask007.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "OUTER",
+          "moduleKey": "SW_OUTER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "canonicalMask": 16,
+      "fileSuffix": "mask016.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "OUTER",
+          "moduleKey": "NW_OUTER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "OUTER",
+          "moduleKey": "NE_OUTER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "canonicalMask": 17,
+      "fileSuffix": "mask017.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "canonicalMask": 20,
+      "fileSuffix": "mask020.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "OUTER",
+          "moduleKey": "NW_OUTER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "canonicalMask": 21,
+      "fileSuffix": "mask021.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "canonicalMask": 23,
+      "fileSuffix": "mask023.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "canonicalMask": 28,
+      "fileSuffix": "mask028.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "OUTER",
+          "moduleKey": "NW_OUTER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "canonicalMask": 29,
+      "fileSuffix": "mask029.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "canonicalMask": 31,
+      "fileSuffix": "mask031.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "SIDE",
+          "moduleKey": "NW_SIDE",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "SIDE",
+          "moduleKey": "SW_SIDE",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "canonicalMask": 64,
+      "fileSuffix": "mask064.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "OUTER",
+          "moduleKey": "NE_OUTER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "OUTER",
+          "moduleKey": "SE_OUTER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "canonicalMask": 65,
+      "fileSuffix": "mask065.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "OUTER",
+          "moduleKey": "SE_OUTER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "canonicalMask": 68,
+      "fileSuffix": "mask068.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "canonicalMask": 69,
+      "fileSuffix": "mask069.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "canonicalMask": 71,
+      "fileSuffix": "mask071.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "canonicalMask": 80,
+      "fileSuffix": "mask080.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "OUTER",
+          "moduleKey": "NE_OUTER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "canonicalMask": 81,
+      "fileSuffix": "mask081.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "canonicalMask": 84,
+      "fileSuffix": "mask084.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "canonicalMask": 85,
+      "fileSuffix": "mask085.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "canonicalMask": 87,
+      "fileSuffix": "mask087.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "canonicalMask": 92,
+      "fileSuffix": "mask092.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "canonicalMask": 93,
+      "fileSuffix": "mask093.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "canonicalMask": 95,
+      "fileSuffix": "mask095.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "canonicalMask": 112,
+      "fileSuffix": "mask112.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "OUTER",
+          "moduleKey": "NE_OUTER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "canonicalMask": 113,
+      "fileSuffix": "mask113.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "canonicalMask": 116,
+      "fileSuffix": "mask116.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "canonicalMask": 117,
+      "fileSuffix": "mask117.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "canonicalMask": 119,
+      "fileSuffix": "mask119.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "canonicalMask": 124,
+      "fileSuffix": "mask124.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "TOP",
+          "moduleKey": "NW_TOP",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "TOP",
+          "moduleKey": "NE_TOP",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "canonicalMask": 125,
+      "fileSuffix": "mask125.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "canonicalMask": 127,
+      "fileSuffix": "mask127.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "INNER",
+          "moduleKey": "NW_INNER",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "canonicalMask": 193,
+      "fileSuffix": "mask193.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "OUTER",
+          "moduleKey": "SE_OUTER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "canonicalMask": 197,
+      "fileSuffix": "mask197.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "canonicalMask": 199,
+      "fileSuffix": "mask199.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "BOTTOM",
+          "moduleKey": "SW_BOTTOM",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "BOTTOM",
+          "moduleKey": "SE_BOTTOM",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "canonicalMask": 209,
+      "fileSuffix": "mask209.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "canonicalMask": 213,
+      "fileSuffix": "mask213.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "canonicalMask": 215,
+      "fileSuffix": "mask215.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "canonicalMask": 221,
+      "fileSuffix": "mask221.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "canonicalMask": 223,
+      "fileSuffix": "mask223.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "INNER",
+          "moduleKey": "SW_INNER",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "canonicalMask": 241,
+      "fileSuffix": "mask241.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "SIDE",
+          "moduleKey": "NE_SIDE",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "SIDE",
+          "moduleKey": "SE_SIDE",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "canonicalMask": 245,
+      "fileSuffix": "mask245.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "canonicalMask": 247,
+      "fileSuffix": "mask247.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "INNER",
+          "moduleKey": "SE_INNER",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "canonicalMask": 253,
+      "fileSuffix": "mask253.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "INNER",
+          "moduleKey": "NE_INNER",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "canonicalMask": 255,
+      "fileSuffix": "mask255.png",
+      "quadrants": [
+        {
+          "corner": "NW",
+          "state": "IN",
+          "moduleKey": "NW_IN",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "corner": "NE",
+          "state": "IN",
+          "moduleKey": "NE_IN",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "corner": "SW",
+          "state": "IN",
+          "moduleKey": "SW_IN",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "corner": "SE",
+          "state": "IN",
+          "moduleKey": "SE_IN",
+          "column": 1,
+          "row": 1
+        }
+      ]
+    }
+  ],
+  "boundaryRules": {
+    "chunkSeams": "Resolve neighbors in global occupancy, not within a render chunk.",
+    "diagonalTouch": "Diagonal-only contact remains separate and has no connecting ornament.",
+    "styleSeams": "Cross-style material transitions require a separately authored connector policy.",
+    "physics": "Only canonical logical occupancy owns solid collision; art alpha never adds or removes collision.",
+    "existingV3": "This contract does not reinterpret existing stamp ownership, saved fields, IDs, variants or physics owners."
+  }
+}

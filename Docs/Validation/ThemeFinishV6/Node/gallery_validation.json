@@ -1,0 +1,43 @@
+{
+  "result": "PASS",
+  "groups": [
+    {
+      "id": "paint_erase_snapshot",
+      "passed": true,
+      "count": 14,
+      "details": "Painting and erasing immediately update neighboring topology; integer bottom-left origin survives snapshot restoration."
+    },
+    {
+      "id": "editable_enclosed_void",
+      "passed": true,
+      "count": 8,
+      "details": "Erasing an interior cell produces a real empty center and four concave-corner cells."
+    },
+    {
+      "id": "actual_atlas_render_plans",
+      "passed": true,
+      "count": 15140,
+      "details": {
+        "styles": 20,
+        "fixtureCount": 16,
+        "motifChecks": 60,
+        "result": "Every cell references an actual atlas slot; motif placements exactly match PNG baker metadata and complete occupied support."
+      }
+    },
+    {
+      "id": "global_phase_independent_of_canvas_bounds",
+      "passed": true,
+      "count": 216,
+      "details": "Changing the preview crop/origin does not change art phase at the same global cell."
+    },
+    {
+      "id": "offline_html_syntax",
+      "passed": true,
+      "count": 6,
+      "details": "Inline module parses with Node; actual PNG data are embedded; no fetch/import/external asset dependency. No browser execution was performed."
+    }
+  ],
+  "styles": 20,
+  "scope": "Canvas-independent paint, neighbor resolution, actual atlas render plans, shared motif policy and offline inline JavaScript syntax. Browser event execution and PNG canvas encoding were not tested.",
+  "browserTested": false
+}

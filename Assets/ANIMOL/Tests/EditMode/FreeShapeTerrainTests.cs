@@ -17,6 +17,7 @@ namespace ANIMOL.Tests
     [TestFixture(1)]
     [TestFixture(2)]
     [TestFixture(4)]
+    [TestFixture(6)]
     public sealed class FreeShapeTerrainTests
     {
         private readonly int artVersion;
@@ -39,7 +40,7 @@ namespace ANIMOL.Tests
         {Assert.That(Engine.TryEditFreeShape(adapter.Terrain.Catalog,adapter.Read(),p,erase,style,out var c,out var error),Is.True,error);adapter.Commit(c,"FreeShape test");}
         private IEnumerable<Vector2Int> Rectangle(int x,int y,int width,int height)
         {for(int dy=0;dy<height;dy++)for(int dx=0;dx<width;dx++)yield return new Vector2Int(x+dx,y+dy);}
-        [TestCase(1),TestCase(2),TestCase(4)] public void ExplicitArtSwitchPreservesContentRestoresCacheAndRoundTrips(int target)
+        [TestCase(1),TestCase(2),TestCase(4),TestCase(6)] public void ExplicitArtSwitchPreservesContentRestoresCacheAndRoundTrips(int target)
         {
             if(target==artVersion)
             {
@@ -120,7 +121,7 @@ namespace ANIMOL.Tests
         }
         [Test] public void CSharpMatchesPackageJavaScript256RawAnd567PhaseHashVectors()
         {
-            var vectors=JsonUtility.FromJson<Vectors>(File.ReadAllText("Docs/Validation/FreeShape/ReferenceVectors.json"));var art=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);
+            var vectors=JsonUtility.FromJson<Vectors>(File.ReadAllText(artVersion==6?"Docs/Validation/ThemeFinishV6/Expected/ReferenceVectors.json":"Docs/Validation/FreeShape/ReferenceVectors.json"));var art=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);
             for(int i=0;i<256;i++){Assert.That(FreeShapeTopology.Canonical(i),Is.EqualTo(vectors.raw[i]));Assert.That(art.rawToCanonical[i],Is.EqualTo(vectors.raw[i]));Assert.That(art.canonicalMasks[art.rawToIndex[i]],Is.EqualTo(vectors.raw[i]));}
             foreach(var v in vectors.vectors){Assert.That(FreeShapeTopology.Variant(v.x,v.y,v.seed),Is.EqualTo(v.variant));Assert.That(FreeShapeTopology.Hash(v.style,v.x,v.y,v.seed),Is.EqualTo(v.hash));}
             Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-1,-16)),Is.EqualTo(new Vector2Int(-1,-1)));Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-17,15)),Is.EqualTo(new Vector2Int(-2,0)));

@@ -24,12 +24,13 @@ namespace ANIMOL.Editor
         private static readonly Dictionary<FreeShapeFixture,Dictionary<Vector2Int,FreeShapeCell>> fixtureCells=new Dictionary<FreeShapeFixture,Dictionary<Vector2Int,FreeShapeCell>>();
         private static int freeDrawRevision=-1;
         private static Dictionary<Vector2Int,FreeShapeCell> freeDrawCells;
+        public static FreeShapeArtRegistry SelectedFreeShapeArt=>FreeShapeArtRegistry.Load(adapter.Map.FreeShapeTerrain);
         public static bool FreeCandidateValid=>freeValid;
         public static double FreeCandidateMilliseconds {get;private set;}
 
         public static void SetFreeShapeMode(bool enabled)
         {
-            if(enabled)FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,4);
+            if(enabled)SelectedFreeShapeArt.ValidateComplete();
             Cancel(false);state.freeShape=enabled;state.information=false;mapSettings=false;state.instanceId="";
             if(enabled && state.paletteHeight<.25f)state.paletteHeight=.25f;
             if(string.IsNullOrEmpty(state.freeStyle))state.freeStyle=adapter.Map.ThemeId+"_A";
@@ -37,12 +38,12 @@ namespace ANIMOL.Editor
         }
         private static void DrawFreePalette()
         {
-            var registry=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,4);EditorGUI.DrawRect(paletteRect,TerrainEditorScreen.Panel);
+            var registry=SelectedFreeShapeArt;EditorGUI.DrawRect(paletteRect,TerrainEditorScreen.Panel);
             GUILayout.BeginArea(new Rect(5,paletteRect.y+4,paletteRect.width-10,52));GUILayout.BeginHorizontal();
             if(GUILayout.Button("캠페인 마커",buttonStyle,GUILayout.Width(110)))SetFreeShapeMode(false);
-            var themes=registry.styles.GroupBy(s=>s.themeId).ToArray();string current=state.freeStyle.Split('_')[0];
-            int ti=Mathf.Max(0,Array.FindIndex(themes,t=>t.Key==current));int next=EditorGUILayout.Popup(ti,themes.Select(t=>t.Key+" "+t.First().themeName).ToArray(),GUILayout.Width(155));
-            if(next!=ti){Cancel(false);state.freeStyle=themes[next].Key+"_A";}
+            string current=adapter.Map.ThemeId;
+            if(!state.freeStyle.StartsWith(current+"_",StringComparison.Ordinal))state.freeStyle=current+"_A";
+            GUILayout.Label(current+" "+registry.Style(current+"_A").themeName,smallStyle,GUILayout.Width(155));
             GUILayout.Label("크기 [ ]",smallStyle,GUILayout.Width(65));state.freeBrush=EditorGUILayout.IntSlider(state.freeBrush,1,8,GUILayout.Width(135));
             if(GUILayout.Button("덩어리 삭제 Del",buttonStyle,GUILayout.Width(120)))Run(DeleteFreeSelection);
             GUILayout.EndHorizontal();GUILayout.BeginHorizontal();
@@ -50,7 +51,11 @@ namespace ANIMOL.Editor
             int chosen=EditorGUILayout.Popup(index,fixtures.Select(f=>FixtureLabel(f.id)).ToArray(),GUILayout.Width(Mathf.Min(210,paletteRect.width*.34f)));state.freePreset=fixtures[chosen].id;
             if(GUILayout.Button("프리셋 그리기",buttonStyle,GUILayout.Width(100))){Cancel(false);state.freeTool="Preset";}
             GUILayout.Label("도구: "+FreeToolLabel()+" · seed "+(adapter.Map.FreeShapeTerrain?.seed??0),smallStyle);
-            GUILayout.Label("아트 v"+registry.version,smallStyle,GUILayout.Width(60));
+            GUILayout.Label("현재 맵 아트",smallStyle,GUILayout.Width(78));
+            var versions=FreeShapeArtRegistry.InstalledVersions();
+            int selectedVersion=Array.IndexOf(versions,registry.version);
+            int selectedNext=EditorGUILayout.Popup(selectedVersion,versions.Select(v=>"V"+v).ToArray(),GUILayout.Width(60));
+            if(selectedNext>=0 && selectedNext!=selectedVersion)Run(()=>ChangeFreeShapeArtVersion(versions[selectedNext]));
             GUILayout.EndHorizontal();GUILayout.EndArea();
             var styles=registry.styles.Where(s=>s.themeId==state.freeStyle.Split('_')[0]).ToArray();float cw=Mathf.Max(225,(paletteRect.width-28)/4);float ch=paletteRect.height-62;
             freeScroll=GUI.BeginScrollView(new Rect(4,paletteRect.y+60,paletteRect.width-8,ch),freeScroll,new Rect(0,0,(cw+4)*4,ch-17),false,false);
@@ -87,7 +92,7 @@ namespace ANIMOL.Editor
             {cells=FreeShapeTopology.FromRows(fixture.rows,Vector2Int.zero).ToDictionary(p=>p,p=>new FreeShapeCell{x=p.x,y=p.y});fixtureCells.Add(fixture,cells);}
             float size=Mathf.Min(area.width/fixture.rows[0].Length,area.height/fixture.rows.Length);
             var offset=new Vector2(area.x+(area.width-size*fixture.rows[0].Length)*.5f,area.y+(area.height-size*fixture.rows.Length)*.5f);
-            var registry=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,4);
+            var registry=SelectedFreeShapeArt;
             foreach(var p in cells.Keys)
             {
                 var rect=new Rect(offset.x+p.x*size,offset.y+(fixture.rows.Length-1-p.y)*size,size,size);
@@ -116,7 +121,7 @@ namespace ANIMOL.Editor
         }
         public static void BeginFreeStroke(Vector2Int p)
         {
-            HideFreePreview();freeCandidate=null;freeSource=adapter.Read();freeSource.freeShape.artVersion=4;freeStart=freeLast=p;freeDelta=Vector2Int.zero;freeStroke.Clear();freeValid=false;
+            HideFreePreview();freeCandidate=null;freeSource=adapter.Read();freeStart=freeLast=p;freeDelta=Vector2Int.zero;freeStroke.Clear();freeValid=false;
             if(state.freeTool=="Select"){state.freeSelection=p;state.freeSelected=FreeShapeTopology.Component(freeSource.freeShape,p).Count>0;status=state.freeSelected?"덩어리 드래그 이동 · Del 전체 삭제":"자유형 셀을 선택하세요.";return;}
             UpdateFreeStroke(p);
         }
@@ -142,7 +147,7 @@ namespace ANIMOL.Editor
                     if(state.freeTool=="Rect"||state.freeTool=="RectErase")
                     {freeStroke.Clear();for(int y=Math.Min(p.y,freeStart.y);y<=Math.Max(p.y,freeStart.y);y++)for(int x=Math.Min(p.x,freeStart.x);x<=Math.Max(p.x,freeStart.x);x++)freeStroke.Add(new Vector2Int(x,y));}
                     else if(state.freeTool=="Preset")
-                    {freeStroke.Clear();foreach(var c in FreeShapeTopology.FromRows(FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,4).fixtures.First(f=>f.id==state.freePreset).rows,p))freeStroke.Add(c);}
+                    {freeStroke.Clear();foreach(var c in FreeShapeTopology.FromRows(SelectedFreeShapeArt.fixtures.First(f=>f.id==state.freePreset).rows,p))freeStroke.Add(c);}
                     else
                     {
                         int distance=Math.Max(Math.Abs(p.x-freeLast.x),Math.Abs(p.y-freeLast.y));

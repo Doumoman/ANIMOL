@@ -1,0 +1,451 @@
+{
+  "fixtures": [
+    {
+      "id": "single_1x1",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "All four exterior corners.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "thin_vertical_1x16",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "One-cell width; separate top and bottom caps.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "thin_horizontal_16x1",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "One-cell height; top and bottom remain distinct.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "rectangle_3x5",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "###",
+        "###",
+        "###",
+        "###",
+        "###"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Tall body and side finish.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "rectangle_5x3",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Wide body; no nonuniform stretching.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "maximum_rectangle_16x16",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Maximum suggested art-bake region, not a map-size cap.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "asymmetric_stairs",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "........##",
+        ".......###",
+        "...#######",
+        "..########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Unequal tread and rise.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "regular_stairs_ascending_right",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "......##",
+        "....####",
+        "..######",
+        "########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Regular two-cell tread and one-cell rise.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "regular_stairs_ascending_left",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##......",
+        "####....",
+        "######..",
+        "########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Opposite stair direction.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "open_u_pit",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##......##",
+        "##......##",
+        "##......##",
+        "###....###",
+        "##########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Open pit; concave floor corners; no art across empty center.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "closed_hole",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##########",
+        "##########",
+        "##......##",
+        "##......##",
+        "##......##",
+        "##########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 1
+      },
+      "purpose": "Enclosed void; ceiling, walls and floor all face inward.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "overhang",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##########",
+        "##########",
+        "##........",
+        "##........",
+        "####......"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Underside ceiling and unsupported-looking overhang silhouette.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "branch_t",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#########",
+        "#########",
+        "...###...",
+        "...###...",
+        "...###...",
+        "...###..."
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "T branch with two inward corners.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "diagonal_separate",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#.",
+        ".#"
+      ],
+      "expected": {
+        "components": 2,
+        "holes": 0
+      },
+      "purpose": "Touching only at a corner does not merge.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "multiple_components",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "###.....##",
+        "###.....##",
+        "..........",
+        "....##....",
+        "....##...."
+      ],
+      "expected": {
+        "components": 3,
+        "holes": 0
+      },
+      "purpose": "Three independent terrain components.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "large_chunk_seam_34x6",
+      "origin": {
+        "x": -17,
+        "y": -17
+      },
+      "rows": [
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Global solid boundary crosses -16,0,16 in x and -16 in y; no artificial walls.",
+      "seed": 0,
+      "scale8": false
+    },
+    {
+      "id": "hole_1x1_0_0",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "seed": 0,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": true
+    },
+    {
+      "id": "hole_1x1_1_0",
+      "origin": {
+        "x": 1,
+        "y": 0
+      },
+      "seed": 0,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": false
+    },
+    {
+      "id": "hole_1x1_0_1",
+      "origin": {
+        "x": 0,
+        "y": 1
+      },
+      "seed": 0,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": false
+    },
+    {
+      "id": "hole_1x1_1_1",
+      "origin": {
+        "x": 1,
+        "y": 1
+      },
+      "seed": 0,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": false
+    },
+    {
+      "id": "hole_1x1_-17_-17",
+      "origin": {
+        "x": -17,
+        "y": -17
+      },
+      "seed": -17,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": false
+    },
+    {
+      "id": "hole_1x1_-16_-16",
+      "origin": {
+        "x": -16,
+        "y": -16
+      },
+      "seed": -17,
+      "rows": [
+        "###",
+        "#.#",
+        "###"
+      ],
+      "scale8": false
+    },
+    {
+      "id": "hole_2x2",
+      "origin": {
+        "x": -17,
+        "y": -17
+      },
+      "seed": 7,
+      "rows": [
+        "####",
+        "#..#",
+        "#..#",
+        "####"
+      ],
+      "scale8": false
+    }
+  ]
+}

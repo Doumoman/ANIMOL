@@ -149,7 +149,7 @@ namespace ANIMOL.Editor
         public static void Close(){Remember();Release(true);if(view!=null)view.Close();view=null;}
         private static void Release(bool end)
         {
-            Cancel(false);DestroyGhost();
+            Cancel(false);DestroyGhost();fixtureCells.Clear();
             if(settings!=null)UnityEngine.Object.DestroyImmediate(settings);settings=null;
             if(adapter!=null){adapter.Changed-=Refresh;adapter.Dispose();adapter=null;}
             if(view!=null && CustomScene!=null){CustomScene.SetValue(view,default(Scene));CullingMask?.SetValue(view,0UL);}

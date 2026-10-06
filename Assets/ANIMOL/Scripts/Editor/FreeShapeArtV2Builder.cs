@@ -15,7 +15,7 @@ namespace ANIMOL.Editor
         public const string Source="Tools/ArtSources/ANIMOL_FreeShape_Sprites_clean_v2";
         public const string Root="Assets/ANIMOL/TerrainFreeShape/V2";
         public const string RegistryPath="Assets/ANIMOL/Resources/ANIMOL_FreeShapeArtV2.asset";
-        [Serializable] private class Manifest {public FileRecord[] files;}
+        [Serializable] private class Manifest {public FileRecord[] files; public string cellPngDigestSha256;}
         [Serializable] private class FileRecord {public string path,sha256;public long bytes;}
         [Serializable] private class RectData {public int x,y,width,height;}
         [Serializable] private class CellData {public string file;public int mask,index;public RectData rect;}
@@ -30,7 +30,7 @@ namespace ANIMOL.Editor
 
         internal static void InitializePackage(string source,string root,string registryPath,int artVersion)
         {
-            if(artVersion!=2 && artVersion!=4)throw new ArgumentOutOfRangeException(nameof(artVersion));
+            if(artVersion!=2 && artVersion!=4 && artVersion!=6)throw new ArgumentOutOfRangeException(nameof(artVersion));
             var timer=System.Diagnostics.Stopwatch.StartNew();
             var manifest=Read<Manifest>(source,"PACKAGE_MANIFEST.json");
             foreach(var f in manifest.files){var path=Path.GetFullPath(source+"/"+f.path);if(!path.StartsWith(Path.GetFullPath(source)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase)||!File.Exists(path)||new FileInfo(path).Length!=f.bytes||HashFile(path)!=f.sha256)throw new InvalidOperationException("Package SHA256 mismatch: "+f.path);}
@@ -38,6 +38,17 @@ namespace ANIMOL.Editor
             if(catalog.schemaVersion!=1||catalog.artVersion!=artVersion||catalog.cellPixels!=32||catalog.pixelsPerUnit!=32||catalog.contractId!=FreeShapeLayer.Contract||catalog.styles.Length!=20||catalog.canonicalMasks.Length!=47)throw new InvalidOperationException("Invalid free-shape package.");
             for(int i=0;i<256;i++)if(catalog.rawToCanonical[i]!=FreeShapeTopology.Canonical(i)||topology.rawToCanonical[i]!=catalog.rawToCanonical[i]||catalog.rawToIndex[i]!=Array.IndexOf(catalog.canonicalMasks,catalog.rawToCanonical[i])||topology.rawToIndex[i]!=catalog.rawToIndex[i])throw new InvalidOperationException("Topology mapping mismatch.");
             ValidateCatalog(catalog,names);
+            if(artVersion==6)
+            {
+                using(var digest=IncrementalHash.CreateHash(HashAlgorithmName.SHA256))
+                {
+                    var cells=catalog.styles.SelectMany(s=>s.variants).SelectMany(v=>v.cells).Select(c=>c.file).OrderBy(p=>p,StringComparer.Ordinal).ToArray();
+                    if(cells.Distinct().Count()!=3760)throw new InvalidOperationException("Incomplete V6 cell inventory.");
+                    foreach(var path in cells){digest.AppendData(System.Text.Encoding.UTF8.GetBytes(path+"\n"));digest.AppendData(File.ReadAllBytes(source+"/"+path));}
+                    if(BitConverter.ToString(digest.GetHashAndReset()).Replace("-","").ToLowerInvariant()!=manifest.cellPngDigestSha256)
+                        throw new InvalidOperationException("V6 cell PNG digest mismatch.");
+                }
+            }
             Directory.CreateDirectory(root+"/Art/Atlases");Directory.CreateDirectory(root+"/Art/Motifs");Directory.CreateDirectory(root+"/Data");
             foreach(var file in new[]{"sprite_lookup.json","topology_catalog.json","style_catalog.json","logical_fixtures.json","sweetie-16.hex"})CopyExact(source+"/Data/"+file,root+"/Data/"+file);
             var palette=new HashSet<string>(File.ReadAllLines(source+"/Data/sweetie-16.hex").Where(s=>!string.IsNullOrWhiteSpace(s)).Select(s=>s.Trim().TrimStart('#').ToLowerInvariant()));

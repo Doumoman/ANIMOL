@@ -53,7 +53,7 @@ namespace ANIMOL.Editor
         }
         private void OnGUI()
         {
-            EditorGUILayout.LabelField("캠페인 맵 · 자유형 V4", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("캠페인 맵 · 자유형 지형", EditorStyles.boldLabel);
             search = EditorGUILayout.TextField("스테이지 / 테마 검색", search);
             if (catalog == null) { EditorGUILayout.HelpBox("캠페인 카탈로그가 없습니다.", MessageType.Error); return; }
             using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))

@@ -16,7 +16,7 @@ namespace Animol.TerrainStructure
     [Serializable] public sealed class FreeShapeLayer
     {
         public const string Contract = "ANIMOL_FREE_SHAPE_BLOB47_V1";
-        public static bool SupportsArtVersion(int version)=>version==1 || version==2 || version==3 || version==4;
+        public static bool SupportsArtVersion(int version)=>version==1 || version==2 || version==3 || version==4 || version==5 || version==6;
         public int schemaVersion = 1, artVersion = 1, seed = 0;
         public string artContract = Contract;
         public List<FreeShapeCell> cells = new List<FreeShapeCell>();

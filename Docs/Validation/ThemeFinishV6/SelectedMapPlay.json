@@ -1,0 +1,32 @@
+﻿{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var loader=UnityEngine.Object.FindFirstObjectByType<ANIMOL.Gameplay.StageMapRuntimeLoader>();var art=UnityEngine.Object.FindFirstObjectByType<ANIMOL.Gameplay.FreeShapeTerrainRenderer>();return new {playing=UnityEditor.EditorApplication.isPlaying,testing=ANIMOL.Development.TerrainEditorScreen.Instance.IsTesting,map=loader.Map.StageId,version=loader.Map.FreeShapeTerrain.artVersion,cells=loader.Map.FreeShapeTerrain.cells.Count,artColliders=art.GetComponentsInChildren<UnityEngine.Collider2D>().Length,tilemaps=art.GetComponentsInChildren<UnityEngine.Tilemaps.Tilemap>().Length,players=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.DevPlayerController>(UnityEngine.FindObjectsSortMode.None).Length};"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "playing": true,
+        "testing": true,
+        "map": "DEV-THEME-V6-COPY",
+        "version": 6,
+        "cells": 330,
+        "artColliders": 0,
+        "tilemaps": 8,
+        "players": 1
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

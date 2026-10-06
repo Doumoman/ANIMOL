@@ -1,0 +1,189 @@
+{
+  "contractId": "ANIMOL_FREE_SHAPE_BLOB47_V1",
+  "result": "PASS",
+  "scope": "Node occupancy topology, lookup data and logical fixtures only. Art pixels, Unity runtime collision, editor integration and saving are not tested here.",
+  "durationMs": 448,
+  "groups": [
+    {
+      "id": "catalog_contract",
+      "passed": true,
+      "count": 940,
+      "details": "20 styles × 47 canonical base sprite slots; data-only count, no claim that images are present."
+    },
+    {
+      "id": "all_raw_neighborhoods",
+      "passed": true,
+      "count": 256,
+      "details": "Every raw neighbor mask resolves; all four exterior sides and concave-corner selections agree with occupancy."
+    },
+    {
+      "id": "all_4x4_occupancies",
+      "passed": true,
+      "count": 65536,
+      "details": {
+        "occupiedCellContexts": 524288,
+        "emptyCellContexts": 524288,
+        "sharedEdges": 393216,
+        "result": "No foreground in empty centers and no exterior side wall on a solid-solid shared edge."
+      }
+    },
+    {
+      "id": "all_adjacent_pair_contexts",
+      "passed": true,
+      "count": 2048,
+      "details": "1,024 combined neighborhoods each for horizontal and vertical solid-solid pairs."
+    },
+    {
+      "id": "logical_shape_fixtures",
+      "passed": true,
+      "count": 16,
+      "details": [
+        {
+          "id": "single_1x1",
+          "width": 1,
+          "height": 1,
+          "occupiedCells": 1,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "thin_vertical_1x16",
+          "width": 1,
+          "height": 16,
+          "occupiedCells": 16,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "thin_horizontal_16x1",
+          "width": 16,
+          "height": 1,
+          "occupiedCells": 16,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "rectangle_3x5",
+          "width": 3,
+          "height": 5,
+          "occupiedCells": 15,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "rectangle_5x3",
+          "width": 5,
+          "height": 3,
+          "occupiedCells": 15,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "maximum_rectangle_16x16",
+          "width": 16,
+          "height": 16,
+          "occupiedCells": 256,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "asymmetric_stairs",
+          "width": 10,
+          "height": 5,
+          "occupiedCells": 30,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "regular_stairs_ascending_right",
+          "width": 8,
+          "height": 4,
+          "occupiedCells": 20,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "regular_stairs_ascending_left",
+          "width": 8,
+          "height": 4,
+          "occupiedCells": 20,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "open_u_pit",
+          "width": 10,
+          "height": 6,
+          "occupiedCells": 38,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "closed_hole",
+          "width": 10,
+          "height": 7,
+          "occupiedCells": 52,
+          "components": 1,
+          "holes": 1
+        },
+        {
+          "id": "overhang",
+          "width": 10,
+          "height": 5,
+          "occupiedCells": 28,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "branch_t",
+          "width": 9,
+          "height": 6,
+          "occupiedCells": 30,
+          "components": 1,
+          "holes": 0
+        },
+        {
+          "id": "diagonal_separate",
+          "width": 2,
+          "height": 2,
+          "occupiedCells": 2,
+          "components": 2,
+          "holes": 0
+        },
+        {
+          "id": "multiple_components",
+          "width": 10,
+          "height": 5,
+          "occupiedCells": 14,
+          "components": 3,
+          "holes": 0
+        },
+        {
+          "id": "large_chunk_seam_34x6",
+          "width": 34,
+          "height": 6,
+          "occupiedCells": 204,
+          "components": 1,
+          "holes": 0
+        }
+      ]
+    },
+    {
+      "id": "global_negative_chunk_boundaries",
+      "passed": true,
+      "count": 1740,
+      "details": {
+        "translatedContexts": 1536,
+        "largeOccupiedCells": 204,
+        "chunkCount": 8,
+        "negativeControlCellsThatWouldShowWrongLocalBoundaries": 92
+      }
+    },
+    {
+      "id": "invalid_inputs_rejected",
+      "passed": true,
+      "count": 13,
+      "details": "No invalid masks, fractional origins/coordinates, ragged rows, unknown symbols or zero-size chunks are accepted."
+    }
+  ]
+}

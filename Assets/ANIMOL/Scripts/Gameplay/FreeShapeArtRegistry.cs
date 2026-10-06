@@ -24,7 +24,13 @@ namespace ANIMOL.Gameplay
         private Dictionary<string,FreeShapeStyleArt> lookup;
         private bool validated;
         public static FreeShapeArtRegistry Load()=>Load(FreeShapeLayer.Contract,1);
-        public static FreeShapeArtRegistry Load(FreeShapeLayer layer)=>Load(layer?.artContract??FreeShapeLayer.Contract,layer?.artVersion??1);
+        public static FreeShapeArtRegistry Load(FreeShapeLayer layer)
+        {
+            if(layer!=null && layer.schemaVersion!=1)throw new InvalidOperationException("Unsupported free-shape schema: "+layer.schemaVersion);
+            return Load(layer?.artContract??FreeShapeLayer.Contract,layer?.artVersion??1);
+        }
+        public static int[] InstalledVersions() => Enumerable.Range(1,6).Where(v =>
+            Resources.Load<FreeShapeArtRegistry>(v==1?"ANIMOL_FreeShapeArt":"ANIMOL_FreeShapeArtV"+v)!=null).ToArray();
         public static FreeShapeArtRegistry Load(string contract,int artVersion)
         {
             if(contract!=FreeShapeLayer.Contract || !FreeShapeLayer.SupportsArtVersion(artVersion))

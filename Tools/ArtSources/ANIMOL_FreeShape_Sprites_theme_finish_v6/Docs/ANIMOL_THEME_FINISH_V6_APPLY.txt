@@ -1,0 +1,43 @@
+ANIMOL theme_finish_v6 — 기존 Unity 맵 에디터 적용 명령
+
+이 패키지의 실제 아틀라스와 문양을 ANIMOL 자유형 지형 편집기의 artVersion=6으로 설치해라. 이미 구멍 마감을 수정한 T01_A는 v5 PNG를 그대로 유지하고, 나머지 19스타일의 재료 디테일과 외곽·내곽·측면·하단 연결을 새 출력으로 교체하는 작업이다. 기존 5테마, 20 styleId와 이름을 유지해라. 월궁의 옥판·토기·처마, 구름고래 목장의 구름·짐목·짐함, 별가루 도서관의 종이·접힘·책등, 시간유리 온실의 유리·모래·덩굴, 오로라 수정광산의 암판·수정맥·광석 디자인을 사용해라. 이 패키지에 없는 스타일을 임의로 만들지 마라.
+
+이 패키지는 Unity에서 실행한 패치가 아니다. 아래 프로젝트 검사를 실제 대상에서 수행하고 미실행 항목은 미실행으로 기록해라. v5 이하 명령·검사·비교판은 과거 이력이며 v6 PASS로 사용하지 마라.
+
+1. 기존 프로젝트와 실제 파일 검사
+기존 자유형 지형 Registry, FreeShapeLayer, artContract/artVersion 저장 필드, 맵 에디터의 Scene 프리뷰·썸네일·배치 경로, Undo/Validate/Commit, Terrain Renderer/Tilemap, 전역 점유·mask·phase·motif 해석 코드와 물리 소유자를 찾아라. 기존 기능을 먼저 읽고 이 패키지를 기존 버전별 설치 구조로 연결해라. 별도 에디터를 중복 구현하지 마라.
+패키지를 Tools/ArtSources/ANIMOL_FreeShape_Sprites_theme_finish_v6 등 프로젝트 규칙에 맞는 소스 경로에 보관해라. PACKAGE_MANIFEST.json의 전체 경로·크기·SHA256과 3,760셀 PNG digest를 검사해라. 일부 패널이나 샘플만 받아 Runtime 패치로 사용하지 마라.
+Data/sprite_lookup.json, source_rects.json, topology_catalog.json, style_catalog.json, Data/native_v6/T01.json~T05.json, SourceArt/THEME_FINISH_NATIVE_REGISTRATION_V6.json, Tools/build_theme_native_sources_v6.mjs, build_sprite_art.mjs, terrain_topology.mjs, terrain_composition.mjs를 읽어라. npm run validate:theme, validate:art, validate:topology, validate:gallery를 실행해라. 과거 버전 검사 파일은 현재 검사로 대체하지 마라.
+현재 아트 재생성은 npm run build:native → build → gallery → build:approved-gallery이며 별도 v5 폴더가 필요 없다. Data/native_v6_preserved_assets.json과 NativeV6/Motif128은 기존 팔레트·문양을 보존한다. v6 검사는 별도 v5 원본이 없으면 Data/v5_preservation_manifest.json의 정확한 PNG/RGBA SHA256과 T01_A 전체 메타데이터를 사용한다. 동봉한 기준 검사는 node Tools/validate_theme_finish_v6.mjs --packaged-baseline이다. 완성 비교판은 이미 동봉했으며 과거 v5 그림까지 다시 만드는 build:comparison만 별도 v5 소스가 필요하다.
+19스타일의 native-quarter-roles-v6는 64px 반복 재료와 투명 16px 분면 역할을 별도로 등록한 아트다. 색상으로 몸체와 장식을 구분하지 말고 실제 등록 경로를 사용해라. 넓은 명암 띠, 둥근 면의 등록된 픽셀 절개, 테마별 재료 구조와 일정한 접속 포트를 유지해라. T01_A의 v5 경로와 픽셀을 새 공통 스타일로 다시 생성하지 마라.
+Previews/ANIMOL_theme_finish_v6_overview.png와 T01~T05 비교판은 실제 아틀라스 셀 조립이다. 썸네일·Sampling·Samples·기준 원화·새 디자인 참고 원화·HTML을 Runtime Sprite로 사용하지 마라. Runtime에서 특정 색을 지우거나 픽셀을 보정하는 후처리, 임의 외곽선, Shader로 원본 마감을 덮는 경로를 추가하지 마라.
+SourceArt/DesignReferencesV6의 새 5개 테마 이미지는 재료 디자인 참고 자료다. 정확한 16색/32px 아트의 검증 근거는 Data/native_v6와 SourceArt/NativeV6에서 생성한 실제 Art PNG와 검사 결과다.
+
+2. 별도 V6 Registry와 기존 계약
+contractId/artContract=ANIMOL_FREE_SHAPE_BLOB47_V1, 자유형 lookup/FreeShapeLayer schemaVersion=1을 유지하고 아트 버전만 6으로 설치해라. 다른 terrainPlacements 데이터 버전과 혼동하지 마라. 20 styleId, 셀 32×32px/PPU32/점유1×1, canonical mask 47종과 raw mask 256종, v0~v3 네 전역 위상은 그대로다. v0~v3는 아트 버전이 아니다.
+예: Assets/ANIMOL/TerrainFreeShape/Art/V6에 새 Registry를 설치해라. 기존 V1~V5 에셋·meta·GUID·GlobalObjectId·사용자 맵을 보존해라. 기존 맵은 명시적으로 전환되기 전까지 기존 레지스트리를 참조한다. 알 수 없는 계약/schema/아트 버전과 미설치 버전은 거부하고 임의 fallback하지 마라.
+V6에는 20스타일의 3,760개 셀 Sprite, 80개 아틀라스, 20개 문양 참조가 완전해야 한다. 동일 PNG를 가진 T01_A와 유지한 문양은 SHA256이 정확히 같은 기존 에셋을 설치한 경우만 명시적으로 공유해도 된다. 다른 19스타일의 mask 또는 위상은 기존 참조로 남기지 마라.
+Runtime은 lookup이 지정하는 아틀라스와 문양을 사용한다. 개별 셀 PNG·원화·분면 제작 PNG·Samples를 중복 Runtime 설치하지 마라. 원본 규칙과 개별 PNG는 검수·재현용 소스로 보관해라.
+
+3. 임포트와 편집기 참조
+아틀라스는 Multiple, 32×32 rect, 중앙 pivot, FullRect, PPU32다. JSON rect는 왼쪽 위 원점이므로 Unity y=atlasHeight-y-height로 변환해라. 문양은 bottom-left pivot, PPU32, 시각 크기4×4셀, 추가 점유/Collider0이다.
+Point, 압축None, mipmapOff, 정상 sRGB를 사용하고 공용 Sweetie-16과 alpha0/255를 유지해라. 확대·축소 임포트와 블러를 추가하지 마라. 패키지의 완성 PNG를 다시 팔레트 양자화하지 마라.
+V6 Registry에서 모든 styleId/mask/variant를 lookup Sprite로 등록해라. 맵 에디터의 스타일 실루엣·재료 썸네일과 선택 프리뷰도 같은 V6 Sprite 참조에서 생성해라. 썸네일만 교체하거나 일부 mask/phase만 재바인딩하지 마라. 선택 맵 전환 후 Renderer·Tilemap·분면/셀 캐시를 해당 Registry 기준으로 재해석해라. 2D 측면 발판의 상면을 기울이거나 top-view 표면을 덧붙이지 마라.
+
+4. 선택한 맵의 아트 버전 전환
+현재 맵의 artVersion을 표시하고 사용자가 선택한 개발 맵 범위만 기존 Undo/Validate/Commit 경로로 artVersion=6에 전환해라. 설치·창 열기·리로드·초기화가 모든 맵을 자동 전환하거나 저장하면 안 된다.
+전환 전후의 좌표·점유·styleId·seed·객체·스탬프·셀 크기·물리 소유자는 동일해야 한다. 기존 규칙대로 artVersion을 hash에 반영하고 revision은 한 번 증가시켜라. 점유를 그림에서 추정하거나 구멍을 외접 사각형으로 채우지 마라.
+Undo/Redo는 버전과 파생 Sprite 참조·캐시를 함께 복원해야 한다. Validate·Commit·저장 실패는 정본·디스크·Scene 프리뷰·Registry 선택을 기존 트랜잭션 규칙으로 롤백해라. Ready·보상·스테이지 배정 검증을 우회하지 마라.
+
+5. 연결·위상·문양·물리 유지
+N1/NE2/E4/SE8/S16/SW32/W64/NW128, 대각선 게이팅, rawToCanonical/rawToIndex를 그대로 사용해라. 이웃은 청크 내부가 아니라 전역 점유에서 판정해라.
+resolveVariant와 동일하게 floorMod(globalX+(seed&1),2)+2*floorMod(-globalY+((seed>>1)&1),2)를 사용해라. 음수 좌표에도 양의 floorMod를 사용하며 16셀 청크 소유자는 Math.floor(global/16)과 같은 floor division으로 계산한다. 덩어리 좌상단이나 청크 원점에서 무늬 위상을 재시작하지 마라.
+문양은 동일 스타일4×4셀과 사방1셀 여유의 점유 지지가 있을 때 기존 hash/support 규칙으로 표시한다. 문양·줄눈·받침·내곽 장식은 별도 점유나 Collider가 없다. 기존 고체 충돌 소유자, 객체 footprint/swept path, one-way 동작을 보존해라. 아트 Tilemap에 새 Collider를 추가하지 마라. 내부 빈 셀은 시각·물리 모두 비어 있어야 한다.
+서로 다른 styleId의 자연스러운 혼합 접합은 이번 아트 규격에 새로 정의되지 않았다. 기존 다른 재료 판정 규칙을 바꾸지 말고, 이번 패치의 같은 스타일 연결 검사를 재료 혼합 검증으로 확대해 보고하지 마라.
+
+6. 전 테마 검사와 실제 보고
+먼저 맵 복사본에서 20스타일 모두의 가운데1×1 구멍(3×3 점유), 가운데2×2 구멍(4×4 점유), 큰 구멍, 1셀 두께 벽·천장·바닥, 계단, 열린 U자 구덩이, T분기, 음수16셀 청크 경계를 검사해라. 내부 셀 삭제→구멍 생성→확대→다시 채우기를 반복하여 주변 mask/phase·마감 갱신을 확인해라.
+3×3/가운데1×1 구멍은 seed0의 origin(0,0),(1,0),(0,1),(1,1) 네 위상과 음수 시작 좌표·고정 seed로 검사해라. 전체20스타일의47mask×4위상3,760개 참조를 확인해라. 상면, 측면, 하단, 볼록·오목 모서리, 몸체 이음의 두께와 명암이 패키지 실제 PNG와 같아야 한다.
+Scene/Runtime을 원배율1×와 정수 최근접8×로 캡처해 실제 PNG와 비교해라. Jaggies/Doubles 후보는 선언된 윤곽·규칙적인 큰 절단면·둥근 면의 의도된 절개와 구별해서 검사한다. 정해진 명암이나 둥근 코너의 의도된 잉크까지 무조건 지우지 마라. 랜덤 점·이중 윤곽·끊기는 줄눈·구멍 쪽으로 튀어나온 무관한 명암 조각이 있으면 제작 원본/role registration에서 고치고 다시 검증해라.
+V5/V6 선택→저장→재열기→플레이, 전환Undo/Redo, hash/revision, 실패롤백, 문양 지지 제거/복원, 빈 구멍 통과·착지·one-way·객체 배치 보존을 검사해라. 실제 Unity 컴파일과 변경 경로의 기존 테스트를 실행해라.
+Docs/ANIMOL_THEME_FINISH_V6_PATCH_RESULT.md에 변경경로·버전별 참조·manifest 검증·20스타일 적용·T01_A 보존·선택맵·임포트 설정·Unity 실행결과·검수캡처·미실행 항목을 기록해라. 이 패키지의 Node 검사와 대상 Unity 실행결과를 구분해라. 등록된 제작 영역·실제 셀·공유 경계 PASS를 모든 가능한 맵의 미관 자동승인으로 보고하지 마라.
