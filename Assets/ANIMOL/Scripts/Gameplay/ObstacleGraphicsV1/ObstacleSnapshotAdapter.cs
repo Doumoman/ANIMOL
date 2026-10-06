@@ -10,17 +10,8 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
     // Maps proven operational owners only. Similar names are not proof of equivalent behavior.
     public static class ObstacleSnapshotAdapter
     {
-        public static string Kind(StageMapObjectKind kind) => kind switch {
-            StageMapObjectKind.DropPlatform => "C01",
-            StageMapObjectKind.MoonLanternStep => "C05",
-            _ => null
-        };
-        public static string Availability(StageMapObjectTypeDefinition type)
-        {
-            if (Kind(type.Kind) != null) return "V6 접합";
-            if (type.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype) return "기능 미구현 · 기존 프리뷰";
-            return "기존 동작·그래픽";
-        }
+        public static string Kind(StageMapObjectKind kind) => CommonObstacleCatalog.Id(kind);
+        public static string Availability(StageMapObjectTypeDefinition type) => Kind(type.Kind) != null ? "V6 ?? ???" : "??? ???";
         public static string Style(StageMapDefinition map, StageMapObjectPlacement placement)
         {
             var explicitStyle = placement.Settings.ObstacleStyleId;
@@ -37,20 +28,17 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
         public static GraphicCell Read(StageMapDefinition map, StageMapObjectPlacement placement, StageMapRuntimeObject owner = null)
         {
             var kind = Kind(placement.Kind); if (kind == null) return null;
+            CommonObstacleCatalog.ValidateSettings(placement);
             if (placement.Settings.FootprintCells != Vector2.one) throw new InvalidOperationException("V6 obstacle graphics require the verified 1-cell footprint: " + placement.StableId);
-            bool surface = true; string pose = "idle";
+            bool surface = kind != "C09"; string pose = kind == "C09" ? "inactive" : "idle";
             if (owner != null)
             {
-                if (kind == "C01" && !(owner is DropPlatformObject) || kind == "C05" && !(owner is MoonLanternStepObject))
-                    throw new InvalidOperationException("Obstacle runtime owner does not match graphics adapter.");
-                var collider = owner.GetComponent<BoxCollider2D>();
-                if (collider == null) throw new InvalidOperationException("Missing authoritative obstacle surface.");
-                surface = collider.enabled && collider.gameObject.activeInHierarchy && !collider.isTrigger;
-                if (owner is MoonLanternStepObject lantern)
-                    pose = lantern.State == LanternStepState.Warning ? "warn" : surface ? "idle" : "inactive";
+                if (!(owner is CommonObstacleObject device) || device.Kind != placement.Kind)
+                    throw new InvalidOperationException("Obstacle runtime owner does not match the current contract.");
+                surface = device.SurfaceEnabled; pose = device.Pose;
             }
             return new GraphicCell { Kind=kind, ThemeId=map.ThemeId, StyleId=Style(map,placement), ArtVersion=map.FreeShapeTerrain.artVersion,
-                Facing="UP", Pose=pose, SurfaceEnabled=surface };
+                Facing=CommonObstacleCatalog.Facing(placement), Pose=pose, SurfaceEnabled=surface };
         }
         public static Dictionary<Vector2Int,GraphicCell> Preview(StageMapDefinition map, IEnumerable<StageMapObjectPlacement> placements = null)
         {

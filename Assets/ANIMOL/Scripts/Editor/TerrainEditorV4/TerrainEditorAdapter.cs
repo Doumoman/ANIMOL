@@ -27,7 +27,7 @@ namespace ANIMOL.Editor
         public StageTerrainStructureRegistry Terrain => StageTerrainStructureRegistry.Load();
         private StageMapObjectTypeRegistry objects;
         public StageMapObjectTypeRegistry Objects => objects != null ? objects :
-            (objects = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>("Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset"));
+            (objects = AssetDatabase.LoadAssetAtPath<StageMapObjectTypeRegistry>(CommonObstacleCatalog.RegistryPath));
         public Font Font { get; }
         public Sprite ButtonSprite { get; }
         public event Action Changed;

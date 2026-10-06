@@ -1,0 +1,101 @@
+{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "var devices=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.CommonObstacleObject>(UnityEngine.FindObjectsSortMode.None);\nvar loader=UnityEngine.Object.FindFirstObjectByType<ANIMOL.Gameplay.StageMapRuntimeLoader>();\nvar art=UnityEngine.Object.FindFirstObjectByType<ANIMOL.Gameplay.FreeShapeTerrainRenderer>();\nreturn new {playing=UnityEditor.EditorApplication.isPlaying,players=UnityEngine.Object.FindObjectsByType<ANIMOL.Gameplay.DevPlayerController>(UnityEngine.FindObjectsSortMode.None).Length,devices=devices.Select(d=>new {kind=d.Kind.ToString(),pose=d.Pose,surface=d.SurfaceEnabled,position=d.transform.position.ToString(),oldSprites=d.GetComponentsInChildren<UnityEngine.SpriteRenderer>().Length}).ToArray(),loader=loader==null?null:loader.Map.StageId,artColliders=art==null?-1:art.GetComponentsInChildren<UnityEngine.Collider2D>().Length,renderers=art==null?-1:art.GetComponentsInChildren<UnityEngine.Renderer>().Length};"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "playing": true,
+        "players": 1,
+        "devices": [
+          {
+            "kind": "CommonC04",
+            "pose": "active",
+            "surface": false,
+            "position": "(1.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC05",
+            "pose": "idle",
+            "surface": true,
+            "position": "(6.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC10",
+            "pose": "idle",
+            "surface": true,
+            "position": "(31.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC09",
+            "pose": "inactive",
+            "surface": false,
+            "position": "(26.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC03",
+            "pose": "idle",
+            "surface": true,
+            "position": "(-4.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC02",
+            "pose": "idle",
+            "surface": true,
+            "position": "(-9.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC08",
+            "pose": "idle",
+            "surface": true,
+            "position": "(21.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC06",
+            "pose": "idle",
+            "surface": true,
+            "position": "(11.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC01",
+            "pose": "idle",
+            "surface": true,
+            "position": "(-14.00, 0.00, 0.00)",
+            "oldSprites": 0
+          },
+          {
+            "kind": "CommonC07",
+            "pose": "idle",
+            "surface": false,
+            "position": "(16.00, 0.00, 0.00)",
+            "oldSprites": 0
+          }
+        ],
+        "loader": "DEV-COMMON-10-V6",
+        "artColliders": 0,
+        "renderers": 14
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

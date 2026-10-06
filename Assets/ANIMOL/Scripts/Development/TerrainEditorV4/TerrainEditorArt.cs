@@ -72,6 +72,8 @@ namespace ANIMOL.Development
             {var free=new GameObject("FreeShape artwork");free.transform.SetParent(root.transform,false);free.AddComponent<FreeShapeTerrainRenderer>().Rebuild(map.FreeShapeTerrain,units,obstacles);}
             foreach (var p in map.Objects)
             {
+                if(CommonObstacleCatalog.IsRetired(p.Kind)) continue;
+                if(CommonObstacleCatalog.IsCurrent(p.Kind)) continue; // Current devices render exclusively through the V6 registry.
                 if(obstacles.ContainsKey(new Vector2Int(p.X,p.Y)) && ObstacleSnapshotAdapter.Kind(p.Kind)!=null)continue;
                 var art = CopySprites(p.Prefab != null ? p.Prefab : adapter.Objects?.Find(p)?.Prefab, root.transform);
                 art.name = p.StableId;
@@ -100,7 +102,7 @@ namespace ANIMOL.Development
                     var candidate=new Dictionary<Vector2Int,GraphicCell>(cells);candidate.Add(new Vector2Int(p.X,p.Y),cell);
                     ObstacleSnapshotAdapter.Validate(map.FreeShapeTerrain,candidate);cells=candidate;
                 }
-                catch(System.InvalidOperationException){ /* Unbound legacy device keeps its original artwork; authoring validates explicitly. */ }
+                catch(System.InvalidOperationException){ /* Invalid current devices have no legacy-art fallback; placement validation reports the error. */ }
             }
             return cells;
         }

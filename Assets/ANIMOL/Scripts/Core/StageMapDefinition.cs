@@ -22,9 +22,12 @@ namespace ANIMOL.Core
         CloudBalloonTether, CloudWindmillBlade, CloudRainbowSlide, CloudRainUmbrella, CloudSailStep,
         LibIndexDrawer, LibLetterBelt, LibPopupStair, LibSpineBrake, LibChapterFork,
         GreenPetalCup, GreenDewGlass, GreenSundialPetal, GreenSandRetrace, GreenVineKnot,
-        MineMagnetPair, MineSlickFacet, MinePrismBeam, MineCrystalLever, MineCartFork
+        MineMagnetPair, MineSlickFacet, MinePrismBeam, MineCrystalLever, MineCartFork,
+        CommonC01 = 1001, CommonC02, CommonC03, CommonC04, CommonC05,
+        CommonC06, CommonC07, CommonC08, CommonC09, CommonC10
     }
 
+    public enum ObstacleFacing { Up, Left, Right }
     public enum StageMapObjectDirection { Left = -1, Right = 1 }
     public enum HalfBlockPlacement { Lower, Upper }
     public enum SideSpringContactPolicy { FacingSideOnly, AnySide }
@@ -69,6 +72,9 @@ namespace ANIMOL.Core
         [SerializeField] private float effectStrength = 1f;
         [SerializeField] private bool deferWhileOccupied = true;
 
+        [SerializeField] private ObstacleFacing obstacleFacing;
+        public ObstacleFacing ObstacleFacing => obstacleFacing;
+        public void EditorSetObstacleFacing(ObstacleFacing value) => obstacleFacing = value;
         [SerializeField] private string obstacleStyleId = string.Empty;
         public string ObstacleStyleId => obstacleStyleId;
         public void EditorSetObstacleStyle(string styleId) => obstacleStyleId = styleId ?? string.Empty;
@@ -233,7 +239,14 @@ namespace ANIMOL.Core
             this.settings = settings?.Clone() ?? new StageMapObjectSettings();
         }
 
-        public void EditorFlip() => Settings.EditorFlip();
+        public void EditorFlip()
+        {
+            if(CommonObstacleCatalog.IsCurrent(kind))
+            {
+                if(Settings.ObstacleFacing!=ObstacleFacing.Up)Settings.EditorSetObstacleFacing(Settings.ObstacleFacing==ObstacleFacing.Left?ObstacleFacing.Right:ObstacleFacing.Left);
+            }
+            else Settings.EditorFlip();
+        }
     }
 
     [Serializable]
@@ -583,6 +596,7 @@ namespace ANIMOL.Core
                     .Append(':').Append(settings.UpperPauseSeconds).Append(':').Append(settings.LowerPauseSeconds).Append(':').Append(settings.ActivationRangeCells)
                     .Append(':').Append(settings.GroundSpeedMultiplier).Append(':').Append(settings.EndStopSeconds).Append(':').Append(settings.ReturnWhenEmpty)
                     .Append(':').Append(item.Prefab == null ? string.Empty : item.Prefab.name);
+                if (CommonObstacleCatalog.IsCurrent(item.Kind)) builder.Append("|CommonObstacleSettings:").Append(JsonUtility.ToJson(settings));
                 if (!string.IsNullOrEmpty(settings.ObstacleStyleId)) builder.Append("|ObstacleStyle:").Append(settings.ObstacleStyleId);
                 foreach (var node in settings.PathCells) builder.Append('@').Append(node.x).Append(',').Append(node.y);
             }
@@ -628,6 +642,7 @@ namespace ANIMOL.Core
         public static IEnumerable<Vector2Int> EnumeratePlacementCells(StageMapObjectPlacement placement)
         {
             if (placement == null) yield break;
+            if (CommonObstacleCatalog.IsRetired(placement.Kind)) yield break;
             var footprint = placement.Settings.FootprintCells;
             var width = Mathf.Max(1, Mathf.CeilToInt(footprint.x));
             var height = Mathf.Max(1, Mathf.CeilToInt(footprint.y));
@@ -706,11 +721,11 @@ namespace ANIMOL.Core
             if (map.Objects.Any(item => item.Settings.Version < 1 || item.Settings.FootprintCells.x <= 0f || item.Settings.FootprintCells.y <= 0f))
                 report.Errors.Add("Map object settings version/footprint is invalid.");
             var objectIds = new HashSet<string>(map.Objects.Select(item => item.StableId), StringComparer.Ordinal);
-            if (map.Objects.Any(item => item.Settings.LinkedInstanceIds.Any(linked => !objectIds.Contains(linked))))
+            if (map.Objects.Where(item => !CommonObstacleCatalog.IsRetired(item.Kind)).Any(item => item.Settings.LinkedInstanceIds.Any(linked => !objectIds.Contains(linked))))
                 report.Errors.Add("One or more map object links are dangling.");
-            if (map.Objects.Any(item => item.Settings.LinkedInstanceIds.Count < item.Settings.MinimumLinkCount))
+            if (map.Objects.Where(item => !CommonObstacleCatalog.IsRetired(item.Kind)).Any(item => item.Settings.LinkedInstanceIds.Count < item.Settings.MinimumLinkCount))
                 report.Errors.Add("One or more map objects are missing required stable-ID links.");
-            if (map.Objects.Any(item => item.Settings.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype &&
+            if (map.Objects.Where(item => !CommonObstacleCatalog.IsRetired(item.Kind)).Any(item => item.Settings.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype &&
                                         item.Settings.RouteRole == MapObjectRouteRole.Required))
                 report.Errors.Add("PlaceablePrototype objects cannot be assigned to a required route or required reward access path.");
             if (map.HasTerrainStructures || map.CollisionDataRevision == -1)
@@ -738,8 +753,9 @@ namespace ANIMOL.Core
             if (map.Objects.Count(x => x.Kind == StageMapObjectKind.Checkpoint) < 1) report.Errors.Add("At least one checkpoint is required.");
             if (map.Objects.Count(x => x.Kind == StageMapObjectKind.BubbleCandidate) < 3) report.Errors.Add("At least three bubble candidates are required.");
             if (map.Objects.Count(x => x.Kind == StageMapObjectKind.Exit) != 1) report.Errors.Add("Exactly one exit is required.");
-            if (map.Objects.Any(item => item.Settings.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype))
+            if (map.Objects.Where(item => !CommonObstacleCatalog.IsRetired(item.Kind)).Any(item => item.Settings.ImplementationLevel == MapObjectImplementationLevel.PlaceablePrototype))
                 report.Errors.Add("Operational Ready is blocked while PlaceablePrototype map objects are present.");
+            if (map.Objects.Any(item => CommonObstacleCatalog.IsRetired(item.Kind))) report.Errors.Add("Retired obstacles must be removed or replaced before Operational Ready.");
             if (!map.HasCurrentHumanCompletionReview) report.Errors.Add("Human completion review for this exact version/hash is missing.");
             return report;
         }

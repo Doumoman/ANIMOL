@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Development;
 using ANIMOL.Gameplay;
+using ANIMOL.Core;
+using ANIMOL.Gameplay.ObstacleGraphics;
 using Animol.TerrainStructure;
 using UnityEditor;
 using UnityEngine;
@@ -18,6 +20,7 @@ namespace ANIMOL.Editor
             if(part.marker.HasValue)return new TerrainEditorThumbnail{diagnostic="기존 "+part.name+" marker에는 Sprite 미리보기 리소스가 없습니다.",sourceHash=part.id};
             var asset=part.terrain!=null?(UnityEngine.Object)Terrain.Frame(part.terrain.frameId):part.obj;
             var hash=AssetDatabase.GetAssetDependencyHash(AssetDatabase.GetAssetPath(asset)).ToString();
+            if(part.obj!=null && CommonObstacleCatalog.IsCurrent(part.obj.Kind))hash+=":"+Map.ThemeId+":"+AssetDatabase.GetAssetDependencyHash(FreeShapeArtV6Builder.RegistryPath)+":"+AssetDatabase.GetAssetDependencyHash(ObstacleArtV1Builder.RegistryPath);
             var key=part.id+":"+hash;
             if(thumbnails.TryGetValue(key,out var cached))return cached;
             var result=new TerrainEditorThumbnail {sourceHash=hash};
@@ -28,6 +31,13 @@ namespace ANIMOL.Editor
                 GameObject art;
                 if(part.terrain!=null)
                     art=StageTerrainStructureRuntime.CreateArt(parent.transform,new AnimolTerrainPlacement {instanceId=part.id,catalogId=part.id},part.terrain,Terrain.Frame(part.terrain.frameId),1,0);
+                else if(CommonObstacleCatalog.IsCurrent(part.obj.Kind))
+                {
+                    art=new GameObject("Current V6 obstacle thumbnail");art.transform.SetParent(parent.transform,false);
+                    var settings=part.obj.DefaultSettings.Clone();settings.EditorSetObstacleStyle(Map.ThemeId+"_A");
+                    var placement=new StageMapObjectPlacement("thumbnail",part.obj.Kind,0,0,part.obj.StableTypeId,null,settings);
+                    art.AddComponent<FreeShapeTerrainRenderer>().Rebuild(new FreeShapeLayer(),1,new Dictionary<Vector2Int,GraphicCell>{{Vector2Int.zero,ObstacleSnapshotAdapter.Read(Map,placement)}});
+                }
                 else
                 {
                     art=TerrainEditorArt.CopySprites(part.obj.Prefab,parent.transform);
@@ -36,7 +46,7 @@ namespace ANIMOL.Editor
                 }
                 TerrainEditorArt.SetLayer(parent);
                 preview.AddSingleGO(parent);
-                var renderers=parent.GetComponentsInChildren<SpriteRenderer>();
+                var renderers=parent.GetComponentsInChildren<Renderer>();
                 if(renderers.Length==0)throw new InvalidOperationException("미리보기 Sprite 없음: "+part.id);
                 var bounds=renderers[0].bounds;foreach(var r in renderers.Skip(1))bounds.Encapsulate(r.bounds);
                 preview.camera.orthographic=true;preview.camera.orthographicSize=Mathf.Max(bounds.extents.x,bounds.extents.y)*1.1f;

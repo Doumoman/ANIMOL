@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "command": "command eval",
+  "data": {
+    "command": "eval",
+    "parameters": {
+      "code": "ANIMOL.Editor.TerrainEditorSceneEditor.Open(UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Core.StageMapDefinition>(ANIMOL.Editor.CommonObstacleV6Builder.DevMapPath)); ANIMOL.Editor.TerrainEditorSceneEditor.SetObstacleMode(); return new {parts=ANIMOL.Editor.TerrainEditorSceneEditor.PartCount, status=ANIMOL.Editor.TerrainEditorSceneEditor.Status, types=ANIMOL.Core.CommonObstacleCatalog.Load().Types.Select(t=>t.DisplayName).ToArray()};"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "parts": 14,
+        "status": "장애물 · 현재 테마와 공통 장치 · 공통 10종",
+        "types": [
+          "C01 · 하향 발판",
+          "C02 · 좌우 반사",
+          "C03 · 상향 스프링",
+          "C04 · 점멸 위험칸",
+          "C05 · 이탈 소멸판",
+          "C06 · 착지 반동",
+          "C07 · 방향 바람칸",
+          "C08 · 방향 벨트",
+          "C09 · 접근 생성판",
+          "C10 · 저마찰 바닥"
+        ]
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

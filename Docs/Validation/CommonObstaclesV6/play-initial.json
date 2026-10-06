@@ -1,0 +1,98 @@
+{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 0.1,
+      "summary": {
+        "total": 10,
+        "passed": 1,
+        "failed": 9,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ActualCollisionReflectsUsingPreSolverVelocity",
+          "Status": "Failed",
+          "Duration": 0.0273478,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests+<ActualCollisionReflectsUsingPreSolverVelocity>d__5.MoveNext () [0x0001e] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:43 \r\n  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ApproachPendingAndDepartureWarningHaveDifferentSurfaces",
+          "Status": "Failed",
+          "Duration": 0.0016876,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.ApproachPendingAndDepartureWarningHaveDifferentSurfaces () [0x00000] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:73 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.CurrentCatalogHasOnlyTenNewTypesAndNoLegacySpritePrefabs",
+          "Status": "Passed",
+          "Duration": 0.004546,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.DepartureWaitsForLastPlayerAndBlocksUnsafeRecovery",
+          "Status": "Failed",
+          "Duration": 0.000615,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.DepartureWaitsForLastPlayerAndBlocksUnsafeRecovery () [0x00000] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:64 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.HazardUsesSharedClockAndAirHasNoSolidSurface",
+          "Status": "Failed",
+          "Duration": 0.0004099,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.HazardUsesSharedClockAndAirHasNoSolidSurface () [0x00000] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:81 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ReflectionPreservesSpeedVerticalStaminaAndCooldown",
+          "Status": "Failed",
+          "Duration": 0.0004382,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.ReflectionPreservesSpeedVerticalStaminaAndCooldown () [0x00000] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:35 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.RetiredPlacementsDoNotSpawnRenderCollideOrReserveCells",
+          "Status": "Failed",
+          "Duration": 0.0084771,
+          "Message": "System.InvalidOperationException : Derived collision data revision is stale.",
+          "StackTrace": "  at ANIMOL.Gameplay.StageMapRuntimeLoader.Load (ANIMOL.Core.StageMapDefinition definition) [0x00476] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\StageMapRuntimeLoader.cs:103 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.RetiredPlacementsDoNotSpawnRenderCollideOrReserveCells () [0x000d6] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:106 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.SpringAndCushionAreVerticalOnlyAndDifferentStrengths",
+          "Status": "Failed",
+          "Duration": 0.0005871,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.SpringAndCushionAreVerticalOnlyAndDifferentStrengths () [0x0001a] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:51 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.SpringRiseSurvivesExistingPlayerJumpReleaseLogic",
+          "Status": "Failed",
+          "Duration": 0.0089461,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests+<SpringRiseSurvivesExistingPlayerJumpReleaseLogic>d__7.MoveNext () [0x0001e] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:58 \r\n  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.WindBeltAndNaturalFrictionAffectActualBodies",
+          "Status": "Failed",
+          "Duration": 0.0099331,
+          "Message": "UnityEngine.MissingComponentException : There is no 'BoxCollider2D' attached to the \"device\" game object, but a script is trying to access it.\nYou probably need to add a BoxCollider2D to the game object \"device\". Or your script needs to check if the component is attached before using it.",
+          "StackTrace": "  at UnityEngine.Object+MarshalledUnityObject.TryThrowEditorNullExceptionObject (UnityEngine.Object unityObj, System.String parameterName) [0x000cd] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Bindings.ThrowHelper.ThrowNullReferenceException (System.Object obj) [0x00010] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at UnityEngine.Collider2D.set_isTrigger (System.Boolean value) [0x00006] in <4852adb244664fa0a5f987fef863242e>:0 \r\n  at ANIMOL.Gameplay.CommonObstacleObject.Configure (ANIMOL.Core.StageMapObjectPlacement value, System.Single unitsPerCell) [0x00064] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\CommonObstacleObject.cs:35 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.Device (System.Int32 number, UnityEngine.Vector2 position) [0x00052] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:23 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests+<WindBeltAndNaturalFrictionAffectActualBodies>d__11.MoveNext () [0x00021] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:87 \r\n  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44 "
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

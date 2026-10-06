@@ -145,12 +145,12 @@ namespace ANIMOL.Tests
             Edit(Rectangle(-2,-2,36,12));var go=new GameObject("Free visual");var render=go.AddComponent<FreeShapeTerrainRenderer>();
             try{render.Rebuild(map.FreeShapeTerrain,1);Assert.That(render.TilemapCount,Is.EqualTo(1));Edit(new[]{new Vector2Int(15,5)},true);render.Rebuild(map.FreeShapeTerrain,1);Assert.That(render.LastUpdatedCells,Is.EqualTo(9));Assert.That(render.LastUpdatedMotifs,Is.LessThanOrEqualTo(1));Assert.That(render.TilemapCount,Is.EqualTo(1));Assert.That(go.GetComponentsInChildren<Collider2D>(),Is.Empty);}finally{UnityEngine.Object.DestroyImmediate(go);}
         }
-        [Test] public void ObjectFootprintAndSweptPathSeeFreeShapeAndRejectBeforeSave()
+        [Test] public void CurrentObjectFootprintSeesFreeShapeAndRejectsBeforeSave()
         {
             map.EditorPlaceObject("START",StageMapObjectKind.PlayerStart,6,6,"START");EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
             Engine.TryEditFreeShape(adapter.Terrain.Catalog,adapter.Read(),new[]{new Vector2Int(6,6)},false,"T01_A",out var overlap,out _);var before=File.ReadAllText(path);Assert.Throws<InvalidOperationException>(()=>adapter.Commit(overlap,"Object overlap"));Assert.That(File.ReadAllText(path),Is.EqualTo(before));
-            Edit(new[]{new Vector2Int(9,9)});var type=adapter.Objects.Find(StageMapObjectKind.RailPlatform);var settings=type.DefaultSettings.Clone();settings.EditorSetPathCells(new[]{new Vector2Int(5,9),new Vector2Int(12,9)});
-            var item=new StageMapObjectPlacement("RAIL",type.Kind,5,9,type.StableTypeId,type.Prefab,settings);var validation=StageMapObjectAuthoringOperations.ValidatePlacement(map,item);Assert.That(validation.Errors.Any(e=>e.Contains("terrain")),Is.True,string.Join(";",validation.Errors));
+            Edit(new[]{new Vector2Int(9,9)});var type=adapter.Objects.Find(StageMapObjectKind.CommonC01);var settings=type.DefaultSettings.Clone();settings.EditorSetObstacleStyle("T01_A");
+            var item=new StageMapObjectPlacement("C01",type.Kind,9,9,type.StableTypeId,type.Prefab,settings);var validation=StageMapObjectAuthoringOperations.ValidatePlacement(map,item);Assert.That(validation.Errors.Any(e=>e.Contains("terrain")),Is.True,string.Join(";",validation.Errors));
         }
         [Test] public void PersistentSignedSeedChangesHashAndRestoresWithUndoAndReimport()
         {

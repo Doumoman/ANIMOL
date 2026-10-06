@@ -61,6 +61,7 @@ namespace ANIMOL.Gameplay
         public static StageMapRuntimeObject Configure(GameObject instance, StageMapObjectPlacement placement, float cellSize)
         {
             if (instance == null || placement == null) return null;
+            if (CommonObstacleCatalog.IsRetired(placement.Kind)) { instance.SetActive(false); return null; }
             var runtime = instance.GetComponent<StageMapRuntimeObject>();
             runtime?.Configure(placement, cellSize);
             return runtime;
@@ -73,9 +74,10 @@ namespace ANIMOL.Gameplay
         {
             if (player == null) return false;
             var objectLab = UnityEngine.Object.FindFirstObjectByType<ObjectLabSession>();
-            if (objectLab != null) return objectLab.RespawnAtCheckpoint();
             var campaign = UnityEngine.Object.FindFirstObjectByType<CampaignMapDevSession>();
-            return campaign != null && campaign.RespawnAtCheckpoint();
+            bool respawned=objectLab!=null ? objectLab.RespawnAtCheckpoint() : campaign!=null && campaign.RespawnAtCheckpoint();
+            if(respawned)player.GetComponent<CommonObstaclePlayerMotion>()?.ClearEffects();
+            return respawned;
         }
     }
 }

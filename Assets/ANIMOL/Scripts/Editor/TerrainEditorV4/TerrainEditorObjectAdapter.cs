@@ -30,6 +30,7 @@ namespace ANIMOL.Editor
         {
             var candidate=ObjectCandidate(edit);
             if(edit.operation=="Delete")return;
+            if(CommonObstacleCatalog.IsRetired(candidate.Kind))throw new InvalidOperationException("폐기된 장애물입니다. 공통 C01~C10을 새로 배치하세요.");
             var type=Objects.Find(candidate);
             bool marker=T01S01ManualMapWorkflow.IsCampaignMarker(candidate.Kind);
             if(type==null && !marker || candidate.Settings.Version>3)throw new InvalidOperationException("지원되지 않는 객체 설정은 원본을 보존합니다.");
@@ -63,6 +64,31 @@ namespace ANIMOL.Editor
                 if(!validation.IsValid)throw new InvalidOperationException(string.Join(" | ",validation.Errors));
             }
             finally{UnityEngine.Object.DestroyImmediate(scratch);}
+        }
+        public void RemoveRetiredObstacles()
+        {
+            RequireEdit();Bind();var map=Map;
+            var retired=map.Objects.Where(o=>CommonObstacleCatalog.IsRetired(o.Kind)).Select(o=>o.StableId).ToArray();
+            if(retired.Length==0)return;
+            var before=EditorJsonUtility.ToJson(map);int revision=map.AuthoringRevision;
+            UnityEditor.Undo.IncrementCurrentGroup();int group=UnityEditor.Undo.GetCurrentGroup();
+            UnityEditor.Undo.SetCurrentGroupName("Remove retired ANIMOL obstacles");UnityEditor.Undo.RecordObject(map,"Remove retired obstacles");
+            try
+            {
+                map.EditorBatchAuthoredChanges(()=>{foreach(var id in retired)map.EditorRemoveObject(id);});
+                if(map.AuthoringRevision!=revision+1)throw new InvalidOperationException("Retirement must be one revision.");
+                map.EditorInvalidateTerrainDerivedCache();
+                var validation=StageMapValidator.ValidateStructure(map);
+                if(!validation.IsValid)throw new InvalidOperationException(string.Join(" | ",validation.Errors));
+                map.EditorInvalidateTerrainDerivedCache();EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
+                UnityEditor.Undo.FlushUndoRecordObjects();Notify();UnityEditor.Undo.CollapseUndoOperations(group);
+            }
+            catch
+            {
+                UnityEditor.Undo.FlushUndoRecordObjects();Animol.TerrainStructure.Editor.AnimolTerrainMapEditorBridge.RevertUndoGroup(group);
+                EditorJsonUtility.FromJsonOverwrite(before,map);EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
+                try{Notify();}catch{}throw;
+            }
         }
         public void CommitObject(TerrainEditorObjectEdit edit)
         {

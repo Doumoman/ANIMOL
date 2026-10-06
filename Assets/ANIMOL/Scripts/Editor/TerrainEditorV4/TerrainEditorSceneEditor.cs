@@ -113,7 +113,7 @@ namespace ANIMOL.Editor
                 view.LookAtDirect(state.center,Quaternion.identity,state.zoom);
                 parts.Clear();
                 parts.AddRange(adapter.Markers.Where(p=>p.marker is StageMapObjectKind.PlayerStart or StageMapObjectKind.Exit or StageMapObjectKind.Checkpoint or StageMapObjectKind.BubbleCandidate));
-                parts.AddRange(adapter.Objects.Types.Where(d=>d!=null).Select(d=>new TerrainEditorPart{id=d.StableTypeId,name=d.DisplayName,theme=string.IsNullOrEmpty(d.ThemeId)?"COMMON":d.ThemeId,category="Obstacles",size=d.FootprintCells,obj=d}));
+                parts.AddRange(adapter.Objects.Types.Where(d=>d!=null && CommonObstacleCatalog.IsCurrent(d.Kind)).Select(d=>new TerrainEditorPart{id=d.StableTypeId,name=d.DisplayName,theme=string.IsNullOrEmpty(d.ThemeId)?"COMMON":d.ThemeId,category="Obstacles",size=d.FootprintCells,obj=d}));
                 state.freeShape=true;state.freeStyle=adapter.Map.ThemeId+"_A";Refresh();view.Focus();
                 status=$"Scene 편집 · {adapter.Map.StageId} · 자유형 V6 + 장애물 + 캠페인 마커 · 저장 revision {adapter.Map.AuthoringRevision}";
             }
@@ -274,7 +274,8 @@ namespace ANIMOL.Editor
                     if(signature!=settingsKey)
                     {if(settings!=null)UnityEngine.Object.DestroyImmediate(settings);settings=ScriptableObject.CreateInstance<TerrainEditorSettingsDraft>();settings.hideFlags=HideFlags.HideAndDontSave;settings.value=obj.Settings.Clone();settingsKey=signature;}
                     var serialized=new SerializedObject(settings);serialized.Update();
-                    using(new EditorGUI.DisabledScope(obj.Settings.Version>3)){EditorGUILayout.PropertyField(serialized.FindProperty("value"),new GUIContent("객체 설정"),true);serialized.ApplyModifiedPropertiesWithoutUndo();
+                    using(new EditorGUI.DisabledScope(obj.Settings.Version>3)){if(CommonObstacleCatalog.IsCurrent(obj.Kind))DrawCommonSettings(serialized,obj.Kind);
+                        else EditorGUILayout.PropertyField(serialized.FindProperty("value"),new GUIContent("객체 설정"),true);serialized.ApplyModifiedPropertiesWithoutUndo();
                         if(GUILayout.Button("설정 적용",buttonStyle))Run(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId=obj.StableId,settings=settings.value.Clone()}));}
                 }
             }

@@ -33,6 +33,12 @@ namespace ANIMOL.Editor
         {
             var result = new StageMapObjectPlacementValidation();
             if (map == null || candidate == null) { result.Errors.Add("Map and candidate are required."); return result; }
+            if (CommonObstacleCatalog.IsRetired(candidate.Kind)) { result.Errors.Add("Retired obstacle types cannot be authored."); return result; }
+            if (CommonObstacleCatalog.IsCurrent(candidate.Kind))
+            {
+                try { CommonObstacleCatalog.ValidateSettings(candidate); }
+                catch(Exception ex) { result.Errors.Add(ex.Message); return result; }
+            }
             if (string.IsNullOrWhiteSpace(candidate.StableId)) result.Errors.Add("Stable ID is required.");
             if (map.Objects.Any(item => item.StableId == candidate.StableId && item.StableId != replacingStableId))
                 result.Errors.Add($"Stable ID {candidate.StableId} already exists.");
@@ -54,6 +60,9 @@ namespace ANIMOL.Editor
                 try { solidTerrain.UnionWith(map.ResolveTerrain(ANIMOL.Gameplay.StageTerrainStructureRegistry.Load()).solids.Keys); }
                 catch(Exception ex){result.Errors.Add(ex.Message);return result;}
             }
+            solidTerrain.UnionWith(map.FreeShapeTerrain.cells.Select(cell=>new Vector2Int(cell.x,cell.y)));
+            if (CommonObstacleCatalog.IsCurrent(candidate.Kind) && cells.Any(solidTerrain.Contains))
+                result.Errors.Add("Obstacle footprint overlaps authored terrain.");
             if (RequiresPath(candidate.Kind) && cells.Skip(1).Any(solidTerrain.Contains))
                 result.Errors.Add("Moving path crosses authored terrain.");
             if (candidate.Kind == StageMapObjectKind.Pounder && candidate.Settings.PathCells.Count < 2)

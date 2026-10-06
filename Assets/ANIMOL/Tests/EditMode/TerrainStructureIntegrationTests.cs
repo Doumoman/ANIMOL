@@ -194,12 +194,12 @@ namespace ANIMOL.Tests
             }
         }
 
-        [Test] public void BoundsObjectFootprintAndSweptPathBlockCandidateBeforeSave()
+        [Test] public void BoundsAndCurrentObjectFootprintBlockCandidateBeforeSave()
         {
             var map=Map(); var outside=Place(map,"T01_D_Source",new Vector2Int(63,0));
             Assert.Throws<InvalidOperationException>(()=>StageTerrainStructureIntegration.Write(map,outside));
-            var settings=new StageMapObjectSettings(); settings.EditorSetPathCells(new[]{new Vector2Int(-5,0),new Vector2Int(20,0)});
-            map.EditorPlaceObject("rail",StageMapObjectKind.RailPlatform,-5,0,"RAIL",null,settings);
+            var settings=new StageMapObjectSettings(); settings.EditorSetObstacleStyle("T01_A");
+            map.EditorPlaceObject("device",StageMapObjectKind.CommonC01,0,0,"C01",null,settings);
             var candidate=Place(map,"T01_D_Source",Vector2Int.zero);
             Assert.Throws<InvalidOperationException>(()=>StageTerrainStructureIntegration.Write(map,candidate));
         }

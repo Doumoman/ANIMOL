@@ -1,0 +1,98 @@
+{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 0.43,
+      "summary": {
+        "total": 10,
+        "passed": 8,
+        "failed": 2,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ActualCollisionReflectsUsingPreSolverVelocity",
+          "Status": "Passed",
+          "Duration": 0.1350622,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ApproachPendingAndDepartureWarningHaveDifferentSurfaces",
+          "Status": "Passed",
+          "Duration": 0.0034782,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.CurrentCatalogHasOnlyTenNewTypesAndNoLegacySpritePrefabs",
+          "Status": "Passed",
+          "Duration": 0.0016956,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.DepartureWaitsForLastPlayerAndBlocksUnsafeRecovery",
+          "Status": "Passed",
+          "Duration": 0.0006134,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.HazardUsesSharedClockAndAirHasNoSolidSurface",
+          "Status": "Passed",
+          "Duration": 0.0005249,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.ReflectionPreservesSpeedVerticalStaminaAndCooldown",
+          "Status": "Passed",
+          "Duration": 0.0009529,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.RetiredPlacementsDoNotSpawnRenderCollideOrReserveCells",
+          "Status": "Failed",
+          "Duration": 0.0096597,
+          "Message": "System.InvalidOperationException : Derived collision data revision is stale.",
+          "StackTrace": "  at ANIMOL.Gameplay.StageMapRuntimeLoader.Load (ANIMOL.Core.StageMapDefinition definition) [0x00476] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Gameplay\\StageMapRuntimeLoader.cs:103 \r\n  at ANIMOL.Tests.CommonObstaclePlayModeTests.RetiredPlacementsDoNotSpawnRenderCollideOrReserveCells () [0x000d6] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:106 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.SpringAndCushionAreVerticalOnlyAndDifferentStrengths",
+          "Status": "Passed",
+          "Duration": 0.0006921,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.SpringRiseSurvivesExistingPlayerJumpReleaseLogic",
+          "Status": "Passed",
+          "Duration": 0.174396,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Tests.CommonObstaclePlayModeTests.WindBeltAndNaturalFrictionAffectActualBodies",
+          "Status": "Failed",
+          "Duration": 0.059174,
+          "Message": "  Expected: in range (3.8,4)\r\n  But was:  3.55960011f\r\n",
+          "StackTrace": "at ANIMOL.Tests.CommonObstaclePlayModeTests+<WindBeltAndNaturalFrictionAffectActualBodies>d__11.MoveNext () [0x0015f] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Tests\\PlayMode\\CommonObstaclePlayModeTests.cs:92\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44\r\n"
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

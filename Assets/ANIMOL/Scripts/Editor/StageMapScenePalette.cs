@@ -17,7 +17,7 @@ namespace ANIMOL.Editor
 
     public static class StageMapScenePalette
     {
-        private const string RegistryPath = "Assets/ANIMOL/Data/Development/M9Objects/MapObjectTypeRegistry.asset";
+        private const string RegistryPath = CommonObstacleCatalog.RegistryPath;
         public const string VariantSeparator = "@";
 
         public static readonly TerrainTileTopology[] NineSliceOrder =
@@ -30,7 +30,7 @@ namespace ANIMOL.Editor
         public static readonly StageMapObjectKind[] MarkerKinds =
         {
             StageMapObjectKind.PlayerStart, StageMapObjectKind.BubbleCandidate, StageMapObjectKind.Checkpoint,
-            StageMapObjectKind.Exit, StageMapObjectKind.Hole, StageMapObjectKind.Spike
+            StageMapObjectKind.Exit
         };
 
         public static string ComposeVariantId(string designId, TerrainTileTopology topology)
@@ -88,7 +88,7 @@ namespace ANIMOL.Editor
         {
             if (map == null) return null;
             return map.Objects.LastOrDefault(item => StageMapDefinition.EnumeratePlacementCells(item).Contains(cell))
-                   ?? map.Objects.LastOrDefault(item => item.X == cell.x && item.Y == cell.y);
+                   ?? map.Objects.LastOrDefault(item => !CommonObstacleCatalog.IsRetired(item.Kind) && item.X == cell.x && item.Y == cell.y);
         }
 
         public static StageMapObjectTypeDefinition FindType(string stableTypeId)

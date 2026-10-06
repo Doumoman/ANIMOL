@@ -31,7 +31,7 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
         {
             var cells=new Dictionary<Vector2Int,GraphicCell>();
             var stamps=new List<string>();
-            var input=map.AuthoringRevision+";"+string.Join(";",owners.Select(i=>i.owner==null?"deleted":i.owner.transform.position+"|"+i.owner.gameObject.activeInHierarchy+"|"+(i.owner is MoonLanternStepObject l?l.State.ToString():"idle")+"|"+i.owner.GetComponent<BoxCollider2D>()?.enabled));
+            var input=map.AuthoringRevision+";"+string.Join(";",owners.Select(i=>i.owner==null?"deleted":i.owner.transform.position+"|"+i.owner.gameObject.activeInHierarchy+"|"+(i.owner is CommonObstacleObject d?d.Pose:"idle")+"|"+i.owner.GetComponent<BoxCollider2D>()?.enabled));
             if(failedInput==input || lastInput==input)return;
             var accepted=new List<StageMapRuntimeObject>();var issues=new List<string>();
             try

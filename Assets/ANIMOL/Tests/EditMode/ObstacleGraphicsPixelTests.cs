@@ -20,7 +20,7 @@ namespace ANIMOL.Tests
         [Serializable] private class Report {public List<Sample> samples=new();}
         [Test,Timeout(600000)] public void AllTwentyStylesTenGraphicKindsMatchSourceAt1xAnd8x()
         {
-            const string output="Docs/Validation/ObstacleGraphicsV1";Directory.CreateDirectory(output+"/Renders");
+            const string output="Docs/Validation/CommonObstaclesV6";Directory.CreateDirectory(output+"/Renders");
             var report=new Report();var scene=EditorSceneManager.NewPreviewScene();var previous=RenderTexture.active;
             var cameraRoot=new GameObject("OVG pixel camera");SceneManager.MoveGameObjectToScene(cameraRoot,scene);
             var camera=cameraRoot.AddComponent<Camera>();camera.enabled=false;camera.scene=scene;camera.orthographic=true;camera.orthographicSize=3;camera.aspect=2.5f;
@@ -40,7 +40,7 @@ namespace ANIMOL.Tests
                             devices.Add(new Vector2Int(x+1,y),new GraphicCell{Kind=kind,StyleId=style.styleId,ThemeId=style.themeId,SurfaceEnabled=true,Facing=kind is "C02" or "C08"?"RIGHT":"UP",Pose=kind=="C09"?"active":"idle"});
                         }
                         var renderer=root.AddComponent<FreeShapeTerrainRenderer>();renderer.Rebuild(layer,1,devices);
-                        source.LoadImage(File.ReadAllBytes(output+"/Expected/"+style.styleId+".png"));var expected=source.GetPixels32();
+                        source.LoadImage(File.ReadAllBytes("Docs/Validation/ObstacleGraphicsV1/Expected/"+style.styleId+".png"));var expected=source.GetPixels32();
                         foreach(int scale in new[]{1,8})
                         {
                             var rt=new RenderTexture(480*scale,192*scale,0,RenderTextureFormat.ARGB32,RenderTextureReadWrite.sRGB);rt.Create();var read=new Texture2D(rt.width,rt.height,TextureFormat.RGBA32,false);

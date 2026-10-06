@@ -47,6 +47,7 @@ namespace ANIMOL.Gameplay
             // Resolve pinned masks before touching the existing preview/physics cache.
             var structureRegistry = definition.HasTerrainStructures ? StageTerrainStructureRegistry.Load() : null;
             if (structureRegistry != null) definition.ResolveTerrain(structureRegistry);
+            ObstacleGraphics.ObstacleSnapshotAdapter.Validate(definition.FreeShapeTerrain,ObstacleGraphics.ObstacleSnapshotAdapter.Preview(definition));
             PrepareTerrainPhysicsOwner(definition, structureRegistry != null);
             map = definition;
             ConfigureGridScale(definition.WorldUnitsPerCell);
@@ -113,7 +114,7 @@ namespace ANIMOL.Gameplay
         {
             if (runtimeObjectRoot == null) return;
             foreach (var resettable in runtimeObjectRoot.GetComponentsInChildren<MonoBehaviour>(true).OfType<IStageMapRuntimeResettable>())
-                resettable.ResetRuntimeState();
+                if (!(resettable is CommonObstacleObject)) resettable.ResetRuntimeState();
         }
 
         private void SpawnAuthoredObjects(StageMapDefinition definition)
@@ -133,7 +134,8 @@ namespace ANIMOL.Gameplay
             }
             foreach (var placement in definition.Objects)
             {
-                var type = objectTypeRegistry?.Find(placement);
+                if (CommonObstacleCatalog.IsRetired(placement.Kind)) continue;
+                var type = CommonObstacleCatalog.IsCurrent(placement.Kind) ? CommonObstacleCatalog.Load().Find(placement.Kind) : objectTypeRegistry?.Find(placement);
                 if (type == null && !string.IsNullOrWhiteSpace(placement.DataKey))
                 {
                     Debug.LogWarning($"[ANIMOL][M9B] Unknown map object type is preserved but unsupported: {placement.DataKey}/{placement.StableId}.", this);
@@ -149,7 +151,7 @@ namespace ANIMOL.Gameplay
                     Debug.LogError($"[ANIMOL][M9B] Blocked prototype runtime object {placement.DataKey}/{placement.StableId} outside DEV preview.", this);
                     continue;
                 }
-                var prefab = placement.Prefab != null ? placement.Prefab : type?.Prefab;
+                var prefab = CommonObstacleCatalog.IsCurrent(placement.Kind) ? type?.Prefab : placement.Prefab != null ? placement.Prefab : type?.Prefab;
                 if (prefab == null) continue;
                 var instance = Instantiate(prefab, runtimeObjectRoot);
                 StageMapRuntimeFactory.Configure(instance, placement, definition.WorldUnitsPerCell);

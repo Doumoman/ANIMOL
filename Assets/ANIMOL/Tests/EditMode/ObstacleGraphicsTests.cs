@@ -101,9 +101,9 @@ namespace ANIMOL.Tests
             Assert.That(ObstacleSnapshotAdapter.Kind(StageMapObjectKind.SideSpring),Is.Null);
             Assert.That(ObstacleSnapshotAdapter.Kind(StageMapObjectKind.CloudSheepStep),Is.Null);
             Assert.That(ObstacleSnapshotAdapter.Kind(StageMapObjectKind.LibPopupStair),Is.Null);
-            Assert.That(ObstacleSnapshotAdapter.Kind(StageMapObjectKind.DropPlatform),Is.EqualTo("C01"));
+            Assert.That(ObstacleSnapshotAdapter.Kind(StageMapObjectKind.CommonC01),Is.EqualTo("C01"));
         }
-        [Test] public void LegacyUnboundDevicesCanBeConnectedIndividuallyAndKeepTheirOwnVisibility()
+        [Test] public void UnboundCurrentDevicesReportErrorsWithoutLegacyArtwork()
         {
             var map=ScriptableObject.CreateInstance<StageMapDefinition>();var id="TEST-OVG-LEGACY-"+Guid.NewGuid().ToString("N");var path="Assets/"+id+".asset";
             TerrainEditorAdapter adapter=null;var root=new GameObject("legacy fixture");
@@ -111,7 +111,7 @@ namespace ANIMOL.Tests
             {
                 map.EditorInitializeIdentity(id,"T01");map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-16,-16,64,32),false,out _);
                 map.FreeShapeTerrain.cells.Add(new FreeShapeCell{x=-4,y=0,styleId="T01_A"});map.FreeShapeTerrain.cells.Add(new FreeShapeCell{x=4,y=0,styleId="T01_B"});
-                AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));var type=adapter.Objects.Find(StageMapObjectKind.DropPlatform);
+                AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));var type=adapter.Objects.Find(StageMapObjectKind.CommonC01);
                 map.EditorPlaceObject("first",type.Kind,0,0,type.StableTypeId,type.Prefab,type.DefaultSettings);
                 map.EditorPlaceObject("second",type.Kind,2,0,type.StableTypeId,type.Prefab,type.DefaultSettings);
                 var settings=map.Objects.First().Settings.Clone();settings.EditorSetObstacleStyle("T01_A");
@@ -120,7 +120,7 @@ namespace ANIMOL.Tests
                 var objects=new GameObject("operational owners");objects.transform.SetParent(root.transform,false);var visuals=new Dictionary<string,SpriteRenderer>();
                 foreach(var p in map.Objects)
                 {
-                    var go=new GameObject(p.StableId,typeof(BoxCollider2D),typeof(PlatformEffector2D),typeof(DropPlatformObject),typeof(SpriteRenderer));go.transform.SetParent(objects.transform,false);
+                    var go=new GameObject(p.StableId,typeof(BoxCollider2D),typeof(PlatformEffector2D),typeof(CommonObstacleObject),typeof(SpriteRenderer));go.transform.SetParent(objects.transform,false);
                     StageMapRuntimeFactory.Configure(go,p,1);visuals.Add(p.StableId,go.GetComponent<SpriteRenderer>());
                 }
                 var artRoot=new GameObject("graphic cache");artRoot.transform.SetParent(root.transform,false);var art=artRoot.AddComponent<FreeShapeTerrainRenderer>();
@@ -131,6 +131,44 @@ namespace ANIMOL.Tests
             }
             finally{ObjectDestroy(root);adapter?.Dispose();Undo.ClearUndo(map);AssetDatabase.DeleteAsset(path);var backup=StageMapBackupService.BackupRoot+"/"+id;if(AssetDatabase.IsValidFolder(backup))AssetDatabase.DeleteAsset(backup);}
         }
+        [Test] public void RetiredRecordsCleanupIsOneUndoableRevisionAndRollsBackFailure()
+        {
+            var map=ScriptableObject.CreateInstance<StageMapDefinition>();var id="TEST-RETIRE-"+Guid.NewGuid().ToString("N");var path="Assets/"+id+".asset";
+            TerrainEditorAdapter adapter=null;
+            try
+            {
+                map.EditorInitializeIdentity(id,"T01");map.EditorInitializeBoundsFromAuthoredContent(1);
+                map.EditorPlaceObject("old1",StageMapObjectKind.DropPlatform,0,0);
+                map.EditorPlaceObject("old2",StageMapObjectKind.SideSpring,1,0);
+                map.EditorPlaceObject("start",StageMapObjectKind.PlayerStart,2,0);map.EditorMarkCollisionDataSynchronized();
+                AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
+                int revision=map.AuthoringRevision;adapter.RemoveRetiredObstacles();
+                Assert.That(map.Objects.Count,Is.EqualTo(1));Assert.That(map.AuthoringRevision,Is.EqualTo(revision+1));
+                adapter.Undo();Assert.That(map.Objects.Count,Is.EqualTo(3));adapter.Redo();Assert.That(map.Objects.Count,Is.EqualTo(1));adapter.Undo();
+                var before=File.ReadAllBytes(path);var hash=map.ContentHash;
+                Action failure=()=>throw new IOException("retirement preview failure");adapter.Changed+=failure;
+                Assert.Throws<IOException>(()=>adapter.RemoveRetiredObstacles());adapter.Changed-=failure;
+                Assert.That(map.ContentHash,Is.EqualTo(hash));Assert.That(File.ReadAllBytes(path),Is.EqualTo(before));
+            }
+            finally{adapter?.Dispose();Undo.ClearUndo(map);AssetDatabase.DeleteAsset(path);var backup=StageMapBackupService.BackupRoot+"/"+id;if(AssetDatabase.IsValidFolder(backup))AssetDatabase.DeleteAsset(backup);}
+        }
+        [Test] public void AllCurrentBehaviorSettingsContributeToContentHash()
+        {
+            var map=ScriptableObject.CreateInstance<StageMapDefinition>();
+            try
+            {
+                map.EditorInitializeIdentity("HASH-COMMON","T01");map.EditorInitializeBoundsFromAuthoredContent(1);
+                var type=CommonObstacleCatalog.Load().Find(StageMapObjectKind.CommonC04);
+                map.EditorPlaceObject("hazard",type.Kind,0,0,type.StableTypeId,type.Prefab,type.DefaultSettings);
+                var settings=map.Objects.Single().Settings;var previous=map.ContentHash;
+                settings.EditorConfigureDesignBehavior(.9f,2,3,MapObjectPassengerPolicy.DeferStateChangeWhileOccupied,MapObjectTriggerMode.OnOccupancy,0,0,9,true);
+                Assert.That(map.ContentHash,Is.Not.EqualTo(previous));previous=map.ContentHash;
+                settings.EditorConfigureAuthoring(MapObjectImplementationLevel.DevPlayable,Array.Empty<string>(),13,MapObjectResetPolicy.MapReload,MapObjectRouteRole.Required,0,"");
+                Assert.That(map.ContentHash,Is.Not.EqualTo(previous));previous=map.ContentHash;
+                settings.EditorSetObstacleFacing(ObstacleFacing.Left);Assert.That(map.ContentHash,Is.Not.EqualTo(previous));
+            }
+            finally{ObjectDestroy(map);}
+        }
         private static void ObjectDestroy(UnityEngine.Object value)=>UnityEngine.Object.DestroyImmediate(value);
         [Test] public void DeviceCommitMoveDeleteUndoRedoAndFailedValidationPreserveDisk()
         {
@@ -140,7 +178,7 @@ namespace ANIMOL.Tests
             {
                 map.EditorInitializeIdentity(Path.GetFileNameWithoutExtension(path),"T01");map.EditorInitializeBoundsFromAuthoredContent(1);map.EditorTrySetCellBounds(new RectInt(-32,-16,64,32),false,out _);map.EditorMarkCollisionDataSynchronized();
                 AssetDatabase.CreateAsset(map,path);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
-                var type=adapter.Objects.Find(StageMapObjectKind.DropPlatform);var settings=type.DefaultSettings.Clone();settings.EditorSetObstacleStyle("T01_B");
+                var type=adapter.Objects.Find(StageMapObjectKind.CommonC01);var settings=type.DefaultSettings.Clone();settings.EditorSetObstacleStyle("T01_B");
                 int revision=map.AuthoringRevision;var before=map.ContentHash;
                 adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=type.StableTypeId,instanceId="drop",origin=new Vector2Int(-16,0),settings=settings});
                 Assert.That(map.AuthoringRevision,Is.EqualTo(revision+1));Assert.That(map.ContentHash,Is.Not.EqualTo(before));

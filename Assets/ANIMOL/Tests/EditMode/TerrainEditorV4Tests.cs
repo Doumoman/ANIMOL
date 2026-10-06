@@ -96,12 +96,14 @@ namespace ANIMOL.Tests
             {var c=adapter.Read();c.revision++;mutation(c);Assert.Throws<InvalidOperationException>(()=>adapter.Commit(c,"Invalid"));}
             Assert.That(File.ReadAllText(path),Is.EqualTo(before));
         }
+        private static StageMapObjectSettings CurrentSettings(StageMapObjectTypeDefinition type)
+        {var settings=type.DefaultSettings.Clone();settings.EditorSetObstacleStyle("T01_A");return settings;}
         [Test] public void ObjectPreviewFailureRestoresMemoryDiskAndRevision()
         {
             var before=EditorJsonUtility.ToJson(map);var bytes=File.ReadAllText(path);
-            var def=adapter.Objects.Find(StageMapObjectKind.HalfBlock);
+            var def=adapter.Objects.Find(StageMapObjectKind.CommonC01);
             adapter.Changed+=()=>throw new InvalidOperationException("Injected object render failure");
-            Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="FAIL",origin=new Vector2Int(4,4)}));
+            Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="FAIL",origin=new Vector2Int(4,4),settings=CurrentSettings(def)}));
             Assert.That(EditorJsonUtility.ToJson(map),Is.EqualTo(before));Assert.That(File.ReadAllText(path),Is.EqualTo(bytes));
         }
         [Test] public void UnknownVariantBlocksReadAndUnchangedKnownVariantIsRetained()
@@ -115,38 +117,36 @@ namespace ANIMOL.Tests
         }
         [Test] public void ObjectAdapterUsesStableRegistryIdentityAndOneRevisionPerEdit()
         {
-            var def=adapter.Objects.Find(StageMapObjectKind.HalfBlock);var rev=map.AuthoringRevision;
-            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="HALF",origin=new Vector2Int(4,4)});
+            var def=adapter.Objects.Find(StageMapObjectKind.CommonC01);var rev=map.AuthoringRevision;
+            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="HALF",origin=new Vector2Int(4,4),settings=CurrentSettings(def)});
             Assert.That(map.AuthoringRevision,Is.EqualTo(rev+1));
             adapter.CommitObject(new TerrainEditorObjectEdit{operation="Move",instanceId="HALF",origin=new Vector2Int(5,6)});
             Assert.That(map.AuthoringRevision,Is.EqualTo(rev+2));Assert.That(map.Objects.Single().DataKey,Is.EqualTo(def.StableTypeId));
-            var settings=map.Objects.Single().Settings.Clone();settings.EditorSetPathCells(new[]{new Vector2Int(5,6),new Vector2Int(8,6)});
+            var settings=map.Objects.Single().Settings.Clone();settings.EditorSetObstacleStyle("T01_B");
             adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId="HALF",settings=settings});
             Assert.That(map.AuthoringRevision,Is.EqualTo(rev+3));Assert.That(map.CollisionDataRevision,Is.EqualTo(-1));
-            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId="HALF"});adapter.Undo();Assert.That(map.Objects.Single().Settings.PathCells.Count,Is.EqualTo(2));
+            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId="HALF"});adapter.Undo();Assert.That(map.Objects.Single().Settings.ObstacleStyleId,Is.EqualTo("T01_B"));
         }
-        [Test] public void LinkedPairAndMutualDeleteUseOneRevisionAndOneUndo()
+        [Test] public void RetiredPairTypesAreNotAvailableInCurrentCatalog()
         {
-            var def=adapter.Objects.Types.First(t=>t.RequiresLinkedPair && t.ThemeId=="T01");var rev=map.AuthoringRevision;
-            var edit=new TerrainEditorObjectEdit{operation="Pair",definitionId=def.StableTypeId,instanceId="PREVIEW",origin=new Vector2Int(-6,6),second=new Vector2Int(6,6)};
-            adapter.CommitObject(edit);Assert.That(map.Objects.Count,Is.EqualTo(2));Assert.That(map.AuthoringRevision,Is.EqualTo(rev+1));
-            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId=edit.instanceId});Assert.That(map.Objects,Is.Empty);Assert.That(map.AuthoringRevision,Is.EqualTo(rev+2));
-            adapter.Undo();Assert.That(map.Objects.Count,Is.EqualTo(2));Assert.That(StageMapValidator.ValidateStructure(map).IsValid,Is.True);
+            Assert.That(adapter.Objects.Types.Count,Is.EqualTo(10));
+            Assert.That(adapter.Objects.Types.Any(t=>t.RequiresLinkedPair),Is.False);
+            Assert.That(adapter.Objects.Find(StageMapObjectKind.MoonJadeBalance),Is.Null);
         }
-        [Test] public void All105ThumbnailsAreTransparentAndCachedBySourceHash()
+        [Test] public void CurrentThumbnailsAreTransparentAndCachedBySourceHash()
         {
             var parts=adapter.Terrain.Catalog.entries.Select(e=>new TerrainEditorPart{id=e.id,terrain=e})
                 .Concat(adapter.Objects.Types.Select(o=>new TerrainEditorPart{id=o.StableTypeId,obj=o})).ToArray();
-            Assert.That(parts.Length,Is.EqualTo(105));Assert.That(parts.Select(p=>p.id).Distinct().Count(),Is.EqualTo(105));
+            Assert.That(parts.Length,Is.EqualTo(70));Assert.That(parts.Select(p=>p.id).Distinct().Count(),Is.EqualTo(70));
             foreach(var p in parts)
             {var thumbnail=adapter.Thumbnail(p);Assert.That(thumbnail.diagnostic,Is.Null,p.id);var count=thumbnail.silhouette.GetPixels32().Count(c=>c.a>0);Assert.That(count,Is.InRange(1,35000),p.id);Assert.That(adapter.Thumbnail(p),Is.SameAs(thumbnail));}
-            Assert.That(adapter.ThumbnailBuildCount,Is.EqualTo(105));
+            Assert.That(adapter.ThumbnailBuildCount,Is.EqualTo(70));
         }
         [Test] public void OpenReadSaveDisposeWithoutEditDoesNotChangeMapFile()
         {var bytes=File.ReadAllText(path);var rev=map.AuthoringRevision;adapter.Read();adapter.Save();Assert.That(File.ReadAllText(path),Is.EqualTo(bytes));Assert.That(map.AuthoringRevision,Is.EqualTo(rev));}
-        [Test] public void ExistingSixMarkerKindsRemainAuthorableWithUniqueStart()
+        [Test] public void FourCampaignMarkerKindsRemainAuthorableWithUniqueStart()
         {
-            Assert.That(adapter.Markers.Count,Is.EqualTo(6));
+            Assert.That(adapter.Markers.Count,Is.EqualTo(4));
             var edit=new TerrainEditorObjectEdit{operation="Place",definitionId="marker:START",instanceId="PREVIEW",origin=new Vector2Int(3,3)};
             adapter.CommitObject(edit);Assert.That(map.Objects.Single().Kind,Is.EqualTo(StageMapObjectKind.PlayerStart));
             Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId="marker:START",instanceId="SECOND",origin=new Vector2Int(8,8)}));
@@ -156,8 +156,8 @@ namespace ANIMOL.Tests
         [Test] public void WrongThemeAndUnsupportedOwnerCannotBeSilentlyMapped()
         {
             Assert.That(Engine.TryPlace(adapter.Terrain.Catalog,adapter.Read(),"T02_D_Source",Vector2Int.zero,out _,out _),Is.False);
-            var def=adapter.Objects.Types.First(t=>t.ThemeId=="T02");
-            Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="WRONG",origin=Vector2Int.zero}));
+            var def=adapter.Objects.Types.First();var settings=def.DefaultSettings.Clone();settings.EditorSetObstacleStyle("T02_A");
+            Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="WRONG",origin=Vector2Int.zero,settings=settings}));
             Assert.Throws<InvalidOperationException>(()=>new TerrainEditorAdapter("invalid-guid"));
         }
     }
