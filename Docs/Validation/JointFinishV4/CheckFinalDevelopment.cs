@@ -1,0 +1,11 @@
+﻿var path="Assets/ANIMOL/Data/Development/JointFinishV4/DEV-JOINT-V4-COPY.asset";
+var map=UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Core.StageMapDefinition>(path);
+var initial=Newtonsoft.Json.Linq.JObject.Parse((string)Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("Docs/Validation/JointFinishV4/DevelopmentCopyConversion.json"))["before"]);
+var current=Newtonsoft.Json.Linq.JObject.Parse(UnityEditor.EditorJsonUtility.ToJson(map));
+var root=initial["MonoBehaviour"];
+current["MonoBehaviour"]["authoringRevision"]=root["authoringRevision"];
+current["MonoBehaviour"]["freeShapeTerrain"]["artVersion"]=root["freeShapeTerrain"]["artVersion"];
+var result=new{onlyVersionAndRevisionChanged=Newtonsoft.Json.Linq.JToken.DeepEquals(initial,current),artVersion=map.FreeShapeTerrain.artVersion,revision=map.AuthoringRevision,cells=map.FreeShapeTerrain.cells.Count,hash=map.ContentHash,playing=UnityEditor.EditorApplication.isPlaying,compiling=UnityEditor.EditorApplication.isCompiling,mcpRunning=MCPForUnity.Editor.Services.Transport.Transports.StdioBridgeHost.IsRunning};
+System.IO.File.WriteAllText("Docs/Validation/JointFinishV4/FinalDevelopmentState.json",Newtonsoft.Json.JsonConvert.SerializeObject(result,Newtonsoft.Json.Formatting.Indented));
+if(!result.onlyVersionAndRevisionChanged)throw new System.Exception("Development copy changed beyond version/revision");
+return result;

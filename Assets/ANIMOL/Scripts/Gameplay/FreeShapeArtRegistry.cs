@@ -29,7 +29,7 @@ namespace ANIMOL.Gameplay
         {
             if(contract!=FreeShapeLayer.Contract || !FreeShapeLayer.SupportsArtVersion(artVersion))
                 throw new InvalidOperationException("Unsupported free-shape art contract/version: "+contract+" / "+artVersion);
-            var registry=Resources.Load<FreeShapeArtRegistry>(artVersion==1?"ANIMOL_FreeShapeArt":"ANIMOL_FreeShapeArtV2");
+            var registry=Resources.Load<FreeShapeArtRegistry>(artVersion==1?"ANIMOL_FreeShapeArt":"ANIMOL_FreeShapeArtV"+artVersion);
             if(registry==null || registry.contractId!=contract || registry.version!=artVersion)
                 throw new InvalidOperationException("Missing free-shape art v"+artVersion+". Run its Terrain Free Shape initialization menu.");
             if(!registry.validated)registry.ValidateComplete();

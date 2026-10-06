@@ -17,16 +17,20 @@ using Object=UnityEngine.Object;
 
 namespace ANIMOL.Tests
 {
+    [TestFixture(2),TestFixture(4)]
     public sealed class FreeShapeArtV2ParityTests
     {
-        private const string Output="Docs/Validation/CleanArtV2";
+        private readonly int artVersion;
+        public FreeShapeArtV2ParityTests(int artVersion){this.artVersion=artVersion;}
+        private string Output=>artVersion==2?"Docs/Validation/CleanArtV2":"Docs/Validation/JointFinishV4";
+        private string Source=>artVersion==2?FreeShapeArtV2Builder.Source:FreeShapeArtV4Builder.Source;
         [Serializable] private class Comparison {public string style,fixture,path;public int rgbDifferences,alphaDifferences,pixels,solidCells,emptyCells;}
         [Serializable] private class Results {public List<Comparison> comparisons=new List<Comparison>();}
 
         [Test] public void TwentyStylesSixteenFixturesMatchPackageInSceneAndRuntimeWithExactPhysics()
         {
             Directory.CreateDirectory(Output+"/Renders");
-            var results=new Results();var registry=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,2);
+            var results=new Results();var registry=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);
             var scene=EditorSceneManager.NewPreviewScene();var old=RenderTexture.active;
             var cameraObject=new GameObject("Clean V2 pixel comparison camera");SceneManager.MoveGameObjectToScene(cameraObject,scene);
             var camera=cameraObject.AddComponent<Camera>();camera.enabled=false;camera.scene=scene;camera.orthographic=true;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.clear;camera.allowHDR=false;camera.allowMSAA=false;
@@ -44,10 +48,10 @@ namespace ANIMOL.Tests
                         foreach(var fixture in registry.fixtures)
                         {
                             var points=FreeShapeTopology.FromRows(fixture.rows,fixture.origin).ToHashSet();
-                            var dto=adapter.Read();dto.freeShape.artVersion=2;dto.freeShape.seed=0;dto.freeShape.cells=points.Select(p=>new FreeShapeCell{x=p.x,y=p.y,styleId=style.styleId}).ToList();dto.revision++;
+                            var dto=adapter.Read();dto.freeShape.artVersion=artVersion;dto.freeShape.seed=0;dto.freeShape.cells=points.Select(p=>new FreeShapeCell{x=p.x,y=p.y,styleId=style.styleId}).ToList();dto.revision++;
                             map.EditorApplyTerrainCandidate(adapter.Terrain,dto);
                             int width=fixture.rows[0].Length,height=fixture.rows.Length;
-                            source.LoadImage(File.ReadAllBytes(FreeShapeArtV2Builder.Source+"/Samples/"+style.styleId+"/"+fixture.id+".png"));
+                            source.LoadImage(File.ReadAllBytes(Source+"/Samples/"+style.styleId+"/"+fixture.id+".png"));
                             camera.orthographicSize=height*.5f;camera.aspect=(float)width/height;camera.transform.position=new Vector3(fixture.origin.x+width*.5f,fixture.origin.y+height*.5f,-10);
                             foreach(bool runtime in new[]{false,true})
                             {
@@ -71,7 +75,7 @@ namespace ANIMOL.Tests
                                     for(int i=0;i<a.Length;i++){if(a[i].a!=b[i].a)comparison.alphaDifferences++;if(a[i].a!=0&&b[i].a!=0&&(a[i].r!=b[i].r||a[i].g!=b[i].g||a[i].b!=b[i].b))comparison.rgbDifferences++;}
                                     results.comparisons.Add(comparison);
                                     // Retain every Scene render; Runtime equality is measured independently above.
-                                    if(!runtime || comparison.rgbDifferences+comparison.alphaDifferences!=0)
+                                    if(!runtime || artVersion==4 || comparison.rgbDifferences+comparison.alphaDifferences!=0)
                                         File.WriteAllBytes(Output+"/Renders/"+style.styleId+"-"+fixture.id+"-"+comparison.path+".png",read.EncodeToPNG());
                                 }
                                 finally{camera.targetTexture=null;RenderTexture.active=old;Object.DestroyImmediate(read);rt.Release();Object.DestroyImmediate(rt);Object.DestroyImmediate(root);}

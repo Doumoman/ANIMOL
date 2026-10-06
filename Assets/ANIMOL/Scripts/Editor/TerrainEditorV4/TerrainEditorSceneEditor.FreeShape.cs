@@ -53,9 +53,9 @@ namespace ANIMOL.Editor
             if(GUILayout.Button("현재 맵 아트 전환",buttonStyle,GUILayout.Width(125)))
             {
                 var menu=new GenericMenu();
-                foreach(int version in new[]{1,2})
+                foreach(int version in new[]{1,2,3,4})
                 {
-                    int target=version;var label=new GUIContent("v"+version+(version==2?" · clean_v2":" · 기존 아트"));
+                    int target=version;var label=new GUIContent("v"+version+(version==4?" · joint_finish_v4":version==3?" · brick_restore_v3":version==2?" · clean_v2":" · 기존 아트"));
                     try{FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,version);menu.AddItem(label,registry.version==version,()=>Run(()=>ChangeFreeShapeArtVersion(target)));}
                     catch(Exception){menu.AddDisabledItem(new GUIContent(label.text+" · 설치 필요"));}
                 }

@@ -1,0 +1,10 @@
+var map=UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Core.StageMapDefinition>("Assets/ANIMOL/Data/Development/JointFinishV4/DEV-JOINT-V4-COPY.asset");
+ANIMOL.Editor.TerrainEditorSceneEditor.Open(map);
+ANIMOL.Editor.TerrainEditorSceneEditor.SetFreeShapeMode(true);
+ANIMOL.Editor.TerrainEditorSceneEditor.State.masks=false;
+ANIMOL.Editor.TerrainEditorSceneEditor.State.freeStyle="T01_A";
+var view=ANIMOL.Editor.TerrainEditorSceneEditor.View;
+view.position=new UnityEngine.Rect(60,60,1300,900);
+view.LookAtDirect(new UnityEngine.Vector3(14,3,0),UnityEngine.Quaternion.identity,20);
+view.Repaint();
+return new{map=map.name,artVersion=map.FreeShapeTerrain.artVersion,cells=map.FreeShapeTerrain.cells.Count};

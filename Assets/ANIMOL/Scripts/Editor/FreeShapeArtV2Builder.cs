@@ -25,20 +25,23 @@ namespace ANIMOL.Editor
         [Serializable] private class Catalog {public string contractId;public int schemaVersion,artVersion,cellPixels,pixelsPerUnit;public int[] canonicalMasks,rawToCanonical,rawToIndex;public Style[] styles;}
         [Serializable] private class Fixtures {public FreeShapeFixture[] fixtures;}
         public static string HashFile(string path){using(var sha=SHA256.Create())return BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(path))).Replace("-","").ToLowerInvariant();}
-        private static T Read<T>(string path)=>JsonUtility.FromJson<T>(File.ReadAllText(Source+"/"+path));
+        private static T Read<T>(string source,string path)=>JsonUtility.FromJson<T>(File.ReadAllText(source+"/"+path));
         [MenuItem("ANIMOL/Terrain Free Shape/Initialize Clean Art V2")]
-        public static void Initialize()
+        public static void Initialize()=>InitializePackage(Source,Root,RegistryPath,2);
+
+        internal static void InitializePackage(string source,string root,string registryPath,int artVersion)
         {
+            if(artVersion!=2 && artVersion!=4)throw new ArgumentOutOfRangeException(nameof(artVersion));
             var timer=System.Diagnostics.Stopwatch.StartNew();
-            var manifest=Read<Manifest>("PACKAGE_MANIFEST.json");
-            foreach(var f in manifest.files){var path=Path.GetFullPath(Source+"/"+f.path);if(!path.StartsWith(Path.GetFullPath(Source)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase)||!File.Exists(path)||new FileInfo(path).Length!=f.bytes||HashFile(path)!=f.sha256)throw new InvalidOperationException("Package SHA256 mismatch: "+f.path);}
-            var catalog=Read<Catalog>("Data/sprite_lookup.json");var topology=Read<Catalog>("Data/topology_catalog.json");var names=Read<Catalog>("Data/style_catalog.json");
-            if(catalog.schemaVersion!=1||catalog.artVersion!=2||catalog.cellPixels!=32||catalog.pixelsPerUnit!=32||catalog.contractId!=FreeShapeLayer.Contract||catalog.styles.Length!=20||catalog.canonicalMasks.Length!=47)throw new InvalidOperationException("Invalid free-shape package.");
+            var manifest=Read<Manifest>(source,"PACKAGE_MANIFEST.json");
+            foreach(var f in manifest.files){var path=Path.GetFullPath(source+"/"+f.path);if(!path.StartsWith(Path.GetFullPath(source)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase)||!File.Exists(path)||new FileInfo(path).Length!=f.bytes||HashFile(path)!=f.sha256)throw new InvalidOperationException("Package SHA256 mismatch: "+f.path);}
+            var catalog=Read<Catalog>(source,"Data/sprite_lookup.json");var topology=Read<Catalog>(source,"Data/topology_catalog.json");var names=Read<Catalog>(source,"Data/style_catalog.json");
+            if(catalog.schemaVersion!=1||catalog.artVersion!=artVersion||catalog.cellPixels!=32||catalog.pixelsPerUnit!=32||catalog.contractId!=FreeShapeLayer.Contract||catalog.styles.Length!=20||catalog.canonicalMasks.Length!=47)throw new InvalidOperationException("Invalid free-shape package.");
             for(int i=0;i<256;i++)if(catalog.rawToCanonical[i]!=FreeShapeTopology.Canonical(i)||topology.rawToCanonical[i]!=catalog.rawToCanonical[i]||catalog.rawToIndex[i]!=Array.IndexOf(catalog.canonicalMasks,catalog.rawToCanonical[i])||topology.rawToIndex[i]!=catalog.rawToIndex[i])throw new InvalidOperationException("Topology mapping mismatch.");
             ValidateCatalog(catalog,names);
-            Directory.CreateDirectory(Root+"/Art/Atlases");Directory.CreateDirectory(Root+"/Art/Motifs");Directory.CreateDirectory(Root+"/Data");
-            foreach(var file in new[]{"sprite_lookup.json","topology_catalog.json","style_catalog.json","logical_fixtures.json","sweetie-16.hex"})CopyExact(Source+"/Data/"+file,Root+"/Data/"+file);
-            var palette=new HashSet<string>(File.ReadAllLines(Source+"/Data/sweetie-16.hex").Where(s=>!string.IsNullOrWhiteSpace(s)).Select(s=>s.Trim().TrimStart('#').ToLowerInvariant()));
+            Directory.CreateDirectory(root+"/Art/Atlases");Directory.CreateDirectory(root+"/Art/Motifs");Directory.CreateDirectory(root+"/Data");
+            foreach(var file in new[]{"sprite_lookup.json","topology_catalog.json","style_catalog.json","logical_fixtures.json","sweetie-16.hex"})CopyExact(source+"/Data/"+file,root+"/Data/"+file);
+            var palette=new HashSet<string>(File.ReadAllLines(source+"/Data/sweetie-16.hex").Where(s=>!string.IsNullOrWhiteSpace(s)).Select(s=>s.Trim().TrimStart('#').ToLowerInvariant()));
             var output=new List<FreeShapeStyleArt>();
             foreach(var s in catalog.styles)
             {
@@ -47,24 +50,24 @@ namespace ANIMOL.Editor
                 foreach(var v in s.variants)
                 {
                     int vi=int.Parse(v.id.Substring(1),System.Globalization.CultureInfo.InvariantCulture);
-                    string path=Root+"/Art/Atlases/"+Path.GetFileName(v.atlas);CopyExact(Source+"/"+v.atlas,path);ValidatePixels(path,256,192,palette);
+                    string path=root+"/Art/Atlases/"+Path.GetFileName(v.atlas);CopyExact(source+"/"+v.atlas,path);ValidatePixels(path,256,192,palette);
                     var rects=v.cells.Select(c=>new SpriteMetaData{name=SpriteName(s,v,c),rect=new Rect(c.rect.x,v.atlasPixels[1]-c.rect.y-c.rect.height,c.rect.width,c.rect.height),alignment=0,pivot=new Vector2(.5f,.5f)}).ToArray();
                     Import(path,rects);
                     var sprites=AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToDictionary(p=>p.name);
                     foreach(var c in v.cells){if(catalog.canonicalMasks[c.index]!=c.mask)throw new InvalidOperationException("Mask/index mismatch.");art.cells[vi*47+c.index]=sprites[SpriteName(s,v,c)];}
                 }
-                var motifPath=Root+"/Art/Motifs/"+s.styleId+".png";CopyExact(Source+"/"+s.panels.motif,motifPath);ValidatePixels(motifPath,128,128,palette);Import(motifPath,null);art.motif=AssetDatabase.LoadAssetAtPath<Sprite>(motifPath);output.Add(art);
+                var motifPath=root+"/Art/Motifs/"+s.styleId+".png";CopyExact(source+"/"+s.panels.motif,motifPath);ValidatePixels(motifPath,128,128,palette);Import(motifPath,null);art.motif=AssetDatabase.LoadAssetAtPath<Sprite>(motifPath);output.Add(art);
             }
             AssetDatabase.Refresh();
-            var registry=AssetDatabase.LoadAssetAtPath<FreeShapeArtRegistry>(RegistryPath);
-            if(registry==null){registry=ScriptableObject.CreateInstance<FreeShapeArtRegistry>();AssetDatabase.CreateAsset(registry,RegistryPath);}
-            var matPath=Root+"/Data/FreeShapeSprites.mat";var material=AssetDatabase.LoadAssetAtPath<Material>(matPath);
+            var registry=AssetDatabase.LoadAssetAtPath<FreeShapeArtRegistry>(registryPath);
+            if(registry==null){registry=ScriptableObject.CreateInstance<FreeShapeArtRegistry>();AssetDatabase.CreateAsset(registry,registryPath);}
+            var matPath=root+"/Data/FreeShapeSprites.mat";var material=AssetDatabase.LoadAssetAtPath<Material>(matPath);
             if(material==null){material=new Material(Shader.Find("Sprites/Default"));AssetDatabase.CreateAsset(material,matPath);}
-            registry.contractId=FreeShapeLayer.Contract;registry.version=catalog.artVersion;registry.sourceHash=HashFile(Source+"/Data/sprite_lookup.json");
-            registry.canonicalMasks=catalog.canonicalMasks;registry.rawToCanonical=catalog.rawToCanonical;registry.rawToIndex=catalog.rawToIndex;registry.styles=output.ToArray();registry.material=material;registry.fixtures=Read<Fixtures>("Data/logical_fixtures.json").fixtures;
+            registry.contractId=FreeShapeLayer.Contract;registry.version=catalog.artVersion;registry.sourceHash=HashFile(source+"/Data/sprite_lookup.json");
+            registry.canonicalMasks=catalog.canonicalMasks;registry.rawToCanonical=catalog.rawToCanonical;registry.rawToIndex=catalog.rawToIndex;registry.styles=output.ToArray();registry.material=material;registry.fixtures=Read<Fixtures>(source,"Data/logical_fixtures.json").fixtures;
             registry.ValidateComplete();EditorUtility.SetDirty(registry);AssetDatabase.SaveAssetIfDirty(registry);
-            File.WriteAllText("Library/FreeShape-v2-import-result.json","{\"verifiedPackageFiles\":"+manifest.files.Length+",\"atlases\":80,\"cellSprites\":3760,\"motifs\":20,\"milliseconds\":"+timer.ElapsedMilliseconds+"}");
-            Debug.Log("ANIMOL Free Shape V2: SHA256 verified; 80 atlases, 3760 cell Sprites, 20 motifs initialized.");
+            File.WriteAllText("Library/FreeShape-v"+artVersion+"-import-result.json","{\"verifiedPackageFiles\":"+manifest.files.Length+",\"atlases\":80,\"cellSprites\":3760,\"motifs\":20,\"milliseconds\":"+timer.ElapsedMilliseconds+"}");
+            Debug.Log("ANIMOL Free Shape V"+artVersion+": SHA256 verified; 80 atlases, 3760 cell Sprites, 20 motifs initialized.");
         }
         // Lookup exposes the canonical cell name through its PNG path, not an array ordinal.
         private static string SpriteName(Style style,Variant variant,CellData cell)=>style.styleId+"_"+variant.id+"_"+Path.GetFileNameWithoutExtension(cell.file);
