@@ -14,8 +14,12 @@ using Engine=Animol.TerrainStructure.AnimolTerrainPlacementEngine;
 
 namespace ANIMOL.Tests
 {
+    [TestFixture(1)]
+    [TestFixture(2)]
     public sealed class FreeShapeTerrainTests
     {
+        private readonly int artVersion;
+        public FreeShapeTerrainTests(int artVersion){this.artVersion=artVersion;}
         private StageMapDefinition map;
         private TerrainEditorAdapter adapter;
         private string path,backup;
@@ -26,6 +30,7 @@ namespace ANIMOL.Tests
             map=ScriptableObject.CreateInstance<StageMapDefinition>();var id="TEST-FREESHAPE-"+Guid.NewGuid().ToString("N");
             map.EditorInitializeIdentity(id,"T01");map.EditorInitializeVariableChunksFromAuthoredContent(1);
             map.EditorTrySetChunkBounds(new RectInt(-3,-3,8,8),false,out _);map.EditorMarkCollisionDataSynchronized();
+            map.FreeShapeTerrain.artVersion=artVersion;
             path="Assets/"+id+".asset";backup=StageMapBackupService.BackupRoot+"/"+id;AssetDatabase.CreateAsset(map,path);AssetDatabase.SaveAssetIfDirty(map);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
         }
         [TearDown] public void Cleanup(){adapter?.Dispose();Undo.ClearUndo(map);AssetDatabase.DeleteAsset(path);if(AssetDatabase.IsValidFolder(backup))AssetDatabase.DeleteAsset(backup);}
@@ -33,9 +38,66 @@ namespace ANIMOL.Tests
         {Assert.That(Engine.TryEditFreeShape(adapter.Terrain.Catalog,adapter.Read(),p,erase,style,out var c,out var error),Is.True,error);adapter.Commit(c,"FreeShape test");}
         private IEnumerable<Vector2Int> Rectangle(int x,int y,int width,int height)
         {for(int dy=0;dy<height;dy++)for(int dx=0;dx<width;dx++)yield return new Vector2Int(x+dx,y+dy);}
+        [Test] public void ExplicitArtSwitchPreservesContentRestoresCacheAndRoundTrips()
+        {
+            Edit(Rectangle(-3,-3,24,12));
+            var seed=adapter.Read();seed.freeShape.seed=int.MinValue+17;seed.revision++;adapter.Commit(seed,"Seed");
+            map.EditorPlaceObject("START",StageMapObjectKind.PlayerStart,30,30,"START");
+            Assert.That(Engine.TryPlace(adapter.Terrain.Catalog,adapter.Read(),"T01_D_Source",new Vector2Int(30,0),out var stamp,out var error),Is.True,error);adapter.Commit(stamp,"Existing stamp");
+            var original=adapter.Read();var objects=JsonUtility.ToJson(map.Objects[0]);var before=File.ReadAllText(path);var hash=map.ContentHash;var revision=map.AuthoringRevision;
+            var go=new GameObject("Art version cache");var renderer=go.AddComponent<FreeShapeTerrainRenderer>();
+            Action refresh=()=>renderer.Rebuild(map.FreeShapeTerrain,1);adapter.Changed+=refresh;
+            try
+            {
+                refresh();var first=go.GetComponentsInChildren<Tilemap>().SelectMany(t=>t.GetTilesBlock(t.cellBounds)).OfType<Tile>().First().sprite;
+                int target=artVersion==1?2:1;adapter.ChangeFreeShapeArtVersion(target);
+                Assert.That(map.AuthoringRevision,Is.EqualTo(revision+1));Assert.That(map.ContentHash,Is.Not.EqualTo(hash));
+                var changed=adapter.Read();changed.freeShape.artVersion=original.freeShape.artVersion;changed.revision=original.revision;
+                Assert.That(JsonUtility.ToJson(changed),Is.EqualTo(JsonUtility.ToJson(original)));Assert.That(JsonUtility.ToJson(map.Objects[0]),Is.EqualTo(objects));
+                Assert.That(go.GetComponentsInChildren<Tilemap>().SelectMany(t=>t.GetTilesBlock(t.cellBounds)).OfType<Tile>().All(t=>AssetDatabase.GetAssetPath(t.sprite).Contains("/V2/")==(target==2)),Is.True);
+                var saved=File.ReadAllText(path);adapter.ChangeFreeShapeArtVersion(target);Assert.That(map.AuthoringRevision,Is.EqualTo(revision+1));
+                adapter.Undo();Assert.That(map.FreeShapeTerrain.artVersion,Is.EqualTo(artVersion));Assert.That(File.ReadAllText(path),Is.EqualTo(before));
+                Assert.That(go.GetComponentsInChildren<Tilemap>().SelectMany(t=>t.GetTilesBlock(t.cellBounds)).OfType<Tile>().Any(t=>t.sprite==first),Is.True);
+                adapter.Redo();Assert.That(File.ReadAllText(path),Is.EqualTo(saved));
+                adapter.Changed-=refresh;adapter.Dispose();AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceUpdate);adapter=new TerrainEditorAdapter(AssetDatabase.AssetPathToGUID(path));
+                Assert.That(adapter.Read().freeShape.artVersion,Is.EqualTo(target));Assert.That(File.ReadAllText(path),Is.EqualTo(saved));
+            }
+            finally{adapter.Changed-=refresh;UnityEngine.Object.DestroyImmediate(go);}
+        }
+        [Test] public void ArtSwitchFailureRestoresDiskVersionAndPreview()
+        {
+            Edit(Rectangle(-1,-1,8,8));var before=File.ReadAllText(path);var json=EditorJsonUtility.ToJson(map);
+            var go=new GameObject("Rollback cache");var renderer=go.AddComponent<FreeShapeTerrainRenderer>();renderer.Rebuild(map.FreeShapeTerrain,1);
+            bool fail=true;adapter.Changed+=()=>{renderer.Rebuild(map.FreeShapeTerrain,1);if(fail){fail=false;throw new InvalidOperationException("Injected preview failure");}};
+            try
+            {
+                Assert.Throws<InvalidOperationException>(()=>adapter.ChangeFreeShapeArtVersion(artVersion==1?2:1));
+                Assert.That(EditorJsonUtility.ToJson(map),Is.EqualTo(json));Assert.That(File.ReadAllText(path),Is.EqualTo(before));
+                Assert.That(go.GetComponentsInChildren<Tilemap>().SelectMany(t=>t.GetTilesBlock(t.cellBounds)).OfType<Tile>().All(t=>AssetDatabase.GetAssetPath(t.sprite).Contains("/V2/")==(artVersion==2)),Is.True);
+                Assert.Throws<InvalidOperationException>(()=>adapter.ChangeFreeShapeArtVersion(99));Assert.That(File.ReadAllText(path),Is.EqualTo(before));
+            }
+            finally{UnityEngine.Object.DestroyImmediate(go);}
+        }
+        [Test] public void IncompleteAndDuplicateRegistryCannotValidate()
+        {
+            var copy=UnityEngine.Object.Instantiate(FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion));
+            try{copy.styles[0].cells[0]=null;Assert.Throws<InvalidOperationException>(()=>copy.ValidateComplete());}
+            finally{UnityEngine.Object.DestroyImmediate(copy);}
+            copy=UnityEngine.Object.Instantiate(FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion));
+            try{copy.styles[1].styleId=copy.styles[0].styleId;Assert.Throws<InvalidOperationException>(()=>copy.ValidateComplete());}
+            finally{UnityEngine.Object.DestroyImmediate(copy);}
+        }
+        [Test] public void ArtSwitchWriteExceptionRollsBackSavedAsset()
+        {
+            Edit(new[]{new Vector2Int(-1,16)});var before=File.ReadAllText(path);var snapshot=EditorJsonUtility.ToJson(map);
+            var candidate=adapter.Read();candidate.freeShape.artVersion=artVersion==1?2:1;candidate.revision++;
+            Animol.TerrainStructure.Editor.AnimolTerrainMapEditorBridge.Bind(map,adapter.Read,c=>{StageTerrainStructureIntegration.Write(map,c);throw new IOException("Injected persistence failure");},()=>{},map.StageId,adapter.Validate);
+            Assert.Throws<IOException>(()=>Animol.TerrainStructure.Editor.AnimolTerrainMapEditorBridge.Commit(candidate,"Fail art save"));
+            Assert.That(File.ReadAllText(path),Is.EqualTo(before));Assert.That(EditorJsonUtility.ToJson(map),Is.EqualTo(snapshot));
+        }
         [Test] public void All3760SpritesHaveCorrectStableRectDirectionAndSettings()
         {
-            var a=FreeShapeArtRegistry.Load();Assert.That(a.styles.Length,Is.EqualTo(20));var ids=new HashSet<string>();var textures=new HashSet<Texture2D>();
+            var a=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);Assert.That(a.styles.Length,Is.EqualTo(20));var ids=new HashSet<string>();var textures=new HashSet<Texture2D>();
             foreach(var style in a.styles)
             {
                 Assert.That(style.cells.Length,Is.EqualTo(188));Assert.That(style.motif.rect.size,Is.EqualTo(new Vector2(128,128)));Assert.That(style.motif.pivot,Is.EqualTo(Vector2.zero));
@@ -51,14 +113,14 @@ namespace ANIMOL.Tests
         }
         [Test] public void CSharpMatchesPackageJavaScript256RawAnd567PhaseHashVectors()
         {
-            var vectors=JsonUtility.FromJson<Vectors>(File.ReadAllText("Docs/Validation/FreeShape/ReferenceVectors.json"));var art=FreeShapeArtRegistry.Load();
+            var vectors=JsonUtility.FromJson<Vectors>(File.ReadAllText("Docs/Validation/FreeShape/ReferenceVectors.json"));var art=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);
             for(int i=0;i<256;i++){Assert.That(FreeShapeTopology.Canonical(i),Is.EqualTo(vectors.raw[i]));Assert.That(art.rawToCanonical[i],Is.EqualTo(vectors.raw[i]));Assert.That(art.canonicalMasks[art.rawToIndex[i]],Is.EqualTo(vectors.raw[i]));}
             foreach(var v in vectors.vectors){Assert.That(FreeShapeTopology.Variant(v.x,v.y,v.seed),Is.EqualTo(v.variant));Assert.That(FreeShapeTopology.Hash(v.style,v.x,v.y,v.seed),Is.EqualTo(v.hash));}
             Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-1,-16)),Is.EqualTo(new Vector2Int(-1,-1)));Assert.That(FreeShapeTopology.Chunk(new Vector2Int(-17,15)),Is.EqualTo(new Vector2Int(-2,0)));
         }
         [Test] public void All16FixturesResolveOccupancyAndOperationalColliderIncludingEmptyHoles()
         {
-            var registry=FreeShapeArtRegistry.Load();var root=new GameObject("Free shape physical fixture");var loader=root.AddComponent<StageMapRuntimeLoader>();loader.enabled=false;loader.ConfigureStandaloneDevelopmentOwner();
+            var registry=FreeShapeArtRegistry.Load(FreeShapeLayer.Contract,artVersion);var root=new GameObject("Free shape physical fixture");var loader=root.AddComponent<StageMapRuntimeLoader>();loader.enabled=false;loader.ConfigureStandaloneDevelopmentOwner();
             try {foreach(var fixture in registry.fixtures)
             {
                 var points=FreeShapeTopology.FromRows(fixture.rows,new Vector2Int(-1,-1)).ToHashSet();var dto=adapter.Read();dto.freeShape.cells.Clear();dto.revision++;
@@ -105,7 +167,7 @@ namespace ANIMOL.Tests
         [Test] public void InvalidContractsDuplicateStylesBoundsObjectsAndPreviewFailureLeaveMapIntact()
         {
             Edit(new[]{new Vector2Int(2,2)});var before=File.ReadAllText(path);var hash=map.ContentHash;
-            foreach(var mutate in new Action<AnimolTerrainSavedMap>[] {c=>c.freeShape.schemaVersion=2,c=>c.freeShape.artVersion=2,c=>c.freeShape.artContract="wrong",c=>c.freeShape.cells.Add(c.freeShape.cells[0]),c=>c.freeShape.cells[0].styleId="T02_A",c=>c.freeShape.cells[0].x=9999})
+            foreach(var mutate in new Action<AnimolTerrainSavedMap>[] {c=>c.freeShape.schemaVersion=2,c=>c.freeShape.artVersion=3,c=>c.freeShape.artContract="wrong",c=>c.freeShape.cells.Add(c.freeShape.cells[0]),c=>c.freeShape.cells[0].styleId="T02_A",c=>c.freeShape.cells[0].x=9999})
             {var c=adapter.Read();c.revision++;mutate(c);Assert.Throws<InvalidOperationException>(()=>adapter.Commit(c,"Invalid"));Assert.That(map.ContentHash,Is.EqualTo(hash));Assert.That(File.ReadAllText(path),Is.EqualTo(before));}
             Engine.TryEditFreeShape(adapter.Terrain.Catalog,adapter.Read(),new[]{new Vector2Int(3,2)},false,"T01_A",out var candidate,out _);adapter.Changed+=()=>throw new InvalidOperationException("Injected free shape preview failure");
             Assert.Throws<InvalidOperationException>(()=>adapter.Commit(candidate,"Rollback"));Assert.That(map.ContentHash,Is.EqualTo(hash));Assert.That(File.ReadAllText(path),Is.EqualTo(before));

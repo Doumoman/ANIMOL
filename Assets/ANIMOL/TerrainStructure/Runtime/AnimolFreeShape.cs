@@ -16,6 +16,7 @@ namespace Animol.TerrainStructure
     [Serializable] public sealed class FreeShapeLayer
     {
         public const string Contract = "ANIMOL_FREE_SHAPE_BLOB47_V1";
+        public static bool SupportsArtVersion(int version)=>version==1 || version==2;
         public int schemaVersion = 1, artVersion = 1, seed = 0;
         public string artContract = Contract;
         public List<FreeShapeCell> cells = new List<FreeShapeCell>();
@@ -52,7 +53,7 @@ namespace Animol.TerrainStructure
         {
             var result=new Dictionary<Vector2Int,FreeShapeCell>();
             if(layer==null)return result;
-            if(layer.schemaVersion!=1 || layer.artVersion!=1 || layer.artContract!=FreeShapeLayer.Contract || layer.cells==null)
+            if(layer.schemaVersion!=1 || !FreeShapeLayer.SupportsArtVersion(layer.artVersion) || layer.artContract!=FreeShapeLayer.Contract || layer.cells==null)
                 throw new InvalidOperationException("Unsupported free-shape schema/art contract; explicit migration required.");
             foreach(var c in layer.cells)
             {

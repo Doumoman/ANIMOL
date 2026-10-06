@@ -31,6 +31,7 @@ namespace ANIMOL.Core
                     styleId = registry.Style(themeId, cell.TileId, cell.VariantId) });
             // This host has no serialized structure-owned cell cache. Any base/owner overlap is corruption.
             if (!Engine.Resolve(registry.Catalog, dto, out _, out var error)) throw new InvalidOperationException(error);
+            if(dto.freeShape.HasData)FreeShapeArtRegistry.Load(dto.freeShape);
             return Engine.CloneMap(dto);
         }
 
@@ -63,7 +64,7 @@ namespace ANIMOL.Core
             if(candidate.freeShape!=null && candidate.freeShape.HasData)
             {
                 if(!Mathf.Approximately(worldUnitsPerCell,1))throw new InvalidOperationException("자유형 지형은 1셀=1unit 설정이 필요합니다. 맵 설정에서 먼저 지정하세요.");
-                var art=FreeShapeArtRegistry.Load();
+                var art=FreeShapeArtRegistry.Load(candidate.freeShape);
                 foreach(var style in candidate.freeShape.cells.Select(c=>c.styleId).Distinct())art.Style(style);
             }
             foreach (var p in candidate.placements)

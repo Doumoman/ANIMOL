@@ -15,6 +15,7 @@ namespace ANIMOL.Gameplay
         private Dictionary<Vector2Int,FreeShapeCell> previous=new Dictionary<Vector2Int,FreeShapeCell>();
         private readonly HashSet<Vector2Int> hidden=new HashSet<Vector2Int>();
         private int seed;
+        private FreeShapeArtRegistry currentArt;
         private bool initialized;
         public int LastUpdatedCells {get;private set;}
         public int LastUpdatedMotifs {get;private set;}
@@ -23,10 +24,11 @@ namespace ANIMOL.Gameplay
         public double LastMilliseconds {get;private set;}
         public void Rebuild(FreeShapeLayer layer,float units)
         {
-            var timer=System.Diagnostics.Stopwatch.StartNew();var cells=FreeShapeTopology.Index(layer);var art=FreeShapeArtRegistry.Load();
+            var timer=System.Diagnostics.Stopwatch.StartNew();var cells=FreeShapeTopology.Index(layer);var art=FreeShapeArtRegistry.Load(layer);
             var grid=GetComponent<Grid>();if(grid==null)grid=gameObject.AddComponent<Grid>();grid.cellSize=new Vector3(units,units,1);
             var changed=new HashSet<Vector2Int>(previous.Keys.Where(p=>!cells.TryGetValue(p,out var c)||c.styleId!=previous[p].styleId));
-            foreach(var pair in cells)if(!initialized||seed!=layer.seed||!previous.TryGetValue(pair.Key,out var old)||old.styleId!=pair.Value.styleId)changed.Add(pair.Key);
+            foreach(var pair in cells)if(!initialized||currentArt!=art||seed!=layer.seed||!previous.TryGetValue(pair.Key,out var old)||old.styleId!=pair.Value.styleId)changed.Add(pair.Key);
+            if(currentArt!=art)foreach(var map in chunks.Values)map.GetComponent<TilemapRenderer>().sharedMaterial=art.material;
             var affected=FreeShapeTopology.AffectedCells(changed);LastUpdatedCells=affected.Count;
             foreach(var p in affected)
             {
@@ -49,7 +51,7 @@ namespace ANIMOL.Gameplay
                 var go=new GameObject("FreeShape motif "+p,typeof(SpriteRenderer));go.transform.SetParent(transform,false);go.layer=gameObject.layer;go.hideFlags=gameObject.hideFlags;go.transform.localPosition=new Vector3(p.x,p.y,0)*units;go.transform.localScale=Vector3.one*units;
                 var renderer=go.GetComponent<SpriteRenderer>();renderer.sprite=art.Style(c.styleId).motif;renderer.sharedMaterial=art.material;renderer.sortingOrder=22;motifs.Add(p,go);go.SetActive(!hidden.Contains(FreeShapeTopology.Chunk(p)));
             }
-            previous=cells;seed=layer.seed;initialized=true;LastMilliseconds=timer.Elapsed.TotalMilliseconds;
+            previous=cells;seed=layer.seed;currentArt=art;initialized=true;LastMilliseconds=timer.Elapsed.TotalMilliseconds;
         }
         public void SetChunkVisible(Vector2Int chunk,bool visible)
         {if(visible)hidden.Remove(chunk);else hidden.Add(chunk);if(chunks.TryGetValue(chunk,out var map))map.gameObject.SetActive(visible);foreach(var m in motifs)if(FreeShapeTopology.Chunk(m.Key)==chunk)m.Value.SetActive(visible);}

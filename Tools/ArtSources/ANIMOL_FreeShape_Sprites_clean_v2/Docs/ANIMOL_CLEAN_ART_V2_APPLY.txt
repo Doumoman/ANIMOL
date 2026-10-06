@@ -1,0 +1,165 @@
+ANIMOL clean_v2 자유형 지형 — 기존 에디터 아트 패치 적용 명령
+
+목표
+이미 구현된 Scene View 자유형 맵 에디터에 clean_v2 아트를 추가한다.
+이번 작업은 지형 편집기를 처음부터 다시 만드는 작업이 아니다.
+칠하기·지우기·구멍·덩어리 이동·Undo·저장·Runtime 연결은 기존 구현을 사용한다.
+새 아트 버전 2를 설치하고, 사용자가 명시적으로 선택한 맵에서 사용할 수 있게 한다.
+원본 점유·물리와 기존 버전 1 맵은 보존한다.
+
+시각 정본과 범위
+사용자가 승인한 다음 다섯 원화만 사용한다.
+T01=image(20261005-190222).png / T02=image(20261005-190237-2).png
+T03=image(20261005-190303).png / T04=image(20261005-190219).png
+T05=image(20261005-190312).png
+SourceArt/Approved/T01.png부터 T05.png까지 원본 바이트와 SHA256 기록을 확인한다.
+Data/approved_design_sources.json의 업로드 이름·테마·실제 원본 경로 매핑을 확인한다.
+APPROVED_DESIGNS.html은 승인 원화와 전체 패널 80개를 확인하는 화면이다.
+DESIGN_GALLERY.html은 실제 32px 연결 셀의 자유형 조합을 확인하는 화면이다.
+형태·색 배합·세로띠·클램프·상하 마감·모티프를 보존한다.
+작업은 픽셀 마감·부품 추출·조합·기존 에디터 아트 적용으로 제한한다.
+몸체를 단색으로 만들기 위해 원화의 장식을 삭제하지 않는다.
+새 형태·색 변경 시안이나 별도의 단순 프레임을 생성하여 대체하지 않는다.
+이전 두 번째 참고 사진은 픽셀 품질 참고이며 승인된 다섯 디자인이 시각 기준이다.
+원화의 생성 프롬프트는 출처 기록이다. 추가 디자인 생성 명령으로 사용하지 않는다.
+
+1. 현재 프로젝트 조사
+
+AGENTS.md와 현재 Git 변경을 읽는다. 사용자의 진행 중 변경을 덮어쓰지 않는다.
+ANIMOL_FREESHAPE_MAP_EDITOR_PATCH_RESULT.md는 기존 적용 이력으로 읽는다.
+보고서의 파일명·클래스·메서드가 현재 소스와 같은지 확인한 다음 수정한다.
+현재 구현에는 다음 항목이 보고되어 있다.
+- StageMapDefinition.freeShapeTerrain / FreeShapeLayer
+- schemaVersion=1, artContract=ANIMOL_FREE_SHAPE_BLOB47_V1, artVersion=1
+- cells(x,y,styleId), 지속 int32 seed
+- FreeShapeArtBuilder, FreeShapeArtRegistry, FreeShapeTerrainRenderer
+- Assets/ANIMOL/TerrainFreeShape/Art/Atlases의 아틀라스 80장
+- Assets/ANIMOL/TerrainFreeShape/Art/Motifs의 문양 20장
+- ANIMOL > Terrain Free Shape > Initialize Package 초기화 메뉴
+- ANIMOL > Map Editor > Open Scene Editor V4의 자유형 패널
+
+알 수 없는 artVersion을 거부하는 기존 검증 정책을 먼저 찾는다.
+단순히 거부 검사를 제거하거나 artVersion을 무시하여 새 아트를 표시하지 않는다.
+StageMapDefinition을 맵 정본으로 유지한다. 별도 맵 JSON 정본을 만들지 않는다.
+기존 편집 Read/Validate/Commit과 Runtime 고체 소유자 흐름은 유지한다.
+
+2. 패키지 설치와 호환 계약
+
+새 제작 자료는 프로젝트 Tools/ArtSources/ANIMOL_FreeShape_Sprites_clean_v2에 둔다.
+기존 Tools/ArtSources/ANIMOL_FreeShape_Sprites_v1은 보존한다.
+새 PACKAGE_MANIFEST.json의 실제 파일 크기·SHA256을 검증한다.
+Data/sprite_lookup.json, Data/topology_catalog.json, Data/style_catalog.json,
+Tools/terrain_composition.mjs, Docs/PIXEL_ART_FINISHING_RULES_KO.md를 읽는다.
+
+clean_v2는 다음 구조를 유지한다.
+- 연결 계약 ANIMOL_FREE_SHAPE_BLOB47_V1, lookup schemaVersion 1, artVersion 2
+- 기존 20개 styleId T01_A부터 T05_D까지
+- 셀 32×32px, PPU 32, 정규화 47종, raw 이웃 상태 256종
+- 각 스타일의 v0~v3 위상 4종, 셀 Sprite 총 3,760개
+- 아틀라스 80장, 스타일별 128×128px 문양 총 20장
+- 동일한 셀 rect, canonicalMask, rawToIndex, 위상과 문양 배치 규칙
+
+연결 계약 이름 끝의 V1은 topology 계약이다. 아트 버전 2 때문에 계약을 임의로 V2로 바꾸지 않는다.
+SourceArt/Approved의 승인 원본은 16색 제한이 없는 파일일 수 있다.
+승인 원본 파일은 그대로 보존하고 최종 출력에서 승인 색 배합을 유지하며 팔레트를 매핑한다.
+최종 적용 대상 Art와 Samples는 Sweetie16 불투명 색 및 0/255 알파를 사용한다.
+셀 PNG·연결 부품·Samples·승인 원본·Raw·오프라인 HTML을 Runtime에 중복 설치하지 않는다.
+실제 Runtime 참조는 80개 아틀라스와 20개 문양을 기본으로 한다.
+
+3. 버전 1과 2 아트 공존
+
+현재 레지스트리 구조를 조사한 뒤 artContract와 artVersion으로 정확한 자료를 찾도록 확장한다.
+같은 styleId와 mask라도 버전 1 맵은 버전 1 그림, 버전 2 맵은 버전 2 그림을 참조해야 한다.
+기존 레지스트리를 새 그림으로 덮어써 모든 맵의 외형을 조용히 바꾸지 않는다.
+실제 구조에 맞는 별도 버전 2 에셋 경로와 레지스트리를 사용한다.
+예시 경로는 Assets/ANIMOL/TerrainFreeShape/Art/V2/Atlases 및 Art/V2/Motifs이며,
+현재 프로젝트의 참조 정책을 확인하여 최종 경로를 결정하고 결과에 적는다.
+
+기존 버전 1 PNG·meta·Sprite 이름·GUID·GlobalObjectId를 보존한다.
+새 버전 2 파일은 별도 GUID를 가진다. 버전 2 초기화 재실행 시에도 이 참조가 안정적이어야 한다.
+초기화 전에 참조 식별자를 기록하고 이후 비교한다.
+파일 삭제·재생성으로 Sprite 연결을 끊지 않는다. 이름·rect·spriteID 유지 정책을 확인한다.
+패키지에서 읽은 셀 Sprite 이름을 사용하고 배열 순서로 이름을 추정하지 않는다.
+lookup에서 artVersion 2를 읽어 해당 레지스트리 버전과 일치하는지 검사한다.
+누락되거나 중복된 Sprite/버전/스타일 매핑은 명확한 오류로 실패한다.
+
+검증은 지원하는 schemaVersion=1 / 동일 artContract / artVersion 1 또는 2를 명시적으로 허용한다.
+해당 버전의 완전한 레지스트리가 없으면 편집 저장과 Runtime 로드를 거부한다.
+다른 알 수 없는 버전은 계속 거부한다. Ready·보상·스테이지 배정 검증을 우회하지 않는다.
+
+4. 픽셀 그대로 임포트
+
+기존 정상 임포트 정책을 유지한다.
+아틀라스는 Multiple, 각 셀 32×32px, PPU 32, 중앙 pivot, FullRect.
+문양은 PPU 32, bottom-left pivot, 4×4셀 크기, 추가 점유 0.
+Point, mipmap Off, 압축 None, sRGB의 기존 정상값을 사용한다.
+lookup rect는 PNG 왼쪽 위 기준이므로 Unity y = atlasHeight - y - height로 변환한다.
+Runtime에는 저장된 픽셀을 표시하는 기존 Material 경로를 사용한다.
+새 아트에 색 양자화 Shader·블러·선형 필터·자동 윤곽선 효과를 추가하지 않는다.
+셀 Sprite를 회전·늘이거나 임의의 테두리를 덧그려 천장·측면을 대체하지 않는다.
+
+5. 현재 맵의 명시적 아트 버전 전환
+
+기존 Scene View 자유형 패널에서 설치된 아트 버전을 확인할 수 있게 한다.
+명시적인 현재 맵 전환 작업으로 버전 1에서 버전 2를 선택할 수 있게 한다.
+설치·초기화·창 열기·도메인 재로드만으로 맵을 자동 전환하지 않는다.
+전환 전 현재 맵의 artVersion, 점유 좌표, styleId, seed, 기존 객체·스탬프를 기록한다.
+처음은 별도 개발 검증 맵의 복사본에서 적용한다. 사용자 맵을 예시 셀로 교체하지 않는다.
+
+전환은 기존 후보 검증과 Commit을 이용한 한 편집 트랜잭션으로 수행한다.
+점유 셀·스타일·seed·v3 배치·객체·셀 크기는 그대로이며 자유형 artVersion만 2로 바뀐다.
+기존 content hash 규칙에 따라 아트 버전 변경이 반영되고 revision은 한 번 증가한다.
+Undo/Redo는 아트 버전과 파생 아트 캐시를 함께 복원한다.
+검증·저장 실패 시 정본·디스크·Scene 프리뷰·레지스트리 선택 상태가 롤백되어야 한다.
+기존 artVersion 1 맵에 clean_v2 그림이 나타나는 대체 fallback을 두지 않는다.
+아트 버전 전환은 게임 운영 Ready 승인이나 스테이지 배정 승인을 의미하지 않는다.
+
+6. 연결·문양·충돌 불변 사항
+
+이웃 비트 N1/NE2/E4/SE8/S16/SW32/W64/NW128과 대각선 게이팅을 유지한다.
+같은 스타일·같은 아트 계약의 연결 범위와 기존 청크 바닥 나눗셈을 유지한다.
+버전 2를 위해 충돌 셀, 구멍, 천장, 스탬프 소유권, 객체 footprint를 바꾸지 않는다.
+같은 artVersion 안에서 전역 좌표와 seed로 위상을 결정한다.
+resolveVariant와 FNV-1a 문양 선택은 Tools/terrain_composition.mjs의 실제 규칙을 유지한다.
+문양은 동일 스타일 4×4셀과 주변 1셀 여유 영역이 채워질 때만 표시한다.
+문양·장식·픽셀 마감은 추가 점유와 Collider를 만들지 않는다.
+아트 Tilemap에는 Collider를 추가하지 않는다. 기존 operational 고체 소유자만 사용한다.
+여러 청크의 지형을 새로운 외접 사각형 Collider로 막지 않는다.
+다른 스타일 사이 또는 v3 사이의 전용 전환 아트는 이번 패키지에 포함하지 않는다.
+
+7. 실제 Unity 검증
+
+아트 패키지의 Node/PNG 검사는 실제 Unity 적용 검증과 구분하여 기록한다.
+과거 보고서의 컴파일·EditMode·PlayMode PASS 숫자를 이번 버전의 결과로 옮기지 않는다.
+변경 후 프로젝트 Unity에서 컴파일과 변경 경로에 필요한 기존 검사를 실제 실행한다.
+
+- 버전별 Sprite 3,760개와 문양 20개, rect/PPU/pivot/필터/색/참조 유효성 확인.
+- 버전 1 맵과 레지스트리 참조가 설치 전과 같은지 확인.
+- 버전 2 선택 → 저장 → 창 닫기/재열기 → 시험 플레이에서 같은 아트 재현 확인.
+- 버전 전환 Undo/Redo·실패 롤백·지원하지 않는 버전 거부 확인.
+- Scene과 Runtime의 같은 점유·seed에서 PNG 기준 렌더와 픽셀 비교.
+- 20스타일의 사각형·U자 구덩이·내부 구멍·천장·1셀 가로/세로·불규칙 돌출부 확인.
+- 음수 좌표, 여러 청크 경계, 위상 연결부, 내부 문양 경계 확인.
+- 아트 버전 변경 전후 고체/빈 셀·기존 플레이어 착지·일방통행 경로가 동일한지 확인.
+- 기존 사용자 맵 전체 직렬화 필드·revision·hash를 비교하고 의도한 현재 맵 전환만 구분.
+- 실제 참조 텍스처 메모리와 초기화/재초기화 시간을 측정. 버전 공존 비용을 숨기지 않음.
+
+PNG 검출기가 Jaggies/Doubles 후보를 0개 보고하더라도 전체 미관 합격으로 보고하지 않는다.
+Jaggies/Doubles가 전부 제거되었다고 단정하지 않는다. 시각 검수 파일과 배율을 명시한다.
+최종 미관은 Docs/PIXEL_ART_FINISHING_RULES_KO.md에 따라 실제 픽셀을 확대하여 확인한다.
+최소 원본 배율과 최근접 4배/8배에서 외곽·내곽·셀 이음·문양 끝을 검수한다.
+승인 원화의 형태·색 배합·세로띠·클램프·상하 마감·모티프 보존도 비교한다.
+최종 추출·출력과 QA가 끝나기 전에 아트 마감 검증 완료로 기록하지 않는다.
+실행하지 않은 Unity 검사·모바일 실기기 검사는 미실행으로 적는다.
+
+8. 완료 보고서
+
+Docs/ANIMOL_CLEAN_ART_V2_PATCH_RESULT.md에 다음을 기록한다.
+실제 변경 경로, 버전별 레지스트리 위치, GUID/GlobalObjectId 비교,
+설치한 아트 수·버전·manifest hash, 명시적으로 전환한 개발 맵,
+기존 사용자 맵 보존 결과, 저장·재열기·Undo·Runtime 비교,
+실제 실행한 Unity 검사와 미실행 항목, 확대 마감 검수 화면 및 남은 문제.
+원본 PNG QA와 Unity 렌더 검증, 사람의 미관 판단을 각각 구분한다.
+에디터 기능이 이미 구현되어 있다는 이전 결과와 이번 아트 패치 결과도 구분한다.
+
+이 명령과 패키지는 적용 재료다. 이 제작 작업 공간에서는 Unity 프로젝트 패치를 실행하지 않았다.

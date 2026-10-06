@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "contractId": "ANIMOL_FREE_SHAPE_BLOB47_V1",
+  "rowsOrder": "north-first",
+  "originRule": "integer bottom-left; localY = height - 1 - row",
+  "symbols": {
+    "#": "occupied solid cell",
+    ".": "empty cell, no foreground and no solid collision"
+  },
+  "componentConnectivity": 4,
+  "holeDefinition": "Empty four-connected components enclosed by occupied cells within a padded bounding box.",
+  "fixtures": [
+    {
+      "id": "single_1x1",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "All four exterior corners."
+    },
+    {
+      "id": "thin_vertical_1x16",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#",
+        "#"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "One-cell width; separate top and bottom caps."
+    },
+    {
+      "id": "thin_horizontal_16x1",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "One-cell height; top and bottom remain distinct."
+    },
+    {
+      "id": "rectangle_3x5",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "###",
+        "###",
+        "###",
+        "###",
+        "###"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Tall body and side finish."
+    },
+    {
+      "id": "rectangle_5x3",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#####",
+        "#####",
+        "#####"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Wide body; no nonuniform stretching."
+    },
+    {
+      "id": "maximum_rectangle_16x16",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################",
+        "################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Maximum suggested art-bake region, not a map-size cap."
+    },
+    {
+      "id": "asymmetric_stairs",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "........##",
+        ".......###",
+        "...#######",
+        "..########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Unequal tread and rise."
+    },
+    {
+      "id": "regular_stairs_ascending_right",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "......##",
+        "....####",
+        "..######",
+        "########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Regular two-cell tread and one-cell rise."
+    },
+    {
+      "id": "regular_stairs_ascending_left",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##......",
+        "####....",
+        "######..",
+        "########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Opposite stair direction."
+    },
+    {
+      "id": "open_u_pit",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##......##",
+        "##......##",
+        "##......##",
+        "###....###",
+        "##########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Open pit; concave floor corners; no art across empty center."
+    },
+    {
+      "id": "closed_hole",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##########",
+        "##########",
+        "##......##",
+        "##......##",
+        "##......##",
+        "##########",
+        "##########"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 1
+      },
+      "purpose": "Enclosed void; ceiling, walls and floor all face inward."
+    },
+    {
+      "id": "overhang",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "##########",
+        "##########",
+        "##........",
+        "##........",
+        "####......"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Underside ceiling and unsupported-looking overhang silhouette."
+    },
+    {
+      "id": "branch_t",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#########",
+        "#########",
+        "...###...",
+        "...###...",
+        "...###...",
+        "...###..."
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "T branch with two inward corners."
+    },
+    {
+      "id": "diagonal_separate",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "#.",
+        ".#"
+      ],
+      "expected": {
+        "components": 2,
+        "holes": 0
+      },
+      "purpose": "Touching only at a corner does not merge."
+    },
+    {
+      "id": "multiple_components",
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "rows": [
+        "###.....##",
+        "###.....##",
+        "..........",
+        "....##....",
+        "....##...."
+      ],
+      "expected": {
+        "components": 3,
+        "holes": 0
+      },
+      "purpose": "Three independent terrain components."
+    },
+    {
+      "id": "large_chunk_seam_34x6",
+      "origin": {
+        "x": -17,
+        "y": -17
+      },
+      "rows": [
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################",
+        "##################################"
+      ],
+      "expected": {
+        "components": 1,
+        "holes": 0
+      },
+      "purpose": "Global solid boundary crosses -16,0,16 in x and -16 in y; no artificial walls."
+    }
+  ]
+}

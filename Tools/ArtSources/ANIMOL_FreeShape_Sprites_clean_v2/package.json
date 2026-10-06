@@ -1,0 +1,21 @@
+{
+  "name": "animol-free-shape-sprites-clean-v2",
+  "version": "2.0.0",
+  "private": true,
+  "description": "ANIMOL clean_v2 20-style free-shape terrain art and offline preview",
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "dependencies": {
+    "sharp": "0.35.4"
+  },
+  "scripts": {
+    "build": "node Tools/build_sprite_art.mjs",
+    "gallery": "node Tools/build_gallery.mjs",
+    "build:approved-gallery": "node Tools/build_approved_gallery.mjs",
+    "validate:topology": "node Tools/validate_topology.mjs",
+    "validate:art": "node Tools/validate_sprite_files.mjs",
+    "validate:gallery": "node Tools/validate_gallery.mjs",
+    "validate:clean": "node Tools/validate_clean_pixel_art.mjs"
+  }
+}

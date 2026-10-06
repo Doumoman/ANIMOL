@@ -56,6 +56,17 @@ namespace ANIMOL.Editor
         { if(TerrainEditorScreen.Instance?.IsTesting==true)throw new InvalidOperationException("시험 플레이 중에는 맵 변경을 할 수 없습니다."); }
         public void Save()
         { Read(); AssetDatabase.SaveAssetIfDirty(Map); }
+        public void ChangeFreeShapeArtVersion(int version)
+        {
+            RequireEdit();
+            var candidate=Read();
+            FreeShapeArtRegistry.Load(candidate.freeShape.artContract,version);
+            if(candidate.freeShape.artVersion==version)return;
+            candidate.freeShape.artVersion=version;
+            candidate.revision=checked(candidate.revision+1);
+            Validate(candidate);
+            Commit(candidate,"Change free-shape art to v"+version);
+        }
         // Keyboard and buttons share native Undo; there is no runtime Input polling handler.
         public void Undo() { RequireEdit(); Bind(); UnityEditor.Undo.PerformUndo(); }
         public void Redo() { RequireEdit(); Bind(); UnityEditor.Undo.PerformRedo(); }
