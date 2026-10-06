@@ -1,0 +1,82 @@
+{
+  "theme": "T04",
+  "operation": "original-identity-preserving pixel-art surface cleanup",
+  "tool": "built-in imagegen",
+  "original_atlas": "/workspace/scratch/01a31b8b978d/work/art-correction02/recovered/batch01/ANIMOL_Art_Revision_Batch01_v1/source/main-background/T04-original-layer-atlas.png",
+  "raw_atlas_size": [
+    1783,
+    882
+  ],
+  "registered_atlas_size": [
+    1488,
+    736
+  ],
+  "registration": "nearest-neighbour only",
+  "alpha_policy": "original binary alpha intersect generated black-space key (all raw RGB channels <= 12); no silhouette painting",
+  "palette": "Sweetie16 nearest Euclidean RGB, no dithering",
+  "assets": [
+    {
+      "path": "T04-far.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "fb1cebbdddddcbf217a0852c3f595b39e128c6969a8100f134ca0ba3d1ae5c9f",
+      "original_opaque_pixels": 247808,
+      "final_opaque_pixels": 247808,
+      "removed_alpha_fringe_pixels": 0
+    },
+    {
+      "path": "T04-mid.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "ab9a9fcf867625728119502919ce4ffcc4fe8958c2f0ea9e9c41d57839f1e480",
+      "original_opaque_pixels": 63504,
+      "final_opaque_pixels": 62367,
+      "removed_alpha_fringe_pixels": 1137
+    },
+    {
+      "path": "T04-platform.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "80c9ae8b48946e15aa291d4dfab52eaf7e4616a555f243204e22e94a0ecadaf2",
+      "original_opaque_pixels": 51605,
+      "final_opaque_pixels": 50596,
+      "removed_alpha_fringe_pixels": 1009
+    },
+    {
+      "path": "T04-near.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "a479a5a031413c12e38bd1db095e78118cbd6a5add1606a3991165911ba53b78",
+      "original_opaque_pixels": 44974,
+      "final_opaque_pixels": 44137,
+      "removed_alpha_fringe_pixels": 837
+    }
+  ],
+  "platform_finish": {
+    "raw_size": [
+      1734,
+      907
+    ],
+    "registered_crop_size": [
+      352,
+      184
+    ],
+    "crop_native_y": 520,
+    "crop_placement": "exact technical paste into prior native layer, then whole-layer registration deltaY=-1",
+    "alpha_policy": "original binary alpha intersect generated black key (all RGB <= 12), then whole layer shifted up1px",
+    "purpose": "remove isolated slab/column gold pixels and unify simple leaf outline",
+    "method": "built-in imagegen plus nearest-neighbour palette export only",
+    "source_walk_row": 527,
+    "final_walk_row": 526,
+    "whole_layer_registration_deltaY": -1,
+    "registration_scope": "platform only; far/mid/near unchanged; do not apply this shift again in Unity"
+  }
+}

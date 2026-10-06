@@ -1,0 +1,65 @@
+{
+  "raw_path": "/workspace/scratch/01a31b8b978d/generated_images/exec-41e34671-10f0-4282-abe2-ce2135a3626e.png",
+  "raw_size": [
+    1783,
+    882
+  ],
+  "native_atlas_size": [
+    1488,
+    736
+  ],
+  "native_layer_size": [
+    352,
+    704
+  ],
+  "technical_export": "nearest-neighbor resize, nearest Sweetie16 no dither, original alpha lock and intersection variants; no painted pixels",
+  "alpha_intersection_removed_original_pixels": 29715,
+  "targeted_bridge_raw": "T03-platform-target-raw.png",
+  "selected_alpha": "intersection of generated alpha >=128 and original alpha >=128; zero RGB outside alpha",
+  "selected_bridge_crop": [
+    0,
+    452,
+    352,
+    704
+  ],
+  "selected_outputs": {
+    "far": {
+      "path": "T03-far.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "55b5bfb9e5510f393b96b24ebbbd9bc34b5b78ee06cdb6cbb488c7482f26da02"
+    },
+    "mid": {
+      "path": "T03-mid.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "9e2fd10d593b4d8ac37442eccd642e10b15f971bafa842940df7c5045992c477"
+    },
+    "platform": {
+      "path": "T03-platform.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "c1d2fe05769d8d3208bbafa9901d1af350f485c641c4dc4935d3e8bb3b63fdc2"
+    },
+    "near": {
+      "path": "T03-near.png",
+      "size": [
+        352,
+        704
+      ],
+      "sha256": "0e0f7069cc5b37885fe9b8558f6cfff8634a6306a3decd4d0c8d2ab2ff743376"
+    }
+  },
+  "review": {
+    "surface_dots": "Original speckled stone faces/legs removed; contiguous flat planes retained.",
+    "identity": "Original T03 blue star window, bookcase stacks, banner, narrow purple star piers, baluster rail, arches retained.",
+    "caution": "Some 1px contour/trim stair steps remain at 4x; original-alpha-lock atlas is rejected due restored fringe pips. Generation alpha intersection may trim border by approximately one native pixel. Generated-alpha bridge alternative supplied for review.",
+    "floor_y526_span_x70_282_opaque": true
+  }
+}

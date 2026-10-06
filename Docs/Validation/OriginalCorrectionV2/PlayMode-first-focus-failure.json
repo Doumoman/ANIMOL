@@ -1,0 +1,42 @@
+﻿{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 93.01,
+      "summary": {
+        "total": 2,
+        "passed": 1,
+        "failed": 1,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "ANIMOL.FiveThemeMenu.Tests.OriginalDesignCorrectionTests.Actual1920GameViewAndCampaign",
+          "Status": "Failed",
+          "Duration": 40.9703182,
+          "Message": "  Uninterrupted background clock\r\n  Expected: less than 40\r\n  But was:  40.0003052f\r\n",
+          "StackTrace": "at ANIMOL.FiveThemeMenu.Tests.OriginalDesignCorrectionTests+<Survey>d__3.MoveNext () [0x00293] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\UI\\FiveThemeMenuMaps\\Tests\\PlayMode\\OriginalDesignCorrectionTests.cs:48\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44\r\n"
+        },
+        {
+          "FullName": "ANIMOL.FiveThemeMenu.Tests.OriginalDesignCorrectionTests.Actual2400GameViewAndCampaign",
+          "Status": "Passed",
+          "Duration": 52.0075574,
+          "Message": null,
+          "StackTrace": null
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

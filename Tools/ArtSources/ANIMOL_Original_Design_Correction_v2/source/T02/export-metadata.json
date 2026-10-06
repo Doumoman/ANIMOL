@@ -1,0 +1,115 @@
+{
+  "artisticEditsInScript": false,
+  "technicalOperations": [
+    "uniform registration",
+    "native nearest sampling",
+    "fixed palette nearest mapping without dithering",
+    "original binary alpha preservation for far/mid/near; T02 platform upper disconnected sky artifact uses prior cleaned alpha only above y448; below y448 intersect original alpha with edited bridge alpha threshold128 to avoid transparent RGB fringes"
+  ],
+  "assets": [
+    {
+      "id": "T02-far",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        16,
+        16,
+        368,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": true,
+      "originalAlphaBelowY448Identical": true,
+      "belowY448RemovedAlphaPixels": 0,
+      "floor526ContinuousX70To281": null,
+      "bridgeTargetSourceSize": null,
+      "bridgeTargetDestinationRect": null,
+      "sha256": "dcf7cf717de3405d12fa12b4ba47f348a86b5152e2a6cc74e8a36552df337ded"
+    },
+    {
+      "id": "T02-mid",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        384,
+        16,
+        736,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": true,
+      "originalAlphaBelowY448Identical": true,
+      "belowY448RemovedAlphaPixels": 0,
+      "floor526ContinuousX70To281": null,
+      "bridgeTargetSourceSize": null,
+      "bridgeTargetDestinationRect": null,
+      "sha256": "51c5c3ebe5fed6d90ebb5b113d80406cd06b4f1d0db6ba386b1e7037eb7e60c4"
+    },
+    {
+      "id": "T02-platform",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        752,
+        16,
+        1104,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": false,
+      "originalAlphaBelowY448Identical": false,
+      "belowY448RemovedAlphaPixels": 428,
+      "floor526ContinuousX70To281": true,
+      "bridgeTargetSourceSize": [
+        1470,
+        1070
+      ],
+      "bridgeTargetDestinationRect": [
+        0,
+        448,
+        352,
+        704
+      ],
+      "sha256": "0a67306f6798277d018eb8630689acf2a1afc085bdb85674e5fd30d4cdb15585"
+    },
+    {
+      "id": "T02-near",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        1120,
+        16,
+        1472,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": true,
+      "originalAlphaBelowY448Identical": true,
+      "belowY448RemovedAlphaPixels": 0,
+      "floor526ContinuousX70To281": null,
+      "bridgeTargetSourceSize": null,
+      "bridgeTargetDestinationRect": null,
+      "sha256": "2467c7b9e2178218e106c7db22a65cfea5ad7003681c9824b89b4cc3815f4d30"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "artisticEditsInScript": false,
+  "technicalOperations": [
+    "uniform registration",
+    "native nearest sampling",
+    "fixed palette nearest mapping without dithering",
+    "original binary alpha preservation",
+    "mid/near original alpha clipped to generated alpha >=224",
+    "platform focused generated alpha >=224; nativecrop inserted y448"
+  ],
+  "assets": [
+    {
+      "id": "T01-far",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        16,
+        16,
+        368,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": true,
+      "sha256": "41129b352121eb62e6c05a9a15d30c29a4c892f469f944865041d21208a0809e",
+      "alphaDeltaFromOriginal": 0,
+      "floorY526OpaqueCenter": null
+    },
+    {
+      "id": "T01-mid",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        384,
+        16,
+        736,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": false,
+      "sha256": "2657af9fc93bdb7091aa7e004a0ba25300f4d0d02d73716016ed602a2eaa4d00",
+      "alphaDeltaFromOriginal": 4358,
+      "floorY526OpaqueCenter": null
+    },
+    {
+      "id": "T01-platform",
+      "sourceSize": [
+        1470,
+        1070
+      ],
+      "crop": [
+        752,
+        16,
+        1104,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": false,
+      "sha256": "3969cf8f339795c9e20112724eb7f552af80014005a4ce3e70a8b2cf69cc66a0",
+      "alphaDeltaFromOriginal": 1432,
+      "floorY526OpaqueCenter": true,
+      "source": "generated-platform-finish.png",
+      "sourceNativeCropOrigin": [
+        0,
+        448
+      ]
+    },
+    {
+      "id": "T01-near",
+      "sourceSize": [
+        1783,
+        882
+      ],
+      "crop": [
+        1120,
+        16,
+        1472,
+        720
+      ],
+      "size": [
+        352,
+        704
+      ],
+      "originalAlphaIdentical": false,
+      "sha256": "707181d64b4031f5847a8f47fea77ad7c7ef8e8810b1eed3a9a264f795056d8e",
+      "alphaDeltaFromOriginal": 991,
+      "floorY526OpaqueCenter": null
+    }
+  ]
+}

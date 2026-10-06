@@ -9,17 +9,34 @@ namespace ANIMOL.FiveThemeMenu.Tests
 {
     public class MenuThemePolicyTests
     {
-        [Test] public void V7ImportsPreserveAllTwentyTwoOriginalPNGs()
+        [Test] public void ActiveCorrectionImportsMatchSuppliedPngsAndCurrentRabbitGeometry()
         {
-            var paths=Directory.GetFiles("Assets/ANIMOL/UI/MainUiV7/Textures","*.png");Assert.That(paths.Length,Is.EqualTo(22));
+            var catalog=Resources.Load<FantasyBackgroundCatalog>("ANIMOLMainUiV7");
+            var paths=catalog.themes.SelectMany(t=>new[]{t.far,t.mid,t.platform,t.near}).Concat(new[]{catalog.rabbitLeft,catalog.rabbitRight}).Select(AssetDatabase.GetAssetPath).ToArray();
+            Assert.That(paths.Distinct().Count(),Is.EqualTo(22));
             foreach(var path in paths) {
-                Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Docs/Inbox/ANIMOL_main_ui_v7/runtime/assets/"+Path.GetFileName(path))));
+                if(!path.Contains("rabbit")) {
+                    Assert.That(path,Does.StartWith("Assets/ANIMOL/UI/OriginalDesignCorrectionV2/runtime/main-background/"));
+                    Assert.That(File.ReadAllBytes(path),Is.EqualTo(File.ReadAllBytes("Tools/ArtSources/ANIMOL_Original_Design_Correction_v2/runtime/main-background/"+Path.GetFileName(path))));
+                }
                 var t=(TextureImporter)AssetImporter.GetAtPath(path.Replace('\\','/'));
                 Assert.That(t.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(t.mipmapEnabled,Is.False);
                 Assert.That(t.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));Assert.That(t.npotScale,Is.EqualTo(TextureImporterNPOTScale.None));
                 foreach(string platform in new[]{"Standalone","Android","iPhone","WebGL"}) Assert.That(t.GetPlatformTextureSettings(platform).overridden,Is.False);
                 var tex=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
                 Assert.That(new Vector2Int(tex.width,tex.height),Is.EqualTo(path.Contains("rabbit")?new Vector2Int(512,96):new Vector2Int(352,704)));
+                if(!path.Contains("rabbit")){Assert.That(t.spritePixelsPerUnit,Is.EqualTo(32));var settings=new TextureImporterSettings();t.ReadTextureSettings(settings);Assert.That(settings.spriteMeshType,Is.EqualTo(SpriteMeshType.FullRect));}
+                else {
+                    var readable=new Texture2D(2,2,TextureFormat.RGBA32,false);
+                    try {
+                        readable.LoadImage(File.ReadAllBytes(path));var pixels=readable.GetPixels32();
+                        for(int frame=0;frame<8;frame++) {
+                            int foot=-1;
+                            for(int y=0;y<96;y++)for(int x=0;x<64;x++)if(pixels[(95-y)*512+frame*64+x].a>0)foot=Math.Max(foot,y);
+                            Assert.That(foot,Is.EqualTo(frame==3||frame==7?86:90));
+                        }
+                    } finally {UnityEngine.Object.DestroyImmediate(readable);}
+                }
             }
         }
         [Test] public void ExactSlotsFramesAndBinaryWipe()

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ANIMOL · 기존 디자인 복원 02</title><style>/*STYLE*/</style></head>
+<body><header><h1>ANIMOL · 기존 디자인 복원 02</h1><p>형태를 유지하면서 점 명암을 넓은 색면으로 정리한 배경을 비교합니다.</p></header>
+<div class="toolbar" aria-label="미리보기 설정">
+<div class="tabs"><button id="main-tab" aria-pressed="true">메인 배경</button><button id="campaign-tab" aria-pressed="false">캠페인 UI</button></div>
+<label>배경 아트 <select id="variant"><option value="corrected">이번 수정</option><option value="original">원래 디자인</option><option value="previous">지난 개정 v1</option></select></label>
+<label>테마 <select id="theme"><option value="-1">5초 순환</option><option value="0">월궁</option><option value="1">구름고래 목장</option><option value="2">별가루 도서관</option><option value="3">시간유리 온실</option><option value="4">오로라 수정광산</option></select></label>
+<label>확대 <select id="zoom"><option value="1">1배</option><option value="2">2배</option><option value="3">3배</option><option value="4">4배</option></select></label>
+<button id="pause">일시 정지</button><button id="restart">처음부터</button>
+<label><input id="near" type="checkbox" checked>근경</label><label><input id="rabbit" type="checkbox" checked>토끼</label><label><input id="detail" type="checkbox">다리만 보기 (정지)</label>
+</div>
+<main><div class="display"><p id="screen-caption"></p><div class="canvas-scroll"><canvas id="view" width="352" height="704" aria-label="352×704 픽셀 배경 비교"></canvas></div><p id="dimensions"></p><button id="back" hidden>메인 배경으로</button><p id="loading">이미지를 준비하고 있습니다…</p></div>
+<aside><div class="panel"><h2>같은 형태, 정돈된 색면</h2><p>원래 디자인과 지난 개정본을 같은 시점에서 비교할 수 있습니다. 움직이는 레이어 뒤로 발판을 고정하고, 가까운 장식은 더 빠르게 이동합니다.</p><p>토끼는 기존 64×96 크기, 8프레임·14fps 시트를 그대로 사용합니다. 다리 보기에서는 다른 레이어를 가려 기둥과 아치만 확인합니다.</p></div>
+<div class="panel"><h2>캠페인 UI</h2><p>흰 카드·헤더와 짙은 글자로 기존 인상을 복원했습니다. 이 화면은 352×704 디자인 참고 합성입니다. 글자 일부는 첨부 화면에서 가져온 참고 픽셀이며 운영 자산이나 실제 진행도가 아닙니다.</p><p>테마 선택 UI의 런타임 PNG 교체는 0개입니다. 배킹·글자색 설정을 복원하는 작업입니다.</p></div>
+<div id="state" class="panel" role="status"></div><p class="note">배경 20개 PNG 교체를 위한 아트 미리보기입니다. 실제 Unity 프로젝트 적용·컴파일·Safe Area 검증 결과가 아닙니다.</p></aside></main>
+<script>/*DATA*/</script><script>/*MOTION*/</script><script>/*APP*/</script></body></html>

@@ -1,0 +1,183 @@
+{
+  "theme": "T05",
+  "originalSize": [
+    1488,
+    736
+  ],
+  "generatedSize": [
+    1783,
+    882
+  ],
+  "export": "Nearest-neighbor atlas registration and no-dither Sweetie16 quantization; far/mid/near preserve original binary alpha; selected platform lower244px uses third-generation alpha>=224 intersect original alpha.",
+  "assets": [
+    {
+      "name": "far",
+      "path": "/workspace/scratch/01a31b8b978d/work/art-correction02/background/T05/T05-far.png",
+      "size": [
+        352,
+        704
+      ],
+      "alphaPolicy": "original binary alpha preserved",
+      "sourceBox": [
+        16,
+        16,
+        368,
+        720
+      ]
+    },
+    {
+      "name": "mid",
+      "path": "/workspace/scratch/01a31b8b978d/work/art-correction02/background/T05/T05-mid.png",
+      "size": [
+        352,
+        704
+      ],
+      "alphaPolicy": "original binary alpha preserved",
+      "sourceBox": [
+        384,
+        16,
+        736,
+        720
+      ]
+    },
+    {
+      "name": "platform",
+      "path": "/workspace/scratch/01a31b8b978d/work/art-correction02/background/T05/T05-platform.png",
+      "size": [
+        352,
+        704
+      ],
+      "alphaPolicy": "third finishing edit generated alpha>=224 intersect original alpha for lower244px; upper blank area original \u2229 generated alpha",
+      "sourceBox": [
+        752,
+        16,
+        1104,
+        720
+      ],
+      "sha256": "ca04f2b1c38592b508af55a2a6d4c3c9b21a7a492f8897b17a55fcb0eea56a6d"
+    },
+    {
+      "name": "near",
+      "path": "/workspace/scratch/01a31b8b978d/work/art-correction02/background/T05/T05-near.png",
+      "size": [
+        352,
+        704
+      ],
+      "alphaPolicy": "original binary alpha preserved",
+      "sourceBox": [
+        1120,
+        16,
+        1472,
+        720
+      ]
+    }
+  ],
+  "manualReview": "FROZEN: threshold224 removes109 semi-transparent fringe pixels without changing floor526, six rail apertures or three arch openings. Broad bridge leg/braces/masonry shading is flat; red cap bands level; inner arch continuous; no radial brick redesign. A few tiny connected gray rail-boundary marks remain, so do not assert complete pixel perfection.",
+  "selectedBridgeFinish": {
+    "raw": "T05-bridge-finish-raw.png",
+    "native": "T05-bridge-finish-alpha224.png",
+    "size": [
+      352,
+      244
+    ],
+    "pasteOrigin": [
+      0,
+      460
+    ],
+    "palette": [
+      "1a1c2c",
+      "5d275d",
+      "b13e53",
+      "ef7d57",
+      "ffcd75",
+      "29366f",
+      "f4f4f4",
+      "94b0c2",
+      "566c86",
+      "333c57"
+    ],
+    "alphaPolicy": "third-generation alpha >=224 intersected with original alpha>0; no RGB extrusion or pixel painting",
+    "floorTopNativeY": 526,
+    "archPattern": "one central arch plus partial left and right arches, purple diagonal braces preserved",
+    "railWindowCount": 6,
+    "alphaPixels": 56735,
+    "alphaComparison": {
+      "threshold128": 56844,
+      "threshold224": 56735,
+      "removedAt224": 109,
+      "floor526ContinuousX70To282": true,
+      "sixRailVoidRunsAtNativeCropY49": [
+        [
+          25,
+          70
+        ],
+        [
+          82,
+          127
+        ],
+        [
+          141,
+          186
+        ],
+        [
+          199,
+          244
+        ],
+        [
+          257,
+          304
+        ],
+        [
+          312,
+          327
+        ]
+      ]
+    }
+  },
+  "rejectedBridgeCandidate": {
+    "generatedSize": [
+      1506,
+      1044
+    ],
+    "nativeCrop": [
+      352,
+      244
+    ],
+    "nativePasteOrigin": [
+      0,
+      460
+    ],
+    "originalAlphaPixels": 63269,
+    "intersectionAlphaPixels": 56671,
+    "note": "Original binary alpha retained in selected export; intersect-alpha crop is a review candidate only.",
+    "paletteRestriction": [
+      "1a1c2c",
+      "5d275d",
+      "b13e53",
+      "ef7d57",
+      "ffcd75",
+      "29366f",
+      "f4f4f4",
+      "94b0c2",
+      "566c86",
+      "333c57"
+    ],
+    "rgbExtrusion": "nearest opaque generated RGB into alpha<128 fringe for distance <=1 native pixel only",
+    "status": "Rejected second-generation original-alpha candidate; RGB extrusion described here was not applied to selected third generation."
+  },
+  "targetedMidFinish": {
+    "selectedSource": "T05-mid-finish-raw.png",
+    "sourceSize": [
+      887,
+      1774
+    ],
+    "logicalSize": [
+      352,
+      704
+    ],
+    "alphaPolicy": "generated alpha>=224, no original jagged edge restoration",
+    "operation": "nearest sampling, no-dither fixed-palette mapping, binary alpha only",
+    "artisticEditsInScript": false,
+    "sha256": "1a18b2346b6b6eee774219eb2e5acd6ff3b3a4a718f5fd9b0f4746b14fad4a88"
+  }
+}

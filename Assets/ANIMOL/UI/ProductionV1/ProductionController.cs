@@ -207,6 +207,7 @@ namespace ANIMOL.ProductionV1
         }
         private void RefreshThemes()
         {
+            if(roots.TryGetValue(Screens[0],out var screen))CampaignStyleCorrection.Apply(screen);
             for(int i=0;i<themeLabels.Count;i++)
             {
                 var t=Catalog.Campaign?.Themes.ElementAtOrDefault(i);
