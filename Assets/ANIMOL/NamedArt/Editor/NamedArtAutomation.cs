@@ -29,17 +29,26 @@ namespace ANIMOL.NamedArt.Editor
                 if (NamedArtIndex.Read(NamedArtReferences.IndexPath).InScope(stage.assetPath)) { artChanged = true; Schedule(); }
             };
         }
+        // Stage maps store gameplay coordinates, prefab owners and style IDs. Their
+        // sprites belong to the art registries, not to direct Sprite/Texture slots.
+        // Do this cheap type check before parsing the project-wide reference index.
+        private static bool IsGameplayMapData(string path) =>
+            Path.GetExtension(path).Equals(".asset",StringComparison.OrdinalIgnoreCase) &&
+            AssetDatabase.GetMainAssetTypeAtPath(path)?.FullName == "ANIMOL.Core.StageMapDefinition";
+
         public static void QueueSaved(string path)
         {
-            if (NamedArtReferences.Busy || Suspended || !File.Exists(NamedArtReferences.IndexPath)) return;
+            if (NamedArtReferences.Busy || Suspended || !File.Exists(NamedArtReferences.IndexPath) || IsGameplayMapData(path)) return;
             var index = NamedArtIndex.Read(NamedArtReferences.IndexPath);
             if (index.InScope(path) && NamedArtReferences.IsContainer(path)) { saved.Add(path); Schedule(); }
         }
         public static void QueueImports(string[] imported, string[] deleted, string[] moved)
         {
             if (NamedArtReferences.Busy || Suspended || !File.Exists(NamedArtReferences.IndexPath)) return;
+            var changed = imported.Concat(deleted).Concat(moved).Where(path=>!IsGameplayMapData(path)).ToArray();
+            if(changed.Length==0)return;
             var index = NamedArtIndex.Read(NamedArtReferences.IndexPath);
-            foreach (string path in imported.Concat(deleted).Concat(moved).Where(index.InScope))
+            foreach (string path in changed.Where(index.InScope))
             {
                 if (index.Importers.Any(i => i.Path == path) || AssetImporter.GetAtPath(path) is TextureImporter) artChanged = true;
                 if (File.Exists(path) && AssetImporter.GetAtPath(path) is TextureImporter) textures.Add(path);

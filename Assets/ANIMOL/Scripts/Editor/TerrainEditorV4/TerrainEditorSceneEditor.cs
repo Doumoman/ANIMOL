@@ -126,13 +126,14 @@ namespace ANIMOL.Editor
             Cancel(false);
             var map=adapter.Map;
             var signature=map.GetInstanceID()+"|"+map.GetEditorPreviewUnitsPerCell()+"|"+JsonUtility.ToJson(map.TerrainPlacements)+"|"+
-                string.Join(";",map.Cells.Select(c=>JsonUtility.ToJson(c)))+"|"+string.Join(";",map.Objects.Select(o=>JsonUtility.ToJson(o)));
+                string.Join(";",map.Cells.Select(c=>JsonUtility.ToJson(c)))+"|"+string.Join(";",map.Objects.Where(o=>CommonObstacleCatalog.IsMarker(o.Kind)).Select(o=>JsonUtility.ToJson(o)));
             if(artwork!=null && signature==staticArtSignature)
             {
                 var free=artwork.GetComponentInChildren<FreeShapeTerrainRenderer>(true);
-                if(free==null && map.HasFreeShape){var go=new GameObject("FreeShape artwork");go.transform.SetParent(artwork.transform,false);go.layer=TerrainEditorArt.PreviewLayer;go.hideFlags=HideFlags.HideAndDontSave;free=go.AddComponent<FreeShapeTerrainRenderer>();}
-                if(free!=null){free.gameObject.SetActive(true);free.Rebuild(map.FreeShapeTerrain??new FreeShapeLayer(),map.GetEditorPreviewUnitsPerCell(),TerrainEditorArt.ObstaclePreview(map));}
-                status="저장 완료 · revision "+map.AuthoringRevision;view?.Repaint();return;
+                var devices=TerrainEditorArt.ObstaclePreview(map);
+                if(free==null && (map.HasFreeShape || devices.Count>0)){var go=new GameObject("FreeShape artwork");go.transform.SetParent(artwork.transform,false);go.layer=TerrainEditorArt.PreviewLayer;go.hideFlags=HideFlags.HideAndDontSave;free=go.AddComponent<FreeShapeTerrainRenderer>();}
+                if(free!=null){free.gameObject.SetActive(true);free.Rebuild(map.FreeShapeTerrain??new FreeShapeLayer(),map.GetEditorPreviewUnitsPerCell(),devices);}
+                RefreshSelection();status="저장 완료 · revision "+map.AuthoringRevision;view?.Repaint();return;
             }
             var root=new GameObject("ANIMOL Scene artwork · not saved");SceneManager.MoveGameObjectToScene(root,scene);
             try{TerrainEditorArt.BuildMap(adapter,root.transform);}
@@ -140,10 +141,14 @@ namespace ANIMOL.Editor
             if(artwork!=null)UnityEngine.Object.DestroyImmediate(artwork);artwork=root;
             staticArtSignature=signature;
             foreach(var t in root.GetComponentsInChildren<Transform>(true))t.gameObject.hideFlags=HideFlags.HideAndDontSave;
-            key=null;candidate=null;objectCandidate=null;settingsKey=null;
-            if(!adapter.Read().placements.Any(p=>p.instanceId==state.instanceId) && !adapter.Map.Objects.Any(o=>o.StableId==state.instanceId))state.instanceId="";
-            if(state.instanceId!="")origin=SelectionOrigin();
+            RefreshSelection();
             status="저장 완료 · revision "+adapter.Map.AuthoringRevision;view?.Repaint();
+        }
+        private static void RefreshSelection()
+        {
+            key=null;candidate=null;objectCandidate=null;settingsKey=null;
+            if(!adapter.Map.TerrainPlacements.placements.Any(p=>p.instanceId==state.instanceId) && !adapter.Map.Objects.Any(o=>o.StableId==state.instanceId))state.instanceId="";
+            if(state.instanceId!="")origin=SelectionOrigin();
         }
         private static void Remember()
         {
@@ -333,7 +338,7 @@ namespace ANIMOL.Editor
             if(signature==key)return;key=signature;origin=point;ghostPart=part;hover=true;valid=false;candidate=null;objectCandidate=null;
             try
             {
-                var dto=adapter.Read();
+                var dto=part?.obj!=null || part?.marker!=null ? null : adapter.Read();
                 if(state.tool is "Brush" or "Erase")
                 {ghostPart=null;if(!Engine.TrySetBaseCell(adapter.Terrain.Catalog,dto,point,state.tool=="Brush",part?.terrain?.styleId??adapter.Map.ThemeId+"_A",out candidate,out error))throw new InvalidOperationException(error);}
                 else if(part?.terrain!=null)

@@ -45,13 +45,12 @@ namespace ANIMOL.Editor
                 devices[new Vector2Int(candidate.X,candidate.Y)]=ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Read(Map,candidate);
                 ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Validate(Map.FreeShapeTerrain,devices);
             }
-            var scratch=UnityEngine.Object.Instantiate(Map);
-            try
+            // Placement validation only reads the map; do not clone every serialized record on hover.
             {
                 var resolved=Map.ResolveTerrain(Terrain);
                 if(edit.operation=="Pair")
                 {
-                    var pairValidation=StageMapObjectAuthoringOperations.ValidateLinkedPairPlacement(scratch,type,edit.origin,edit.second);
+                    var pairValidation=StageMapObjectAuthoringOperations.ValidateLinkedPairPlacement(Map,type,edit.origin,edit.second);
                     if(!pairValidation.IsValid)throw new InvalidOperationException(string.Join(" | ",pairValidation.Errors));
                     foreach(var origin in new[]{edit.origin,edit.second})
                         for(int x=0;x<Mathf.CeilToInt(type.FootprintCells.x);x++)for(int y=0;y<Mathf.CeilToInt(type.FootprintCells.y);y++)
@@ -60,10 +59,9 @@ namespace ANIMOL.Editor
                 }
                 if(StageMapDefinition.EnumeratePlacementCells(candidate).Any(c=>resolved.solids.TryGetValue(c,out var s)&&!string.IsNullOrEmpty(s.ownerId)))
                     throw new InvalidOperationException("객체 경로/범위가 구조물 # 고체를 침범합니다.");
-                var validation=StageMapObjectAuthoringOperations.ValidatePlacement(scratch,candidate,edit.operation=="Place"?null:edit.instanceId);
+                var validation=StageMapObjectAuthoringOperations.ValidatePlacement(Map,candidate,edit.operation=="Place"?null:edit.instanceId);
                 if(!validation.IsValid)throw new InvalidOperationException(string.Join(" | ",validation.Errors));
             }
-            finally{UnityEngine.Object.DestroyImmediate(scratch);}
         }
         public void RemoveRetiredObstacles()
         {
@@ -98,28 +96,25 @@ namespace ANIMOL.Editor
             UnityEditor.Undo.SetCurrentGroupName("ANIMOL "+edit.operation+" Object");UnityEditor.Undo.RecordObject(map,"ANIMOL Object");
             try
             {
-                bool ok;StageMapObjectPlacementValidation validation=null;
+                // This adapter owns the transaction. Reusing the legacy convenience actions
+                // imported an Assets backup and saved/recorded Undo a second time per click.
+                CampaignMapBackupStore.CreateBackup(map,"autosave-before-object-"+edit.operation);
+                var candidate=ObjectCandidate(edit);
                 switch(edit.operation)
                 {
-                    case "Pair":
-                        var oldIds=map.Objects.Select(o=>o.StableId).ToArray();ok=false;string pairMessage="";
-                        map.EditorBatchAuthoredChanges(()=>{ok=StageMapObjectAuthoringOperations.PlaceLinkedPair(map,Objects.Find(edit.definitionId),edit.origin,edit.second,out pairMessage);});
-                        if(!ok)throw new InvalidOperationException(pairMessage);
-                        edit.instanceId=map.Objects.First(o=>!oldIds.Contains(o.StableId)).StableId;break;
-                    case "Place":
-                        var candidate=ObjectCandidate(edit);
-                        if(Markers.Any(m=>m.id==edit.definitionId))
-                        {ok=T01S01ManualMapWorkflow.TryPlaceCampaignMarker(map,candidate.Kind,edit.origin,out var markerId,out var markerMessage);edit.instanceId=markerId;if(!ok)throw new InvalidOperationException(markerMessage);}
-                        else ok=StageMapObjectAuthoringOperations.Place(map,Objects.Find(edit.definitionId),edit.origin,edit.instanceId,candidate.Settings,out validation);break;
-                    case "Move": ok=StageMapObjectAuthoringOperations.Move(map,edit.instanceId,edit.origin,out validation);break;
-                    case "Delete": int removed=0;map.EditorBatchAuthoredChanges(()=>removed=StageMapObjectAuthoringOperations.RemoveWithMutualLinks(map,edit.instanceId));ok=removed>0;break;
-                    case "Settings": ok=StageMapObjectAuthoringOperations.ApplySettings(map,edit.instanceId,edit.settings,out validation);break;
-                    default: throw new InvalidOperationException("Unknown authoring operation.");
+                    case "Place": case "Move": case "Settings":
+                        map.EditorPlaceObject(candidate.StableId,candidate.Kind,candidate.X,candidate.Y,
+                            candidate.DataKey,candidate.Prefab,candidate.Settings);
+                        break;
+                    case "Delete":
+                        if(!map.EditorRemoveObject(edit.instanceId))throw new InvalidOperationException("Object instance is missing.");
+                        break;
+                    default: throw new InvalidOperationException("Unsupported current obstacle operation: "+edit.operation);
                 }
-                if(!ok)throw new InvalidOperationException(validation==null?"객체 변경 실패":string.Join(" | ",validation.Errors));
                 if(map.AuthoringRevision!=revision+1)throw new InvalidOperationException("Object edit did not produce exactly one authoring revision.");
-                map.EditorInvalidateTerrainDerivedCache();EditorUtility.SetDirty(map);AssetDatabase.SaveAssetIfDirty(map);
-                UnityEditor.Undo.FlushUndoRecordObjects();Notify();UnityEditor.Undo.CollapseUndoOperations(group);
+                map.EditorInvalidateTerrainDerivedCache();EditorUtility.SetDirty(map);
+                UnityEditor.Undo.FlushUndoRecordObjects();Notify();AssetDatabase.SaveAssetIfDirty(map);
+                UnityEditor.Undo.CollapseUndoOperations(group);
             }
             catch
             {

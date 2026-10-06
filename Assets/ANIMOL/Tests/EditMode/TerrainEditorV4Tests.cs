@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+using ANIMOL.Gameplay.ObstacleGraphics;
 using ANIMOL.Core;
 using ANIMOL.Development;
 using ANIMOL.Editor;
@@ -33,6 +36,8 @@ namespace ANIMOL.Tests
         {
             adapter?.Dispose();if(map!=null)Undo.ClearUndo(map);
             AssetDatabase.DeleteAsset(path);if(AssetDatabase.IsValidFolder(backup))AssetDatabase.DeleteAsset(backup);
+            var local=Path.GetFullPath(CampaignMapBackupStore.BackupRoot+"/"+Path.GetFileNameWithoutExtension(path));
+            if(Directory.Exists(local)){foreach(var file in Directory.GetFiles(local,"*.json"))File.Delete(file);Directory.Delete(local);}
         }
         private string Place(string id,Vector2Int p)
         {
@@ -126,6 +131,66 @@ namespace ANIMOL.Tests
             adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId="HALF",settings=settings});
             Assert.That(map.AuthoringRevision,Is.EqualTo(rev+3));Assert.That(map.CollisionDataRevision,Is.EqualTo(-1));
             adapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId="HALF"});adapter.Undo();Assert.That(map.Objects.Single().Settings.ObstacleStyleId,Is.EqualTo("T01_B"));
+        }
+        [Test] public void ObstacleEditsKeepSceneArtworkAndWriteBackupsOutsideAssets()
+        {
+            var previous=TerrainEditorSceneEditor.Active?TerrainEditorSceneEditor.Adapter.Map:null;
+            var previousPart=TerrainEditorSceneEditor.State.partId;
+            var field=typeof(TerrainEditorSceneEditor).GetField("artwork",BindingFlags.Static|BindingFlags.NonPublic);
+            try
+            {
+                TerrainEditorSceneEditor.Open(map);
+                var root=(GameObject)field.GetValue(null);Assert.That(root,Is.Not.Null);
+                var sceneAdapter=TerrainEditorSceneEditor.Adapter;
+                var def=sceneAdapter.Objects.Find(StageMapObjectKind.CommonC01);
+                sceneAdapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="FIRST",origin=new Vector2Int(4,4),settings=CurrentSettings(def)});
+                var renderer=root.GetComponentInChildren<FreeShapeTerrainRenderer>(true);Assert.That(renderer,Is.Not.Null);
+                sceneAdapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId=def.StableTypeId,instanceId="SECOND",origin=new Vector2Int(8,4),settings=CurrentSettings(def)});
+                Assert.That(renderer.LastUpdatedCells,Is.EqualTo(9));
+                sceneAdapter.CommitObject(new TerrainEditorObjectEdit{operation="Move",instanceId="SECOND",origin=new Vector2Int(9,4)});
+                Assert.That(renderer.LastUpdatedCells,Is.EqualTo(12));
+                sceneAdapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId="SECOND"});
+                sceneAdapter.Undo();Assert.That(map.Objects.Count,Is.EqualTo(2));
+                sceneAdapter.Redo();Assert.That(map.Objects.Count,Is.EqualTo(1));
+                Assert.That((GameObject)field.GetValue(null),Is.SameAs(root));
+                Assert.That(root.GetComponentInChildren<FreeShapeTerrainRenderer>(true),Is.SameAs(renderer));
+                Assert.That(renderer.LastUpdatedCells,Is.EqualTo(9));
+                Assert.That(Directory.Exists(backup),Is.False,"Painting must not create imported Assets backups.");
+                var local=CampaignMapBackupStore.BackupRoot+"/"+map.StageId;
+                Assert.That(Directory.GetFiles(local,"*.json").Length,Is.EqualTo(4));
+                Assert.That(File.ReadAllText(path),Does.Contain("FIRST").And.Not.Contain("SECOND"));
+            }
+            finally
+            {
+                TerrainEditorSceneEditor.Close();
+                if(previous!=null)TerrainEditorSceneEditor.Open(previous,previousPart);
+            }
+        }
+        [Test] public void IncrementalPreviewRetainsTheExistingBlockedDeviceRejectionPolicy()
+        {
+            var top=adapter.Objects.Find(StageMapObjectKind.CommonC01);
+            var full=adapter.Objects.Find(StageMapObjectKind.CommonC03);
+            var reflect=adapter.Objects.Find(StageMapObjectKind.CommonC02);
+            foreach(var p in new[]{
+                new StageMapObjectPlacement("TOP",top.Kind,0,0,top.StableTypeId,top.Prefab,CurrentSettings(top)),
+                new StageMapObjectPlacement("BLOCK-TOP",full.Kind,0,1,full.StableTypeId,full.Prefab,CurrentSettings(full)),
+                new StageMapObjectPlacement("FULL",full.Kind,4,0,full.StableTypeId,full.Prefab,CurrentSettings(full)),
+                new StageMapObjectPlacement("REFLECT",reflect.Kind,3,0,reflect.StableTypeId,reflect.Prefab,CurrentSettings(reflect)),
+                new StageMapObjectPlacement("VALID",top.Kind,8,0,top.StableTypeId,top.Prefab,CurrentSettings(top))})
+                map.EditorPlaceObject(p.StableId,p.Kind,p.X,p.Y,p.DataKey,p.Prefab,p.Settings);
+            var expected=new Dictionary<Vector2Int,GraphicCell>();
+            foreach(var p in map.Objects)
+            {
+                try
+                {
+                    var candidate=new Dictionary<Vector2Int,GraphicCell>(expected);
+                    candidate.Add(new Vector2Int(p.X,p.Y),ObstacleSnapshotAdapter.Read(map,p));
+                    ObstacleSnapshotAdapter.Validate(map.FreeShapeTerrain,candidate);expected=candidate;
+                }
+                catch(InvalidOperationException){}
+            }
+            CollectionAssert.AreEquivalent(expected.Keys,TerrainEditorArt.ObstaclePreview(map).Keys);
+            Assert.That(expected.Count,Is.EqualTo(3));
         }
         [Test] public void RetiredPairTypesAreNotAvailableInCurrentCatalog()
         {

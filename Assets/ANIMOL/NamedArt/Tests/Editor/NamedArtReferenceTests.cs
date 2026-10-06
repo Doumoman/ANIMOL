@@ -77,6 +77,22 @@ namespace ANIMOL.NamedArt.Tests
             Assert.IsEmpty(AssetDatabase.MoveAsset(incoming, ImagePath));
             AssetDatabase.ImportAsset(ImagePath, ImportAssetOptions.ForceSynchronousImport);
         }
+        [Test] public void GameplayMapImportsAndSavesDoNotParseOrQueueTheArtReferenceIndex()
+        {
+            // Reflect the existing owner so the art package retains no dependency on
+            // the gameplay assembly. Use a real map asset, not a path-name heuristic.
+            var type=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType("ANIMOL.Core.StageMapDefinition")).FirstOrDefault(t=>t!=null);
+            Assert.That(type,Is.Not.Null);
+            var map=ScriptableObject.CreateInstance(type);
+            var path=Root+"any-map-name.asset";
+            AssetDatabase.CreateAsset(map,path);AssetDatabase.SaveAssetIfDirty(map);
+            File.WriteAllText(NamedArtReferences.IndexPath,"Must not be parsed for gameplay map changes");
+            NamedArtAutomation.Suspended=false;
+            Assert.DoesNotThrow(()=>NamedArtAutomation.QueueSaved(path));
+            Assert.DoesNotThrow(()=>NamedArtAutomation.QueueImports(new[]{path},Array.Empty<string>(),new[]{path}));
+            Assert.That(NamedArtAutomation.Pending,Is.False);
+            Assert.That(File.ReadAllText(NamedArtReferences.IndexPath),Is.EqualTo("Must not be parsed for gameplay map changes"));
+        }
         [Test] public void ChangedGuidRebindsStaticPrefabImageAndInactiveRenderer()
         {
             var old = Import(); Prefab(old); string guid = AssetDatabase.AssetPathToGUID(ImagePath);

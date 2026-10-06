@@ -94,15 +94,34 @@ namespace ANIMOL.Development
         public static Dictionary<Vector2Int,GraphicCell> ObstaclePreview(StageMapDefinition map)
         {
             var cells=new Dictionary<Vector2Int,GraphicCell>();
+            // Build the terrain index once. Adding one device can only change plans in
+            // its 3x3 neighbourhood, so preserve the existing greedy rejection policy
+            // without copying/validating the entire accumulated map for every device.
+            var context=ObstacleSnapshotAdapter.Merge(map.FreeShapeTerrain,null);
             foreach(var p in map.Objects)
             {
+                var position=new Vector2Int(p.X,p.Y);bool added=false;
                 try
                 {
                     var cell=ObstacleSnapshotAdapter.Read(map,p);if(cell==null)continue;
-                    var candidate=new Dictionary<Vector2Int,GraphicCell>(cells);candidate.Add(new Vector2Int(p.X,p.Y),cell);
-                    ObstacleSnapshotAdapter.Validate(map.FreeShapeTerrain,candidate);cells=candidate;
+                    if(!context.TryAdd(position,cell))throw new System.InvalidOperationException("Duplicate graphic owner: "+p.StableId);
+                    added=true;
+                    for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++)
+                    {
+                        var neighbour=position+new Vector2Int(x,y);
+                        if(!context.TryGetValue(neighbour,out var device)||device.Kind=="terrain")continue;
+                        var plan=ObstacleVisualResolver.Resolve((a,b)=>context.GetValueOrDefault(new Vector2Int(a,b)),neighbour.x,neighbour.y,map.FreeShapeTerrain.seed);
+                        ObstacleArtRegistry.Load().Sprite(plan.OverlayKey);
+                        if(plan.Problems.Count>0)throw new System.InvalidOperationException(string.Join("; ",plan.Problems));
+                    }
+                    cells.Add(position,cell);
                 }
-                catch(System.InvalidOperationException){ /* Invalid current devices have no legacy-art fallback; placement validation reports the error. */ }
+                catch(System.InvalidOperationException)
+                {
+                    if(added)context.Remove(position);
+                    // Invalid current devices have no legacy-art fallback. The authoring
+                    // validator still reports errors before a transaction can commit.
+                }
             }
             return cells;
         }
