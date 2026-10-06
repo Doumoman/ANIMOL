@@ -24,7 +24,8 @@ namespace ANIMOL.Core
         GreenPetalCup, GreenDewGlass, GreenSundialPetal, GreenSandRetrace, GreenVineKnot,
         MineMagnetPair, MineSlickFacet, MinePrismBeam, MineCrystalLever, MineCartFork,
         CommonC01 = 1001, CommonC02, CommonC03, CommonC04, CommonC05,
-        CommonC06, CommonC07, CommonC08, CommonC09, CommonC10
+        CommonC06, CommonC07, CommonC08, CommonC09 = 1009, // Removed; reserved for legacy deletion diagnostics.
+        CommonC10 = 1010
     }
 
     public enum ObstacleFacing { Up, Left, Right }
@@ -709,6 +710,7 @@ namespace ANIMOL.Core
             var report = new StageMapValidationReport();
             if (map == null) { report.Errors.Add("Map asset is missing."); return report; }
             if (string.IsNullOrWhiteSpace(map.StageId) || string.IsNullOrWhiteSpace(map.ThemeId)) report.Errors.Add("Stable stage/theme identity is missing.");
+            if (map.Objects.Any(o=>o.Kind==StageMapObjectKind.CommonC09)) report.Errors.Add("C09 was removed: explicit OVG02 deletion migration required.");
             if (map.MapVersion < 1) report.Errors.Add("Map version must be positive.");
             if (!map.HasValidCellBounds) report.Errors.Add("Cell bounds must have positive width and height.");
             if (map.WorldUnitsPerCell <= 0f) report.Errors.Add("ANIMOL product world cell size is unconfigured.");

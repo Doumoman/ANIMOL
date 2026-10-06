@@ -42,12 +42,14 @@ namespace ANIMOL.Gameplay
         public void Load(StageMapDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
+            CommonObstacleCatalog.RequireNoRemovedDevices(definition);
             var structural = StageMapValidator.ValidateStructure(definition);
             if (!structural.IsValid) throw new InvalidOperationException(string.Join(" | ", structural.Errors));
             // Resolve pinned masks before touching the existing preview/physics cache.
             var structureRegistry = definition.HasTerrainStructures ? StageTerrainStructureRegistry.Load() : null;
             if (structureRegistry != null) definition.ResolveTerrain(structureRegistry);
             ObstacleGraphics.ObstacleSnapshotAdapter.Validate(definition.FreeShapeTerrain,ObstacleGraphics.ObstacleSnapshotAdapter.Preview(definition));
+            GetComponent<ObstacleGraphics.ObstacleRuntimeGraphics>()?.ClearPresentation();
             PrepareTerrainPhysicsOwner(definition, structureRegistry != null);
             map = definition;
             ConfigureGridScale(definition.WorldUnitsPerCell);
@@ -115,6 +117,13 @@ namespace ANIMOL.Gameplay
             if (runtimeObjectRoot == null) return;
             foreach (var resettable in runtimeObjectRoot.GetComponentsInChildren<MonoBehaviour>(true).OfType<IStageMapRuntimeResettable>())
                 if (!(resettable is CommonObstacleObject)) resettable.ResetRuntimeState();
+        }
+
+        // Full-stage reset only. Individual player respawn retains the shared devices/clock.
+        public void ResetCommonObstacleState()
+        {
+            if(runtimeObjectRoot!=null)foreach(var owner in runtimeObjectRoot.GetComponentsInChildren<CommonObstacleObject>(true))owner.ResetRuntimeState();
+            GetComponent<ObstacleGraphics.ObstacleRuntimeGraphics>()?.ResetStagePresentation();
         }
 
         private void SpawnAuthoredObjects(StageMapDefinition definition)

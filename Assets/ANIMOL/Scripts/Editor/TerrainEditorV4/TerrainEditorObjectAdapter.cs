@@ -30,7 +30,7 @@ namespace ANIMOL.Editor
         {
             var candidate=ObjectCandidate(edit);
             if(edit.operation=="Delete")return;
-            if(CommonObstacleCatalog.IsRetired(candidate.Kind))throw new InvalidOperationException("폐기된 장애물입니다. 공통 C01~C10을 새로 배치하세요.");
+            if(CommonObstacleCatalog.IsRetired(candidate.Kind))throw new InvalidOperationException("폐기된 장애물입니다. 공통 C01~C08/C10을 새로 배치하세요.");
             var type=Objects.Find(candidate);
             bool marker=T01S01ManualMapWorkflow.IsCampaignMarker(candidate.Kind);
             if(type==null && !marker || candidate.Settings.Version>3)throw new InvalidOperationException("지원되지 않는 객체 설정은 원본을 보존합니다.");

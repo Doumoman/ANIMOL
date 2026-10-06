@@ -194,7 +194,7 @@ namespace ANIMOL.Tests
         }
         [Test] public void RetiredPairTypesAreNotAvailableInCurrentCatalog()
         {
-            Assert.That(adapter.Objects.Types.Count,Is.EqualTo(10));
+            Assert.That(adapter.Objects.Types.Count,Is.EqualTo(9));
             Assert.That(adapter.Objects.Types.Any(t=>t.RequiresLinkedPair),Is.False);
             Assert.That(adapter.Objects.Find(StageMapObjectKind.MoonJadeBalance),Is.Null);
         }
@@ -202,10 +202,10 @@ namespace ANIMOL.Tests
         {
             var parts=adapter.Terrain.Catalog.entries.Select(e=>new TerrainEditorPart{id=e.id,terrain=e})
                 .Concat(adapter.Objects.Types.Select(o=>new TerrainEditorPart{id=o.StableTypeId,obj=o})).ToArray();
-            Assert.That(parts.Length,Is.EqualTo(70));Assert.That(parts.Select(p=>p.id).Distinct().Count(),Is.EqualTo(70));
+            Assert.That(parts.Length,Is.EqualTo(69));Assert.That(parts.Select(p=>p.id).Distinct().Count(),Is.EqualTo(69));
             foreach(var p in parts)
             {var thumbnail=adapter.Thumbnail(p);Assert.That(thumbnail.diagnostic,Is.Null,p.id);var count=thumbnail.silhouette.GetPixels32().Count(c=>c.a>0);Assert.That(count,Is.InRange(1,35000),p.id);Assert.That(adapter.Thumbnail(p),Is.SameAs(thumbnail));}
-            Assert.That(adapter.ThumbnailBuildCount,Is.EqualTo(70));
+            Assert.That(adapter.ThumbnailBuildCount,Is.EqualTo(69));
         }
         [Test] public void OpenReadSaveDisposeWithoutEditDoesNotChangeMapFile()
         {var bytes=File.ReadAllText(path);var rev=map.AuthoringRevision;adapter.Read();adapter.Save();Assert.That(File.ReadAllText(path),Is.EqualTo(bytes));Assert.That(map.AuthoringRevision,Is.EqualTo(rev));}

@@ -25,20 +25,23 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
             if (styles.Length != 1) throw new InvalidOperationException("장애물 재료를 A/B/C/D 중 명시적으로 선택하세요: " + placement.StableId);
             return styles[0];
         }
-        public static GraphicCell Read(StageMapDefinition map, StageMapObjectPlacement placement, StageMapRuntimeObject owner = null)
+        public static GraphicCell Read(StageMapDefinition map, StageMapObjectPlacement placement, StageMapRuntimeObject owner = null, double? gameSeconds = null, double stageEpoch = 0)
         {
+            if(placement.Kind==StageMapObjectKind.CommonC09)throw new InvalidOperationException("C09 was removed: explicit deletion migration required.");
             var kind = Kind(placement.Kind); if (kind == null) return null;
             CommonObstacleCatalog.ValidateSettings(placement);
             if (placement.Settings.FootprintCells != Vector2.one) throw new InvalidOperationException("V6 obstacle graphics require the verified 1-cell footprint: " + placement.StableId);
-            bool surface = kind != "C09"; string pose = kind == "C09" ? "inactive" : "idle";
+            bool surface = true; string pose = kind == "C04" ? "active" : "idle";
+            int frame=0;bool? hazard=kind=="C04"?true:null;
             if (owner != null)
             {
                 if (!(owner is CommonObstacleObject device) || device.Kind != placement.Kind)
                     throw new InvalidOperationException("Obstacle runtime owner does not match the current contract.");
                 surface = device.SurfaceEnabled; pose = device.Pose;
+                frame=device.FrameAt(gameSeconds??Time.timeAsDouble,stageEpoch);hazard=kind=="C04"?device.HazardEnabled:null;
             }
             return new GraphicCell { Kind=kind, ThemeId=map.ThemeId, StyleId=Style(map,placement), ArtVersion=map.FreeShapeTerrain.artVersion,
-                Facing=CommonObstacleCatalog.Facing(placement), Pose=pose, SurfaceEnabled=surface };
+                Facing=CommonObstacleCatalog.Facing(placement), Pose=pose, Frame=frame, SurfaceEnabled=surface,HazardEnabled=hazard };
         }
         public static Dictionary<Vector2Int,GraphicCell> Preview(StageMapDefinition map, IEnumerable<StageMapObjectPlacement> placements = null)
         {

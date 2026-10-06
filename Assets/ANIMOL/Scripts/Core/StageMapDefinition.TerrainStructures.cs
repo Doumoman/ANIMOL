@@ -21,6 +21,7 @@ namespace ANIMOL.Core
 
         public AnimolTerrainSavedMap ReadTerrain(StageTerrainStructureRegistry registry)
         {
+            CommonObstacleCatalog.RequireNoRemovedDevices(this);
             if (terrainPlacements == null || terrainPlacements.schemaVersion != 3 || terrainPlacements.placements == null)
                 throw new InvalidOperationException("Unsupported terrain placement schema; original serialized data is preserved.");
             var dto = new AnimolTerrainSavedMap { themeId = themeId, revision = authoringRevision,

@@ -61,6 +61,7 @@ namespace ANIMOL.Gameplay
         public static StageMapRuntimeObject Configure(GameObject instance, StageMapObjectPlacement placement, float cellSize)
         {
             if (instance == null || placement == null) return null;
+            if(placement.Kind==StageMapObjectKind.CommonC09)throw new InvalidOperationException("C09 was removed: explicit deletion migration required.");
             if (CommonObstacleCatalog.IsRetired(placement.Kind)) { instance.SetActive(false); return null; }
             var runtime = instance.GetComponent<StageMapRuntimeObject>();
             runtime?.Configure(placement, cellSize);

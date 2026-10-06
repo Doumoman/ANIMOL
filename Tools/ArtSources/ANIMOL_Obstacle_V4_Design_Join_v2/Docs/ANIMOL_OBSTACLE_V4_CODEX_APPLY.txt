@@ -1,0 +1,101 @@
+작업 ID: OVG02_V4_COMMON9_NATIVE_ANIMATION
+프로젝트: C:/Users/user/Documents/GitHub/ANIMOL
+Unity: 6000.3.8f1
+입력: ANIMOL_Obstacle_V4_Design_Join 개정 v2 패키지
+이전 OVG01 그래픽 지시 중 이번 문서와 충돌하는 항목은 이번 문서를 따른다.
+
+목표
+공통 9종의 개정 아트와 실제 애니메이션·접합을 프로젝트에 적용하라.
+C09 접근 생성판은 삭제하고 C04는 상시 위험칸으로 전환하라.
+C05의 조각 낙하·페이드는 Unity 기본 기능으로 구현하라.
+그래픽 코어·미리보기는 제공되었지만 실제 Unity 컴파일과 물리 검증은 미실행이다.
+
+1. 먼저 실제 저장소 상태 확인
+AGENTS.md, 현재 Task/완료 기록, 지형·장치 owner, 기존 OVG01 적용 여부를 확인하라.
+FreeShapeTerrainRenderer/ArtRegistry/ArtBuilder, StageTerrainStructureRuntime,
+StageMapRuntimeLoader/Factory/Definition, AnimolTerrainPlacementEngine/Adapter의
+실제 존재 경로와 책임을 읽고 그 경로에 연결하라. 별도 실험 타일 시스템으로 우회하지 말라.
+기존 Validate/Commit/Undo 흐름, v4 GUID·47마스크·4위상·20스타일을 보존하라.
+지형 artVersion=4와 장애물 visualVersion=2를 구분하라.
+
+2. 정본 및 C09 삭제
+Docs/ANIMOL_Common_9_Tile_Design_v3.md를 공통 장치 정본으로 등록하라.
+활성 공통 ID는 C01,C02,C03,C04,C05,C06,C07,C08,C10이다.
+C09를 배치 UI, Registry 활성 목록, 맵 생성 후보, Runtime 생성 경로에서 제거하라.
+기존 직렬화 enum 숫자·GUID를 다른 ID에 재사용하거나 C10을 C09로 재번호화하지 말라.
+기존 저장 맵·프리셋의 C09 항목만 명시적으로 제거하고 결과를 파일별로 기록하라.
+소스 제어 또는 기존 프로젝트 백업 경로로 삭제 전 데이터를 보존하라.
+C09 셀을 일반 바닥이나 다른 장치로 자동 치환하지 말라.
+Legacy C09를 읽으면 삭제 마이그레이션이 필요한 명확한 진단을 제공하라.
+다른 셀·맵 속성·테마·GUID·프리팹을 변경하지 말라.
+
+3. C04 상시 위험
+기존 점멸 위상·타이머·warn/inactive 상태 전이를 운영 경로에서 제거하라.
+위험 효과 owner와 화면 표시가 항상 활성인 동일 상태를 사용하게 하라.
+alpha=1의 가시 Sprite 1개 상태를 쓴다. 예고 박스·점멸·안전 구간은 없다.
+AIR 비고체 의미와 기존 피해 결과·접촉 쿨다운은 유지하라.
+기존 맵의 C04를 상시 위험으로 전환하고 Scene·Runtime·재시작에서 확인하라.
+
+4. 아트 임포트
+Art/MechanismAtlas.png는 576×900, 등록 프레임 393개, Sprite rect 32×32, padding2다.
+Data/mechanism_catalog.json의 top-left rect를 Unity bottom-left로 변환하라.
+PPU32, Point, 압축 None, mipmap Off, pivot 중앙. Atlas 설정도 동일하게 확인하라.
+파일 이름을 추측하지 말고 key theme/kind/facing/pose/fN으로 등록하라.
+Art/C05Fragments 20개도 Data/c05_fragment_catalog.json에 따라 임포트하라.
+원본 v4 몸체는 기존 Registry/GUID를 재사용한다. 복사본 80개는 보존·설치 참고다.
+HTML·GIF·검수 이미지·Node 도구는 Runtime Resources로 일괄 임포트하지 말라.
+
+5. 형태와 접합
+C01: 팻말·아래 화살표 없음. v4 윗면 8px의 얇은 상판만 표시한다.
+C02: 좌우 접촉판과 실제 코일. 지정 면 접촉 시 7프레임 압축·복원한다.
+C03: 상향 코일 7프레임. 기존 상향 발사 로직을 유지한다.
+C05: 4조각의 금 간 상판. 온전한 v4 상판을 아래에 함께 그리지 말라.
+C06: 단색 떡+1px 외곽. 착지 시 7프레임 눌림·복원. 내부 점·명암을 추가하지 말라.
+C07: 기존 방향 바람 표시. 추가 고체 바닥을 만들지 말라.
+C08: 컨베이어 띠와 롤러의 8프레임. LEFT/RIGHT가 실제 속도 방향과 일치해야 한다.
+C10: 흰/청록 얼음 띠·큰 반사면·작은 고드름. 기존 저마찰 수치 유지.
+FULL=C02/C03/C08/C10, TOP=C01/C05/C06, AIR=C04/C07이다.
+지역 후보 M02/R01/R03는 후보 상태로 유지하고 새 운영 지역 기능을 만들지 말라.
+같은 theme/style/artVersion/joinGroup만 연결하고 기존 v4 body/cap mask를 양쪽에서 갱신하라.
+GraphicPlan.ReplaceCap이면 원본 TOP cap을 덧그리지 않는다. FULL 몸체 아래 부분은 유지한다.
+C05/C06/C08/C10의 기능 상판이 실제 윗면 위치에 와야 한다. 예전 y=8 팻말 위치를 쓰지 말라.
+TOP 밑 빈 공간을 채우지 말고 장치 위에 큰 문양을 겹치지 말라.
+지형 편집·장치 제거·상판 활성 변경은 주변 3×3와 모티프 앵커 36개를 dirty 처리하라.
+
+6. 애니메이션 연결
+기존 충돌·착지 owner가 발행한 이벤트 게임 시각을 렌더 어댑터에 전달하라.
+C02/C03: 프레임당 30ms, 7개, 1회 후 마지막 프레임.
+C06: 프레임당 40ms, 7개, 1회 후 마지막 프레임.
+C08: 기본 프레임당 80ms로 8개 반복. 기존 속도에 맞추려면 이동거리 픽셀로 phase 계산.
+게임 시계·일시정지·reset·공용 벨트 구간의 phase를 일관되게 적용하라.
+JS/C# 선택기에 Frame을 전달하고 캐시 key에 Frame을 포함하라.
+Renderer가 Rigidbody2D 속도·Collider·Prefab 루트 scale·셀 점유를 바꾸지 않게 하라.
+누른 그림을 추가하기 위해 기존 반사 속도 보존이나 착지 반동 수치를 바꾸지 말라.
+
+7. C05 Unity 기본 붕괴·페이드
+밟을 때 active 균열 그림을 표시한다. 점유 중 보호는 기존 owner 규칙을 유지한다.
+마지막 이탈로 실제 SurfaceEnabled true→false가 된 이벤트에만 붕괴를 실행하라.
+Runtime/UnityCrumbleVfx.cs를 검토·컴파일하여 기존 Stage VFX pool에 연결하거나
+동일 규격을 SpriteRenderer·Transform·alpha로 프로젝트의 기존 컴포넌트에 구현하라.
+4조각 Sprite, 원점·속도·중력·duration은 Data/c05_fragment_effect.json을 따른다.
+조각은 플랫폼의 비활성 자식이 아닌 독립 Stage VFX root에 생성한다.
+아래 낙하 400ms, 처음 80ms 불투명, 이후 320ms 페이드. 좌표 변화는 1/32 스냅.
+회전 0, scale1, Collider/Rigidbody2D/피해/아이템 없음. 끝나면 pool 반환.
+고유 붕괴 이벤트 key로 중복 방지하고 동시 붕괴 여러 건을 각각 처리하라.
+로드된 inactive 상태를 새 붕괴 이벤트로 재생하지 말라. Undo·편집 프리뷰에는 실효과 없음.
+reset·씬 unload 시 효과와 이벤트 캐시를 정리하고 복구된 상판·끝캡을 확인하라.
+외부 트윈·파티클 패키지나 구운 페이드 PNG를 필수 의존성으로 추가하지 말라.
+기존 fade 컴포넌트와 새 crumble을 중복 재생하지 말라.
+
+8. 필수 검증
+C# 컴파일과 실제 기존 EditMode 테스트 어셈블리에서 제공 테스트를 실행하라.
+Play Mode에서 C02 좌우 반사, C03 발사, C06 하강 착지, C08 양방향 이동, C10 저마찰을 확인하라.
+각 애니메이션의 첫·중간·마지막·루프 프레임을 확인하고 물리 수치 변화가 없는지 검사하라.
+C05: 밟음·여러 점유자·마지막 이탈·낙하·페이드·동시 붕괴·복구·재시작·unload를 확인하라.
+C04: 긴 시간 대기·pause/resume·reset 후에도 위험이 상시 켜져 있어야 한다.
+C09: 활성 배치·생성·직렬화 참조의 삭제 상태와 삭제 전후 맵 변경 목록을 확인하라.
+20스타일, 음수 좌표, 청크 경계, 바닥·벽·단차·분리·TOP 빈 공간을 확인하라.
+Scene/Runtime/저장재열기/Undo/Redo가 같은 상태·연결을 표시해야 한다.
+모바일 세로 화면 1배·최근접 확대에서 Jaggies/Doubles·점 잡음·색 혼합을 확인하라.
+결과를 OVG02_RESULT.md에 적용 경로, 변경 파일, 실제 실행한 검사, 미실행 검사를 분리해 기록하라.
+미리보기 성공을 Unity 적용 완료로 보고하지 말라.

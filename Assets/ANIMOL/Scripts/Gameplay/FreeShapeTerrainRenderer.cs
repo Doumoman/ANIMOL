@@ -15,23 +15,45 @@ namespace ANIMOL.Gameplay
         private readonly Dictionary<Sprite,Tile> tiles=new Dictionary<Sprite,Tile>();
         private Dictionary<Vector2Int,FreeShapeCell> previous=new Dictionary<Vector2Int,FreeShapeCell>();
         private Dictionary<Vector2Int,string> graphicSignatures=new();
+        private Dictionary<Vector2Int,int> graphicFrames=new();
         private readonly Dictionary<Vector2Int,GameObject> details=new();
         private readonly Dictionary<(Sprite,bool),Sprite> strips=new();
         private int seed;
         private float currentUnits;
         private FreeShapeArtRegistry currentArt;
         private bool initialized;
+        private IReadOnlyDictionary<Vector2Int,GraphicCell> animationContext;
         public int LastUpdatedCells {get;private set;}
         public int LastUpdatedMotifs {get;private set;}
         public int TilemapCount=>map==null?0:1;
         public int MotifCount=>motifs.Count;
         public double LastMilliseconds {get;private set;}
+        // A physics snapshot whose material/topology is unchanged can advance frames
+        // without indexing terrain, evaluating motifs or touching a Tilemap.
+        public void UpdateAnimationFrames(IReadOnlyDictionary<Vector2Int,GraphicCell> devices)
+        {
+            if(!initialized||animationContext==null)throw new System.InvalidOperationException("Initialize terrain before animation.");
+            var timer=System.Diagnostics.Stopwatch.StartNew();LastUpdatedCells=0;LastUpdatedMotifs=0;
+            foreach(var p in devices)
+            {
+                if(graphicFrames.GetValueOrDefault(p.Key)==p.Value.Frame)continue;
+                if(!animationContext.TryGetValue(p.Key,out var old)||Signature(old)!=Signature(p.Value))
+                    throw new System.InvalidOperationException("Animation cannot change topology or state.");
+                var plan=ObstacleVisualResolver.Resolve((x,y)=>x==p.Key.x&&y==p.Key.y?p.Value:animationContext.GetValueOrDefault(new Vector2Int(x,y)),p.Key.x,p.Key.y,seed);
+                var sprite=ObstacleArtRegistry.Load().Sprite(plan.OverlayKey);
+                var overlay=details.GetValueOrDefault(p.Key)?.transform.Find("Mechanism source pixels")?.GetComponent<SpriteRenderer>();
+                if(overlay==null)throw new System.InvalidOperationException("Animation mechanism renderer is missing.");
+                overlay.sprite=sprite;graphicFrames[p.Key]=p.Value.Frame;old.Frame=p.Value.Frame;LastUpdatedCells++;
+            }
+            LastMilliseconds=timer.Elapsed.TotalMilliseconds;
+        }
+        private static string Signature(GraphicCell c)=>string.Join("|",c.Kind,c.StyleId,c.ThemeId,c.ArtVersion,c.JoinGroup,c.Facing,c.Pose,c.SurfaceEnabled,c.HazardEnabled);
         public void Rebuild(FreeShapeLayer layer,float units,IReadOnlyDictionary<Vector2Int,GraphicCell> devices=null,IReadOnlyDictionary<Vector2Int,GraphicCell> previewContext=null)
         {
             var timer=System.Diagnostics.Stopwatch.StartNew();var cells=FreeShapeTopology.Index(layer);var art=FreeShapeArtRegistry.Load(layer);
             var graphics=ObstacleSnapshotAdapter.Merge(layer,devices);
             var context=previewContext??graphics;
-            var signatures=graphics.ToDictionary(p=>p.Key,p=>string.Join("|",p.Value.Kind,p.Value.StyleId,p.Value.ThemeId,p.Value.ArtVersion,p.Value.JoinGroup,p.Value.Facing,p.Value.Pose,p.Value.SurfaceEnabled));
+            var signatures=graphics.ToDictionary(p=>p.Key,p=>Signature(p.Value));
             var plans=new Dictionary<Vector2Int,GraphicPlan>();
             var grid=GetComponent<Grid>();if(grid==null)grid=gameObject.AddComponent<Grid>();grid.cellSize=new Vector3(units,units,1);
             var changed=new HashSet<Vector2Int>(previous.Keys.Where(p=>!cells.TryGetValue(p,out var c)||c.styleId!=previous[p].styleId));
@@ -40,7 +62,8 @@ namespace ANIMOL.Gameplay
             foreach(var p in signatures.Keys)if(!graphicSignatures.TryGetValue(p,out var value)||value!=signatures[p])changed.Add(p);
             if(!initialized||currentArt!=art||seed!=layer.seed||currentUnits!=units||previewContext!=null)changed.UnionWith(graphics.Keys);
             if(currentArt!=art && map!=null)map.GetComponent<TilemapRenderer>().sharedMaterial=art.material;
-            var affected=FreeShapeTopology.AffectedCells(changed);LastUpdatedCells=affected.Count;
+            var frameOnly=new HashSet<Vector2Int>(graphics.Where(p=>!changed.Contains(p.Key)&&graphicFrames.GetValueOrDefault(p.Key)!=p.Value.Frame).Select(p=>p.Key));
+            var affected=FreeShapeTopology.AffectedCells(changed);affected.UnionWith(frameOnly);LastUpdatedCells=affected.Count;
             foreach(var p in affected)
             {
                 if(!graphics.ContainsKey(p))continue;
@@ -51,6 +74,11 @@ namespace ANIMOL.Gameplay
             }
             foreach(var p in affected)
             {
+                if(frameOnly.Contains(p) && details.TryGetValue(p,out var existing))
+                {
+                    var overlay=existing.transform.Find("Mechanism source pixels")?.GetComponent<SpriteRenderer>();
+                    if(overlay!=null){overlay.sprite=ObstacleArtRegistry.Load().Sprite(plans[p].OverlayKey);continue;}
+                }
                 if(details.TryGetValue(p,out var detail)){detail.SetActive(false);Release(detail);details.Remove(p);}
                 if(!graphics.TryGetValue(p,out var c)){if(map!=null)map.SetTile(new Vector3Int(p.x,p.y,0),null);continue;}
                 var plan=plans[p];
@@ -62,7 +90,7 @@ namespace ANIMOL.Gameplay
                 if(plan.DrawBody)
                 {
                     var sprite=art.Cell(c.StyleId,plan.BodyRaw,plan.Variant);
-                    if(plan.CapPatch)sprite=Crop(sprite,false);
+                    if(plan.CapPatch||plan.ReplaceCap)sprite=Crop(sprite,false);
                     if(!tiles.TryGetValue(sprite,out var tile)){tile=ScriptableObject.CreateInstance<Tile>();tile.hideFlags=HideFlags.HideAndDontSave;tile.sprite=sprite;tile.colliderType=Tile.ColliderType.None;tiles.Add(sprite,tile);}
                     map.SetTile(new Vector3Int(p.x,p.y,0),tile);
                 }
@@ -70,8 +98,8 @@ namespace ANIMOL.Gameplay
                 if(plan.CapOnly||plan.CapPatch||plan.OverlayKey!=null)
                 {
                     var root=new GameObject("Obstacle join "+p);root.transform.SetParent(transform,false);root.layer=gameObject.layer;root.hideFlags=gameObject.hideFlags;details.Add(p,root);
-                    if(plan.CapOnly||plan.CapPatch)DrawDetail(root,Crop(art.Cell(c.StyleId,plan.CapRaw,plan.Variant),true),new Vector3(p.x+.5f,p.y+.875f,0)*units,units,23,art.material);
-                    if(plan.OverlayKey!=null)DrawDetail(root,ObstacleArtRegistry.Load().Sprite(plan.OverlayKey),new Vector3(p.x+.5f,p.y+.5f,0)*units,units,24,art.material);
+                    if((plan.CapOnly||plan.CapPatch)&&!plan.ReplaceCap)DrawDetail(root,Crop(art.Cell(c.StyleId,plan.CapRaw,plan.Variant),true),new Vector3(p.x+.5f,p.y+.875f,0)*units,units,23,art.material);
+                    if(plan.OverlayKey!=null)DrawDetail(root,ObstacleArtRegistry.Load().Sprite(plan.OverlayKey),new Vector3(p.x+.5f,p.y+.5f,0)*units,units,24,art.material,"Mechanism source pixels");
                 }
             }
             var candidates=FreeShapeTopology.AffectedMotifs(changed);LastUpdatedMotifs=candidates.Count;
@@ -82,7 +110,7 @@ namespace ANIMOL.Gameplay
                 var go=new GameObject("FreeShape motif "+p,typeof(SpriteRenderer));go.transform.SetParent(transform,false);go.layer=gameObject.layer;go.hideFlags=gameObject.hideFlags;go.transform.localPosition=new Vector3(p.x,p.y,0)*units;go.transform.localScale=Vector3.one*units;
                 var renderer=go.GetComponent<SpriteRenderer>();renderer.sprite=art.Style(c.styleId).motif;renderer.sharedMaterial=art.material;renderer.sortingOrder=22;motifs.Add(p,go);
             }
-            currentUnits=units;graphicSignatures=signatures;previous=cells;seed=layer.seed;currentArt=art;initialized=true;LastMilliseconds=timer.Elapsed.TotalMilliseconds;
+            animationContext=context;currentUnits=units;graphicSignatures=signatures;graphicFrames=graphics.ToDictionary(p=>p.Key,p=>p.Value.Frame);previous=cells;seed=layer.seed;currentArt=art;initialized=true;LastMilliseconds=timer.Elapsed.TotalMilliseconds;
         }
         private Sprite Crop(Sprite source,bool cap)
         {
@@ -91,9 +119,9 @@ namespace ANIMOL.Gameplay
             value=Sprite.Create(source.texture,rect,cap?new Vector2(.5f,.5f):new Vector2(.5f,16f/24f),32,0,SpriteMeshType.FullRect,Vector4.zero,false);
             value.hideFlags=HideFlags.HideAndDontSave;strips.Add((source,cap),value);return value;
         }
-        private static void DrawDetail(GameObject parent,Sprite sprite,Vector3 position,float units,int order,Material material)
+        private static void DrawDetail(GameObject parent,Sprite sprite,Vector3 position,float units,int order,Material material,string name="Source pixels")
         {
-            var go=new GameObject("Source pixels",typeof(SpriteRenderer));go.transform.SetParent(parent.transform,false);go.layer=parent.layer;go.hideFlags=parent.hideFlags;
+            var go=new GameObject(name,typeof(SpriteRenderer));go.transform.SetParent(parent.transform,false);go.layer=parent.layer;go.hideFlags=parent.hideFlags;
             go.transform.localPosition=position;go.transform.localScale=Vector3.one*units;
             var renderer=go.GetComponent<SpriteRenderer>();renderer.sprite=sprite;renderer.sharedMaterial=material;renderer.sortingOrder=order;
         }

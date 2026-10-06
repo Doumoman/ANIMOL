@@ -8,13 +8,16 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
     {
         public string Kind, ThemeId, StyleId, JoinGroup = "default", Facing = "UP", Pose = "idle";
         public int ArtVersion = 6;
+        public int Frame;
         public bool? SurfaceEnabled;
+        public bool? HazardEnabled;
     }
 
     public sealed class GraphicPlan
     {
         public int X, Y, BodyRaw, BodyMask, BodyIndex, CapRaw, CapMask, CapIndex, Variant;
-        public bool DrawBody, DrawCap, CapOnly, CapPatch;
+        public bool DrawBody, DrawCap, CapOnly, CapPatch, ReplaceCap;
+        public int Frame;
         public const int CapPixels = 8;
         public string OverlayKey, CacheKey, Pose, Facing;
         public readonly List<string> Problems = new List<string>();
@@ -35,7 +38,7 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
     public static class ObstacleVisualResolver
     {
         static readonly HashSet<string> Full = new HashSet<string> { "C02", "C03", "C08", "C10", "R03" };
-        static readonly HashSet<string> Top = new HashSet<string> { "C01", "C05", "C06", "C09", "M02", "R01" };
+        static readonly HashSet<string> Top = new HashSet<string> { "C01", "C05", "C06", "M02", "R01" };
         static readonly HashSet<string> Air = new HashSet<string> { "C04", "C07" };
         static readonly int[] Masks = { 0,1,4,5,7,16,17,20,21,23,28,29,31,64,65,68,69,71,80,81,84,85,87,92,93,95,112,113,116,117,119,124,125,127,193,197,199,209,213,215,221,223,241,245,247,253,255 };
         static readonly int[] Dx = { 0,1,1,1,0,-1,-1,-1 };
@@ -55,11 +58,31 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
         public static int Variant(int x, int y, int seed) => Animol.TerrainStructure.FreeShapeTopology.Variant(x,y,seed);
         static string Pose(GraphicCell c)
         {
+            if (c.Kind == "C01" || c.Kind == "C10") return "idle";
+            if (c.Kind == "C04") return "active";
             var value = c.Pose ?? "idle";
             if (value == "pending") return "warn";
             if (value != "idle" && value != "warn" && value != "active" && value != "inactive")
                 throw new ArgumentException("Unknown visual pose");
+            if ((c.Kind == "C02" || c.Kind == "C03" || c.Kind == "C06" || c.Kind == "C07" || c.Kind == "C08" || c.Kind == "M02") && value != "idle" && value != "active")
+                throw new ArgumentException("Unsupported pose for kind");
+            if (c.Kind == "R01" && value == "idle" || c.Kind == "R03" && value == "inactive")
+                throw new ArgumentException("Unsupported regional pose");
             return value;
+        }
+        public static int FrameCount(string kind, string pose)
+        {
+            if (kind == "C08") return 8;
+            if (pose == "active" && (kind == "C02" || kind == "C03" || kind == "C06")) return 7;
+            return 1;
+        }
+        public static int AnimationFrame(string kind, string pose, double elapsedMs)
+        {
+            if (double.IsNaN(elapsedMs) || double.IsInfinity(elapsedMs) || elapsedMs < 0) throw new ArgumentException("Animation time required");
+            int ms = kind == "C08" ? 80 : kind == "C06" ? 40 : 30;
+            int count = FrameCount(kind, pose);
+            double n = Math.Floor(elapsedMs / ms);
+            return kind == "C08" ? (int)(n % count) : (int)Math.Min(count - 1, n);
         }
         static void Validate(GraphicCell c)
         {
@@ -67,6 +90,7 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
                 c.StyleId[0] != 'T' || c.StyleId[1] != '0' || c.StyleId[2] < '1' || c.StyleId[2] > '5' ||
                 c.StyleId[3] != '_' || c.StyleId[4] < 'A' || c.StyleId[4] > 'D' ||
                 c.ThemeId != c.StyleId.Substring(0, 3)) throw new ArgumentException("Matching V6 style/theme required");
+            if (c.Kind == "C09") throw new ArgumentException("C09 was removed: explicit deletion migration required.");
             if (c.Kind != "terrain" && !Full.Contains(c.Kind) && !Top.Contains(c.Kind) && !Air.Contains(c.Kind))
                 throw new ArgumentException("Unknown kind");
             if (Top.Contains(c.Kind) && !c.SurfaceEnabled.HasValue) throw new ArgumentException("TOP requires authoritative surface state");
@@ -92,18 +116,21 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
             bool exposedTop = !IsFull(read(x,y + 1));
             string facing = c.Kind == "C02" || c.Kind == "C07" || c.Kind == "C08" ? c.Facing : "UP";
             string pose = c.Kind == "terrain" ? "idle" : Pose(c);
+            if (c.Frame < 0 || c.Frame >= FrameCount(c.Kind, pose)) throw new ArgumentException("Animation frame out of range");
             int variant = Variant(x,y,seed);
             var plan = new GraphicPlan {
                 X=x, Y=y, BodyRaw=raw, BodyMask=bodyMask, BodyIndex=Array.IndexOf(Masks,bodyMask),
                 CapRaw=capRaw, CapMask=capMask, CapIndex=Array.IndexOf(Masks,capMask), Variant=variant,
                 DrawBody=IsFull(c), DrawCap=HasTop(c) && exposedTop, CapOnly=Top.Contains(c.Kind) && c.SurfaceEnabled == true,
-                CapPatch=IsFull(c) && exposedTop && capMask != bodyMask, Pose=pose, Facing=facing,
-                OverlayKey=c.Kind == "terrain" ? null : c.ThemeId+"/"+c.Kind+"/"+facing+"/"+pose,
-                CacheKey=string.Join("|",c.ArtVersion,c.StyleId,c.JoinGroup??"default",c.Kind,bodyMask,capMask,variant,facing,pose,c.SurfaceEnabled==true?1:0)
+                CapPatch=IsFull(c) && exposedTop && capMask != bodyMask, Pose=pose, Facing=facing, Frame=c.Frame,
+                ReplaceCap=c.Kind == "C05" || c.Kind == "C06" || c.Kind == "C08" || c.Kind == "C10",
+                OverlayKey=c.Kind == "terrain" ? null : c.ThemeId+"/"+c.Kind+"/"+facing+"/"+pose+"/f"+c.Frame,
+                CacheKey=string.Join("|",6,2,c.StyleId,c.JoinGroup??"default",c.Kind,bodyMask,capMask,variant,facing,pose,c.Frame,c.SurfaceEnabled==true?1:0)
             };
             if ((Top.Contains(c.Kind)||c.Kind=="C03"||c.Kind=="C08"||c.Kind=="C10") && !exposedTop)
                 plan.Problems.Add("Functional top face blocked");
             if (c.Kind=="C02" && IsFull(read(x+(facing=="LEFT"?-1:1),y))) plan.Problems.Add("Reflect face blocked");
+            if (c.Kind=="C04" && c.HazardEnabled==false) plan.Problems.Add("Retired blinking hazard state");
             return plan;
         }
 

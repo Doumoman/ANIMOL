@@ -13,18 +13,16 @@ namespace ANIMOL.Editor
         {
             SetFreeShapeMode(false); state.category="Obstacles"; state.partId="";
             state.paletteHeight=Mathf.Max(.32f,state.paletteHeight);
-            status="장애물 · 현재 테마와 공통 장치 · 공통 10종"; view?.Repaint();
+            status="장애물 · 현재 테마와 공통 장치 · 공통 9종"; view?.Repaint();
         }
         private static void DrawCommonSettings(SerializedObject serialized,ANIMOL.Core.StageMapObjectKind kind)
         {
             string[] fields=kind switch {
                 ANIMOL.Core.StageMapObjectKind.CommonC02=>new[]{"obstacleFacing"},
                 ANIMOL.Core.StageMapObjectKind.CommonC03 or ANIMOL.Core.StageMapObjectKind.CommonC06=>new[]{"verticalImpulse"},
-                ANIMOL.Core.StageMapObjectKind.CommonC04=>new[]{"warningSeconds","activeSeconds","recoverSeconds","phaseSeed"},
                 ANIMOL.Core.StageMapObjectKind.CommonC05=>new[]{"warningSeconds","activeSeconds"},
                 ANIMOL.Core.StageMapObjectKind.CommonC07=>new[]{"obstacleFacing","effectStrength"},
                 ANIMOL.Core.StageMapObjectKind.CommonC08=>new[]{"obstacleFacing","movementSpeed"},
-                ANIMOL.Core.StageMapObjectKind.CommonC09=>new[]{"activationRangeCells","warningSeconds"},
                 ANIMOL.Core.StageMapObjectKind.CommonC10=>new[]{"effectStrength"},
                 _=>System.Array.Empty<string>()};
             foreach(var name in fields)
@@ -47,7 +45,7 @@ namespace ANIMOL.Editor
             var retired=adapter.Map.Objects.Count(o=>ANIMOL.Core.CommonObstacleCatalog.IsRetired(o.Kind));
             if(retired>0 && GUILayout.Button("폐기 기록 "+retired+"개 정리",buttonStyle))Run(()=>adapter.RemoveRetiredObstacles());
             GUILayout.EndHorizontal();
-            GUILayout.Label("C01~C10 · 5테마 공통 기능 · 선택한 V6 재료로 접합합니다.",smallStyle);
+            GUILayout.Label("C01~C08/C10 · 5테마 공통 기능 · 선택한 V6 재료로 접합합니다.",smallStyle);
             GUILayout.EndArea();
             var items=parts.Where(p=>p.obj!=null && (p.theme=="COMMON"||p.theme==adapter.Map.ThemeId) &&
                 ANIMOL.Core.CommonObstacleCatalog.IsCurrent(p.obj.Kind)).ToArray();
@@ -62,11 +60,13 @@ namespace ANIMOL.Editor
                 if(kind!=null)
                 {
                     var body=SelectedFreeShapeArt.Cell(state.freeStyle,0,0);var br=body.rect;
-                    if(kind is "C02" or "C03" or "C08" or "C10")
+                    if(kind is "C02" or "C03")
                         GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,48),body.texture,new Rect(br.x/body.texture.width,br.y/body.texture.height,32f/body.texture.width,32f/body.texture.height));
-                    else if(kind is "C01" or "C05" or "C06")
+                    else if(kind is "C08" or "C10")
+                        GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+17,48,36),body.texture,new Rect(br.x/body.texture.width,br.y/body.texture.height,32f/body.texture.width,24f/body.texture.height));
+                    else if(kind=="C01")
                         GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,12),body.texture,new Rect(br.x/body.texture.width,(br.y+24)/body.texture.height,32f/body.texture.width,8f/body.texture.height));
-                    var sprite=ObstacleArtRegistry.Load().Sprite(adapter.Map.ThemeId+"/"+kind+"/"+(kind is "C02" or "C08"?"RIGHT":"UP")+"/"+(kind=="C09"?"inactive":"idle"));var r=sprite.rect;
+                    var sprite=ObstacleArtRegistry.Load().Sprite(adapter.Map.ThemeId+"/"+kind+"/"+(kind is "C02" or "C08"?"RIGHT":"UP")+"/"+(kind=="C04"?"active":"idle")+"/f0");var r=sprite.rect;
                     GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,48),sprite.texture,new Rect(r.x/sprite.texture.width,r.y/sprite.texture.height,r.width/sprite.texture.width,r.height/sprite.texture.height));
                 }
                 else if(p.obj.Icon!=null){var sprite=p.obj.Icon;var r=sprite.rect;GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,48),sprite.texture,new Rect(r.x/sprite.texture.width,r.y/sprite.texture.height,r.width/sprite.texture.width,r.height/sprite.texture.height));}

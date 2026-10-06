@@ -18,7 +18,7 @@ namespace ANIMOL.Tests
     [Category("ObstacleGraphics")]
     public sealed class ObstacleGraphicsTests
     {
-        private static GraphicCell Cell(string kind="terrain",string style="T01_A",bool surface=true)=>new GraphicCell{Kind=kind,StyleId=style,ThemeId=style.Substring(0,3),SurfaceEnabled=surface,Facing=kind is "C02" or "C08"?"LEFT":"UP",Pose=kind=="C09"?"active":"idle"};
+        private static GraphicCell Cell(string kind="terrain",string style="T01_A",bool surface=true)=>new GraphicCell{Kind=kind,StyleId=style,ThemeId=style.Substring(0,3),SurfaceEnabled=surface,Facing=kind is "C02" or "C08"?"LEFT":"UP",Pose=kind=="C04"?"active":"idle"};
         private static GraphicPlan Resolve(Dictionary<Vector2Int,GraphicCell> cells,Vector2Int p,int seed=0)=>ObstacleVisualResolver.Resolve((x,y)=>cells.GetValueOrDefault(new Vector2Int(x,y)),p.x,p.y,seed);
         [Test] public void TwentyStylesAllRawMasksAndPhasesUseV6Registry()
         {
@@ -33,14 +33,14 @@ namespace ANIMOL.Tests
                 Assert.That(art.Cell(style.styleId,plan.BodyRaw,plan.Variant),Is.SameAs(art.Style(style.styleId).cells[plan.Variant*47+art.rawToIndex[raw]]));
             }
         }
-        [Test] public void TwentyStylesTenKindsResolveRegisteredMechanisms()
+        [Test] public void TwentyStylesNineKindsResolveRegisteredMechanisms()
         {
-            foreach(var style in FreeShapeArtRegistry.Load().styles)for(int i=1;i<=10;i++)
+            foreach(var style in FreeShapeArtRegistry.Load().styles)foreach(int i in new[]{1,2,3,4,5,6,7,8,10})
             {
                 var c=Cell("C"+i.ToString("D2"),style.styleId);var plan=Resolve(new(){{Vector2Int.zero,c}},Vector2Int.zero);
                 Assert.That(ObstacleArtRegistry.Load().Sprite(plan.OverlayKey),Is.Not.Null);
                 Assert.That(plan.DrawBody,Is.EqualTo(i is 2 or 3 or 8 or 10));
-                Assert.That(plan.CapOnly,Is.EqualTo(i is 1 or 5 or 6 or 9));
+                Assert.That(plan.CapOnly,Is.EqualTo(i is 1 or 5 or 6));
             }
         }
         [Test] public void FullTopAirAndInactiveHaveBidirectionalGlobalJoins()
@@ -57,12 +57,12 @@ namespace ANIMOL.Tests
         }
         [Test] public void PendingSurfaceAndBlockedFacesAreNotInferredFromPose()
         {
-            var cells=new Dictionary<Vector2Int,GraphicCell>{{Vector2Int.zero,Cell("C09",surface:false)}};
+            var cells=new Dictionary<Vector2Int,GraphicCell>{{Vector2Int.zero,Cell("C05",surface:false)}};
             cells[Vector2Int.zero].Pose="pending";var pending=Resolve(cells,Vector2Int.zero);Assert.That(pending.Pose,Is.EqualTo("warn"));Assert.That(pending.CapOnly,Is.False);
             cells[Vector2Int.zero].Pose="warn";cells[Vector2Int.zero].SurfaceEnabled=true;Assert.That(Resolve(cells,Vector2Int.zero).CapOnly,Is.True);
             cells[Vector2Int.up]=Cell();Assert.That(Resolve(cells,Vector2Int.zero).Problems,Is.Not.Empty);
             cells[Vector2Int.zero].ArtVersion=4;Assert.Throws<ArgumentException>(()=>Resolve(cells,Vector2Int.zero));
-            Assert.Throws<InvalidOperationException>(()=>ObstacleArtRegistry.Load().Sprite("T01/C01/UP/warn"));
+            Assert.Throws<InvalidOperationException>(()=>ObstacleArtRegistry.Load().Sprite("T01/C01/UP/warn/f0"));
         }
         [Test] public void IncrementalRendererRestoresEndcapsWithoutPhysicsOrMotifSupport()
         {
@@ -89,12 +89,22 @@ namespace ANIMOL.Tests
                 renderer.Rebuild(layer,2,devices);Assert.That(root.GetComponent<Grid>().cellSize.x,Is.EqualTo(2));Assert.That(renderer.LastUpdatedCells,Is.EqualTo(9));
             }finally{UnityEngine.Object.DestroyImmediate(root);}
         }
-        [Test] public void InstalledAtlasHasExact163RectsAndNoPhysicsShapes()
+        [Test] public void InstalledAtlasHasExact393RectsAndNoPhysicsShapes()
         {
-            var art=ObstacleArtRegistry.Load();var path=ObstacleArtV1Builder.Root+"/Art/MechanismAtlas.png";
+            var art=ObstacleArtRegistry.Load();Assert.That(art.entries.Length,Is.EqualTo(393));Assert.That(art.fragments.Length,Is.EqualTo(20));var path=ObstacleArtV1Builder.Root+"/Art/MechanismAtlas.png";
             Assert.That(FreeShapeArtV6Builder.HashFile(path),Is.EqualTo(FreeShapeArtV6Builder.HashFile(ObstacleArtV1Builder.Source+"/Art/MechanismAtlas.png")));
             var importer=(TextureImporter)AssetImporter.GetAtPath(path);Assert.That(importer.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(importer.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));Assert.That(importer.mipmapEnabled,Is.False);Assert.That(importer.sRGBTexture,Is.True);
             foreach(var e in art.entries){Assert.That(e.sprite.rect.size,Is.EqualTo(new Vector2(32,32)));Assert.That(e.sprite.pixelsPerUnit,Is.EqualTo(32));Assert.That(e.sprite.pivot,Is.EqualTo(new Vector2(16,16)));Assert.That(e.sprite.GetPhysicsShapeCount(),Is.Zero);}
+        }
+        [Test] public void InstalledFragmentsMatchNativeRectsAndImportSettings()
+        {
+            foreach(var fragment in ObstacleArtRegistry.Load().fragments)
+            {
+                var sprite=fragment.sprite;var importer=(TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(sprite));
+                Assert.That(sprite.rect.size,Is.EqualTo(new Vector2(new[]{8,10,8,6}[fragment.piece],8)));Assert.That(sprite.pixelsPerUnit,Is.EqualTo(32));Assert.That(sprite.pivot,Is.EqualTo(sprite.rect.size*.5f));Assert.That(sprite.GetPhysicsShapeCount(),Is.Zero);
+                Assert.That(importer.filterMode,Is.EqualTo(FilterMode.Point));Assert.That(importer.textureCompression,Is.EqualTo(TextureImporterCompression.Uncompressed));Assert.That(importer.mipmapEnabled,Is.False);Assert.That(importer.sRGBTexture,Is.True);Assert.That(importer.spriteImportMode,Is.EqualTo(SpriteImportMode.Single));
+                var path=AssetDatabase.GetAssetPath(sprite);Assert.That(FreeShapeArtV6Builder.HashFile(path),Is.EqualTo(FreeShapeArtV6Builder.HashFile(ObstacleArtV1Builder.Source+path.Substring(ObstacleArtV1Builder.Root.Length))));
+            }
         }
         [Test] public void ExistingDeviceKindsAreNotSilentlyChangedIntoCommonFunctions()
         {

@@ -4,19 +4,28 @@ using UnityEngine;
 
 namespace ANIMOL.Core
 {
-    // Serialized legacy enum values stay reserved. Only these ten devices and campaign markers are active.
+    // Serialized legacy enum values stay reserved. Only these nine devices and campaign markers are active.
     public static class CommonObstacleCatalog
     {
         public const string RegistryResource = "ANIMOL_CommonObstaclesV6";
         public const string RegistryPath = "Assets/ANIMOL/Resources/ANIMOL_CommonObstaclesV6.asset";
-        public static bool IsCurrent(StageMapObjectKind kind) => (int)kind >= 1001 && (int)kind <= 1010;
+        public static readonly StageMapObjectKind[] ActiveKinds = {
+            StageMapObjectKind.CommonC01,StageMapObjectKind.CommonC02,StageMapObjectKind.CommonC03,
+            StageMapObjectKind.CommonC04,StageMapObjectKind.CommonC05,StageMapObjectKind.CommonC06,
+            StageMapObjectKind.CommonC07,StageMapObjectKind.CommonC08,StageMapObjectKind.CommonC10 };
+        public static bool IsCurrent(StageMapObjectKind kind) => (int)kind >= 1001 && (int)kind <= 1010 && kind!=StageMapObjectKind.CommonC09;
+        public static void RequireNoRemovedDevices(StageMapDefinition map)
+        {
+            if(map.Objects.Any(p=>p.Kind==StageMapObjectKind.CommonC09))
+                throw new InvalidOperationException("C09 was removed. Run the explicit OVG02 C09 deletion migration before editing or loading this map: "+map.StageId);
+        }
         public static bool IsMarker(StageMapObjectKind kind) => kind is StageMapObjectKind.PlayerStart or StageMapObjectKind.Checkpoint or StageMapObjectKind.BubbleCandidate or StageMapObjectKind.Exit;
         public static bool IsRetired(StageMapObjectKind kind) => !IsCurrent(kind) && !IsMarker(kind);
         public static string Id(StageMapObjectKind kind) => IsCurrent(kind) ? "C" + ((int)kind - 1000).ToString("00") : null;
         public static StageMapObjectTypeRegistry Load()
         {
             var registry=Resources.Load<StageMapObjectTypeRegistry>(RegistryResource);
-            if(registry==null || registry.Version!=2 || registry.Types.Count!=10 || registry.Types.Any(t=>t==null || !IsCurrent(t.Kind) || t.Prefab==null || t.StableTypeId!=Id(t.Kind)) || registry.Types.Select(t=>t.Kind).Distinct().Count()!=10)
+            if(registry==null || registry.Version!=3 || registry.Types.Count!=9 || registry.Types.Any(t=>t==null || !IsCurrent(t.Kind) || t.Prefab==null || t.StableTypeId!=Id(t.Kind)) || registry.Types.Select(t=>t.Kind).Distinct().Count()!=9)
                 throw new InvalidOperationException("V6 common obstacle registry is missing or invalid.");
             return registry;
         }
@@ -28,7 +37,7 @@ namespace ANIMOL.Core
             Facing(p);
             foreach(float value in new[]{s.WarningSeconds,s.ActiveSeconds,s.RecoverSeconds,s.VerticalImpulse,s.MovementSpeed,s.ActivationRangeCells,s.EffectStrength})
                 if(float.IsNaN(value)||float.IsInfinity(value)||value<0)throw new InvalidOperationException("장애물 설정은 유효한 양수 또는 0이어야 합니다.");
-            if(p.Kind is StageMapObjectKind.CommonC04 or StageMapObjectKind.CommonC05 or StageMapObjectKind.CommonC09 && s.WarningSeconds<=0)
+            if(p.Kind is StageMapObjectKind.CommonC05 && s.WarningSeconds<=0)
                 throw new InvalidOperationException("상태 변경에는 예고 시간이 필요합니다.");
             if(p.Kind is StageMapObjectKind.CommonC03 or StageMapObjectKind.CommonC06 && s.VerticalImpulse<=0)
                 throw new InvalidOperationException("반동 속도는 양수여야 합니다.");
