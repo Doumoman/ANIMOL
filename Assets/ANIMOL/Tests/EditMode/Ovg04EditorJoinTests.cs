@@ -63,9 +63,9 @@ namespace ANIMOL.Tests
             var settings=cp.Settings.Clone();settings.EditorSetCheckpointRespawnOffset(new Vector2(0,-1));
             Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId=cp.StableId,settings=settings}));
             var type=adapter.Objects.Find(StageMapObjectKind.CommonC04);
-            var hazard=new TerrainEditorObjectEdit{operation="Place",definitionId=type.StableTypeId,instanceId="unsafe-hazard",origin=new Vector2Int(6,1),settings=type.DefaultSettings.Clone()};
+            var hazard=new TerrainEditorObjectEdit{operation="Place",definitionId=type.StableTypeId,instanceId="unsafe-hazard",origin=new Vector2Int(6,0),settings=type.DefaultSettings.Clone()};
             hazard.settings.EditorSetObstacleStyle("T01_A");Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(hazard));
-            var terrain=adapter.Read();terrain.freeShape.cells.Add(new Animol.TerrainStructure.FreeShapeCell{x=6,y=1,styleId="T01_A"});
+            var terrain=adapter.Read();terrain.freeShape.cells.Add(new Animol.TerrainStructure.FreeShapeCell{x=6,y=0,styleId="T01_A"});
             Assert.Throws<InvalidOperationException>(()=>adapter.Commit(terrain,"unsafe respawn terrain"));
             Assert.That(map.Objects.Any(o=>o.StableId=="unsafe-hazard"),Is.False);
             Assert.That(StageMapMarkerValidation.ValidateLocalPlay(map).IsValid,Is.True);

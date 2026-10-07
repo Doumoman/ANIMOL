@@ -183,8 +183,9 @@ namespace ANIMOL.Editor
                 player.tag = "Player";
                 var rigidbody = player.GetComponent<Rigidbody2D>();
                 rigidbody.gravityScale = 2.5f; rigidbody.freezeRotation = true;
-                player.GetComponent<BoxCollider2D>().size = new Vector2(.8f, 1.2f);
-                CreateWorldQuad("Visual", player.transform, new Vector3(.85f, 1.25f, 1f), playerMaterial);
+                var playerSize = CampaignMapMarkerGeometry.PlayerBodySize;
+                player.GetComponent<BoxCollider2D>().size = playerSize;
+                CreateWorldQuad("Visual", player.transform, new Vector3(playerSize.x, playerSize.y, 1f), playerMaterial);
                 PrefabUtility.SaveAsPrefabAsset(player, $"{GameplayPrefabFolder}/DevPlayer.prefab");
             }
             finally { UnityEngine.Object.DestroyImmediate(player); }

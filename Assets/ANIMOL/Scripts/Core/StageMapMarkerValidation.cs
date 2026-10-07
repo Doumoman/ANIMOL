@@ -28,10 +28,9 @@ namespace ANIMOL.Core
             var offset = marker.Settings.CheckpointRespawnOffsetCells;
             if (!float.IsFinite(offset.x) || !float.IsFinite(offset.y)) { errors.Add(marker.StableId + ": invalid safe feet offset."); return errors; }
             var feet = new Vector2(marker.X + .5f, marker.Y) + offset;
-            // Existing DEV root BoxCollider2D: 0.8 x 1.2, offset zero, root scale one.
-            // Its differently scaled mesh child does not define the collision body.
-            var body = new Rect(feet.x - .4f / units, feet.y + .001f,
-                .8f / units, 1.2f / units - .001f);
+            var body = Gameplay.CampaignMapMarkerGeometry.PlayerBodyRectAtFeetInCells(feet, units);
+            // Exclude the supporting floor contact, without shrinking the head clearance.
+            body.yMin += .001f;
             var solid = new HashSet<Vector2Int>(map.Cells.Where(c => c.Layer == StageMapLayer.Terrain).Select(c => new Vector2Int(c.X, c.Y)));
             solid.UnionWith(map.FreeShapeTerrain.cells.Select(c => new Vector2Int(c.x, c.y)));
             if (map.HasTerrainStructures) solid.UnionWith(map.ResolveTerrain(Gameplay.StageTerrainStructureRegistry.Load()).solids.Keys);

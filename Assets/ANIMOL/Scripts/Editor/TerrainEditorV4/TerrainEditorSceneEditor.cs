@@ -473,7 +473,7 @@ namespace ANIMOL.Editor
             foreach(var marker in adapter.Map.Objects.Where(o=>o.Kind is StageMapObjectKind.PlayerStart or StageMapObjectKind.Checkpoint))
             {
                 var feet=new Vector2(marker.X+.5f,marker.Y)+marker.Settings.CheckpointRespawnOffsetCells;
-                DrawBox(new Rect(feet.x-.4f/units,feet.y,.8f/units,1.2f/units),TerrainEditorScreen.Blue,true);
+                DrawBox(CampaignMapMarkerGeometry.PlayerBodyRectAtFeetInCells(feet,units),TerrainEditorScreen.Blue,true);
                 Handles.color=TerrainEditorScreen.Gold;Handles.DrawSolidDisc(feet*units,Vector3.forward,.06f*units);
                 if(marker.Kind==StageMapObjectKind.Checkpoint)
                 {

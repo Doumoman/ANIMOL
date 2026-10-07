@@ -8,6 +8,15 @@ namespace ANIMOL.Gameplay
     // while triggers and artwork use cell centres. No runtime position is saved back.
     public static class CampaignMapMarkerGeometry
     {
+        // The DEV prefab uses a unit root and a reference tile of one world unit.
+        // Keep its collision body, visible quad and authoring previews in sync.
+        public static Vector2 PlayerBodySize => new Vector2(.8f, .8f);
+        public static Rect PlayerBodyRectAtFeetInCells(Vector2 feet, float unitsPerCell)
+        {
+            var size = PlayerBodySize / unitsPerCell;
+            return new Rect(feet.x - size.x * .5f, feet.y, size.x, size.y);
+        }
+
         public static Vector2 ContactSize(StageMapObjectPlacement marker) => marker.Kind == StageMapObjectKind.Exit
             ?new Vector2(1.6f,1.8f):new Vector2(.9f*marker.Settings.FootprintCells.x,marker.Settings.FootprintCells.y);
         public static Vector3 Centre(StageMapDefinition map,StageMapObjectPlacement marker) =>

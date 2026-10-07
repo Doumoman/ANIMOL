@@ -106,7 +106,9 @@ namespace ANIMOL.Tests.PlayMode
             var top=root.GetComponentsInChildren<CommonObstacleObject>().Single(o=>o.Kind==StageMapObjectKind.CommonC03);
             var sideBox=side.GetComponent<BoxCollider2D>();var topBox=top.GetComponent<BoxCollider2D>();
             Assert.That(sideBox.size.x,Is.EqualTo(.125f));Assert.That(top.GetComponent<PlatformEffector2D>().useOneWay,Is.True);
-            yield return Move(new Vector2(21.5f,2.5f));player.Body.linearVelocity=Vector2.down*3;
+            // Keep the fixed 0.8-wide body behind the front plate (x=21.875),
+            // so this checks coil traversal rather than landing on that plate.
+            yield return Move(new Vector2(21.375f,2.5f));player.Body.linearVelocity=Vector2.down*3;
             for(int i=0;i<14;i++)yield return new WaitForFixedUpdate();Assert.That(player.Body.position.y,Is.LessThan(1.75f),"No side spring ceiling/full-cell body.");
             yield return Move(new Vector2(19.5f,-.4f));player.Body.linearVelocity=Vector2.up*4;
             for(int i=0;i<25;i++)yield return new WaitForFixedUpdate();Assert.That(player.Body.position.y,Is.GreaterThan(1.1f),"Upward pass through coil and one-way plate.");

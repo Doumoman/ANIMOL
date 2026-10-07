@@ -1,0 +1,28 @@
+--- a/Assets/ANIMOL/Scripts/Gameplay/GameplayFeedbackDirector.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/GameplayFeedbackDirector.cs
+@@ -392,15 +392,23 @@
+ 
+     public sealed class PlayerMotionFeedback : MonoBehaviour
+     {
++        private Transform visual;
+         private Vector3 restScale;
+         private Vector3 targetMultiplier = Vector3.one;
+         private float settleSpeed = 12f;
+ 
+-        private void Awake() => restScale = transform.localScale;
++        private void Awake()
++        {
++            visual = transform.Find("Visual");
++            if (visual != null) restScale = visual.localScale;
++        }
+ 
+         private void LateUpdate()
+         {
+-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.Scale(restScale, targetMultiplier), 1f - Mathf.Exp(-settleSpeed * Time.deltaTime));
++            // Squash only artwork. Scaling the Rigidbody root changes collision size
++            // and invalidates the authored safe feet and headroom checks.
++            if (visual == null) return;
++            visual.localScale = Vector3.Lerp(visual.localScale, Vector3.Scale(restScale, targetMultiplier), 1f - Mathf.Exp(-settleSpeed * Time.deltaTime));
+             targetMultiplier = Vector3.Lerp(targetMultiplier, Vector3.one, 1f - Mathf.Exp(-9f * Time.deltaTime));
+         }
+ 
