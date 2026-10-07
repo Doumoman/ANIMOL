@@ -142,6 +142,9 @@ namespace ANIMOL.Tests.PlayMode
             yield return null;yield return new WaitForFixedUpdate();
             Assert.That(screen.TestLoader.Map,Is.Not.SameAs(source));Assert.That(screen.TestLoader.Map.Objects.Select(o=>o.StableId),Is.EquivalentTo(source.Objects.Select(o=>o.StableId)));
             Assert.That(screen.TestSession,Is.Not.Null);Assert.That(root.GetComponentsInChildren<ObjectLabSession>().Length,Is.Zero);
+            Assert.That(screen.PresentationCamera.enabled,Is.True);Assert.That(screen.PresentationCamera.targetTexture,Is.Null);
+            Assert.That(screen.PresentationCamera.cullingMask,Is.Zero);
+            Assert.That(screen.CanvasRect.GetComponent<UnityEngine.UI.CanvasScaler>().referenceResolution,Is.EqualTo(new Vector2(720,1280)));
             var slots=screen.TestSession.SelectedBubbleSlots.ToArray();var seed=screen.TestSession.SelectedBubbleSeed;
             player=screen.TestPlayer;session=screen.TestSession;camera=root.GetComponentsInChildren<Camera>().Single(c=>c.name=="Test camera");
             Assert.That(camera.aspect,Is.EqualTo(9f/16f).Within(.001));
@@ -157,6 +160,7 @@ namespace ANIMOL.Tests.PlayMode
             Assert.That(screen.TestLoader.GetComponentsInChildren<CommonObstacleObject>().All(o=>o.SurfaceEnabled),Is.True);
             screen.ReturnToEdit(false);yield return null;
             Assert.That(screen.Adapter.Map,Is.SameAs(source));Assert.That(screen.IsTesting,Is.False);
+            Assert.That(screen.CanvasRect.GetComponent<UnityEngine.UI.CanvasScaler>().referenceResolution,Is.EqualTo(new Vector2(1280,720)));
             Assert.That(File.ReadAllBytes(AssetDatabase.GetAssetPath(source)),Is.EqualTo(before),"Runtime state must not be authored back.");
 #else
             yield break;

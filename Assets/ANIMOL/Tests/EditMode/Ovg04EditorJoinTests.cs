@@ -80,7 +80,10 @@ namespace ANIMOL.Tests
             TerrainEditorSceneEditor.Commit();
             Assert.That(map.Objects.Count(o=>o.Kind==StageMapObjectKind.Checkpoint),Is.EqualTo(2));
             foreach(var part in adapter.Markers.Where(p=>CommonObstacleCatalog.IsMarker(p.marker.Value)))
+            {
                 Assert.That(adapter.Thumbnail(part).color,Is.Not.Null);
+                Assert.That(CampaignMapMarkerGeometry.ArtSprite(part.marker.Value).texture,Is.Not.Null);
+            }
             Assert.That(adapter.Objects.Types.Select(t=>t.StableTypeId),Is.EquivalentTo(new[]{"C01","C02","C03","C04","C05","C06","C07","C08","C10"}));
         }
 
@@ -95,6 +98,8 @@ namespace ANIMOL.Tests
             }
             var affected=ObstacleVisualResolver.Affected(-17,0);Assert.That(affected.Cells.Count,Is.EqualTo(9));Assert.That(affected.MotifAnchors.Count,Is.EqualTo(36));
             Assert.That(ObstacleArtRegistry.Load().visualVersion,Is.EqualTo(3));
+            Assert.That(ObstacleArtRegistry.Load().terrainArtVersion,Is.EqualTo(6));
+            Assert.That(File.ReadAllText(ObstacleArtV1Builder.Root+"/Data/mechanism_catalog.json"),Does.Contain("\"terrainArtVersion\": 6"));
         }
 
         [Test] public void CheckpointStartsUnsetAndRepeatedActivationDoesNotResnapshotBubbles()
@@ -126,6 +131,15 @@ namespace ANIMOL.Tests
                 TerrainEditorSceneEditor.Open(map);Assert.That(EditorJsonUtility.ToJson(map),Is.EqualTo(original));
             }
             finally{AssetDatabase.DeleteAsset(otherPath);}
+        }
+        [Test] public void CapturedSceneDragSurvivesInformationPanelAppearingUnderPointer()
+        {
+            var method=typeof(TerrainEditorSceneEditor).GetMethod("CanvasOwnsPointer",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+            var canvas=new Rect(0,40,1280,592);var information=new Rect(962,48,310,576);
+            var point=new Vector2(1071,469);
+            Assert.That((bool)method.Invoke(null,new object[]{canvas,information,point,false}),Is.False,"Panel owns a new gesture.");
+            Assert.That((bool)method.Invoke(null,new object[]{canvas,information,point,true}),Is.True,"Existing canvas drag remains captured when selection opens its panel.");
+            Assert.That((bool)method.Invoke(null,new object[]{canvas,information,new Vector2(1071,800),true}),Is.False,"Leaving the canvas still cancels the gesture.");
         }
     }
 }

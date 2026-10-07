@@ -1,6 +1,6 @@
 # OVG04_EDITOR_PLACEMENT_CHECKPOINT_JOIN
 
-실행: 2026-10-07, Unity 6000.3.8f1. **현재 작업 폴더에서 기존 Scene 제작기 → 저장 맵 → 기존 플레이어/캠페인 런 owner 연결 구현 및 자동 검증 완료. 전체 요청의 최종 승인 완료는 아님.** v4 지형 원본 적용, 데스크톱 GUI 조작/포커스 복귀 및 실기기 검사는 아래 미완료 항목으로 남는다.
+실행: 2026-10-07, Unity 6000.3.8f1. **기존 Scene 제작기 → 저장 맵 → 기존 플레이어/캠페인 런 owner 연결 구현 및 자동 검증 완료.** 사용자 후속 지시에 따라 폐기 지형 요구를 제거하고 V6를 유일한 실행 정본으로 사용한다. 데스크톱 GUI 조작/포커스 복귀 및 실기기 검증 상태는 아래에 기록한다.
 
 ## 실제 정본과 연결
 
@@ -61,17 +61,17 @@ Local Play의 하단 경계에 기존 `CampaignMapHazard`를 연결해 실제 Ph
 
 입력 ZIP 전체를 `Tools/ArtSources/ANIMOL_Obstacle_V4_Design_Join_v3`에 보존하고 manifest 637개 SHA256/크기를 검증했다. 장애물 visualVersion=3, 393개 32px/PPU32 프레임, C05 조각20개 및 효과 데이터를 기존 Registry/atlas GUID 경로에 설치했다. Point/Uncompressed/mipmap Off/FullRect/physics shape 없음 및 원본 Sweetie16 픽셀을 유지한다.
 
-**ZIP의 terrainArtVersion=4는 외부 v4 지형 원본을 참조하며 그 PNG를 포함하지 않는다. 저장소 최신 자유 지형은 V6 전용이다. v4 원본 경로 또는 V6 유지 선택을 비동기 질문으로 요청했으나 답변은 받지 못했다.** 현행 V6 지형을 그대로 보존했다. Registry에는 sourceTerrainArtVersion=4와 실제 terrainArtVersion=6을 구분한다. v4 지형을 적용했다거나 V6를 v4로 표기하지 않는다. 이 항목은 사용자 원본/선택이 필요한 미완료 작업이다.
+**V6가 유일한 실행 지형 정본이다.** 사용자 후속 지시로 폐기 지형 버전 요구와 원본 대기를 제거했다. 장애물은 visualVersion=3이며 설치 카탈로그와 Registry의 terrainArtVersion은 모두 6이다. 사용하지 않는 sourceTerrainArtVersion 필드를 제거했다. 입력 ZIP과 그 manifest는 감사용 원본 바이트를 유지하며, 패키지 이름은 실행 지형 버전을 선택하지 않는다.
 
 ## DEV 맵과 실제 실행 결과
 
 시험 맵은 `Assets/ANIMOL/Data/Development/ObstacleGraphicsV1/DEV-OVG04-JOIN.asset`이다. T01-S01을 덮어쓰지 않았다. 기존 Scene 편집기 `SelectPart → UpdateCandidate → Commit`으로 시작1, CP1, 후보/활성 방울3, 출구1, C02/C03/C05를 배치했다. 방울1 뒤 CP는 지지 바닥 위 (6,0), 하단 실제 추락 trigger와 바닥 구멍은 DEV 맵에만 있다. `Ovg04ValidationSetup`은 이 시험 구성과 캡처용 유틸리티이며 운영 제작기나 런타임 생성기가 아니다.
 
-**Unity 고유 테스트 110개 PASS — EditMode84 / PlayMode26.** 240개 픽셀 샘플은 EditMode 테스트 1개 안의 검수이며 테스트 개수에 더하지 않았다. 최종 실행 XML과 클래스별 숫자는 `Docs/Validation/OVG04/{editmode-final-pass.xml,playmode-final-pass.xml,final-test-summary.json}`이다.
+**V6 후속 최종 Unity 고유 테스트 111개 PASS — EditMode85 / PlayMode26.** 240개 픽셀 샘플은 EditMode 테스트 1개 안의 검수이며 테스트 개수에 더하지 않았다. 최종 실행 XML과 클래스별 숫자는 `Docs/Validation/OVG04/{editmode-v6-final.xml,playmode-v6-final.xml,final-test-summary.json}`이다. 앞선 84/26 실행 XML도 과거 검증 기록으로 유지한다.
 
 | 실제 검사 | 결과/근거 |
 |---|---|
-| Scene handler 배치/이동/삭제/복제/방향 수정 → 저장/재열기, Undo/Redo, JSON 백업, 맵 전환 | Ovg04EditorJoinTests 6 PASS; 기존 제작기16 PASS |
+| Scene handler 배치/이동/삭제/복제/방향 수정 → 저장/재열기, Undo/Redo, JSON 백업, 맵 전환 | Ovg04EditorJoinTests 7 PASS; 기존 제작기16 PASS |
 | 안전 리스폰/지형 침범/시작 개수 제한/원본 owner 보존 | 신규 검증 및 기존 지형 통합13 PASS |
 | CP 미접촉 실패, 방울1→CP→방울2→하단 trigger | 실제 Physics2D 접촉: 시작 또는 CP 복귀, 기록1 유지·이후 방울 복원 PASS |
 | 기록1 상태에서 총3 수집→출구 개방→추락 | 집계1, Playing, 출구 그림 잠금, 출구 접촉 거절 PASS |
@@ -84,15 +84,28 @@ Local Play의 하단 경계에 기존 `CampaignMapHazard`를 연결해 실제 Ph
 | C02/C03 원본 픽셀 | 5테마×3방향 종류×8프레임×1×/8× = 240 비교, 차이0 |
 | 연출 정책 | CommercialPolishPolicyTests 3 PASS; BlocksInput/시간 배율 정책 변경 없음 |
 
-저장 맵 Editor 렌더와 실제 PlayMode 카메라 캡처는 같은 검증 폴더 PNG에 있다. Editor 렌더는 저장 데이터를 기존 아트 builder로 그린 offscreen 캡처이며 데스크톱 메뉴/마우스 GUI 사진이 아니다. PlayMode 캡처는 실제 world camera이며 전체 휴대폰 화면/실기기 UI 캡처가 아니다. 초기 빈 캡처는 카메라를 artwork 부모에 부착해 함께 이동한 검수 코드 오류였고 카메라를 별도 자식으로 분리해 수정했다.
+저장 맵 Editor 렌더와 실제 PlayMode 카메라 캡처는 같은 검증 폴더 PNG에 있다. 앞선 `scene-authored.png`와 PlayMode PNG는 offscreen/world camera 캡처다. 후속 `gui-*.png`는 실제 GUI Editor의 Scene/Game 창 렌더 버퍼이며 팔레트·속성·HUD·모바일 조작 UI를 포함한다. 운영 화면이나 실기기 사진으로 혼동하지 않는다.
+
+## V6 후속 실제 GUI 검증과 보완
+
+원본 복구 자료와 사용자 작업을 보호하기 위해 Assets/Packages/ProjectSettings/Tools 및 캐시를 임시 검증 사본 `C:/Users/user/AppData/Local/Temp/OVG04-V6-GUI`에 복사했다. Unity 6000.3.8f1 GUI Editor(Application.isBatchMode=false)를 실행하고 기존 Pipeline으로 제어했다. 새 GUI 시험 맵은 사본 안의 `DEV-OVG04-GUI.asset`이며 기존 DEV 맵의 복사본이다. 운영 맵을 변경하지 않는다.
+
+- 실제 메뉴 `ExecuteMenuItem` 성공 → 기존 포커스 Scene 창 열기.
+- `SceneView.SendEvent` 마우스 down/up으로 CP 배치, Ctrl+Z/Y Undo/Redo, Delete 및 삭제 Undo/Redo 성공. 실제 창의 기본 26pt toolbar를 반영한 좌표를 사용한다.
+- 같은 Scene 창 마우스 drag로 C02를 (21,1)→(22,1) 이동하고 Undo/Redo, LEFT 속성 반영, Ctrl+S 저장·AssetDatabase 재열기 후 같은 StableId/좌표/방향을 확인했다.
+- 실제 `Save + Local Play` 툴바 버튼 이벤트로 Unity Play Mode 진입. 방금 수정한 C02 (22,1)/LEFT 및 전체 ID가 런타임 DEV 스냅샷에 일치한다. 시작 발바닥 y=0, 몸체 x=.5, 이동 controller1/캠페인 objective owner1/ObjectLab0, 활성 방울3이다.
+- 540×960 Game View에서 기존 swipe/jump/down router와 전체 세로 UI를 검증했다. 실제 Physics2D 접촉으로 방울1→CP→방울2→추락, 기록1 유지/이후 복원, 집계3 개방→추락→집계1/재잠금, 실제 Exit 접촉 클리어를 확인·캡처했다. 카메라 연출만으로 완료하지 않는다. UI `처음부터` 버튼 후 초기 상태와 동일 seed/슬롯을 확인했다.
+- UI `편집 복귀` 버튼으로 Play 종료 후 **같은 Scene 창 ID -5374, 같은 선택 맵, 같은 저작 JSON, 실제 창 포커스**가 모두 복원됐다.
+
+GUI 검증에서 발견한 네 가지 문제를 수정했다. 선택 시 나타난 정보 패널이 진행 중인 드래그를 취소하지 않도록 canvas capture를 유지한다(회귀 테스트 추가). Scene 마커 팔레트는 런타임과 같은 Sprite/tint 아이콘을 표시한다. Local Play의 offscreen 카메라와 Canvas 사이에 cullingMask=0 화면 출력 카메라를 연결해 Game View의 `No cameras rendering` 가림을 제거하고 세로 테스트 글자 크기를 조정한다. Play 종료/컴파일 직후 Unity가 아직 준비되지 않은 경우 다음 ready update에서 기존 Scene 작업대를 복구한다. 플레이어 카메라·런/입력 owner는 추가로 복제하지 않는다.
+
+GUI 결과는 `gui-{menu,placement,drag-save,save-local-play,runtime-portrait,physics-checkpoint,return-focus}-v6.json`, 전체 UI는 `gui-scene-v6.png`, `gui-mobile-full-v6.png` 및 상태별 PNG에 있다. GUI 조작은 자동으로 보낸 실제 Editor/UI 이벤트이며 사람의 물리 마우스 조작은 아니다. 캡처는 [Unity의 창 렌더 버퍼 API](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/InternalEditorUtility.cs)를 사용한다. 숨김 창에 대한 초기 화면 좌표 캡처는 다른 창을 읽어 즉시 삭제했고 결과물이나 커밋에 포함하지 않았다.
 
 초기 실행의 fixture 오류, 0.01unit 위치 비교 오차, 이전 FULL 스프링 기대값과 지지 바닥 없는 marker fixture를 수정하고 재실행했다. 최초 추가 M7CampaignMapRunTests 검사에서는 4/5 PASS, `T01S01HasM8ProductDataButRemainsOperationallyBlockedWithoutHumanRun`이 현재 사용자 맵의 빈 고정 동물 목록 때문에 실패했다. 현재 T01-S01을 고치거나 이 실패를 숨기지 않았다. 초기 XML도 보존한다.
 
 ## 미실행/남은 항목
 
-- v4 지형 PNG 원본 적용 및 20스타일 전체 v4 접합 미관 승인: 입력 원본/선택 대기.
-- 실제 데스크톱 메뉴 클릭·Scene 마우스 드래그·Undo GUI 캡처·Play 종료 후 동일 창 포커스 복귀: 미실행. Editor가 `Recovering Scene Backups` 대화상자에서 멈춰 라이브 MCP/Pipeline 인스턴스를 얻지 못했다. 복구 자료를 삭제하지 않았고 배치 Editor를 사용했다. 배치 `ExecuteMenuItem`도 메뉴 조회에 실패해 등록 attribute와 동일 handler만 검증했다.
-- 모바일 실제 기기·전체 세로 UI 스크린샷·네트워크·운영 전체 맵/모든 동물 완주·보상/진행 연동: 미실행.
+- 모바일 실제 기기 터치·네트워크·운영 전체 맵/모든 동물 완주·보상/진행 연동: 미실행. 이번 연결 검증은 DEV와 실제 Unity 세로 미리보기 범위이며 운영 승격은 수행하지 않았다.
 - 실제 UI를 통한 안전 위치/접촉 영역 사람 검수: 자동 검사와 Scene 표시까지만 구현/검증.
 
 ## Git 작업 경계

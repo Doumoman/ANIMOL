@@ -28,18 +28,20 @@ namespace ANIMOL.Gameplay
             return feet + Vector3.up * (player.transform.position.y - collider.bounds.min.y);
         }
 
-        public static void BuildVisual(GameObject root, StageMapObjectKind kind, float units)
-        {
-            var renderer = root.AddComponent<SpriteRenderer>();
-            renderer.sprite = ObstacleArtRegistry.Load().Marker(kind switch
+        public static Sprite ArtSprite(StageMapObjectKind kind) => ObstacleArtRegistry.Load().Marker(kind switch
             {
                 StageMapObjectKind.BubbleCandidate => "bell_idle_1",
                 StageMapObjectKind.Exit => "goal_locked_1",
                 _ => "start_idle_1"
             });
+        public static Color ArtTint(StageMapObjectKind kind) => kind == StageMapObjectKind.Checkpoint ? new Color(.45f,.9f,1f) : Color.white;
+        public static void BuildVisual(GameObject root, StageMapObjectKind kind, float units)
+        {
+            var renderer = root.AddComponent<SpriteRenderer>();
+            renderer.sprite = ArtSprite(kind);
             renderer.sortingOrder = 40;
             root.transform.localScale = Vector3.one * units;
-            if (kind == StageMapObjectKind.Checkpoint) renderer.color = new Color(.45f, .9f, 1f);
+            renderer.color = ArtTint(kind);
         }
     }
 }

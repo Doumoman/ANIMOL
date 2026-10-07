@@ -71,7 +71,13 @@ namespace ANIMOL.Editor
             EditorApplication.update+=()=>
             {
                 if(EditorApplication.isCompiling || EditorApplication.isUpdating)return;
-                if(adapter==null)return;
+                if(adapter==null)
+                {
+                    // EnteredEditMode/domain reload can schedule delayCall before
+                    // Unity clears its pending-play flag. Recover on the next ready update.
+                    if(!EditorApplication.isPlayingOrWillChangePlaymode && SessionState.GetBool(Key+"active",false))Recover();
+                    return;
+                }
                 if(view==null)Release(true);
                 else if(held && EditorWindow.focusedWindow!=view)Cancel(false);
             };
@@ -234,8 +240,15 @@ namespace ANIMOL.Editor
                 var part=markerParts[i];var rect=new Rect(8+i*(width+6),paletteRect.y+42,width,Mathf.Max(30,paletteRect.height-52));
                 var old=GUI.backgroundColor;
                 if(part.id==state.partId)GUI.backgroundColor=TerrainEditorScreen.Gold;
-                if(GUI.Button(rect,part.name,buttonStyle))SelectPart(part.id);
+                if(GUI.Button(rect,GUIContent.none,buttonStyle))SelectPart(part.id);
                 GUI.backgroundColor=old;
+                var sprite=CampaignMapMarkerGeometry.ArtSprite(part.marker.Value);var r=sprite.rect;
+                float iconSize=Mathf.Clamp(Mathf.Min(rect.width-12,rect.height-34),16,96);
+                var color=GUI.color;GUI.color=CampaignMapMarkerGeometry.ArtTint(part.marker.Value);
+                GUI.DrawTextureWithTexCoords(new Rect(rect.center.x-iconSize*.5f,rect.y+6,iconSize,iconSize),sprite.texture,
+                    new Rect(r.x/sprite.texture.width,r.y/sprite.texture.height,r.width/sprite.texture.width,r.height/sprite.texture.height));
+                GUI.color=color;
+                GUI.Label(new Rect(rect.x+8,rect.yMax-26,rect.width-16,22),part.name,labelStyle);
             }
         }
         public static void SelectPart(string id){Cancel(false);state.freeShape=false;state.partId=id;state.instanceId="";state.tool="Place";state.information=true;mapSettings=false;state.placementFacing=SelectedPart?.obj?.DefaultSettings.ObstacleFacing??ObstacleFacing.Up;status=Details(SelectedPart);view?.Repaint();}
@@ -308,7 +321,7 @@ namespace ANIMOL.Editor
                 if(e.control||e.command)
                 {if(e.keyCode==KeyCode.D){Run(DuplicateSelected);e.Use();return;}if(e.keyCode==KeyCode.Z){Run(e.shift?adapter.Redo:adapter.Undo);e.Use();return;}if(e.keyCode==KeyCode.Y){Run(adapter.Redo);e.Use();return;}if(e.keyCode==KeyCode.S){Run(()=>{adapter.Save();status="저장 완료";});e.Use();return;}}
             }
-            bool inside=canvasRect.Contains(e.mousePosition)&&!infoRect.Contains(e.mousePosition);
+            bool inside=CanvasOwnsPointer(canvasRect,infoRect,e.mousePosition,held||panning);
             if(e.type==EventType.Layout)HandleUtility.AddDefaultControl(inputControl);
             if(e.type==EventType.MouseDown && e.button==0 && inside && spaceHeld)
             {panning=true;panWorld=WorldAt(e.mousePosition);e.Use();return;}
@@ -338,6 +351,8 @@ namespace ANIMOL.Editor
             {if(inside && state.tool is "Place" or "Brush" or "Erase")UpdateCandidate(CellAt(e.mousePosition),false);else{hover=false;if(ghost!=null)ghost.SetActive(false);}view.Repaint();}
             if(e.type==EventType.Ignore && held)Cancel(false);
         }
+        private static bool CanvasOwnsPointer(Rect canvas,Rect information,Vector2 point,bool captured)
+            =>canvas.Contains(point)&&(captured||!information.Contains(point));
         public static Vector2Int CellAt(Vector2 guiPoint)
         {var p=WorldAt(guiPoint)/adapter.Map.GetEditorPreviewUnitsPerCell();return new Vector2Int(Mathf.FloorToInt(p.x),Mathf.FloorToInt(p.y));}
         private static Vector3 WorldAt(Vector2 guiPoint)

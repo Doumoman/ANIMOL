@@ -27,7 +27,6 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
     public sealed class ObstacleArtRegistry : ScriptableObject
     {
         public int visualVersion = 3, terrainArtVersion = 6;
-        public int sourceTerrainArtVersion = 4;
         public string sourceHash;
         public MechanismSprite[] markers;
         public Sprite Marker(string key) => markers.First(e=>e.key==key).sprite;

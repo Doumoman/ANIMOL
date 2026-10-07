@@ -76,6 +76,7 @@ namespace ANIMOL.Development
                 testRoot.SetActive(true);
                 editArt.SetActive(false);MapCamera.enabled=false;
                 IsTesting=true;Viewport.gameObject.SetActive(false);palette.gameObject.SetActive(false);testPanel.gameObject.SetActive(true);
+                CanvasRect.GetComponent<CanvasScaler>().referenceResolution=new Vector2(720,1280);
                 foreach(var b in top.GetComponentsInChildren<Button>())if(b.name is "Undo" or "Redo" or "Save")b.interactable=false;
                 testButton.GetComponentInChildren<Text>().text="편집 복귀";title.text=Adapter.Map.StageId+" · TEST";
                 ResizeTest();SetStatus("시험 플레이 · 정본 편집 잠금 · 편집 복귀로 종료");
@@ -88,6 +89,7 @@ namespace ANIMOL.Development
             if(testMap!=null){Destroy(testMap);testMap=null;}
             if(testTarget!=null){testTarget.Release();Destroy(testTarget);testTarget=null;}
             IsTesting=false;TestLoader=null;TestPlayer=null;testCamera=null;
+            CanvasRect.GetComponent<CanvasScaler>().referenceResolution=new Vector2(1280,720);
             if(testPanel!=null)testPanel.gameObject.SetActive(false);
             if(editArt!=null)editArt.SetActive(true);MapCamera.enabled=true;Viewport.gameObject.SetActive(true);palette.gameObject.SetActive(true);
             foreach(var b in top.GetComponentsInChildren<Button>())b.interactable=true;

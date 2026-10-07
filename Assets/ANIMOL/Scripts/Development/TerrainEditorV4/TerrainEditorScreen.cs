@@ -11,6 +11,7 @@ namespace ANIMOL.Development
         public ITerrainEditorAdapter Adapter { get; private set; }
         public TerrainEditorViewState State = new TerrainEditorViewState();
         public Camera MapCamera { get; private set; }
+        public Camera PresentationCamera { get; private set; }
         public RawImage Viewport { get; private set; }
         public RectTransform CanvasRect { get; private set; }
         public string Status { get; private set; } = "연결 중";
@@ -42,6 +43,12 @@ namespace ANIMOL.Development
             var scaler = canvasGo.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280, 720); scaler.matchWidthOrHeight = 0;
+            // Offscreen map/test cameras feed RawImages. Keep a display camera for
+            // the overlay Canvas so Game View does not obscure it with its no-camera panel.
+            var presentation=new GameObject("Map preview display camera",typeof(Camera));
+            presentation.transform.SetParent(transform,false);PresentationCamera=presentation.GetComponent<Camera>();
+            PresentationCamera.cullingMask=0;PresentationCamera.clearFlags=CameraClearFlags.SolidColor;
+            PresentationCamera.backgroundColor=Ink;PresentationCamera.depth=-100;
             PanelRect("Background", CanvasRect, Ink, Vector2.zero, Vector2.one);
             top = PanelRect("Top", CanvasRect, Panel, new Vector2(0,.945f), Vector2.one);
             title = Label("Title", top, "ANIMOL · 개발 맵 편집", 19);

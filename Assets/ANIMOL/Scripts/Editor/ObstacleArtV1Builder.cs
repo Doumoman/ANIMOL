@@ -38,13 +38,15 @@ namespace ANIMOL.Editor
                     throw new InvalidOperationException("Source manifest mismatch: " + f.path);
             }
             var catalog = JsonUtility.FromJson<Catalog>(File.ReadAllText(Source + "/Data/mechanism_catalog.json"));
-            if (catalog.schemaVersion != 1 || catalog.visualVersion != 3 || catalog.terrainArtVersion != 4 || catalog.entries.Length != 393 || catalog.atlasWidth != 576 || catalog.atlasHeight != 900)
+            if (catalog.schemaVersion != 1 || catalog.visualVersion != 3 || catalog.entries.Length != 393 || catalog.atlasWidth != 576 || catalog.atlasHeight != 900)
                 throw new InvalidOperationException("Unexpected source mechanism contract.");
             Directory.CreateDirectory(Root + "/Art"); Directory.CreateDirectory(Root + "/Data");
             var pathAtlas = Root + "/Art/MechanismAtlas.png";
             File.Copy(Source + "/Art/MechanismAtlas.png", pathAtlas, true);
-            // Preserve source provenance; V6 adaptation is explicit in the installed Registry.
-            File.Copy(Source + "/Data/mechanism_catalog.json", Root + "/Data/mechanism_catalog.json", true);
+            // Archived package bytes remain intact; the installed catalog targets V6.
+            var installedCatalog = new System.Text.RegularExpressions.Regex("(\"terrainArtVersion\"\\s*:\\s*)\\d+")
+                .Replace(File.ReadAllText(Source + "/Data/mechanism_catalog.json"), "${1}6", 1);
+            File.WriteAllText(Root + "/Data/mechanism_catalog.json", installedCatalog);
             AssetDatabase.ImportAsset(pathAtlas, ImportAssetOptions.ForceSynchronousImport);
             var t = (TextureImporter)AssetImporter.GetAtPath(pathAtlas);
             t.textureType = TextureImporterType.Sprite; t.spriteImportMode = SpriteImportMode.Multiple;
@@ -60,7 +62,7 @@ namespace ANIMOL.Editor
             var sprites = AssetDatabase.LoadAllAssetsAtPath(pathAtlas).OfType<Sprite>().ToDictionary(s=>s.name);
             var registry = AssetDatabase.LoadAssetAtPath<ObstacleArtRegistry>(RegistryPath);
             if (registry == null) { registry=ScriptableObject.CreateInstance<ObstacleArtRegistry>(); AssetDatabase.CreateAsset(registry,RegistryPath); }
-            registry.visualVersion=3; registry.terrainArtVersion=6; registry.sourceTerrainArtVersion=4; registry.sourceHash=FreeShapeArtV6Builder.HashFile(Source+"/PACKAGE_MANIFEST.json");
+            registry.visualVersion=3; registry.terrainArtVersion=6; registry.sourceHash=FreeShapeArtV6Builder.HashFile(Source+"/PACKAGE_MANIFEST.json");
             registry.entries=catalog.entries.Select(e=>new MechanismSprite{key=e.id,sprite=sprites[e.id.Replace('/','_')]}).ToArray();
             var fragments=JsonUtility.FromJson<Fragments>(File.ReadAllText(Source+"/Data/c05_fragment_catalog.json"));
             if(fragments.visualVersion!=3||fragments.entries.Length!=20)throw new InvalidOperationException("Invalid fragment catalog.");
