@@ -39,8 +39,8 @@ namespace ANIMOL.Tests
             {
                 var c=Cell("C"+i.ToString("D2"),style.styleId);var plan=Resolve(new(){{Vector2Int.zero,c}},Vector2Int.zero);
                 Assert.That(ObstacleArtRegistry.Load().Sprite(plan.OverlayKey),Is.Not.Null);
-                Assert.That(plan.DrawBody,Is.EqualTo(i is 2 or 3 or 8 or 10));
-                Assert.That(plan.CapOnly,Is.EqualTo(i is 1 or 5 or 6));
+                Assert.That(plan.DrawBody,Is.EqualTo(i is 8 or 10));
+                Assert.That(plan.CapOnly,Is.EqualTo(i is 1 or 3 or 5 or 6));
             }
         }
         [Test] public void FullTopAirAndInactiveHaveBidirectionalGlobalJoins()

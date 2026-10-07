@@ -77,9 +77,10 @@ namespace ANIMOL.Editor
             };
             EditorApplication.delayCall+=Recover;
         }
+        [MenuItem("ANIMOL/Map Editor/Open Focused Workspace", priority=1)]
         public static void OpenSelected()
         {
-            var map=Selection.activeObject as StageMapDefinition ?? (Selection.activeObject as CampaignStageDefinition)?.MapDefinition;
+            var map=Selection.activeObject as StageMapDefinition ?? (Selection.activeObject as CampaignStageDefinition)?.MapDefinition ?? adapter?.Map;
             if(map==null){CampaignMapEditorWindow.Open();return;}Open(map);
         }
         public static void Open(StageMapDefinition map,string selectedPart="")
@@ -206,7 +207,7 @@ namespace ANIMOL.Editor
             if(GUILayout.Button("저장",buttonStyle))Run(()=>{adapter.Save();status="저장 완료 · revision "+adapter.Map.AuthoringRevision;});
             if(GUILayout.Button("Undo",buttonStyle))Run(adapter.Undo);
             if(GUILayout.Button("Redo",buttonStyle))Run(adapter.Redo);
-            if(GUILayout.Button("시험 플레이",buttonStyle))Run(()=>{adapter.Save();var report=StageMapValidator.ValidateStructure(adapter.Map);if(!report.IsValid)throw new InvalidOperationException(string.Join(" | ",report.Errors));TerrainEditorSession.OpenForSceneTest(adapter.Map);});
+            if(GUILayout.Button("Save + Local Play",buttonStyle))Run(()=>{adapter.Save();var report=StageMapMarkerValidation.ValidateLocalPlay(adapter.Map);if(!report.IsValid)throw new InvalidOperationException(string.Join(" | ",report.Errors));TerrainEditorSession.OpenForSceneTest(adapter.Map);});
             if(GUILayout.Button("캠페인",buttonStyle,GUILayout.Width(65)))CampaignMapEditorWindow.Open();
             if(GUILayout.Button("닫기",buttonStyle,GUILayout.Width(45)))EditorApplication.delayCall+=Close;
             if(width<720){GUILayout.EndHorizontal();GUILayout.BeginHorizontal();}
@@ -237,7 +238,7 @@ namespace ANIMOL.Editor
                 GUI.backgroundColor=old;
             }
         }
-        public static void SelectPart(string id){Cancel(false);state.freeShape=false;state.partId=id;state.instanceId="";state.tool="Place";state.information=true;mapSettings=false;status=Details(SelectedPart);view?.Repaint();}
+        public static void SelectPart(string id){Cancel(false);state.freeShape=false;state.partId=id;state.instanceId="";state.tool="Place";state.information=true;mapSettings=false;state.placementFacing=SelectedPart?.obj?.DefaultSettings.ObstacleFacing??ObstacleFacing.Up;status=Details(SelectedPart);view?.Repaint();}
         private static TerrainEditorPart SelectedPart=>parts.FirstOrDefault(p=>p.id==state.partId);
         private static string Details(TerrainEditorPart p)=>p==null?"부품 선택":p.id+" · "+p.name+" · "+p.size.x+"×"+p.size.y+(p.terrain==null?"":p.IsOverlay?$" · 추가 충돌 0 · 받침 {p.terrain.supportCount}":$" · 고체 {p.terrain.solidCount} · 빈 {p.terrain.voidCount}");
         private static void DrawInformation()
@@ -260,12 +261,15 @@ namespace ANIMOL.Editor
             else
             {
                 var part=SelectionPart()??SelectedPart;GUILayout.Label(Details(part),labelStyle);
+                if(state.instanceId=="" && part?.obj!=null && part.obj.Kind is StageMapObjectKind.CommonC02 or StageMapObjectKind.CommonC07 or StageMapObjectKind.CommonC08)
+                    state.placementFacing=FacingField(part.obj.Kind,state.placementFacing);
                 GUILayout.Label(state.instanceId,smallStyle);
                 var target=origin;
                 var requested=EditorGUILayout.Vector2IntField("원점 X / Y",target);
                 if(requested!=target)origin=requested;
                 if(GUILayout.Button(state.instanceId==""?"좌표에 배치":"좌표로 전체 이동",buttonStyle))Run(()=>{UpdateCandidate(origin,state.instanceId!="");Commit();});
                 if(state.instanceId!="" && GUILayout.Button("선택 instance 전체 삭제",buttonStyle))Run(DeleteSelected);
+                if(state.instanceId!="" && GUILayout.Button("복제 · 오른쪽 한 셀",buttonStyle))Run(DuplicateSelected);
                 var obj=adapter.Map.Objects.FirstOrDefault(o=>o.StableId==state.instanceId);
                 if(obj!=null)
                 {
@@ -280,6 +284,12 @@ namespace ANIMOL.Editor
                     {if(settings!=null)UnityEngine.Object.DestroyImmediate(settings);settings=ScriptableObject.CreateInstance<TerrainEditorSettingsDraft>();settings.hideFlags=HideFlags.HideAndDontSave;settings.value=obj.Settings.Clone();settingsKey=signature;}
                     var serialized=new SerializedObject(settings);serialized.Update();
                     using(new EditorGUI.DisabledScope(obj.Settings.Version>3)){if(CommonObstacleCatalog.IsCurrent(obj.Kind))DrawCommonSettings(serialized,obj.Kind);
+                        else if(CommonObstacleCatalog.IsMarker(obj.Kind))
+                        {
+                            var value=serialized.FindProperty("value");
+                            if(obj.Kind==StageMapObjectKind.Checkpoint)EditorGUILayout.PropertyField(value.FindPropertyRelative("footprintCells"),new GUIContent("접촉 영역 (셀)"));
+                            if(obj.Kind is StageMapObjectKind.Checkpoint or StageMapObjectKind.PlayerStart)EditorGUILayout.PropertyField(value.FindPropertyRelative("checkpointRespawnOffsetCells"),new GUIContent("안전 발바닥 위치 오프셋 (셀)"));
+                        }
                         else EditorGUILayout.PropertyField(serialized.FindProperty("value"),new GUIContent("객체 설정"),true);serialized.ApplyModifiedPropertiesWithoutUndo();
                         if(GUILayout.Button("설정 적용",buttonStyle))Run(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Settings",instanceId=obj.StableId,settings=settings.value.Clone()}));}
                 }
@@ -296,7 +306,7 @@ namespace ANIMOL.Editor
                 if(e.keyCode==KeyCode.Escape){Cancel();e.Use();return;}
                 if(e.keyCode==KeyCode.Delete){Run(DeleteSelected);e.Use();return;}
                 if(e.control||e.command)
-                {if(e.keyCode==KeyCode.Z){Run(e.shift?adapter.Redo:adapter.Undo);e.Use();return;}if(e.keyCode==KeyCode.Y){Run(adapter.Redo);e.Use();return;}if(e.keyCode==KeyCode.S){Run(()=>{adapter.Save();status="저장 완료";});e.Use();return;}}
+                {if(e.keyCode==KeyCode.D){Run(DuplicateSelected);e.Use();return;}if(e.keyCode==KeyCode.Z){Run(e.shift?adapter.Redo:adapter.Undo);e.Use();return;}if(e.keyCode==KeyCode.Y){Run(adapter.Redo);e.Use();return;}if(e.keyCode==KeyCode.S){Run(()=>{adapter.Save();status="저장 완료";});e.Use();return;}}
             }
             bool inside=canvasRect.Contains(e.mousePosition)&&!infoRect.Contains(e.mousePosition);
             if(e.type==EventType.Layout)HandleUtility.AddDefaultControl(inputControl);
@@ -334,7 +344,7 @@ namespace ANIMOL.Editor
         {var ray=HandleUtility.GUIPointToWorldRay(guiPoint);var plane=new Plane(Vector3.forward,Vector3.zero);return plane.Raycast(ray,out var distance)?ray.GetPoint(distance):Vector3.zero;}
         public static void UpdateCandidate(Vector2Int point,bool move)
         {
-            var part=move?SelectionPart():SelectedPart;var signature=adapter.Map.AuthoringRevision+":"+point+":"+part?.id+":"+state.tool+":"+move+":"+state.instanceId;
+            var part=move?SelectionPart():SelectedPart;var signature=adapter.Map.AuthoringRevision+":"+point+":"+part?.id+":"+state.tool+":"+move+":"+state.instanceId+":"+state.placementFacing;
             if(signature==key)return;key=signature;origin=point;ghostPart=part;hover=true;valid=false;candidate=null;objectCandidate=null;
             try
             {
@@ -348,7 +358,7 @@ namespace ANIMOL.Editor
                     objectCandidate=new TerrainEditorObjectEdit{operation=move?"Move":"Place",definitionId=part.id,instanceId=move?state.instanceId:part.id+"-"+Guid.NewGuid().ToString("N"),origin=point};
                     if(!move && part.obj?.RequiresLinkedPair==true){objectCandidate.operation=pairAnchor.HasValue?"Pair":"PairAnchor";objectCandidate.second=point;if(pairAnchor.HasValue)objectCandidate.origin=pairAnchor.Value;}
                     if(!move && part.obj!=null && ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(part.obj.Kind)!=null)
-                    {objectCandidate.settings=StageMapObjectAuthoringOperations.PlacementSettings(part.obj,point);objectCandidate.settings.EditorSetObstacleStyle(state.freeStyle);}
+                    {objectCandidate.settings=StageMapObjectAuthoringOperations.PlacementSettings(part.obj,point);objectCandidate.settings.EditorSetObstacleStyle(state.freeStyle);objectCandidate.settings.EditorSetObstacleFacing(state.placementFacing);}
                     adapter.ValidateObject(objectCandidate);
                 }
                 else throw new InvalidOperationException("하단 팔레트에서 부품을 선택하세요.");
@@ -382,6 +392,7 @@ namespace ANIMOL.Editor
             if(string.IsNullOrEmpty(state.instanceId))return null;
             var p=adapter?.Read().placements.FirstOrDefault(p=>p.instanceId==state.instanceId);if(p!=null)return parts.FirstOrDefault(t=>t.id==p.catalogId);
             var o=adapter?.Map.Objects.FirstOrDefault(o=>o.StableId==state.instanceId);if(o==null)return null;
+            if(CommonObstacleCatalog.IsCurrent(o.Kind))return parts.FirstOrDefault(t=>t.obj?.Kind==o.Kind);
             return parts.FirstOrDefault(t=>t.marker==o.Kind);
         }
         private static Vector2Int SelectionOrigin()
@@ -397,11 +408,20 @@ namespace ANIMOL.Editor
             {if(!Engine.TryDelete(adapter.Terrain.Catalog,dto,state.instanceId,out var removed,out var message))throw new InvalidOperationException(message);adapter.Commit(removed,"Delete Scene instance");}
             else adapter.CommitObject(new TerrainEditorObjectEdit{operation="Delete",instanceId=state.instanceId});state.instanceId="";Cancel(false);status="전체 삭제 저장 완료";
         }
+        public static void DuplicateSelected()
+        {
+            var source=adapter.Map.Objects.FirstOrDefault(o=>o.StableId==state.instanceId);
+            if(source==null)throw new InvalidOperationException("복제할 마커 또는 장치를 선택하세요.");
+            var part=SelectionPart();
+            var edit=new TerrainEditorObjectEdit{operation="Place",definitionId=part.id,
+                instanceId=source.StableId+"-"+Guid.NewGuid().ToString("N"),origin=new Vector2Int(source.X+1,source.Y),settings=source.Settings.Clone()};
+            adapter.CommitObject(edit);state.instanceId=edit.instanceId;state.information=true;
+        }
         private static void ShowGhost()
         {
             var nextGhostId=ghostPart?.id;
             if(ghostPart?.obj!=null && ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(ghostPart.obj.Kind)!=null)
-                nextGhostId+="|"+state.freeStyle+"|"+origin+"|"+adapter.Map.AuthoringRevision;
+                nextGhostId+="|"+state.freeStyle+"|"+state.placementFacing+"|"+origin+"|"+adapter.Map.AuthoringRevision;
             if(ghostId!=nextGhostId || ghost==null)
             {
                 DestroyGhost();ghostId=nextGhostId;
@@ -412,6 +432,12 @@ namespace ANIMOL.Editor
                     if(ANIMOL.Gameplay.ObstacleGraphics.ObstacleSnapshotAdapter.Kind(ghostPart.obj.Kind)!=null && objectCandidate!=null && valid)
                         TerrainEditorArt.BuildObstacle(adapter.Map,adapter.ObjectCandidate(objectCandidate),parent.transform);
                     else TerrainEditorArt.CopySprites(ghostPart.obj.Prefab,parent.transform);
+                }
+                else if(ghostPart?.marker!=null)
+                {
+                    var marker=new GameObject("Marker ghost");marker.transform.SetParent(parent.transform,false);
+                    marker.transform.localPosition=new Vector3(.5f,.5f,0)*adapter.Map.GetEditorPreviewUnitsPerCell();
+                    CampaignMapMarkerGeometry.BuildVisual(marker,ghostPart.marker.Value,adapter.Map.GetEditorPreviewUnitsPerCell());
                 }
                 foreach(var r in ghost.GetComponentsInChildren<SpriteRenderer>())
                 {r.sortingOrder=100;if(r.sharedMaterial.HasProperty("_PreviewOpacity")){var m=new Material(r.sharedMaterial);m.SetFloat("_PreviewOpacity",.5f);r.sharedMaterial=m;ghostMaterials.Add(m);}else r.color=new Color(1,1,1,.5f);}
@@ -428,6 +454,17 @@ namespace ANIMOL.Editor
                 int stepX=Mathf.Max(1,Mathf.CeilToInt(bounds.width/256f)),stepY=Mathf.Max(1,Mathf.CeilToInt(bounds.height/256f));
                 for(int x=bounds.xMin;x<=bounds.xMax;x+=stepX){Handles.color=new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(x,bounds.yMin,0)*units,new Vector3(x,bounds.yMax,0)*units);}
                 for(int y=bounds.yMin;y<=bounds.yMax;y+=stepY){Handles.color=new Color(.3f,.4f,.5f,.3f);Handles.DrawLine(new Vector3(bounds.xMin,y,0)*units,new Vector3(bounds.xMax,y,0)*units);}
+            }
+            foreach(var marker in adapter.Map.Objects.Where(o=>o.Kind is StageMapObjectKind.PlayerStart or StageMapObjectKind.Checkpoint))
+            {
+                var feet=new Vector2(marker.X+.5f,marker.Y)+marker.Settings.CheckpointRespawnOffsetCells;
+                DrawBox(new Rect(feet.x-.4f/units,feet.y,.8f/units,1.2f/units),TerrainEditorScreen.Blue,true);
+                Handles.color=TerrainEditorScreen.Gold;Handles.DrawSolidDisc(feet*units,Vector3.forward,.06f*units);
+                if(marker.Kind==StageMapObjectKind.Checkpoint)
+                {
+                    var size=CampaignMapMarkerGeometry.ContactSize(marker);var centre=CampaignMapMarkerGeometry.Centre(adapter.Map,marker)/(float)units;
+                    DrawBox(new Rect((Vector2)centre-size*.5f,size),TerrainEditorScreen.Green,false);
+                }
             }
             if(state.freeShape){DrawFreeWorld();return;}
             var selected=SelectionPart();if(selected!=null)DrawBox(new Rect(SelectionOrigin(),selected.size),TerrainEditorScreen.Gold,false);

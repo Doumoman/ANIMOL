@@ -17,8 +17,7 @@ namespace ANIMOL.Editor
         public int ThumbnailBuildCount { get; private set; }
         public TerrainEditorThumbnail Thumbnail(TerrainEditorPart part)
         {
-            if(part.marker.HasValue)return new TerrainEditorThumbnail{diagnostic="기존 "+part.name+" marker에는 Sprite 미리보기 리소스가 없습니다.",sourceHash=part.id};
-            var asset=part.terrain!=null?(UnityEngine.Object)Terrain.Frame(part.terrain.frameId):part.obj;
+            var asset=part.marker.HasValue?(UnityEngine.Object)ObstacleArtRegistry.Load():part.terrain!=null?(UnityEngine.Object)Terrain.Frame(part.terrain.frameId):part.obj;
             var hash=AssetDatabase.GetAssetDependencyHash(AssetDatabase.GetAssetPath(asset)).ToString();
             if(part.obj!=null && CommonObstacleCatalog.IsCurrent(part.obj.Kind))hash+=":"+Map.ThemeId+":"+AssetDatabase.GetAssetDependencyHash(FreeShapeArtV6Builder.RegistryPath)+":"+AssetDatabase.GetAssetDependencyHash(ObstacleArtV1Builder.RegistryPath);
             var key=part.id+":"+hash;
@@ -29,7 +28,12 @@ namespace ANIMOL.Editor
             {
                 var parent=new GameObject("Safe silhouette render · no scripts");
                 GameObject art;
-                if(part.terrain!=null)
+                if(part.marker.HasValue)
+                {
+                    art=new GameObject(part.name);art.transform.SetParent(parent.transform,false);
+                    CampaignMapMarkerGeometry.BuildVisual(art,part.marker.Value,1);
+                }
+                else if(part.terrain!=null)
                     art=StageTerrainStructureRuntime.CreateArt(parent.transform,new AnimolTerrainPlacement {instanceId=part.id,catalogId=part.id},part.terrain,Terrain.Frame(part.terrain.frameId),1,0);
                 else if(CommonObstacleCatalog.IsCurrent(part.obj.Kind))
                 {

@@ -9,9 +9,8 @@ namespace ANIMOL.Editor
         public GameObject PlayerPrefab => AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/DevPlayer.prefab");
         public void ConfigureTestServices(GameObject root,Vector3 spawn)
         {
-            var checkpoint=new GameObject("Test respawn").transform;checkpoint.SetParent(root.transform,false);checkpoint.position=spawn;
-            var session=root.AddComponent<ObjectLabSession>();var serialized=new SerializedObject(session);
-            serialized.FindProperty("checkpoint").objectReferenceValue=checkpoint;serialized.ApplyModifiedPropertiesWithoutUndo();
+            var session=root.AddComponent<CampaignMapDevSession>();
+            session.ConfigureEditorPreview(root.GetComponent<StageMapRuntimeLoader>().Map,root.GetComponentInChildren<ExitRevealCameraController>(true));
         }
         public void ConfigureTouchControl(DevMobileTouchControl control,MobileTouchAction action)
         {

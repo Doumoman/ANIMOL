@@ -28,7 +28,7 @@ namespace ANIMOL.Gameplay
         public string Pose { get; private set; }="idle";
         public int ActivationCount { get; private set; }
         private bool Air => Kind is StageMapObjectKind.CommonC04 or StageMapObjectKind.CommonC07;
-        private bool Top => Kind is StageMapObjectKind.CommonC01 or StageMapObjectKind.CommonC05 or StageMapObjectKind.CommonC06;
+        private bool Top => Kind is StageMapObjectKind.CommonC01 or StageMapObjectKind.CommonC03 or StageMapObjectKind.CommonC05 or StageMapObjectKind.CommonC06;
         private Vector2 Center => (Vector2)transform.position+Vector2.one*(cellSize*.5f);
         private static ContactFilter2D Filter => new ContactFilter2D { useTriggers=false };
 
@@ -48,6 +48,12 @@ namespace ANIMOL.Gameplay
             }
             surface.size=Top?new Vector2(cellSize,.12f*cellSize):Vector2.one*cellSize;
             surface.offset=Top?new Vector2(.5f,.94f)*cellSize:Vector2.one*(cellSize*.5f);
+            if(Kind==StageMapObjectKind.CommonC02)
+            {
+                // Only the front plate owns collision; the coil is traversable artwork.
+                surface.size=new Vector2(.125f,.75f)*cellSize;
+                surface.offset=new Vector2(settings.ObstacleFacing==ObstacleFacing.Left?.0625f:.9375f,.5f)*cellSize;
+            }
             if(Top)
             {
                 var effector=GetComponent<PlatformEffector2D>();

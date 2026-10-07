@@ -75,6 +75,13 @@ namespace ANIMOL.Development
                 if(CommonObstacleCatalog.IsRetired(p.Kind)) continue;
                 if(CommonObstacleCatalog.IsCurrent(p.Kind)) continue; // Current devices render exclusively through the V6 registry.
                 if(obstacles.ContainsKey(new Vector2Int(p.X,p.Y)) && ObstacleSnapshotAdapter.Kind(p.Kind)!=null)continue;
+                if (CommonObstacleCatalog.IsMarker(p.Kind))
+                {
+                    var marker=new GameObject(p.StableId);marker.transform.SetParent(root.transform,false);
+                    marker.transform.localPosition=new Vector3(p.X+p.Settings.FootprintCells.x*.5f,p.Y+p.Settings.FootprintCells.y*.5f,0)*units;
+                    CampaignMapMarkerGeometry.BuildVisual(marker,p.Kind,units);
+                    continue;
+                }
                 var art = CopySprites(p.Prefab != null ? p.Prefab : adapter.Objects?.Find(p)?.Prefab, root.transform);
                 art.name = p.StableId;
                 art.transform.localPosition = new Vector3(p.X, p.Y, 0) * units;

@@ -32,8 +32,8 @@ namespace ANIMOL.Core
         public CheckpointRespawnState(IEnumerable<string> checkpointIds, string initialCheckpointId)
         {
             allowed = new HashSet<string>(checkpointIds ?? Array.Empty<string>(), StringComparer.Ordinal);
-            if (!allowed.Contains(initialCheckpointId)) throw new ArgumentException("Initial checkpoint must be fixed stage content.");
-            ActiveCheckpointId = initialCheckpointId;
+            if (!string.IsNullOrEmpty(initialCheckpointId) && !allowed.Contains(initialCheckpointId)) throw new ArgumentException("Initial checkpoint must be fixed stage content.");
+            ActiveCheckpointId = initialCheckpointId ?? string.Empty;
         }
         public bool TryActivate(string checkpointId)
         {

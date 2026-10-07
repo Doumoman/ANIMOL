@@ -37,8 +37,8 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
 
     public static class ObstacleVisualResolver
     {
-        static readonly HashSet<string> Full = new HashSet<string> { "C02", "C03", "C08", "C10", "R03" };
-        static readonly HashSet<string> Top = new HashSet<string> { "C01", "C05", "C06", "M02", "R01" };
+        static readonly HashSet<string> Full = new HashSet<string> { "C08", "C10", "R03" };
+        static readonly HashSet<string> Top = new HashSet<string> { "C01", "C03", "C05", "C06", "M02", "R01" };
         static readonly HashSet<string> Air = new HashSet<string> { "C04", "C07" };
         static readonly int[] Masks = { 0,1,4,5,7,16,17,20,21,23,28,29,31,64,65,68,69,71,80,81,84,85,87,92,93,95,112,113,116,117,119,124,125,127,193,197,199,209,213,215,221,223,241,245,247,253,255 };
         static readonly int[] Dx = { 0,1,1,1,0,-1,-1,-1 };
@@ -91,7 +91,7 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
                 c.StyleId[3] != '_' || c.StyleId[4] < 'A' || c.StyleId[4] > 'D' ||
                 c.ThemeId != c.StyleId.Substring(0, 3)) throw new ArgumentException("Matching V6 style/theme required");
             if (c.Kind == "C09") throw new ArgumentException("C09 was removed: explicit deletion migration required.");
-            if (c.Kind != "terrain" && !Full.Contains(c.Kind) && !Top.Contains(c.Kind) && !Air.Contains(c.Kind))
+            if (c.Kind != "terrain" && c.Kind != "C02" && !Full.Contains(c.Kind) && !Top.Contains(c.Kind) && !Air.Contains(c.Kind))
                 throw new ArgumentException("Unknown kind");
             if (Top.Contains(c.Kind) && !c.SurfaceEnabled.HasValue) throw new ArgumentException("TOP requires authoritative surface state");
             if (c.Kind == "M02" && c.ThemeId != "T01") throw new ArgumentException("M02 is a moon candidate");
@@ -123,9 +123,9 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
                 CapRaw=capRaw, CapMask=capMask, CapIndex=Array.IndexOf(Masks,capMask), Variant=variant,
                 DrawBody=IsFull(c), DrawCap=HasTop(c) && exposedTop, CapOnly=Top.Contains(c.Kind) && c.SurfaceEnabled == true,
                 CapPatch=IsFull(c) && exposedTop && capMask != bodyMask, Pose=pose, Facing=facing, Frame=c.Frame,
-                ReplaceCap=c.Kind == "C05" || c.Kind == "C06" || c.Kind == "C08" || c.Kind == "C10",
+                ReplaceCap=c.Kind == "C03" || c.Kind == "C05" || c.Kind == "C06" || c.Kind == "C08" || c.Kind == "C10",
                 OverlayKey=c.Kind == "terrain" ? null : c.ThemeId+"/"+c.Kind+"/"+facing+"/"+pose+"/f"+c.Frame,
-                CacheKey=string.Join("|",6,2,c.StyleId,c.JoinGroup??"default",c.Kind,bodyMask,capMask,variant,facing,pose,c.Frame,c.SurfaceEnabled==true?1:0)
+                CacheKey=string.Join("|",c.ArtVersion,3,c.StyleId,c.JoinGroup??"default",c.Kind,bodyMask,capMask,variant,facing,pose,c.Frame,c.SurfaceEnabled==true?1:0)
             };
             if ((Top.Contains(c.Kind)||c.Kind=="C03"||c.Kind=="C08"||c.Kind=="C10") && !exposedTop)
                 plan.Problems.Add("Functional top face blocked");

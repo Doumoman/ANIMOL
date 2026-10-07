@@ -14,7 +14,7 @@ namespace ANIMOL.Editor
             if(edit.operation=="Place" || edit.operation=="PairAnchor" || edit.operation=="Pair")
             {
                 var marker=Markers.FirstOrDefault(m=>m.id==edit.definitionId);
-                if(marker!=null)return new StageMapObjectPlacement(edit.instanceId,marker.marker.Value,edit.origin.x,edit.origin.y,"manual-authoring");
+                if(marker!=null)return new StageMapObjectPlacement(edit.instanceId,marker.marker.Value,edit.origin.x,edit.origin.y,"manual-authoring",null,edit.settings);
                 var type=Objects.Find(edit.definitionId)??throw new InvalidOperationException("Unknown object definition: "+edit.definitionId);
                 var initialSettings=edit.settings??StageMapObjectAuthoringOperations.PlacementSettings(type,edit.origin);
                 if(edit.operation=="PairAnchor")initialSettings.EditorSetLinkedInstanceIds(new[]{"PAIR-PREVIEW-ONLY"});
@@ -30,6 +30,15 @@ namespace ANIMOL.Editor
         {
             var candidate=ObjectCandidate(edit);
             if(edit.operation=="Delete")return;
+            var proposed = Map.Objects.Where(o=>o.StableId!=candidate.StableId).Append(candidate).ToArray();
+            foreach(var safeMarker in proposed.Where(o=>o.Kind is StageMapObjectKind.PlayerStart or StageMapObjectKind.Checkpoint))
+            {
+                var problems=StageMapMarkerValidation.ValidateSafeFeet(Map,safeMarker,proposed);
+                var existing=Map.Objects.FirstOrDefault(o=>o.StableId==safeMarker.StableId);
+                var introduced=existing!=null && safeMarker.StableId!=candidate.StableId
+                    ?problems.Except(StageMapMarkerValidation.ValidateSafeFeet(Map,existing)).ToArray():problems.ToArray();
+                if(introduced.Length>0)throw new InvalidOperationException(string.Join(" | ",introduced));
+            }
             if(CommonObstacleCatalog.IsRetired(candidate.Kind))throw new InvalidOperationException("폐기된 장애물입니다. 공통 C01~C08/C10을 새로 배치하세요.");
             var type=Objects.Find(candidate);
             bool marker=T01S01ManualMapWorkflow.IsCampaignMarker(candidate.Kind);

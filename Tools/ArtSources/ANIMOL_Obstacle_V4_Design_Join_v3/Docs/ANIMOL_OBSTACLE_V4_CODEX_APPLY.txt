@@ -1,0 +1,131 @@
+작업 ID: OVG03_EXPOSED_SPRING_TEMP_PLAYER
+프로젝트: C:/Users/user/Documents/GitHub/ANIMOL
+Unity: 6000.3.8f1
+입력: ANIMOL_Obstacle_V4_Design_Join_v3 패키지
+이전 OVG01/OVG02 지시와 충돌하면 이번 문서가 우선한다.
+
+목표
+C02 옆스프링의 천장을 제거하고 C03 상향 스프링을 바닥 위로 노출하라.
+그림에 맞는 실제 접촉판을 사용해 빈 코일 공간이 고체처럼 막히지 않게 하라.
+임시 플레이어와 시작점, 고유 방울 3개, 3개를 모은 뒤 열리는 목적지를 구성하라.
+기존 공통 9종·v4 자유 지형 접합·Unity 기본 C05 붕괴 연출을 유지하라.
+이 패키지의 HTML/JS는 실행했다. C# 컴파일·실제 Unity 씬/물리는 미실행이다.
+
+1. 실제 프로젝트와 현재 플레이어 확인
+AGENTS.md, 현재 Task/완료 기록, 이전 OVG02 적용 여부, 저장소 변경 사항을 읽어라.
+FreeShapeTerrainRenderer/ArtRegistry/ArtBuilder, StageTerrainStructureRuntime,
+StageMapRuntimeLoader/Factory/Definition, AnimolTerrainPlacementEngine/Adapter의
+실제 경로·owner·Validate/Commit/Undo를 확인하고 기존 운영 경로에 연결하라.
+플레이어의 현재 input owner, 이동/중력/충돌 owner, Rigidbody2D, Collider2D,
+시작 좌표, 카메라, 방울/목적지 트리거, 재시작 로직의 실제 정의를 찾아 읽어라.
+중복 이동 컴포넌트, Update/FixedUpdate 입력 누락, 두 번 적용하는 중력,
+잘못된 Layer/Trigger, 시작점이 고체 내부인 상태, TOP을 전체 셀 고체로 만든 상태를 검사하라.
+발견한 현재 플레이어 문제의 파일·원인·재현을 결과 문서에 적어라.
+운영 플레이어의 영구 상태머신·체력·동물 전환·멀티플레이를 임시 코드로 덮어쓰지 말라.
+
+2. 아트 버전과 임포트
+지형 artVersion=4, 장애물 visualVersion=3을 구분하라.
+Docs/ANIMOL_Common_9_Tile_Design_v3.md와 GRAPHIC_JOIN_CONTRACT_KO.md가 정본이다.
+Art/MechanismAtlas.png는 576×900, 기능 프레임 393개, 각 rect 32×32, padding2다.
+PPU32, Point, 압축 None, mipmap Off, NPOT None, 중앙 pivot으로 임포트하라.
+JSON rect는 top-left이므로 Unity Sprite rect Y를 atlasHeight-jsonY-height로 변환하라.
+기능 key theme/kind/facing/pose/fN을 사용하고 파일 경로를 추측하지 말라.
+아틀라스와 플랫폼별 압축/필터 설정도 확인하라. 선형 보간·노이즈·디더링을 추가하지 말라.
+원본 v4 몸체 80개는 기존 Registry/GUID를 재사용한다. 원본 그림을 재색칠하지 말라.
+HTML/GIF/검수 이미지/Node 도구는 Runtime Resources에 일괄 임포트하지 말라.
+
+3. 노출 스프링과 접촉판
+FULL=C08/C10(+지역 후보 R03), TOP=C01/C03/C05/C06(+M02/R01), SIDE=C02, AIR=C04/C07이다.
+C02/C03을 FULL 이웃이나 전체 셀 몸체로 다시 합성하지 말라.
+C02: 위·아래 덮개 없이 세로 접촉판, 흰 가로 코일, 뒤 고정부만 표시한다.
+C02 LEFT/RIGHT는 정확한 미러다. 32px 그림의 실제 앞 접촉판만 물리 판정한다.
+C02 LEFT의 BoxCollider 중심은 셀 원점+(2/32,16/32), 크기 (4/32,26/32).
+C02 RIGHT의 중심은 셀 원점+(30/32,16/32), 크기는 동일하다.
+유효 앞면 충돌은 수평 속도 크기를 보존하며 부호만 반전한다.
+C02의 빈 코일 위·아래 공간에 보이지 않는 천장/바닥/전체 셀 Collider를 남기지 말라.
+C03: 지지 바닥 위의 빈 셀에 배치해 넓은 발사판, 높은 코일, 짧은 받침을 모두 보인다.
+C03 ReplaceCap=true, DrawBody=false. 원본 v4 cap이나 큰 박스를 덧그리지 말라.
+C03 윗면은 셀 y+1, 판 중심은 셀 원점+(0.5,30/32), 크기 (28/32,4/32).
+C03은 올라갈 때 통과하고 내려올 때 발사판에 닿아 튀는 OneWay 판정이다.
+그래픽 압축 때문에 매 프레임 Collider/셀/Prefab 루트를 이동·축소하지 말라.
+기존 맵의 스프링을 렌더러에서 일괄 한 칸 위로 이동하거나 저장 좌표와 어긋나게 만들지 말라.
+기존 맵은 실제 논리 셀·지지 바닥·owner를 확인해 필요한 셀 배치와 Collider 변경을
+기존 편집 트랜잭션·저장·Undo 경로로 적용하고 변경 목록을 기록하라.
+
+4. 임시 플레이어 QA 씬 생성
+Docs/TEMP_PLAYER_QA_KO.md, Data/temporary_qa_stage.json, temporary_player_config.json,
+temporary_qa_graphics.json, qa_entity_catalog.json을 읽어라.
+새 Assets/AnimolObstacleQA_v3 폴더에 QA용 Art/Data를 넣고 Runtime/UnityTemporary*.cs
+7개와 Editor/UnityTemporaryQASceneBuilder.cs를 프로젝트 어셈블리 구조에 맞춰 넣어라.
+UnityCrumbleVfx가 이미 있으면 재사용한다. 없으면 제공 Runtime/UnityCrumbleVfx.cs를 넣어라.
+같은 네임스페이스에 ObstacleVisualResolver/UnityCrumbleVfx 복사본을 중복 정의하지 말라.
+순수 그래픽 선택기는 운영 경로의 기존 파일을 업데이트하고 테스트도 그 어셈블리에 연결하라.
+컴파일을 완료한 뒤 UnityTemporaryQASceneBuilder.Create("Assets/AnimolObstacleQA_v3")를 호출하라.
+이 생성기는 JSON을 읽어 새 ANIMOL_TempPlayer_QA.unity 경로를 반환하며 기존 씬을 수정하지 않는다.
+새 씬 하나만 열어 Play Mode로 확인한다. 운영 씬과 QA 씬을 동시에 켜지 말라.
+기존 Sprite 머티리얼/렌더 파이프라인에 맞게 불투명도·조명·정렬·카메라를 확인하라.
+사용자의 기존 플레이 씬 전체를 삭제하거나 QA 씬으로 덮어쓰지 말라.
+
+5. 임시 플레이어 기능
+시작 발바닥 (2.5,1), 몸체 폭0.55/높이0.88. 루트 중심은 발바닥 Y+0.44다.
+좌우 Arrow/A,D; 점프 Space/Up/W; TOP 하향 통과 Down/S; 재시작 R을 제공하라.
+실제 Input System 설정을 따라 제공 조건부 입력 경로를 컴파일하라. Both 중복 입력은 없다.
+기존 UI를 붙이면 SetLeftHeld/SetRightHeld/SetDownHeld/QueueJump/ReleaseInput을 사용한다.
+버튼 pointer up/cancel, 창 focus 상실, reset에서 눌림 상태를 해제하라.
+임시 플레이어에 생산용 controller를 함께 붙여 입력·중력·발사가 두 번 실행되지 않게 하라.
+기본 걷기4.2, 중력22, 점프8.5, 코요테0.1초, 입력 버퍼0.1초를 사용한다.
+C03 발사13, C06 하강 착지 약한 반동6. 임시 QA 수치이며 영구 밸런스로 확정하지 않는다.
+C02 앞면 반사, C03 TOP 발사, C05 마지막 이탈 붕괴, C06 착지, C08 이동, C10 저마찰,
+C07 방향 바람, C04 상시 위험을 실제 Unity 물리에서 확인하라.
+GravityScale=0이며 임시 컨트롤러가 중력22를 한 번 적용한다. 전역 Physics2D.gravity를 바꾸지 말라.
+제공 JS는 자체 swept 충돌, Unity 코드는 Rigidbody2D를 쓰므로 HTML 성공을 Unity 검증으로 대체하지 말라.
+
+6. 시작점·방울·목적지·재시작
+방울 ID1 중심(6.5,4.65), ID2 (11.5,7.65), ID3 (16.5,10.65), 반경0.28.
+총3개만 만든다. 접촉한 고유 ID를 한 번만 집계하고 그림과 트리거를 숨긴다.
+0~2개일 때 목적지는 잠금 그림이며 들어가도 클리어하지 않는다.
+3개를 모으면 열림 그림으로 바꾸고, 목적지 접촉 시에만 클리어한다.
+목적지 논리 영역은 왼쪽 아래(19,10), 폭0.8, 높이1.4다.
+C03은 (4,1),(9,4),(14,7), C02 LEFT는 (20,2), 뒤 벽 X21. 각 셀의 빈 코일 공간을 유지한다.
+경로는 시작→스프링1→방울1→스프링2→방울2→스프링3→방울3→목적지다.
+HUD는 방울0/3~3/3와 잠금/열림/클리어를 표시한다.
+위험 접촉·Y<-3 추락·수동 R은 시작점/속도/입력/방울/목적지/소멸판/프레임/조각을 복원한다.
+클리어 후 임시 플레이어 이동을 정지하고 R로 다시 시작할 수 있어야 한다.
+
+7. 기존 공통 개정과 Unity 애니메이션 유지
+활성 공통 ID는 C01,C02,C03,C04,C05,C06,C07,C08,C10이다. C09는 다시 추가하지 말라.
+이전 C09 삭제가 미완료면 배치/레지스트리/생성 후보/운영 경로의 C09를 제거하라.
+원래 직렬화 숫자·GUID는 재사용하지 않는다. 기존 C09 셀만 삭제하고 바닥으로 치환하지 않는다.
+이전 적용이 완료된 파일에는 같은 마이그레이션을 반복해 다른 데이터를 변경하지 말라.
+C04는 기능과 그래픽 모두 상시 활성. AIR 의미와 기존 피해·쿨다운을 유지한다.
+C01은 표식 없는 얇은 v4 상판, C06은 내부 단색 떡, C10은 연속 얼음 질감이다.
+C02/C03 작동7프레임×30ms, C06 7×40ms, C08 양방향8×80ms를 실제 이벤트 시계로 재생한다.
+물리 owner가 반사/반동을 결정하고 renderer가 다시 속도를 수정하지 않는다.
+C05는 점유 중 지지하고 마지막 이탈로 실제 SurfaceEnabled가 꺼질 때만 붕괴한다.
+밟았다는 이유로 새 타이머를 만들어 서 있는 사람을 즉시 떨어뜨리지 않는다.
+C05는 Unity 기본 SpriteRenderer·Transform·alpha와 독립 Stage VFX root를 사용한다.
+4개 조각, 400ms 아래 낙하, 처음80ms 불투명, 이후320ms 페이드, 1/32 좌표 스냅.
+조각에는 Collider/Rigidbody2D/피해/아이템이 없다. 중복 이벤트·동시 붕괴·reset·unload를 처리하라.
+사용 중인 기존 fade/새 crumble이 중복 실행되지 않게 하라.
+
+8. v4 접합과 편집 복구
+같은 theme/style/artVersion/joinGroup만 연결한다. body/cap mask를 양쪽 이웃에서 갱신하라.
+원본 47마스크·4위상·음수 좌표·전역 seed를 유지한다. C02 SIDE는 body/cap 연결에 참여하지 않는다.
+C03 TOP은 활성 윗면만 참여하고 본체를 고체 지형으로 채우지 않는다.
+C03/C05/C06/C08/C10의 ReplaceCap일 때 원본 cap을 덧그리지 않는다.
+편집/이동/삭제/상판 활성 변경 후 3×3 이웃과 기존 문양 앵커36개를 dirty 처리한다.
+청크 경계·저장재열기·Undo/Redo·Scene/Runtime 상태가 같아야 한다.
+지역 M02/R01/R03는 기존 후보 상태를 유지한다. 공통 변경으로 새 지역 기능을 확정하지 말라.
+
+9. 실제 필수 검증과 보고
+C# 컴파일 및 기존 EditMode 어셈블리에서 Tests/ObstacleGraphicsV3Tests.cs를 실행하라.
+실제 입력으로 시작→방울3개→목적지까지 클리어하고 화면을 기록하라.
+방울 중복 접촉/목적지 먼저 접촉/위험/추락/R/클리어 후R을 검사하라.
+C03 코일 옆·아래 통과와 발사판 착지, C02 앞면 반사와 위 빈 공간 통과를 검사하라.
+반사 속도 보존, 바닥 파묻힘 없음, 플레이어/장치의 이중 충돌/중력/입력 없음도 확인하라.
+C05 점유·이탈·낙하·fade·복원, C04 긴 대기·재시작, 벨트 방향과 얼음 관성을 검사하라.
+20스타일·바닥/벽/단차/분리·음수/청크 경계·변경 저장·Undo/Redo를 확인하라.
+세로 화면·원배율·최근접8배에서 Jaggies/Doubles·점 잡음·명암 잡음을 확인하라.
+OVG03_RESULT.md에 실제 플레이어 문제 원인, 변경 파일, 생성 씬 경로, 실제 실행 검사,
+검사 결과, 미실행 범위를 분리해 기록하라. 스크린샷과 Console 컴파일 오류 여부도 포함한다.
+HTML 미리보기 성공이나 제공 코드의 존재를 실제 Unity 적용 완료로 보고하지 말라.

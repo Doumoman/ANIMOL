@@ -17,7 +17,7 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
         public CrumbleFragment[] fragments;
         public void Validate()
         {
-            if(visualVersion!=2 || durationMs!=400 || fadeStartMs!=80 || pixelsPerUnit!=32 || gravity!=5 || !pixelSnap || colliders || rotationDegrees!=0 || fragments?.Length!=4)
+            if(visualVersion!=3 || durationMs!=400 || fadeStartMs!=80 || pixelsPerUnit!=32 || gravity!=5 || !pixelSnap || colliders || rotationDegrees!=0 || fragments?.Length!=4)
                 throw new InvalidOperationException("Invalid native C05 effect contract.");
             var starts=new[]{0,8,18,26};var widths=new[]{8,10,8,6};var vx=new[]{-.10f,-.03f,.04f,.10f};var vy=new[]{-1.2f,-1.6f,-1.35f,-1.8f};
             for(int i=0;i<4;i++)if(fragments[i]?.rect==null||fragments[i].id!=i||fragments[i].rect.x!=starts[i]||fragments[i].rect.y!=0||fragments[i].rect.width!=widths[i]||fragments[i].rect.height!=8||fragments[i].velocityX!=vx[i]||fragments[i].velocityY!=vy[i])
@@ -26,8 +26,11 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
     }
     public sealed class ObstacleArtRegistry : ScriptableObject
     {
-        public int visualVersion = 2, terrainArtVersion = 6;
+        public int visualVersion = 3, terrainArtVersion = 6;
+        public int sourceTerrainArtVersion = 4;
         public string sourceHash;
+        public MechanismSprite[] markers;
+        public Sprite Marker(string key) => markers.First(e=>e.key==key).sprite;
         public MechanismSprite[] entries;
         public FragmentSprite[] fragments;
         public CrumbleEffectSettings crumble;
@@ -36,14 +39,14 @@ namespace ANIMOL.Gameplay.ObstacleGraphics
         public static ObstacleArtRegistry Load()
         {
             var value = Resources.Load<ObstacleArtRegistry>("ANIMOL_ObstacleGraphicsV1");
-            if (value == null) throw new InvalidOperationException("Obstacle graphics visualVersion=2 for V6 terrain is not installed.");
+            if (value == null) throw new InvalidOperationException("Obstacle graphics visualVersion=3 for current terrain is not installed.");
             if (value.lookup == null) value.ValidateComplete();
             return value;
         }
         public void ValidateComplete()
         {
             lookup = null;
-            if (visualVersion != 2 || terrainArtVersion != 6 || entries?.Length != 393 ||
+            if (visualVersion != 3 || terrainArtVersion != 6 || entries?.Length != 393 ||
                 entries.Any(e => e == null || e.sprite == null || string.IsNullOrEmpty(e.key)) || entries.Select(e => e.key).Distinct().Count() != 393)
                 throw new InvalidOperationException("Incomplete obstacle graphics registry.");
             if(entries.Any(e=>e.key.Contains("/C09/")) || fragments?.Length!=20 || fragments.Any(f=>f==null||f.sprite==null||f.piece<0||f.piece>3) || fragments.Select(f=>f.themeId+"/"+f.piece).Distinct().Count()!=20)

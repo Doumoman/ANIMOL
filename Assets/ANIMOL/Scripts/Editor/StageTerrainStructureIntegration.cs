@@ -73,6 +73,9 @@ namespace ANIMOL.Editor
                     var after = StageMapObjectAuthoringOperations.ValidatePlacement(scratch, item, item.StableId);
                     var newErrors = after.Errors.Except(before.Errors).ToArray();
                     if (newErrors.Length > 0) throw new InvalidOperationException(string.Join(" | ", newErrors));
+                    var safeBefore = StageMapMarkerValidation.ValidateSafeFeet(map, item);
+                    var safeAfter = StageMapMarkerValidation.ValidateSafeFeet(scratch, item).Except(safeBefore).ToArray();
+                    if (safeAfter.Length > 0) throw new InvalidOperationException(string.Join(" | ", safeAfter));
                 }
             }
             finally { UnityEngine.Object.DestroyImmediate(scratch); }

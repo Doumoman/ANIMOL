@@ -190,7 +190,7 @@ namespace ANIMOL.Tests
                 catch(InvalidOperationException){}
             }
             CollectionAssert.AreEquivalent(expected.Keys,TerrainEditorArt.ObstaclePreview(map).Keys);
-            Assert.That(expected.Count,Is.EqualTo(3));
+            Assert.That(expected.Count,Is.EqualTo(5)); // Independent C02/C03 no longer supply a full body that blocks neighbours.
         }
         [Test] public void RetiredPairTypesAreNotAvailableInCurrentCatalog()
         {
@@ -212,10 +212,12 @@ namespace ANIMOL.Tests
         [Test] public void FourCampaignMarkerKindsRemainAuthorableWithUniqueStart()
         {
             Assert.That(adapter.Markers.Count,Is.EqualTo(4));
+            map.FreeShapeTerrain.cells.Add(new FreeShapeCell{x=3,y=2,styleId="T01_A"});
+            map.FreeShapeTerrain.cells.Add(new FreeShapeCell{x=4,y=2,styleId="T01_A"});
             var edit=new TerrainEditorObjectEdit{operation="Place",definitionId="marker:START",instanceId="PREVIEW",origin=new Vector2Int(3,3)};
             adapter.CommitObject(edit);Assert.That(map.Objects.Single().Kind,Is.EqualTo(StageMapObjectKind.PlayerStart));
             Assert.Throws<InvalidOperationException>(()=>adapter.CommitObject(new TerrainEditorObjectEdit{operation="Place",definitionId="marker:START",instanceId="SECOND",origin=new Vector2Int(8,8)}));
-            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Move",instanceId=edit.instanceId,origin=new Vector2Int(4,4)});
+            adapter.CommitObject(new TerrainEditorObjectEdit{operation="Move",instanceId=edit.instanceId,origin=new Vector2Int(4,3)});
             Assert.That(map.Objects.Single().X,Is.EqualTo(4));adapter.Undo();Assert.That(map.Objects.Single().X,Is.EqualTo(3));
         }
         [Test] public void WrongThemeAndUnsupportedOwnerCannotBeSilentlyMapped()

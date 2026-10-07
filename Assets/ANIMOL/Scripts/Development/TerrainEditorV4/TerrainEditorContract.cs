@@ -62,6 +62,7 @@ namespace ANIMOL.Development
         public float zoom = 10;
         public string partId = "", instanceId = "", query = "", theme = "CURRENT", style = "ALL", category = "ALL";
         public string tool = "Place";
+        public ObstacleFacing placementFacing = ObstacleFacing.Right;
         public bool freeShape, freeSelected;
         public string freeStyle="", freeTool="Paint", freePreset="rectangle_5x3";
         public int freeBrush=1;

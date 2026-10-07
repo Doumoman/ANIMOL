@@ -1,0 +1,36 @@
+✔ spawn, exactly three unique bells and an initially locked goal are present (1.922412ms)
+✔ a player stands on the actual floor, jumps, falls and lands without sinking (4.34433ms)
+✔ standing spring launches from its visible top plate, not the ground below (0.373245ms)
+✔ side spring preserves incoming horizontal speed and has no top/body collider (0.451814ms)
+✔ one-way platform permits rising through it and supports descending feet; down drops through (0.916428ms)
+✔ crumble supports the occupant and becomes inactive only after leaving (0.200694ms)
+✔ bells count once and goal stays locked until three bells; reset restores all entities (0.701422ms)
+✔ constant hazard and falling respawn at the start and reset progress (0.420577ms)
+✔ the complete start → three bells → goal route clears using input only (23.043521ms)
+✔ all 256 neighbor contexts keep the original v4 masks for full devices; reader unchanged (57.28689ms)
+✔ the adjoining terrain participates in the same full device art topology (0.209017ms)
+✔ top-only devices join caps but leave the complete lower body absent (0.431243ms)
+✔ inactive ledge restores the adjoining free block endcap (0.305122ms)
+✔ air cells cannot join body or top, regardless of visible warning (0.305623ms)
+✔ different styles and versions keep their own architectural endcaps (0.398203ms)
+✔ diagonal-only contact never hides the exposed corner (0.253013ms)
+✔ negative world coordinates and four seeds match the v4 phase expression (7.314047ms)
+✔ invalid inputs, opaque overlap and unsupported art are explicit errors (1.373881ms)
+✔ blocked functional faces are detected without changing the map (0.225932ms)
+✔ graphics invalidation includes local cells and every motif support anchor (0.307255ms)
+✔ regional candidates keep their own theme and one-cell graphics classification (0.19744ms)
+✔ wind direction glyph tips visibly match right, left and up (1.43949ms)
+✔ the revised catalog has nine common kinds, retired C09 and an always visible C04 (0.445354ms)
+✔ thin drop ledges have no sign and mochi has one fill color with a fixed base (34.337281ms)
+✔ side spring faces mirror exactly, compress and restore; one shots clamp (6.994814ms)
+✔ conveyor tread pixels move with the requested direction and wrap every eight frames (16.823771ms)
+✔ fractured cap replaces the intact cap and fragment rectangles cover the entire native surface (1.141539ms)
+✔ open side springs have no top/body, standing springs replace the cap and remain transparent around the coil (0.69617ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 218.819957

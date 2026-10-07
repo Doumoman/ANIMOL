@@ -74,6 +74,9 @@ namespace ANIMOL.Core
         [SerializeField] private bool deferWhileOccupied = true;
 
         [SerializeField] private ObstacleFacing obstacleFacing;
+        [SerializeField] private Vector2 checkpointRespawnOffsetCells;
+        public Vector2 CheckpointRespawnOffsetCells => checkpointRespawnOffsetCells;
+        public void EditorSetCheckpointRespawnOffset(Vector2 value) => checkpointRespawnOffsetCells = value;
         public ObstacleFacing ObstacleFacing => obstacleFacing;
         public void EditorSetObstacleFacing(ObstacleFacing value) => obstacleFacing = value;
         [SerializeField] private string obstacleStyleId = string.Empty;

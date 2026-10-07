@@ -1,0 +1,144 @@
+diff --git a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapBubblePickup.cs b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapBubblePickup.cs
+--- a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapBubblePickup.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapBubblePickup.cs
+@@ -8,6 +8,7 @@
+     {
+         [SerializeField] private string slotId = string.Empty;
+         public string SlotId => slotId;
++        public void Configure(string id) => slotId = id;
+         private void Awake()
+         {
+             FindFirstObjectByType<CampaignMapDevSession>()?.RegisterCandidate(this);
+diff --git a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapCheckpoint.cs b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapCheckpoint.cs
+--- a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapCheckpoint.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapCheckpoint.cs
+@@ -8,10 +8,15 @@
+     {
+         [SerializeField] private string checkpointId = string.Empty;
+         public string CheckpointId => checkpointId;
++        private Vector3 respawnFeet;
++        private bool authored;
++        public void Configure(string id, Vector3 safeFeet) { checkpointId = id; respawnFeet = safeFeet; authored = true; }
+         private void OnTriggerEnter2D(Collider2D other)
+         {
+             if (other.GetComponentInParent<DevPlayerController>() == null) return;
+-            if (FindFirstObjectByType<CampaignMapDevSession>()?.ActivateCheckpoint(checkpointId, transform.position) == true)
++            var player = other.GetComponentInParent<DevPlayerController>();
++            var position = authored ? CampaignMapMarkerGeometry.BodyAtFeet(player, respawnFeet) : transform.position;
++            if (FindFirstObjectByType<CampaignMapDevSession>()?.ActivateCheckpoint(checkpointId, position) == true)
+                 GameplayFeedback.Raise(FeedbackEventKind.CheckpointActivated, transform.position,
+                     "체크포인트 저장", "Checkpoint saved");
+         }
+diff --git a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapDevSession.cs b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapDevSession.cs
+--- a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapDevSession.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapDevSession.cs
+@@ -9,6 +9,7 @@
+ 
+ namespace ANIMOL.Gameplay
+ {
++    [DefaultExecutionOrder(-1000)]
+     public sealed class CampaignMapDevSession : MonoBehaviour
+     {
+         [SerializeField] private StageMapDefinition map;
+@@ -37,6 +38,12 @@
+         private float elapsedGameplaySeconds;
+         private int selectedBubbleSeed;
+         private int lastWarningSecond = int.MaxValue;
++        private bool localEditorPreview;
++        public bool LocalEditorPreview => localEditorPreview;
++        public bool HasCompleted => resultCommitted;
++        public bool ExitIsOpen => gate?.IsOpen ?? false;
++        public void ConfigureEditorPreview(StageMapDefinition definition, ExitRevealCameraController camera)
++        { map = definition; cameraSequence = camera; localEditorPreview = true; }
+ 
+         public static int? DevelopmentSeedOverride { get; set; }
+ 
+@@ -62,7 +69,7 @@
+             gate = new ExitGateController(run, objectives);
+             checkpointBubbles = new CheckpointBubbleCollectionState();
+             var checkpointIds = map.Objects.Where(x => x.Kind == StageMapObjectKind.Checkpoint).Select(x => x.StableId).ToArray();
+-            checkpoints = new CheckpointRespawnState(checkpointIds, checkpointIds[0]);
++            checkpoints = new CheckpointRespawnState(checkpointIds, string.Empty);
+             phaseTimer = new CampaignPhaseTimer(map.MainTimeLimitSeconds > 0f ? map.MainTimeLimitSeconds : devMainTimeLimitSeconds);
+             objectives.ProgressChanged += (_, _) => RefreshLabels();
+             objectives.ExitEligible += OnExitEligible;
+@@ -112,6 +119,7 @@
+ 
+         public bool ActivateCheckpoint(string checkpointId, Vector3 position)
+         {
++            if (!initialized || run.State is not (RunSessionState.Playing or RunSessionState.ExitEligible) || checkpoints.ActiveCheckpointId == checkpointId) return false;
+             if (!checkpoints.TryActivate(checkpointId)) return false;
+             checkpointBubbles.ActivateCheckpoint();
+             respawnPosition = position;
+@@ -121,6 +129,7 @@
+ 
+         public bool RespawnAtCheckpoint()
+         {
++            if (!initialized || resultCommitted) return false;
+             var player = DevPlayerController.Instance;
+             if (player == null) return false;
+             foreach (var slot in checkpointBubbles.Respawn())
+@@ -132,6 +141,7 @@
+             body.position = respawnPosition;
+             body.linearVelocity = Vector2.zero;
+             player.ClearTransientMapObjectState();
++            player.GetComponent<CommonObstaclePlayerMotion>()?.ClearEffects();
+             FindFirstObjectByType<StageMapRuntimeLoader>()?.ResetRuntimeObjects();
+             RefreshLabels();
+             GameplayFeedback.Raise(FeedbackEventKind.Respawn, respawnPosition,
+@@ -161,13 +171,18 @@
+             RefreshLabels();
+         }
+ 
+-        private void OnExitIneligible() => RefreshLabels();
++        private void OnExitIneligible()
++        {
++            FindFirstObjectByType<CampaignMapExit>()?.SetOpenVisual(false);
++            RefreshLabels();
++        }
+ 
+         private void Finish(CampaignRunOutcome outcome)
+         {
+             if (resultCommitted) return;
+             resultCommitted = true;
+             if (outcome == CampaignRunOutcome.TimeExpired && run.State != RunSessionState.TimeExpired) run.MarkTimeExpired();
++            if (localEditorPreview) { run.ShowResult(); RefreshLabels(); return; }
+             DevRunResultState.Record(map.StageId, elapsedGameplaySeconds, objectives.CollectedCount, outcome,
+                 new RetryLayoutIdentity(map.StageId, map.MapVersion, selectedBubbleSeed));
+             run.ShowResult();
+diff --git a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapExit.cs b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapExit.cs
+--- a/Assets/ANIMOL/Scripts/Gameplay/CampaignMapExit.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/CampaignMapExit.cs
+@@ -7,13 +7,20 @@
+     public sealed class CampaignMapExit : MonoBehaviour
+     {
+         [SerializeField] private Renderer visual;
++        public string ExitId { get; private set; }
++        public bool IsOpen { get; private set; }
++        private bool authored;
++        public void Configure(string id) { ExitId = id; authored = true; }
+ 
+         private void Start() => SetOpenVisual(false);
+ 
+         public void SetOpenVisual(bool open)
+         {
++            IsOpen = open;
+             if (visual == null) visual = GetComponentInChildren<Renderer>();
+-            if (visual != null) visual.material.color = open ? new Color(1f, .78f, .22f) : new Color(.34f, .39f, .5f);
++            if (authored && visual is SpriteRenderer sprite)
++                sprite.sprite = ObstacleGraphics.ObstacleArtRegistry.Load().Marker(open ? "goal_open_1" : "goal_locked_1");
++            else if (visual != null) visual.material.color = open ? new Color(1f, .78f, .22f) : new Color(.34f, .39f, .5f);
+             var pulse = GetComponent<WorldAttentionPulse>();
+             if (open && pulse == null) gameObject.AddComponent<WorldAttentionPulse>();
+             else if (!open && pulse != null) Destroy(pulse);
+diff --git a/Assets/ANIMOL/Scripts/Gameplay/ExitRevealCameraController.cs b/Assets/ANIMOL/Scripts/Gameplay/ExitRevealCameraController.cs
+--- a/Assets/ANIMOL/Scripts/Gameplay/ExitRevealCameraController.cs
++++ b/Assets/ANIMOL/Scripts/Gameplay/ExitRevealCameraController.cs
+@@ -23,6 +23,7 @@
+ 
+         public void Play(Transform exit, float durationSeconds, bool timersAdvance)
+         {
++            if (player == null && DevPlayerController.Instance != null) player = DevPlayerController.Instance.transform;
+             if (exit == null || durationSeconds <= 0f) return;
+             if (sequence != null) StopCoroutine(sequence);
+             LastTimersAdvanceSetting = timersAdvance;

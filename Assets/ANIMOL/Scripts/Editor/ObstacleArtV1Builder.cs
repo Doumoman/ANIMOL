@@ -9,7 +9,7 @@ namespace ANIMOL.Editor
 {
     public static class ObstacleArtV1Builder
     {
-        public const string Source = "Tools/ArtSources/ANIMOL_Obstacle_V4_Design_Join_v2";
+        public const string Source = "Tools/ArtSources/ANIMOL_Obstacle_V4_Design_Join_v3";
         public const string Root = "Assets/ANIMOL/ObstacleGraphicsV1";
         public const string RegistryPath = "Assets/ANIMOL/Resources/ANIMOL_ObstacleGraphicsV1.asset";
         [Serializable] private class Manifest { public Record[] entries; }
@@ -29,7 +29,7 @@ namespace ANIMOL.Editor
         private static void InstallCore()
         {
             var manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(Source + "/PACKAGE_MANIFEST.json"));
-            if (manifest.entries.Length != 605) throw new InvalidOperationException("Incomplete source package.");
+            if (manifest.entries.Length != 637) throw new InvalidOperationException("Incomplete source package.");
             foreach (var f in manifest.entries)
             {
                 var path = Path.GetFullPath(Source + "/" + f.path);
@@ -38,7 +38,7 @@ namespace ANIMOL.Editor
                     throw new InvalidOperationException("Source manifest mismatch: " + f.path);
             }
             var catalog = JsonUtility.FromJson<Catalog>(File.ReadAllText(Source + "/Data/mechanism_catalog.json"));
-            if (catalog.schemaVersion != 1 || catalog.visualVersion != 2 || catalog.terrainArtVersion != 4 || catalog.entries.Length != 393 || catalog.atlasWidth != 576 || catalog.atlasHeight != 900)
+            if (catalog.schemaVersion != 1 || catalog.visualVersion != 3 || catalog.terrainArtVersion != 4 || catalog.entries.Length != 393 || catalog.atlasWidth != 576 || catalog.atlasHeight != 900)
                 throw new InvalidOperationException("Unexpected source mechanism contract.");
             Directory.CreateDirectory(Root + "/Art"); Directory.CreateDirectory(Root + "/Data");
             var pathAtlas = Root + "/Art/MechanismAtlas.png";
@@ -60,10 +60,10 @@ namespace ANIMOL.Editor
             var sprites = AssetDatabase.LoadAllAssetsAtPath(pathAtlas).OfType<Sprite>().ToDictionary(s=>s.name);
             var registry = AssetDatabase.LoadAssetAtPath<ObstacleArtRegistry>(RegistryPath);
             if (registry == null) { registry=ScriptableObject.CreateInstance<ObstacleArtRegistry>(); AssetDatabase.CreateAsset(registry,RegistryPath); }
-            registry.visualVersion=2; registry.terrainArtVersion=6; registry.sourceHash=FreeShapeArtV6Builder.HashFile(Source+"/PACKAGE_MANIFEST.json");
+            registry.visualVersion=3; registry.terrainArtVersion=6; registry.sourceTerrainArtVersion=4; registry.sourceHash=FreeShapeArtV6Builder.HashFile(Source+"/PACKAGE_MANIFEST.json");
             registry.entries=catalog.entries.Select(e=>new MechanismSprite{key=e.id,sprite=sprites[e.id.Replace('/','_')]}).ToArray();
             var fragments=JsonUtility.FromJson<Fragments>(File.ReadAllText(Source+"/Data/c05_fragment_catalog.json"));
-            if(fragments.visualVersion!=2||fragments.entries.Length!=20)throw new InvalidOperationException("Invalid fragment catalog.");
+            if(fragments.visualVersion!=3||fragments.entries.Length!=20)throw new InvalidOperationException("Invalid fragment catalog.");
             registry.fragments=fragments.entries.Select(f=>
             {
                 var path=Root+"/"+f.file;Directory.CreateDirectory(Path.GetDirectoryName(path));File.Copy(Source+"/"+f.file,path,true);
@@ -80,6 +80,20 @@ namespace ANIMOL.Editor
             }).ToArray();
             foreach(var file in new[]{"c05_fragment_catalog.json","c05_fragment_effect.json"})File.Copy(Source+"/Data/"+file,Root+"/Data/"+file,true);
             registry.crumble=JsonUtility.FromJson<CrumbleEffectSettings>(File.ReadAllText(Source+"/Data/c05_fragment_effect.json"));
+            registry.markers=new[]{"start_idle_1","bell_idle_1","goal_locked_1","goal_open_1"}.Select(id=>
+            {
+                var path=Root+"/Art/QAEntities/"+id+".png";
+                Directory.CreateDirectory(Path.GetDirectoryName(path));File.Copy(Source+"/Art/QAEntities/"+id+".png",path,true);
+                AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
+                var importer=(TextureImporter)AssetImporter.GetAtPath(path);
+                importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.spritePixelsPerUnit=32;
+                importer.filterMode=FilterMode.Point;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.mipmapEnabled=false;
+                importer.npotScale=TextureImporterNPOTScale.None;importer.alphaIsTransparency=false;
+                foreach(var platform in new[]{"Standalone","Android","iPhone","WebGL"})importer.ClearPlatformTextureSettings(platform);
+                var config=new TextureImporterSettings();importer.ReadTextureSettings(config);config.spriteMeshType=SpriteMeshType.FullRect;
+                config.spriteGenerateFallbackPhysicsShape=false;config.spriteAlignment=0;config.spritePivot=new Vector2(.5f,.5f);importer.SetTextureSettings(config);
+                importer.SaveAndReimport();return new MechanismSprite{key=id,sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path)};
+            }).ToArray();
             registry.ValidateComplete(); EditorUtility.SetDirty(registry); AssetDatabase.SaveAssetIfDirty(registry); AssetDatabase.Refresh();
         }
     }

@@ -101,6 +101,7 @@ namespace ANIMOL.Gameplay
             var boundary = GetComponent<StageMapWorldBoundary>();
             if (boundary == null) boundary = gameObject.AddComponent<StageMapWorldBoundary>();
             boundary.Configure(worldBounds, definition.WorldUnitsPerCell);
+            if (standaloneDevelopmentOwner) boundary.ConfigureDevelopmentFallRespawn();
             foreach (var follow in FindObjectsByType<DirectionalCameraFollow>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 follow.ConfigureWorldBounds(worldBounds);
         }
@@ -143,6 +144,11 @@ namespace ANIMOL.Gameplay
             }
             foreach (var placement in definition.Objects)
             {
+                if (standaloneDevelopmentOwner && CommonObstacleCatalog.IsMarker(placement.Kind))
+                {
+                    SpawnCampaignMarker(definition, placement);
+                    continue;
+                }
                 if (CommonObstacleCatalog.IsRetired(placement.Kind)) continue;
                 var type = CommonObstacleCatalog.IsCurrent(placement.Kind) ? CommonObstacleCatalog.Load().Find(placement.Kind) : objectTypeRegistry?.Find(placement);
                 if (type == null && !string.IsNullOrWhiteSpace(placement.DataKey))
@@ -166,6 +172,26 @@ namespace ANIMOL.Gameplay
                 StageMapRuntimeFactory.Configure(instance, placement, definition.WorldUnitsPerCell);
             }
             Physics2D.SyncTransforms();
+        }
+
+        private void SpawnCampaignMarker(StageMapDefinition definition, StageMapObjectPlacement placement)
+        {
+            var marker = new GameObject(placement.StableId);
+            marker.transform.SetParent(runtimeObjectRoot, false);
+            marker.transform.position = CampaignMapMarkerGeometry.Centre(definition,placement);
+            CampaignMapMarkerGeometry.BuildVisual(marker, placement.Kind, definition.WorldUnitsPerCell);
+            if (placement.Kind == StageMapObjectKind.PlayerStart) return;
+            var trigger = marker.AddComponent<BoxCollider2D>(); trigger.isTrigger = true;
+            trigger.size = CampaignMapMarkerGeometry.ContactSize(placement);
+            switch (placement.Kind)
+            {
+                case StageMapObjectKind.Checkpoint:
+                    marker.AddComponent<CampaignMapCheckpoint>().Configure(placement.StableId, CampaignMapMarkerGeometry.Feet(definition, placement)); break;
+                case StageMapObjectKind.BubbleCandidate:
+                    marker.AddComponent<CampaignMapBubblePickup>().Configure(placement.StableId); break;
+                case StageMapObjectKind.Exit:
+                    marker.AddComponent<CampaignMapExit>().Configure(placement.StableId); break;
+            }
         }
 
         public Tilemap ResolveLayer(StageMapLayer layer)
@@ -196,6 +222,12 @@ namespace ANIMOL.Gameplay
     {
         private const string BoundaryRootName = "M8_WorldBoundary";
         public Rect WorldBounds { get; private set; }
+        public void ConfigureDevelopmentFallRespawn()
+        {
+            var bottom = transform.Find(BoundaryRootName).GetChild(2);
+            bottom.GetComponent<BoxCollider2D>().isTrigger = true;
+            if (bottom.GetComponent<CampaignMapHazard>() == null) bottom.gameObject.AddComponent<CampaignMapHazard>();
+        }
 
         public void Configure(Rect worldBounds, float cellSize)
         {

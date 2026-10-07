@@ -21,6 +21,8 @@ namespace ANIMOL.Development
         private Vector2Int testScreenSize;
         public StageMapRuntimeLoader TestLoader { get; private set; }
         public DevPlayerController TestPlayer { get; private set; }
+        public CampaignMapDevSession TestSession => testRoot == null ? null : testRoot.GetComponent<CampaignMapDevSession>();
+        public void RestartTest() { ReturnToEdit(false); EnterTest(); }
         public bool ExitAfterTest { get; set; }
         public void InitializeTestMode()
         {
@@ -34,7 +36,7 @@ namespace ANIMOL.Development
             Touch("Swipe", "좌우 밀기 / 아래 통과", .02f,.45f,MobileTouchAction.SwipeMove);
             Touch("Jump", "점프", .48f,.65f,MobileTouchAction.Jump);
             Touch("Animal", "동물", .68f,.82f,MobileTouchAction.AnimalCycle);
-            Button("Reset Test",testControls,"초기화",.84f,.98f,()=>Run(()=>{ReturnToEdit(false);EnterTest();}));
+            Button("Reset Test",testControls,"처음부터 / R",.84f,.98f,()=>Run(RestartTest));
             testPanel.gameObject.SetActive(false);
         }
         private void Touch(string name,string text,float min,float max,MobileTouchAction action)
@@ -46,11 +48,12 @@ namespace ANIMOL.Development
         {
             if(IsTesting)return;
             CancelPending(false);Adapter.Save();
-            var report=StageMapValidator.ValidateStructure(Adapter.Map);
+            var report=StageMapMarkerValidation.ValidateLocalPlay(Adapter.Map);
             if(!report.IsValid)throw new InvalidOperationException("시험 시작 불가: "+string.Join(" | ",report.Errors));
             if(Adapter.PlayerPrefab==null)throw new InvalidOperationException("기존 플레이어 프리팹을 찾을 수 없습니다.");
             testMap=Instantiate(Adapter.Map);testMap.name=Adapter.Map.name+" · test snapshot";
             testRoot=new GameObject("V4 Test world");testRoot.transform.SetParent(transform,false);
+            testRoot.SetActive(false); // Configure map, IDs and the single session before Awake.
             try
             {
                 testCamera=new GameObject("Test camera",typeof(Camera),typeof(DirectionalCameraFollow)).GetComponent<Camera>();testCamera.transform.SetParent(testRoot.transform,false);testCamera.tag="MainCamera";
@@ -58,16 +61,19 @@ namespace ANIMOL.Development
                 testCamera.cullingMask=~(1<<TerrainEditorArt.PreviewLayer);
                 testCamera.clearFlags=CameraClearFlags.SolidColor;testCamera.backgroundColor=Ink;testCamera.orthographic=true;
                 testCamera.gameObject.AddComponent<PortraitWorldCameraPolicy>();
+                testCamera.gameObject.AddComponent<ExitRevealCameraController>();
                 TestLoader=testRoot.AddComponent<StageMapRuntimeLoader>();TestLoader.enabled=false;
                 TestLoader.ConfigureStandaloneDevelopmentOwner();TestLoader.ConfigureDefinition(testMap,Adapter.Objects,true);TestLoader.Load(testMap);
                 var start=testMap.Objects.FirstOrDefault(o=>o.Kind==StageMapObjectKind.PlayerStart);
                 if(start==null)throw new InvalidOperationException("시험 플레이에는 기존 PlayerStart가 필요합니다.");
-                var spawn=new Vector3((start.X+.5f)*testMap.WorldUnitsPerCell,(start.Y+.5f)*testMap.WorldUnitsPerCell,0);
+                var spawn=CampaignMapMarkerGeometry.Feet(testMap,start);
                 var player=Instantiate(Adapter.PlayerPrefab,testRoot.transform);player.name="V4 Test player";player.transform.position=spawn;
                 TestPlayer=player.GetComponent<DevPlayerController>();
-                if(testMap.FixedAnimalIds.Count>0)TestPlayer.ConfigureCampaignRoster(testMap.FixedAnimalIds,testMap.InitialAnimalId,testMap.InitialAnimalId);
+                spawn=CampaignMapMarkerGeometry.BodyAtFeet(TestPlayer,spawn);
+                player.transform.position=spawn;
                 testCamera.transform.position=spawn+Vector3.back*20;
                 Adapter.ConfigureTestServices(testRoot,spawn);
+                testRoot.SetActive(true);
                 editArt.SetActive(false);MapCamera.enabled=false;
                 IsTesting=true;Viewport.gameObject.SetActive(false);palette.gameObject.SetActive(false);testPanel.gameObject.SetActive(true);
                 foreach(var b in top.GetComponentsInChildren<Button>())if(b.name is "Undo" or "Redo" or "Save")b.interactable=false;
@@ -93,7 +99,8 @@ namespace ANIMOL.Development
         {
             if(!IsTesting)return;
             if(testScreenSize.x!=Screen.width || testScreenSize.y!=Screen.height)ResizeTest();
-            if(TestPlayer!=null)testStatus.text=$"시험 경과 {testRoot.GetComponent<ObjectLabSession>().ElapsedSeconds:0.0}s\n스태미나 {TestPlayer.Stamina:0}\n접지 {TestPlayer.IsGrounded}\n12셀 가로 시야\n9:16 모바일 미리보기";
+            if(UnityEngine.Input.GetKeyDown(KeyCode.R)){Run(RestartTest);return;}
+            if(TestPlayer!=null)testStatus.text=$"방울 {TestSession.CollectedCount}/3 · {(TestSession.ExitIsOpen?"출구 열림":"출구 잠김")}\n체크포인트 {TestSession.ActiveCheckpointId}\n남은 시간 {TestSession.RemainingSeconds:0.0}s\n스태미나 {TestPlayer.Stamina:0}\n{(TestSession.HasCompleted?"시험 종료 · 처음부터 / 편집 복귀":"9:16 모바일 미리보기")}";
         }
         private void ResizeTest()
         {

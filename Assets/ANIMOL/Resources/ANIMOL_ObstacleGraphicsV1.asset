@@ -12,9 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55eab1baed1d0c45851f7e5602b9216, type: 3}
   m_Name: ANIMOL_ObstacleGraphicsV1
   m_EditorClassIdentifier: ANIMOL.Runtime::ANIMOL.Gameplay.ObstacleGraphics.ObstacleArtRegistry
-  visualVersion: 2
+  visualVersion: 3
   terrainArtVersion: 6
-  sourceHash: 87c85d4caa452890145b5a6a536fc6d9706aab33c43946084a5993b397d713a7
+  sourceTerrainArtVersion: 4
+  sourceHash: aafa3f62255ba11498beda4f648d24146a629c6d0599adfcfd39f89d32a06f13
+  markers:
+  - key: start_idle_1
+    sprite: {fileID: 21300000, guid: 761c443a0dbeb55478d406c31a945c26, type: 3}
+  - key: bell_idle_1
+    sprite: {fileID: 21300000, guid: 9bf0d3dc7bc123c4b919bd1412ee7743, type: 3}
+  - key: goal_locked_1
+    sprite: {fileID: 21300000, guid: 034b8f2cc43b3a64b974308b05addb8a, type: 3}
+  - key: goal_open_1
+    sprite: {fileID: 21300000, guid: 34417f071f594cc4da37671a5b21b305, type: 3}
   entries:
   - key: T01/C01/UP/idle/f0
     sprite: {fileID: 5116397640740281459, guid: 108e2d49a5251084d943cc2dc683fb14, type: 3}
@@ -864,7 +874,7 @@ MonoBehaviour:
     piece: 3
     sprite: {fileID: 21300000, guid: ad0720e61beb5b94aa2e981c51a27a2a, type: 3}
   crumble:
-    visualVersion: 2
+    visualVersion: 3
     durationMs: 400
     fadeStartMs: 80
     pixelsPerUnit: 32

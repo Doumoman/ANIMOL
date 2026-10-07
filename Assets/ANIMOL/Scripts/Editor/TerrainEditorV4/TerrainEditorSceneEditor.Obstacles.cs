@@ -9,6 +9,13 @@ namespace ANIMOL.Editor
     public static partial class TerrainEditorSceneEditor
     {
         private static Vector2 obstacleScroll;
+        private static ANIMOL.Core.ObstacleFacing FacingField(ANIMOL.Core.StageMapObjectKind kind,ANIMOL.Core.ObstacleFacing current)
+        {
+            var choices=kind==ANIMOL.Core.StageMapObjectKind.CommonC07
+                ?new[]{ANIMOL.Core.ObstacleFacing.Up,ANIMOL.Core.ObstacleFacing.Left,ANIMOL.Core.ObstacleFacing.Right}
+                :new[]{ANIMOL.Core.ObstacleFacing.Left,ANIMOL.Core.ObstacleFacing.Right};
+            return choices[EditorGUILayout.Popup("방향",Mathf.Max(0,System.Array.IndexOf(choices,current)),choices.Select(c=>c.ToString().ToUpperInvariant()).ToArray())];
+        }
         public static void SetObstacleMode()
         {
             SetFreeShapeMode(false); state.category="Obstacles"; state.partId="";
@@ -27,6 +34,11 @@ namespace ANIMOL.Editor
                 _=>System.Array.Empty<string>()};
             foreach(var name in fields)
             {
+                if(name=="obstacleFacing")
+                {
+                    var property=serialized.FindProperty("value").FindPropertyRelative(name);
+                    property.intValue=(int)FacingField(kind,(ANIMOL.Core.ObstacleFacing)property.intValue);continue;
+                }
                 string label=name switch {"obstacleFacing"=>"방향","verticalImpulse"=>"반동 속도","warningSeconds"=>"예고 시간","activeSeconds"=>kind==ANIMOL.Core.StageMapObjectKind.CommonC05?"소멸 시간":"위험 시간","recoverSeconds"=>"안전 시간","phaseSeed"=>"공용 위상 오프셋","effectStrength"=>kind==ANIMOL.Core.StageMapObjectKind.CommonC10?"자연 감속":"바람 가속도","movementSpeed"=>"운반 속도","activationRangeCells"=>"접근 거리 (셀)",_=>name};
                 EditorGUILayout.PropertyField(serialized.FindProperty("value").FindPropertyRelative(name),new GUIContent(label));
             }
@@ -60,9 +72,7 @@ namespace ANIMOL.Editor
                 if(kind!=null)
                 {
                     var body=SelectedFreeShapeArt.Cell(state.freeStyle,0,0);var br=body.rect;
-                    if(kind is "C02" or "C03")
-                        GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,48),body.texture,new Rect(br.x/body.texture.width,br.y/body.texture.height,32f/body.texture.width,32f/body.texture.height));
-                    else if(kind is "C08" or "C10")
+                    if(kind is "C08" or "C10")
                         GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+17,48,36),body.texture,new Rect(br.x/body.texture.width,br.y/body.texture.height,32f/body.texture.width,24f/body.texture.height));
                     else if(kind=="C01")
                         GUI.DrawTextureWithTexCoords(new Rect(rect.x+6,rect.y+5,48,12),body.texture,new Rect(br.x/body.texture.width,(br.y+24)/body.texture.height,32f/body.texture.width,8f/body.texture.height));
