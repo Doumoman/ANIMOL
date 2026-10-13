@@ -45,7 +45,9 @@ namespace ANIMOL.NamedArt.Editor
             string json = JsonConvert.SerializeObject(this, Formatting.Indented) + "\n";
             if (!File.Exists(path) || File.ReadAllText(path) != json) File.WriteAllText(path, json);
         }
-        public bool InScope(string path) => path.StartsWith(Root, StringComparison.Ordinal);
+        // V04 uses its own manifest importer and serialized references; never restore older named-art settings over it.
+        public bool InScope(string path) => path.StartsWith(Root, StringComparison.Ordinal)
+            && !path.StartsWith("Assets/ANIMOL/Art/StarwayPasture/V04/", StringComparison.Ordinal);
         public string Register(Object value)
         {
             if (!(value is Sprite) && !(value is Texture2D)) return null;
