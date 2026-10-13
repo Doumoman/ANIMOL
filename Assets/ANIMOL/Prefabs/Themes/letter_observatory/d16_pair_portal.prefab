@@ -1,0 +1,341 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8039585501599681287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2165816497695065678}
+  - component: {fileID: 5505598988056746340}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2165816497695065678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039585501599681287}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4635568065086819787}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &5505598988056746340
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039585501599681287}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 03ad7ba0277a71148bc7363d787f96c4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.2, y: 1.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!1 &8993837075548714853
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4635568065086819787}
+  - component: {fileID: 3725658089603781063}
+  m_Layer: 0
+  m_Name: d16_pair_portal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4635568065086819787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993837075548714853}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2165816497695065678}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3725658089603781063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993837075548714853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466075fe838f1b4c94756161ba365da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DeviceVisualView
+  deviceId: 16
+  initialState: a_idle
+  visual: {fileID: 5505598988056746340}
+  states:
+  - name: a_idle
+    eventName: visual_portal_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: b4571ac287b714444aa1ff596132dd8a, type: 3}
+    sequence: {fileID: 11400000, guid: f6a91c7b4b2a1e44da5b6e03b2fec7a4, type: 2}
+    clip: {fileID: 7400000, guid: 351d07b63b8302b4ca72ccf1921f3b98, type: 2}
+  - name: a_active
+    eventName: 
+    sprite: {fileID: 21300000, guid: 74ad62f8b5a976b4b8a92d012e44efb2, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_exit_preview_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: 2ef0bfa2c2489b045921c716ab5e00db, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_exit_preview_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: 1cc7449c801ab994eba2d2dc10415a8d, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_exit_preview_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: 95f7fab3ca5c5b84da9c583764892e56, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_exit_preview_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: 9a328f8a775a912439023733eaecce73, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_blocked
+    eventName: 
+    sprite: {fileID: 21300000, guid: 106142358004bb5498d2df108af31a83, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_idle
+    eventName: visual_portal_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 4a79375527796694085836fb1d9c6e71, type: 3}
+    sequence: {fileID: 11400000, guid: d66bbf2418f278746aecefc8cc351e6a, type: 2}
+    clip: {fileID: 7400000, guid: d91ff1d6bea6b7c49937da051288401c, type: 2}
+  - name: b_active
+    eventName: 
+    sprite: {fileID: 21300000, guid: 6438bf06910d3ca4ca40753cc693a807, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_exit_preview_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: 1dd80e3c3931d00448b1700e57a7458f, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_exit_preview_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: 68e8992dff46a6340882902e4dee00d2, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_exit_preview_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: f97f801ddf5694b409d6d47f998652f0, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_exit_preview_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: ecf5e9e329a101045ad156dde7a0d24c, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: b_blocked
+    eventName: 
+    sprite: {fileID: 21300000, guid: b5060546c2fcc35429d745664587adcc, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: exit_blocked_preview
+    eventName: 
+    sprite: {fileID: 21300000, guid: 9a3c4563163c0b146a0a365e8eed7dd8, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: a_enter_e
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: a585a75c6b7b4364fbf71b102ec5cfd0, type: 2}
+    clip: {fileID: 7400000, guid: ec735f9a4057d854fbe9de5aab628b02, type: 2}
+  - name: a_exit_e
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: f5e1b8bcc16fdce4fb8ded7e15f7aba7, type: 2}
+    clip: {fileID: 7400000, guid: ba5ddb72f45c3354189515081b5165b3, type: 2}
+  - name: a_enter_s
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: b07d9ab85b6be494789fca8cfc05fb56, type: 2}
+    clip: {fileID: 7400000, guid: 50b910f2343563b48ab4aefd808cd22a, type: 2}
+  - name: a_exit_s
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: 46d68feeb648f4a4c8aa9a8814dc66fc, type: 2}
+    clip: {fileID: 7400000, guid: e384babcfa1e3aa46ba404e764373f9b, type: 2}
+  - name: a_enter_w
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: 29e25a3d966e7af41a083ecd559bf757, type: 2}
+    clip: {fileID: 7400000, guid: dc59eebaa25efeb47b3ff79892ec3d15, type: 2}
+  - name: a_exit_w
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: aafae857b7d23b84fbb60ba148dce36b, type: 2}
+    clip: {fileID: 7400000, guid: 1dc4c18977519fe48a0ec1a1c97c81fe, type: 2}
+  - name: a_enter_n
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: 12b8ad56aadff7d4393f39ff9904d1c3, type: 2}
+    clip: {fileID: 7400000, guid: 8d7d7dd58d22eb740b764e6a5e29f41f, type: 2}
+  - name: a_exit_n
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: 024154e3c69ab534d8d13caa2196b453, type: 2}
+    clip: {fileID: 7400000, guid: ee770fca8874c42418ca64fa563af417, type: 2}
+  - name: a_reject
+    eventName: existing_portal_destination_next_cell_blocked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5056ea2618b341043a06fa55b294f814, type: 3}
+    sequence: {fileID: 11400000, guid: 76022c41c0a2b1d4b8085f848d508623, type: 2}
+    clip: {fileID: 7400000, guid: 577ad6506dcdaf14bb1cd0b77012e31d, type: 2}
+  - name: b_enter_e
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 7afa952dd5886ca4ca9c63ea0e0b074a, type: 2}
+    clip: {fileID: 7400000, guid: f55e8c0df882b144eb14f9edf3d3e59a, type: 2}
+  - name: b_exit_e
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 26491df5ec71fd544b0627b276ec8633, type: 2}
+    clip: {fileID: 7400000, guid: a8e2a37714f67ee4aaacf5925879da2d, type: 2}
+  - name: b_enter_s
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: b060560e33f191747a28cd999f280925, type: 2}
+    clip: {fileID: 7400000, guid: e54acba22db10e1408d90fda0fcea597, type: 2}
+  - name: b_exit_s
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 1552a7a9db5a7424199954aaad3323fc, type: 2}
+    clip: {fileID: 7400000, guid: 6463ff53cfccb564a957f45846abf301, type: 2}
+  - name: b_enter_w
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 67b67e29d5d6b6a48ba20783a67aad97, type: 2}
+    clip: {fileID: 7400000, guid: a567a54cc69dbe244bcbf5ef2cc06d8f, type: 2}
+  - name: b_exit_w
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 0801c0206c1eb674eb707aec952db500, type: 2}
+    clip: {fileID: 7400000, guid: e5a8fdf0a44f531478d60bb14d1f31ff, type: 2}
+  - name: b_enter_n
+    eventName: existing_portal_entry_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: f84c019f293e20e40986619906ffa8d9, type: 2}
+    clip: {fileID: 7400000, guid: 592593ccefb307344a653406f9e32927, type: 2}
+  - name: b_exit_n
+    eventName: existing_portal_exit_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 59d1f7aac69ca2244bc4a3e8364fa213, type: 2}
+    clip: {fileID: 7400000, guid: 49f829433819aa64b861d65cf9d63844, type: 2}
+  - name: b_reject
+    eventName: existing_portal_destination_next_cell_blocked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6f834186985bb5b44b1d2c31a99f8059, type: 3}
+    sequence: {fileID: 11400000, guid: 3e17c03a82bebbd4ead2ce11a189deb0, type: 2}
+    clip: {fileID: 7400000, guid: 92b46abbc3414044a889e1bebf6b4e70, type: 2}
+  paused: 0

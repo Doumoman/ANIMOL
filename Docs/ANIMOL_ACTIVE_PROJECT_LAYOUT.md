@@ -16,6 +16,7 @@ Assets/ANIMOL/
   Scenes/ANIMOL_Starway_Art_QA.unity
   Scenes/ANIMOL_Device8_Art_QA.unity
   Scenes/ANIMOL_MemoryTheater_Art_QA.unity
+  Scenes/ANIMOL_LetterObservatory_Art_QA.unity
   Scripts/{Runtime,Editor,Tests}/
   Fonts/
   Materials/
@@ -43,7 +44,7 @@ Assets/ANIMOL/
 
 ## 실행 및 검증
 
-기존 빌드 씬은 ANIMOL_Starway_Art_QA를 유지한다. 현재 에디터 검수/Play 시작 씬은 ANIMOL_MemoryTheater_Art_QA다. **플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.** 이동·밀기·코스트·수집·승리를 구현했다고 표시하지 않는다. 물리 Root는 고정하고 시각 프레임만 재생하며 미연결 HUD는 COST -- / --/--를 표시한다.
+기존 빌드 씬은 ANIMOL_Starway_Art_QA를 유지한다. 현재 에디터 검수/Play 시작 씬은 ANIMOL_LetterObservatory_Art_QA다. **플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.** 이동·밀기·코스트·수집·승리를 구현했다고 표시하지 않는다. 물리 Root는 고정하고 시각 프레임만 재생하며 미연결 HUD는 COST -- / --/--를 표시한다.
 
 현재 근거는 [이동 목록](Validation/SpriteLayout/move_manifest.json), [GUID·원본·명명 검사](Validation/SpriteLayout/audit.json), [EditMode](Validation/SpriteLayout/editmode.json), [PlayMode](Validation/SpriteLayout/playmode.json)다. 이전 전체 격리에서 17,539개 원본의 SHA-256을 확인한 기록은 Validation/ActiveSlice 및 레거시 README에 보존한다. 현재 경로는 이 문서와 SpriteLayout 기록을 따른다.
 
@@ -52,3 +53,5 @@ Assets/ANIMOL/
 기억 극장 도구는 Tools/MemoryTheater, 테스트는 MemoryTheaterArtTests / MemoryTheaterArtPlayTests다. [기억 극장 적용 결과](../ANIMOL_MEMORY_THEATER_V01_APPLY_RESULT.md)와 Validation/MemoryTheater에 최종 전체 EditMode 13/13·PlayMode 4/4, 24상태/96전이 렌더 검증, 임시 Atlas 검사/제거 및 실제 표시 복구 근거가 있다. 실제 게임 판정 연결은 미완료다.
 
 단일 수풀 3×3 조립의 작은 원본 알파 틈은 남은 아트 검토 항목이며 이번 파일 정리에서 그림을 수정했다고 주장하지 않는다.
+
+편지 천문대 적용으로 PNG727·클립120이 추가돼 현재 정본 총량은 PNG2743·클립405다. 공통 변형은 Obstacles/common/letter_observatory/M##, 전용5종은 Obstacles/letter_observatory/M##, 바닥/벽/배경은 각 letter_observatory 테마 폴더다. 프리팹247개와 Data/Themes의 테마/광학 표시 자료를 실제 QA에 연결했다. Tools/LetterObservatory, Validation/LetterObservatory/Applied, LetterObservatoryArtTests/LetterObservatoryArtPlayTests 및 [결과](../ANIMOL_LETTER_OBSERVATORY_V01_APPLY_RESULT.md)에 전체 EditMode18/18·PlayMode6/6의 근거가 있다. 실제 게임 판정 호출자는 없고 광선 경로는 제공받은 표시 목록만 재생한다.

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b297075e73fcad84e846f87e2ec56a29, type: 3}
+  m_Name: letter_observatory_optics
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.OpticsPresentationRules
+  reflections:
+  - mirror: slash
+    incoming: e
+    outgoing: n
+    corner: {fileID: 21300000, guid: 358044437cafe754aafa79daf72b13ae, type: 3}
+  - mirror: slash
+    incoming: s
+    outgoing: w
+    corner: {fileID: 21300000, guid: 358044437cafe754aafa79daf72b13ae, type: 3}
+  - mirror: slash
+    incoming: w
+    outgoing: s
+    corner: {fileID: 21300000, guid: 4c8e1d7b8817e394cb8a0b16c1ad49b3, type: 3}
+  - mirror: slash
+    incoming: n
+    outgoing: e
+    corner: {fileID: 21300000, guid: 4c8e1d7b8817e394cb8a0b16c1ad49b3, type: 3}
+  - mirror: backslash
+    incoming: e
+    outgoing: s
+    corner: {fileID: 21300000, guid: cacd0e8e48e93b247a39ba9ce2abbad8, type: 3}
+  - mirror: backslash
+    incoming: s
+    outgoing: e
+    corner: {fileID: 21300000, guid: 5679ba9417296eb48829802aff03cbc8, type: 3}
+  - mirror: backslash
+    incoming: w
+    outgoing: n
+    corner: {fileID: 21300000, guid: 5679ba9417296eb48829802aff03cbc8, type: 3}
+  - mirror: backslash
+    incoming: n
+    outgoing: w
+    corner: {fileID: 21300000, guid: cacd0e8e48e93b247a39ba9ce2abbad8, type: 3}
+  opticsMetadata: {fileID: 4900000, guid: 94f911a5c5a3aaf4ea517973ec1db49a, type: 3}
+  motionMetadata: {fileID: 4900000, guid: deb08fb1b971c574483ea01565447921, type: 3}

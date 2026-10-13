@@ -1,0 +1,31 @@
+{
+  "leap": {
+    "distanceCells": 3,
+    "visualDurationMilliseconds": 320,
+    "visualHeightPixels": 18,
+    "rootMotionBaked": false,
+    "landingBlockedPolicy": "undecided_in_atlas_use_existing_project",
+    "intermediateDevicePolicy": "undecided_in_atlas_use_existing_project"
+  },
+  "portal": {
+    "directionPreserved": true,
+    "movementModePreserved": true,
+    "walkingExit": "one_cell_beyond_paired_portal",
+    "slidingExit": "continue_sliding",
+    "exitNextCellBlocked": "stop_before_entry_portal",
+    "invalidInitialAttemptCost": 0,
+    "slidingAttempt": "keep_original_valid_action_cost_only"
+  },
+  "magnet": {
+    "trigger": "linked_switch",
+    "onlyMetal": true,
+    "rootMotionBaked": false,
+    "amount": "existing_logic_until_blocked"
+  },
+  "global": {
+    "costPerValidAction": 1,
+    "costPerUnchangedInput": 0,
+    "automaticChainExtraCost": 0,
+    "visualLoopsAdvanceTurns": false
+  }
+}

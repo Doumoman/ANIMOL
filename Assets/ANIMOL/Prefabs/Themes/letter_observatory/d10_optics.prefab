@@ -1,0 +1,437 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3731263424038444035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3096408629256655193}
+  - component: {fileID: 6419215910479099385}
+  m_Layer: 0
+  m_Name: d10_optics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3096408629256655193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3731263424038444035}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7021589883062392993}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6419215910479099385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3731263424038444035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466075fe838f1b4c94756161ba365da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DeviceVisualView
+  deviceId: 10
+  initialState: source_e_on
+  visual: {fileID: 8811263730796735193}
+  states:
+  - name: source_e_on
+    eventName: 
+    sprite: {fileID: 21300000, guid: 19ae582c5cd2ae24e9cb83de5ce917b6, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_e_off
+    eventName: 
+    sprite: {fileID: 21300000, guid: de7f6de4d1cce5f4ea19acd3cef0b9c0, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_s_on
+    eventName: 
+    sprite: {fileID: 21300000, guid: 43ec1d16a1b384b4d9dc51fdcbcf281c, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_s_off
+    eventName: 
+    sprite: {fileID: 21300000, guid: c5c2ae190df8050478010d222e0f46a8, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_w_on
+    eventName: 
+    sprite: {fileID: 21300000, guid: af4c82f571ee62b45a6dc8a596d7b167, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_w_off
+    eventName: 
+    sprite: {fileID: 21300000, guid: 49b40da042f0e5c428f2324da1055dd3, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_n_on
+    eventName: 
+    sprite: {fileID: 21300000, guid: 9df2a3c102d2dc646a4411efcfd902c9, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_n_off
+    eventName: 
+    sprite: {fileID: 21300000, guid: a1947c318756d124685c7a2a9ef4ee41, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: mirror_base
+    eventName: 
+    sprite: {fileID: 21300000, guid: e117408399debd6428b05204d5d1d024, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: mirror_bar
+    eventName: 
+    sprite: {fileID: 21300000, guid: 662c911eb18b08449b73c09a8f99ae39, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: mirror_pivot
+    eventName: 
+    sprite: {fileID: 21300000, guid: ecd791761b9a5fd40b511b4a25f0b39d, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: mirror_slash
+    eventName: 
+    sprite: {fileID: 21300000, guid: 5c238d692237b294882f6d2fd2e34bb5, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: mirror_backslash
+    eventName: 
+    sprite: {fileID: 21300000, guid: d224fc89be8175e4ea8d19c3677f3828, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: sensor_off
+    eventName: 
+    sprite: {fileID: 21300000, guid: 09f975158756072499b6cb8ec87ef026, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: sensor_on
+    eventName: 
+    sprite: {fileID: 21300000, guid: 4739ef1122b20bc418f2e10403611112, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: light_gate_horizontal_closed
+    eventName: 
+    sprite: {fileID: 21300000, guid: 31f2bcbb33168574e84db83b9ef658d7, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: light_gate_horizontal_open
+    eventName: existing_linked_light_gate_opened
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: a588caf719188ed4c94803c15b09a121, type: 3}
+    sequence: {fileID: 11400000, guid: 2ebde848f23d37640992f5bb3c786daa, type: 2}
+    clip: {fileID: 7400000, guid: 43b3f029b04fcea428c94dbc98cdf6a9, type: 2}
+  - name: light_gate_vertical_closed
+    eventName: 
+    sprite: {fileID: 21300000, guid: 9b7878efc70fe47418d5ffabda658cb2, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: light_gate_vertical_open
+    eventName: existing_linked_light_gate_opened
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: cdcb2ff361662474cab8dacfab3173ba, type: 3}
+    sequence: {fileID: 11400000, guid: 2c56603ea1153f24c9ed321003dd6052, type: 2}
+    clip: {fileID: 7400000, guid: 28b77835ec1a495438217d2c3d287eb0, type: 2}
+  - name: beam_horizontal
+    eventName: 
+    sprite: {fileID: 21300000, guid: 6d31a60508b02e6439693b259a258d82, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_vertical
+    eventName: 
+    sprite: {fileID: 21300000, guid: 9d6c140abf1869142b1ecb1f5f2201cb, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_ne
+    eventName: 
+    sprite: {fileID: 21300000, guid: 5679ba9417296eb48829802aff03cbc8, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_se
+    eventName: 
+    sprite: {fileID: 21300000, guid: 4c8e1d7b8817e394cb8a0b16c1ad49b3, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_sw
+    eventName: 
+    sprite: {fileID: 21300000, guid: cacd0e8e48e93b247a39ba9ce2abbad8, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_nw
+    eventName: 
+    sprite: {fileID: 21300000, guid: 358044437cafe754aafa79daf72b13ae, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_terminal_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: 6aab39b24adf4104b8fda2cb3ca9374d, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_terminal_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: e86a53a73138e6f49a7fb5b7d9d09f76, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_terminal_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: 203eb320dbc6481428902b61076249af, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: beam_terminal_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: 7974b39845260994085ed1f2e8ef6671, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: source_e_ignite
+    eventName: existing_light_source_activated
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 19ae582c5cd2ae24e9cb83de5ce917b6, type: 3}
+    sequence: {fileID: 11400000, guid: 43099db7ab35f914db964593d07d5698, type: 2}
+    clip: {fileID: 7400000, guid: 3fcda9651fbf3c44aabb9385dc104bec, type: 2}
+  - name: source_e_idle
+    eventName: visual_source_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 14c9a9cee736b354682b32d23976df0b, type: 3}
+    sequence: {fileID: 11400000, guid: 1a2a8bcebdb79eb448dd96efa254cd91, type: 2}
+    clip: {fileID: 7400000, guid: ae0ff112f052f384a89b359dc6da3b70, type: 2}
+  - name: source_s_ignite
+    eventName: existing_light_source_activated
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 43ec1d16a1b384b4d9dc51fdcbcf281c, type: 3}
+    sequence: {fileID: 11400000, guid: 6ff71c676e30aa84a93ab381f20dcbbd, type: 2}
+    clip: {fileID: 7400000, guid: 9807292a064ae0744af78eeb71b4da9d, type: 2}
+  - name: source_s_idle
+    eventName: visual_source_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6d8e937ce98129f44878a6b7e4e1f80a, type: 3}
+    sequence: {fileID: 11400000, guid: c916d381c3ba45240b2189ce11819833, type: 2}
+    clip: {fileID: 7400000, guid: dfb3bddf3eee91c41ab15116ef8fa9ab, type: 2}
+  - name: source_w_ignite
+    eventName: existing_light_source_activated
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: af4c82f571ee62b45a6dc8a596d7b167, type: 3}
+    sequence: {fileID: 11400000, guid: 42f977bcdfb1ac04092844b21464c984, type: 2}
+    clip: {fileID: 7400000, guid: 8a9d21ad0f6885e47a98382813c7d251, type: 2}
+  - name: source_w_idle
+    eventName: visual_source_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 598b334f21ec04842a69eaf765684b96, type: 3}
+    sequence: {fileID: 11400000, guid: 2cfd93a6be6618844b5fb292587cdd5f, type: 2}
+    clip: {fileID: 7400000, guid: 3f81d8c96a1a8954782dfea3762ddf67, type: 2}
+  - name: source_n_ignite
+    eventName: existing_light_source_activated
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 9df2a3c102d2dc646a4411efcfd902c9, type: 3}
+    sequence: {fileID: 11400000, guid: 6a173aefc3996b04ab2153025df14783, type: 2}
+    clip: {fileID: 7400000, guid: d804f39d8b0b6e84cb686c6e31cb5f11, type: 2}
+  - name: source_n_idle
+    eventName: visual_source_idle_only
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5ecff2179b9bf18468f5242500d4f8ba, type: 3}
+    sequence: {fileID: 11400000, guid: e398a7b06a17d5144a970b5fa14d32b2, type: 2}
+    clip: {fileID: 7400000, guid: 2bc28550439544640bf54be12f0c0138, type: 2}
+  - name: mirror_slash_ccw
+    eventName: existing_mirror_rotation_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: d224fc89be8175e4ea8d19c3677f3828, type: 3}
+    sequence: {fileID: 11400000, guid: 750feacf2763eea4193b2f2935e41c18, type: 2}
+    clip: {fileID: 7400000, guid: 9cd66af1a77e24244ba7bbce2efd55a6, type: 2}
+  - name: mirror_slash_cw
+    eventName: existing_mirror_rotation_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: d224fc89be8175e4ea8d19c3677f3828, type: 3}
+    sequence: {fileID: 11400000, guid: 957bf1d75688e8442af8027957027138, type: 2}
+    clip: {fileID: 7400000, guid: 3a32dc69dc046d64a9154acbb38b2b9a, type: 2}
+  - name: mirror_backslash_ccw
+    eventName: existing_mirror_rotation_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5c238d692237b294882f6d2fd2e34bb5, type: 3}
+    sequence: {fileID: 11400000, guid: dd5341979f69afe47a249b469be9a657, type: 2}
+    clip: {fileID: 7400000, guid: 44ad62e4000b154408f82c0a0595220c, type: 2}
+  - name: mirror_backslash_cw
+    eventName: existing_mirror_rotation_committed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 5c238d692237b294882f6d2fd2e34bb5, type: 3}
+    sequence: {fileID: 11400000, guid: abf5f2b79fe0a9640873426e1a9bbb24, type: 2}
+    clip: {fileID: 7400000, guid: 80ca3aa6797b836419cb2752665621b0, type: 2}
+  - name: sensor_activate
+    eventName: existing_sensor_light_received
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 4739ef1122b20bc418f2e10403611112, type: 3}
+    sequence: {fileID: 11400000, guid: 31b2cac08d06eaa44892c8af060b1662, type: 2}
+    clip: {fileID: 7400000, guid: 5e9bf566e1bbb964f8d4aad6d37e391b, type: 2}
+  - name: sensor_deactivate
+    eventName: existing_sensor_light_lost
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 09f975158756072499b6cb8ec87ef026, type: 3}
+    sequence: {fileID: 11400000, guid: bd8d96d0105196b42bd322fd07ef385c, type: 2}
+    clip: {fileID: 7400000, guid: f4a506b783438624db0c6bd43d98bad3, type: 2}
+  - name: light_gate_horizontal_close
+    eventName: existing_linked_light_gate_closed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 31f2bcbb33168574e84db83b9ef658d7, type: 3}
+    sequence: {fileID: 11400000, guid: cb571350bc99e6945a5ec96099c2df9b, type: 2}
+    clip: {fileID: 7400000, guid: 238cbb5138d6d034d886066098b0ec3f, type: 2}
+  - name: light_gate_vertical_close
+    eventName: existing_linked_light_gate_closed
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 9b7878efc70fe47418d5ffabda658cb2, type: 3}
+    sequence: {fileID: 11400000, guid: 61f6dabaa11fcce458b9deb536bb20df, type: 2}
+    clip: {fileID: 7400000, guid: dfb2a33bdd6a9bf43845246a8098a89f, type: 2}
+  - name: beam_flow_e
+    eventName: visual_existing_light_path
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 13f2f7ef1c78a8e418373088a0fdf099, type: 3}
+    sequence: {fileID: 11400000, guid: 0045d9b9db2ce7e4c89d8575f4c0d13f, type: 2}
+    clip: {fileID: 7400000, guid: 0a7b222e697119d46a228064e635343b, type: 2}
+  - name: beam_flow_s
+    eventName: visual_existing_light_path
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: beb964c8c10f02f45b6f0b648c195998, type: 3}
+    sequence: {fileID: 11400000, guid: 72dc5cc0c9a6a0c4390c2445ca5dd349, type: 2}
+    clip: {fileID: 7400000, guid: 29bb29c7414ce094f9fa5fa7d4031942, type: 2}
+  - name: beam_flow_w
+    eventName: visual_existing_light_path
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: c7e9972b5cfa03f48ac64940045f7a65, type: 3}
+    sequence: {fileID: 11400000, guid: ed39d8f724888254dbe65d867152e4fd, type: 2}
+    clip: {fileID: 7400000, guid: a71a8c4ca7f23c54fb23334f7cd1f196, type: 2}
+  - name: beam_flow_n
+    eventName: visual_existing_light_path
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: feaa9dcb9bf411e4ab0d91ac4ccc6975, type: 3}
+    sequence: {fileID: 11400000, guid: 7ae2414ce6ea1b54087ed3b59a51af52, type: 2}
+    clip: {fileID: 7400000, guid: f8e0664d93b6c424bb4faa26a6143806, type: 2}
+  paused: 0
+--- !u!1 &6848538538829869541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7021589883062392993}
+  - component: {fileID: 8811263730796735193}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7021589883062392993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6848538538829869541}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3096408629256655193}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8811263730796735193
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6848538538829869541}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: 19ae582c5cd2ae24e9cb83de5ce917b6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.2, y: 1.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0

@@ -1,0 +1,29 @@
+{
+  "coordinates": "e right; s down; w left; n up; directions describe travelling beam",
+  "mirrorReflection": {
+    "slash": {
+      "e": "n",
+      "n": "e",
+      "w": "s",
+      "s": "w"
+    },
+    "backslash": {
+      "e": "s",
+      "s": "e",
+      "w": "n",
+      "n": "w"
+    }
+  },
+  "lightPasses": [
+    "intact_glass"
+  ],
+  "lightBlocked": [
+    "opaque_wall",
+    "wood_crate",
+    "metal_crate",
+    "player"
+  ],
+  "sensorActive": "while actual beam reaches sensor",
+  "beamSorting": "above glass visuals, below opaque body occluders",
+  "mirrorInput": "use existing project policy; atlas leaves direct operation undecided"
+}
