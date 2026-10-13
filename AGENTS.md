@@ -57,8 +57,8 @@
 ## 4. 2026-10-13 전체 레거시 격리 이후의 활성 범위
 
 - 사용자의 전체 격리 요청에 따라 이전 로비·공용 UI·서비스·제작기·테스트도 `Legacy/PreviousProject_20261013/`로 옮겼다. 앞 절의 이전 구현 경로는 보관본의 상대 경로이며 활성 파일로 복구하지 않는다.
-- 현재 활성 콘텐츠는 `Assets/ANIMOL/Art/StarwayPasture/V04`, 표현/검수 코드는 `Assets/ANIMOL/StarwayV04`뿐이다. `Assets/TextMesh Pro`는 기반 의존성이다. 실제 현재 구조는 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md`를 따른다.
+- 활성 스프라이트/클립은 `Assets/ANIMOL/Sprites`, 코드는 `Assets/ANIMOL/Scripts`, 프리팹/씬/폰트/데이터는 각각 Prefabs/Scenes/Fonts/Data에 둔다. 활성 폴더/파일에 버전 이름을 붙이지 않는다. `Assets/TextMesh Pro`는 기반 의존성이다. 실제 구조는 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md`를 따른다.
 - 기본 씬은 `ANIMOL_Starway_Art_QA`이며 플레이 가능한 퍼즐이 아니다. 새 퍼즐 구현 전까지 QA 조작을 이동·코스트·수집·승리 구현으로 보고하지 않는다.
 - 과거 연출 정책과 V7 배경 기준은 복원 시의 참고이며, 그 이유로 이전 프로젝트를 활성 Assets에 다시 넣지 않는다. 현재 표현 역시 입력을 차단하거나 게임 로직을 확정하지 않는다.
-- 이전 CommercialPolishPolicyTests와 로비 테스트는 보관본에 있다. 현재 검수 대상은 독립 V04 EditMode/PlayMode 테스트다. 이전 테스트의 미실행과 새 테스트의 실제 실행을 구분한다.
+- 이전 CommercialPolishPolicyTests와 로비 테스트는 보관본에 있다. 현재 검수 대상은 ArtAssetTests / ArtQaPlayTests다. 이전 테스트의 미실행과 새 테스트의 실제 실행을 구분한다.
 - 기존 사용자 변경은 이동 후에도 미커밋 상태로 보존한다. 이동 커밋에 기존 수정 내용을 섞지 않는다.

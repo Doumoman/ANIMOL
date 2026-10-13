@@ -1,0 +1,2639 @@
+{
+  "version": "ANIMOL_REFERENCE_SPRITES_V04",
+  "grid_pixels_per_unit": 80,
+  "pivot_coordinate_system": "Top-left pixels, x right/y down; normalized Unity pivot=(x/width,1-y/height).",
+  "foliage_grid_anchor": "First logical cell center [48,48], separate from visual root. Source frame padding is never used as grid spacing.",
+  "filter": "Point/Nearest for pixel sprites and foliage; Bilinear only for smooth soap bubbles.",
+  "alpha": "Straight RGBA; no visible terrain/sky matte at foreground outline; alpha=0 RGB=0.",
+  "palette_policy": "Reference-resolution source body colors retained; edge outlines use Sweetie16. New foliage uses up to 5 Sweetie16 colors (4 used). Stylized smooth pink bubble is the requested non-pixel exception.",
+  "assets": [
+    {
+      "id": "grass_light",
+      "file": "Sprites/Tiles/Floor/ranch/spr_tile_floor_ranch_grass_light_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "content_rect_px": [
+        8,
+        8,
+        80,
+        80
+      ],
+      "alpha_policy": "Fully opaque 80px square floor on padded 96px canvas; place at 80px grid spacing.",
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/tiles/grass_light.png"
+    },
+    {
+      "id": "grass_mid",
+      "file": "Sprites/Tiles/Floor/ranch/spr_tile_floor_ranch_grass_mid_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "content_rect_px": [
+        8,
+        8,
+        80,
+        80
+      ],
+      "alpha_policy": "Fully opaque 80px square floor on padded 96px canvas; place at 80px grid spacing.",
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/tiles/grass_mid.png"
+    },
+    {
+      "id": "grass_dark",
+      "file": "Sprites/Tiles/Floor/ranch/spr_tile_floor_ranch_grass_dark_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "content_rect_px": [
+        8,
+        8,
+        80,
+        80
+      ],
+      "alpha_policy": "Fully opaque 80px square floor on padded 96px canvas; place at 80px grid spacing.",
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/tiles/grass_dark.png"
+    },
+    {
+      "id": "stone_single",
+      "file": "Sprites/Tiles/Wall/ranch/spr_tile_wall_ranch_stone_single_idle.png",
+      "size_px": [
+        96,
+        128
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        76.5
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/tiles/stone_single.png"
+    },
+    {
+      "id": "stone_pair_horizontal",
+      "file": "Sprites/Tiles/Wall/ranch/spr_tile_wall_ranch_stone_pair_horizontal_idle.png",
+      "size_px": [
+        192,
+        128
+      ],
+      "logical_footprint": [
+        2,
+        1
+      ],
+      "pivot_px_top_left": [
+        56,
+        76
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/tiles/stone_pair_horizontal.png"
+    },
+    {
+      "id": "stone_triple_horizontal",
+      "file": "Sprites/Tiles/Wall/ranch/spr_tile_wall_ranch_stone_triple_horizontal_idle.png",
+      "size_px": [
+        256,
+        128
+      ],
+      "logical_footprint": [
+        3,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        78
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/tiles/stone_triple_horizontal.png"
+    },
+    {
+      "id": "stone_pair_vertical",
+      "file": "Sprites/Tiles/Wall/ranch/spr_tile_wall_ranch_stone_pair_vertical_idle.png",
+      "size_px": [
+        96,
+        192
+      ],
+      "logical_footprint": [
+        1,
+        2
+      ],
+      "pivot_px_top_left": [
+        48,
+        59.5
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/tiles/stone_pair_vertical.png"
+    },
+    {
+      "id": "crate_wood",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_crate_wood_idle.png",
+      "size_px": [
+        96,
+        128
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        47.5,
+        76.5
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/crate_wood.png"
+    },
+    {
+      "id": "arrow_pad",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_arrow_pad_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        47.5,
+        48
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "placement_role": "First logical cell center; renderer-only pivot adaptation.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/arrow_pad.png"
+    },
+    {
+      "id": "clover",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle.png",
+      "size_px": [
+        64,
+        64
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        32,
+        47
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/clover.png"
+    },
+    {
+      "id": "exit_arch",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_exit_arch_idle.png",
+      "size_px": [
+        224,
+        192
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        112,
+        184
+      ],
+      "alpha_policy": "Open doorway; separate exit_star overlay.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/exit_arch.png"
+    },
+    {
+      "id": "exit_steps",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_exit_steps_idle.png",
+      "size_px": [
+        96,
+        128
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        120
+      ],
+      "alpha_policy": "Gaps between separate stepping stones are intentional.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/exit_steps.png"
+    },
+    {
+      "id": "fence_horizontal",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_fence_horizontal_idle.png",
+      "size_px": [
+        128,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        64,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/fence_horizontal.png"
+    },
+    {
+      "id": "fence_short",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_fence_short_idle.png",
+      "size_px": [
+        128,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        64,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/fence_short.png"
+    },
+    {
+      "id": "fence_vertical",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_fence_vertical_idle.png",
+      "size_px": [
+        64,
+        160
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        32,
+        152
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/fence_vertical.png"
+    },
+    {
+      "id": "tree_small",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle.png",
+      "size_px": [
+        128,
+        160
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        64,
+        152
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/tree_small.png"
+    },
+    {
+      "id": "lantern",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_lantern_idle.png",
+      "size_px": [
+        128,
+        128
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        64,
+        120
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/lantern.png"
+    },
+    {
+      "id": "cloud_small",
+      "file": "Sprites/Background/ranch/Mid/spr_bg_ranch_mid_cloud_small_idle.png",
+      "size_px": [
+        96,
+        64
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        56
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/cloud_small.png"
+    },
+    {
+      "id": "crescent_moon",
+      "file": "Sprites/Background/ranch/Far/spr_bg_ranch_far_crescent_moon_idle.png",
+      "size_px": [
+        96,
+        128
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        120
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/crescent_moon.png"
+    },
+    {
+      "id": "star_large",
+      "file": "Sprites/Background/ranch/Far/spr_bg_ranch_far_star_large_idle.png",
+      "size_px": [
+        64,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        32,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/star_large.png"
+    },
+    {
+      "id": "rabbit_front",
+      "file": "Sprites/Player/rabbit/Frames/spr_player_rabbit_idle_s.png",
+      "size_px": [
+        96,
+        160
+      ],
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        152
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/character/rabbit_front.png"
+    },
+    {
+      "id": "pause_normal",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_pause_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/pause_normal.png"
+    },
+    {
+      "id": "cost_panel_blank",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_cost_panel_idle.png",
+      "size_px": [
+        256,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        128,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/cost_panel_blank.png"
+    },
+    {
+      "id": "bubble_counter_blank",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_bubble_counter_idle.png",
+      "size_px": [
+        224,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        112,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/bubble_counter_blank.png"
+    },
+    {
+      "id": "pause_press",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_pause_pressed.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/pause_press.png"
+    },
+    {
+      "id": "pause_release",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_pause_released.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/pause_release.png"
+    },
+    {
+      "id": "pause_disabled",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_pause_disabled.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "logical_footprint": null,
+      "pivot_px_top_left": [
+        48,
+        88
+      ],
+      "alpha_policy": "Exterior transparent; enclosed opaque surfaces filled from original RGB.",
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/ui/pause_disabled.png"
+    },
+    {
+      "id": "exit_star",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_exit_star_idle.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "overlay_on_arch_px_top_left": [
+        112,
+        82
+      ],
+      "alpha_policy": "Opaque glowing star only; no night rectangle.",
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/props/exit_star.png"
+    },
+    {
+      "id": "grass_edge_overlay",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle.png",
+      "size_px": [
+        96,
+        64
+      ],
+      "source_bounds": null,
+      "source_rgb_preserved": false,
+      "source_offset_px": [
+        8,
+        8
+      ],
+      "pivot_px_top_left": [
+        48,
+        8
+      ],
+      "decorative": true,
+      "alpha_policy": "Only original green grass fringe; navy sky removed. Place root at island rim, not over walkable cell centers.",
+      "reference_pixels_per_cell": 80,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_file": "sprites/props/grass_edge_overlay.png"
+    },
+    {
+      "id": "vine_tile",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle.png",
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "visual_roots_px_top_left": [
+        [
+          48,
+          88
+        ]
+      ],
+      "grid_step_px": [
+        80,
+        80
+      ],
+      "assembly": "Whole padded tile copies at 80px offsets. No per-cell crop, no strip slicing.",
+      "outline_px": 1,
+      "size_px": [
+        96,
+        96
+      ],
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/props/vine_tile.png"
+    },
+    {
+      "id": "vines",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle.png",
+      "logical_footprint": [
+        1,
+        2
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "visual_roots_px_top_left": [
+        [
+          48,
+          88
+        ],
+        [
+          48,
+          168
+        ]
+      ],
+      "grid_step_px": [
+        80,
+        80
+      ],
+      "assembly": "Whole padded tile copies at 80px offsets. No per-cell crop, no strip slicing.",
+      "outline_px": 1,
+      "size_px": [
+        96,
+        192
+      ],
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/props/vines.png"
+    },
+    {
+      "id": "vine_strip",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle.png",
+      "logical_footprint": [
+        3,
+        1
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "visual_roots_px_top_left": [
+        [
+          48,
+          88
+        ],
+        [
+          128,
+          88
+        ],
+        [
+          208,
+          88
+        ]
+      ],
+      "grid_step_px": [
+        80,
+        80
+      ],
+      "assembly": "Whole padded tile copies at 80px offsets. No per-cell crop, no strip slicing.",
+      "outline_px": 1,
+      "size_px": [
+        256,
+        96
+      ],
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/props/vine_strip.png"
+    },
+    {
+      "id": "soap_bubble_pink",
+      "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle.png",
+      "logical_footprint": [
+        1,
+        1
+      ],
+      "pivot_px_top_left": [
+        64,
+        74
+      ],
+      "style": "Simple smooth illustrated film, pink + white reflections, no realistic iridescence. Diameter approx. 0.75 logical cell.",
+      "size_px": [
+        128,
+        128
+      ],
+      "reference_pixels_per_cell": 128,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/props/soap_bubble_pink.png"
+    },
+    {
+      "id": "soap_bubble_hud",
+      "file": "Sprites/UI/InGame/spr_ui_ingame_bubble_icon_idle.png",
+      "pivot_px_top_left": [
+        32,
+        32
+      ],
+      "size_px": [
+        64,
+        64
+      ],
+      "reference_pixels_per_cell": 80,
+      "source_rgb_preserved": false,
+      "edge_cleanup": "Exterior terrain/sky spill removed; 1px foreground outline restored.",
+      "source_bounds": null,
+      "source_file": "sprites/ui/soap_bubble_hud.png"
+    }
+  ],
+  "clips": {
+    "vine_tile_idle": {
+      "loop": true,
+      "frame_size_px": [
+        96,
+        96
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f00.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f01.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f02.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f03.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f04.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f05.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f06.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_idle_f07.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_idle/vine_tile_idle_07.png"
+        }
+      ],
+      "total_ms": 2400,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "assembly": "Whole tile frames copied; never crop individual leaves.",
+      "source_sheet_file": "animation/vine_tile_idle/vine_tile_idle_sheet.png"
+    },
+    "vine_tile_touch": {
+      "loop": false,
+      "frame_size_px": [
+        96,
+        96
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            96,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            96,
+            96,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            192,
+            96,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_tile_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            288,
+            96,
+            96,
+            96
+          ],
+          "source_file": "animation/vine_tile_touch/vine_tile_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/vine_tile_touch/vine_tile_touch_sheet.png"
+    },
+    "vines_idle": {
+      "loop": true,
+      "frame_size_px": [
+        96,
+        192
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f00.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f01.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f02.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f03.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f04.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f05.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f06.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_idle_f07.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_idle/vines_idle_07.png"
+        }
+      ],
+      "total_ms": 2400,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "assembly": "Whole tile frames copied; never crop individual leaves.",
+      "source_sheet_file": "animation/vines_idle/vines_idle_sheet.png"
+    },
+    "vines_touch": {
+      "loop": false,
+      "frame_size_px": [
+        96,
+        192
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            192,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            96,
+            192,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            192,
+            192,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vines_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            288,
+            192,
+            96,
+            192
+          ],
+          "source_file": "animation/vines_touch/vines_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/vines_touch/vines_touch_sheet.png"
+    },
+    "vine_strip_idle": {
+      "loop": true,
+      "frame_size_px": [
+        256,
+        96
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f00.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            0,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f01.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            256,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f02.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            512,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f03.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            768,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f04.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            1024,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f05.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            1280,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f06.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            1536,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_idle_f07.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            1792,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_idle/vine_strip_idle_07.png"
+        }
+      ],
+      "total_ms": 2400,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "assembly": "Whole tile frames copied; never crop individual leaves.",
+      "source_sheet_file": "animation/vine_strip_idle/vine_strip_idle_sheet.png"
+    },
+    "vine_strip_touch": {
+      "loop": false,
+      "frame_size_px": [
+        256,
+        96
+      ],
+      "pivot_px_top_left": [
+        48,
+        48
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            256,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            512,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            768,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            1024,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            1280,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            1536,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            1792,
+            0,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            96,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            256,
+            96,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            512,
+            96,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_vine_strip_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            768,
+            96,
+            256,
+            96
+          ],
+          "source_file": "animation/vine_strip_touch/vine_strip_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/vine_strip_touch/vine_strip_touch_sheet.png"
+    },
+    "clover_idle": {
+      "loop": true,
+      "frame_size_px": [
+        64,
+        64
+      ],
+      "pivot_px_top_left": [
+        32,
+        47
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f00.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            0,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f01.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            64,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f02.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            128,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f03.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            192,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f04.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            256,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f05.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            320,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f06.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            384,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_idle_f07.png",
+          "duration_ms": 280,
+          "sheet_rect_px": [
+            448,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_idle/clover_idle_07.png"
+        }
+      ],
+      "total_ms": 2240,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/clover_idle/clover_idle_sheet.png"
+    },
+    "clover_touch": {
+      "loop": false,
+      "frame_size_px": [
+        64,
+        64
+      ],
+      "pivot_px_top_left": [
+        32,
+        47
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            64,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            128,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            192,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            256,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            320,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            384,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            448,
+            0,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            64,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            64,
+            64,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            128,
+            64,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            192,
+            64,
+            64,
+            64
+          ],
+          "source_file": "animation/clover_touch/clover_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/clover_touch/clover_touch_sheet.png"
+    },
+    "tree_small_idle": {
+      "loop": true,
+      "frame_size_px": [
+        128,
+        160
+      ],
+      "pivot_px_top_left": [
+        64,
+        152
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f00.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            0,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f01.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            128,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f02.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            256,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f03.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            384,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f04.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            512,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f05.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            640,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f06.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            768,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_idle_f07.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            896,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_idle/tree_small_idle_07.png"
+        }
+      ],
+      "total_ms": 2400,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/tree_small_idle/tree_small_idle_sheet.png"
+    },
+    "tree_small_touch": {
+      "loop": false,
+      "frame_size_px": [
+        128,
+        160
+      ],
+      "pivot_px_top_left": [
+        64,
+        152
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            128,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            256,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            384,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            512,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            640,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            768,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            896,
+            0,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            160,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            128,
+            160,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            256,
+            160,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_tree_small_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            384,
+            160,
+            128,
+            160
+          ],
+          "source_file": "animation/tree_small_touch/tree_small_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/tree_small_touch/tree_small_touch_sheet.png"
+    },
+    "grass_edge_overlay_idle": {
+      "loop": true,
+      "frame_size_px": [
+        96,
+        64
+      ],
+      "pivot_px_top_left": [
+        48,
+        8
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f00.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f01.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f02.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f03.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f04.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f05.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f06.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_idle_f07.png",
+          "duration_ms": 300,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_07.png"
+        }
+      ],
+      "total_ms": 2400,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/grass_edge_overlay_idle/grass_edge_overlay_idle_sheet.png"
+    },
+    "grass_edge_overlay_touch": {
+      "loop": false,
+      "frame_size_px": [
+        96,
+        64
+      ],
+      "pivot_px_top_left": [
+        48,
+        8
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f01.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            96,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f02.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            192,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f03.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            288,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f04.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            384,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f05.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            480,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f06.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            576,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f07.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            672,
+            0,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f08.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            0,
+            64,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f09.png",
+          "duration_ms": 40,
+          "sheet_rect_px": [
+            96,
+            64,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_09.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f10.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            192,
+            64,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_10.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_grass_edge_overlay_touch_f11.png",
+          "duration_ms": 45,
+          "sheet_rect_px": [
+            288,
+            64,
+            96,
+            64
+          ],
+          "source_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_11.png"
+        }
+      ],
+      "total_ms": 450,
+      "sheet_columns": 8,
+      "root_fixed": true,
+      "collision_grid_static": true,
+      "source_sheet_file": "animation/grass_edge_overlay_touch/grass_edge_overlay_touch_sheet.png"
+    },
+    "bubble_idle": {
+      "loop": true,
+      "frame_size_px": [
+        128,
+        128
+      ],
+      "pivot_px_top_left": [
+        64,
+        74
+      ],
+      "reference_pixels_per_cell": 128,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f00.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f01.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f02.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f03.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f04.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f05.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f06.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            768,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_idle_f07.png",
+          "duration_ms": 180,
+          "sheet_rect_px": [
+            896,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_idle/bubble_idle_07.png"
+        }
+      ],
+      "total_ms": 1440,
+      "sheet_columns": 8,
+      "source_sheet_file": "animation/bubble_idle/bubble_idle_sheet.png"
+    },
+    "bubble_collect": {
+      "loop": false,
+      "frame_size_px": [
+        128,
+        128
+      ],
+      "pivot_px_top_left": [
+        64,
+        74
+      ],
+      "reference_pixels_per_cell": 128,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f00.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f01.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f02.png",
+          "duration_ms": 30,
+          "sheet_rect_px": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f03.png",
+          "duration_ms": 30,
+          "sheet_rect_px": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_03.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f04.png",
+          "duration_ms": 30,
+          "sheet_rect_px": [
+            512,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_04.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f05.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            640,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_05.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f06.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            768,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_06.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f07.png",
+          "duration_ms": 35,
+          "sheet_rect_px": [
+            896,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_07.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f08.png",
+          "duration_ms": 25,
+          "sheet_rect_px": [
+            0,
+            128,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_08.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_bubble_collect_f09.png",
+          "duration_ms": 20,
+          "sheet_rect_px": [
+            128,
+            128,
+            128,
+            128
+          ],
+          "source_file": "animation/bubble_collect/bubble_collect_09.png"
+        }
+      ],
+      "total_ms": 280,
+      "sheet_columns": 8,
+      "logical_commit": "Collect once on contact; collision disabled immediately. Visual playback never adds a turn/cost.",
+      "contact_frame": 0,
+      "tear_frame": 4,
+      "final_frame_transparent": true,
+      "source_sheet_file": "animation/bubble_collect/bubble_collect_sheet.png"
+    },
+    "lantern_idle": {
+      "loop": true,
+      "frame_size_px": [
+        128,
+        128
+      ],
+      "pivot_px_top_left": [
+        64,
+        120
+      ],
+      "reference_pixels_per_cell": 80,
+      "frames": [
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_lantern_idle_f00.png",
+          "duration_ms": 1000,
+          "sheet_rect_px": [
+            0,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/lantern_idle/lantern_idle_00.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_lantern_idle_f01.png",
+          "duration_ms": 1000,
+          "sheet_rect_px": [
+            128,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/lantern_idle/lantern_idle_01.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_lantern_idle_f02.png",
+          "duration_ms": 1000,
+          "sheet_rect_px": [
+            256,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/lantern_idle/lantern_idle_02.png"
+        },
+        {
+          "file": "Sprites/Tiles/Decoration/ranch/spr_tile_decoration_ranch_lantern_idle_f03.png",
+          "duration_ms": 1000,
+          "sheet_rect_px": [
+            384,
+            0,
+            128,
+            128
+          ],
+          "source_file": "animation/lantern_idle/lantern_idle_03.png"
+        }
+      ],
+      "total_ms": 4000,
+      "sheet_columns": 4,
+      "existing_light_pulse_preserved": true,
+      "source_sheet_file": "animation/lantern_idle/lantern_idle_sheet.png"
+    }
+  },
+  "background": {
+    "file": "Sprites/Background/ranch/Far/spr_bg_ranch_far_night_sky_idle.png",
+    "intentional_opaque": true,
+    "source_file": "background/night_sky.png"
+  },
+  "game_rules": {
+    "kind": "Vertical mobile 2D top-down swipe puzzle",
+    "valid_input_cost": 1,
+    "no_change_input_cost": 0,
+    "no_change_device_turn": 0,
+    "automatic_chain_extra_cost": 0,
+    "goal": "Collect 3 bubbles then reach exit",
+    "movement_distance": "Use existing implementation; do not assume single-cell vs slide movement"
+  },
+  "runtime_note": "Actual Unity project unavailable here; Unity CLI must perform integration and engine play-mode checks."
+}

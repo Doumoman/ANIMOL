@@ -113,6 +113,6 @@ UI/StageSelect와 UI/Store는 실제 화면이 있는 경우 사용한다. 실�
 ANIMOL 공용 UI PNG 75개의 내용·GUID·`.meta`를 유지하며 화면 ID·상태 규칙으로 이름과 경로를 정리했다. [정본 manifest](../Assets/ANIMOL/Sprites/sprite_path_manifest.json)는 원래 패키지 키, 이전 정본 경로, 최종 경로와 GUID를 연결한다. Editor의 호환 입력도 최종 경로로 변환한다. 런타임 프리팹·씬은 동일 GUID를 사용한다.
 
 실측 저장소에는 `Assets/ANIMOL/Phase1`과 지정 P01 QA 씬이 없다. 10fps 보존·P01 표시 검사·P01 Validate는 대상 없음으로 구분한다. 동물 업그레이드 Phase1 UI는 공용 기능으로 유지한다. 새 퍼즐 장치 24종이나 없는 테마 아트를 생성하지 않는다.
-# 2026-10-13 활성 범위 정정
+# 현재 정본 적용 상태
 
-이 문서는 미래 정본의 경로/명명 규칙이다. 실제 현재 Assets는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다. 기존 75개 정본 UI PNG도 전체 이전 프로젝트 격리 요청에 따라 Legacy/PreviousProject_20261013/Assets/ANIMOL/Sprites/UI로 이동했다. V04는 사용자가 별도로 지정한 Assets/ANIMOL/Art/StarwayPasture/V04와 입력 패키지 이름을 유지하는 예외이며, 전체 정본 규칙 적용 완료로 간주하지 않는다.
+현재 PNG 177개와 클립 15개는 Assets/ANIMOL/Sprites에 실제로 정리되어 있다. 이전 버전 적용 루트 예외는 폐지했다. PNG는 spr_, 클립은 anim_ 접두사의 소문자 snake_case이며 프레임은 f00부터다. 장치 구현이 없는 식물/일반 그림은 M## ID를 임의 지정하지 않고 Tiles/Decoration/ranch에 분류한다. 고해상도 원본과 80/128 PPU는 유지하며 경로 정리 때문에 32px로 축소하지 않는다. 실제 폴더는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다.
