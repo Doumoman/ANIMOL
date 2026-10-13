@@ -145,7 +145,7 @@ namespace ANIMOL.StarwayV04.Editor
             var rect=panel.GetComponent<RectTransform>();rect.anchorMin=rect.anchorMax=new Vector2(0,1);rect.pivot=new Vector2(0,1);rect.anchoredPosition=position;rect.sizeDelta=new Vector2(270,90);
             var label=new GameObject("Live state",typeof(RectTransform),typeof(TextMeshProUGUI));label.transform.SetParent(panel.transform,false);
             var r=label.GetComponent<RectTransform>();r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=new Vector2(15,5);r.offsetMax=new Vector2(-15,-5);
-            var text=label.GetComponent<TextMeshProUGUI>();text.font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/ANIMOL/Typography/Pixelroborobo_UI.asset");text.fontSize=42;text.alignment=TextAlignmentOptions.Center;text.color=new Color(.97f,.94f,.82f);text.text=value;return text;
+            var text=label.GetComponent<TextMeshProUGUI>();text.font=AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/ANIMOL/Art/StarwayPasture/V04/Fonts/Pixelroborobo_UI.asset");text.fontSize=42;text.alignment=TextAlignmentOptions.Center;text.color=new Color(.97f,.94f,.82f);text.text=value;return text;
         }
         public static void Validate()
         {

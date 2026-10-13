@@ -53,3 +53,12 @@
 - 폐기한 배경·토끼 에셋, 이전 배경 문서·캡처·생성 경로를 다시 가져오거나 대체안으로 사용하지 않는다.
 - 현재 버튼·아이콘·화면 전환과 CanvasScaler·Safe Area는 배경과 별도로 유지한다. 배경 변경 때문에 플레이어·물리·맵·재화·보상을 수정하지 않는다.
 - 적용과 검증 기준은 `Docs/ANIMOL_MAIN_UI_FANTASY_BACKGROUND_V7_RESULT.md`를 참조한다.
+
+## 4. 2026-10-13 전체 레거시 격리 이후의 활성 범위
+
+- 사용자의 전체 격리 요청에 따라 이전 로비·공용 UI·서비스·제작기·테스트도 `Legacy/PreviousProject_20261013/`로 옮겼다. 앞 절의 이전 구현 경로는 보관본의 상대 경로이며 활성 파일로 복구하지 않는다.
+- 현재 활성 콘텐츠는 `Assets/ANIMOL/Art/StarwayPasture/V04`, 표현/검수 코드는 `Assets/ANIMOL/StarwayV04`뿐이다. `Assets/TextMesh Pro`는 기반 의존성이다. 실제 현재 구조는 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md`를 따른다.
+- 기본 씬은 `ANIMOL_Starway_Art_QA`이며 플레이 가능한 퍼즐이 아니다. 새 퍼즐 구현 전까지 QA 조작을 이동·코스트·수집·승리 구현으로 보고하지 않는다.
+- 과거 연출 정책과 V7 배경 기준은 복원 시의 참고이며, 그 이유로 이전 프로젝트를 활성 Assets에 다시 넣지 않는다. 현재 표현 역시 입력을 차단하거나 게임 로직을 확정하지 않는다.
+- 이전 CommercialPolishPolicyTests와 로비 테스트는 보관본에 있다. 현재 검수 대상은 독립 V04 EditMode/PlayMode 테스트다. 이전 테스트의 미실행과 새 테스트의 실제 실행을 구분한다.
+- 기존 사용자 변경은 이동 후에도 미커밋 상태로 보존한다. 이동 커밋에 기존 수정 내용을 섞지 않는다.
