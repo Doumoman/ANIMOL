@@ -149,7 +149,8 @@ namespace ANIMOL.UI
 
         private void LaunchDevelopmentRun()
         {
-            // Archived scene entry: Legacy/Platformer_20261013/Assets/ANIMOL/Scenes/.
+            // LEGACY: platformer map editor, 2026-10-13
+            // Former scene launch body: Legacy/Platformer_20261013/Assets/ANIMOL/Scripts/UI/CampaignUiPresenter.cs
 #if ANIMOL_LEGACY_MAP_EDITOR
             SceneManager.LoadScene("Gameplay");
 #else

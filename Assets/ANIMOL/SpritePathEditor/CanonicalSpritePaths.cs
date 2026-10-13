@@ -9,16 +9,22 @@ namespace ANIMOL.SpritePathEditor
     // Source-package names remain import keys; this table resolves their canonical assets.
     public static class CanonicalSpritePaths
     {
-        [Serializable] private sealed class Entry { public string source; public string destination; }
+        [Serializable] private sealed class Entry { public string source; public string destination; public string[] previous_paths; }
         [Serializable] private sealed class Manifest { public Entry[] sprites; }
         private static Dictionary<string, string> paths;
         public static string Resolve(string path)
         {
+            if (string.IsNullOrEmpty(path)) return path;
             if (paths == null)
             {
                 paths = new Dictionary<string, string>(StringComparer.Ordinal);
                 var manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText("Assets/ANIMOL/Sprites/sprite_path_manifest.json"));
-                foreach (var entry in manifest.sprites) paths.Add(entry.source, entry.destination);
+                foreach (var entry in manifest.sprites)
+                {
+                    paths.Add(entry.source, entry.destination);
+                    if (entry.previous_paths != null)
+                        foreach (var previous in entry.previous_paths) paths.Add(previous, entry.destination);
+                }
             }
             if (paths.TryGetValue(path, out var canonical)) return canonical;
             // A few legacy builders search by package + basename rather than subdirectory.

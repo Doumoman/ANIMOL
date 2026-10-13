@@ -1,5 +1,5 @@
-// Platformer archive: Legacy/Platformer_20261013/ (original Assets-relative paths).
-// Disabled by default during the top-view swipe puzzle cutover.
+// LEGACY: platformer map editor, 2026-10-13
+// Original and inactive generator dependencies: Legacy/Platformer_20261013/Assets/ANIMOL/Scripts/Editor/UiBuildPipeline.M6Economy.cs
 #if ANIMOL_LEGACY_MAP_EDITOR
 using System;
 using System.Collections.Generic;

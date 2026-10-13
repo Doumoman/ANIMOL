@@ -1,34 +1,115 @@
-# ANIMOL 스프라이트 정본과 명명
+# ANIMOL 스프라이트 경로·명명 규칙
 
-정본 루트는 `Assets/ANIMOL/Sprites/`다. 사용 중인 자산의 `.meta` GUID와 스프라이트 subasset fileID를 유지한다. PNG를 복제하거나 재슬라이스해서 같은 그림의 새 GUID를 만들지 않는다.
+기준일: 2026-10-13. `Assets/ANIMOL/Sprites/`를 새 스프라이트의 단일 정본으로 사용한다. `Legacy/Platformer_20261013/`는 저장소 루트, Unity `Assets` 바깥에 둔다.
 
-| 종류 | 경로 |
+기준 게임은 세로 화면의 2D 탑뷰 스와이프 퍼즐이다. 유효한 이동 1회는 코스트 1이고 방울 3개를 모아 출구로 간다. 이 문서는 자산 정리 규칙이며 새 퍼즐 24종 구현과 기존 화면 전면 재제작은 작업 범위에 포함하지 않는다.
+
+## 정본 경로
+
+```text
+Assets/ANIMOL/Sprites/
+├── UI/
+│   ├── MainMenu/
+│   ├── InGame/
+│   ├── Settings/
+│   ├── StageSelect/
+│   ├── Store/
+│   └── Common/
+├── Player/<character_id>/
+│   ├── Frames/
+│   └── Animations/
+├── Tiles/
+│   ├── Floor/<theme_id>/
+│   ├── Wall/<theme_id>/
+│   └── Decoration/<theme_id>/
+├── Obstacles/M##_EnglishName/
+│   ├── Frames/
+│   └── Animations/
+└── Background/<theme_id>/
+    ├── Far/
+    ├── Mid/
+    └── Near/
+
+Legacy/Platformer_20261013/
+├── README.md
+└── Assets/ANIMOL/...
+```
+
+UI/StageSelect와 UI/Store는 실제 화면이 있는 경우 사용한다. 실제 자산이 없는 빈 장치 폴더는 만들 필요가 없다. 캐릭터 ID는 `rabbit`처럼 ASCII 소문자 snake_case로 쓴다.
+
+화면 ID는 `main`, `ingame`, `settings`, `stage_select`, `store`, `common`을 사용한다. 테마 ID는 `common`, `ranch`, `theater`, `observatory`, `sea`로 고정한다. 한 장치의 모든 프레임과 클립은 같은 `M##` 폴더에 둔다. 에디터가 생성한 `.anim`과 원본 PNG의 이름에는 같은 기계 ID·상태·방향을 쓴다.
+
+## 파일 이름
+
+파일은 ASCII 소문자 snake_case를 기본으로 한다. 지정된 폴더 분류명과 장치 등록표의 대소문자는 그대로 유지한다.
+
+- PNG: `spr_<scope>_<theme-or-screen>_<object>_<state>[_<direction>][_fNN].png`
+- SpriteSheet: `sheet_<scope>_<theme-or-screen>_<object>_<state>[_<direction>].png`
+- AnimationClip: `anim_<scope>_<theme-or-screen>_<object>_<state>[_<direction>].anim`
+- Tile asset: `tile_<theme>_<family>_<edge>[_vNN].asset`
+- 기계 ID는 `m01`~`m24`, 방향은 `n/e/s/w`, 프레임은 `f00`부터 두 자리로 통일한다.
+
+| 분류 | 예시 |
 |---|---|
-| UI | `UI/{MainMenu,InGame,Settings,Common}` |
-| 실제 선택·상점 UI | `UI/{StageSelect,Store}` |
-| 플레이어 | `Player/<character_id>` |
-| 타일 | `Tiles/{Floor,Wall,Decoration}/<theme_id>` |
-| 장애물 프레임 | `Obstacles/M##_EnglishName/Frames` |
-| 장애물 애니메이션 | `Obstacles/M##_EnglishName/Animations` |
-| 배경 | `Background/<theme_id>/{Far,Mid,Near}` |
+| UI | `UI/InGame/spr_ui_ingame_pause_idle.png`, `UI/MainMenu/spr_ui_main_play_pressed.png` |
+| Player | `Player/rabbit/Frames/spr_player_rabbit_walk_s_f00.png`, `Player/rabbit/Animations/anim_player_rabbit_walk_s.anim` |
+| Floor / Wall / Decoration | `Tiles/Floor/ranch/spr_tile_floor_ranch_grass_ne_v01.png`, `Tiles/Wall/ranch/spr_tile_wall_ranch_stone_n.png`, `Tiles/Decoration/ranch/spr_tile_decoration_ranch_clover_v01.png` |
+| Obstacle frames | `Obstacles/M16_PairedPortal/Frames/spr_obstacle_observatory_m16_portal_enter_e_f00.png` |
+| Obstacle clips | `Obstacles/M16_PairedPortal/Animations/anim_obstacle_observatory_m16_portal_enter_e.anim` |
+| Background | `Background/ranch/Far/spr_bg_ranch_far_stars_v01.png` |
 
-폴더의 지정 분류명은 위 표의 대소문자를 따른다. 실제 파일명은 ASCII 소문자 snake_case다. `character_id`와 `theme_id`도 소문자 snake_case를 사용한다. 아직 없는 캐릭터·테마·장애물 번호를 임의로 발급하지 않는다.
+타일 경계는 `center,n,s,e,w,ne,nw,se,sw`를 사용한다. 상태는 실제 화면 변화에 맞춰 `idle, preview, active, blocked, reset` 등 의미 있는 단어로 적는다. 방향이나 프레임이 없는 단일 그림에서는 해당 접미사를 생략한다. `final`, `new`, `fix`, 날짜, 반복된 `v2_final`은 파일 이름에 넣지 않는다. 바뀐 결과는 Git 이력에서 관리한다. `vNN`은 명세에 있는 타일·장식 변형 번호다.
 
-## 규칙
+서로 다른 기존 UI 도안에는 object의 도안 식별자로 `portrait`, `theme_menu`를 사용한다. 다른 GUID를 합치거나 PNG 내용을 덮어쓰지 않는다. 예: `spr_ui_main_portrait_button_play_idle.png`.
 
-- 스프라이트: `spr_<분류>_<대상>_<동작/상태>[_방향][_프레임].png`.
-- 애니메이션: `anim_<분류>_<대상>_<동작>[_방향].anim`.
-- 방향은 `n/e/s/w`, 프레임은 `f00`부터 시작하는 두 자리 순번이다. 방향/프레임이 없는 정적 UI에는 억지로 접미사를 붙이지 않는다.
-- 예: `spr_ui_ingame_pause_idle.png`, `spr_player_rabbit_walk_s_f00.png`.
-- 예: `spr_obstacle_observatory_m16_portal_enter_e_f00.png`, `anim_obstacle_observatory_m16_portal_enter_e.anim`.
-- 보관본의 기존 이름은 재작성하지 않는다. 새 규칙은 활성 정본과 이후 제작 자산에 적용한다.
+## 24개 장치 폴더 등록표
 
-## 이번 이관
+| ID | 폴더 | 대표 테마 |
+|---|---|---|
+| 01 | `M01_StarSocket` | ranch |
+| 02 | `M02_VineBridge` | ranch |
+| 03 | `M03_CrescentJump` | observatory |
+| 04 | `M04_AlternatingShutters` | theater |
+| 05 | `M05_ExitSpikes` | sea |
+| 06 | `M06_ActionStage` | theater |
+| 07 | `M07_Conveyor` | common |
+| 08 | `M08_RotatingBookshelf` | theater |
+| 09 | `M09_OneWayGate` | common |
+| 10 | `M10_LightSensor` | observatory |
+| 11 | `M11_Ferry` | sea |
+| 12 | `M12_RollingBarrel` | sea |
+| 13 | `M13_DominoWall` | theater |
+| 14 | `M14_Magnet` | observatory |
+| 15 | `M15_TimedBomb` | sea, 일부 맵 |
+| 16 | `M16_PairedPortal` | observatory |
+| 17 | `M17_ChargeStatue` | theater |
+| 18 | `M18_BounceCorner` | common |
+| 19 | `M19_BrakePlate` | common |
+| 20 | `M20_WindLane` | ranch |
+| 21 | `M21_GlassWall` | observatory |
+| 22 | `M22_DiceBlock` | theater |
+| 23 | `M23_CowardDoll` | theater |
+| 24 | `M24_FollowerChick` | ranch |
 
-기존 공용 UI 패키지에서 실제 PNG 75개를 옮긴다. 이름 충돌과 출처 혼동을 피하려고 이름에 원래 UI 패키지 식별자를 포함한다. 원본→정본 대응은 [`sprite_path_manifest.json`](../Assets/ANIMOL/Sprites/sprite_path_manifest.json)에 있다.
+## 크기·임포트·애니메이션
 
-`CanonicalSpritePaths.Resolve`는 패키지 manifest의 원래 입력 키와 계산 경로를 정본 자산 경로로 변환한다. 빌더 asmdef는 독립 Editor 전용 경로 해석 어셈블리를 명시적으로 참조한다. 런타임 프리팹/씬은 기존 GUID로 같은 스프라이트를 참조한다.
+- 새 타일 원본은 최소 32×32 px이며 여러 칸 그림은 정수 타일 크기로 관리한다.
+- 새 최종 픽셀 스프라이트는 Point, 압축 없음, mipmap 없음, 32px 타일의 PPU 32를 기본으로 한다.
+- P01 고해상도 원본은 32px 최종 스프라이트로 간주하거나 강제로 축소하지 않는다. 표시 크기를 유지할 별도 PPU와 원본/시제품 상태를 기록한다.
+- 기존 P01 10fps 클립은 이동 후 sampleRate·실제 프레임 수·스프라이트 곡선을 유지한다. 원본 `.anim`과 `.meta`를 이동한다.
+- 현재 공용 UI는 기존 픽셀 크기·PPU·슬라이스·피벗을 보존한다. 실측 75개 모두 Point/Uncompressed/mipmap 없음/PPU 32다. 32px보다 작은 UI 아이콘 11개는 타일이 아니며 크기를 바꾸지 않았다. [실측 임포트 검사](Validation/TopdownCutover/supplement-import-audit.json)에 각각 기록했다.
 
-Phase1 업그레이드 UI는 실제 공용 화면으로 유지한다. 새 탑뷰 플레이어·타일·장애물·배경 파일은 발견되지 않았으므로 해당 분류의 자산을 만들어 낸 것처럼 기록하지 않는다. 카테고리 기본 폴더만 준비한다. 메인 로비 배경은 기존 `MainUiV7` 패키지 기준과 생성 경로를 유지한다.
+## 레거시와 정본의 경계
 
-향후 추가 시 AssetDatabase 이동, 계산 경로/Resources 키/manifest 확인, GUID 및 subasset 참조 검증, 재임포트·컴파일·해당 화면 검사를 함께 수행한다.
+- Legacy는 플랫포머 시절의 회복 가능한 보관본이며 활성 Assets에 임포트하지 않는다. 보관본의 원래 이름은 유지한다.
+- `Assets/ANIMOL/Phase1`이 실제로 있으면 탑뷰 시제품 후보로 유지한다. `UI/AnimalUpgradePhase1`과 구분한다.
+- P01 적용 문서만으로 아트를 승인하지 않는다. 정확한 16색이 아닌 PNG·고해상도 시제품은 그 상태를 기록한다.
+- 공용 계정·로비·경제·서버·방울 기능은 실제 참조를 검사한 뒤 분류한다.
+- 구형 맵 제작기는 원본을 Legacy에 보존한다. 남는 Editor 코드에는 `// LEGACY: platformer map editor, 2026-10-13`과 보관 경로를 적고 기본 비활성 `ANIMOL_LEGACY_MAP_EDITOR` define으로 차단한다.
+- `MainUiV7`의 기존 20개 배경 레이어·토끼 시트 2개는 저장소의 별도 배경 기준 패키지로 유지한다.
+
+## 이번 실측 적용
+
+ANIMOL 공용 UI PNG 75개의 내용·GUID·`.meta`를 유지하며 화면 ID·상태 규칙으로 이름과 경로를 정리했다. [정본 manifest](../Assets/ANIMOL/Sprites/sprite_path_manifest.json)는 원래 패키지 키, 이전 정본 경로, 최종 경로와 GUID를 연결한다. Editor의 호환 입력도 최종 경로로 변환한다. 런타임 프리팹·씬은 동일 GUID를 사용한다.
+
+실측 저장소에는 `Assets/ANIMOL/Phase1`과 지정 P01 QA 씬이 없다. 10fps 보존·P01 표시 검사·P01 Validate는 대상 없음으로 구분한다. 동물 업그레이드 Phase1 UI는 공용 기능으로 유지한다. 새 퍼즐 장치 24종이나 없는 테마 아트를 생성하지 않는다.
