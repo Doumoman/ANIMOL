@@ -1,0 +1,32 @@
+        public const string FerryPath=Root+"/Prefabs/Presentation/twilight_sea_ferry_occupied.prefab";
+        public const string PreviewPath=Root+"/Prefabs/Presentation/twilight_sea_resolved_cell_preview.prefab";
+        [Serializable] public class SeaClip:DeviceClip {public Vector2[] passengerOffsets;}
+        [Serializable] public class SeaSource {public SeaClip[] animations;}
+        static void BuildFerry(DeviceManifest m)
+        {
+            Directory.CreateDirectory(Root+"/Prefabs/Presentation");AssetDatabase.Refresh();
+            var original=AssetDatabase.LoadAssetAtPath<GameObject>(Prefab("d11_pilot_boat"));
+            var go=UnityEngine.Object.Instantiate(original);go.name="twilight_sea_ferry_occupied";
+            var clock=go.GetComponent<DeviceVisualView>();UnityEngine.Object.DestroyImmediate(clock.visual.gameObject);clock.visual=null;
+            // Clock states use the full sequence ID; no full SpriteRenderer exists.
+            clock.states=m.animations.Where(c=>c.deviceId=="11"&&m.animations.Any(r=>r.id==c.id+"_rear")).Select(c=>State(c,m)).ToArray();clock.initialState="idle_e";
+            var ferry=go.AddComponent<FerryVisualView>();ferry.clock=clock;
+            Func<string,int,SpriteRenderer> layer=(name,order)=>{var child=new GameObject(name);child.transform.SetParent(go.transform,false);var r=child.AddComponent<SpriteRenderer>();r.sortingOrder=order;return r;};
+            ferry.wake=layer("Wake",5);ferry.rear=layer("Rear",10);ferry.passenger=layer("Existing rabbit visual",15);ferry.front=layer("Front",20);
+            ferry.wakeClear=Load(m.assets.First(a=>a.id=="d11_pilot_boat/wake_clear_e").path);
+            ferry.passenger.sprite=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/rabbit_front.prefab").GetComponentInChildren<SpriteRenderer>().sprite;
+            // Existing rabbit foot pivot y=8px matches its alpha bottom y=152 of height160.
+            ferry.passengerFootToPivot=Vector2.zero;
+            var source=JsonUtility.FromJson<SeaSource>(File.ReadAllText(Root+"/Data/twilight_sea_import_manifest.json").Replace("\"event\":","\"eventName\":"));
+            ferry.pairs=clock.states.Select(s=>{
+                var rear=State(m.animations.First(c=>c.id=="d11_pilot_boat/"+s.name+"_rear"),m);var front=State(m.animations.First(c=>c.id=="d11_pilot_boat/"+s.name+"_front"),m);
+                string dir=s.name.Split('_').Last();var metadata=source.animations.First(c=>c.id=="d11_pilot_boat/"+s.name);
+                return new FerryVisualPair{state=s.name,rear=rear.sequence,front=front.sequence,rearTerminal=rear.terminal,frontTerminal=front.terminal,passengerOffsets=metadata.passengerOffsets,wake=s.name.StartsWith("row_")?AssetDatabase.LoadAssetAtPath<SpriteFrameSequence>(Seq("d11_pilot_boat/wake_"+dir)):null};
+            }).ToArray();ferry.ResetVisual();Save(go,FerryPath);
+            var fixture=new GameObject("twilight_sea_resolved_cell_preview");var preview=fixture.AddComponent<ResolvedCellPreview>();
+            Func<string,BeamPathView> pool=name=>{var child=new GameObject(name);child.transform.SetParent(fixture.transform,false);var p=child.AddComponent<BeamPathView>();p.sortingOrder=8;return p;};
+            preview.boundary=pool("Supplied blast boundary");preview.targets=pool("Supplied cracked wall targets");preview.endpoint=pool("Supplied barrel endpoint");
+            preview.boundarySprites=Enumerable.Range(0,16).Select(i=>Load(m.assets.First(a=>a.id=="d15_three_turn_bomb/blast_boundary_"+i.ToString("00")).path)).ToArray();
+            preview.targetSprite=Load(m.assets.First(a=>a.id=="d15_three_turn_bomb/cracked_wall_target").path);
+            preview.stopSprites=new[]{"e","s","w","n"}.Select(d=>Load(m.assets.First(a=>a.id=="d12_rolling_barrel/stop_preview_"+d).path)).ToArray();Save(fixture,PreviewPath);
+        }

@@ -1,0 +1,216 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1341260385119083471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3661947630953762199}
+  - component: {fileID: 836484456088642929}
+  m_Layer: 0
+  m_Name: Supplied blast boundary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3661947630953762199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341260385119083471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8011738628045356596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &836484456088642929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341260385119083471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a403f88f57ce48c48ab667cfb6e11203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.BeamPathView
+  sprites: []
+  sortingOrder: 8
+  pool: []
+--- !u!1 &1458452835062838032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8011738628045356596}
+  - component: {fileID: 8255340965265976815}
+  m_Layer: 0
+  m_Name: twilight_sea_resolved_cell_preview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8011738628045356596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458452835062838032}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3661947630953762199}
+  - {fileID: 7048528538080780602}
+  - {fileID: 7318354971003056245}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8255340965265976815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458452835062838032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88dff885852b7643b8bd4090b3c120b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.ResolvedCellPreview
+  boundary: {fileID: 836484456088642929}
+  targets: {fileID: 5652549575893956594}
+  endpoint: {fileID: 296320219198999334}
+  boundarySprites:
+  - {fileID: 21300000, guid: 995b149486b69454eb3f09c0a15b1902, type: 3}
+  - {fileID: 21300000, guid: deade503b090bc54292538362fe200cf, type: 3}
+  - {fileID: 21300000, guid: 28fdafe2a0de0574f8f04a81516c2db3, type: 3}
+  - {fileID: 21300000, guid: 399d93f00443d1146abc1b25f16ff437, type: 3}
+  - {fileID: 21300000, guid: 500b42d17f95409438c83a8208d7f33c, type: 3}
+  - {fileID: 21300000, guid: 55ca8a511036f8b4c816ce9f9c38fd04, type: 3}
+  - {fileID: 21300000, guid: 46b167b0ad6e2ff4b891b5927ac455a9, type: 3}
+  - {fileID: 21300000, guid: 881025d729acfff46b0c138e531cb7a7, type: 3}
+  - {fileID: 21300000, guid: 8ebbb30c7314d04488989fac4b5cd63c, type: 3}
+  - {fileID: 21300000, guid: cb2394549e9da4846a7dceb481f23f80, type: 3}
+  - {fileID: 21300000, guid: 9f2bc48ad43f09f43887bf78ef712e7c, type: 3}
+  - {fileID: 21300000, guid: e09e870513bd90c42bd5c800cb06d3f9, type: 3}
+  - {fileID: 21300000, guid: c13761c6865b3eb4a89566c3ab700837, type: 3}
+  - {fileID: 21300000, guid: 3bc1ef90d2b734940b2ff0baa5b2a20e, type: 3}
+  - {fileID: 21300000, guid: d4093842d2d524c4482fc956e563f84a, type: 3}
+  - {fileID: 21300000, guid: 3405c2a2a6d7780499de2013ace1edd5, type: 3}
+  targetSprite: {fileID: 21300000, guid: e128ab757e17a8244838bb5dc913581f, type: 3}
+  stopSprites:
+  - {fileID: 21300000, guid: c8e942557cd3ed9428b57be457f46b25, type: 3}
+  - {fileID: 21300000, guid: ab2da0f3510c0bd4abe3f2bacee34f24, type: 3}
+  - {fileID: 21300000, guid: 7e052497eddc9d143b22d9e6d972b132, type: 3}
+  - {fileID: 21300000, guid: 69c291c862963cc4bb73fa683ec059ea, type: 3}
+--- !u!1 &6949294363713191074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7318354971003056245}
+  - component: {fileID: 296320219198999334}
+  m_Layer: 0
+  m_Name: Supplied barrel endpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7318354971003056245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949294363713191074}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8011738628045356596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &296320219198999334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6949294363713191074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a403f88f57ce48c48ab667cfb6e11203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.BeamPathView
+  sprites: []
+  sortingOrder: 8
+  pool: []
+--- !u!1 &7921498380806521169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7048528538080780602}
+  - component: {fileID: 5652549575893956594}
+  m_Layer: 0
+  m_Name: Supplied cracked wall targets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7048528538080780602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921498380806521169}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8011738628045356596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5652549575893956594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921498380806521169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a403f88f57ce48c48ab667cfb6e11203, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.BeamPathView
+  sprites: []
+  sortingOrder: 8
+  pool: []

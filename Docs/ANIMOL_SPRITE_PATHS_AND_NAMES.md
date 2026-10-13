@@ -115,8 +115,10 @@ ANIMOL 공용 UI PNG 75개의 내용·GUID·`.meta`를 유지하며 화면 ID·�
 실측 저장소에는 `Assets/ANIMOL/Phase1`과 지정 P01 QA 씬이 없다. 10fps 보존·P01 표시 검사·P01 Validate는 대상 없음으로 구분한다. 동물 업그레이드 Phase1 UI는 공용 기능으로 유지한다. 새 퍼즐 장치 24종이나 없는 테마 아트를 생성하지 않는다.
 # 현재 정본 적용 상태
 
-기존 정리에서 PNG 177개와 클립 15개를 Assets/ANIMOL/Sprites에 이동했다. 장치8과 기억 극장 적용을 포함한 현재 총량은 PNG 2016개·클립 285개다. 이전 버전 적용 루트 예외는 폐지했다. PNG는 spr_, 클립은 anim_ 접두사의 소문자 snake_case이며 프레임은 f00부터다. 장치 구현이 없는 식물/일반 그림은 M## ID를 임의 지정하지 않고 Tiles/Decoration/ranch에 분류한다. 고해상도 원본과 80/128 PPU는 유지하며 경로 정리 때문에 32px로 축소하지 않는다. 실제 폴더는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다.
+기존 정리에서 PNG177개와 클립15개를 Assets/ANIMOL/Sprites에 이동했다. 장치8·기억 극장·편지 천문대·황혼의 바다 적용을 포함한 현재 총량은 PNG3455개·클립542개다. 이전 버전 적용 루트 예외는 폐지했다. PNG는 spr_, 클립은 anim_ 접두사의 소문자 snake_case이며 프레임은 f00부터다. 장치 구현이 없는 식물/일반 그림은 M## ID를 임의 지정하지 않고 Tiles/Decoration/ranch에 분류한다. 고해상도 원본과 80/128 PPU는 유지하며 경로 정리 때문에32px로 축소하지 않는다. 실제 폴더는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다.
 
 기억 극장 공통 변형은 `Sprites/Obstacles/common/memory_theater/M##_EnglishName/{Frames,Animations}`, 전용 7종은 `Sprites/Obstacles/memory_theater/M##_EnglishName/{Frames,Animations}`를 사용한다. 바닥/벽은 `Tiles/{Floor,Wall}/memory_theater`, 상자는 `Props/memory_theater`, 배경·기둥·막·조명은 `Background/memory_theater/{Far,Mid,Near}`다. 이전 M## 정본을 덮어쓰지 않는다. 이 테마 경로/ID 확장은 사용자의 기억 극장 적용 지시를 따른다.
 
 사용자의 편지 천문대 적용 요청에 따라 `letter_observatory`를 추가 등록했다. 공통4종은 `Sprites/Obstacles/common/letter_observatory/M##_EnglishName/{Frames,Animations}`, 전용5종은 `Sprites/Obstacles/letter_observatory/M##_EnglishName/{Frames,Animations}`다. 바닥/벽은 `Tiles/{Floor,Wall}/letter_observatory`, 배경/망원경/편지는 `Background/letter_observatory/{Far,Mid,Near}`에 둔다. 기존 테마는 유지한다. 현재 정본 총량은 PNG2743개·클립405개다. 256px 도약 궤적의 시작점 피벗과 128px 유리 파편 캔버스를 유지하며32px로 축소하지 않는다.
+
+황혼의 바다 지시에 따라 `twilight_sea`를 등록했다. 공통4종은 `Sprites/Obstacles/common/twilight_sea/M##_EnglishName/{Frames,Animations}`, 전용4종은 `Sprites/Obstacles/twilight_sea/M##_EnglishName/{Frames,Animations}`다. 바닥/물/해안·벽은 `Tiles/{Floor,Wall}/twilight_sea`, 상자는 `Props/twilight_sea`, 배경/난간/등/해초는 `Background/twilight_sea/{Far,Mid,Near}`다. 이전 테마 경로와 GUID는 유지한다. PNG712·클립137을 더해 현재 정본은 PNG3455·클립542다. 셀80px/PPU80과96/128px 캔버스·좌상단 JSON 피벗·변동 프레임 시간을 유지하며 원화/시트/preview는 활성 Assets에서 제외한다.

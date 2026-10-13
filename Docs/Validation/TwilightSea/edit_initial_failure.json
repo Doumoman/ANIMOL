@@ -1,0 +1,189 @@
+{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 2.73,
+      "summary": {
+        "total": 23,
+        "passed": 22,
+        "failed": 1,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "ANIMOL.Presentation.Tests.ArtAssetTests.CollectFxHasNoCollisionCleansAfter280msAndResetsOnReuse",
+          "Status": "Passed",
+          "Duration": 0.0150154,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.ArtAssetTests.ManifestImportsAndExactClipDurations",
+          "Status": "Failed",
+          "Duration": 0.5258161,
+          "Message": "System.Exception : Missing sprite in twilight_sea_ferry_occupied",
+          "StackTrace": "  at ANIMOL.Presentation.Editor.ArtAssetBuilder.Validate () [0x0030a] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Editor\\ArtAssetBuilder.cs:206 \r\n  at ANIMOL.Presentation.Tests.ArtAssetTests.ManifestImportsAndExactClipDurations () [0x00000] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Tests\\Editor\\ArtAssetTests.cs:9 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <1eb9db207454431c84a47bcd81e79c37>:0 "
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.ArtAssetTests.PauseFreezesOnlyPresentation",
+          "Status": "Passed",
+          "Duration": 0.0040938,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.ArtAssetTests.TouchRestartsWithoutRootMovementAndReturnsToIdle",
+          "Status": "Passed",
+          "Duration": 0.0012606,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.DeviceArtTests.AllImportsAndExactClipTimesAreValid",
+          "Status": "Passed",
+          "Duration": 0.1534409,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.DeviceArtTests.BridgeStateIsHeldAndLoopSelectionIsIdempotent",
+          "Status": "Passed",
+          "Duration": 0.0008615,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.DeviceArtTests.DirectionMappingAndRejectedEventsDoNotChangePresentation",
+          "Status": "Passed",
+          "Duration": 0.0009428,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.DeviceArtTests.GateOpenHoldsUntilExplicitClearAndPausePreservesPose",
+          "Status": "Passed",
+          "Duration": 0.0006154,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtTests.AllImportsTimingsAndSingleWritersAreValid",
+          "Status": "Passed",
+          "Duration": 0.5061355,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtTests.CommonThemesReuseVariantsAndOneActionDoesNotReplayPortal",
+          "Status": "Passed",
+          "Duration": 0.001224,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtTests.EightReflectionMappingsUseTravellingDirectionAndFullSixteenCornerArms",
+          "Status": "Passed",
+          "Duration": 0.0025645,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtTests.LeapStartingPivotsRetainThreeCellSpanInsteadOfCanvasWidth",
+          "Status": "Passed",
+          "Duration": 0.0038625,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtTests.ReplacingCommittedBeamCellsReusesPoolAndClearsResidualSegments",
+          "Status": "Passed",
+          "Duration": 0.0037905,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtTests.ActionDeduplicationResetAndWarningDoNotAdvanceGameplay",
+          "Status": "Passed",
+          "Duration": 0.0761567,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtTests.AllImportsTimingsAndSingleWritersAreValid",
+          "Status": "Passed",
+          "Duration": 0.8488356,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtTests.AllSixFacesAndNinetySixRenderTransitionsAreConsistent",
+          "Status": "Passed",
+          "Duration": 0.016044,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtTests.CommonVariantsAndThemeSwapReuseOneWriter",
+          "Status": "Passed",
+          "Duration": 0.0010295,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtTests.ShutterDominoBookshelfAndTransparentBreakHoldTheirCommittedTerminal",
+          "Status": "Passed",
+          "Duration": 0.015429,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.TwilightSeaArtTests.AllImportsTimingsAndThemeReferencesMatchAuthoredManifest",
+          "Status": "Passed",
+          "Duration": 0.4707063,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.TwilightSeaArtTests.BombAndSpikesHoldTerminalSpritesWithoutWallClockRuleChanges",
+          "Status": "Passed",
+          "Duration": 0.0013005,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.TwilightSeaArtTests.BoundariesUseSuppliedCellsAndNeverInferExplosionRadius",
+          "Status": "Passed",
+          "Duration": 0.0019602,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.TwilightSeaArtTests.CosmeticThemeSwitchPreservesElapsedPauseAndConsumedActionId",
+          "Status": "Passed",
+          "Duration": 0.0006408,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.Presentation.Tests.TwilightSeaArtTests.FerryUsesOneClockAndIdenticalLayerTimesForAllTwentyPairs",
+          "Status": "Passed",
+          "Duration": 0.003737,
+          "Message": null,
+          "StackTrace": null
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

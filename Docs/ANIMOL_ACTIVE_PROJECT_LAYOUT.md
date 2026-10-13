@@ -12,11 +12,17 @@ Assets/ANIMOL/
     Tiles/Decoration/ranch/
     Background/ranch/{Far,Mid}/
     Obstacles/{M01_StarSocket,M02_VineBridge,M07_Conveyor,M09_OneWayGate,M18_BounceCorner,M19_BrakePlate,M20_WindLane,M24_FollowerChick}/{Frames,Animations}/
+    Obstacles/common/{memory_theater,letter_observatory,twilight_sea}/M##_EnglishName/{Frames,Animations}/
+    Obstacles/{memory_theater,letter_observatory,twilight_sea}/M##_EnglishName/{Frames,Animations}/
+    Tiles/{Floor,Wall}/{memory_theater,letter_observatory,twilight_sea}/
+    Props/{memory_theater,twilight_sea}/
+    Background/{memory_theater,letter_observatory,twilight_sea}/{Far,Mid,Near}/
   Prefabs/
   Scenes/ANIMOL_Starway_Art_QA.unity
   Scenes/ANIMOL_Device8_Art_QA.unity
   Scenes/ANIMOL_MemoryTheater_Art_QA.unity
   Scenes/ANIMOL_LetterObservatory_Art_QA.unity
+  Scenes/ANIMOL_TwilightSea_Art_QA.unity
   Scripts/{Runtime,Editor,Tests}/
   Fonts/
   Materials/
@@ -25,6 +31,8 @@ Assets/ANIMOL/
     art_import_manifest.json
     device_art_import_manifest.json
     memory_theater_import_manifest.json
+    letter_observatory_import_manifest.json
+    twilight_sea_import_manifest.json
     Themes/
     AnimationSequences/
 ```
@@ -33,7 +41,7 @@ Assets/ANIMOL/
 
 ## 정본 이름과 분류
 
-- 기존 PNG 177개·클립 15개, 장치8 PNG 454개·클립 59개, 기억 극장 PNG 1385개·클립 211개가 정본에 있다(총 PNG 2016개·클립 285개). PNG는 `spr_`, 클립은 `anim_` 접두사의 소문자 snake_case다.
+- 기존 PNG177·클립15, 장치8 PNG454·클립59, 기억 극장 PNG1385·클립211, 편지 천문대 PNG727·클립120, 황혼의 바다 PNG712·클립137로 현재 정본은 총 PNG3455·클립542다. PNG는 `spr_`, 클립은 `anim_` 접두사의 소문자 snake_case다.
 - 기억 극장 공통 변형은 Sprites/Obstacles/common/memory_theater/M##, 전용 7종은 Sprites/Obstacles/memory_theater/M##, 나머지 바닥/벽/상자/배경은 Tiles/Props/Background의 memory_theater에 둔다. 이전 테마 경로를 옮기지 않는다. 공통 프리팹 Variant와 테마/주사위 카탈로그는 Prefabs/Themes/memory_theater 및 Data/Themes에 있다.
 - UI는 `spr_ui_ingame_pause_idle.png`, 토끼 정면 그림은 `spr_player_rabbit_idle_s.png`다.
 - 프레임은 `spr_tile_decoration_ranch_vine_tile_touch_f00.png`처럼 f00부터, 클립은 `anim_tile_decoration_ranch_vine_tile_touch.anim`이다.
@@ -44,7 +52,7 @@ Assets/ANIMOL/
 
 ## 실행 및 검증
 
-기존 빌드 씬은 ANIMOL_Starway_Art_QA를 유지한다. 현재 에디터 검수/Play 시작 씬은 ANIMOL_LetterObservatory_Art_QA다. **플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.** 이동·밀기·코스트·수집·승리를 구현했다고 표시하지 않는다. 물리 Root는 고정하고 시각 프레임만 재생하며 미연결 HUD는 COST -- / --/--를 표시한다.
+기존 빌드 씬은 ANIMOL_Starway_Art_QA를 유지한다. 현재 에디터 검수/Play 시작 씬은 ANIMOL_TwilightSea_Art_QA다. **플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.** 이동·밀기·코스트·수집·승리를 구현했다고 표시하지 않는다. 물리 Root는 고정하고 시각 프레임만 재생하며 미연결 HUD는 COST -- / --/--를 표시한다.
 
 현재 근거는 [이동 목록](Validation/SpriteLayout/move_manifest.json), [GUID·원본·명명 검사](Validation/SpriteLayout/audit.json), [EditMode](Validation/SpriteLayout/editmode.json), [PlayMode](Validation/SpriteLayout/playmode.json)다. 이전 전체 격리에서 17,539개 원본의 SHA-256을 확인한 기록은 Validation/ActiveSlice 및 레거시 README에 보존한다. 현재 경로는 이 문서와 SpriteLayout 기록을 따른다.
 
@@ -55,3 +63,5 @@ Assets/ANIMOL/
 단일 수풀 3×3 조립의 작은 원본 알파 틈은 남은 아트 검토 항목이며 이번 파일 정리에서 그림을 수정했다고 주장하지 않는다.
 
 편지 천문대 적용으로 PNG727·클립120이 추가돼 현재 정본 총량은 PNG2743·클립405다. 공통 변형은 Obstacles/common/letter_observatory/M##, 전용5종은 Obstacles/letter_observatory/M##, 바닥/벽/배경은 각 letter_observatory 테마 폴더다. 프리팹247개와 Data/Themes의 테마/광학 표시 자료를 실제 QA에 연결했다. Tools/LetterObservatory, Validation/LetterObservatory/Applied, LetterObservatoryArtTests/LetterObservatoryArtPlayTests 및 [결과](../ANIMOL_LETTER_OBSERVATORY_V01_APPLY_RESULT.md)에 전체 EditMode18/18·PlayMode6/6의 근거가 있다. 실제 게임 판정 호출자는 없고 광선 경로는 제공받은 표시 목록만 재생한다.
+
+황혼의 바다 `twilight_sea`를 추가했다. PNG712·클립137로 현재 정본 총량은 PNG3455·클립542다. 공통4종/전용4종 경로는 Obstacles/common/twilight_sea/M## 및 Obstacles/twilight_sea/M##이며 Tiles/Props/Background도 해당 테마에 있다. Prefabs/Themes 270개 + Prefabs/Presentation 2개, 테마8종, QA307 표시 객체다. 나룻배20쌍은 하나의 재생 시각/승객 발 피벗을 공유하며 범위·해안은 공급 셀만 표시한다. 현재 검수 씬은 ANIMOL_TwilightSea_Art_QA이고 실제 게임 엔진은 없다. [결과](../ANIMOL_TWILIGHT_SEA_V01_APPLY_RESULT.md), Tools/TwilightSea 및 Validation/TwilightSea에 EditMode23/23·PlayMode8/8·74캡처 근거가 있다.

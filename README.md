@@ -1,11 +1,12 @@
 # ANIMOL
 
-현재 활성 프로젝트는 **별길 목장 아트 QA**다. 플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.
+현재 활성 프로젝트는 **탑뷰 테마 아트 QA**다. 플레이 가능한 탑뷰 퍼즐 구현은 아직 없다.
 
 - 스프라이트·클립: `Assets/ANIMOL/Sprites`
 - 프리팹·씬: `Assets/ANIMOL/Prefabs`, `Assets/ANIMOL/Scenes`
 - 표현/임포터/테스트: `Assets/ANIMOL/Scripts`
-- 현재 에디터 검수 씬: `ANIMOL_LetterObservatory_Art_QA`; 기존 목장·장치8·기억 극장 QA 유지
+- 현재 에디터 검수 씬: `ANIMOL_TwilightSea_Art_QA`; 기존 목장·장치8·기억 극장·편지 천문대 QA 유지
+- [황혼의 바다 8종 적용·동기화·실행 검수](ANIMOL_TWILIGHT_SEA_V01_APPLY_RESULT.md)
 - [편지 천문대 적용·소스 재생성·실행 검수](ANIMOL_LETTER_OBSERVATORY_V01_APPLY_RESULT.md)
 - [기억 극장 11종 적용·실행 검수·미연결 항목](ANIMOL_MEMORY_THEATER_V01_APPLY_RESULT.md)
 - [장치 8종 적용·실행 검수·미연결 항목](ANIMOL_DEVICE8_V01_APPLY_RESULT.md)

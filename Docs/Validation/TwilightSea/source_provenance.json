@@ -1,0 +1,25 @@
+{
+  "input": "MCP_INBOX/ANIMOL_TWILIGHT_SEA_V01.zip",
+  "archiveSha256": "8f73c7683b1af8d273d7064f143a180c64ab2c0a259d0ee27473dc10decbf54d",
+  "archiveEntries": 37,
+  "crcError": null,
+  "productionScripts": {
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/build_twilight_sea_v01.cjs": "017891b6a48b3f645ab126272946ccce469c449a6f90e3417fd676dee5631007",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/rgba_v04.cjs": "fb4545ba260ec8ff9e9ba1bc59bdd9099f7c861430bb3c71a5dbbfb4d47d14e1",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/preview_twilight_sea_v01.cjs": "9b21d8e24741b68d3fae9800cbea57b26427538684d1df8897d559a115bd21bb",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/qa_twilight_sea_v01.py": "aa698a87ea2ed1a930004d586ea115fcebe6ad7a0601214b3b1f63dcf0824efd",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/test_twilight_sea_preview.cjs": "6d01f0864d5fac72909293e243a8437f495c285f931126a2bc828acdcf3d8d7e",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/document_twilight_sea_v01.py": "525566e07dfd5db00452ba0c8a29bc62e837865ddbca2b90b6dbd2ed5c7f6e73",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/package_twilight_sea_v01.py": "77f08ddafc86faefcc77a0009ebacaab9077ca86b773b3d6162cb2ff11f5b1c6",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/twilight_sea_prompts.json": "dc95ee04aad4a3e0eb9a2364b9a32fb3f4661cde442fef6147d3b826982b2549",
+    "ANIMOL_TWILIGHT_SEA_V01_SOURCE/source/twilight_sea_sources.json": "07659780ee8c7374b0575cdf3d2f3ecb432da7e8a3a514d4dc4f3d557e1699e6"
+  },
+  "recipe": [
+    "npm.cmd install --ignore-scripts (sharp 0.35.4)",
+    "node source/build_twilight_sea_v01.cjs",
+    "python -X utf8 source/document_twilight_sea_v01.py",
+    "python -X utf8 source/qa_twilight_sea_v01.py (Temp-only POSIX path normalization)"
+  ],
+  "engineVersion": "6000.3.8f1",
+  "baselineHead": "9c9194ae1d522977f0e44a121e798be6991bfd2c"
+}

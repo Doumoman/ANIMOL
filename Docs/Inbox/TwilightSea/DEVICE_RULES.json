@@ -1,0 +1,56 @@
+{
+  "spikes": {
+    "states": [
+      "flat",
+      "armed",
+      "raised"
+    ],
+    "arm": "player occupies plate",
+    "raise": "immediately after player leaves occupied armed plate",
+    "raisedEntry": "invalid",
+    "resetCondition": null
+  },
+  "boat": {
+    "distancePerValidSwipeCells": 1,
+    "movesPlayerTogether": true,
+    "disembark": "onto valid land; boat remains at last water cell",
+    "waterBlocked": "invalid_no_movement",
+    "landBlocked": "invalid_no_disembark",
+    "seatAnchorTopLeft": [
+      48,
+      53
+    ],
+    "layerCutY": 63
+  },
+  "barrel": {
+    "push": "one valid push starts auto roll",
+    "end": "cell immediately before actual blocker",
+    "playerEnd": "original barrel cell only",
+    "firstCellBlocked": "invalid_no_movement",
+    "extraCostPerRollCell": 0
+  },
+  "bomb": {
+    "arming": "first successful push",
+    "initialTurns": 3,
+    "decrementOnArmingPush": false,
+    "subsequentValidActionStates": [
+      2,
+      1,
+      "explode"
+    ],
+    "explodes": "after third subsequent valid action finishes",
+    "invalidInputAdvances": false,
+    "wallClockAdvances": false,
+    "destroys": "cracked walls in actual resolved blast cells",
+    "blastRangeShape": null,
+    "blastRangeSize": null,
+    "effectOnPlayer": null,
+    "effectOnOrdinaryObjects": null
+  },
+  "global": {
+    "costPerValidAction": 1,
+    "costPerUnchangedInput": 0,
+    "automaticChainExtraCost": 0,
+    "visualLoopsAdvanceTurns": false
+  }
+}

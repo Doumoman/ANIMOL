@@ -1,0 +1,48 @@
+{
+  "rootMotionBaked": false,
+  "existingLogicOwnsAllCoordinates": true,
+  "boat": {
+    "travelDurationMilliseconds": 200,
+    "localIdleBobPixels": 1,
+    "layerOrder": [
+      "wake",
+      "rear",
+      "existing_passenger",
+      "front"
+    ],
+    "passengerFollowsSameRoot": true,
+    "seatAnchorTopLeft": [
+      48,
+      53
+    ],
+    "fullSpriteAndLayersAreAlternatives": true,
+    "layerAnimationSync": "same clip group and same frame index; never play full sprite simultaneously"
+  },
+  "barrel": {
+    "rollCycleMilliseconds": 280,
+    "perCellTravelFromProject": true,
+    "playerStopsAtOriginalBarrelCell": true,
+    "previewFromActualResolvedEndCell": true
+  },
+  "bomb": {
+    "countFromCommittedTurnEvent": true,
+    "explodeMilliseconds": 330,
+    "blastOverlayFromActualLogicCells": true,
+    "visualBurstDoesNotDefineBlastShape": true
+  },
+  "shore": {
+    "maskBits": {
+      "n": 1,
+      "e": 2,
+      "s": 4,
+      "w": 8
+    },
+    "setBit": "neighbor water or outside dock",
+    "fullCellCoverage": [
+      8,
+      8,
+      80,
+      80
+    ]
+  }
+}

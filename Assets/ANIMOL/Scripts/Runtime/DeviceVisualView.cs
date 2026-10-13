@@ -19,6 +19,7 @@ namespace ANIMOL.Presentation
         public SpriteRenderer visual;
         public DeviceVisualState[] states;
         public bool paused;
+        public float initialPhase;
         public string CurrentState {get;private set;}
         public float Elapsed {get;private set;}
         DeviceVisualState active;
@@ -47,7 +48,7 @@ namespace ANIMOL.Presentation
             if(eventOrder.Count>256)seenEvents.Remove(eventOrder.Dequeue());
             return true;
         }
-        public void ResetVisual(){paused=false;active=null;seenEvents.Clear();eventOrder.Clear();Present(initialState,true);}
+        public void ResetVisual(){paused=false;active=null;seenEvents.Clear();eventOrder.Clear();Present(initialState,true);if(active!=null&&active.sequence&&active.sequence.loop)Advance(initialPhase);}
         public void RebindArt(DeviceVisualState[] replacement,string initial)
         {
             string state=CurrentState;float elapsed=Elapsed;
