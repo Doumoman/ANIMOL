@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &324627296508315373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5897434643799037274}
+  - component: {fileID: 846848382061581030}
+  m_Layer: 0
+  m_Name: d24_follower_chick
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5897434643799037274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324627296508315373}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8179465675732320838}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &846848382061581030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324627296508315373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466075fe838f1b4c94756161ba365da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DeviceVisualView
+  deviceId: 24
+  initialState: idle_e
+  visual: {fileID: 3746047137481676672}
+  states:
+  - name: idle_e
+    eventName: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: cb3de362e933cd54da826e48d54df8ca, type: 3}
+    sequence: {fileID: 11400000, guid: 66795a1cfd759dd4783a35462f6f1180, type: 2}
+    clip: {fileID: 7400000, guid: 4c3395114b7e2f44e9991d29f1b292ce, type: 2}
+  - name: idle_s
+    eventName: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 4842fe4ad59f47b48a6270467f961a61, type: 3}
+    sequence: {fileID: 11400000, guid: acde521a973713e479ff5b385ff0b248, type: 2}
+    clip: {fileID: 7400000, guid: e3a9e5cf62e28b04985fc72f1f3f8d7b, type: 2}
+  - name: idle_w
+    eventName: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6d3da1d31f865024e83da3dd37816863, type: 3}
+    sequence: {fileID: 11400000, guid: 44fe30f377b23194495516ca1826dadc, type: 2}
+    clip: {fileID: 7400000, guid: c0bdd594d0d767b4ab05d25e3e133b87, type: 2}
+  - name: idle_n
+    eventName: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 02ba1961af580ee45a2bb4a114f5251f, type: 3}
+    sequence: {fileID: 11400000, guid: 33ebfc88dcaee0542a02700973b70c4e, type: 2}
+    clip: {fileID: 7400000, guid: 5bf879520bbc40a4a96b138f79a7c601, type: 2}
+  - name: walk_e
+    eventName: existing_recorded_path_following
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: f5b235cf4f118d64994ee3114456dd3f, type: 3}
+    sequence: {fileID: 11400000, guid: c0038ce65837c9e408cf8e725227cb26, type: 2}
+    clip: {fileID: 7400000, guid: 7be429b00364d814e8166c241840892e, type: 2}
+  - name: walk_s
+    eventName: existing_recorded_path_following
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 74e93a74cebf68b4bb8ee82f18a08359, type: 3}
+    sequence: {fileID: 11400000, guid: e50d75fdfae4aa5499b39f7e56271f8e, type: 2}
+    clip: {fileID: 7400000, guid: cfbffcbfa79cf8342a3b569e544e0086, type: 2}
+  - name: walk_w
+    eventName: existing_recorded_path_following
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: d28a2686c8275ee43ac3d378b546e863, type: 3}
+    sequence: {fileID: 11400000, guid: 1f11cb1889574714db600bf6c3f90263, type: 2}
+    clip: {fileID: 7400000, guid: d16555a8ef37d5e46b080f16b654de0a, type: 2}
+  - name: walk_n
+    eventName: existing_recorded_path_following
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 8327e300dce9dcd4e960d55683e1b13c, type: 3}
+    sequence: {fileID: 11400000, guid: b512d834474274a4e832c95f7af0f866, type: 2}
+    clip: {fileID: 7400000, guid: 5589a08a86faf524ca0b2da6b8b49dc2, type: 2}
+  paused: 0
+--- !u!1 &3598543225858299678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8179465675732320838}
+  - component: {fileID: 3746047137481676672}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8179465675732320838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598543225858299678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5897434643799037274}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &3746047137481676672
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598543225858299678}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: ca4ca6c68e2fcb04e956ecb9a67b7bf3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.8, y: 0.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
