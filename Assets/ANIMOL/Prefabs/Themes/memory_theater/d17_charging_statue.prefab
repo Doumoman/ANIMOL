@@ -1,0 +1,359 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &823414204023819311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7775331852075862896}
+  - component: {fileID: 6672405630041596569}
+  m_Layer: 0
+  m_Name: d17_charging_statue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7775331852075862896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823414204023819311}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7523136080692878616}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6672405630041596569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823414204023819311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466075fe838f1b4c94756161ba365da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DeviceVisualView
+  deviceId: 17
+  initialState: idle_e
+  visual: {fileID: 8823055691874324185}
+  states:
+  - name: idle_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: becf365a8b56a9741ae8224d5c25749b, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: warning_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: 4bfbff0b0834a5a478226deb07a28b07, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: charge_e
+    eventName: statue_charging_along_locked_line
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 66e87aa2b6b978a44850ca1c9504a435, type: 3}
+    sequence: {fileID: 11400000, guid: 960ff99e8892ae5408c8fb61b7bf0850, type: 2}
+    clip: {fileID: 7400000, guid: d171e9ff1997f074cb06aa59c34af5b0, type: 2}
+  - name: warning_cell_e
+    eventName: 
+    sprite: {fileID: 21300000, guid: 87480eb87db57aa4cacd58ae4f1c8638, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: idle_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: 78b021368073ede4798bd826ab547691, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: warning_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: 0e2faa1ef1e37e541ac98c7448887ce4, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: charge_s
+    eventName: statue_charging_along_locked_line
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: a75ecf77bb3b48d4f84c2e0235717897, type: 3}
+    sequence: {fileID: 11400000, guid: 3399add22fa9edb4fb97a84989dad14c, type: 2}
+    clip: {fileID: 7400000, guid: e91cdfa1cf7472046a3990d84f40a791, type: 2}
+  - name: warning_cell_s
+    eventName: 
+    sprite: {fileID: 21300000, guid: ab894b3acacd9ea4bb1b79a0b37d3dfa, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: idle_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: 54c752d61b51f5c4db671a1ad5a10181, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: warning_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: 8f3638482f1283a4aae1e5e2376b6869, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: charge_w
+    eventName: statue_charging_along_locked_line
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 6d07200225d006245b3c773e984b150d, type: 3}
+    sequence: {fileID: 11400000, guid: 2c312a3e2d880d14ab042cff302f3efe, type: 2}
+    clip: {fileID: 7400000, guid: bbe78b602510fb54f925a845c2f8b6cf, type: 2}
+  - name: warning_cell_w
+    eventName: 
+    sprite: {fileID: 21300000, guid: 8c7254df065b93843908a019f3e0323a, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: idle_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: baa991a955af4d64c8a7bc6149260248, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: warning_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: f88f07823269d174ebc703fb7ee753b9, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: charge_n
+    eventName: statue_charging_along_locked_line
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: b0e3bf228cac05348b470ea75da12d16, type: 3}
+    sequence: {fileID: 11400000, guid: c8e760a66bc1ec24ab5c80542a7cc5f4, type: 2}
+    clip: {fileID: 7400000, guid: 8b7f67b13ae603340977d5ea3cbdb5b9, type: 2}
+  - name: warning_cell_n
+    eventName: 
+    sprite: {fileID: 21300000, guid: 82c878bd2f1f6a84c824cbd3f4035346, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 0}
+  - name: warning_enter_e
+    eventName: statue_line_locked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 4bfbff0b0834a5a478226deb07a28b07, type: 3}
+    sequence: {fileID: 11400000, guid: 6ed8b601be01b174b9e0ac84f31f9a44, type: 2}
+    clip: {fileID: 7400000, guid: 92b4a28032ea1554991201a7843794ca, type: 2}
+  - name: warning_hold_e
+    eventName: wait_for_next_valid_action
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 60201389e82d2b3428519e2f4d12c1eb, type: 3}
+    sequence: {fileID: 11400000, guid: 68462ece4a4ab8646924438f306866ab, type: 2}
+    clip: {fileID: 7400000, guid: 9a9998b5487128e459617bdf79c931ee, type: 2}
+  - name: charge_enter_e
+    eventName: statue_next_valid_action_charge_begin
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 28d2431e1e4ebd943a9bce935e045aea, type: 3}
+    sequence: {fileID: 11400000, guid: b3944f934b3842843a71b9c46c27f013, type: 2}
+    clip: {fileID: 7400000, guid: 8a5ed7144e8ee524f97469cdc99733fc, type: 2}
+  - name: impact_e
+    eventName: statue_existing_stop_or_impact
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: becf365a8b56a9741ae8224d5c25749b, type: 3}
+    sequence: {fileID: 11400000, guid: df7d8232697dfb3468800e65118110a7, type: 2}
+    clip: {fileID: 7400000, guid: 00a4bbdc6eb0b6746904a3ef4c67109b, type: 2}
+  - name: recover_e
+    eventName: statue_recovery
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: becf365a8b56a9741ae8224d5c25749b, type: 3}
+    sequence: {fileID: 11400000, guid: 3233cb8710c9aed4c9e679fcb73543b4, type: 2}
+    clip: {fileID: 7400000, guid: af0ddc0a45c0d0246a5aef528cd39d53, type: 2}
+  - name: warning_enter_s
+    eventName: statue_line_locked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 0e2faa1ef1e37e541ac98c7448887ce4, type: 3}
+    sequence: {fileID: 11400000, guid: 4f31bd74bbddaf74aab894039dbe6d8f, type: 2}
+    clip: {fileID: 7400000, guid: c27906557a1b7224cba60a780710bdd7, type: 2}
+  - name: warning_hold_s
+    eventName: wait_for_next_valid_action
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 3e418062d20fea04f99122bafeb05b21, type: 3}
+    sequence: {fileID: 11400000, guid: 2dca914c85d90a14587d3031ed25bdce, type: 2}
+    clip: {fileID: 7400000, guid: 61e26f7491f510e49aa539e5f44f28a1, type: 2}
+  - name: charge_enter_s
+    eventName: statue_next_valid_action_charge_begin
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: e57b260708afdd340bad144baed798f1, type: 3}
+    sequence: {fileID: 11400000, guid: 585859acd450c74428489b3ff3987d5c, type: 2}
+    clip: {fileID: 7400000, guid: 861e6d85dd5ad594ab7ffc55bc9859da, type: 2}
+  - name: impact_s
+    eventName: statue_existing_stop_or_impact
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 78b021368073ede4798bd826ab547691, type: 3}
+    sequence: {fileID: 11400000, guid: a5d03e333940e7044bce93fab71327ff, type: 2}
+    clip: {fileID: 7400000, guid: 9f38db67b05d6864aa00477766224c5e, type: 2}
+  - name: recover_s
+    eventName: statue_recovery
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 78b021368073ede4798bd826ab547691, type: 3}
+    sequence: {fileID: 11400000, guid: 4e2f21d6986c7e94ca952a646b20ebc5, type: 2}
+    clip: {fileID: 7400000, guid: c8b0d6dd5bf351d4987d3f5a77cba144, type: 2}
+  - name: warning_enter_w
+    eventName: statue_line_locked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 8f3638482f1283a4aae1e5e2376b6869, type: 3}
+    sequence: {fileID: 11400000, guid: b4170c234d879ca4dab7008c55f3a49a, type: 2}
+    clip: {fileID: 7400000, guid: 1db069eb9c14f7448bd47bcfe3a59499, type: 2}
+  - name: warning_hold_w
+    eventName: wait_for_next_valid_action
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 05258d273808c1a46a8a3adcb66c402e, type: 3}
+    sequence: {fileID: 11400000, guid: d00b5f4a264e97643b75cd539cf74107, type: 2}
+    clip: {fileID: 7400000, guid: b50e4c6361c76d44f80d4943d5cddab4, type: 2}
+  - name: charge_enter_w
+    eventName: statue_next_valid_action_charge_begin
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: b67587af8ae88e345b77938b51c95b2b, type: 3}
+    sequence: {fileID: 11400000, guid: 0e9cc42c3b7a07240bc89766e4c9d831, type: 2}
+    clip: {fileID: 7400000, guid: 777db5da497178f419d67d50cebc6177, type: 2}
+  - name: impact_w
+    eventName: statue_existing_stop_or_impact
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 54c752d61b51f5c4db671a1ad5a10181, type: 3}
+    sequence: {fileID: 11400000, guid: 5826dec0ae6bf174c9e6063eaaf21a26, type: 2}
+    clip: {fileID: 7400000, guid: 5d142a77b1a24644b8546947b88c5351, type: 2}
+  - name: recover_w
+    eventName: statue_recovery
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 54c752d61b51f5c4db671a1ad5a10181, type: 3}
+    sequence: {fileID: 11400000, guid: 2c578505a733fd346b15ef35fc699b0b, type: 2}
+    clip: {fileID: 7400000, guid: 90c487f7e46dbd3449795d1b828014b0, type: 2}
+  - name: warning_enter_n
+    eventName: statue_line_locked
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: f88f07823269d174ebc703fb7ee753b9, type: 3}
+    sequence: {fileID: 11400000, guid: 574a0f4681efd5549a96ce373ae5edca, type: 2}
+    clip: {fileID: 7400000, guid: f056b182332a32d4fa6e39a68f12dd26, type: 2}
+  - name: warning_hold_n
+    eventName: wait_for_next_valid_action
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: e724cb33b48e2224aa5cbbf5757afa17, type: 3}
+    sequence: {fileID: 11400000, guid: 7079b908c4e61e14a9b67941a4e2e4db, type: 2}
+    clip: {fileID: 7400000, guid: d5fb254d52890034eb53efc18a807ea7, type: 2}
+  - name: charge_enter_n
+    eventName: statue_next_valid_action_charge_begin
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: ec649a71678248448a09e39b7fa4859d, type: 3}
+    sequence: {fileID: 11400000, guid: db5d7c302d6220b41b184be3c0dfa7e7, type: 2}
+    clip: {fileID: 7400000, guid: cdd136c0834a1754b9d529d82583bf4f, type: 2}
+  - name: impact_n
+    eventName: statue_existing_stop_or_impact
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: baa991a955af4d64c8a7bc6149260248, type: 3}
+    sequence: {fileID: 11400000, guid: 9a83089437736b34485500d7c218615d, type: 2}
+    clip: {fileID: 7400000, guid: 05debe22905275e4fa134b3b07b61ce4, type: 2}
+  - name: recover_n
+    eventName: statue_recovery
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: baa991a955af4d64c8a7bc6149260248, type: 3}
+    sequence: {fileID: 11400000, guid: 27867134d8e3326408f3898d454a61c7, type: 2}
+    clip: {fileID: 7400000, guid: d77f0dabccedc0247b80b8f4f5478dba, type: 2}
+  paused: 0
+--- !u!1 &6375569882872257523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7523136080692878616}
+  - component: {fileID: 8823055691874324185}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7523136080692878616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375569882872257523}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7775331852075862896}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8823055691874324185
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375569882872257523}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: becf365a8b56a9741ae8224d5c25749b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.2, y: 1.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0

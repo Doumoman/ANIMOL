@@ -1,0 +1,928 @@
+{
+  "initialOrientation": "t1_n5_e3",
+  "initialFaces": {
+    "top": 1,
+    "bottom": 6,
+    "north": 5,
+    "south": 2,
+    "east": 3,
+    "west": 4
+  },
+  "directions": "screen e=right,s=down,w=left,n=up",
+  "stationaryInputDoesNotRoll": true,
+  "teleportDoesNotRoll": true,
+  "orientations": [
+    {
+      "id": "t1_n5_e3",
+      "faces": {
+        "top": 1,
+        "bottom": 6,
+        "north": 5,
+        "south": 2,
+        "east": 3,
+        "west": 4
+      },
+      "staticSprite": "d22_dice_block/t1_n5_e3",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t4_n5_e1",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t1_n5_e3_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t5_n6_e3",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t1_n5_e3_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t3_n5_e6",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t1_n5_e3_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t2_n1_e3",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t1_n5_e3_n"
+        }
+      ]
+    },
+    {
+      "id": "t4_n5_e1",
+      "faces": {
+        "top": 4,
+        "bottom": 3,
+        "north": 5,
+        "south": 2,
+        "east": 1,
+        "west": 6
+      },
+      "staticSprite": "d22_dice_block/t4_n5_e1",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t6_n5_e4",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t4_n5_e1_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t5_n3_e1",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t4_n5_e1_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t1_n5_e3",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t4_n5_e1_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t2_n4_e1",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t4_n5_e1_n"
+        }
+      ]
+    },
+    {
+      "id": "t5_n6_e3",
+      "faces": {
+        "top": 5,
+        "bottom": 2,
+        "north": 6,
+        "south": 1,
+        "east": 3,
+        "west": 4
+      },
+      "staticSprite": "d22_dice_block/t5_n6_e3",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t4_n6_e5",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t5_n6_e3_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t6_n2_e3",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t5_n6_e3_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t3_n6_e2",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t5_n6_e3_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t1_n5_e3",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t5_n6_e3_n"
+        }
+      ]
+    },
+    {
+      "id": "t3_n5_e6",
+      "faces": {
+        "top": 3,
+        "bottom": 4,
+        "north": 5,
+        "south": 2,
+        "east": 6,
+        "west": 1
+      },
+      "staticSprite": "d22_dice_block/t3_n5_e6",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t1_n5_e3",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t3_n5_e6_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t5_n4_e6",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t3_n5_e6_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t6_n5_e4",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t3_n5_e6_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t2_n3_e6",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t3_n5_e6_n"
+        }
+      ]
+    },
+    {
+      "id": "t2_n1_e3",
+      "faces": {
+        "top": 2,
+        "bottom": 5,
+        "north": 1,
+        "south": 6,
+        "east": 3,
+        "west": 4
+      },
+      "staticSprite": "d22_dice_block/t2_n1_e3",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t4_n1_e2",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t2_n1_e3_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t1_n5_e3",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t2_n1_e3_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t3_n1_e5",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t2_n1_e3_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t6_n2_e3",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t2_n1_e3_n"
+        }
+      ]
+    },
+    {
+      "id": "t6_n5_e4",
+      "faces": {
+        "top": 6,
+        "bottom": 1,
+        "north": 5,
+        "south": 2,
+        "east": 4,
+        "west": 3
+      },
+      "staticSprite": "d22_dice_block/t6_n5_e4",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t3_n5_e6",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t6_n5_e4_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t5_n1_e4",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t6_n5_e4_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t4_n5_e1",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t6_n5_e4_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t2_n6_e4",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t6_n5_e4_n"
+        }
+      ]
+    },
+    {
+      "id": "t5_n3_e1",
+      "faces": {
+        "top": 5,
+        "bottom": 2,
+        "north": 3,
+        "south": 4,
+        "east": 1,
+        "west": 6
+      },
+      "staticSprite": "d22_dice_block/t5_n3_e1",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t6_n3_e5",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t5_n3_e1_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t3_n2_e1",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t5_n3_e1_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t1_n3_e2",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t5_n3_e1_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t4_n5_e1",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t5_n3_e1_n"
+        }
+      ]
+    },
+    {
+      "id": "t2_n4_e1",
+      "faces": {
+        "top": 2,
+        "bottom": 5,
+        "north": 4,
+        "south": 3,
+        "east": 1,
+        "west": 6
+      },
+      "staticSprite": "d22_dice_block/t2_n4_e1",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t6_n4_e2",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t2_n4_e1_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t4_n5_e1",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t2_n4_e1_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t1_n4_e5",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t2_n4_e1_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t3_n2_e1",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t2_n4_e1_n"
+        }
+      ]
+    },
+    {
+      "id": "t4_n6_e5",
+      "faces": {
+        "top": 4,
+        "bottom": 3,
+        "north": 6,
+        "south": 1,
+        "east": 5,
+        "west": 2
+      },
+      "staticSprite": "d22_dice_block/t4_n6_e5",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t2_n6_e4",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t4_n6_e5_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t6_n3_e5",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t4_n6_e5_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t5_n6_e3",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t4_n6_e5_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t1_n4_e5",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t4_n6_e5_n"
+        }
+      ]
+    },
+    {
+      "id": "t6_n2_e3",
+      "faces": {
+        "top": 6,
+        "bottom": 1,
+        "north": 2,
+        "south": 5,
+        "east": 3,
+        "west": 4
+      },
+      "staticSprite": "d22_dice_block/t6_n2_e3",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t4_n2_e6",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t6_n2_e3_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t2_n1_e3",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t6_n2_e3_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t3_n2_e1",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t6_n2_e3_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t5_n6_e3",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t6_n2_e3_n"
+        }
+      ]
+    },
+    {
+      "id": "t3_n6_e2",
+      "faces": {
+        "top": 3,
+        "bottom": 4,
+        "north": 6,
+        "south": 1,
+        "east": 2,
+        "west": 5
+      },
+      "staticSprite": "d22_dice_block/t3_n6_e2",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t5_n6_e3",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t3_n6_e2_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t6_n4_e2",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t3_n6_e2_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t2_n6_e4",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t3_n6_e2_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t1_n3_e2",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t3_n6_e2_n"
+        }
+      ]
+    },
+    {
+      "id": "t5_n4_e6",
+      "faces": {
+        "top": 5,
+        "bottom": 2,
+        "north": 4,
+        "south": 3,
+        "east": 6,
+        "west": 1
+      },
+      "staticSprite": "d22_dice_block/t5_n4_e6",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t1_n4_e5",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t5_n4_e6_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t4_n2_e6",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t5_n4_e6_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t6_n4_e2",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t5_n4_e6_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t3_n5_e6",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t5_n4_e6_n"
+        }
+      ]
+    },
+    {
+      "id": "t2_n3_e6",
+      "faces": {
+        "top": 2,
+        "bottom": 5,
+        "north": 3,
+        "south": 4,
+        "east": 6,
+        "west": 1
+      },
+      "staticSprite": "d22_dice_block/t2_n3_e6",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t1_n3_e2",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t2_n3_e6_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t3_n5_e6",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t2_n3_e6_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t6_n3_e5",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t2_n3_e6_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t4_n2_e6",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t2_n3_e6_n"
+        }
+      ]
+    },
+    {
+      "id": "t4_n1_e2",
+      "faces": {
+        "top": 4,
+        "bottom": 3,
+        "north": 1,
+        "south": 6,
+        "east": 2,
+        "west": 5
+      },
+      "staticSprite": "d22_dice_block/t4_n1_e2",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t5_n1_e4",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t4_n1_e2_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t1_n3_e2",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t4_n1_e2_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t2_n1_e3",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t4_n1_e2_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t6_n4_e2",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t4_n1_e2_n"
+        }
+      ]
+    },
+    {
+      "id": "t3_n1_e5",
+      "faces": {
+        "top": 3,
+        "bottom": 4,
+        "north": 1,
+        "south": 6,
+        "east": 5,
+        "west": 2
+      },
+      "staticSprite": "d22_dice_block/t3_n1_e5",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t2_n1_e3",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t3_n1_e5_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t1_n4_e5",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t3_n1_e5_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t5_n1_e4",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t3_n1_e5_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t6_n3_e5",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t3_n1_e5_n"
+        }
+      ]
+    },
+    {
+      "id": "t5_n1_e4",
+      "faces": {
+        "top": 5,
+        "bottom": 2,
+        "north": 1,
+        "south": 6,
+        "east": 4,
+        "west": 3
+      },
+      "staticSprite": "d22_dice_block/t5_n1_e4",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t3_n1_e5",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t5_n1_e4_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t1_n2_e4",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t5_n1_e4_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t4_n1_e2",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t5_n1_e4_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t6_n5_e4",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t5_n1_e4_n"
+        }
+      ]
+    },
+    {
+      "id": "t2_n6_e4",
+      "faces": {
+        "top": 2,
+        "bottom": 5,
+        "north": 6,
+        "south": 1,
+        "east": 4,
+        "west": 3
+      },
+      "staticSprite": "d22_dice_block/t2_n6_e4",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t3_n6_e2",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t2_n6_e4_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t6_n5_e4",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t2_n6_e4_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t4_n6_e5",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t2_n6_e4_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t1_n2_e4",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t2_n6_e4_n"
+        }
+      ]
+    },
+    {
+      "id": "t6_n3_e5",
+      "faces": {
+        "top": 6,
+        "bottom": 1,
+        "north": 3,
+        "south": 4,
+        "east": 5,
+        "west": 2
+      },
+      "staticSprite": "d22_dice_block/t6_n3_e5",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t2_n3_e6",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t6_n3_e5_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t3_n1_e5",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t6_n3_e5_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t5_n3_e1",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t6_n3_e5_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t4_n6_e5",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t6_n3_e5_n"
+        }
+      ]
+    },
+    {
+      "id": "t3_n2_e1",
+      "faces": {
+        "top": 3,
+        "bottom": 4,
+        "north": 2,
+        "south": 5,
+        "east": 1,
+        "west": 6
+      },
+      "staticSprite": "d22_dice_block/t3_n2_e1",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t6_n2_e3",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t3_n2_e1_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t2_n4_e1",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t3_n2_e1_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t1_n2_e4",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t3_n2_e1_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t5_n3_e1",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t3_n2_e1_n"
+        }
+      ]
+    },
+    {
+      "id": "t1_n3_e2",
+      "faces": {
+        "top": 1,
+        "bottom": 6,
+        "north": 3,
+        "south": 4,
+        "east": 2,
+        "west": 5
+      },
+      "staticSprite": "d22_dice_block/t1_n3_e2",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t5_n3_e1",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t1_n3_e2_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t3_n6_e2",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t1_n3_e2_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t2_n3_e6",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t1_n3_e2_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t4_n1_e2",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t1_n3_e2_n"
+        }
+      ]
+    },
+    {
+      "id": "t6_n4_e2",
+      "faces": {
+        "top": 6,
+        "bottom": 1,
+        "north": 4,
+        "south": 3,
+        "east": 2,
+        "west": 5
+      },
+      "staticSprite": "d22_dice_block/t6_n4_e2",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t5_n4_e6",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t6_n4_e2_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t4_n1_e2",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t6_n4_e2_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t2_n4_e1",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t6_n4_e2_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t3_n6_e2",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t6_n4_e2_n"
+        }
+      ]
+    },
+    {
+      "id": "t1_n4_e5",
+      "faces": {
+        "top": 1,
+        "bottom": 6,
+        "north": 4,
+        "south": 3,
+        "east": 5,
+        "west": 2
+      },
+      "staticSprite": "d22_dice_block/t1_n4_e5",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t2_n4_e1",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t1_n4_e5_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t4_n6_e5",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t1_n4_e5_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t5_n4_e6",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t1_n4_e5_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t3_n1_e5",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t1_n4_e5_n"
+        }
+      ]
+    },
+    {
+      "id": "t4_n2_e6",
+      "faces": {
+        "top": 4,
+        "bottom": 3,
+        "north": 2,
+        "south": 5,
+        "east": 6,
+        "west": 1
+      },
+      "staticSprite": "d22_dice_block/t4_n2_e6",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t1_n2_e4",
+          "top": 1,
+          "animation": "d22_dice_block/roll_t4_n2_e6_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t2_n3_e6",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t4_n2_e6_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t6_n2_e3",
+          "top": 6,
+          "animation": "d22_dice_block/roll_t4_n2_e6_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t5_n4_e6",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t4_n2_e6_n"
+        }
+      ]
+    },
+    {
+      "id": "t1_n2_e4",
+      "faces": {
+        "top": 1,
+        "bottom": 6,
+        "north": 2,
+        "south": 5,
+        "east": 4,
+        "west": 3
+      },
+      "staticSprite": "d22_dice_block/t1_n2_e4",
+      "transitions": [
+        {
+          "direction": "e",
+          "toOrientation": "t3_n2_e1",
+          "top": 3,
+          "animation": "d22_dice_block/roll_t1_n2_e4_e"
+        },
+        {
+          "direction": "s",
+          "toOrientation": "t2_n6_e4",
+          "top": 2,
+          "animation": "d22_dice_block/roll_t1_n2_e4_s"
+        },
+        {
+          "direction": "w",
+          "toOrientation": "t4_n2_e6",
+          "top": 4,
+          "animation": "d22_dice_block/roll_t1_n2_e4_w"
+        },
+        {
+          "direction": "n",
+          "toOrientation": "t5_n1_e4",
+          "top": 5,
+          "animation": "d22_dice_block/roll_t1_n2_e4_n"
+        }
+      ]
+    }
+  ]
+}

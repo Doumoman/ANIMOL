@@ -5,7 +5,8 @@
 - 스프라이트·클립: `Assets/ANIMOL/Sprites`
 - 프리팹·씬: `Assets/ANIMOL/Prefabs`, `Assets/ANIMOL/Scenes`
 - 표현/임포터/테스트: `Assets/ANIMOL/Scripts`
-- 현재 에디터 검수 씬: `ANIMOL_Device8_Art_QA`; 기존 배경/UI QA: `ANIMOL_Starway_Art_QA`
+- 현재 에디터 검수 씬: `ANIMOL_MemoryTheater_Art_QA`; 기존 `ANIMOL_Device8_Art_QA`와 `ANIMOL_Starway_Art_QA` 유지
+- [기억 극장 11종 적용·실행 검수·미연결 항목](ANIMOL_MEMORY_THEATER_V01_APPLY_RESULT.md)
 - [장치 8종 적용·실행 검수·미연결 항목](ANIMOL_DEVICE8_V01_APPLY_RESULT.md)
 - [현재 구조·파일 규칙 적용 상태·검증 결과](Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md)
 - 이전 프로젝트: `Legacy/PreviousProject_20261013` 및 `Legacy/Platformer_20261013`. Unity가 활성 콘텐츠로 임포트하지 않는다.

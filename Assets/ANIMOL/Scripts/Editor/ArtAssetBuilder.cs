@@ -31,6 +31,13 @@ namespace ANIMOL.Presentation.Editor
                 row=devices.assets.FirstOrDefault(a=>a.path==relative);
                 if(row==null)row=devices.animations.FirstOrDefault(a=>a.frames.Any(f=>f.path==relative));
             }
+            var theaterManifest=ArtAssetBuilder.Root+"/Data/memory_theater_import_manifest.json";
+            if(row==null && File.Exists(theaterManifest))
+            {
+                var theater=JsonUtility.FromJson<ImportManifest>(File.ReadAllText(theaterManifest));
+                row=theater.assets.FirstOrDefault(a=>a.path==relative);
+                if(row==null)row=theater.animations.FirstOrDefault(a=>a.frames.Any(f=>f.path==relative));
+            }
             var importer=(TextureImporter)assetImporter;
             importer.textureType=TextureImporterType.Sprite; importer.spriteImportMode=SpriteImportMode.Single;
             importer.alphaSource=TextureImporterAlphaSource.FromInput; importer.alphaIsTransparency=true;

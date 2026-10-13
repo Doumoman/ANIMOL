@@ -37,7 +37,7 @@ Legacy/Platformer_20261013/
 
 UI/StageSelect와 UI/Store는 실제 화면이 있는 경우 사용한다. 실제 자산이 없는 빈 장치 폴더는 만들 필요가 없다. 캐릭터 ID는 `rabbit`처럼 ASCII 소문자 snake_case로 쓴다.
 
-화면 ID는 `main`, `ingame`, `settings`, `stage_select`, `store`, `common`을 사용한다. 테마 ID는 `common`, `ranch`, `theater`, `observatory`, `sea`로 고정한다. 한 장치의 모든 프레임과 클립은 같은 `M##` 폴더에 둔다. 에디터가 생성한 `.anim`과 원본 PNG의 이름에는 같은 기계 ID·상태·방향을 쓴다.
+화면 ID는 `main`, `ingame`, `settings`, `stage_select`, `store`, `common`을 사용한다. 기본 테마 ID는 `common`, `ranch`, `theater`, `observatory`, `sea`다. 2026-10-13 기억 극장 적용 요청에 따라 `memory_theater`를 추가 등록했다. 기존 `theater` 이름이나 다른 테마는 일괄 변경하지 않는다. 한 장치의 모든 프레임과 클립은 같은 `M##` 폴더에 둔다. 에디터가 생성한 `.anim`과 원본 PNG의 이름에는 같은 기계 ID·상태·방향을 쓴다.
 
 ## 파일 이름
 
@@ -115,4 +115,6 @@ ANIMOL 공용 UI PNG 75개의 내용·GUID·`.meta`를 유지하며 화면 ID·�
 실측 저장소에는 `Assets/ANIMOL/Phase1`과 지정 P01 QA 씬이 없다. 10fps 보존·P01 표시 검사·P01 Validate는 대상 없음으로 구분한다. 동물 업그레이드 Phase1 UI는 공용 기능으로 유지한다. 새 퍼즐 장치 24종이나 없는 테마 아트를 생성하지 않는다.
 # 현재 정본 적용 상태
 
-현재 PNG 177개와 클립 15개는 Assets/ANIMOL/Sprites에 실제로 정리되어 있다. 이전 버전 적용 루트 예외는 폐지했다. PNG는 spr_, 클립은 anim_ 접두사의 소문자 snake_case이며 프레임은 f00부터다. 장치 구현이 없는 식물/일반 그림은 M## ID를 임의 지정하지 않고 Tiles/Decoration/ranch에 분류한다. 고해상도 원본과 80/128 PPU는 유지하며 경로 정리 때문에 32px로 축소하지 않는다. 실제 폴더는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다.
+기존 정리에서 PNG 177개와 클립 15개를 Assets/ANIMOL/Sprites에 이동했다. 장치8과 기억 극장 적용을 포함한 현재 총량은 PNG 2016개·클립 285개다. 이전 버전 적용 루트 예외는 폐지했다. PNG는 spr_, 클립은 anim_ 접두사의 소문자 snake_case이며 프레임은 f00부터다. 장치 구현이 없는 식물/일반 그림은 M## ID를 임의 지정하지 않고 Tiles/Decoration/ranch에 분류한다. 고해상도 원본과 80/128 PPU는 유지하며 경로 정리 때문에 32px로 축소하지 않는다. 실제 폴더는 [활성 프로젝트 구조](ANIMOL_ACTIVE_PROJECT_LAYOUT.md)를 따른다.
+
+기억 극장 공통 변형은 `Sprites/Obstacles/common/memory_theater/M##_EnglishName/{Frames,Animations}`, 전용 7종은 `Sprites/Obstacles/memory_theater/M##_EnglishName/{Frames,Animations}`를 사용한다. 바닥/벽은 `Tiles/{Floor,Wall}/memory_theater`, 상자는 `Props/memory_theater`, 배경·기둥·막·조명은 `Background/memory_theater/{Far,Mid,Near}`다. 이전 M## 정본을 덮어쓰지 않는다. 이 테마 경로/ID 확장은 사용자의 기억 극장 적용 지시를 따른다.

@@ -1,0 +1,647 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2304073192e9c468cbd88daabf1166, type: 3}
+  m_Name: memory_theater_dice
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DiceOrientationTable
+  initialOrientation: t1_n5_e3
+  initialFaces:
+    top: 1
+    bottom: 6
+    north: 5
+    south: 2
+    east: 3
+    west: 4
+  orientations:
+  - id: t1_n5_e3
+    staticSprite: d22_dice_block/t1_n5_e3
+    faces:
+      top: 1
+      bottom: 6
+      north: 5
+      south: 2
+      east: 3
+      west: 4
+    transitions:
+    - direction: e
+      toOrientation: t4_n5_e1
+      animation: d22_dice_block/roll_t1_n5_e3_e
+      top: 4
+    - direction: s
+      toOrientation: t5_n6_e3
+      animation: d22_dice_block/roll_t1_n5_e3_s
+      top: 5
+    - direction: w
+      toOrientation: t3_n5_e6
+      animation: d22_dice_block/roll_t1_n5_e3_w
+      top: 3
+    - direction: n
+      toOrientation: t2_n1_e3
+      animation: d22_dice_block/roll_t1_n5_e3_n
+      top: 2
+  - id: t4_n5_e1
+    staticSprite: d22_dice_block/t4_n5_e1
+    faces:
+      top: 4
+      bottom: 3
+      north: 5
+      south: 2
+      east: 1
+      west: 6
+    transitions:
+    - direction: e
+      toOrientation: t6_n5_e4
+      animation: d22_dice_block/roll_t4_n5_e1_e
+      top: 6
+    - direction: s
+      toOrientation: t5_n3_e1
+      animation: d22_dice_block/roll_t4_n5_e1_s
+      top: 5
+    - direction: w
+      toOrientation: t1_n5_e3
+      animation: d22_dice_block/roll_t4_n5_e1_w
+      top: 1
+    - direction: n
+      toOrientation: t2_n4_e1
+      animation: d22_dice_block/roll_t4_n5_e1_n
+      top: 2
+  - id: t5_n6_e3
+    staticSprite: d22_dice_block/t5_n6_e3
+    faces:
+      top: 5
+      bottom: 2
+      north: 6
+      south: 1
+      east: 3
+      west: 4
+    transitions:
+    - direction: e
+      toOrientation: t4_n6_e5
+      animation: d22_dice_block/roll_t5_n6_e3_e
+      top: 4
+    - direction: s
+      toOrientation: t6_n2_e3
+      animation: d22_dice_block/roll_t5_n6_e3_s
+      top: 6
+    - direction: w
+      toOrientation: t3_n6_e2
+      animation: d22_dice_block/roll_t5_n6_e3_w
+      top: 3
+    - direction: n
+      toOrientation: t1_n5_e3
+      animation: d22_dice_block/roll_t5_n6_e3_n
+      top: 1
+  - id: t3_n5_e6
+    staticSprite: d22_dice_block/t3_n5_e6
+    faces:
+      top: 3
+      bottom: 4
+      north: 5
+      south: 2
+      east: 6
+      west: 1
+    transitions:
+    - direction: e
+      toOrientation: t1_n5_e3
+      animation: d22_dice_block/roll_t3_n5_e6_e
+      top: 1
+    - direction: s
+      toOrientation: t5_n4_e6
+      animation: d22_dice_block/roll_t3_n5_e6_s
+      top: 5
+    - direction: w
+      toOrientation: t6_n5_e4
+      animation: d22_dice_block/roll_t3_n5_e6_w
+      top: 6
+    - direction: n
+      toOrientation: t2_n3_e6
+      animation: d22_dice_block/roll_t3_n5_e6_n
+      top: 2
+  - id: t2_n1_e3
+    staticSprite: d22_dice_block/t2_n1_e3
+    faces:
+      top: 2
+      bottom: 5
+      north: 1
+      south: 6
+      east: 3
+      west: 4
+    transitions:
+    - direction: e
+      toOrientation: t4_n1_e2
+      animation: d22_dice_block/roll_t2_n1_e3_e
+      top: 4
+    - direction: s
+      toOrientation: t1_n5_e3
+      animation: d22_dice_block/roll_t2_n1_e3_s
+      top: 1
+    - direction: w
+      toOrientation: t3_n1_e5
+      animation: d22_dice_block/roll_t2_n1_e3_w
+      top: 3
+    - direction: n
+      toOrientation: t6_n2_e3
+      animation: d22_dice_block/roll_t2_n1_e3_n
+      top: 6
+  - id: t6_n5_e4
+    staticSprite: d22_dice_block/t6_n5_e4
+    faces:
+      top: 6
+      bottom: 1
+      north: 5
+      south: 2
+      east: 4
+      west: 3
+    transitions:
+    - direction: e
+      toOrientation: t3_n5_e6
+      animation: d22_dice_block/roll_t6_n5_e4_e
+      top: 3
+    - direction: s
+      toOrientation: t5_n1_e4
+      animation: d22_dice_block/roll_t6_n5_e4_s
+      top: 5
+    - direction: w
+      toOrientation: t4_n5_e1
+      animation: d22_dice_block/roll_t6_n5_e4_w
+      top: 4
+    - direction: n
+      toOrientation: t2_n6_e4
+      animation: d22_dice_block/roll_t6_n5_e4_n
+      top: 2
+  - id: t5_n3_e1
+    staticSprite: d22_dice_block/t5_n3_e1
+    faces:
+      top: 5
+      bottom: 2
+      north: 3
+      south: 4
+      east: 1
+      west: 6
+    transitions:
+    - direction: e
+      toOrientation: t6_n3_e5
+      animation: d22_dice_block/roll_t5_n3_e1_e
+      top: 6
+    - direction: s
+      toOrientation: t3_n2_e1
+      animation: d22_dice_block/roll_t5_n3_e1_s
+      top: 3
+    - direction: w
+      toOrientation: t1_n3_e2
+      animation: d22_dice_block/roll_t5_n3_e1_w
+      top: 1
+    - direction: n
+      toOrientation: t4_n5_e1
+      animation: d22_dice_block/roll_t5_n3_e1_n
+      top: 4
+  - id: t2_n4_e1
+    staticSprite: d22_dice_block/t2_n4_e1
+    faces:
+      top: 2
+      bottom: 5
+      north: 4
+      south: 3
+      east: 1
+      west: 6
+    transitions:
+    - direction: e
+      toOrientation: t6_n4_e2
+      animation: d22_dice_block/roll_t2_n4_e1_e
+      top: 6
+    - direction: s
+      toOrientation: t4_n5_e1
+      animation: d22_dice_block/roll_t2_n4_e1_s
+      top: 4
+    - direction: w
+      toOrientation: t1_n4_e5
+      animation: d22_dice_block/roll_t2_n4_e1_w
+      top: 1
+    - direction: n
+      toOrientation: t3_n2_e1
+      animation: d22_dice_block/roll_t2_n4_e1_n
+      top: 3
+  - id: t4_n6_e5
+    staticSprite: d22_dice_block/t4_n6_e5
+    faces:
+      top: 4
+      bottom: 3
+      north: 6
+      south: 1
+      east: 5
+      west: 2
+    transitions:
+    - direction: e
+      toOrientation: t2_n6_e4
+      animation: d22_dice_block/roll_t4_n6_e5_e
+      top: 2
+    - direction: s
+      toOrientation: t6_n3_e5
+      animation: d22_dice_block/roll_t4_n6_e5_s
+      top: 6
+    - direction: w
+      toOrientation: t5_n6_e3
+      animation: d22_dice_block/roll_t4_n6_e5_w
+      top: 5
+    - direction: n
+      toOrientation: t1_n4_e5
+      animation: d22_dice_block/roll_t4_n6_e5_n
+      top: 1
+  - id: t6_n2_e3
+    staticSprite: d22_dice_block/t6_n2_e3
+    faces:
+      top: 6
+      bottom: 1
+      north: 2
+      south: 5
+      east: 3
+      west: 4
+    transitions:
+    - direction: e
+      toOrientation: t4_n2_e6
+      animation: d22_dice_block/roll_t6_n2_e3_e
+      top: 4
+    - direction: s
+      toOrientation: t2_n1_e3
+      animation: d22_dice_block/roll_t6_n2_e3_s
+      top: 2
+    - direction: w
+      toOrientation: t3_n2_e1
+      animation: d22_dice_block/roll_t6_n2_e3_w
+      top: 3
+    - direction: n
+      toOrientation: t5_n6_e3
+      animation: d22_dice_block/roll_t6_n2_e3_n
+      top: 5
+  - id: t3_n6_e2
+    staticSprite: d22_dice_block/t3_n6_e2
+    faces:
+      top: 3
+      bottom: 4
+      north: 6
+      south: 1
+      east: 2
+      west: 5
+    transitions:
+    - direction: e
+      toOrientation: t5_n6_e3
+      animation: d22_dice_block/roll_t3_n6_e2_e
+      top: 5
+    - direction: s
+      toOrientation: t6_n4_e2
+      animation: d22_dice_block/roll_t3_n6_e2_s
+      top: 6
+    - direction: w
+      toOrientation: t2_n6_e4
+      animation: d22_dice_block/roll_t3_n6_e2_w
+      top: 2
+    - direction: n
+      toOrientation: t1_n3_e2
+      animation: d22_dice_block/roll_t3_n6_e2_n
+      top: 1
+  - id: t5_n4_e6
+    staticSprite: d22_dice_block/t5_n4_e6
+    faces:
+      top: 5
+      bottom: 2
+      north: 4
+      south: 3
+      east: 6
+      west: 1
+    transitions:
+    - direction: e
+      toOrientation: t1_n4_e5
+      animation: d22_dice_block/roll_t5_n4_e6_e
+      top: 1
+    - direction: s
+      toOrientation: t4_n2_e6
+      animation: d22_dice_block/roll_t5_n4_e6_s
+      top: 4
+    - direction: w
+      toOrientation: t6_n4_e2
+      animation: d22_dice_block/roll_t5_n4_e6_w
+      top: 6
+    - direction: n
+      toOrientation: t3_n5_e6
+      animation: d22_dice_block/roll_t5_n4_e6_n
+      top: 3
+  - id: t2_n3_e6
+    staticSprite: d22_dice_block/t2_n3_e6
+    faces:
+      top: 2
+      bottom: 5
+      north: 3
+      south: 4
+      east: 6
+      west: 1
+    transitions:
+    - direction: e
+      toOrientation: t1_n3_e2
+      animation: d22_dice_block/roll_t2_n3_e6_e
+      top: 1
+    - direction: s
+      toOrientation: t3_n5_e6
+      animation: d22_dice_block/roll_t2_n3_e6_s
+      top: 3
+    - direction: w
+      toOrientation: t6_n3_e5
+      animation: d22_dice_block/roll_t2_n3_e6_w
+      top: 6
+    - direction: n
+      toOrientation: t4_n2_e6
+      animation: d22_dice_block/roll_t2_n3_e6_n
+      top: 4
+  - id: t4_n1_e2
+    staticSprite: d22_dice_block/t4_n1_e2
+    faces:
+      top: 4
+      bottom: 3
+      north: 1
+      south: 6
+      east: 2
+      west: 5
+    transitions:
+    - direction: e
+      toOrientation: t5_n1_e4
+      animation: d22_dice_block/roll_t4_n1_e2_e
+      top: 5
+    - direction: s
+      toOrientation: t1_n3_e2
+      animation: d22_dice_block/roll_t4_n1_e2_s
+      top: 1
+    - direction: w
+      toOrientation: t2_n1_e3
+      animation: d22_dice_block/roll_t4_n1_e2_w
+      top: 2
+    - direction: n
+      toOrientation: t6_n4_e2
+      animation: d22_dice_block/roll_t4_n1_e2_n
+      top: 6
+  - id: t3_n1_e5
+    staticSprite: d22_dice_block/t3_n1_e5
+    faces:
+      top: 3
+      bottom: 4
+      north: 1
+      south: 6
+      east: 5
+      west: 2
+    transitions:
+    - direction: e
+      toOrientation: t2_n1_e3
+      animation: d22_dice_block/roll_t3_n1_e5_e
+      top: 2
+    - direction: s
+      toOrientation: t1_n4_e5
+      animation: d22_dice_block/roll_t3_n1_e5_s
+      top: 1
+    - direction: w
+      toOrientation: t5_n1_e4
+      animation: d22_dice_block/roll_t3_n1_e5_w
+      top: 5
+    - direction: n
+      toOrientation: t6_n3_e5
+      animation: d22_dice_block/roll_t3_n1_e5_n
+      top: 6
+  - id: t5_n1_e4
+    staticSprite: d22_dice_block/t5_n1_e4
+    faces:
+      top: 5
+      bottom: 2
+      north: 1
+      south: 6
+      east: 4
+      west: 3
+    transitions:
+    - direction: e
+      toOrientation: t3_n1_e5
+      animation: d22_dice_block/roll_t5_n1_e4_e
+      top: 3
+    - direction: s
+      toOrientation: t1_n2_e4
+      animation: d22_dice_block/roll_t5_n1_e4_s
+      top: 1
+    - direction: w
+      toOrientation: t4_n1_e2
+      animation: d22_dice_block/roll_t5_n1_e4_w
+      top: 4
+    - direction: n
+      toOrientation: t6_n5_e4
+      animation: d22_dice_block/roll_t5_n1_e4_n
+      top: 6
+  - id: t2_n6_e4
+    staticSprite: d22_dice_block/t2_n6_e4
+    faces:
+      top: 2
+      bottom: 5
+      north: 6
+      south: 1
+      east: 4
+      west: 3
+    transitions:
+    - direction: e
+      toOrientation: t3_n6_e2
+      animation: d22_dice_block/roll_t2_n6_e4_e
+      top: 3
+    - direction: s
+      toOrientation: t6_n5_e4
+      animation: d22_dice_block/roll_t2_n6_e4_s
+      top: 6
+    - direction: w
+      toOrientation: t4_n6_e5
+      animation: d22_dice_block/roll_t2_n6_e4_w
+      top: 4
+    - direction: n
+      toOrientation: t1_n2_e4
+      animation: d22_dice_block/roll_t2_n6_e4_n
+      top: 1
+  - id: t6_n3_e5
+    staticSprite: d22_dice_block/t6_n3_e5
+    faces:
+      top: 6
+      bottom: 1
+      north: 3
+      south: 4
+      east: 5
+      west: 2
+    transitions:
+    - direction: e
+      toOrientation: t2_n3_e6
+      animation: d22_dice_block/roll_t6_n3_e5_e
+      top: 2
+    - direction: s
+      toOrientation: t3_n1_e5
+      animation: d22_dice_block/roll_t6_n3_e5_s
+      top: 3
+    - direction: w
+      toOrientation: t5_n3_e1
+      animation: d22_dice_block/roll_t6_n3_e5_w
+      top: 5
+    - direction: n
+      toOrientation: t4_n6_e5
+      animation: d22_dice_block/roll_t6_n3_e5_n
+      top: 4
+  - id: t3_n2_e1
+    staticSprite: d22_dice_block/t3_n2_e1
+    faces:
+      top: 3
+      bottom: 4
+      north: 2
+      south: 5
+      east: 1
+      west: 6
+    transitions:
+    - direction: e
+      toOrientation: t6_n2_e3
+      animation: d22_dice_block/roll_t3_n2_e1_e
+      top: 6
+    - direction: s
+      toOrientation: t2_n4_e1
+      animation: d22_dice_block/roll_t3_n2_e1_s
+      top: 2
+    - direction: w
+      toOrientation: t1_n2_e4
+      animation: d22_dice_block/roll_t3_n2_e1_w
+      top: 1
+    - direction: n
+      toOrientation: t5_n3_e1
+      animation: d22_dice_block/roll_t3_n2_e1_n
+      top: 5
+  - id: t1_n3_e2
+    staticSprite: d22_dice_block/t1_n3_e2
+    faces:
+      top: 1
+      bottom: 6
+      north: 3
+      south: 4
+      east: 2
+      west: 5
+    transitions:
+    - direction: e
+      toOrientation: t5_n3_e1
+      animation: d22_dice_block/roll_t1_n3_e2_e
+      top: 5
+    - direction: s
+      toOrientation: t3_n6_e2
+      animation: d22_dice_block/roll_t1_n3_e2_s
+      top: 3
+    - direction: w
+      toOrientation: t2_n3_e6
+      animation: d22_dice_block/roll_t1_n3_e2_w
+      top: 2
+    - direction: n
+      toOrientation: t4_n1_e2
+      animation: d22_dice_block/roll_t1_n3_e2_n
+      top: 4
+  - id: t6_n4_e2
+    staticSprite: d22_dice_block/t6_n4_e2
+    faces:
+      top: 6
+      bottom: 1
+      north: 4
+      south: 3
+      east: 2
+      west: 5
+    transitions:
+    - direction: e
+      toOrientation: t5_n4_e6
+      animation: d22_dice_block/roll_t6_n4_e2_e
+      top: 5
+    - direction: s
+      toOrientation: t4_n1_e2
+      animation: d22_dice_block/roll_t6_n4_e2_s
+      top: 4
+    - direction: w
+      toOrientation: t2_n4_e1
+      animation: d22_dice_block/roll_t6_n4_e2_w
+      top: 2
+    - direction: n
+      toOrientation: t3_n6_e2
+      animation: d22_dice_block/roll_t6_n4_e2_n
+      top: 3
+  - id: t1_n4_e5
+    staticSprite: d22_dice_block/t1_n4_e5
+    faces:
+      top: 1
+      bottom: 6
+      north: 4
+      south: 3
+      east: 5
+      west: 2
+    transitions:
+    - direction: e
+      toOrientation: t2_n4_e1
+      animation: d22_dice_block/roll_t1_n4_e5_e
+      top: 2
+    - direction: s
+      toOrientation: t4_n6_e5
+      animation: d22_dice_block/roll_t1_n4_e5_s
+      top: 4
+    - direction: w
+      toOrientation: t5_n4_e6
+      animation: d22_dice_block/roll_t1_n4_e5_w
+      top: 5
+    - direction: n
+      toOrientation: t3_n1_e5
+      animation: d22_dice_block/roll_t1_n4_e5_n
+      top: 3
+  - id: t4_n2_e6
+    staticSprite: d22_dice_block/t4_n2_e6
+    faces:
+      top: 4
+      bottom: 3
+      north: 2
+      south: 5
+      east: 6
+      west: 1
+    transitions:
+    - direction: e
+      toOrientation: t1_n2_e4
+      animation: d22_dice_block/roll_t4_n2_e6_e
+      top: 1
+    - direction: s
+      toOrientation: t2_n3_e6
+      animation: d22_dice_block/roll_t4_n2_e6_s
+      top: 2
+    - direction: w
+      toOrientation: t6_n2_e3
+      animation: d22_dice_block/roll_t4_n2_e6_w
+      top: 6
+    - direction: n
+      toOrientation: t5_n4_e6
+      animation: d22_dice_block/roll_t4_n2_e6_n
+      top: 5
+  - id: t1_n2_e4
+    staticSprite: d22_dice_block/t1_n2_e4
+    faces:
+      top: 1
+      bottom: 6
+      north: 2
+      south: 5
+      east: 4
+      west: 3
+    transitions:
+    - direction: e
+      toOrientation: t3_n2_e1
+      animation: d22_dice_block/roll_t1_n2_e4_e
+      top: 3
+    - direction: s
+      toOrientation: t2_n6_e4
+      animation: d22_dice_block/roll_t1_n2_e4_s
+      top: 2
+    - direction: w
+      toOrientation: t4_n2_e6
+      animation: d22_dice_block/roll_t1_n2_e4_w
+      top: 4
+    - direction: n
+      toOrientation: t5_n1_e4
+      animation: d22_dice_block/roll_t1_n2_e4_n
+      top: 5

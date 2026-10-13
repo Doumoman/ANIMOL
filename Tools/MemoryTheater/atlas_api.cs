@@ -1,0 +1,1 @@
+return typeof(UnityEditor.U2D.SpriteAtlasExtensions).GetMethods(System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static).Where(m=>m.Name.Contains("Preview")||m.Name.Contains("Texture")).Select(m=>m.ToString()).ToArray();

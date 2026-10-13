@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace ANIMOL.Presentation
 {
@@ -21,6 +22,8 @@ namespace ANIMOL.Presentation
         public string CurrentState {get;private set;}
         public float Elapsed {get;private set;}
         DeviceVisualState active;
+        readonly HashSet<string> seenEvents=new HashSet<string>();
+        readonly Queue<string> eventOrder=new Queue<string>();
         public bool BlocksInput=>false;
         void OnEnable()=>ResetVisual();
         public bool Present(string state, bool restart=false)
@@ -35,7 +38,24 @@ namespace ANIMOL.Presentation
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state && s.eventName==committedEvent);
             return next!=null && Present(state,true);
         }
-        public void ResetVisual(){paused=false;active=null;Present(initialState,true);}
+        public bool Notify(string actionId,string committedEvent,string state)
+        {
+            if(string.IsNullOrEmpty(actionId))return false;
+            string key=actionId+"\u001f"+committedEvent+"\u001f"+state;
+            if(seenEvents.Contains(key) || !Notify(committedEvent,state))return false;
+            seenEvents.Add(key);eventOrder.Enqueue(key);
+            if(eventOrder.Count>256)seenEvents.Remove(eventOrder.Dequeue());
+            return true;
+        }
+        public void ResetVisual(){paused=false;active=null;seenEvents.Clear();eventOrder.Clear();Present(initialState,true);}
+        public void RebindArt(DeviceVisualState[] replacement,string initial)
+        {
+            string state=CurrentState;float elapsed=Elapsed;
+            states=replacement;initialState=initial;active=null;
+            if(!Present(state,true))Present(initial,true);
+            if(CurrentState==state)Elapsed=elapsed;
+            Render(); // Cosmetic theme changes preserve pause and already-consumed action IDs.
+        }
         public void Advance(float seconds){if(paused||active==null)return;Elapsed+=Mathf.Max(0,seconds);Render();}
         void Render()
         {
