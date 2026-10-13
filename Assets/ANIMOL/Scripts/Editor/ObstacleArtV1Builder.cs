@@ -76,7 +76,7 @@ namespace ANIMOL.Editor
                 importer.mipmapEnabled=false;importer.sRGBTexture=true;importer.alphaIsTransparency=false;importer.npotScale=TextureImporterNPOTScale.None;importer.maxTextureSize=2048;
                 foreach(var platform in new[]{"Standalone","Android","iPhone","WebGL"})importer.ClearPlatformTextureSettings(platform);
                 var config=new TextureImporterSettings();importer.ReadTextureSettings(config);config.spriteAlignment=0;config.spritePivot=f.pivot;config.spriteMeshType=SpriteMeshType.FullRect;config.spriteGenerateFallbackPhysicsShape=false;importer.SetTextureSettings(config);
-                importer.SaveAndReimport();var sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                importer.SaveAndReimport();var sprite=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(path));
                 if(sprite.rect.width!=f.sourceRect.width||sprite.rect.height!=f.sourceRect.height||f.pixelsPerUnit!=32)throw new InvalidOperationException("Fragment registration mismatch: "+f.file);
                 return new FragmentSprite{themeId=f.themeId,piece=f.id,sprite=sprite};
             }).ToArray();
@@ -94,7 +94,7 @@ namespace ANIMOL.Editor
                 foreach(var platform in new[]{"Standalone","Android","iPhone","WebGL"})importer.ClearPlatformTextureSettings(platform);
                 var config=new TextureImporterSettings();importer.ReadTextureSettings(config);config.spriteMeshType=SpriteMeshType.FullRect;
                 config.spriteGenerateFallbackPhysicsShape=false;config.spriteAlignment=0;config.spritePivot=new Vector2(.5f,.5f);importer.SetTextureSettings(config);
-                importer.SaveAndReimport();return new MechanismSprite{key=id,sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path)};
+                importer.SaveAndReimport();return new MechanismSprite{key=id,sprite=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(path))};
             }).ToArray();
             registry.ValidateComplete(); EditorUtility.SetDirty(registry); AssetDatabase.SaveAssetIfDirty(registry); AssetDatabase.Refresh();
         }

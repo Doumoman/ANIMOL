@@ -65,7 +65,7 @@ namespace ANIMOL.Editor
                     var sprites=AssetDatabase.LoadAllAssetsAtPath(path).OfType<Sprite>().ToDictionary(p=>p.name);
                     foreach(var c in v.cells){if(catalog.canonicalMasks[c.index]!=c.mask)throw new InvalidOperationException("Mask/index mismatch.");art.cells[vi*47+c.index]=sprites[SpriteName(s,v,c)];}
                 }
-                var motifPath=root+"/Art/Motifs/"+s.styleId+".png";CopyExact(source+"/"+s.panels.motif,motifPath);ValidatePixels(motifPath,128,128,palette);Import(motifPath,null);art.motif=AssetDatabase.LoadAssetAtPath<Sprite>(motifPath);output.Add(art);
+                var motifPath=root+"/Art/Motifs/"+s.styleId+".png";CopyExact(source+"/"+s.panels.motif,motifPath);ValidatePixels(motifPath,128,128,palette);Import(motifPath,null);art.motif=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(motifPath));output.Add(art);
             }
             AssetDatabase.Refresh();
             var registry=AssetDatabase.LoadAssetAtPath<FreeShapeArtRegistry>(registryPath);

@@ -94,7 +94,7 @@ namespace ANIMOL.ProductionV1.Editor
             for(int i=0;i<3;i++)
             {
                 string layer=new[]{"Far","Mid","Decor"}[i];var go=new GameObject(layer);go.transform.SetParent(root.transform,false);
-                var renderer=go.AddComponent<SpriteRenderer>();renderer.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/GameArt/BG_Game_"+id+"_"+layer+".png");
+                var renderer=go.AddComponent<SpriteRenderer>();renderer.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/GameArt/BG_Game_"+id+"_"+layer+".png"));
                 renderer.sortingLayerName="Default";renderer.sortingOrder=-30+i*10;
                 // Reduced contrast keeps non-collidable decoration distinct from actual terrain.
                 renderer.color=i==0?Color.white:new Color(.72f,.72f,.80f,i==2?.38f:.62f);
@@ -125,7 +125,7 @@ namespace ANIMOL.ProductionV1.Editor
             string cp=Root+"/Resources/ANIMOLProductionV1/Catalog.asset";
             var c=AssetDatabase.LoadAssetAtPath<ProductionCatalog>(cp);
             if(c==null){c=ScriptableObject.CreateInstance<ProductionCatalog>();AssetDatabase.CreateAsset(c,cp);}
-            c.Art=manifest["runtimeAssets"].Select(a=>AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/Art/"+Path.GetFileName((string)a["path"]))).ToArray();
+            c.Art=manifest["runtimeAssets"].Select(a=>AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/Art/"+Path.GetFileName((string)a["path"])))).ToArray();
             if(c.LoadingFrames==null||c.LoadingFrames.Length!=8)
             {
                 c.LoadingFrames=new Sprite[8];var tex=c.Find("UI_Common_Loading_Animation").texture;

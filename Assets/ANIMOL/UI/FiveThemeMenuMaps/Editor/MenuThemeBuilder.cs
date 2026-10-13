@@ -29,6 +29,6 @@ namespace ANIMOL.FiveThemeMenu.Editor
             catalog.campaign=Sprite("Mode_campaign_164x88.png");catalog.competition=Sprite("Mode_competition_164x88.png");catalog.cooperation=Sprite("Mode_cooperation_164x88.png");
             EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssetIfDirty(catalog);
         }
-        private static Sprite Sprite(string file) => AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/Sprites/"+file);
+        private static Sprite Sprite(string file) => AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/Sprites/"+file));
     }
 }

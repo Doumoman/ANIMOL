@@ -42,6 +42,6 @@ namespace ANIMOL.MissingUiV1.Project.Editor
             finally{UnityEngine.Object.DestroyImmediate(container);EditorSceneManager.ClosePreviewScene(preview);}
             Debug.Log("MISSING_UI_TASK2: Settings, Controls, Account and reset confirmation generated. Existing sources/scenes/store/phase assets were not regenerated.");
         }
-        private static Sprite Sprite(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(MissingUiProjectBuilder.Root+"/Sprites/"+name+".png")??throw new InvalidOperationException("Missing art "+name);
+        private static Sprite Sprite(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(MissingUiProjectBuilder.Root+"/Sprites/"+name+".png"))??throw new InvalidOperationException("Missing art "+name);
     }
 }

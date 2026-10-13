@@ -83,11 +83,11 @@ namespace ANIMOL.PortraitArtV1.Editor
                 string name=property.Name; var c=property.Value; var r=Rect(name,root);
                 r.anchorMin=r.anchorMax=V(c["anchor"]);r.pivot=V(c["pivot"]);r.anchoredPosition=V(c["position"]);r.sizeDelta=V(c["size"]);
                 var image=r.gameObject.AddComponent<Image>();
-                image.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/Sprites/"+(string)c["sprite"]);
+                image.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/Sprites/"+(string)c["sprite"]));
                 image.type=Image.Type.Simple;image.preserveAspect=true;image.raycastTarget=name!="CurrencyCapsule";
                 if(name=="CurrencyCapsule") {
                     var coin=Rect("CoinIcon",r); Place(coin,new Vector2(0,1),new Vector2(0,1),new Vector2(25,-21),new Vector2(54,54));
-                    var icon=coin.gameObject.AddComponent<Image>();icon.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/Sprites/icon_coin.png");icon.preserveAspect=true;icon.raycastTarget=false;
+                    var icon=coin.gameObject.AddComponent<Image>();icon.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/Sprites/icon_coin.png"));icon.preserveAspect=true;icon.raycastTarget=false;
                     var amount=Label("CurrencyTMP",r,"--",32,Ink);
                     Place(amount.rectTransform,new Vector2(0,1),new Vector2(0,.5f),new Vector2(102,-45),new Vector2(202,54));
                     amount.alignment=TextAlignmentOptions.MidlineLeft;view.Currency=amount;

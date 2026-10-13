@@ -1,3 +1,6 @@
+// Platformer archive: Legacy/Platformer_20261013/ (original Assets-relative paths).
+// Disabled by default during the top-view swipe puzzle cutover.
+#if ANIMOL_LEGACY_MAP_EDITOR
 using System;
 using System.IO;
 using System.Linq;
@@ -81,3 +84,5 @@ namespace ANIMOL.Editor
         static partial void ValidateM5();
     }
 }
+
+#endif // ANIMOL_LEGACY_MAP_EDITOR

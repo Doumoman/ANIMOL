@@ -42,7 +42,7 @@ namespace ANIMOL.FiveThemeMenu.Editor
                 var settings=new TextureImporterSettings();importer.ReadTextureSettings(settings);settings.spriteMeshType=SpriteMeshType.FullRect;importer.SetTextureSettings(settings);
                 foreach(var platform in new[]{"Standalone","Android","iPhone","WebGL","Windows Store Apps"})importer.ClearPlatformTextureSettings(platform);
                 importer.SaveAndReimport();
-                var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(path));
                 if(texture.width!=352 || texture.height!=704)throw new InvalidDataException("Unexpected imported dimensions: "+a.id);
             }
             Undo.RecordObject(catalog,"Apply original design correction v2 background");
@@ -50,6 +50,6 @@ namespace ANIMOL.FiveThemeMenu.Editor
             EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssetIfDirty(catalog);
             Debug.Log("Original Design Correction V2: 20 backgrounds verified and connected to ANIMOLMainUiV7; current rabbits retained.");
         }
-        private static Texture2D Load(int theme,string layer)=>AssetDatabase.LoadAssetAtPath<Texture2D>(Root+"/T"+theme.ToString("00")+"-"+layer+".png");
+        private static Texture2D Load(int theme,string layer)=>AssetDatabase.LoadAssetAtPath<Texture2D>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root+"/T"+theme.ToString("00")+"-"+layer+".png"));
     }
 }

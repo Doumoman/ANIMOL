@@ -47,6 +47,6 @@ namespace ANIMOL.MissingUiV1.Project.Editor
         }
         private static Sprite Existing(string name)=>Required("Assets/ANIMOL/UI/ProductionV1/Art/"+name+".png");
         private static Sprite New(string path)=>Required(Root+"/Sprites/"+path+".png");
-        private static Sprite Required(string path)=>AssetDatabase.LoadAssetAtPath<Sprite>(path)??throw new InvalidOperationException("Missing sprite "+path);
+        private static Sprite Required(string path)=>AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(path))??throw new InvalidOperationException("Missing sprite "+path);
     }
 }

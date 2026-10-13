@@ -147,7 +147,7 @@ namespace ANIMOL.MissingUiV1.Editor
                 if (entry == null || string.IsNullOrEmpty(entry.path) || !entry.path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)) continue;
                 var relative = entry.path.StartsWith("sprites/", StringComparison.Ordinal) ? entry.path.Substring(8) : entry.path;
                 if (relative.Contains("..") || Path.IsPathRooted(relative)) throw new InvalidOperationException("Unsafe manifest path.");
-                var path = Root + "/Sprites/" + relative;
+                var path = ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root + "/Sprites/" + relative);
                 var importer = AssetImporter.GetAtPath(path) as TextureImporter;
                 if (importer == null) throw new FileNotFoundException("New PNG not imported: " + path);
                 importer.textureType = TextureImporterType.Sprite;
@@ -168,7 +168,7 @@ namespace ANIMOL.MissingUiV1.Editor
                 if (entry.borderLBRTop != null && entry.borderLBRTop.Length == 4)
                     importer.spriteBorder = new Vector4(entry.borderLBRTop[0], entry.borderLBRTop[1], entry.borderLBRTop[2], entry.borderLBRTop[3]);
                 importer.SaveAndReimport();
-                var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(path));
                 if (entry.size != null && entry.size.Length == 2 && (texture.width != entry.size[0] || texture.height != entry.size[1]))
                     throw new InvalidOperationException("Manifest size mismatch: " + path);
             }
@@ -193,10 +193,10 @@ namespace ANIMOL.MissingUiV1.Editor
             if (string.IsNullOrEmpty(name)) return null;
             Sprite cached;
             if (Sprites.TryGetValue(name, out cached)) return cached;
-            var matches = AssetDatabase.FindAssets(Path.GetFileNameWithoutExtension(name) + " t:Sprite", new[] { Root + "/Sprites" })
+            var matches = AssetDatabase.FindAssets(Path.GetFileNameWithoutExtension(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(Root + "/Sprites/" + name)) + " t:Sprite", new[] { "Assets/ANIMOL/Sprites/UI" })
                 .Select(AssetDatabase.GUIDToAssetPath).Where(p => Path.GetFileName(p) == name).Distinct().ToArray();
-            Sprite found = matches.Length == 1 ? AssetDatabase.LoadAssetAtPath<Sprite>(matches[0]) : null;
-            if (found == null) found = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/ANIMOL/UI/ProductionV1/Art/" + name);
+            Sprite found = matches.Length == 1 ? AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(matches[0])) : null;
+            if (found == null) found = AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve("Assets/ANIMOL/UI/ProductionV1/Art/" + name));
             if (found == null && matches.Length > 1) throw new InvalidOperationException("Ambiguous new sprite filename: " + name);
             if (found == null && required) throw new InvalidOperationException("필수 Sprite 참조 없음: " + name + ". 기존 ProductionV1/Art 또는 신규 MissingUiV1/Sprites 경로를 확인하세요. 기존 GUID/복제 폴더는 자동 선택하지 않습니다.");
             Sprites[name] = found;

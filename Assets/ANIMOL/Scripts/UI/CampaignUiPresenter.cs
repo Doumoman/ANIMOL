@@ -147,7 +147,15 @@ namespace ANIMOL.UI
             if (start != null) start.interactable = availability == ContentAvailability.Ready && progression != null && progression.IsUnlocked(selectedStage);
         }
 
-        private void LaunchDevelopmentRun() => SceneManager.LoadScene("Gameplay");
+        private void LaunchDevelopmentRun()
+        {
+            // Archived scene entry: Legacy/Platformer_20261013/Assets/ANIMOL/Scenes/.
+#if ANIMOL_LEGACY_MAP_EDITOR
+            SceneManager.LoadScene("Gameplay");
+#else
+            ShowToast("탑뷰 퍼즐 준비 중입니다.");
+#endif
+        }
 
         private void Bind(string name, UnityEngine.Events.UnityAction action)
         {

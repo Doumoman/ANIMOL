@@ -35,6 +35,6 @@ namespace ANIMOL.MissingUiV1.Project.Multiplayer.Editor
             finally{UnityEngine.Object.DestroyImmediate(container);EditorSceneManager.ClosePreviewScene(scene);}
             Debug.Log("MISSING_UI_TASK3: Five operational UI frames generated; no original scene, phase adapter or policy regenerated.");
         }
-        private static Sprite Sprite(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>("Assets/ANIMOL/UI/MissingUiV1/Sprites/multiplayer/"+name+".png")??throw new InvalidOperationException(name);
+        private static Sprite Sprite(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve("Assets/ANIMOL/UI/MissingUiV1/Sprites/multiplayer/"+name+".png"))??throw new InvalidOperationException(name);
     }
 }

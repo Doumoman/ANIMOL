@@ -99,7 +99,7 @@ namespace ANIMOL.NamedArt.Tests
             NamedArtReferences.CaptureAll(Root); Replace();
             Assert.AreNotEqual(guid, AssetDatabase.AssetPathToGUID(ImagePath));
             var r = NamedArtReferences.Repair(); Assert.AreEqual(2, r.ChangedSlots); Assert.IsEmpty(r.Issues);
-            var p = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "saved.prefab"); var current = AssetDatabase.LoadAssetAtPath<Sprite>(ImagePath);
+            var p = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "saved.prefab"); var current = AssetDatabase.LoadAssetAtPath<Sprite>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(ImagePath));
             Assert.AreSame(current, p.GetComponent<Image>().sprite); Assert.AreSame(current, p.GetComponentInChildren<SpriteRenderer>(true).sprite);
             Assert.AreEqual(2, p.GetComponentsInChildren<Transform>(true).Length);
         }
@@ -163,7 +163,7 @@ namespace ANIMOL.NamedArt.Tests
             var frame = Sprite.Create(s.texture, new Rect(0, 0, 8, 8), new Vector2(.5f, .5f), 16); frame.name = "Loading_0";
             AssetDatabase.AddObjectToAsset(frame, tile); tile.sprite = frame; EditorUtility.SetDirty(tile); AssetDatabase.SaveAssetIfDirty(tile);
             NamedArtReferences.CaptureAll(Root); Replace(); var r = NamedArtReferences.Repair(); Assert.IsEmpty(r.Issues);
-            var current = AssetDatabase.LoadAssetAtPath<Texture2D>(ImagePath);
+            var current = AssetDatabase.LoadAssetAtPath<Texture2D>(ANIMOL.SpritePathEditor.CanonicalSpritePaths.Resolve(ImagePath));
             Assert.AreSame(current, AssetDatabase.LoadAssetAtPath<Tile>(Root + "subasset.asset").sprite.texture);
         }
         [Test] public void SamePathReimportRestoresSheetEvenWhenUnityReusesADeletedGuid()
