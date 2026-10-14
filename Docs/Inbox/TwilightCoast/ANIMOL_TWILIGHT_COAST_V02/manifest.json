@@ -1,0 +1,1762 @@
+{
+  "version": "ANIMOL_TWILIGHT_COAST_V02",
+  "scope": "Twilight Sea sunset beach environment; existing puzzle devices remain separate",
+  "tileSize": 80,
+  "pixelsPerUnit": 80,
+  "palette": [
+    "#1A1C2C",
+    "#333C57",
+    "#5D275D",
+    "#B13E53",
+    "#EF7D57",
+    "#FFCD75",
+    "#A7F070",
+    "#38B764",
+    "#257179",
+    "#29366F",
+    "#3B5DC9",
+    "#41A6F6",
+    "#73EFF7",
+    "#F4F4F4",
+    "#94B0C2",
+    "#566C86"
+  ],
+  "activePalette": [
+    "#1A1C2C",
+    "#333C57",
+    "#5D275D",
+    "#B13E53",
+    "#EF7D57",
+    "#FFCD75",
+    "#A7F070",
+    "#38B764",
+    "#257179",
+    "#73EFF7",
+    "#F4F4F4",
+    "#94B0C2",
+    "#566C86"
+  ],
+  "outlineWidth": 1,
+  "alpha": "0_or_255",
+  "light": "upper_left",
+  "baseInset": 5,
+  "outerCornerRadius": 10,
+  "innerPatchSize": 20,
+  "outerBitmask": {
+    "N": 1,
+    "E": 2,
+    "S": 4,
+    "W": 8
+  },
+  "innerBitmask": {
+    "NW": 1,
+    "NE": 2,
+    "SE": 4,
+    "SW": 8
+  },
+  "materials": [
+    {
+      "key": "sand",
+      "role": "structural_sand_floor",
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/sand/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/sand/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/sand/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/sand/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/sand/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/sand/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/sand/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/sand/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/sand/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/sand/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/sand/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/sand/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/sand/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/sand/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/sand/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/sand/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/sand/inner4/inner_north_west.png",
+          "sample": "tiles/sand/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/sand/inner4/inner_north_east.png",
+          "sample": "tiles/sand/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/sand/inner4/inner_south_east.png",
+          "sample": "tiles/sand/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/sand/inner4/inner_south_west.png",
+          "sample": "tiles/sand/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/sand/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/sand/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/sand/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/sand/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/sand/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/sand/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/sand/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/sand/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/sand/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/sand/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/sand/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/sand/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/sand/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/sand/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/sand/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/sand/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/sand/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/sand/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/sand/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/sand/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/sand/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/sand/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/sand/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/sand/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/sand/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/sand/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/sand/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/sand/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/sand/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/sand/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/sand/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/sand/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/sand_20_source_1x.png",
+      "blobAtlas": "atlases/sand_47_ready_1x.png"
+    },
+    {
+      "key": "wet_sand_body",
+      "role": "noncolliding_short_sand_lip",
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/wet_sand_body/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/wet_sand_body/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/wet_sand_body/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/wet_sand_body/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/wet_sand_body/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/wet_sand_body/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/wet_sand_body/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/wet_sand_body/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/wet_sand_body/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/wet_sand_body/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/wet_sand_body/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/wet_sand_body/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/wet_sand_body/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/wet_sand_body/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/wet_sand_body/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/wet_sand_body/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/wet_sand_body/inner4/inner_north_west.png",
+          "sample": "tiles/wet_sand_body/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/wet_sand_body/inner4/inner_north_east.png",
+          "sample": "tiles/wet_sand_body/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/wet_sand_body/inner4/inner_south_east.png",
+          "sample": "tiles/wet_sand_body/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/wet_sand_body/inner4/inner_south_west.png",
+          "sample": "tiles/wet_sand_body/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/wet_sand_body/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/wet_sand_body/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/wet_sand_body/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/wet_sand_body/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/wet_sand_body/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/wet_sand_body/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/wet_sand_body/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/wet_sand_body/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/wet_sand_body/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/wet_sand_body/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/wet_sand_body/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/wet_sand_body/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/wet_sand_body/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/wet_sand_body/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/wet_sand_body/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/wet_sand_body/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/wet_sand_body/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/wet_sand_body/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/wet_sand_body/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/wet_sand_body/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/wet_sand_body/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/wet_sand_body/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/wet_sand_body/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/wet_sand_body/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/wet_sand_body/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/wet_sand_body/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/wet_sand_body/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/wet_sand_body/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/wet_sand_body/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/wet_sand_body/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/wet_sand_body/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/wet_sand_body/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/wet_sand_body_20_source_1x.png",
+      "blobAtlas": "atlases/wet_sand_body_47_ready_1x.png"
+    }
+  ],
+  "props": [
+    {
+      "name": "palm_160x160",
+      "file": "props/palm_160x160.png",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "nonwalkable_decor_beach",
+      "bodyBox": [
+        9,
+        6,
+        141,
+        148
+      ]
+    },
+    {
+      "name": "rocks_160x80",
+      "file": "props/rocks_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "nonwalkable_decor_beach",
+      "bodyBox": [
+        6,
+        8,
+        148,
+        66
+      ]
+    },
+    {
+      "name": "rope_fence_160x80",
+      "file": "props/rope_fence_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "nonwalkable_decor_beach",
+      "bodyBox": [
+        5,
+        25,
+        150,
+        49
+      ]
+    },
+    {
+      "name": "setting_sun_240x160",
+      "file": "props/setting_sun_240x160.png",
+      "size": [
+        240,
+        160
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "horizon_only",
+      "isReflectionMark": true
+    },
+    {
+      "name": "sun_reflection_240x160",
+      "file": "props/sun_reflection_240x160.png",
+      "size": [
+        240,
+        160
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "horizon_only",
+      "isReflectionMark": true
+    },
+    {
+      "name": "ripple_0_240x80",
+      "file": "props/ripple_0_240x80.png",
+      "size": [
+        240,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "water_only",
+      "isReflectionMark": true
+    },
+    {
+      "name": "ripple_1_240x80",
+      "file": "props/ripple_1_240x80.png",
+      "size": [
+        240,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "water_only",
+      "isReflectionMark": true
+    },
+    {
+      "name": "ripple_2_240x80",
+      "file": "props/ripple_2_240x80.png",
+      "size": [
+        240,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "water_only",
+      "isReflectionMark": true
+    }
+  ],
+  "animations": [
+    {
+      "name": "palm_idle",
+      "frames": [
+        {
+          "file": "animation/palm_idle/frame_00.png",
+          "durationMs": 800
+        },
+        {
+          "file": "animation/palm_idle/frame_01.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/palm_idle/frame_02.png",
+          "durationMs": 800
+        },
+        {
+          "file": "animation/palm_idle/frame_03.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/palm_idle/frame_04.png",
+          "durationMs": 800
+        }
+      ],
+      "sheet": "animation/palm_idle/sheet.png",
+      "frameSize": [
+        160,
+        160
+      ],
+      "loop": true,
+      "rootMotion": false,
+      "fixedRowsFrom": 112,
+      "maxDisplacementPixels": 1,
+      "optional": true,
+      "trigger": "ambient_decoration",
+      "lastFrameReturnsToIdle": false
+    },
+    {
+      "name": "palm_touch",
+      "frames": [
+        {
+          "file": "animation/palm_touch/frame_00.png",
+          "durationMs": 40
+        },
+        {
+          "file": "animation/palm_touch/frame_01.png",
+          "durationMs": 60
+        },
+        {
+          "file": "animation/palm_touch/frame_02.png",
+          "durationMs": 70
+        },
+        {
+          "file": "animation/palm_touch/frame_03.png",
+          "durationMs": 80
+        },
+        {
+          "file": "animation/palm_touch/frame_04.png",
+          "durationMs": 80
+        },
+        {
+          "file": "animation/palm_touch/frame_05.png",
+          "durationMs": 100
+        }
+      ],
+      "sheet": "animation/palm_touch/sheet.png",
+      "frameSize": [
+        160,
+        160
+      ],
+      "loop": false,
+      "rootMotion": false,
+      "fixedRowsFrom": 112,
+      "maxDisplacementPixels": 3,
+      "optional": true,
+      "trigger": "existing_decor_touch_event_only",
+      "lastFrameReturnsToIdle": true
+    },
+    {
+      "name": "water_ripples",
+      "frames": [
+        {
+          "file": "animation/water_ripples/frame_00.png",
+          "durationMs": 600
+        },
+        {
+          "file": "animation/water_ripples/frame_01.png",
+          "durationMs": 600
+        },
+        {
+          "file": "animation/water_ripples/frame_02.png",
+          "durationMs": 600
+        },
+        {
+          "file": "animation/water_ripples/frame_03.png",
+          "durationMs": 600
+        }
+      ],
+      "sheet": "animation/water_ripples/sheet.png",
+      "frameSize": [
+        960,
+        960
+      ],
+      "loop": true,
+      "rootMotion": false,
+      "maxDisplacementPixels": 4,
+      "repeatXY": true,
+      "optional": true,
+      "replacesLayer": "near",
+      "doNotOverlayStaticLayer": true,
+      "trigger": "ambient_water_only"
+    }
+  ],
+  "backgrounds": [
+    {
+      "layer": "far",
+      "file": "backgrounds/far_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.12,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    },
+    {
+      "layer": "mid",
+      "file": "backgrounds/mid_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.3,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    },
+    {
+      "layer": "near",
+      "file": "backgrounds/near_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.5,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    }
+  ],
+  "horizon": {
+    "core": "backgrounds/horizon_core_960x320.png",
+    "sideLeft": "backgrounds/horizon_side_left_repeat_80x320.png",
+    "sideRight": "backgrounds/horizon_side_right_repeat_80x320.png",
+    "withoutSun": "backgrounds/horizon_without_sun_960x320.png",
+    "sunFile": "props/setting_sun_240x160.png",
+    "reflectionFile": "props/sun_reflection_240x160.png",
+    "sunTopLeftPixels": [
+      360,
+      80
+    ],
+    "reflectionTopLeftPixels": [
+      360,
+      218
+    ],
+    "waterlineY": 218,
+    "coreSize": [
+      960,
+      320
+    ],
+    "sideSize": [
+      80,
+      320
+    ],
+    "singleSun": true,
+    "coreDoesNotRepeat": true,
+    "sideRepeatX": true,
+    "repeatY": false,
+    "anchor": "world_backdrop_above_board",
+    "behindBoard": true
+  },
+  "body": {
+    "offsetImagePixels": [
+      0,
+      8
+    ],
+    "offsetUnityUnits": [
+      0,
+      -0.1
+    ],
+    "sameMaskAsSand": true,
+    "renderWholeLayerFirst": true,
+    "collision": false
+  },
+  "sorting": [
+    "Far water",
+    "Mid ripples",
+    "Near ripples or animated replacement",
+    "Single horizon",
+    "Wet sand body",
+    "Sand shore",
+    "Optional grid",
+    "Border decor",
+    "Existing devices",
+    "Player",
+    "UI"
+  ],
+  "sourceFiles": {
+    "horizon": "exec-ee228ae2-fb46-4358-bd7b-7d6a3372b0f6.png",
+    "beach": "exec-9f363594-8366-4ddf-a7e9-dce8b5c56271.png",
+    "palm": "exec-8adeb89a-65b8-4e9e-b580-22f08310cd5b.png",
+    "rocks": "exec-f2ca24ae-a9b5-425b-a491-9717854ffdc8.png",
+    "rope_fence": "exec-f0cb61fc-18bc-4bf9-97df-23679ab9a151.png"
+  },
+  "artTool": "built-in image_gen",
+  "technicalProcessing": "nearest sampling, fixed-palette quantization, alpha repair, one-pixel contours, source-derived coast profiles and exact neighbor joins"
+}

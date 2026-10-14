@@ -16,6 +16,7 @@ namespace ANIMOL.Puzzle
         SkyIslandMapRenderer island;
         MemorySkyTheaterRenderer theater;
         ClockDomeRenderer dome;
+        TwilightCoastRenderer coast;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
@@ -38,6 +39,12 @@ namespace ANIMOL.Puzzle
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
             bubbleViews.Clear(); objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            if (map.theme && map.theme.twilightCoast)
+            {
+                if (!coast) coast = new GameObject("Twilight coast environment").AddComponent<TwilightCoastRenderer>();
+                coast.transform.SetParent(transform, false); coast.Bind(map, map.theme.twilightCoast);
+            }
+            else if (coast) { Remove(coast.gameObject); coast = null; }
             if (map.theme && map.theme.clockDome)
             {
                 if (!dome) dome = new GameObject("Clock dome environment").AddComponent<ClockDomeRenderer>();
@@ -74,7 +81,7 @@ namespace ANIMOL.Puzzle
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
-            if (dome && map.TryTerrain(p, out var domeCell))
+            if ((dome || coast) && map.TryTerrain(p, out var domeCell))
             {
                 if (domeCell.blocked && visible.Contains(p))
                 {

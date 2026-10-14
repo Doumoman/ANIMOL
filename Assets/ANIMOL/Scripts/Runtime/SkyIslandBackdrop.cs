@@ -15,7 +15,7 @@ namespace ANIMOL.Puzzle
         public RenderTexture BackgroundTexture { get; private set; }
         public Vector2Int[] Phases { get; } = new Vector2Int[3];
         Camera gameplay, foregroundCapture, backgroundCapture, foregroundDisplay, backgroundDisplay;
-        Sprite farSprite, midSprite, nearSprite;
+        Sprite farSprite, midSprite, nearSprite, staticNearSprite;
         Material compositor;
         Transform[] layers;
         SpriteRenderer[][] copies;
@@ -25,6 +25,18 @@ namespace ANIMOL.Puzzle
         Vector2Int foregroundSize, backgroundSize;
         public static readonly float[] Parallax = { .15f, .35f, .65f };
         public Vector3 ParallaxFactors { get; private set; } = new Vector3(.15f, .35f, .65f);
+        public ANIMOL.Presentation.SpriteFrameSequence NearSequence { get; private set; }
+        public float NearElapsed { get; private set; }
+        public bool animateNear = true;
+        public void SetNearAnimation(ANIMOL.Presentation.SpriteFrameSequence sequence)
+        { NearSequence = sequence; NearElapsed = 0; UpdateNearSprite(); }
+        public void AdvanceNear(float seconds)
+        { NearElapsed += Mathf.Max(0, seconds); UpdateNearSprite(); }
+        void UpdateNearSprite()
+        {
+            nearSprite = NearSequence ? NearSequence.At(NearElapsed) : staticNearSprite;
+            if (copies != null) foreach (var image in copies[2]) image.sprite = nearSprite;
+        }
         public static int FloorMod(int value, int period) => value - Mathf.FloorToInt((float)value / period) * period;
         public static Vector2Int Phase(Vector2 cameraPixels, float factor) => new Vector2Int(FloorMod(Mathf.RoundToInt(cameraPixels.x * factor), 960), FloorMod(Mathf.RoundToInt(cameraPixels.y * factor), 960));
         public void Configure(SkyIslandArt source, Camera camera)
@@ -32,7 +44,7 @@ namespace ANIMOL.Puzzle
         public void Configure(Sprite far, Sprite mid, Sprite near, Material material, Camera camera, Vector3? parallax = null)
         {
             ParallaxFactors = parallax ?? new Vector3(.15f, .35f, .65f);
-            farSprite = far; midSprite = mid; nearSprite = near; compositor = material;
+            farSprite = far; midSprite = mid; nearSprite = staticNearSprite = near; compositor = material;
             gameplay = camera; originalMask = camera.cullingMask; originalClear = camera.clearFlags;
             foregroundCapture = Camera("Native foreground capture", camera.depth - 8, 0, false);
             backgroundCapture = Camera("Native background capture", camera.depth - 10, 1 << BackgroundLayer, false);
@@ -75,6 +87,7 @@ namespace ANIMOL.Puzzle
         }
         void LateUpdate()
         {
+            if (NearSequence && animateNear && Application.isPlaying) AdvanceNear(Time.unscaledDeltaTime);
             if (!gameplay || !farSprite) return;
             var rect = gameplay.pixelRect;
             var h = Mathf.Max(1, Mathf.RoundToInt(gameplay.orthographicSize * 160));

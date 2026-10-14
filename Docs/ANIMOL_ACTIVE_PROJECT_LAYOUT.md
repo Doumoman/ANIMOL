@@ -88,3 +88,7 @@ Assets/ANIMOL/
 # CLOCK DOME 환경 적용
 
 시계탑 돔 환경은 `Sprites/Tiles/Floor/letter_observatory/ClockDome`, `Sprites/Props/letter_observatory/ClockDome`, `Sprites/Background/letter_observatory/ClockDome`에 원본 PNG 116개를 보관한다. Data/Art/ClockDome과 Prefabs/Environment/ClockDome, ClockDome 런타임/Editor 코드가 이를 연결한다. 기존 편지 천문대 아트 QA 씬의 환경을 교체했고 별도 `ANIMOL_ClockDome_Environment_QA`와 `ANIMOL_ClockDome_Puzzle_QA`를 추가했다. 기존 장치·UI·원래 레벨·카메라 추적은 보존한다. 전체 EditMode 80/80, PlayMode 21/21, 실제 Game View 픽셀 비교 18개와 이동 검증은 [적용 결과](ANIMOL_CLOCK_DOME_RESULT.md)에 있다. 코스트와 편지 천문대 장치의 권위 있는 퍼즐 판정은 여전히 미연결이다.
+
+# 황혼의 바다 석양 해변 환경
+
+석양 해변은 `Sprites/Tiles/Floor/twilight_sea/TwilightCoast`, `Sprites/Props/twilight_sea/TwilightCoast`, `Sprites/Background/twilight_sea/TwilightCoast`의 PNG 124개를 사용한다. Data/Art/TwilightCoast와 Prefabs/Environment/TwilightCoast, TwilightCoast 런타임/Editor 코드가 기존 황혼의 바다 아트 QA 씬과 신규 Environment/Puzzle QA 씬을 연결한다. 기존 장치 307 프리젠터·8 마스터·나룻배·범위 프리뷰·UI·원래 레벨·카메라 추적을 보존했다. 전체 EditMode 86/86, PlayMode 24/24, 실제 Game View 비교 23개는 [적용 결과](ANIMOL_TWILIGHT_COAST_RESULT.md)에 있다. 코스트/테마 장치 판정은 기존 미연결 상태이며, 접촉 이벤트가 없어 야자수 touch는 미연결이다.
