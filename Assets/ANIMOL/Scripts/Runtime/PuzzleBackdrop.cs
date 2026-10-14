@@ -15,6 +15,11 @@ namespace ANIMOL.Puzzle
         public static float UniformCover(Vector2 frame, Vector2 source) => Mathf.Max(frame.x / source.x, frame.y / source.y);
         public void Configure(PuzzleTheme data, Camera gameplay, PuzzleCameraSettings settings)
         {
+            if (data.memorySkyTheater)
+            {
+                var art = data.memorySkyTheater;
+                gameObject.AddComponent<SkyIslandBackdrop>().Configure(art.far, art.mid, art.near, art.compositor, gameplay); return;
+            }
             if (data.skyIsland)
             { gameObject.AddComponent<SkyIslandBackdrop>().Configure(data.skyIsland, gameplay); return; }
             theme = data; gameplayCamera = gameplay;

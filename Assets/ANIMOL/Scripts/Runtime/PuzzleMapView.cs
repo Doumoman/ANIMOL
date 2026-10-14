@@ -14,6 +14,7 @@ namespace ANIMOL.Puzzle
         Transform objectsRoot;
         RectInt visible;
         SkyIslandMapRenderer island;
+        MemorySkyTheaterRenderer theater;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
@@ -36,6 +37,12 @@ namespace ANIMOL.Puzzle
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
             bubbleViews.Clear(); objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            if (map.theme && map.theme.memorySkyTheater)
+            {
+                if (!theater) theater = new GameObject("Memory theater environment").AddComponent<MemorySkyTheaterRenderer>();
+                theater.transform.SetParent(transform, false); theater.Bind(map, map.theme.memorySkyTheater);
+            }
+            else if (theater) { Remove(theater.gameObject); theater = null; }
             if (map.theme && map.theme.skyIsland)
             {
                 if (!island) island = gameObject.AddComponent<SkyIslandMapRenderer>();
@@ -60,6 +67,7 @@ namespace ANIMOL.Puzzle
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
+            if (theater && map.TryTerrain(p, out var ground) && !ground.blocked) return;
             if (island)
             {
                 if (visible.Contains(p)) island.RefreshCell(p); else island.ClearCell(p);

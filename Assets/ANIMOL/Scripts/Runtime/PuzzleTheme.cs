@@ -13,6 +13,7 @@ namespace ANIMOL.Puzzle
     public sealed class PuzzleTheme : ScriptableObject
     {
         public SkyIslandArt skyIsland;
+        public MemorySkyTheaterArt memorySkyTheater;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;
         public Sprite far, mid, near;

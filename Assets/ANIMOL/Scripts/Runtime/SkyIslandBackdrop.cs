@@ -15,7 +15,8 @@ namespace ANIMOL.Puzzle
         public RenderTexture BackgroundTexture { get; private set; }
         public Vector2Int[] Phases { get; } = new Vector2Int[3];
         Camera gameplay, foregroundCapture, backgroundCapture, foregroundDisplay, backgroundDisplay;
-        SkyIslandArt art;
+        Sprite farSprite, midSprite, nearSprite;
+        Material compositor;
         Transform[] layers;
         SpriteRenderer[][] copies;
         Renderer foregroundQuad, backgroundQuad;
@@ -26,8 +27,11 @@ namespace ANIMOL.Puzzle
         public static int FloorMod(int value, int period) => value - Mathf.FloorToInt((float)value / period) * period;
         public static Vector2Int Phase(Vector2 cameraPixels, float factor) => new Vector2Int(FloorMod(Mathf.RoundToInt(cameraPixels.x * factor), 960), FloorMod(Mathf.RoundToInt(cameraPixels.y * factor), 960));
         public void Configure(SkyIslandArt source, Camera camera)
+            => Configure(source.far, source.mid, source.near, source.compositorMaterial, camera);
+        public void Configure(Sprite far, Sprite mid, Sprite near, Material material, Camera camera)
         {
-            art = source; gameplay = camera; originalMask = camera.cullingMask; originalClear = camera.clearFlags;
+            farSprite = far; midSprite = mid; nearSprite = near; compositor = material;
+            gameplay = camera; originalMask = camera.cullingMask; originalClear = camera.clearFlags;
             foregroundCapture = Camera("Native foreground capture", camera.depth - 8, 0, false);
             backgroundCapture = Camera("Native background capture", camera.depth - 10, 1 << BackgroundLayer, false);
             foregroundDisplay = Camera("Integer foreground display", camera.depth + 1, 1 << ForegroundDisplayLayer, true);
@@ -57,7 +61,7 @@ namespace ANIMOL.Puzzle
             var quad = GameObject.CreatePrimitive(PrimitiveType.Quad); quad.name = "Point sampled presentation"; quad.layer = layer;
             quad.transform.SetParent(camera, false); quad.transform.localPosition = new Vector3(0, 0, 10);
             var collider = quad.GetComponent<Collider>(); if (Application.isPlaying) Destroy(collider); else DestroyImmediate(collider);
-            var renderer = quad.GetComponent<Renderer>(); renderer.sharedMaterial = art.compositorMaterial ? new Material(art.compositorMaterial) : new Material(Shader.Find("ANIMOL/SkyIslandComposite")); return renderer;
+            var renderer = quad.GetComponent<Renderer>(); renderer.sharedMaterial = compositor ? new Material(compositor) : new Material(Shader.Find("ANIMOL/SkyIslandComposite")); return renderer;
         }
         public static int ChooseScale(float viewportWidth, float viewportHeight, int nativeWidth, int nativeHeight)
         {
@@ -69,7 +73,7 @@ namespace ANIMOL.Puzzle
         }
         void LateUpdate()
         {
-            if (!gameplay || !art) return;
+            if (!gameplay || !farSprite) return;
             var rect = gameplay.pixelRect;
             var h = Mathf.Max(1, Mathf.RoundToInt(gameplay.orthographicSize * 160));
             var w = Mathf.Max(1, Mathf.RoundToInt(h * gameplay.aspect));
@@ -119,7 +123,7 @@ namespace ANIMOL.Puzzle
                 for (var i = 0; i < copies[layer].Length; i++)
                 {
                     var root = new GameObject("Repeat 960px"); root.layer = BackgroundLayer; root.transform.SetParent(layers[layer], false);
-                    var image = root.AddComponent<SpriteRenderer>(); image.sprite = layer == 0 ? art.far : layer == 1 ? art.mid : art.near; image.color = Color.white; image.sortingOrder = -100 + layer * 10;
+                    var image = root.AddComponent<SpriteRenderer>(); image.sprite = layer == 0 ? farSprite : layer == 1 ? midSprite : nearSprite; image.color = Color.white; image.sortingOrder = -100 + layer * 10;
                     copies[layer][i] = image;
                 }
             }
