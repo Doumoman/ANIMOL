@@ -15,6 +15,7 @@ namespace ANIMOL.Puzzle
         RectInt visible;
         SkyIslandMapRenderer island;
         MemorySkyTheaterRenderer theater;
+        ClockDomeRenderer dome;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
@@ -37,6 +38,12 @@ namespace ANIMOL.Puzzle
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
             bubbleViews.Clear(); objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            if (map.theme && map.theme.clockDome)
+            {
+                if (!dome) dome = new GameObject("Clock dome environment").AddComponent<ClockDomeRenderer>();
+                dome.transform.SetParent(transform, false); dome.Bind(map, map.theme.clockDome);
+            }
+            else if (dome) { Remove(dome.gameObject); dome = null; }
             if (map.theme && map.theme.memorySkyTheater)
             {
                 if (!theater) theater = new GameObject("Memory theater environment").AddComponent<MemorySkyTheaterRenderer>();
@@ -67,6 +74,15 @@ namespace ANIMOL.Puzzle
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
+            if (dome && map.TryTerrain(p, out var domeCell))
+            {
+                if (domeCell.blocked && visible.Contains(p))
+                {
+                    var marker = new GameObject("Blocked terrain " + p); marker.transform.SetParent(transform, false); marker.transform.localPosition = (Vector2)p;
+                    tiles[p] = marker; Label(marker.transform, "#", Vector2.zero, Color.white, 10);
+                }
+                return;
+            }
             if (theater && map.TryTerrain(p, out var ground) && !ground.blocked) return;
             if (island)
             {

@@ -1,0 +1,1733 @@
+{
+  "version": "ANIMOL_CLOCK_DOME_V01",
+  "scope": "Clocktower observatory interior environment, modular floor and background architecture; no new puzzle devices or UI",
+  "tileSize": 80,
+  "pixelsPerUnit": 80,
+  "palette": [
+    "#1A1C2C",
+    "#333C57",
+    "#5D275D",
+    "#B13E53",
+    "#EF7D57",
+    "#FFCD75",
+    "#A7F070",
+    "#38B764",
+    "#257179",
+    "#29366F",
+    "#3B5DC9",
+    "#41A6F6",
+    "#73EFF7",
+    "#F4F4F4",
+    "#94B0C2",
+    "#566C86"
+  ],
+  "activePalette": [
+    "#1A1C2C",
+    "#333C57",
+    "#29366F",
+    "#566C86",
+    "#94B0C2",
+    "#3B5DC9",
+    "#FFCD75",
+    "#EF7D57"
+  ],
+  "outlineWidth": 1,
+  "alpha": "0_or_255",
+  "light": "upper_left",
+  "outerBitmask": {
+    "N": 1,
+    "E": 2,
+    "S": 4,
+    "W": 8
+  },
+  "innerBitmask": {
+    "NW": 1,
+    "NE": 2,
+    "SE": 4,
+    "SW": 8
+  },
+  "innerPatchSize": 20,
+  "materials": [
+    {
+      "key": "floor",
+      "role": "structural_floor",
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/floor/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/floor/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/floor/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/floor/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/floor/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/floor/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/floor/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/floor/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/floor/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/floor/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/floor/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/floor/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/floor/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/floor/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/floor/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/floor/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/floor/inner4/inner_north_west.png",
+          "sample": "tiles/floor/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/floor/inner4/inner_north_east.png",
+          "sample": "tiles/floor/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/floor/inner4/inner_south_east.png",
+          "sample": "tiles/floor/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/floor/inner4/inner_south_west.png",
+          "sample": "tiles/floor/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/floor/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/floor/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/floor/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/floor/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/floor/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/floor/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/floor/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/floor/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/floor/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/floor/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/floor/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/floor/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/floor/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/floor/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/floor/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/floor/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/floor/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/floor/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/floor/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/floor/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/floor/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/floor/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/floor/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/floor/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/floor/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/floor/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/floor/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/floor/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/floor/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/floor/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/floor/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/floor/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/floor_20_source_1x.png",
+      "blobAtlas": "atlases/floor_47_ready_1x.png"
+    },
+    {
+      "key": "underside",
+      "role": "noncolliding_short_body",
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/underside/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/underside/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/underside/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/underside/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/underside/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/underside/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/underside/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/underside/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/underside/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/underside/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/underside/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/underside/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/underside/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/underside/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/underside/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/underside/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/underside/inner4/inner_north_west.png",
+          "sample": "tiles/underside/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/underside/inner4/inner_north_east.png",
+          "sample": "tiles/underside/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/underside/inner4/inner_south_east.png",
+          "sample": "tiles/underside/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/underside/inner4/inner_south_west.png",
+          "sample": "tiles/underside/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/underside/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/underside/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/underside/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/underside/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/underside/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/underside/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/underside/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/underside/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/underside/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/underside/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/underside/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/underside/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/underside/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/underside/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/underside/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/underside_20_source_1x.png",
+      "blobAtlas": "atlases/underside_47_ready_1x.png"
+    }
+  ],
+  "parts": [
+    {
+      "name": "column_left_repeat_160x80",
+      "file": "parts/column_left_repeat_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "repeatY": true,
+      "connectedEdges": [
+        "N",
+        "S"
+      ],
+      "attachment": "dome_side"
+    },
+    {
+      "name": "column_left_foot_160x80",
+      "file": "parts/column_left_foot_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "connectedEdges": [
+        "N"
+      ],
+      "attachment": "end_of_column"
+    },
+    {
+      "name": "column_right_repeat_160x80",
+      "file": "parts/column_right_repeat_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "repeatY": true,
+      "connectedEdges": [
+        "N",
+        "S"
+      ],
+      "attachment": "dome_side"
+    },
+    {
+      "name": "column_right_foot_160x80",
+      "file": "parts/column_right_foot_160x80.png",
+      "size": [
+        160,
+        80
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "connectedEdges": [
+        "N"
+      ],
+      "attachment": "end_of_column"
+    },
+    {
+      "name": "dome_cap_960x400",
+      "file": "parts/dome_cap_960x400.png",
+      "size": [
+        960,
+        400
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "top_of_room",
+      "repeat": false,
+      "connectedEdges": [
+        "column_ports_at_bottom"
+      ],
+      "singleHero": true
+    },
+    {
+      "name": "dome_cap_segment_left_320x400",
+      "file": "parts/dome_cap_segment_left_320x400.png",
+      "size": [
+        320,
+        400
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "fixed_order_assembly_only",
+      "partIndex": 0,
+      "repeat": false,
+      "noAddedOutlineAtCut": true
+    },
+    {
+      "name": "dome_cap_segment_center_320x400",
+      "file": "parts/dome_cap_segment_center_320x400.png",
+      "size": [
+        320,
+        400
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "fixed_order_assembly_only",
+      "partIndex": 1,
+      "repeat": false,
+      "noAddedOutlineAtCut": true
+    },
+    {
+      "name": "dome_cap_segment_right_320x400",
+      "file": "parts/dome_cap_segment_right_320x400.png",
+      "size": [
+        320,
+        400
+      ],
+      "pivot": [
+        0,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "fixed_order_assembly_only",
+      "partIndex": 2,
+      "repeat": false,
+      "noAddedOutlineAtCut": true
+    },
+    {
+      "name": "clock_240x240",
+      "file": "parts/clock_240x240.png",
+      "size": [
+        240,
+        240
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "dome_center",
+      "intentionalOpenings": false
+    },
+    {
+      "name": "pendulum_80x240",
+      "file": "parts/pendulum_80x240.png",
+      "size": [
+        80,
+        240
+      ],
+      "pivot": [
+        0.5,
+        1
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "ceiling_mount",
+      "intentionalOpenings": true
+    },
+    {
+      "name": "telescope_160x160",
+      "file": "parts/telescope_160x160.png",
+      "size": [
+        160,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "pixelsPerUnit": 80,
+      "collision": false,
+      "attachment": "decor_deck",
+      "intentionalOpenings": false
+    }
+  ],
+  "animations": [
+    {
+      "name": "pendulum_idle",
+      "frames": [
+        {
+          "file": "animation/pendulum_idle/frame_00.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_01.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_02.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_03.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_04.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_05.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_06.png",
+          "durationMs": 400
+        },
+        {
+          "file": "animation/pendulum_idle/frame_07.png",
+          "durationMs": 400
+        }
+      ],
+      "sheet": "animation/pendulum_idle/sheet.png",
+      "frameSize": [
+        80,
+        240
+      ],
+      "loop": true,
+      "durationMs": 3200,
+      "maxDisplacementPixels": 2,
+      "fixedTopRows": 12,
+      "rootMotion": false,
+      "optional": true,
+      "trigger": "ambient_only_no_gameplay_binding"
+    }
+  ],
+  "backgrounds": [
+    {
+      "layer": "far",
+      "file": "backgrounds/far_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.15,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    },
+    {
+      "layer": "mid",
+      "file": "backgrounds/mid_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.3,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    },
+    {
+      "layer": "near",
+      "file": "backgrounds/near_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.45,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "behindAllGameplay": true
+    }
+  ],
+  "dome": {
+    "widthPixels": 960,
+    "capHeightPixels": 400,
+    "columnStepPixels": 80,
+    "baseHeightPixels": 80,
+    "fixedWidth": true,
+    "capAssemblyOrder": [
+      "left",
+      "center",
+      "right"
+    ],
+    "capIsNotATilingImage": true,
+    "repeatBackdropProvidesUnlimitedXYCoverage": true,
+    "anchor": "world_back_wall",
+    "behindBoard": true
+  },
+  "underside": {
+    "offsetImagePixels": [
+      0,
+      12
+    ],
+    "offsetUnityUnits": [
+      0,
+      -0.15
+    ],
+    "sameMaskAsFloor": true,
+    "renderWholeLayerFirst": true,
+    "collision": false
+  },
+  "sorting": [
+    "Far",
+    "Mid",
+    "Near",
+    "Dome architecture and clock",
+    "Background pendulums",
+    "Underside",
+    "Floor",
+    "Optional grid",
+    "Border telescope",
+    "Existing devices",
+    "Player",
+    "UI"
+  ],
+  "sourceFiles": {
+    "dome": "exec-be5f3ed0-3969-44db-a144-8db1b5f94183.png",
+    "clock": "exec-f20c1261-b948-49b4-b581-ba201a2b2309.png",
+    "deck": "exec-42ea44cc-b3fe-47f3-b0cb-4dcdb4888cb1.png",
+    "pendulum": "exec-e7fa8e9f-22df-4adf-afde-2a6596fc8a19.png",
+    "telescope": "exec-c92f0996-ae5c-4b1f-b8e7-4d704648b6f1.png"
+  },
+  "artTool": "built-in image_gen",
+  "technicalProcessing": "nearest-neighbor sampling, exact palette quantization, binary alpha, native contour cleanup, topology normalization"
+}

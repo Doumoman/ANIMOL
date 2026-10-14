@@ -24,12 +24,14 @@ namespace ANIMOL.Puzzle
         CameraClearFlags originalClear;
         Vector2Int foregroundSize, backgroundSize;
         public static readonly float[] Parallax = { .15f, .35f, .65f };
+        public Vector3 ParallaxFactors { get; private set; } = new Vector3(.15f, .35f, .65f);
         public static int FloorMod(int value, int period) => value - Mathf.FloorToInt((float)value / period) * period;
         public static Vector2Int Phase(Vector2 cameraPixels, float factor) => new Vector2Int(FloorMod(Mathf.RoundToInt(cameraPixels.x * factor), 960), FloorMod(Mathf.RoundToInt(cameraPixels.y * factor), 960));
         public void Configure(SkyIslandArt source, Camera camera)
             => Configure(source.far, source.mid, source.near, source.compositorMaterial, camera);
-        public void Configure(Sprite far, Sprite mid, Sprite near, Material material, Camera camera)
+        public void Configure(Sprite far, Sprite mid, Sprite near, Material material, Camera camera, Vector3? parallax = null)
         {
+            ParallaxFactors = parallax ?? new Vector3(.15f, .35f, .65f);
             farSprite = far; midSprite = mid; nearSprite = near; compositor = material;
             gameplay = camera; originalMask = camera.cullingMask; originalClear = camera.clearFlags;
             foregroundCapture = Camera("Native foreground capture", camera.depth - 8, 0, false);
@@ -102,7 +104,7 @@ namespace ANIMOL.Puzzle
             var sample = overrideSample ? sampleCameraPixels : new Vector2(gameplay.transform.position.x * 80, -gameplay.transform.position.y * 80);
             for (var layer = 0; layer < 3; layer++)
             {
-                var phase = Phase(sample, Parallax[layer]); Phases[layer] = phase;
+                var phase = Phase(sample, ParallaxFactors[layer]); Phases[layer] = phase;
                 var index = 0;
                 for (var y = -1; y <= Mathf.CeilToInt(bg.y / 960f) + 1; y++) for (var x = -1; x <= Mathf.CeilToInt(bg.x / 960f) + 1; x++)
                     copies[layer][index++].transform.localPosition = new Vector3((-bg.x * .5f - phase.x + 480 + x * 960) / 80f, (bg.y * .5f + phase.y - 480 - y * 960) / 80f, 0);

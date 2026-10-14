@@ -1,0 +1,214 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"success\":true,\"message\":\"Test job status retrieved.\",\"error\":null,\"data\":{\"job_id\":\"a6db36da3e814a09b56f1c877e866c94\",\"status\":\"succeeded\",\"mode\":\"PlayMode\",\"started_unix_ms\":1791970115814,\"finished_unix_ms\":1791970130301,\"last_update_unix_ms\":1791970130301,\"progress\":{\"completed\":18,\"total\":18,\"current_test_full_name\":null,\"current_test_started_unix_ms\":1791970129725,\"last_finished_test_full_name\":\"ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers\",\"last_finished_unix_ms\":1791970130300,\"stuck_suspected\":false,\"editor_is_focused\":true,\"blocked_reason\":null,\"failures_so_far\":[],\"failures_capped\":false},\"error\":null,\"result\":{\"mode\":\"PlayMode\",\"summary\":{\"total\":18,\"passed\":18,\"failed\":0,\"skipped\":0,\"durationSeconds\":12.4657392,\"resultState\":\"Passed\"},\"results\":[{\"name\":\"RealQaScenePlaysTouchAndPooledFxWithoutMovingRoots\",\"fullName\":\"ANIMOL.Presentation.Tests.ArtQaPlayTests.RealQaScenePlaysTouchAndPooledFxWithoutMovingRoots\",\"state\":\"Passed\",\"durationSeconds\":1.0150055,\"message\":null,\"stackTrace\":null,\"output\":\"[ANIMOL][Portrait] Game View selected: 1080x1920 (Art QA 1080x1920).\\r\\n[ANIMOL][Portrait] Game View selected: 1080x1920 (Art QA 1080x1920).\\r\\n[ANIMOL][Portrait] Game View selected: 360x640 (Art QA small portrait).\\r\\n[ANIMOL][Portrait] Game View selected: 360x640 (Art QA small portrait).\\r\\n\"},{\"name\":\"EveryDeviceRunsPausesAndResetsWithoutMovingRoots\",\"fullName\":\"ANIMOL.Presentation.Tests.DeviceArtPlayTests.EveryDeviceRunsPausesAndResetsWithoutMovingRoots\",\"state\":\"Passed\",\"durationSeconds\":1.7750384,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ObservatoryRunsInPortraitWithAllTexturesAndLayers\",\"fullName\":\"ANIMOL.Presentation.Tests.LetterObservatoryArtPlayTests.ObservatoryRunsInPortraitWithAllTexturesAndLayers\",\"state\":\"Passed\",\"durationSeconds\":1.3068326,\"message\":null,\"stackTrace\":null,\"output\":\"[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n\"},{\"name\":\"SceneReentryRestoresBeamPoolWithoutDuplicateObjects\",\"fullName\":\"ANIMOL.Presentation.Tests.LetterObservatoryArtPlayTests.SceneReentryRestoresBeamPoolWithoutDuplicateObjects\",\"state\":\"Passed\",\"durationSeconds\":0.5377092,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"CarpetTerrainResizeAndRevealRemainPresentationOnly\",\"fullName\":\"ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.CarpetTerrainResizeAndRevealRemainPresentationOnly\",\"state\":\"Passed\",\"durationSeconds\":0.4127869,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ExistingQaKeeps11DeviceWritersWhileReplacingOldEnvironmentAcrossReloads\",\"fullName\":\"ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.ExistingQaKeeps11DeviceWritersWhileReplacingOldEnvironmentAcrossReloads\",\"state\":\"Passed\",\"durationSeconds\":1.4149977,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"ExpandingActualGroundPreservesRevealClockAndCarpetEdits\",\"fullName\":\"ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.ExpandingActualGroundPreservesRevealClockAndCarpetEdits\",\"state\":\"Passed\",\"durationSeconds\":0.3220881,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SceneReentryResetsStateAndDoesNotRetainPreviewInstances\",\"fullName\":\"ANIMOL.Presentation.Tests.MemoryTheaterArtPlayTests.SceneReentryResetsStateAndDoesNotRetainPreviewInstances\",\"state\":\"Passed\",\"durationSeconds\":0.6363372,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"TheaterSceneRunsAtPortraitResolutionWithoutRootMotionOrDuplicateWriters\",\"fullName\":\"ANIMOL.Presentation.Tests.MemoryTheaterArtPlayTests.TheaterSceneRunsAtPortraitResolutionWithoutRootMotionOrDuplicateWriters\",\"state\":\"Passed\",\"durationSeconds\":1.0705942,\"message\":null,\"stackTrace\":null,\"output\":\"[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n\"},{\"name\":\"AutomaticCycleStopsAndBufferedInputRemainsUsable\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.AutomaticCycleStopsAndBufferedInputRemainsUsable\",\"state\":\"Passed\",\"durationSeconds\":0.7403911,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"CameraFollowsActualInterpolationAndAutomaticChain\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.CameraFollowsActualInterpolationAndAutomaticChain\",\"state\":\"Passed\",\"durationSeconds\":0.6845378,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"MapEdgePlayerRemainsInsideGameplayViewportBelowOriginalHud\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.MapEdgePlayerRemainsInsideGameplayViewportBelowOriginalHud\",\"state\":\"Passed\",\"durationSeconds\":0.0208553,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PortalCutsAtExitAndContinuesSlideWithoutTraversingMiddle\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.PortalCutsAtExitAndContinuesSlideWithoutTraversingMiddle\",\"state\":\"Passed\",\"durationSeconds\":0.3814721,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"RuntimeTerrainRefreshesNineCellsAndNeverChangesLogicalFlags\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.RuntimeTerrainRefreshesNineCellsAndNeverChangesLogicalFlags\",\"state\":\"Passed\",\"durationSeconds\":0.0208151,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"SwipeMovesOneCellAndIgnoresUiAndShortGestures\",\"fullName\":\"ANIMOL.Presentation.Tests.PuzzlePlayTests.SwipeMovesOneCellAndIgnoresUiAndShortGestures\",\"state\":\"Passed\",\"durationSeconds\":0.1418638,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"TerrainEditResizeAndThemeSwitchKeepVisualLayersOutOfPhysics\",\"fullName\":\"ANIMOL.Presentation.Tests.SkyIslandPlayTests.TerrainEditResizeAndThemeSwitchKeepVisualLayersOutOfPhysics\",\"state\":\"Passed\",\"durationSeconds\":0.0910781,\"message\":null,\"stackTrace\":null,\"output\":\"\"},{\"name\":\"PortraitSceneHasEveryTextureAndPausedSynchronizedFerry\",\"fullName\":\"ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.PortraitSceneHasEveryTextureAndPausedSynchronizedFerry\",\"state\":\"Passed\",\"durationSeconds\":1.2824449,\"message\":null,\"stackTrace\":null,\"output\":\"[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\\r\\n\"},{\"name\":\"ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers\",\"fullName\":\"ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers\",\"state\":\"Passed\",\"durationSeconds\":0.5749909,\"message\":null,\"stackTrace\":null,\"output\":\"\"}]}},\"hint\":null}"
+    }
+  ],
+  "structuredContent": {
+    "result": {
+      "success": true,
+      "message": "Test job status retrieved.",
+      "error": null,
+      "data": {
+        "job_id": "a6db36da3e814a09b56f1c877e866c94",
+        "status": "succeeded",
+        "mode": "PlayMode",
+        "started_unix_ms": 1791970115814,
+        "finished_unix_ms": 1791970130301,
+        "last_update_unix_ms": 1791970130301,
+        "progress": {
+          "completed": 18,
+          "total": 18,
+          "current_test_full_name": null,
+          "current_test_started_unix_ms": 1791970129725,
+          "last_finished_test_full_name": "ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers",
+          "last_finished_unix_ms": 1791970130300,
+          "stuck_suspected": false,
+          "editor_is_focused": true,
+          "blocked_reason": null,
+          "failures_so_far": [],
+          "failures_capped": false
+        },
+        "error": null,
+        "result": {
+          "mode": "PlayMode",
+          "summary": {
+            "total": 18,
+            "passed": 18,
+            "failed": 0,
+            "skipped": 0,
+            "durationSeconds": 12.4657392,
+            "resultState": "Passed"
+          },
+          "results": [
+            {
+              "name": "RealQaScenePlaysTouchAndPooledFxWithoutMovingRoots",
+              "fullName": "ANIMOL.Presentation.Tests.ArtQaPlayTests.RealQaScenePlaysTouchAndPooledFxWithoutMovingRoots",
+              "state": "Passed",
+              "durationSeconds": 1.0150055,
+              "message": null,
+              "stackTrace": null,
+              "output": "[ANIMOL][Portrait] Game View selected: 1080x1920 (Art QA 1080x1920).\r\n[ANIMOL][Portrait] Game View selected: 1080x1920 (Art QA 1080x1920).\r\n[ANIMOL][Portrait] Game View selected: 360x640 (Art QA small portrait).\r\n[ANIMOL][Portrait] Game View selected: 360x640 (Art QA small portrait).\r\n"
+            },
+            {
+              "name": "EveryDeviceRunsPausesAndResetsWithoutMovingRoots",
+              "fullName": "ANIMOL.Presentation.Tests.DeviceArtPlayTests.EveryDeviceRunsPausesAndResetsWithoutMovingRoots",
+              "state": "Passed",
+              "durationSeconds": 1.7750384,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "ObservatoryRunsInPortraitWithAllTexturesAndLayers",
+              "fullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtPlayTests.ObservatoryRunsInPortraitWithAllTexturesAndLayers",
+              "state": "Passed",
+              "durationSeconds": 1.3068326,
+              "message": null,
+              "stackTrace": null,
+              "output": "[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n"
+            },
+            {
+              "name": "SceneReentryRestoresBeamPoolWithoutDuplicateObjects",
+              "fullName": "ANIMOL.Presentation.Tests.LetterObservatoryArtPlayTests.SceneReentryRestoresBeamPoolWithoutDuplicateObjects",
+              "state": "Passed",
+              "durationSeconds": 0.5377092,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "CarpetTerrainResizeAndRevealRemainPresentationOnly",
+              "fullName": "ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.CarpetTerrainResizeAndRevealRemainPresentationOnly",
+              "state": "Passed",
+              "durationSeconds": 0.4127869,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "ExistingQaKeeps11DeviceWritersWhileReplacingOldEnvironmentAcrossReloads",
+              "fullName": "ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.ExistingQaKeeps11DeviceWritersWhileReplacingOldEnvironmentAcrossReloads",
+              "state": "Passed",
+              "durationSeconds": 1.4149977,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "ExpandingActualGroundPreservesRevealClockAndCarpetEdits",
+              "fullName": "ANIMOL.Presentation.Tests.MemorySkyTheaterPlayTests.ExpandingActualGroundPreservesRevealClockAndCarpetEdits",
+              "state": "Passed",
+              "durationSeconds": 0.3220881,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "SceneReentryResetsStateAndDoesNotRetainPreviewInstances",
+              "fullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtPlayTests.SceneReentryResetsStateAndDoesNotRetainPreviewInstances",
+              "state": "Passed",
+              "durationSeconds": 0.6363372,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "TheaterSceneRunsAtPortraitResolutionWithoutRootMotionOrDuplicateWriters",
+              "fullName": "ANIMOL.Presentation.Tests.MemoryTheaterArtPlayTests.TheaterSceneRunsAtPortraitResolutionWithoutRootMotionOrDuplicateWriters",
+              "state": "Passed",
+              "durationSeconds": 1.0705942,
+              "message": null,
+              "stackTrace": null,
+              "output": "[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n"
+            },
+            {
+              "name": "AutomaticCycleStopsAndBufferedInputRemainsUsable",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.AutomaticCycleStopsAndBufferedInputRemainsUsable",
+              "state": "Passed",
+              "durationSeconds": 0.7403911,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "CameraFollowsActualInterpolationAndAutomaticChain",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.CameraFollowsActualInterpolationAndAutomaticChain",
+              "state": "Passed",
+              "durationSeconds": 0.6845378,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "MapEdgePlayerRemainsInsideGameplayViewportBelowOriginalHud",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.MapEdgePlayerRemainsInsideGameplayViewportBelowOriginalHud",
+              "state": "Passed",
+              "durationSeconds": 0.0208553,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "PortalCutsAtExitAndContinuesSlideWithoutTraversingMiddle",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.PortalCutsAtExitAndContinuesSlideWithoutTraversingMiddle",
+              "state": "Passed",
+              "durationSeconds": 0.3814721,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "RuntimeTerrainRefreshesNineCellsAndNeverChangesLogicalFlags",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.RuntimeTerrainRefreshesNineCellsAndNeverChangesLogicalFlags",
+              "state": "Passed",
+              "durationSeconds": 0.0208151,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "SwipeMovesOneCellAndIgnoresUiAndShortGestures",
+              "fullName": "ANIMOL.Presentation.Tests.PuzzlePlayTests.SwipeMovesOneCellAndIgnoresUiAndShortGestures",
+              "state": "Passed",
+              "durationSeconds": 0.1418638,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "TerrainEditResizeAndThemeSwitchKeepVisualLayersOutOfPhysics",
+              "fullName": "ANIMOL.Presentation.Tests.SkyIslandPlayTests.TerrainEditResizeAndThemeSwitchKeepVisualLayersOutOfPhysics",
+              "state": "Passed",
+              "durationSeconds": 0.0910781,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            },
+            {
+              "name": "PortraitSceneHasEveryTextureAndPausedSynchronizedFerry",
+              "fullName": "ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.PortraitSceneHasEveryTextureAndPausedSynchronizedFerry",
+              "state": "Passed",
+              "durationSeconds": 1.2824449,
+              "message": null,
+              "stackTrace": null,
+              "output": "[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n[ANIMOL][Portrait] Game View selected: 1080x1920 (ANIMOL Portrait 1080x1920).\r\n"
+            },
+            {
+              "name": "ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers",
+              "fullName": "ANIMOL.Presentation.Tests.TwilightSeaArtPlayTests.ReentryAndResetClearPreviewsAndDoNotDuplicateRenderers",
+              "state": "Passed",
+              "durationSeconds": 0.5749909,
+              "message": null,
+              "stackTrace": null,
+              "output": ""
+            }
+          ]
+        }
+      },
+      "hint": null
+    }
+  },
+  "isError": false
+}

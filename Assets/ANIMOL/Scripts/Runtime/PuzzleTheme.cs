@@ -14,6 +14,7 @@ namespace ANIMOL.Puzzle
     {
         public SkyIslandArt skyIsland;
         public MemorySkyTheaterArt memorySkyTheater;
+        public ClockDomeArt clockDome;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;
         public Sprite far, mid, near;
