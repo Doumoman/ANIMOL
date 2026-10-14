@@ -1,0 +1,535 @@
+{
+  "source": "Play mode / ScreenCapture / Game View",
+  "resolution": [
+    1080,
+    1920
+  ],
+  "screenshots": 18,
+  "movingFrames": 10188,
+  "failure": "",
+  "cameraRows": [
+    11.0
+  ],
+  "backgroundSource": "Assets/ANIMOL/Sprites/Background/ranch/Far/spr_bg_ranch_far_night_sky_idle.png",
+  "backgroundPixels": {
+    "x": 948.0,
+    "y": 1659.0
+  },
+  "hudSource": "Assets/ANIMOL/Prefabs/hud_visual.prefab",
+  "maximumBackgroundDisplacementPixels": {
+    "Far": {
+      "x": 3.3826052510020252,
+      "y": 6.956560828856716
+    },
+    "Mid": {
+      "x": 6.61813770927055,
+      "y": 13.610669269459924
+    },
+    "Near": {
+      "x": 11.76557646359086,
+      "y": 24.196720841041675
+    }
+  },
+  "portalCameraX": [
+    2.9137930870056152,
+    36.08620834350586
+  ],
+  "checks": [
+    "Game View must be 1080x1920",
+    "Background has subtle idle playback without player movement",
+    "Small map centered",
+    "Accept swipe (1, 0) in Small",
+    "Accept swipe (0, 1) in Small",
+    "Real bubble collection",
+    "Real exit victory",
+    "Accept swipe (1, 0) in Horizontal",
+    "Conveyor/wind chain reaches x31",
+    "Accept swipe (0, 1) in Vertical",
+    "Vertical automatic chain reaches y31",
+    "Accept swipe (0, 1) in CorridorIslands",
+    "Accept swipe (1, 0) in CorridorIslands",
+    "Accept swipe (1, 0) in UHole",
+    "Accept swipe (0, 1) in UHole",
+    "U notch left has inset corner",
+    "Accept swipe (0, -1) in UHole",
+    "Runtime terrain removal refreshes 3x3",
+    "Visual refresh does not move player or mutate source asset",
+    "Accept swipe (1, 0) in EdgePortal",
+    "Edge portal preserves direction/slide and arrives at map end",
+    "Portal camera never crosses distant middle",
+    "All maps retain 11 visible rows; no fit-to-map zoom",
+    "Gameplay viewport preserves existing HUD space; no direction pad",
+    "Presentation never blocks input or changes time scale",
+    "Far/Mid/Near remain in a fixed screen composition with distinct bounded offsets and uniform sprite scale; terrain root remains fixed"
+  ],
+  "shots": [
+    {
+      "name": "small_centered",
+      "map": "Small",
+      "width": 4,
+      "height": 4,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "camera": {
+        "x": 1.5,
+        "y": 1.5
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "small_victory",
+      "map": "Small",
+      "width": 4,
+      "height": 4,
+      "collected": 1,
+      "moves": 6,
+      "cuts": 0,
+      "player": {
+        "x": 3.0,
+        "y": 3.0
+      },
+      "camera": {
+        "x": 1.5,
+        "y": 1.5
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "horizontal_start",
+      "map": "Horizontal",
+      "width": 40,
+      "height": 7,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 1.0,
+        "y": 3.0
+      },
+      "camera": {
+        "x": 2.9137930870056152,
+        "y": 3.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "horizontal_chain_end",
+      "map": "Horizontal",
+      "width": 40,
+      "height": 7,
+      "collected": 1,
+      "moves": 1,
+      "cuts": 0,
+      "player": {
+        "x": 31.0,
+        "y": 3.0
+      },
+      "camera": {
+        "x": 30.997343063354492,
+        "y": 3.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "horizontal_edge",
+      "map": "Horizontal",
+      "width": 40,
+      "height": 7,
+      "collected": 1,
+      "moves": 8,
+      "cuts": 0,
+      "player": {
+        "x": 38.0,
+        "y": 3.0
+      },
+      "camera": {
+        "x": 36.08615493774414,
+        "y": 3.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "vertical_start",
+      "map": "Vertical",
+      "width": 7,
+      "height": 40,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 3.0,
+        "y": 1.0
+      },
+      "camera": {
+        "x": 3.0,
+        "y": 5.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "vertical_chain_end",
+      "map": "Vertical",
+      "width": 7,
+      "height": 40,
+      "collected": 1,
+      "moves": 1,
+      "cuts": 0,
+      "player": {
+        "x": 3.0,
+        "y": 31.0
+      },
+      "camera": {
+        "x": 3.0,
+        "y": 30.997411727905273
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "vertical_edge",
+      "map": "Vertical",
+      "width": 7,
+      "height": 40,
+      "collected": 1,
+      "moves": 8,
+      "cuts": 0,
+      "player": {
+        "x": 3.0,
+        "y": 38.0
+      },
+      "camera": {
+        "x": 3.0,
+        "y": 33.99995422363281
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "corridor_start",
+      "map": "CorridorIslands",
+      "width": 14,
+      "height": 18,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 3.0,
+        "y": 1.0
+      },
+      "camera": {
+        "x": 3.0,
+        "y": 5.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "corridor_island",
+      "map": "CorridorIslands",
+      "width": 14,
+      "height": 18,
+      "collected": 1,
+      "moves": 15,
+      "cuts": 0,
+      "player": {
+        "x": 11.0,
+        "y": 8.0
+      },
+      "camera": {
+        "x": 10.086013793945312,
+        "y": 7.999995708465576
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "u_inner_left",
+      "map": "UHole",
+      "width": 14,
+      "height": 18,
+      "collected": 0,
+      "moves": 3,
+      "cuts": 0,
+      "player": {
+        "x": 4.0,
+        "y": 6.0
+      },
+      "camera": {
+        "x": 3.9999966621398926,
+        "y": 5.9974751472473145
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "u_inner_right",
+      "map": "UHole",
+      "width": 14,
+      "height": 18,
+      "collected": 1,
+      "moves": 9,
+      "cuts": 0,
+      "player": {
+        "x": 8.0,
+        "y": 6.0
+      },
+      "camera": {
+        "x": 7.999992847442627,
+        "y": 5.997443199157715
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "material_boundary",
+      "map": "MaterialBoundary",
+      "width": 14,
+      "height": 18,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "camera": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "runtime_terrain_change",
+      "map": "MaterialBoundary",
+      "width": 14,
+      "height": 18,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "camera": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "runtime_terrain_restored",
+      "map": "MaterialBoundary",
+      "width": 14,
+      "height": 18,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "camera": {
+        "x": 6.0,
+        "y": 8.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "portal_entrance",
+      "map": "EdgePortal",
+      "width": 40,
+      "height": 12,
+      "collected": 0,
+      "moves": 0,
+      "cuts": 0,
+      "player": {
+        "x": 1.0,
+        "y": 5.0
+      },
+      "camera": {
+        "x": 2.9137930870056152,
+        "y": 5.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "portal_exit_cut",
+      "map": "EdgePortal",
+      "width": 40,
+      "height": 12,
+      "collected": 0,
+      "moves": 1,
+      "cuts": 1,
+      "player": {
+        "x": 38.0,
+        "y": 5.0
+      },
+      "camera": {
+        "x": 36.08620834350586,
+        "y": 5.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    },
+    {
+      "name": "portal_slide_end",
+      "map": "EdgePortal",
+      "width": 40,
+      "height": 12,
+      "collected": 1,
+      "moves": 1,
+      "cuts": 1,
+      "player": {
+        "x": 39.0,
+        "y": 5.0
+      },
+      "camera": {
+        "x": 36.08620834350586,
+        "y": 5.0
+      },
+      "rows": 11.0,
+      "aspect": 0.6206896305084229,
+      "viewport": {
+        "serializedVersion": "2",
+        "x": 0.0,
+        "y": 0.0,
+        "width": 1080.0,
+        "height": 1740.0
+      }
+    }
+  ]
+}

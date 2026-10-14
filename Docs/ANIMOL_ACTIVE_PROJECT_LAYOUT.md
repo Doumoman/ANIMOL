@@ -1,5 +1,7 @@
 # 현재 프로젝트 파일 구조
 
+**2026-10-14 퍼즐 구현 업데이트:** 새 플레이 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`다. `Scripts/Runtime/Puzzle*`, `Scripts/Editor/Puzzle*`, `Data/Puzzle/{Maps,Themes}`, `Sprites/Tiles/Puzzle`에 가변 크기 탑뷰 퍼즐과 독립 제작기를 추가했다. 실제 격자 이동·자동 연쇄·포털·수집·출구 판정은 이 새 씬에서 실행된다. 아래 아트 적용 이력의 "게임 판정 미구현"은 기존 QA 씬의 범위를 설명한다. QA 씬은 계속 표시 검수용이며 새 퍼즐로 보고하지 않는다. 구현·검수 결과는 [가변 크기 퍼즐 결과](ANIMOL_VARIABLE_PUZZLE_RESULT.md), 근거는 `Validation/Puzzle`에 있다.
+
 활성 파일에는 버전 폴더를 붙이지 않는다. 스프라이트와 AnimationClip의 정본은 `Assets/ANIMOL/Sprites`다.
 
 ```text
