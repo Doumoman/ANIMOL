@@ -8,6 +8,8 @@ namespace ANIMOL.Puzzle
     {
         [Range(.02f, .2f)] public float minimumScreenWidthFraction = .06f;
         PuzzleController controller;
+        System.Func<Vector2Int, bool> receiver;
+        public void SetReceiver(System.Func<Vector2Int, bool> move) { receiver = move; CancelGesture(); }
         Vector2 start;
         bool tracking, multiTouch;
         int finger;
@@ -29,7 +31,7 @@ namespace ANIMOL.Puzzle
             if (!tracking) return false; tracking = false;
             if (!controller) controller = GetComponent<PuzzleController>();
             var direction = Resolve(point - start, Screen.width, minimumScreenWidthFraction);
-            return direction != Vector2Int.zero && controller && controller.RequestMove(direction);
+            return direction != Vector2Int.zero && (receiver != null ? receiver(direction) : controller && controller.RequestMove(direction));
         }
         public void CancelGesture() { tracking = false; }
         void Update()

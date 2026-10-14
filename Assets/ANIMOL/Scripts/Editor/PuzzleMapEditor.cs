@@ -15,6 +15,8 @@ namespace ANIMOL.Presentation.Editor
         Marker marker;
         TerrainMaterial material;
         DeviceKind device = DeviceKind.Conveyor;
+        PrototypeDevice prototypeBrush;
+        bool showScenario;
         int direction;
         Vector2Int portalTarget;
         Sprite decoration;
@@ -65,9 +67,23 @@ namespace ANIMOL.Presentation.Editor
             if (outside > 0) EditorGUILayout.HelpBox(outside + " records outside bounds are retained and inactive. Expand the map to recover them. Start/exit outside prevents preview.", MessageType.Warning);
             var serialized = new SerializedObject(map); serialized.Update();
             EditorGUILayout.PropertyField(serialized.FindProperty("theme"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("scenario"));
             EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"));
             EditorGUILayout.PropertyField(serialized.FindProperty("cameraSettings"), true);
             if (serialized.ApplyModifiedProperties()) map.InvalidateIndex();
+            if (map.scenario)
+            {
+                showScenario = EditorGUILayout.Foldout(showScenario, "Themed devices / water / goals", true);
+                if (showScenario)
+                {
+                    var scenario = new SerializedObject(map.scenario); scenario.Update();
+                    EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("devices"), true);
+                    EditorGUILayout.PropertyField(scenario.FindProperty("water"), true);
+                    EditorGUILayout.PropertyField(scenario.FindProperty("goals"), true);
+                    scenario.ApplyModifiedProperties();
+                }
+            }
             EditorGUILayout.Space();
             layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "Terrain", "Device", "Decor", "Markers" });
             erase = EditorGUILayout.Toggle("Erase brush", erase);
@@ -75,9 +91,24 @@ namespace ANIMOL.Presentation.Editor
             { material = (TerrainMaterial)EditorGUILayout.EnumPopup("Material", material); blocked = EditorGUILayout.Toggle("Blocked cell", blocked); }
             if (layer == Layer.Device)
             {
+                if (map.scenario)
+                {
+                    var choices = map.scenario.devices.ToArray();
+                    var index = Array.IndexOf(choices, prototypeBrush);
+                    if (choices.Length == 0) EditorGUILayout.HelpBox("Add a device in the scenario list above to enable the copy brush.", MessageType.Info);
+                    else
+                    {
+                        index = EditorGUILayout.Popup("Copy device configuration", Math.Max(0,index), choices.Select(d => d.id + " / " + d.role).ToArray());
+                        prototypeBrush = choices[Math.Min(index, choices.Length - 1)];
+                    }
+                    EditorGUILayout.HelpBox("Paint copies the selected device configuration with a new ID. Edit links, water, footprints and goals above. Right click removes devices only.", MessageType.Info);
+                }
+                else
+                {
                 device = (DeviceKind)EditorGUILayout.EnumPopup("Device", device);
                 direction = EditorGUILayout.Popup("Direction", direction, new[] { "North", "East", "South", "West" });
                 if (device == DeviceKind.Portal) portalTarget = EditorGUILayout.Vector2IntField("Portal destination", portalTarget);
+                }
             }
             if (layer == Layer.Decoration)
             { decoration = (Sprite)EditorGUILayout.ObjectField("Sprite", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("Tint", decorationTint); }
@@ -104,7 +135,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawGrid(Rect viewport)
         {
-            var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).ToArray();
+            var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Concat(map.scenario ? map.scenario.devices.Select(d => d.position).Concat(map.scenario.water).Concat(map.scenario.devices.SelectMany(d => d.cells)) : Enumerable.Empty<Vector2Int>()).ToArray();
             var shownWidth = Mathf.Max(map.Width, retained.Max(p => p.x) + 1);
             var shownHeight = Mathf.Max(map.Height, retained.Max(p => p.y) + 1);
             var content = new Rect(0, 0, (shownWidth + 1) * cellSize, (shownHeight + 1) * cellSize);
@@ -155,6 +186,8 @@ namespace ANIMOL.Presentation.Editor
                     if (tile.blocked) GUI.Label(rect, "#");
                 }
                 var d = map.DeviceAt(p); if (d.kind != DeviceKind.None) GUI.Label(rect, d.kind == DeviceKind.Portal ? "O" : d.kind.ToString().Substring(0, 1) + DirectionGlyph(d.direction));
+                if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) GUI.Label(rect, ((int)configured.role).ToString("00") + DirectionGlyph(configured.direction));
+                if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
                 foreach (var decor in map.decorations.Where(a => a.position == p)) DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
                 if (map.bubbles.Contains(p)) GUI.Label(rect, "B", EditorStyles.boldLabel);
                 if (map.start == p) GUI.Label(rect, "S", EditorStyles.boldLabel);
@@ -180,7 +213,30 @@ namespace ANIMOL.Presentation.Editor
         void Paint(Vector2Int p, bool remove)
         {
             if (layer == Layer.Terrain) { if (remove) map.RemoveTerrain(p); else map.SetTerrain(p, material, blocked); }
-            if (layer == Layer.Device) map.SetDevice(new DeviceCell { position = p, kind = remove ? DeviceKind.None : device, direction = PuzzleAutotile.Cardinal[direction], portalTarget = portalTarget });
+            if (layer == Layer.Device)
+            {
+                if (map.scenario)
+                {
+                    Undo.RecordObject(map.scenario, "Paint themed device");
+                    if (remove) map.scenario.devices.RemoveAll(d => d.position == p);
+                    else if (prototypeBrush != null && !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
+                    {
+                        var shift = p - prototypeBrush.position;
+                        var copy = new PrototypeDevice {
+                            id = Guid.NewGuid().ToString("N"), role = prototypeBrush.role, variant = prototypeBrush.variant,
+                            group = prototypeBrush.group, artTheme = prototypeBrush.artTheme, visualPrefab = prototypeBrush.visualPrefab,
+                            initialVisual = prototypeBrush.initialVisual, position = p, direction = prototypeBrush.direction,
+                            target = prototypeBrush.target + shift, orientation = prototypeBrush.orientation,
+                            number = prototypeBrush.number, active = prototypeBrush.active,
+                            cells = prototypeBrush.cells.Select(c => c + shift).ToList(),
+                            blastOffsets = prototypeBrush.blastOffsets.ToList()
+                        };
+                        map.scenario.devices.Add(copy);
+                    }
+                    EditorUtility.SetDirty(map.scenario);
+                }
+                else map.SetDevice(new DeviceCell { position = p, kind = remove ? DeviceKind.None : device, direction = PuzzleAutotile.Cardinal[direction], portalTarget = portalTarget });
+            }
             if (layer == Layer.Decoration) { map.decorations.RemoveAll(d => d.position == p); if (!remove) map.decorations.Add(new DecorationCell { position = p, sprite = decoration, tint = decorationTint }); }
             if (layer == Layer.Markers)
             {

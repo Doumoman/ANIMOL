@@ -46,6 +46,7 @@ namespace ANIMOL.Puzzle
         public int Width => width;
         public int Height => height;
         public PuzzleTheme theme;
+        public PuzzleScenario scenario;
         [Min(0)] public int targetBubbles = 3;
         public PuzzleCameraSettings cameraSettings = new PuzzleCameraSettings();
         public Vector2Int start = new Vector2Int(1, 1);
@@ -90,7 +91,8 @@ namespace ANIMOL.Puzzle
         {
             bool Outside(Vector2Int p) => p.x < 0 || p.y < 0 || p.x >= w || p.y >= h;
             return terrain.Count(t => Outside(t.position)) + devices.Count(d => Outside(d.position)) +
-                decorations.Count(d => Outside(d.position)) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0);
+                decorations.Count(d => Outside(d.position)) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
+                (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) : 0);
         }
         public List<string> ValidateMap()
         {
@@ -105,6 +107,7 @@ namespace ANIMOL.Puzzle
                 if (d.kind == DeviceKind.Portal && !Walkable(d.portalTarget)) errors.Add("Portal destination is outside or blocked: " + d.position);
                 if ((d.kind == DeviceKind.Conveyor || d.kind == DeviceKind.Wind) && !PuzzleSession.IsCardinal(d.direction)) errors.Add("Device direction must be cardinal: " + d.position);
             }
+            if (scenario) errors.AddRange(scenario.Validate(this));
             return errors;
         }
         void OnValidate() { width = Mathf.Clamp(width, 1, 256); height = Mathf.Clamp(height, 1, 256); InvalidateIndex(); }

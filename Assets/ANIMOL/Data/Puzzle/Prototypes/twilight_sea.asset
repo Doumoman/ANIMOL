@@ -1,0 +1,525 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bcaf13dfc781c3429458ed1a8e74f46, type: 3}
+  m_Name: twilight_sea
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleMap
+  width: 9
+  height: 31
+  theme: {fileID: 11400000, guid: 9ac46f89255181943b99e3f1e501a7f1, type: 2}
+  scenario: {fileID: 11400000, guid: 1310f057e409e2547afcd33862f9f22e, type: 2}
+  targetBubbles: 3
+  cameraSettings:
+    visibleRows: 11
+    followSharpness: 16
+    topInset: 90
+    bottomInset: 0
+    farParallax: 0.08
+    midParallax: 0.3
+    nearParallax: 0.65
+  start: {x: 1, y: 2}
+  exit: {x: 7, y: 26}
+  terrain:
+  - position: {x: 1, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 1}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 7}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 19}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 20}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 21}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 22}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 23}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 24}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 25}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 26}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 27}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 28}
+    material: 0
+    blocked: 0
+  - position: {x: 1, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 2, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 29}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 29}
+    material: 0
+    blocked: 0
+  devices: []
+  decorations: []
+  bubbles:
+  - {x: 7, y: 2}
+  - {x: 7, y: 18}
+  - {x: 7, y: 26}

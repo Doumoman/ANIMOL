@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: Barrel
+  themeId: twilight_sea
+  verificationRoute: ESEEEEEN
+  beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
+  devices:
+  - id: barrel
+    variant: 
+    group: 
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 6032176656808242186, guid: b91b54307513f0048ad49a0a125ae2a7, type: 3}
+    initialVisual: 
+    role: 12
+    position: {x: 2, y: 2}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: stopper
+    variant: 
+    group: 
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 1949040054542601564, guid: 29096951e1fb1904b99e36d34c4f298f, type: 3}
+    initialVisual: static
+    role: 100
+    position: {x: 6, y: 2}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  water: []
+  goals:
+  - deviceId: barrel
+    kind: 2
+    cell: {x: 5, y: 2}
+    number: 0
+  costLimit: 16
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

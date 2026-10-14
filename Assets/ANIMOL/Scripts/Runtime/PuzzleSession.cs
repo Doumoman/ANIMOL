@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ANIMOL.Puzzle
 {
     // Authoritative grid state. Renderers/camera cannot collect, win, or decide collisions.
-    public sealed class PuzzleSession
+    public sealed class PuzzleSession : IPuzzleBoardState
     {
         public PuzzleMap Map { get; }
         public Vector2Int Cell { get; private set; }

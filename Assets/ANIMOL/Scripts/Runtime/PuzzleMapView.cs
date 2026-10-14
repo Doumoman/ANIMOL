@@ -122,7 +122,7 @@ namespace ANIMOL.Puzzle
             var label = go.AddComponent<TextMesh>(); label.text = text; label.anchor = TextAnchor.MiddleCenter; label.alignment = TextAlignment.Center;
             label.fontSize = 48; label.characterSize = .12f; label.color = color; go.GetComponent<MeshRenderer>().sortingOrder = order;
         }
-        public void Present(PuzzleSession session)
+        public void Present(IPuzzleBoardState session)
         {
             foreach (var entry in bubbleViews) entry.Value.SetActive(!session.IsCollected(entry.Key));
         }

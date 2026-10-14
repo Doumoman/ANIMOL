@@ -25,7 +25,15 @@ namespace ANIMOL.Puzzle
         Vector2Int queuedInput;
         Transform presentation;
         PuzzleHudView hud;
-        void Start() { if (stage) Load(stage); }
+        void Start()
+        {
+            if (stage && stage.scenario)
+            {
+                var prototype = gameObject.AddComponent<PuzzlePrototypeController>(); prototype.stage = stage; prototype.hudPrefab = hudPrefab;
+                enabled = false; return;
+            }
+            if (stage) Load(stage);
+        }
         public void Load(PuzzleMap data)
         {
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero; PortalCuts = 0;

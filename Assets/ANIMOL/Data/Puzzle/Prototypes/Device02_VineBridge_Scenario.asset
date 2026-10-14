@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: VineBridge
+  themeId: starway
+  verificationRoute: EEEEEE
+  beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
+  devices:
+  - id: plate
+    variant: plate
+    group: vine
+    artTheme: starway
+    visualPrefab: {fileID: 3131017493791413046, guid: d3a22d4fcc32835489192a242ee4c69d, type: 3}
+    initialVisual: 
+    role: 2
+    position: {x: 2, y: 2}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: bridge
+    variant: 
+    group: vine
+    artTheme: starway
+    visualPrefab: {fileID: 3131017493791413046, guid: d3a22d4fcc32835489192a242ee4c69d, type: 3}
+    initialVisual: 
+    role: 2
+    position: {x: 3, y: 2}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  water: []
+  goals: []
+  costLimit: 14
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1
