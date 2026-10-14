@@ -112,14 +112,37 @@ namespace ANIMOL.Presentation.Editor
             gridScroll = GUI.BeginScrollView(viewport, gridScroll, content);
             var xMin = Mathf.Max(0, Mathf.FloorToInt(gridScroll.x / cellSize)); var xMax = Mathf.Min(shownWidth, Mathf.CeilToInt((gridScroll.x + viewport.width) / cellSize));
             var yMin = Mathf.Max(0, Mathf.FloorToInt(gridScroll.y / cellSize)); var yMax = Mathf.Min(shownHeight, Mathf.CeilToInt((gridScroll.y + viewport.height) / cellSize));
+            var islandArt = map.theme ? map.theme.skyIsland : null;
+            if (islandArt)
+            {
+                // Paint every base first, then the entire underside before any grass.
+                for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
+                {
+                    var p = new Vector2Int(x, shownHeight - 1 - row);
+                    EditorGUI.DrawRect(new Rect(x * cellSize, row * cellSize, cellSize, cellSize), map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                }
+                for (var row = Mathf.Max(0, yMin - 1); row < yMax; row++) for (var x = xMin; x < xMax; x++)
+                {
+                    var p = new Vector2Int(x, shownHeight - 1 - row);
+                    if (!SkyIslandAutotile.UsesArt(map, p)) continue;
+                    var shape = SkyIslandAutotile.Resolve(map, p);
+                    var pair = islandArt.Find(shape.exposure, shape.innerCorners);
+                    DrawSprite(new Rect(x * cellSize, (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
+                }
+            }
             for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
             {
                 var p = new Vector2Int(x, shownHeight - 1 - row); var rect = new Rect(x * cellSize, row * cellSize, cellSize - 1, cellSize - 1);
-                EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
                 if (map.TryTerrain(p, out var tile))
                 {
                     var shape = PuzzleAutotile.Resolve(map, p); var art = map.theme ? map.theme.Art(tile.material) : null;
-                    if (art != null && art.outer.Length == 16)
+                    if (islandArt && SkyIslandAutotile.UsesArt(map, p))
+                    {
+                        var islandShape = SkyIslandAutotile.Resolve(map, p);
+                        DrawSprite(new Rect(rect.x, rect.y, cellSize, cellSize), islandArt.Find(islandShape.exposure, islandShape.innerCorners).grass);
+                    }
+                    else if (art != null && art.outer.Length == 16)
                     {
                         for (var i = 0; i < 4; i++)
                         {

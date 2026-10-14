@@ -12,6 +12,7 @@ namespace ANIMOL.Puzzle
     [CreateAssetMenu(menuName = "ANIMOL/Puzzle Theme")]
     public sealed class PuzzleTheme : ScriptableObject
     {
+        public SkyIslandArt skyIsland;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;
         public Sprite far, mid, near;

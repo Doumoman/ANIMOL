@@ -66,4 +66,12 @@ Assets/ANIMOL/
 
 편지 천문대 적용으로 PNG727·클립120이 추가돼 현재 정본 총량은 PNG2743·클립405다. 공통 변형은 Obstacles/common/letter_observatory/M##, 전용5종은 Obstacles/letter_observatory/M##, 바닥/벽/배경은 각 letter_observatory 테마 폴더다. 프리팹247개와 Data/Themes의 테마/광학 표시 자료를 실제 QA에 연결했다. Tools/LetterObservatory, Validation/LetterObservatory/Applied, LetterObservatoryArtTests/LetterObservatoryArtPlayTests 및 [결과](../ANIMOL_LETTER_OBSERVATORY_V01_APPLY_RESULT.md)에 전체 EditMode18/18·PlayMode6/6의 근거가 있다. 실제 게임 판정 호출자는 없고 광선 경로는 제공받은 표시 목록만 재생한다.
 
-황혼의 바다 `twilight_sea`를 추가했다. PNG712·클립137로 현재 정본 총량은 PNG3455·클립542다. 공통4종/전용4종 경로는 Obstacles/common/twilight_sea/M## 및 Obstacles/twilight_sea/M##이며 Tiles/Props/Background도 해당 테마에 있다. Prefabs/Themes 270개 + Prefabs/Presentation 2개, 테마8종, QA307 표시 객체다. 나룻배20쌍은 하나의 재생 시각/승객 발 피벗을 공유하며 범위·해안은 공급 셀만 표시한다. 현재 검수 씬은 ANIMOL_TwilightSea_Art_QA이고 실제 게임 엔진은 없다. [결과](../ANIMOL_TWILIGHT_SEA_V01_APPLY_RESULT.md), Tools/TwilightSea 및 Validation/TwilightSea에 EditMode23/23·PlayMode8/8·74캡처 근거가 있다.
+황혼의 바다 `twilight_sea`를 추가했다. PNG712·클립137로 현재 정본 총량은 PNG3455·클립542다. 공통4종/전용4종 경로는 Obstacles/common/twilight_sea/M## 및 Obstacles/twilight_sea/M##이며 Tiles/Props/Background도 해당 테마에 있다. Prefabs/Themes 270개 + Prefabs/Presentation 2개, 테마8종, QA307 표시 객체다. 나룻배20쌍은 하나의 재생 시각/승객 발 피벗을 공유하며 범위·해안은 공급 셀만 표시한다. 당시 검수 씬은 ANIMOL_TwilightSea_Art_QA이고 실제 게임 엔진은 없었다. [결과](../ANIMOL_TWILIGHT_SEA_V01_APPLY_RESULT.md), Tools/TwilightSea 및 Validation/TwilightSea에 EditMode23/23·PlayMode8/8·74캡처 근거가 있다.
+
+## 2026-10-14 퍼즐과 별길 목장 하늘섬 활성 경로
+
+이전 절의 게임 미구현 설명은 아트 격리 당시의 기록이다. 현재 `Scenes/ANIMOL_Puzzle.unity`에는 기존 탑뷰 스와이프 퍼즐이 있고 `Data/Puzzle/{Maps,Themes}`를 사용한다. 이동/연쇄/수집/출구 구현과 코스트 미연결 상태는 구분한다. 기존 Build Settings의 기본 Art QA 씬은 이번 외곽 적용에서 변경하지 않았다.
+
+별길 목장 `StarGarden` 퍼즐 테마에는 PNG149개를 원본 그대로 추가했다. 경로는 `Sprites/Tiles/Floor/ranch/SkyIsland/{Grass,Underside}`, `Sprites/Background/ranch/SkyIsland`, `Sprites/Tiles/Decoration/ranch/SkyIsland`이다. `Data/Art/StarwayIsland`에 47쌍의 Tile/아트 카탈로그/검사 맵을 두고 `SkyIslandBuilder`가 가져온다. 두 Tilemap과 반복 배경은 표시 전용이며 기존 판정을 소유하지 않는다. 버전 이름은 출처 패키지에만 유지한다.
+
+`Scenes/ANIMOL_Starway_Island_QA.unity`는 접합 그림 검사 씬이다. 플레이 동작 검수는 기존 `ANIMOL_Puzzle`에서 했다. [적용 결과](ANIMOL_STARWAY_SKYISLAND_RESULT.md), `Validation/StarwayIsland`, `Tools/StarwayIsland`에 실제 Game View의 1배/4배 접합 및 세 배경 좌표 픽셀 일치, 세로 플레이, EditMode63/63·PlayMode15/15 결과를 기록했다. 다른 테마/공통 장치, HUD, 기존 맵/씬을 교체하지 않았다.

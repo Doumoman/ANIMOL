@@ -1,0 +1,1479 @@
+{
+  "version": "ANIMOL_STARWAY_SKYISLAND_V02",
+  "scope": "Starway Meadow island perimeter only; other themes and material devices unchanged",
+  "tileSize": 80,
+  "pixelsPerUnit": 80,
+  "palette": [
+    "#1A1C2C",
+    "#333C57",
+    "#5D275D",
+    "#B13E53",
+    "#EF7D57",
+    "#FFCD75",
+    "#A7F070",
+    "#38B764",
+    "#257179",
+    "#29366F",
+    "#3B5DC9",
+    "#41A6F6",
+    "#73EFF7",
+    "#F4F4F4",
+    "#94B0C2",
+    "#566C86"
+  ],
+  "islandPalette": [
+    "#38B764",
+    "#A7F070",
+    "#257179",
+    "#1A1C2C",
+    "#333C57",
+    "#566C86"
+  ],
+  "light": "upper_left",
+  "outlineWidth": 1,
+  "exposedEdgeInsetRange": [
+    3,
+    7
+  ],
+  "baseInset": 5,
+  "outerCornerRadius": 10,
+  "innerPatchSize": 20,
+  "outerBitmask": {
+    "N": 1,
+    "E": 2,
+    "S": 4,
+    "W": 8
+  },
+  "innerBitmask": {
+    "NW": 1,
+    "NE": 2,
+    "SE": 4,
+    "SW": 8
+  },
+  "materials": [
+    {
+      "theme": "starway_meadow",
+      "key": "grass",
+      "layerOffsetPixels": [
+        0,
+        0
+      ],
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/grass/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/grass/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/grass/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/grass/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/grass/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/grass/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/grass/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/grass/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/grass/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/grass/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/grass/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/grass/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/grass/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/grass/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/grass/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/grass/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/grass/inner4/inner_north_west.png",
+          "sample": "tiles/grass/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/grass/inner4/inner_north_east.png",
+          "sample": "tiles/grass/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/grass/inner4/inner_south_east.png",
+          "sample": "tiles/grass/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/grass/inner4/inner_south_west.png",
+          "sample": "tiles/grass/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/grass/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/grass/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/grass/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/grass/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/grass/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/grass/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/grass/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/grass/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/grass/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/grass/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/grass/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/grass/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/grass/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/grass/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/grass/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/grass/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/grass/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/grass/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/grass/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/grass/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/grass/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/grass/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/grass/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/grass/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/grass/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/grass/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/grass/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/grass/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/grass/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/grass/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/grass/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/grass/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/grass_20_source_1x.png",
+      "blobAtlas": "atlases/grass_47_ready_1x.png"
+    },
+    {
+      "theme": "starway_meadow",
+      "key": "underside",
+      "layerOffsetPixels": [
+        0,
+        14
+      ],
+      "outer": [
+        {
+          "mask": 0,
+          "name": "center",
+          "file": "tiles/underside/outer16/o00_center.png"
+        },
+        {
+          "mask": 1,
+          "name": "north",
+          "file": "tiles/underside/outer16/o01_north.png"
+        },
+        {
+          "mask": 2,
+          "name": "east",
+          "file": "tiles/underside/outer16/o02_east.png"
+        },
+        {
+          "mask": 4,
+          "name": "south",
+          "file": "tiles/underside/outer16/o04_south.png"
+        },
+        {
+          "mask": 8,
+          "name": "west",
+          "file": "tiles/underside/outer16/o08_west.png"
+        },
+        {
+          "mask": 3,
+          "name": "north_east",
+          "file": "tiles/underside/outer16/o03_north_east.png"
+        },
+        {
+          "mask": 6,
+          "name": "south_east",
+          "file": "tiles/underside/outer16/o06_south_east.png"
+        },
+        {
+          "mask": 12,
+          "name": "south_west",
+          "file": "tiles/underside/outer16/o12_south_west.png"
+        },
+        {
+          "mask": 9,
+          "name": "north_west",
+          "file": "tiles/underside/outer16/o09_north_west.png"
+        },
+        {
+          "mask": 5,
+          "name": "corridor_horizontal",
+          "file": "tiles/underside/outer16/o05_corridor_horizontal.png"
+        },
+        {
+          "mask": 10,
+          "name": "corridor_vertical",
+          "file": "tiles/underside/outer16/o10_corridor_vertical.png"
+        },
+        {
+          "mask": 7,
+          "name": "end_west",
+          "file": "tiles/underside/outer16/o07_end_west.png"
+        },
+        {
+          "mask": 11,
+          "name": "end_south",
+          "file": "tiles/underside/outer16/o11_end_south.png"
+        },
+        {
+          "mask": 13,
+          "name": "end_east",
+          "file": "tiles/underside/outer16/o13_end_east.png"
+        },
+        {
+          "mask": 14,
+          "name": "end_north",
+          "file": "tiles/underside/outer16/o14_end_north.png"
+        },
+        {
+          "mask": 15,
+          "name": "island",
+          "file": "tiles/underside/outer16/o15_island.png"
+        }
+      ],
+      "innerPatches": [
+        {
+          "corner": "north_west",
+          "bit": 1,
+          "file": "tiles/underside/inner4/inner_north_west.png",
+          "sample": "tiles/underside/inner4_samples/inner_north_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "north_east",
+          "bit": 2,
+          "file": "tiles/underside/inner4/inner_north_east.png",
+          "sample": "tiles/underside/inner4_samples/inner_north_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            0,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "south_east",
+          "bit": 4,
+          "file": "tiles/underside/inner4/inner_south_east.png",
+          "sample": "tiles/underside/inner4_samples/inner_south_east_on_center.png",
+          "replaceRectTopLeft": [
+            60,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        },
+        {
+          "corner": "south_west",
+          "bit": 8,
+          "file": "tiles/underside/inner4/inner_south_west.png",
+          "sample": "tiles/underside/inner4_samples/inner_south_west_on_center.png",
+          "replaceRectTopLeft": [
+            0,
+            60,
+            20,
+            20
+          ],
+          "operation": "replace_RGBA_in_rectangle_not_alpha_over"
+        }
+      ],
+      "blob47": [
+        {
+          "outer": 0,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o00_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o00_i01.png",
+          "atlasRectTopLeft": [
+            80,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o00_i02.png",
+          "atlasRectTopLeft": [
+            160,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 3,
+          "file": "tiles/underside/blob47/o00_i03.png",
+          "atlasRectTopLeft": [
+            240,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o00_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 5,
+          "file": "tiles/underside/blob47/o00_i05.png",
+          "atlasRectTopLeft": [
+            400,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 6,
+          "file": "tiles/underside/blob47/o00_i06.png",
+          "atlasRectTopLeft": [
+            480,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 7,
+          "file": "tiles/underside/blob47/o00_i07.png",
+          "atlasRectTopLeft": [
+            560,
+            0,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o00_i08.png",
+          "atlasRectTopLeft": [
+            0,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 9,
+          "file": "tiles/underside/blob47/o00_i09.png",
+          "atlasRectTopLeft": [
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 10,
+          "file": "tiles/underside/blob47/o00_i10.png",
+          "atlasRectTopLeft": [
+            160,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 11,
+          "file": "tiles/underside/blob47/o00_i11.png",
+          "atlasRectTopLeft": [
+            240,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 12,
+          "file": "tiles/underside/blob47/o00_i12.png",
+          "atlasRectTopLeft": [
+            320,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 13,
+          "file": "tiles/underside/blob47/o00_i13.png",
+          "atlasRectTopLeft": [
+            400,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 14,
+          "file": "tiles/underside/blob47/o00_i14.png",
+          "atlasRectTopLeft": [
+            480,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 0,
+          "inner": 15,
+          "file": "tiles/underside/blob47/o00_i15.png",
+          "atlasRectTopLeft": [
+            560,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o01_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o01_i04.png",
+          "atlasRectTopLeft": [
+            80,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o01_i08.png",
+          "atlasRectTopLeft": [
+            160,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 1,
+          "inner": 12,
+          "file": "tiles/underside/blob47/o01_i12.png",
+          "atlasRectTopLeft": [
+            240,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o02_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o02_i01.png",
+          "atlasRectTopLeft": [
+            400,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o02_i08.png",
+          "atlasRectTopLeft": [
+            480,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 2,
+          "inner": 9,
+          "file": "tiles/underside/blob47/o02_i09.png",
+          "atlasRectTopLeft": [
+            560,
+            160,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o03_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 3,
+          "inner": 8,
+          "file": "tiles/underside/blob47/o03_i08.png",
+          "atlasRectTopLeft": [
+            80,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o04_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o04_i01.png",
+          "atlasRectTopLeft": [
+            240,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o04_i02.png",
+          "atlasRectTopLeft": [
+            320,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 4,
+          "inner": 3,
+          "file": "tiles/underside/blob47/o04_i03.png",
+          "atlasRectTopLeft": [
+            400,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 5,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o05_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o06_i00.png",
+          "atlasRectTopLeft": [
+            560,
+            240,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 6,
+          "inner": 1,
+          "file": "tiles/underside/blob47/o06_i01.png",
+          "atlasRectTopLeft": [
+            0,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 7,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o07_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o08_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o08_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o08_i04.png",
+          "atlasRectTopLeft": [
+            320,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 8,
+          "inner": 6,
+          "file": "tiles/underside/blob47/o08_i06.png",
+          "atlasRectTopLeft": [
+            400,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o09_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 9,
+          "inner": 4,
+          "file": "tiles/underside/blob47/o09_i04.png",
+          "atlasRectTopLeft": [
+            560,
+            320,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 10,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o10_i00.png",
+          "atlasRectTopLeft": [
+            0,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 11,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o11_i00.png",
+          "atlasRectTopLeft": [
+            80,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o12_i00.png",
+          "atlasRectTopLeft": [
+            160,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 12,
+          "inner": 2,
+          "file": "tiles/underside/blob47/o12_i02.png",
+          "atlasRectTopLeft": [
+            240,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 13,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o13_i00.png",
+          "atlasRectTopLeft": [
+            320,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 14,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o14_i00.png",
+          "atlasRectTopLeft": [
+            400,
+            400,
+            80,
+            80
+          ]
+        },
+        {
+          "outer": 15,
+          "inner": 0,
+          "file": "tiles/underside/blob47/o15_i00.png",
+          "atlasRectTopLeft": [
+            480,
+            400,
+            80,
+            80
+          ]
+        }
+      ],
+      "sourceSheet": "atlases/underside_20_source_1x.png",
+      "blobAtlas": "atlases/underside_47_ready_1x.png"
+    }
+  ],
+  "backgrounds": [
+    {
+      "layer": "far",
+      "file": "backgrounds/far_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.15,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "alpha": "fully_opaque"
+    },
+    {
+      "layer": "mid",
+      "file": "backgrounds/mid_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.35,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "alpha": "binary"
+    },
+    {
+      "layer": "near",
+      "file": "backgrounds/near_repeat_960.png",
+      "size": [
+        960,
+        960
+      ],
+      "repeat": [
+        "X",
+        "Y"
+      ],
+      "parallax": 0.65,
+      "phasePixels": [
+        0,
+        0
+      ],
+      "alpha": "binary"
+    }
+  ],
+  "sorting": [
+    "Far",
+    "Mid",
+    "Near",
+    "Underside",
+    "Grass",
+    "Optional grid",
+    "Context props",
+    "Existing gameplay objects",
+    "Existing UI"
+  ],
+  "underside": {
+    "offsetImagePixels": [
+      0,
+      14
+    ],
+    "offsetUnityUnits": [
+      0,
+      -0.175
+    ],
+    "useSameOccupancyAsGrass": true,
+    "collision": false,
+    "renderEntireLayerBeforeGrass": true
+  },
+  "grid": {
+    "optional": true,
+    "clipToGrass": true,
+    "excludeRim": true
+  },
+  "contextProps": {
+    "provenance": "V04 approved-reference props technically resampled and palette normalized",
+    "purpose": "optional environment context; not new gameplay devices"
+  },
+  "artProvenance": {
+    "generator": "built-in image_gen",
+    "sourceFile": "exec-7ba1ae17-54fd-4a92-bde7-3bb1a0f12151.png",
+    "processing": "nearest sampling, fixed-palette quantization, alpha repair, source-derived perimeter profiles and seam normalization"
+  }
+}

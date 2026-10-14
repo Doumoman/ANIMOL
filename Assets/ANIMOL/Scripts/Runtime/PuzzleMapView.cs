@@ -13,6 +13,7 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<Vector2Int, GameObject> bubbleViews = new Dictionary<Vector2Int, GameObject>();
         Transform objectsRoot;
         RectInt visible;
+        SkyIslandMapRenderer island;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
@@ -35,6 +36,17 @@ namespace ANIMOL.Puzzle
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
             bubbleViews.Clear(); objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            if (map.theme && map.theme.skyIsland)
+            {
+                if (!island) island = gameObject.AddComponent<SkyIslandMapRenderer>();
+                island.Bind(map, map.theme.skyIsland);
+            }
+            else if (island)
+            {
+                island.Clear(); Remove(island.Grass.transform.parent.gameObject);
+                if (Application.isPlaying) Destroy(island); else DestroyImmediate(island);
+                island = null;
+            }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
             foreach (var d in map.decorations) if (map.Contains(d.position)) Sprite(objectsRoot, "Decoration", d.sprite ? d.sprite : map.theme.decoration, d.position, 15, Vector2.one * .8f, d.tint);
@@ -48,6 +60,11 @@ namespace ANIMOL.Puzzle
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
+            if (island)
+            {
+                if (visible.Contains(p)) island.RefreshCell(p); else island.ClearCell(p);
+                if (SkyIslandAutotile.UsesArt(map, p)) return;
+            }
             if (!visible.Contains(p) || !map.TryTerrain(p, out var cell) || !map.theme) return;
             var shape = PuzzleAutotile.Resolve(map, p); var art = map.theme.Art(cell.material);
             if (art == null || art.outer.Length != 16) return;
@@ -89,10 +106,12 @@ namespace ANIMOL.Puzzle
             var max = new Vector2Int(Mathf.Min(map.Width, Mathf.CeilToInt(center.x + halfWidth + 2)), Mathf.Min(map.Height, Mathf.CeilToInt(center.y + halfHeight + 2)));
             var next = new RectInt(min, Vector2Int.Max(Vector2Int.zero, max - min));
             if (!force && next == visible) return;
-            visible = next;
+            var previous = visible; visible = next;
+            if (island) for (var y = previous.yMin; y < previous.yMax; y++) for (var x = previous.xMin; x < previous.xMax; x++)
+                if (!visible.Contains(new Vector2Int(x, y))) island.ClearCell(new Vector2Int(x, y));
             foreach (var p in tiles.Keys.Where(p => !visible.Contains(p)).ToArray()) { Remove(tiles[p]); tiles.Remove(p); }
             for (var y = min.y; y < max.y; y++) for (var x = min.x; x < max.x; x++)
-            { var p = new Vector2Int(x, y); if (!tiles.ContainsKey(p) && map.TryTerrain(p, out _)) RefreshCell(p); }
+            { var p = new Vector2Int(x, y); if (!tiles.ContainsKey(p) && (!island || force || !previous.Contains(p)) && map.TryTerrain(p, out _)) RefreshCell(p); }
         }
     }
 }
