@@ -49,7 +49,7 @@ namespace Animol.Art.MemoryTheater160
                 throw new ArgumentException("Import folder must be inside this project's Assets folder.");
             string manifestPath = Path.Combine(root,"memory_theater_animations.json");
             Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestPath));
-            if (manifest.version!=3 || manifest.outfitRevision!=3 || manifest.frameWidth!=160 || manifest.frameHeight!=160 ||
+            if (manifest.version!=4 || manifest.outfitRevision!=4 || manifest.frameWidth!=160 || manifest.frameHeight!=160 ||
                 manifest.pixelsPerUnit!=160 || manifest.pivot==null || manifest.pivot.Length!=2 ||
                 manifest.pivot[0]!=.5f || manifest.pivot[1]!=.125f ||
                 manifest.clips==null || manifest.clips.Length!=60)

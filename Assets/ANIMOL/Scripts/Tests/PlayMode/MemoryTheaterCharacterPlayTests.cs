@@ -18,7 +18,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class MemoryTheaterCharacterPlayTests
     {
-        const string Portrait = "Docs/Validation/MemoryTheaterCharacters160_v3/Portrait";
+        const string Portrait = "Docs/Validation/MemoryTheaterCharacters160_v4/Portrait";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()
         {
@@ -121,7 +121,7 @@ namespace ANIMOL.Presentation.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV3Art()
+        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV4Art()
         {
 #if UNITY_EDITOR
             UsePortraitGameView();
@@ -140,22 +140,22 @@ namespace ANIMOL.Presentation.Tests
             Directory.CreateDirectory(Portrait);
             ScreenCapture.CaptureScreenshot(Portrait + "/puzzle_seri.png");
             yield return new WaitForSecondsRealtime(.2f);
-            Assert.That(puzzle.SelectMemoryTheaterCharacter("mion"), Is.True);
-            Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("mion"));
+            Assert.That(puzzle.SelectMemoryTheaterCharacter("piko"), Is.True);
+            Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("piko"));
             Assert.That(puzzle.CharacterVisual.visual.sprite, Is.Not.Null);
             yield return null;
-            ScreenCapture.CaptureScreenshot(Portrait + "/puzzle_mion.png");
+            ScreenCapture.CaptureScreenshot(Portrait + "/puzzle_piko.png");
             yield return new WaitForSecondsRealtime(.2f);
             Assert.That(puzzle.RequestMove(Vector2Int.right), Is.True);
             yield return new WaitForSecondsRealtime(.25f);
             Assert.That(puzzle.CharacterVisual.Direction, Is.EqualTo("side"));
-            Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("mion"));
+            Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("piko"));
             EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Character_QA.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             var qa = Object.FindFirstObjectByType<MemoryTheaterCharacterQaController>();
-            Assert.That(qa.Preview("mion", "front", "idle"), Is.True);
-            Assert.That(qa.character.Illustration, Is.SameAs(qa.catalog.Find("mion").illustration));
+            Assert.That(qa.Preview("piko", "front", "idle"), Is.True);
+            Assert.That(qa.character.Illustration, Is.SameAs(qa.catalog.Find("piko").illustration));
 #else
             Assert.Ignore("Requires Unity Editor scene loader."); yield break;
 #endif
