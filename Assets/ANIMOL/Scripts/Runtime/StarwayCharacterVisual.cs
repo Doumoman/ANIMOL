@@ -9,17 +9,19 @@ namespace ANIMOL.Presentation
         public const float PuzzleVisualScale = .85f;
         public StarwayCharacterCatalog catalog;
         public string characterId;
+        public string costumeId;
         public SpriteRenderer visual;
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
-        public Sprite Illustration => catalog && catalog.Find(characterId) != null ? catalog.Find(characterId).illustration : null;
+        public Sprite Illustration => catalog && catalog.Find(characterId) != null
+            ? catalog.Find(characterId).IllustrationFor(costumeId) : null;
         public AnimationClip CurrentClip => motion?.clip;
         public int CurrentFrame { get; private set; }
         StarwayCharacterMotion motion;
         float elapsed;
 
         public static StarwayCharacterVisual Create(Transform parent, Vector2 position, int sortingOrder,
-            StarwayCharacterCatalog source, string id)
+            StarwayCharacterCatalog source, string id, string costume = null)
         {
             var root = new GameObject("Player");
             root.transform.SetParent(parent, false);
@@ -30,17 +32,32 @@ namespace ANIMOL.Presentation
             var renderer = child.AddComponent<SpriteRenderer>();
             renderer.sortingOrder = sortingOrder;
             var player = child.AddComponent<StarwayCharacterVisual>();
-            player.Initialize(source, id);
+            player.Initialize(source, id, costume);
             return player;
         }
 
-        public bool Initialize(StarwayCharacterCatalog source, string id)
+        public bool Initialize(StarwayCharacterCatalog source, string id, string costume = null)
         {
-            if (!source || source.Find(id) == null) return false;
+            var definition = source ? source.Find(id) : null;
+            if (definition == null) return false;
+            var selected = string.IsNullOrEmpty(costume) ? definition.defaultCostumeId : costume;
+            if (!definition.HasCostume(selected)) return false;
             catalog = source;
             characterId = id;
+            costumeId = selected;
             visual = GetComponent<SpriteRenderer>();
             return PlayPose("front", "idle");
+        }
+
+        public bool SetCostume(string costume)
+        {
+            var definition = catalog ? catalog.Find(characterId) : null;
+            if (definition == null || string.IsNullOrEmpty(costume) || !definition.HasCostume(costume)) return false;
+            var previous = costumeId;
+            costumeId = costume;
+            if (PlayPose(Direction, State)) return true;
+            costumeId = previous;
+            return false;
         }
 
         public bool PlayPose(string direction, string state)
@@ -49,7 +66,7 @@ namespace ANIMOL.Presentation
             if (definition == null) return false;
             var left = direction == "left";
             var nextDirection = left ? "side" : direction;
-            var next = definition.Motion(nextDirection, state);
+            var next = definition.Motion(nextDirection, state, costumeId);
             if (next == null || next.frames == null || next.frames.Length != 6 || next.fps <= 0) return false;
             visual.flipX = left;
             Direction = direction;

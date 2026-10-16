@@ -34,7 +34,7 @@ namespace ANIMOL.Puzzle
             view = new GameObject("Terrain grid").AddComponent<PuzzleMapView>(); view.transform.SetParent(presentation, false); view.Bind(RuntimeMap);
             CharacterVisual = RuntimeMap.theme.CharacterCatalog
                 ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.CharacterCatalog,
-                    RuntimeMap.theme.CharacterId)
+                    RuntimeMap.theme.CharacterId, RuntimeMap.theme.CharacterCostumeId)
                 : null;
             var renderer = CharacterVisual
                 ? CharacterVisual.visual
@@ -116,6 +116,10 @@ namespace ANIMOL.Puzzle
             return SelectCharacter(id);
         }
         public bool SelectMemoryTheaterCharacter(string id) => SelectCharacter(id);
+        public bool SelectTwilightSeaCharacter(string id) => RuntimeMap && RuntimeMap.theme &&
+            RuntimeMap.theme.twilightSeaCharacters && SelectCharacter(id);
+        public bool SelectTwilightSeaCostume(string costume) => RuntimeMap && RuntimeMap.theme &&
+            RuntimeMap.theme.twilightSeaCharacters && CharacterVisual && CharacterVisual.SetCostume(costume);
         public bool SelectCharacter(string id) => CharacterVisual &&
             CharacterVisual.Initialize(RuntimeMap.theme.CharacterCatalog, id);
     }
