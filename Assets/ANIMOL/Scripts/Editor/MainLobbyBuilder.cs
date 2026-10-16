@@ -179,12 +179,22 @@ namespace ANIMOL.Menu.Editor
             backgroundImage.sprite = catalog.themes[0].scenery;
             backgroundImage.preserveAspect = true;
             backgroundImage.raycastTarget = false;
+            var backgroundTransition = Rect("Scenery Crossfade", scenery, new Vector2(.5f, .5f), new Vector2(.5f, .5f),
+                new Vector2(.5f, .5f), Vector2.zero, new Vector2(1122, 1402));
+            var backgroundTransitionImage = AddImage(backgroundTransition, new Color(1, 1, 1, 0));
+            backgroundTransitionImage.preserveAspect = true;
+            backgroundTransition.gameObject.SetActive(false);
             var hero = Rect("Static Character Illustration", art, new Vector2(.5f, 0), new Vector2(.5f, 0),
                 new Vector2(.5f, 0), new Vector2(0, 20), new Vector2(210, 315));
             var heroImage = AddImage(hero, Color.white);
             heroImage.sprite = catalog.themes[0].people[0].appearances[0].illustration;
             heroImage.preserveAspect = true;
             heroImage.raycastTarget = false;
+            var heroTransition = Rect("Character Crossfade", art, new Vector2(.5f, 0), new Vector2(.5f, 0),
+                new Vector2(.5f, 0), new Vector2(0, 20), new Vector2(210, 315));
+            var heroTransitionImage = AddImage(heroTransition, new Color(1, 1, 1, 0));
+            heroTransitionImage.preserveAspect = true;
+            heroTransition.gameObject.SetActive(false);
 
             var top = Rect("Top Bar", art, new Vector2(0, 1), new Vector2(1, 1), new Vector2(.5f, 1),
                 new Vector2(0, -15), new Vector2(0, 44));
@@ -317,8 +327,12 @@ namespace ANIMOL.Menu.Editor
             controller.scenery = scenery;
             controller.backgroundRect = background;
             controller.backgroundImage = backgroundImage;
+            controller.backgroundTransitionRect = backgroundTransition;
+            controller.backgroundTransitionImage = backgroundTransitionImage;
             controller.heroRect = hero;
             controller.heroImage = heroImage;
+            controller.heroTransitionRect = heroTransition;
+            controller.heroTransitionImage = heroTransitionImage;
             controller.logoRect = logo;
             controller.dock = dock;
             controller.campaignPanel = campaign.gameObject;

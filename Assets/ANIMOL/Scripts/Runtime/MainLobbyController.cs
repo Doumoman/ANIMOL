@@ -12,6 +12,8 @@ namespace ANIMOL.Menu
         const float VerticalAmplitude = .009f;
         const float Overscan = 1.052f;
         const float DockHeight = 210f;
+        public const float AppearanceInterval = 5f;
+        public const float AppearanceCrossfade = .35f;
 
         public MainMenuCatalog catalog;
         public MonoBehaviour requiredStageProgress;
@@ -22,8 +24,12 @@ namespace ANIMOL.Menu
         public RectTransform scenery;
         public RectTransform backgroundRect;
         public Image backgroundImage;
+        public RectTransform backgroundTransitionRect;
+        public Image backgroundTransitionImage;
         public RectTransform heroRect;
         public Image heroImage;
+        public RectTransform heroTransitionRect;
+        public Image heroTransitionImage;
         public RectTransform logoRect;
         public RectTransform dock;
         public GameObject campaignPanel;
@@ -50,7 +56,12 @@ namespace ANIMOL.Menu
 
         readonly Dictionary<int, List<int>> shuffleBags = new Dictionary<int, List<int>>();
         readonly Dictionary<int, int> lastPerson = new Dictionary<int, int>();
+        readonly List<int> themeBag = new List<int>();
         float motionTime;
+        float appearanceTime;
+        float transitionTime;
+        bool transitioning;
+        bool skipNextTick;
         bool reducedMotion;
         bool appPaused;
         bool focused = true;
@@ -67,6 +78,9 @@ namespace ANIMOL.Menu
         public bool BattleUnlocked { get; private set; }
         public bool ReducedMotion => reducedMotion;
         public float MotionTime => motionTime;
+        public float AppearanceElapsed => appearanceTime;
+        public bool IsAppearanceTransitioning => transitioning;
+        public float AppearanceTransitionProgress => transitioning ? Mathf.Clamp01(transitionTime / AppearanceCrossfade) : 0;
         public bool IsCampaignOpen => campaignPanel && campaignPanel.activeSelf;
         public bool IsModalOpen => modalPanel && modalPanel.activeSelf;
         public bool MotionRunning => !reducedMotion && !appPaused && focused && !IsCampaignOpen && !IsModalOpen;
@@ -113,19 +127,40 @@ namespace ANIMOL.Menu
             if (!initialized) return;
             if (screenWidth != Screen.width || screenHeight != Screen.height || lastSafeArea != Screen.safeArea)
                 ForceLayout();
-            AdvanceMotion(Time.unscaledDeltaTime);
+            var elapsed = skipNextTick ? 0 : Time.unscaledDeltaTime;
+            skipNextTick = false;
+            AdvanceMotion(elapsed);
+            AdvanceAppearance(elapsed);
         }
 
-        void OnApplicationPause(bool paused) => appPaused = paused;
-        void OnApplicationFocus(bool hasFocus) => focused = hasFocus;
+        void OnApplicationPause(bool paused) { appPaused = paused; skipNextTick = true; }
+        void OnApplicationFocus(bool hasFocus) { focused = hasFocus; skipNextTick = true; }
 
         public void EnterLobbyVisit()
         {
-            var theme = UnityEngine.Random.Range(0, catalog.themes.Length);
+            var theme = NextTheme();
             var personIndex = NextPerson(theme);
             var person = catalog.themes[theme].people[personIndex];
             var appearance = person.appearances[UnityEngine.Random.Range(0, person.appearances.Length)];
             PreviewAppearance(theme, person.characterId, appearance.artId);
+        }
+
+        int NextTheme()
+        {
+            if (themeBag.Count == 0)
+            {
+                for (var i = 0; i < catalog.themes.Length; i++) themeBag.Add(i);
+                for (var i = themeBag.Count - 1; i > 0; i--)
+                {
+                    var j = UnityEngine.Random.Range(0, i + 1);
+                    (themeBag[i], themeBag[j]) = (themeBag[j], themeBag[i]);
+                }
+                if (themeBag.Count > 1 && themeBag[themeBag.Count - 1] == CurrentThemeIndex)
+                    (themeBag[0], themeBag[themeBag.Count - 1]) = (themeBag[themeBag.Count - 1], themeBag[0]);
+            }
+            var theme = themeBag[themeBag.Count - 1];
+            themeBag.RemoveAt(themeBag.Count - 1);
+            return theme;
         }
 
         int NextPerson(int themeIndex)
@@ -162,8 +197,71 @@ namespace ANIMOL.Menu
             CurrentCostumeId = appearance.costumeId;
             backgroundImage.sprite = catalog.themes[themeIndex].scenery;
             heroImage.sprite = appearance.illustration;
+            transitioning = false;
+            appearanceTime = 0;
+            HideTransition();
             ForceLayout();
             return true;
+        }
+
+        void BeginNextAppearance()
+        {
+            var theme = NextTheme();
+            var person = catalog.themes[theme].people[NextPerson(theme)];
+            var appearance = person.appearances[UnityEngine.Random.Range(0, person.appearances.Length)];
+            CurrentThemeIndex = theme;
+            CurrentCharacterId = person.characterId;
+            CurrentArtId = appearance.artId;
+            CurrentCostumeId = appearance.costumeId;
+            backgroundTransitionImage.sprite = catalog.themes[theme].scenery;
+            heroTransitionImage.sprite = appearance.illustration;
+            transitionTime = 0;
+            transitioning = true;
+            SetTransitionAlpha(0);
+            backgroundTransitionImage.gameObject.SetActive(true);
+            heroTransitionImage.gameObject.SetActive(true);
+            FitBackground();
+            FitHero();
+        }
+
+        void SetTransitionAlpha(float alpha)
+        {
+            backgroundTransitionImage.color = new Color(1, 1, 1, alpha);
+            heroTransitionImage.color = new Color(1, 1, 1, alpha);
+        }
+
+        void HideTransition()
+        {
+            if (backgroundTransitionImage) backgroundTransitionImage.gameObject.SetActive(false);
+            if (heroTransitionImage) heroTransitionImage.gameObject.SetActive(false);
+        }
+
+        void CompleteTransition()
+        {
+            if (!transitioning) return;
+            backgroundImage.sprite = backgroundTransitionImage.sprite;
+            heroImage.sprite = heroTransitionImage.sprite;
+            transitioning = false;
+            HideTransition();
+            FitBackground();
+            FitHero();
+        }
+
+        public void AdvanceAppearance(float seconds)
+        {
+            if (!MotionRunning || seconds <= 0) return;
+            appearanceTime += seconds;
+            if (transitioning)
+            {
+                transitionTime += seconds;
+                SetTransitionAlpha(Mathf.Clamp01(transitionTime / AppearanceCrossfade));
+                if (transitionTime >= AppearanceCrossfade) CompleteTransition();
+            }
+            if (!transitioning && appearanceTime >= AppearanceInterval)
+            {
+                appearanceTime %= AppearanceInterval;
+                BeginNextAppearance();
+            }
         }
 
         public void ForceLayout()
@@ -198,6 +296,7 @@ namespace ANIMOL.Menu
             if (area.x <= 0 || area.y <= 0 || sprite.x <= 0 || sprite.y <= 0) return;
             var cover = Mathf.Max(area.x / sprite.x, area.y / sprite.y) * Overscan;
             backgroundRect.sizeDelta = sprite * cover;
+            if (backgroundTransitionRect) backgroundTransitionRect.sizeDelta = backgroundRect.sizeDelta;
             PositionBackground();
         }
 
@@ -212,6 +311,11 @@ namespace ANIMOL.Menu
             var height = Mathf.Max(1, Mathf.Min(available, artArea.rect.width * .82f * sprite.y / sprite.x));
             heroRect.sizeDelta = new Vector2(height * sprite.x / sprite.y, height);
             heroRect.anchoredPosition = new Vector2(0, 20);
+            if (heroTransitionRect)
+            {
+                heroTransitionRect.sizeDelta = heroRect.sizeDelta;
+                heroTransitionRect.anchoredPosition = heroRect.anchoredPosition;
+            }
         }
 
         void FitCampaignCards()
@@ -234,6 +338,7 @@ namespace ANIMOL.Menu
             backgroundRect.anchoredPosition = new Vector2(
                 Mathf.Sin(motionTime * Mathf.PI * 2 / 28f) * scenery.rect.width * HorizontalAmplitude,
                 Mathf.Sin(motionTime * Mathf.PI * 2 / 36f) * scenery.rect.height * VerticalAmplitude);
+            if (backgroundTransitionRect) backgroundTransitionRect.anchoredPosition = backgroundRect.anchoredPosition;
         }
 
         public void AdvanceMotion(float seconds)
@@ -260,7 +365,13 @@ namespace ANIMOL.Menu
         public void SetReducedMotion(bool value)
         {
             reducedMotion = value;
-            if (value) { motionTime = 0; PositionBackground(); }
+            if (value)
+            {
+                CompleteTransition();
+                appearanceTime = 0;
+                motionTime = 0;
+                PositionBackground();
+            }
             if (reducedMotionToggle && reducedMotionToggle.isOn != value)
                 reducedMotionToggle.SetIsOnWithoutNotify(value);
         }
@@ -334,7 +445,7 @@ namespace ANIMOL.Menu
 
         public void OpenSettings()
         {
-            OpenModal("설정", "배경 움직임을 줄일 수 있습니다.");
+            OpenModal("설정", "배경 움직임과 자동 교체를 멈출 수 있습니다.");
             settingsControls.SetActive(true);
         }
 

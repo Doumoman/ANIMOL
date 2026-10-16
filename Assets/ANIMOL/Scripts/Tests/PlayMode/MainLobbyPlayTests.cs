@@ -144,8 +144,11 @@ namespace ANIMOL.Menu.Tests
             lobby.OpenCampaign();
             Assert.That(lobby.IsCampaignOpen, Is.True);
             var held = lobby.MotionTime;
+            var heldAppearance = lobby.AppearanceElapsed;
             lobby.AdvanceMotion(9);
+            lobby.AdvanceAppearance(9);
             Assert.That(lobby.MotionTime, Is.EqualTo(held));
+            Assert.That(lobby.AppearanceElapsed, Is.EqualTo(heldAppearance));
             for (var i = 0; i < 4; i++) lobby.SelectCampaignTheme(i);
             Assert.That(lobby.themeCards.Length, Is.EqualTo(4));
             ScreenCapture.CaptureScreenshot(Portrait + "/campaign.png");
@@ -158,25 +161,116 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.MotionTime, Is.GreaterThan(held));
             lobby.OpenSettings();
             held = lobby.MotionTime;
+            heldAppearance = lobby.AppearanceElapsed;
             lobby.AdvanceMotion(9);
+            lobby.AdvanceAppearance(9);
             Assert.That(lobby.MotionTime, Is.EqualTo(held));
+            Assert.That(lobby.AppearanceElapsed, Is.EqualTo(heldAppearance));
             ScreenCapture.CaptureScreenshot(Portrait + "/settings.png");
             yield return new WaitForSecondsRealtime(.15f);
             lobby.CloseModal();
             lobby.SetReducedMotion(true);
             Assert.That(lobby.MotionTime, Is.Zero);
             lobby.AdvanceMotion(9);
+            lobby.AdvanceAppearance(9);
             Assert.That(lobby.MotionTime, Is.Zero);
+            Assert.That(lobby.AppearanceElapsed, Is.Zero);
             lobby.SetReducedMotion(false);
             lobby.SendMessage("OnApplicationPause", true);
             lobby.AdvanceMotion(9);
+            lobby.AdvanceAppearance(9);
             Assert.That(lobby.MotionTime, Is.Zero);
+            Assert.That(lobby.AppearanceElapsed, Is.Zero);
             lobby.SendMessage("OnApplicationPause", false);
+            lobby.SendMessage("OnApplicationFocus", false);
+            lobby.AdvanceAppearance(9);
+            Assert.That(lobby.AppearanceElapsed, Is.Zero);
+            lobby.SendMessage("OnApplicationFocus", true);
             lobby.AdvanceMotion(1);
+            lobby.AdvanceAppearance(1);
             Assert.That(lobby.MotionTime, Is.GreaterThan(0));
+            Assert.That(lobby.AppearanceElapsed, Is.GreaterThan(0));
             Assert.That(lobby.CurrentThemeIndex, Is.EqualTo(theme));
             Assert.That(lobby.CurrentCharacterId, Is.EqualTo(person));
             Assert.That(lobby.CurrentArtId, Is.EqualTo(art));
+#else
+            Assert.Ignore("Requires Unity Editor scene loading."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator FiveSecondCrossfadeCyclesAllFourThemesWithoutBlockingInput()
+        {
+#if UNITY_EDITOR
+            UseGameView(1080, 1920);
+            yield return OpenLobby();
+            var lobby = Object.FindFirstObjectByType<MainLobbyController>();
+            lobby.SendMessage("OnApplicationFocus", true);
+            var themes = new System.Collections.Generic.HashSet<int> { lobby.CurrentThemeIndex };
+            for (var turn = 0; turn < 3; turn++)
+            {
+                var previousTheme = lobby.CurrentThemeIndex;
+                var previousArt = lobby.CurrentArtId;
+                var oldHero = lobby.heroImage.sprite;
+                lobby.AdvanceAppearance(MainLobbyController.AppearanceInterval - lobby.AppearanceElapsed - .01f);
+                Assert.That(lobby.CurrentThemeIndex, Is.EqualTo(previousTheme));
+                Assert.That(lobby.CurrentArtId, Is.EqualTo(previousArt));
+                lobby.AdvanceAppearance(.02f);
+                Assert.That(lobby.IsAppearanceTransitioning, Is.True);
+                Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(previousTheme));
+                Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(previousArt));
+                Assert.That(lobby.heroImage.sprite, Is.SameAs(oldHero), "old art stays visible under the fade");
+                Assert.That(lobby.backgroundTransitionImage.raycastTarget, Is.False);
+                Assert.That(lobby.heroTransitionImage.raycastTarget, Is.False);
+                Assert.That(lobby.campaignButton.interactable, Is.True);
+                lobby.AdvanceAppearance(MainLobbyController.AppearanceCrossfade * .5f);
+                Assert.That(lobby.AppearanceTransitionProgress, Is.EqualTo(.5f).Within(.01f));
+                Assert.That(lobby.heroTransitionImage.color.a, Is.EqualTo(.5f).Within(.01f));
+                Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
+                if (turn == 0)
+                {
+                    ScreenCapture.CaptureScreenshot(Portrait + "/crossfade.png");
+                    yield return new WaitForSecondsRealtime(.15f);
+                }
+                lobby.AdvanceAppearance(MainLobbyController.AppearanceCrossfade);
+                Assert.That(lobby.IsAppearanceTransitioning, Is.False);
+                Assert.That(lobby.heroImage.sprite, Is.SameAs(lobby.heroTransitionImage.sprite));
+                Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.backgroundTransitionImage.sprite));
+                themes.Add(lobby.CurrentThemeIndex);
+            }
+            Assert.That(themes.Count, Is.EqualTo(4), "four themes appear once per shuffle cycle");
+            var lastTheme = lobby.CurrentThemeIndex;
+            lobby.AdvanceAppearance(MainLobbyController.AppearanceInterval - lobby.AppearanceElapsed + .01f);
+            Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(lastTheme), "cycle boundary cannot repeat the same backdrop");
+            Assert.That(lobby.IsAppearanceTransitioning, Is.True);
+            lobby.SetReducedMotion(true);
+            Assert.That(lobby.IsAppearanceTransitioning, Is.False);
+            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.backgroundTransitionImage.sprite));
+            Assert.That(lobby.heroImage.sprite, Is.SameAs(lobby.heroTransitionImage.sprite));
+            var reducedArt = lobby.CurrentArtId;
+            lobby.AdvanceAppearance(10);
+            Assert.That(lobby.CurrentArtId, Is.EqualTo(reducedArt));
+            Assert.That(lobby.AppearanceElapsed, Is.Zero);
+#else
+            Assert.Ignore("Requires Unity Editor scene loading."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator LiveUpdateChangesBothImagesAfterFiveSeconds()
+        {
+#if UNITY_EDITOR
+            yield return OpenLobby();
+            var lobby = Object.FindFirstObjectByType<MainLobbyController>();
+            lobby.SendMessage("OnApplicationFocus", true);
+            var startingTheme = lobby.CurrentThemeIndex;
+            var startingArt = lobby.CurrentArtId;
+            yield return new WaitForSecondsRealtime(5.6f);
+            Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(startingTheme));
+            Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(startingArt));
+            Assert.That(lobby.IsAppearanceTransitioning, Is.False);
+            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.catalog.themes[lobby.CurrentThemeIndex].scenery));
+            Assert.That(lobby.heroImage.sprite,
+                Is.SameAs(lobby.catalog.FindPerson(lobby.CurrentThemeIndex, lobby.CurrentCharacterId)
+                    .appearances.First(item => item.artId == lobby.CurrentArtId).illustration));
 #else
             Assert.Ignore("Requires Unity Editor scene loading."); yield break;
 #endif
