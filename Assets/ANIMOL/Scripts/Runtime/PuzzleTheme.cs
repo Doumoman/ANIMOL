@@ -20,6 +20,11 @@ namespace ANIMOL.Puzzle
         public Sprite player, bubble, exit, decoration;
         public ANIMOL.Presentation.StarwayCharacterCatalog starwayCharacters;
         public string starwayCharacterId;
+        public ANIMOL.Presentation.StarwayCharacterCatalog memoryTheaterCharacters;
+        public string memoryTheaterCharacterId;
+        public ANIMOL.Presentation.StarwayCharacterCatalog CharacterCatalog =>
+            memoryTheaterCharacters ? memoryTheaterCharacters : starwayCharacters;
+        public string CharacterId => memoryTheaterCharacters ? memoryTheaterCharacterId : starwayCharacterId;
         public Sprite far, mid, near;
         public Color background = new Color(.045f, .08f, .14f);
         public TerrainArt Art(TerrainMaterial material) => Array.Find(terrain ?? Array.Empty<TerrainArt>(), a => a.material == material);

@@ -32,9 +32,9 @@ namespace ANIMOL.Puzzle
             RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data; Session = new PuzzleDeviceSession(RuntimeMap);
             presentation = new GameObject("Prototype presentation").transform; presentation.SetParent(transform, false);
             view = new GameObject("Terrain grid").AddComponent<PuzzleMapView>(); view.transform.SetParent(presentation, false); view.Bind(RuntimeMap);
-            CharacterVisual = RuntimeMap.theme.starwayCharacters
-                ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.starwayCharacters,
-                    RuntimeMap.theme.starwayCharacterId)
+            CharacterVisual = RuntimeMap.theme.CharacterCatalog
+                ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.CharacterCatalog,
+                    RuntimeMap.theme.CharacterId)
                 : null;
             var renderer = CharacterVisual
                 ? CharacterVisual.visual
@@ -113,7 +113,10 @@ namespace ANIMOL.Puzzle
         void OnDestroy() { if (RuntimeMap) Destroy(RuntimeMap); }
         public bool SelectStarwayCharacter(string id)
         {
-            return CharacterVisual && CharacterVisual.Initialize(RuntimeMap.theme.starwayCharacters, id);
+            return SelectCharacter(id);
         }
+        public bool SelectMemoryTheaterCharacter(string id) => SelectCharacter(id);
+        public bool SelectCharacter(string id) => CharacterVisual &&
+            CharacterVisual.Initialize(RuntimeMap.theme.CharacterCatalog, id);
     }
 }

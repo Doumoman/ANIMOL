@@ -46,9 +46,9 @@ namespace ANIMOL.Puzzle
             stage = data; Session = new PuzzleSession(RuntimeMap); Status = "";
             presentation = new GameObject("Puzzle Presentation").transform; presentation.SetParent(transform, false);
             View = new GameObject("Terrain Grid").AddComponent<PuzzleMapView>(); View.transform.SetParent(presentation, false); View.Bind(RuntimeMap);
-            CharacterVisual = RuntimeMap.theme.starwayCharacters
-                ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.starwayCharacters,
-                    RuntimeMap.theme.starwayCharacterId)
+            CharacterVisual = RuntimeMap.theme.CharacterCatalog
+                ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.CharacterCatalog,
+                    RuntimeMap.theme.CharacterId)
                 : null;
             Player = CharacterVisual
                 ? CharacterVisual.transform.parent
@@ -130,8 +130,11 @@ namespace ANIMOL.Puzzle
         }
         public bool SelectStarwayCharacter(string id)
         {
-            return CharacterVisual && CharacterVisual.Initialize(RuntimeMap.theme.starwayCharacters, id);
+            return SelectCharacter(id);
         }
+        public bool SelectMemoryTheaterCharacter(string id) => SelectCharacter(id);
+        public bool SelectCharacter(string id) => CharacterVisual &&
+            CharacterVisual.Initialize(RuntimeMap.theme.CharacterCatalog, id);
         void OnDestroy() { if (RuntimeMap) Destroy(RuntimeMap); }
     }
 }
