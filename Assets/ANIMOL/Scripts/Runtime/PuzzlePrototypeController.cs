@@ -116,6 +116,8 @@ namespace ANIMOL.Puzzle
             return SelectCharacter(id);
         }
         public bool SelectMemoryTheaterCharacter(string id) => SelectCharacter(id);
+        public bool SelectLetterObservatoryCharacter(string id) => RuntimeMap && RuntimeMap.theme &&
+            RuntimeMap.theme.letterObservatoryCharacters && SelectCharacter(id);
         public bool SelectTwilightSeaCharacter(string id) => RuntimeMap && RuntimeMap.theme &&
             RuntimeMap.theme.twilightSeaCharacters && SelectCharacter(id);
         public bool SelectTwilightSeaCostume(string costume) => RuntimeMap && RuntimeMap.theme &&

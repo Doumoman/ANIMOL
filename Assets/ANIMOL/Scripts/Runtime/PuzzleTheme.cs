@@ -25,12 +25,17 @@ namespace ANIMOL.Puzzle
         public ANIMOL.Presentation.StarwayCharacterCatalog twilightSeaCharacters;
         public string twilightSeaCharacterId;
         public string twilightSeaCostumeId;
+        public ANIMOL.Presentation.StarwayCharacterCatalog letterObservatoryCharacters;
+        public string letterObservatoryCharacterId;
         public ANIMOL.Presentation.StarwayCharacterCatalog CharacterCatalog =>
+            letterObservatoryCharacters ? letterObservatoryCharacters :
             twilightSeaCharacters ? twilightSeaCharacters :
             memoryTheaterCharacters ? memoryTheaterCharacters : starwayCharacters;
-        public string CharacterId => twilightSeaCharacters ? twilightSeaCharacterId :
+        public string CharacterId => letterObservatoryCharacters ? letterObservatoryCharacterId :
+            twilightSeaCharacters ? twilightSeaCharacterId :
             memoryTheaterCharacters ? memoryTheaterCharacterId : starwayCharacterId;
-        public string CharacterCostumeId => twilightSeaCharacters ? twilightSeaCostumeId : null;
+        public string CharacterCostumeId => letterObservatoryCharacters ? null :
+            twilightSeaCharacters ? twilightSeaCostumeId : null;
         public Sprite far, mid, near;
         public Color background = new Color(.045f, .08f, .14f);
         public TerrainArt Art(TerrainMaterial material) => Array.Find(terrain ?? Array.Empty<TerrainArt>(), a => a.material == material);
