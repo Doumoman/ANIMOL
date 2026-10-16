@@ -19,6 +19,9 @@ namespace ANIMOL.Presentation.Editor
         void OnPreprocessTexture()
         {
             if(!assetPath.StartsWith(ArtAssetBuilder.Root+"/Sprites/",StringComparison.Ordinal))return;
+            // The full-resolution menu art has its own importer policy. The gameplay
+            // sprite manifest must not force these illustrations to Point/32 PPU.
+            if(assetPath.StartsWith(ArtAssetBuilder.Root+"/Sprites/UI/Main/",StringComparison.Ordinal))return;
             var manifest=ArtAssetBuilder.Read();
             var relative=assetPath.Substring(ArtAssetBuilder.Root.Length+1);
             AssetRow row=manifest.assets.FirstOrDefault(a=>a.path==relative);
