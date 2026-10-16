@@ -22,8 +22,8 @@ namespace Animol.Art.MemoryTheater160
         {
             var manifest = JsonUtility.FromJson<AnimolMemoryTheater160Importer.Manifest>(
                 File.ReadAllText(Root + "/memory_theater_animations.json"));
-            if (manifest.version != 2 || manifest.clips == null || manifest.clips.Length != 60)
-                throw new InvalidDataException("Memory Theater character manifest must be v2 with 60 clips.");
+            if (manifest.version != 3 || manifest.outfitRevision != 3 || manifest.clips == null || manifest.clips.Length != 60)
+                throw new InvalidDataException("Memory Theater character manifest must be v3 with 60 clips.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
             {
@@ -71,7 +71,7 @@ namespace Animol.Art.MemoryTheater160
             }
             AssetDatabase.SaveAssets();
             BuildQaScene(catalog);
-            Debug.Log("ANIMOL Memory Theater v2: connected four characters, 60 clips, four illustrations, and both playable Memory Theater themes.");
+            Debug.Log("ANIMOL Memory Theater v3: connected four characters, 60 clips, four illustrations, and both playable Memory Theater themes.");
         }
 
         public static void BuildBatch() => Build();

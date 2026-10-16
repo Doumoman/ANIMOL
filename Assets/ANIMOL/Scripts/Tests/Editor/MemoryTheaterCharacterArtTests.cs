@@ -13,10 +13,11 @@ namespace ANIMOL.Presentation.Tests
     {
         const string Root = "Assets/ANIMOL/Art/MemoryTheaterCharacters160";
 
-        [Test] public void V2ManifestFramesImportAndBindToVisualSpriteRenderer()
+        [Test] public void V3ManifestFramesImportAndBindToVisualSpriteRenderer()
         {
             var manifest = JsonUtility.FromJson<AnimolMemoryTheater160Importer.Manifest>(File.ReadAllText(Root + "/memory_theater_animations.json"));
-            Assert.That(manifest.version, Is.EqualTo(2));
+            Assert.That(manifest.version, Is.EqualTo(3));
+            Assert.That(manifest.outfitRevision, Is.EqualTo(3));
             Assert.That(manifest.clips.Length, Is.EqualTo(60));
             var count = 0;
             foreach (var data in manifest.clips)

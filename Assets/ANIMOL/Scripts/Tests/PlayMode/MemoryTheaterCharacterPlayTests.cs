@@ -18,7 +18,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class MemoryTheaterCharacterPlayTests
     {
-        const string Portrait = "Docs/Validation/MemoryTheaterCharacters160/Portrait";
+        const string Portrait = "Docs/Validation/MemoryTheaterCharacters160_v3/Portrait";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()
         {
@@ -108,13 +108,20 @@ namespace ANIMOL.Presentation.Tests
                 yield return null;
                 ScreenCapture.CaptureScreenshot(Portrait + "/" + entry.id + "_back_idle.png");
                 yield return new WaitForSecondsRealtime(.2f);
+                if (entry.id == "mion" || entry.id == "piko")
+                {
+                    Assert.That(qa.Preview(entry.id, "side", "idle"), Is.True);
+                    yield return null;
+                    ScreenCapture.CaptureScreenshot(Portrait + "/" + entry.id + "_side_idle.png");
+                    yield return new WaitForSecondsRealtime(.2f);
+                }
             }
 #else
             Assert.Ignore("Requires Unity Editor scene loader."); yield break;
 #endif
         }
 
-        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV2Art()
+        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV3Art()
         {
 #if UNITY_EDITOR
             UsePortraitGameView();
