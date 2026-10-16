@@ -15,6 +15,7 @@ namespace ANIMOL.Puzzle
         public PuzzleSession Session { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
         public Transform Player { get; private set; }
+        public StarwayCharacterVisual CharacterVisual { get; private set; }
         public PuzzleFollowCamera FollowCamera { get; private set; }
         public PuzzleMapView View { get; private set; }
         public bool IsMoving { get; private set; }
@@ -45,7 +46,14 @@ namespace ANIMOL.Puzzle
             stage = data; Session = new PuzzleSession(RuntimeMap); Status = "";
             presentation = new GameObject("Puzzle Presentation").transform; presentation.SetParent(transform, false);
             View = new GameObject("Terrain Grid").AddComponent<PuzzleMapView>(); View.transform.SetParent(presentation, false); View.Bind(RuntimeMap);
-            Player = PuzzleMapView.Sprite(presentation, "Player", RuntimeMap.theme.player, Session.Cell, 40, Vector2.one * .85f, Color.white).transform;
+            CharacterVisual = RuntimeMap.theme.starwayCharacters
+                ? StarwayCharacterVisual.Create(presentation, Session.Cell, 40, RuntimeMap.theme.starwayCharacters,
+                    RuntimeMap.theme.starwayCharacterId)
+                : null;
+            Player = CharacterVisual
+                ? CharacterVisual.transform.parent
+                : PuzzleMapView.Sprite(presentation, "Player", RuntimeMap.theme.player, Session.Cell, 40,
+                    Vector2.one * .85f, Color.white).transform;
             var cam = Camera.main;
             if (!cam) { cam = new GameObject("Puzzle Camera").AddComponent<Camera>(); cam.tag = "MainCamera"; }
             cam.backgroundColor = RuntimeMap.theme.background;
@@ -74,6 +82,7 @@ namespace ANIMOL.Puzzle
             if (Session == null || !PuzzleSession.IsCardinal(direction) || Session.Won) return false;
             if (IsMoving) { queuedInput = direction; return true; }
             if (!Session.BeginMove(direction)) { Status = "Blocked"; return false; }
+            if (CharacterVisual) CharacterVisual.SetMotion(direction, "move");
             IsMoving = true; Status = ""; StartCoroutine(MoveChain(Session.Cell + direction)); return true;
         }
         IEnumerator MoveChain(Vector2Int destination)
@@ -103,8 +112,14 @@ namespace ANIMOL.Puzzle
                 var key = Session.Cell + ":" + Session.Direction + ":" + Session.Sliding + ":" + teleport;
                 if (!visited.Add(key)) { Status = "Automatic loop stopped"; break; }
                 if (!Session.NextAutomatic(teleport, out destination, out teleport)) break;
+                if (CharacterVisual) CharacterVisual.SetMotion(Session.Direction, Session.Sliding ? "sliding" : "move");
             } while (true);
             Session.StopSliding(); IsMoving = false;
+            if (CharacterVisual)
+            {
+                if (Session.Won) CharacterVisual.PlayPose(CharacterVisual.Direction, "victory");
+                else CharacterVisual.SetIdle();
+            }
             if (Session.Won) Status = "Stage clear";
             var next = queuedInput; queuedInput = Vector2Int.zero;
             if (next != Vector2Int.zero) RequestMove(next);
@@ -112,6 +127,10 @@ namespace ANIMOL.Puzzle
         void LateUpdate()
         {
             if (hud && Session != null) hud.bubbles.text = Session.Collected + "/" + RuntimeMap.targetBubbles;
+        }
+        public bool SelectStarwayCharacter(string id)
+        {
+            return CharacterVisual && CharacterVisual.Initialize(RuntimeMap.theme.starwayCharacters, id);
         }
         void OnDestroy() { if (RuntimeMap) Destroy(RuntimeMap); }
     }

@@ -18,6 +18,8 @@ namespace ANIMOL.Puzzle
         public TwilightCoastArt twilightCoast;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;
+        public ANIMOL.Presentation.StarwayCharacterCatalog starwayCharacters;
+        public string starwayCharacterId;
         public Sprite far, mid, near;
         public Color background = new Color(.045f, .08f, .14f);
         public TerrainArt Art(TerrainMaterial material) => Array.Find(terrain ?? Array.Empty<TerrainArt>(), a => a.material == material);
