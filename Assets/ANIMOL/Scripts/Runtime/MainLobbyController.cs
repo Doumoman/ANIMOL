@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace ANIMOL.Menu
@@ -13,7 +14,7 @@ namespace ANIMOL.Menu
         const float Overscan = 1.052f;
         const float DockHeight = 210f;
         public const float AppearanceInterval = 5f;
-        public const float AppearanceCrossfade = .35f;
+        public const float AppearanceWipeDuration = .45f;
 
         public MainMenuCatalog catalog;
         public MonoBehaviour requiredStageProgress;
@@ -30,6 +31,9 @@ namespace ANIMOL.Menu
         public Image heroImage;
         public RectTransform heroTransitionRect;
         public Image heroTransitionImage;
+        public Material diagonalRevealMaterial;
+        public RectTransform diagonalLineRect;
+        public Image diagonalLineImage;
         public RectTransform logoRect;
         public RectTransform dock;
         public GameObject campaignPanel;
@@ -70,6 +74,7 @@ namespace ANIMOL.Menu
         Rect lastSafeArea;
         int campaignTheme;
         string mode = "campaign";
+        Material activeRevealMaterial;
 
         public int CurrentThemeIndex { get; private set; } = -1;
         public string CurrentCharacterId { get; private set; }
@@ -80,7 +85,7 @@ namespace ANIMOL.Menu
         public float MotionTime => motionTime;
         public float AppearanceElapsed => appearanceTime;
         public bool IsAppearanceTransitioning => transitioning;
-        public float AppearanceTransitionProgress => transitioning ? Mathf.Clamp01(transitionTime / AppearanceCrossfade) : 0;
+        public float AppearanceTransitionProgress => transitioning ? Mathf.Clamp01(transitionTime / AppearanceWipeDuration) : 0;
         public bool IsCampaignOpen => campaignPanel && campaignPanel.activeSelf;
         public bool IsModalOpen => modalPanel && modalPanel.activeSelf;
         public bool MotionRunning => !reducedMotion && !appPaused && focused && !IsCampaignOpen && !IsModalOpen;
@@ -110,6 +115,25 @@ namespace ANIMOL.Menu
             }
             campaignPanel.SetActive(false);
             modalPanel.SetActive(false);
+            if (!diagonalRevealMaterial || !diagonalRevealMaterial.HasProperty("_Progress"))
+            {
+                Debug.LogError("Main lobby diagonal reveal material is missing.");
+                enabled = false;
+                return;
+            }
+            var variants = new ShaderVariantCollection();
+            variants.Add(new ShaderVariantCollection.ShaderVariant(diagonalRevealMaterial.shader, PassType.Normal));
+            variants.Add(new ShaderVariantCollection.ShaderVariant(diagonalRevealMaterial.shader, PassType.Normal, "UNITY_UI_CLIP_RECT"));
+            variants.WarmUp();
+            activeRevealMaterial = new Material(diagonalRevealMaterial) { name = "Main Lobby Diagonal Reveal (Runtime)" };
+            backgroundTransitionImage.material = activeRevealMaterial;
+            heroTransitionImage.material = activeRevealMaterial;
+            HideTransition();
+        }
+
+        void OnDestroy()
+        {
+            if (activeRevealMaterial) Destroy(activeRevealMaterial);
         }
 
         void Start()
@@ -131,10 +155,11 @@ namespace ANIMOL.Menu
             skipNextTick = false;
             AdvanceMotion(elapsed);
             AdvanceAppearance(elapsed);
+            RefreshDiagonalLine();
         }
 
-        void OnApplicationPause(bool paused) { appPaused = paused; skipNextTick = true; }
-        void OnApplicationFocus(bool hasFocus) { focused = hasFocus; skipNextTick = true; }
+        void OnApplicationPause(bool paused) { if (appPaused != paused) skipNextTick = true; appPaused = paused; RefreshDiagonalLine(); }
+        void OnApplicationFocus(bool hasFocus) { if (focused != hasFocus) skipNextTick = true; focused = hasFocus; RefreshDiagonalLine(); }
 
         public void EnterLobbyVisit()
         {
@@ -217,23 +242,43 @@ namespace ANIMOL.Menu
             heroTransitionImage.sprite = appearance.illustration;
             transitionTime = 0;
             transitioning = true;
-            SetTransitionAlpha(0);
+            SetRevealProgress(0);
             backgroundTransitionImage.gameObject.SetActive(true);
             heroTransitionImage.gameObject.SetActive(true);
+            RefreshDiagonalLine();
             FitBackground();
             FitHero();
         }
 
-        void SetTransitionAlpha(float alpha)
+        void SetRevealProgress(float progress)
         {
-            backgroundTransitionImage.color = new Color(1, 1, 1, alpha);
-            heroTransitionImage.color = new Color(1, 1, 1, alpha);
+            activeRevealMaterial.SetFloat("_Progress", progress);
         }
 
         void HideTransition()
         {
             if (backgroundTransitionImage) backgroundTransitionImage.gameObject.SetActive(false);
             if (heroTransitionImage) heroTransitionImage.gameObject.SetActive(false);
+            if (diagonalLineImage) diagonalLineImage.gameObject.SetActive(false);
+        }
+
+        void RefreshDiagonalLine()
+        {
+            if (!diagonalLineRect || !diagonalLineImage) return;
+            var visible = transitioning && MotionRunning;
+            diagonalLineImage.gameObject.SetActive(visible);
+            if (!visible) return;
+            var progress = AppearanceTransitionProgress;
+            var edge = 2f * progress;
+            var first = edge <= 1f ? new Vector2(0, edge) : new Vector2(edge - 1f, 1);
+            var second = edge <= 1f ? new Vector2(edge, 0) : new Vector2(1, edge - 1f);
+            var canvasRect = (RectTransform)canvas.transform;
+            var area = canvasRect.rect;
+            var start = new Vector2(Mathf.Lerp(area.xMin, area.xMax, first.x), Mathf.Lerp(area.yMin, area.yMax, first.y));
+            var end = new Vector2(Mathf.Lerp(area.xMin, area.xMax, second.x), Mathf.Lerp(area.yMin, area.yMax, second.y));
+            diagonalLineRect.anchoredPosition = (start + end) * .5f;
+            diagonalLineRect.sizeDelta = new Vector2(Vector2.Distance(start, end), 2.5f);
+            diagonalLineRect.localEulerAngles = new Vector3(0, 0, Mathf.Atan2(end.y - start.y, end.x - start.x) * Mathf.Rad2Deg);
         }
 
         void CompleteTransition()
@@ -254,8 +299,9 @@ namespace ANIMOL.Menu
             if (transitioning)
             {
                 transitionTime += seconds;
-                SetTransitionAlpha(Mathf.Clamp01(transitionTime / AppearanceCrossfade));
-                if (transitionTime >= AppearanceCrossfade) CompleteTransition();
+                SetRevealProgress(Mathf.Clamp01(transitionTime / AppearanceWipeDuration));
+                if (transitionTime >= AppearanceWipeDuration) CompleteTransition();
+                else RefreshDiagonalLine();
             }
             if (!transitioning && appearanceTime >= AppearanceInterval)
             {
@@ -430,9 +476,10 @@ namespace ANIMOL.Menu
         {
             campaignPanel.SetActive(true);
             SelectCampaignTheme(campaignTheme);
+            RefreshDiagonalLine();
         }
 
-        public void CloseCampaign() => campaignPanel.SetActive(false);
+        public void CloseCampaign() { campaignPanel.SetActive(false); RefreshDiagonalLine(); }
 
         public void SelectCampaignTheme(int index)
         {
@@ -455,8 +502,9 @@ namespace ANIMOL.Menu
             modalBody.text = body;
             settingsControls.SetActive(false);
             modalPanel.SetActive(true);
+            RefreshDiagonalLine();
         }
 
-        public void CloseModal() => modalPanel.SetActive(false);
+        public void CloseModal() { modalPanel.SetActive(false); RefreshDiagonalLine(); }
     }
 }

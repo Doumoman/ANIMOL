@@ -18,6 +18,7 @@ namespace ANIMOL.Menu.Editor
         const string CatalogPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string ScenePath = "Assets/ANIMOL/Scenes/ANIMOL_Main.unity";
         const string FontPath = "Assets/ANIMOL/Fonts/ANIMOLMenuKorean.ttf";
+        const string RevealMaterialPath = "Assets/ANIMOL/Materials/MainLobbyDiagonalReveal.mat";
         static readonly Color Ink = new Color(.094f, .094f, .18f);
         static readonly Color Paper = new Color(1, .976f, .914f);
         static readonly Color Pink = new Color(1, .514f, .733f);
@@ -48,11 +49,57 @@ namespace ANIMOL.Menu.Editor
             font = AssetDatabase.LoadAssetAtPath<Font>(FontPath);
             if (!font) throw new FileNotFoundException("Missing v7 Korean UI font", FontPath);
             var catalog = BuildCatalog();
-            BuildScene(catalog);
+            BuildScene(catalog, CreateRevealMaterial());
             Debug.Log("ANIMOL main UI: built active lobby with 4 scenery sprites, 16 people, 17 appearances, and fail-closed battle gate.");
         }
 
         public static void BuildBatch() => Build();
+
+        [MenuItem("ANIMOL/UI/Upgrade Main Lobby Diagonal Wipe")]
+        public static void UpgradeDiagonalWipe()
+        {
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+            var controller = UnityEngine.Object.FindFirstObjectByType<MainLobbyController>();
+            if (!controller || !controller.canvas || !controller.backgroundTransitionImage || !controller.heroTransitionImage)
+                throw new InvalidOperationException("Existing main lobby scene is missing transition objects.");
+            var reveal = CreateRevealMaterial();
+            controller.backgroundTransitionImage.material = reveal;
+            controller.backgroundTransitionImage.color = Color.white;
+            controller.backgroundTransitionImage.gameObject.name = "Scenery Diagonal Reveal";
+            controller.heroTransitionImage.material = reveal;
+            controller.heroTransitionImage.color = Color.white;
+            controller.heroTransitionImage.gameObject.name = "Character Diagonal Reveal";
+            var root = (RectTransform)controller.canvas.transform;
+            var line = root.Find("Full Screen Diagonal Seam") as RectTransform;
+            if (!line)
+            {
+                line = Rect("Full Screen Diagonal Seam", root, new Vector2(.5f, .5f), new Vector2(.5f, .5f),
+                    new Vector2(.5f, .5f), Vector2.zero, new Vector2(0, 2.5f));
+                AddImage(line, new Color(1f, .93f, .78f, .95f));
+            }
+            line.gameObject.SetActive(false);
+            controller.diagonalRevealMaterial = reveal;
+            controller.diagonalLineRect = line;
+            controller.diagonalLineImage = line.GetComponent<Image>();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+
+        static Material CreateRevealMaterial()
+        {
+            var shader = Shader.Find("ANIMOL/UI/Main Lobby Diagonal Reveal");
+            if (!shader) throw new InvalidOperationException("Missing main lobby diagonal reveal shader.");
+            var material = AssetDatabase.LoadAssetAtPath<Material>(RevealMaterialPath);
+            if (!material)
+            {
+                material = new Material(shader);
+                AssetDatabase.CreateAsset(material, RevealMaterialPath);
+            }
+            else material.shader = shader;
+            material.SetFloat("_Progress", 0);
+            EditorUtility.SetDirty(material);
+            return material;
+        }
 
         static void ConfigureTextures()
         {
@@ -146,7 +193,7 @@ namespace ANIMOL.Menu.Editor
             return new MainMenuAppearance { artId = artId, costumeId = costume, illustration = sprite };
         }
 
-        static void BuildScene(MainMenuCatalog catalog)
+        static void BuildScene(MainMenuCatalog catalog, Material revealMaterial)
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             var camera = new GameObject("Main Camera", typeof(Camera));
@@ -179,9 +226,10 @@ namespace ANIMOL.Menu.Editor
             backgroundImage.sprite = catalog.themes[0].scenery;
             backgroundImage.preserveAspect = true;
             backgroundImage.raycastTarget = false;
-            var backgroundTransition = Rect("Scenery Crossfade", scenery, new Vector2(.5f, .5f), new Vector2(.5f, .5f),
+            var backgroundTransition = Rect("Scenery Diagonal Reveal", scenery, new Vector2(.5f, .5f), new Vector2(.5f, .5f),
                 new Vector2(.5f, .5f), Vector2.zero, new Vector2(1122, 1402));
-            var backgroundTransitionImage = AddImage(backgroundTransition, new Color(1, 1, 1, 0));
+            var backgroundTransitionImage = AddImage(backgroundTransition, Color.white);
+            backgroundTransitionImage.material = revealMaterial;
             backgroundTransitionImage.preserveAspect = true;
             backgroundTransition.gameObject.SetActive(false);
             var hero = Rect("Static Character Illustration", art, new Vector2(.5f, 0), new Vector2(.5f, 0),
@@ -190,9 +238,10 @@ namespace ANIMOL.Menu.Editor
             heroImage.sprite = catalog.themes[0].people[0].appearances[0].illustration;
             heroImage.preserveAspect = true;
             heroImage.raycastTarget = false;
-            var heroTransition = Rect("Character Crossfade", art, new Vector2(.5f, 0), new Vector2(.5f, 0),
+            var heroTransition = Rect("Character Diagonal Reveal", art, new Vector2(.5f, 0), new Vector2(.5f, 0),
                 new Vector2(.5f, 0), new Vector2(0, 20), new Vector2(210, 315));
-            var heroTransitionImage = AddImage(heroTransition, new Color(1, 1, 1, 0));
+            var heroTransitionImage = AddImage(heroTransition, Color.white);
+            heroTransitionImage.material = revealMaterial;
             heroTransitionImage.preserveAspect = true;
             heroTransition.gameObject.SetActive(false);
 
@@ -317,6 +366,13 @@ namespace ANIMOL.Menu.Editor
             settingsControls.gameObject.SetActive(false);
             modal.gameObject.SetActive(false);
 
+            // The seam spans the physical viewport; scenery and character use the same screen-space cut.
+            var diagonalLine = Rect("Full Screen Diagonal Seam", canvas.transform,
+                new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f),
+                Vector2.zero, new Vector2(0, 2.5f));
+            var diagonalLineImage = AddImage(diagonalLine, new Color(1f, .93f, .78f, .95f));
+            diagonalLine.gameObject.SetActive(false);
+
             new GameObject("UI Event System", typeof(EventSystem), typeof(StandaloneInputModule));
             var controller = new GameObject("Main Lobby Controller", typeof(MainLobbyController)).GetComponent<MainLobbyController>();
             controller.catalog = catalog;
@@ -333,6 +389,9 @@ namespace ANIMOL.Menu.Editor
             controller.heroImage = heroImage;
             controller.heroTransitionRect = heroTransition;
             controller.heroTransitionImage = heroTransitionImage;
+            controller.diagonalRevealMaterial = revealMaterial;
+            controller.diagonalLineRect = diagonalLine;
+            controller.diagonalLineImage = diagonalLineImage;
             controller.logoRect = logo;
             controller.dock = dock;
             controller.campaignPanel = campaign.gameObject;

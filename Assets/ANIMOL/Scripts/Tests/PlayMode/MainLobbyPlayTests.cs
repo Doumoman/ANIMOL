@@ -198,7 +198,7 @@ namespace ANIMOL.Menu.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator FiveSecondCrossfadeCyclesAllFourThemesWithoutBlockingInput()
+        [UnityTest] public IEnumerator FiveSecondDiagonalWipeCyclesAllFourThemesWithoutBlockingInput()
         {
 #if UNITY_EDITOR
             UseGameView(1080, 1920);
@@ -218,21 +218,48 @@ namespace ANIMOL.Menu.Tests
                 Assert.That(lobby.IsAppearanceTransitioning, Is.True);
                 Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(previousTheme));
                 Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(previousArt));
-                Assert.That(lobby.heroImage.sprite, Is.SameAs(oldHero), "old art stays visible under the fade");
+                Assert.That(lobby.heroImage.sprite, Is.SameAs(oldHero), "old art remains on the unrevealed side");
                 Assert.That(lobby.backgroundTransitionImage.raycastTarget, Is.False);
                 Assert.That(lobby.heroTransitionImage.raycastTarget, Is.False);
+                Assert.That(lobby.diagonalLineImage.raycastTarget, Is.False);
                 Assert.That(lobby.campaignButton.interactable, Is.True);
-                lobby.AdvanceAppearance(MainLobbyController.AppearanceCrossfade * .5f);
+                lobby.AdvanceAppearance(MainLobbyController.AppearanceWipeDuration * .5f);
                 Assert.That(lobby.AppearanceTransitionProgress, Is.EqualTo(.5f).Within(.01f));
-                Assert.That(lobby.heroTransitionImage.color.a, Is.EqualTo(.5f).Within(.01f));
+                Assert.That(lobby.heroTransitionImage.color.a, Is.EqualTo(1f));
+                Assert.That(lobby.backgroundTransitionImage.color.a, Is.EqualTo(1f));
+                Assert.That(lobby.heroTransitionImage.material, Is.SameAs(lobby.backgroundTransitionImage.material));
+                Assert.That(lobby.heroTransitionImage.material.shader.name, Is.EqualTo("ANIMOL/UI/Main Lobby Diagonal Reveal"));
+                Assert.That(lobby.heroTransitionImage.material.GetFloat("_Progress"), Is.EqualTo(.5f).Within(.01f));
+                Assert.That(lobby.heroTransitionImage.mainTexture, Is.SameAs(lobby.heroTransitionImage.sprite.texture));
+                Assert.That(lobby.backgroundTransitionImage.mainTexture, Is.SameAs(lobby.backgroundTransitionImage.sprite.texture));
+                Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.True);
+                Assert.That(lobby.diagonalLineRect.rect.width,
+                    Is.EqualTo(((RectTransform)lobby.canvas.transform).rect.size.magnitude).Within(2f));
                 Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
                 if (turn == 0)
                 {
-                    ScreenCapture.CaptureScreenshot(Portrait + "/crossfade.png");
-                    yield return new WaitForSecondsRealtime(.15f);
+                    ScreenCapture.CaptureScreenshot(Portrait + "/diagonal_wipe.png");
+                    yield return new WaitForSecondsRealtime(.05f);
+                    var heldProgress = lobby.AppearanceTransitionProgress;
+                    lobby.OpenSettings();
+                    Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.False);
+                    lobby.AdvanceAppearance(1f);
+                    Assert.That(lobby.AppearanceTransitionProgress, Is.EqualTo(heldProgress));
+                    UseGameView(1440, 900);
+                    yield return null;
+                    lobby.ForceLayout();
+                    lobby.CloseModal();
+                    Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.True);
+                    Assert.That(lobby.diagonalLineRect.rect.width,
+                        Is.EqualTo(2f * Mathf.Min(heldProgress, 1f - heldProgress) *
+                            ((RectTransform)lobby.canvas.transform).rect.size.magnitude).Within(2f));
+                    UseGameView(1080, 1920);
+                    yield return null;
+                    lobby.ForceLayout();
                 }
-                lobby.AdvanceAppearance(MainLobbyController.AppearanceCrossfade);
+                lobby.AdvanceAppearance(MainLobbyController.AppearanceWipeDuration);
                 Assert.That(lobby.IsAppearanceTransitioning, Is.False);
+                Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.False);
                 Assert.That(lobby.heroImage.sprite, Is.SameAs(lobby.heroTransitionImage.sprite));
                 Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.backgroundTransitionImage.sprite));
                 themes.Add(lobby.CurrentThemeIndex);
@@ -263,7 +290,13 @@ namespace ANIMOL.Menu.Tests
             lobby.SendMessage("OnApplicationFocus", true);
             var startingTheme = lobby.CurrentThemeIndex;
             var startingArt = lobby.CurrentArtId;
-            yield return new WaitForSecondsRealtime(5.6f);
+            var deadline = Time.realtimeSinceStartup + 5.6f;
+            while (Time.realtimeSinceStartup < deadline)
+            {
+                // The Editor test runner can take Game View focus; keep this simulated lobby visit foregrounded.
+                lobby.SendMessage("OnApplicationFocus", true);
+                yield return null;
+            }
             Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(startingTheme));
             Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(startingArt));
             Assert.That(lobby.IsAppearanceTransitioning, Is.False);
