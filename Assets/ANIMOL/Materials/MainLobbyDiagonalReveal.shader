@@ -5,6 +5,7 @@ Shader "ANIMOL/UI/Main Lobby Diagonal Reveal"
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _Progress ("Reveal", Range(0,1)) = 0
+        _Invert ("Hide Revealed Side", Range(0,1)) = 0
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
         _StencilOp ("Stencil Operation", Float) = 0
@@ -61,6 +62,7 @@ Shader "ANIMOL/UI/Main Lobby Diagonal Reveal"
             sampler2D _MainTex;
             fixed4 _Color;
             float _Progress;
+            float _Invert;
             float4 _ClipRect;
 
             v2f vert(appdata input)
@@ -77,7 +79,8 @@ Shader "ANIMOL/UI/Main Lobby Diagonal Reveal"
             fixed4 frag(v2f input) : SV_Target
             {
                 float2 screenUV = input.screenPosition.xy / input.screenPosition.w;
-                clip(_Progress - (screenUV.x + screenUV.y) * 0.5);
+                float boundary = (screenUV.x + screenUV.y) * 0.5;
+                clip(lerp(_Progress - boundary, boundary - _Progress, _Invert));
                 fixed4 color = tex2D(_MainTex, input.uv) * input.color;
                 #ifdef UNITY_UI_CLIP_RECT
                     color.a *= UnityGet2DClipping(input.localPosition.xy, _ClipRect);

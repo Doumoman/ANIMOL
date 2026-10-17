@@ -211,6 +211,7 @@ namespace ANIMOL.Menu.Tests
                 var previousTheme = lobby.CurrentThemeIndex;
                 var previousArt = lobby.CurrentArtId;
                 var oldHero = lobby.heroImage.sprite;
+                var oldHeroMaterial = lobby.heroImage.material;
                 lobby.AdvanceAppearance(MainLobbyController.AppearanceInterval - lobby.AppearanceElapsed - .01f);
                 Assert.That(lobby.CurrentThemeIndex, Is.EqualTo(previousTheme));
                 Assert.That(lobby.CurrentArtId, Is.EqualTo(previousArt));
@@ -230,6 +231,14 @@ namespace ANIMOL.Menu.Tests
                 Assert.That(lobby.heroTransitionImage.material, Is.SameAs(lobby.backgroundTransitionImage.material));
                 Assert.That(lobby.heroTransitionImage.material.shader.name, Is.EqualTo("ANIMOL/UI/Main Lobby Diagonal Reveal"));
                 Assert.That(lobby.heroTransitionImage.material.GetFloat("_Progress"), Is.EqualTo(.5f).Within(.01f));
+                Assert.That(lobby.heroImage.material.shader.name, Is.EqualTo("ANIMOL/UI/Main Lobby Diagonal Reveal"));
+                Assert.That(lobby.heroImage.material.GetFloat("_Invert"), Is.EqualTo(1f));
+                Assert.That(lobby.heroImage.material.GetFloat("_Progress"), Is.EqualTo(.5f).Within(.01f),
+                    "the outgoing character must be cut by the same moving diagonal");
+                Assert.That(lobby.heroTransitionImage.material.GetFloat("_Invert"), Is.Zero);
+                Assert.That(lobby.heroTransitionRect.rect.width / lobby.heroTransitionRect.rect.height,
+                    Is.EqualTo(lobby.heroTransitionImage.sprite.rect.width /
+                        lobby.heroTransitionImage.sprite.rect.height).Within(.001f));
                 Assert.That(lobby.heroTransitionImage.mainTexture, Is.SameAs(lobby.heroTransitionImage.sprite.texture));
                 Assert.That(lobby.backgroundTransitionImage.mainTexture, Is.SameAs(lobby.backgroundTransitionImage.sprite.texture));
                 Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.True);
@@ -261,6 +270,9 @@ namespace ANIMOL.Menu.Tests
                 Assert.That(lobby.IsAppearanceTransitioning, Is.False);
                 Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.False);
                 Assert.That(lobby.heroImage.sprite, Is.SameAs(lobby.heroTransitionImage.sprite));
+                Assert.That(lobby.heroImage.material, Is.SameAs(oldHeroMaterial));
+                Assert.That(lobby.heroRect.rect.width, Is.EqualTo(lobby.heroTransitionRect.rect.width).Within(.01f));
+                Assert.That(lobby.heroRect.rect.height, Is.EqualTo(lobby.heroTransitionRect.rect.height).Within(.01f));
                 Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.backgroundTransitionImage.sprite));
                 themes.Add(lobby.CurrentThemeIndex);
             }

@@ -75,6 +75,8 @@ namespace ANIMOL.Menu
         int campaignTheme;
         string mode = "campaign";
         Material activeRevealMaterial;
+        Material activeHideMaterial;
+        Material defaultHeroMaterial;
 
         public int CurrentThemeIndex { get; private set; } = -1;
         public string CurrentCharacterId { get; private set; }
@@ -125,7 +127,11 @@ namespace ANIMOL.Menu
             variants.Add(new ShaderVariantCollection.ShaderVariant(diagonalRevealMaterial.shader, PassType.Normal));
             variants.Add(new ShaderVariantCollection.ShaderVariant(diagonalRevealMaterial.shader, PassType.Normal, "UNITY_UI_CLIP_RECT"));
             variants.WarmUp();
+            defaultHeroMaterial = heroImage.material;
             activeRevealMaterial = new Material(diagonalRevealMaterial) { name = "Main Lobby Diagonal Reveal (Runtime)" };
+            activeRevealMaterial.SetFloat("_Invert", 0);
+            activeHideMaterial = new Material(diagonalRevealMaterial) { name = "Main Lobby Diagonal Hide (Runtime)" };
+            activeHideMaterial.SetFloat("_Invert", 1);
             backgroundTransitionImage.material = activeRevealMaterial;
             heroTransitionImage.material = activeRevealMaterial;
             HideTransition();
@@ -134,6 +140,7 @@ namespace ANIMOL.Menu
         void OnDestroy()
         {
             if (activeRevealMaterial) Destroy(activeRevealMaterial);
+            if (activeHideMaterial) Destroy(activeHideMaterial);
         }
 
         void Start()
@@ -243,6 +250,7 @@ namespace ANIMOL.Menu
             transitionTime = 0;
             transitioning = true;
             SetRevealProgress(0);
+            heroImage.material = activeHideMaterial;
             backgroundTransitionImage.gameObject.SetActive(true);
             heroTransitionImage.gameObject.SetActive(true);
             RefreshDiagonalLine();
@@ -253,10 +261,12 @@ namespace ANIMOL.Menu
         void SetRevealProgress(float progress)
         {
             activeRevealMaterial.SetFloat("_Progress", progress);
+            activeHideMaterial.SetFloat("_Progress", progress);
         }
 
         void HideTransition()
         {
+            if (heroImage && heroImage.material == activeHideMaterial) heroImage.material = defaultHeroMaterial;
             if (backgroundTransitionImage) backgroundTransitionImage.gameObject.SetActive(false);
             if (heroTransitionImage) heroTransitionImage.gameObject.SetActive(false);
             if (diagonalLineImage) diagonalLineImage.gameObject.SetActive(false);
@@ -353,15 +363,17 @@ namespace ANIMOL.Menu
             logoRect.GetWorldCorners(corners);
             var logoBottom = artArea.InverseTransformPoint(corners[0]).y;
             var available = logoBottom - artArea.rect.yMin - 18f - 20f;
-            var sprite = heroImage.sprite.rect.size;
+            FitIllustration(heroRect, heroImage.sprite, available);
+            if (heroTransitionRect && heroTransitionImage.sprite)
+                FitIllustration(heroTransitionRect, heroTransitionImage.sprite, available);
+        }
+
+        void FitIllustration(RectTransform target, Sprite illustration, float available)
+        {
+            var sprite = illustration.rect.size;
             var height = Mathf.Max(1, Mathf.Min(available, artArea.rect.width * .82f * sprite.y / sprite.x));
-            heroRect.sizeDelta = new Vector2(height * sprite.x / sprite.y, height);
-            heroRect.anchoredPosition = new Vector2(0, 20);
-            if (heroTransitionRect)
-            {
-                heroTransitionRect.sizeDelta = heroRect.sizeDelta;
-                heroTransitionRect.anchoredPosition = heroRect.anchoredPosition;
-            }
+            target.sizeDelta = new Vector2(height * sprite.x / sprite.y, height);
+            target.anchoredPosition = new Vector2(0, 20);
         }
 
         void FitCampaignCards()

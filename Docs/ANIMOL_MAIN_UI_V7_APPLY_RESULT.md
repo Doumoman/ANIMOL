@@ -37,6 +37,11 @@
 - 연결된 Unity 6000.3.8f1 Editor에서 컴파일 오류 0, 셰이더 오류 0을 확인했다. [로비 PlayMode 5/5](Validation/MainUiV7/PlayMode-diagonal.json)에서 5초 주기, 네 테마 순환, 새/이전 Sprite 참조, 불투명 Image와 동일한 진행값, 중간선 길이, 팝업 중 정지, PC 창 크기 변경 뒤 선의 화면 폭 적응, 모션 줄이기 즉시 종료, 실제 `Update` 경로를 확인했다. [1080×1920 실제 전환 캡처](Validation/MainUiV7/Portrait/diagonal_wipe.png)에서는 대각선 양쪽에 서로 다른 테마와 캐릭터가 분리되어 보이고 선이 하단 메뉴까지 이어진다. `MainLobbyArtTests` 4/4, `ArtAssetTests` 4/4, `ArtQaPlayTests` 1/1도 통과했다.
 - [Android APK 빌드](Validation/MainUiV7/Android-diagonal-build.json)는 최종 씬과 코드로 성공했다. APK는 임시 경로 `%TEMP%/ANIMOL_Main_UI_diagonal.apk`에 138,781,261바이트로 생성됐으며 빌드 오류 0, 기존 Pipeline Runtime 설정과 진단 심볼 관련 경고 2개다. Unity 설치 SDK의 `adb devices`에는 연결 기기가 없어 실기기 화면·터치·Safe Area·DPI와 실제 Android 전환 프레임은 미검증이다. 레거시 `CommercialPolishPolicyTests`는 격리된 보관본이므로 활성 테스트로 실행하지 않았다.
 
+### 2026-10-18 캐릭터 경계 보정
+
+- 기존 구현은 새 배경과 새 캐릭터만 대각선으로 드러내고 이전 캐릭터는 끝까지 전체를 그려, 경계 부근에서 두 인물이 겹쳤다. 이제 이전 캐릭터에도 같은 화면 좌표 경계의 반대쪽 마스크를 적용하고 새 캐릭터의 사각형은 해당 그림의 비율로 계산한다. 전환 완료 시 일반 머티리얼로 복귀한다. [중간 프레임 캡처](Validation/MainUiV7/Portrait/diagonal_wipe.png)를 갱신했다.
+- Unity 6000.3.8f1에서 컴파일 오류 0, 로비 대각선 전환 PlayMode 테스트 1/1 통과. 테스트 러너는 프로젝트의 빠른 Play Mode 설정에서 준비 단계 예외가 나서 해당 설정을 임시로 끄고 실행했으며, 끝난 뒤 원래 `DisableDomainReload` 값으로 복원했다. `MainLobbyArtTests`는 3/4 통과했고, 남은 1개는 이번 변경과 무관한 기존 `choa.png` 임포트 설정이 테스트 기대값 Bilinear 대신 Point인 문제다.
+
 ## 남은 연결
 
 정식 스테이지 카탈로그·완료 저장 소스와 캠페인 라우팅이 추가되면 `MainMenuCatalog.requiredStageIds`와 `MainLobbyController.requiredStageProgress`를 실제 정책에 연결해야 한다. 대전·커스텀·광고 제거는 각각 서버/구매 SDK 계약이 생기기 전까지 완료로 표시하지 않는다. 현재 APK는 로비 화면과 안전한 미연결 상태를 검수한 결과물이다.
