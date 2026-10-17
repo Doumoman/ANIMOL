@@ -90,6 +90,56 @@ namespace ANIMOL.Presentation.Tests
                 foreach (var art in stage.theme.terrain) { Assert.AreEqual(16, art.outer.Length); Assert.AreEqual(4, art.inner.Length); Assert.IsTrue(art.outer.All(s => s)); Assert.IsTrue(art.inner.All(s => s)); }
             }
         }
+        [Test] public void StarterMapCreatesPairedScenarioAndCanRunCurrentDeviceLogic()
+        {
+            var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            Assert.That(theme, Is.Not.Null);
+            var path = "Assets/ANIMOL/Data/Puzzle/Maps/__MapEditorTest_" + System.Guid.NewGuid().ToString("N") + ".asset";
+            var scenarioPath = path.Substring(0, path.Length - 6) + "_Scenario.asset";
+            try
+            {
+                var created = PuzzleMapEditor.CreateStarterMap(path, theme, 12, 18);
+                Assert.That(created.scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
+                Assert.That(created.theme, Is.SameAs(theme));
+                Assert.That(created.terrain.Count, Is.EqualTo(12 * 18));
+                Assert.That(created.ValidateMap(), Is.Empty);
+                Assert.That(new PuzzleDeviceSession(created).Won, Is.False);
+                Assert.That(AssetDatabase.LoadAssetAtPath<PuzzleMap>(path), Is.SameAs(created));
+            }
+            finally
+            {
+                AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset(scenarioPath);
+            }
+        }
+        [Test] public void PracticeLibrarySuppliesAllTwentyFourDeviceRoles()
+        {
+            var roles = PuzzleMapEditor.LoadPracticeTemplates().Select(entry => entry.device.role).Distinct().ToArray();
+            for (var role = 1; role <= 24; role++)
+                Assert.That(roles, Does.Contain((PrototypeRole)role), "Missing device practice template " + role);
+        }
+        [Test] public void StampingPortalCopiesArtAndOffsetsDestinationWithoutMutatingTemplate()
+        {
+            var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry => entry.device.role == PrototypeRole.Portal).device;
+            var originalPosition = template.position;
+            var originalTarget = template.target;
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                var position = new Vector2Int(8, 9);
+                var copy = PuzzleMapEditor.StampTemplate(scenario, template, position);
+                Assert.That(copy.position, Is.EqualTo(position));
+                Assert.That(copy.target, Is.EqualTo(originalTarget + position - originalPosition));
+                Assert.That(copy.visualPrefab, Is.SameAs(template.visualPrefab));
+                Assert.That(copy.cells, Is.Not.SameAs(template.cells));
+                Assert.That(copy.blastOffsets, Is.Not.SameAs(template.blastOffsets));
+                Assert.That(PuzzleMapEditor.StampTemplate(scenario, template, position + Vector2Int.right).id,
+                    Is.Not.EqualTo(copy.id));
+                Assert.That(template.position, Is.EqualTo(originalPosition));
+                Assert.That(template.target, Is.EqualTo(originalTarget));
+            }
+            finally { Object.DestroyImmediate(scenario); }
+        }
         void Fill() { for (var y = 0; y < 5; y++) for (var x = 0; x < 5; x++) map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass); }
         [TestCase(150, 10, 1, 0), TestCase(-150, 10, -1, 0), TestCase(10, 150, 0, 1), TestCase(10, -150, 0, -1), TestCase(20, 20, 0, 0), TestCase(100, 150, 0, 1)]
         public void SwipesUseDominantAxisAndIgnoreShortGestures(int dx, int dy, int x, int y)

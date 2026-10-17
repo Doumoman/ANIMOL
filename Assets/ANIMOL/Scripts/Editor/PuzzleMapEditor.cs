@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ANIMOL.Puzzle;
 using UnityEditor;
@@ -8,14 +10,20 @@ namespace ANIMOL.Presentation.Editor
 {
     public sealed class PuzzleMapEditor : EditorWindow
     {
-        enum Layer { Terrain, Device, Decoration, Markers }
+        enum Layer { Terrain, Device, Decoration, Markers, Water }
         enum Marker { Start, Bubble, Exit }
         [SerializeField] PuzzleMap map;
+        [SerializeField] PuzzleTheme newMapTheme;
+        [SerializeField] int newMapWidth = 12, newMapHeight = 18;
         Layer layer;
         Marker marker;
         TerrainMaterial material;
         DeviceKind device = DeviceKind.Conveyor;
         PrototypeDevice prototypeBrush;
+        DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
+        bool useLibrary = true, inspectDevice;
+        int templateIndex;
+        string selectedDeviceId;
         bool showScenario;
         int direction;
         Vector2Int portalTarget;
@@ -29,23 +37,41 @@ namespace ANIMOL.Presentation.Editor
         [MenuItem("ANIMOL/Puzzle/Map Editor")]
         public static void Open() => GetWindow<PuzzleMapEditor>("Puzzle Map");
         public static void Edit(PuzzleMap data) { var window = GetWindow<PuzzleMapEditor>("Puzzle Map"); window.Select(data); }
-        void OnEnable() { Undo.undoRedoPerformed += Undone; if (map) { pendingWidth = map.Width; pendingHeight = map.Height; } }
-        void OnDisable() { Undo.undoRedoPerformed -= Undone; EndStroke(); }
+        void OnEnable()
+        {
+            Undo.undoRedoPerformed += Undone;
+            EditorApplication.projectChanged += RefreshLibrary;
+            RefreshLibrary();
+            if (!newMapTheme) newMapTheme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; }
+        }
+        void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
         void Undone() { if (map) { map.InvalidateIndex(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
-        void Select(PuzzleMap data) { EndStroke(); map = data; if (map) { pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
+        void Select(PuzzleMap data)
+        {
+            EndStroke(); map = data; selectedDeviceId = null;
+            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; newMapWidth = map.Width; newMapHeight = map.Height; if (map.theme) newMapTheme = map.theme; }
+            Repaint();
+        }
         void OnGUI()
         {
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
             var selected = (PuzzleMap)EditorGUILayout.ObjectField(map, typeof(PuzzleMap), false, GUILayout.Width(250));
             if (selected != map) Select(selected);
-            if (GUILayout.Button("New", EditorStyles.toolbarButton)) Create();
+            if (GUILayout.Button("New", EditorStyles.toolbarButton)) Select(null);
             if (GUILayout.Button("Undo", EditorStyles.toolbarButton)) Undo.PerformUndo();
             if (GUILayout.Button("Redo", EditorStyles.toolbarButton)) Undo.PerformRedo();
             if (GUILayout.Button("Save", EditorStyles.toolbarButton)) AssetDatabase.SaveAssets();
             using (new EditorGUI.DisabledScope(!map || EditorApplication.isPlaying))
                 if (GUILayout.Button("Play Preview", EditorStyles.toolbarButton)) PuzzlePreview.Play(map);
             EditorGUILayout.EndHorizontal();
-            if (!map) { EditorGUILayout.HelpBox("Create or select a Puzzle Map. Left drag paints; right drag erases. All layers are independent.", MessageType.Info); return; }
+            if (!map)
+            {
+                EditorGUILayout.HelpBox("Create a playable starter map with its own device scenario, or select an existing map. Left drag paints; right drag erases.", MessageType.Info);
+                NewMapSettings();
+                if (GUILayout.Button("Create starter map")) Create();
+                return;
+            }
             EditorGUILayout.BeginHorizontal();
             settingsScroll = EditorGUILayout.BeginScrollView(settingsScroll, GUILayout.Width(280));
             Settings(); EditorGUILayout.EndScrollView();
@@ -77,15 +103,23 @@ namespace ANIMOL.Presentation.Editor
                 if (showScenario)
                 {
                     var scenario = new SerializedObject(map.scenario); scenario.Update();
+                    EditorGUILayout.PropertyField(scenario.FindProperty("title"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("themeId"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("devices"), true);
                     EditorGUILayout.PropertyField(scenario.FindProperty("water"), true);
                     EditorGUILayout.PropertyField(scenario.FindProperty("goals"), true);
+                    EditorGUILayout.PropertyField(scenario.FindProperty("verificationRoute"));
+                    EditorGUILayout.LabelField("Current device policies", EditorStyles.boldLabel);
+                    foreach (var field in new[] { "holdOccupiedBridge", "shutterPhaseAdvancesWhenOccupied", "leapSkipsIntermediate",
+                        "mirrorBumpRotates", "magnetSwitchLatches", "bombHurtsPlayer", "bombDestroysOrdinaryObjects",
+                        "statueStopsAfterBreakingWall" })
+                        EditorGUILayout.PropertyField(scenario.FindProperty(field));
                     scenario.ApplyModifiedProperties();
                 }
             }
             EditorGUILayout.Space();
-            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "Terrain", "Device", "Decor", "Markers" });
+            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "Terrain", "Device", "Decor", "Markers", "Water" });
             erase = EditorGUILayout.Toggle("Erase brush", erase);
             if (layer == Layer.Terrain)
             { material = (TerrainMaterial)EditorGUILayout.EnumPopup("Material", material); blocked = EditorGUILayout.Toggle("Blocked cell", blocked); }
@@ -93,15 +127,7 @@ namespace ANIMOL.Presentation.Editor
             {
                 if (map.scenario)
                 {
-                    var choices = map.scenario.devices.ToArray();
-                    var index = Array.IndexOf(choices, prototypeBrush);
-                    if (choices.Length == 0) EditorGUILayout.HelpBox("Add a device in the scenario list above to enable the copy brush.", MessageType.Info);
-                    else
-                    {
-                        index = EditorGUILayout.Popup("Copy device configuration", Math.Max(0,index), choices.Select(d => d.id + " / " + d.role).ToArray());
-                        prototypeBrush = choices[Math.Min(index, choices.Length - 1)];
-                    }
-                    EditorGUILayout.HelpBox("Paint copies the selected device configuration with a new ID. Edit links, water, footprints and goals above. Right click removes devices only.", MessageType.Info);
+                    DeviceSettings();
                 }
                 else
                 {
@@ -113,18 +139,77 @@ namespace ANIMOL.Presentation.Editor
             if (layer == Layer.Decoration)
             { decoration = (Sprite)EditorGUILayout.ObjectField("Sprite", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("Tint", decorationTint); }
             if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.EnumPopup("Place", marker);
+            if (layer == Layer.Water && !map.scenario) EditorGUILayout.HelpBox("Assign a device scenario to paint water cells.", MessageType.Info);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Validation", EditorStyles.boldLabel);
             var errors = map.ValidateMap();
             if (!map.theme) EditorGUILayout.HelpBox("Assign a puzzle theme.", MessageType.Error);
             foreach (var error in errors) EditorGUILayout.HelpBox(error, MessageType.Error);
             if (errors.Count == 0 && map.theme) EditorGUILayout.HelpBox("Ready to play. This validates placements, not puzzle solvability.", MessageType.Info);
+            if (map.scenario && map.scenario.devices.Any(d => map.Contains(d.position) && !d.visualPrefab))
+                EditorGUILayout.HelpBox("Some devices have no visual prefab. Their logic can run, but they will be invisible in preview.", MessageType.Warning);
             if (outside > 0)
             {
                 EditorGUILayout.LabelField("Retained coordinates", EditorStyles.boldLabel);
                 foreach (var p in map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Where(p => !map.Contains(p)).Distinct().Take(40))
                     EditorGUILayout.LabelField(p.ToString());
             }
+        }
+        public sealed class DeviceTemplate
+        {
+            public PuzzleScenario source;
+            public PrototypeDevice device;
+            public string label;
+        }
+        public static DeviceTemplate[] LoadPracticeTemplates()
+        {
+            const string path = "Assets/ANIMOL/Data/Puzzle/Prototypes";
+            return AssetDatabase.FindAssets("t:PuzzleScenario", new[] { path })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Where(assetPath => Path.GetFileName(assetPath).StartsWith("Device", StringComparison.Ordinal) &&
+                    assetPath.EndsWith("_Scenario.asset", StringComparison.Ordinal))
+                .OrderBy(assetPath => assetPath, StringComparer.Ordinal)
+                .SelectMany(assetPath =>
+                {
+                    var source = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(assetPath);
+                    return source && source.devices != null
+                        ? source.devices.Where(device => device != null).Select(device => new DeviceTemplate {
+                            source = source, device = device,
+                            label = Path.GetFileNameWithoutExtension(assetPath).Replace("_Scenario", "") + " / " +
+                                device.role + (string.IsNullOrEmpty(device.variant) ? "" : " / " + device.variant) +
+                                (device.visualPrefab ? "" : " [no art]")
+                        })
+                        : Enumerable.Empty<DeviceTemplate>();
+                }).ToArray();
+        }
+        void RefreshLibrary() { library = LoadPracticeTemplates(); templateIndex = 0; Repaint(); }
+        void DeviceSettings()
+        {
+            inspectDevice = GUILayout.Toggle(inspectDevice, "Inspect placed device (left click)");
+            var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "24-device library", "This map" });
+            if (useLibrary != (source == 0)) { useLibrary = source == 0; templateIndex = 0; }
+            var choices = useLibrary ? library.Select(entry => entry.device).ToArray() : map.scenario.devices.ToArray();
+            var labels = useLibrary ? library.Select(entry => entry.label).ToArray() :
+                choices.Select(device => device.id + " / " + device.role).ToArray();
+            if (choices.Length == 0)
+            {
+                prototypeBrush = null;
+                EditorGUILayout.HelpBox("No device templates in this source. Select the practice library or add a device to this map.", MessageType.Info);
+            }
+            else
+            {
+                templateIndex = EditorGUILayout.Popup("Stamp template", Mathf.Clamp(templateIndex, 0, choices.Length - 1), labels);
+                prototypeBrush = choices[templateIndex];
+                if (useLibrary && GUILayout.Button("Select template asset")) EditorGUIUtility.PingObject(library[templateIndex].source);
+            }
+            if (GUILayout.Button("Refresh device library")) RefreshLibrary();
+            EditorGUILayout.HelpBox("Stamp copies the selected practice device with a new ID. Targets and rail cells move with it; group links and goals need review. Right click removes devices at a cell.", MessageType.Info);
+            var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
+            if (selected < 0) return;
+            EditorGUILayout.LabelField("Selected placed device", EditorStyles.boldLabel);
+            var serialized = new SerializedObject(map.scenario); serialized.Update();
+            EditorGUILayout.PropertyField(serialized.FindProperty("devices").GetArrayElementAtIndex(selected), true);
+            serialized.ApplyModifiedProperties();
         }
         public static bool Resize(PuzzleMap data, int width, int height, bool confirm)
         {
@@ -200,8 +285,15 @@ namespace ANIMOL.Presentation.Editor
                 var p = new Vector2Int(Mathf.FloorToInt(e.mousePosition.x / cellSize), shownHeight - 1 - Mathf.FloorToInt(e.mousePosition.y / cellSize));
                 if (map.Contains(p))
                 {
-                    if (!stroke) { Undo.IncrementCurrentGroup(); undoGroup = Undo.GetCurrentGroup(); Undo.RegisterCompleteObjectUndo(map, "Paint puzzle layer"); stroke = true; }
-                    if (lastPaint != p) { Paint(p, erase || e.button == 1); lastPaint = p; }
+                    if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
+                    {
+                        selectedDeviceId = map.scenario.devices.FirstOrDefault(device => device.position == p)?.id;
+                    }
+                    else
+                    {
+                        if (!stroke) { Undo.IncrementCurrentGroup(); undoGroup = Undo.GetCurrentGroup(); Undo.RegisterCompleteObjectUndo(map, "Paint puzzle layer"); stroke = true; }
+                        if (lastPaint != p) { Paint(p, erase || e.button == 1); lastPaint = p; }
+                    }
                     e.Use(); Repaint();
                 }
             }
@@ -220,19 +312,7 @@ namespace ANIMOL.Presentation.Editor
                     Undo.RecordObject(map.scenario, "Paint themed device");
                     if (remove) map.scenario.devices.RemoveAll(d => d.position == p);
                     else if (prototypeBrush != null && !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
-                    {
-                        var shift = p - prototypeBrush.position;
-                        var copy = new PrototypeDevice {
-                            id = Guid.NewGuid().ToString("N"), role = prototypeBrush.role, variant = prototypeBrush.variant,
-                            group = prototypeBrush.group, artTheme = prototypeBrush.artTheme, visualPrefab = prototypeBrush.visualPrefab,
-                            initialVisual = prototypeBrush.initialVisual, position = p, direction = prototypeBrush.direction,
-                            target = prototypeBrush.target + shift, orientation = prototypeBrush.orientation,
-                            number = prototypeBrush.number, active = prototypeBrush.active,
-                            cells = prototypeBrush.cells.Select(c => c + shift).ToList(),
-                            blastOffsets = prototypeBrush.blastOffsets.ToList()
-                        };
-                        map.scenario.devices.Add(copy);
-                    }
+                        selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
                     EditorUtility.SetDirty(map.scenario);
                 }
                 else map.SetDevice(new DeviceCell { position = p, kind = remove ? DeviceKind.None : device, direction = PuzzleAutotile.Cardinal[direction], portalTarget = portalTarget });
@@ -243,13 +323,88 @@ namespace ANIMOL.Presentation.Editor
                 if (marker == Marker.Bubble) { map.bubbles.RemoveAll(b => b == p); if (!remove) map.bubbles.Add(p); }
                 else if (!remove) { if (marker == Marker.Start) map.start = p; else map.exit = p; }
             }
+            if (layer == Layer.Water && map.scenario)
+            {
+                Undo.RecordObject(map.scenario, "Paint water cell");
+                if (remove) map.scenario.water.RemoveAll(cell => cell == p);
+                else if (!map.scenario.water.Contains(p)) map.scenario.water.Add(p);
+                EditorUtility.SetDirty(map.scenario);
+            }
             EditorUtility.SetDirty(map); map.InvalidateIndex();
+        }
+        public static PrototypeDevice StampTemplate(PuzzleScenario destination, PrototypeDevice template, Vector2Int position)
+        {
+            if (!destination || template == null) throw new ArgumentException("A destination scenario and template are required.");
+            var stem = template.role.ToString().ToLowerInvariant();
+            var number = 1;
+            while (destination.devices.Any(device => device.id == stem + "_" + number)) number++;
+            var shift = position - template.position;
+            var copy = new PrototypeDevice {
+                id = stem + "_" + number, role = template.role, variant = template.variant,
+                group = template.group, artTheme = template.artTheme, visualPrefab = template.visualPrefab,
+                initialVisual = template.initialVisual, position = position, direction = template.direction,
+                target = template.role == PrototypeRole.Portal ? template.target + shift : template.target,
+                orientation = template.orientation, number = template.number, active = template.active,
+                cells = (template.cells ?? new List<Vector2Int>()).Select(cell => cell + shift).ToList(),
+                blastOffsets = (template.blastOffsets ?? new List<Vector2Int>()).ToList()
+            };
+            destination.devices.Add(copy);
+            return copy;
         }
         void EndStroke() { if (stroke) Undo.CollapseUndoOperations(undoGroup); stroke = false; lastPaint = new Vector2Int(-999, -999); }
         void Create()
         {
-            var path = EditorUtility.SaveFilePanelInProject("New puzzle map", "PuzzleMap", "asset", "Select a map asset destination", "Assets/ANIMOL/Data");
-            if (path.Length == 0) return; var data = CreateInstance<PuzzleMap>(); AssetDatabase.CreateAsset(data, path); Select(data);
+            if (!newMapTheme) { EditorUtility.DisplayDialog("Choose a theme", "Assign a theme for the new map.", "OK"); return; }
+            var path = EditorUtility.SaveFilePanelInProject("New playable puzzle map", "PuzzleMap", "asset",
+                "A paired device scenario will be created beside the map.", "Assets/ANIMOL/Data/Puzzle/Maps");
+            if (path.Length == 0) return;
+            try { Select(CreateStarterMap(path, newMapTheme, newMapWidth, newMapHeight)); }
+            catch (Exception error) { EditorUtility.DisplayDialog("Cannot create map", error.Message, "OK"); }
+        }
+        void NewMapSettings()
+        {
+            newMapTheme = (PuzzleTheme)EditorGUILayout.ObjectField("Theme", newMapTheme, typeof(PuzzleTheme), false);
+            newMapWidth = EditorGUILayout.IntField("Width", newMapWidth);
+            newMapHeight = EditorGUILayout.IntField("Height", newMapHeight);
+            EditorGUILayout.HelpBox("Starter maps use walkable grass, one bubble, a start and exit, and an empty scenario with the current prototype policy defaults.", MessageType.Info);
+        }
+        public static PuzzleMap CreateStarterMap(string path, PuzzleTheme theme, int width, int height)
+        {
+            if (!theme) throw new ArgumentException("A puzzle theme is required.");
+            if (string.IsNullOrEmpty(path) || !path.StartsWith("Assets/", StringComparison.Ordinal) ||
+                !path.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
+                throw new ArgumentException("Choose a project asset path ending in .asset.");
+            var scenarioPath = path.Substring(0, path.Length - ".asset".Length) + "_Scenario.asset";
+            if (AssetDatabase.LoadMainAssetAtPath(path) || AssetDatabase.LoadMainAssetAtPath(scenarioPath))
+                throw new InvalidOperationException("The map or paired scenario path is already in use.");
+            width = Mathf.Clamp(width, 4, 256); height = Mathf.Clamp(height, 4, 256);
+            var scenario = CreateInstance<PuzzleScenario>();
+            scenario.title = Path.GetFileNameWithoutExtension(path);
+            scenario.themeId = theme.name;
+            var data = CreateInstance<PuzzleMap>();
+            data.Resize(width, height);
+            data.theme = theme;
+            data.scenario = scenario;
+            data.start = new Vector2Int(1, 1);
+            data.exit = new Vector2Int(width - 2, height - 2);
+            data.targetBubbles = 1;
+            data.bubbles.Add(new Vector2Int(width / 2, height / 2));
+            for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
+                data.terrain.Add(new TerrainCell(new Vector2Int(x, y), TerrainMaterial.Grass));
+            data.InvalidateIndex();
+            try
+            {
+                AssetDatabase.CreateAsset(scenario, scenarioPath);
+                AssetDatabase.CreateAsset(data, path);
+            }
+            catch
+            {
+                if (AssetDatabase.LoadAssetAtPath<PuzzleMap>(path) == data) AssetDatabase.DeleteAsset(path);
+                if (AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath) == scenario) AssetDatabase.DeleteAsset(scenarioPath);
+                throw;
+            }
+            EditorGUIUtility.PingObject(data);
+            return data;
         }
     }
     [CustomEditor(typeof(PuzzleMap))]
