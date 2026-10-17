@@ -30,7 +30,7 @@ namespace ANIMOL.Presentation.Tests
         }
         [UnityTest] public IEnumerator AnimatedNearReplacesOneLayerWithoutChangingFollowCameraOrTerrain()
         {
-            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Puzzle_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
             var player=Object.FindFirstObjectByType<PuzzleController>(); var backdrop=Object.FindFirstObjectByType<SkyIslandBackdrop>(); var camera=player.FollowCamera.GetComponent<Camera>(); var position=camera.transform.position; var rows=camera.orthographicSize; var rect=camera.rect;
             backdrop.animateNear=false; var time=backdrop.NearElapsed; backdrop.AdvanceNear(.7f); var sprite=backdrop.NearSequence.At(time+.7f);
             Assert.IsTrue(backdrop.transform.Find("Near").GetComponentsInChildren<SpriteRenderer>().All(r=>r.sprite==sprite)); Assert.AreEqual(1,backdrop.transform.Cast<Transform>().Count(t=>t.name=="Near"));
@@ -40,7 +40,7 @@ namespace ANIMOL.Presentation.Tests
         }
         [UnityTest] public IEnumerator CoastPreservesExistingEightDeviceWritersFerryAndResolvedPreview()
         {
-            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
             var qa=Object.FindFirstObjectByType<DeviceArtQaController>(); var environment=Object.FindFirstObjectByType<TwilightCoastInspection>(); Assert.AreEqual(307,qa.views.Length); Assert.AreEqual(8,qa.masters.Length); Assert.AreEqual(1,qa.previews.Length);
             Assert.AreEqual(1,Object.FindObjectsByType<FerryVisualView>(FindObjectsSortMode.None).Length); Assert.AreEqual(4,environment.GetComponentsInChildren<Tilemap>().Length);
             foreach(var master in qa.masters) { Assert.IsFalse(master.BlocksInput); Assert.AreEqual(1,master.GetComponentsInChildren<DeviceVisualView>().Length); }

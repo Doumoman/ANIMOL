@@ -203,7 +203,7 @@ namespace ANIMOL.Presentation.Editor
                 Persist(Combine(names[i],sets[i]),names[i]);
                 var map=AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root+"/"+names[i]+".asset");
                 var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);PuzzlePreview.CreateRoot(map);
-                EditorSceneManager.SaveScene(scene,"Assets/ANIMOL/Scenes/ANIMOL_"+names[i]+"_Prototype.unity");
+                EditorSceneManager.SaveScene(scene,"Assets/ANIMOL/Scenes/Prototype/ANIMOL_"+names[i]+"_Prototype.unity");
             }
             AssetDatabase.SaveAssets();PortraitGameView.Use1080x1920();return "24 device rooms + 4 themed prototype stages; routes verified";
         }

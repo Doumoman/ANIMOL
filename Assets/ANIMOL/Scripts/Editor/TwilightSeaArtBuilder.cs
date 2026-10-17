@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Editor
     public static class TwilightSeaArtBuilder
     {
         public const string Root="Assets/ANIMOL";
-        public const string ScenePath=Root+"/Scenes/ANIMOL_TwilightSea_Art_QA.unity";
+        public const string ScenePath=Root+"/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity";
         public const string Prefabs=Root+"/Prefabs/Themes/twilight_sea";
         public const string CatalogPath=Root+"/Data/Themes/twilight_sea.asset";
 

@@ -70,8 +70,8 @@ public static class OrganizeSpriteAssets
                 foreach(var reference in ((JArray)definition["references"]).ToArray())if(((string)reference).StartsWith("ANIMOL.StarwayV04"))reference.Replace(((string)reference).Replace("ANIMOL.StarwayV04","ANIMOL.Presentation"));
                 File.WriteAllText(file,definition.ToString());
             }
-            EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/ANIMOL/Scenes/ANIMOL_Starway_Art_QA.unity",true)};
-            EditorSceneManager.playModeStartScene=AssetDatabase.LoadAssetAtPath<SceneAsset>("Assets/ANIMOL/Scenes/ANIMOL_Starway_Art_QA.unity");
+            EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity",true)};
+            EditorSceneManager.playModeStartScene=AssetDatabase.LoadAssetAtPath<SceneAsset>("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity");
             string old="Assets/ANIMOL/Art",archive="Legacy/PreviousProject_20261013/RetiredEmptyFolders/"+old;
             if(Directory.GetFiles(old,"*",SearchOption.AllDirectories).Any(p=>!p.EndsWith(".meta")))throw new Exception("Old Art still contains assets; do not archive.");
             Directory.CreateDirectory(Path.GetDirectoryName(archive));Directory.Move(old,archive);File.Move(old+".meta",archive+".meta");

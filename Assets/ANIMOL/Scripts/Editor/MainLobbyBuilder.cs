@@ -16,7 +16,7 @@ namespace ANIMOL.Menu.Editor
     {
         const string Art = "Assets/ANIMOL/Sprites/UI/Main";
         const string CatalogPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
-        const string ScenePath = "Assets/ANIMOL/Scenes/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
         const string FontPath = "Assets/ANIMOL/Fonts/ANIMOLMenuKorean.ttf";
         const string RevealMaterialPath = "Assets/ANIMOL/Materials/MainLobbyDiagonalReveal.mat";
         static readonly Color Ink = new Color(.094f, .094f, .18f);

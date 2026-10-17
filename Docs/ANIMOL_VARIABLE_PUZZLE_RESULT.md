@@ -2,7 +2,7 @@
 
 2026-10-14 · Unity 6000.3.8f1
 
-새 플레이 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`다. 기존 플랫포머 제작기나 격리한 프로젝트를 복원하지 않고 새 격자 데이터, 퍼즐 판정, 카메라, 편집기를 구현했다. 이전 아트 QA 씬은 그대로 보존했다.
+새 플레이 씬은 `Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity`다. 기존 플랫포머 제작기나 격리한 프로젝트를 복원하지 않고 새 격자 데이터, 퍼즐 판정, 카메라, 편집기를 구현했다. 이전 아트 QA 씬은 그대로 보존했다.
 
 ## 사용 방법
 

@@ -55,7 +55,7 @@ Sprite Single/FullRect, Point, Clamp, alpha input/transparency, mipmap 없음, N
 
 ## 씬과 실행
 
-새 씬: `Assets/ANIMOL/Scenes/ANIMOL_Device8_Art_QA.unity`. 353 DeviceVisualView: 세 배경에서 모든 59클립/52정적 역할(333), 다리 H/V 1/2/3칸(12), 장치 전체 상태 마스터(8). 기존 토끼/분홍 방울/출구 프리팹을 문맥 표시로 직접 참조한다. 기존 `ANIMOL_Starway_Art_QA` 씬은 수정하지 않았다.
+새 씬: `Assets/ANIMOL/Scenes/QA/ANIMOL_Device8_Art_QA.unity`. 353 DeviceVisualView: 세 배경에서 모든 59클립/52정적 역할(333), 다리 H/V 1/2/3칸(12), 장치 전체 상태 마스터(8). 기존 토끼/분홍 방울/출구 프리팹을 문맥 표시로 직접 참조한다. 기존 `ANIMOL_Starway_Art_QA` 씬은 수정하지 않았다.
 
 Editor에서 새 씬을 열고 1080×1920 Game View와 Play 시작 씬으로 설정했다. Play의 QA 버튼으로 Pause/Resume, Restart, Reset, Next panel을 사용할 수 있다. 마스터 장치/상태 선택 후 Preview event는 CSV 사건을 시각 컴포넌트에만 전달한다. 비용·성공 등을 가짜로 시뮬레이션하지 않는다. 기존 빌드 씬 설정은 보존했다.
 

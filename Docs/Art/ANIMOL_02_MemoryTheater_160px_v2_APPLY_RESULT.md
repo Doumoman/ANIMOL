@@ -23,7 +23,7 @@ Manifest의 clip 목록은 ID 사전순(`mion`, `piko`, `roan`, `seri`)이다. �
 
 현재 플레이어 프리팹 대신 런타임 생성 경로가 사용된다. `PuzzleController`와 `PuzzlePrototypeController`가 기억 극장 테마의 `memoryTheaterCharacters` 카탈로그를 읽어 기존 단일 `StarwayCharacterVisual` 프레임 재생기를 `Player/Visual`의 `SpriteRenderer`에 생성한다. `StarwayCharacterVisual`은 두 테마가 공유하는 컴포넌트이며 별도의 중복 재생기를 붙이지 않았다. 기억 극장 프로토타입 테마 `Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater_Theme.asset`와 퍼즐 미리보기 테마 `Assets/ANIMOL/Data/Art/MemorySkyTheater/PuzzleTheme.asset`에 카탈로그와 기본 ID를 연결했다. `SelectMemoryTheaterCharacter(id)`로 같은 Visual에서 4인을 전환한다. 정적 토끼 `player` 필드는 기존 다른 미리보기/호환 경로를 위해 유지했다.
 
-캐릭터 선택/도감 전용 활성 UI는 현재 없다. `Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Character_QA.unity`의 기존 아트 QA 방식에 맞춘 미리보기 UI가 네 인물의 일러스트, 방향, 동작을 카탈로그에서 직접 표시한다. 게임 규칙·해금·대전 데이터는 변경하지 않았다.
+캐릭터 선택/도감 전용 활성 UI는 현재 없다. `Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity`의 기존 아트 QA 방식에 맞춘 미리보기 UI가 네 인물의 일러스트, 방향, 동작을 카탈로그에서 직접 표시한다. 게임 규칙·해금·대전 데이터는 변경하지 않았다.
 
 ## 표시 크기와 재생
 

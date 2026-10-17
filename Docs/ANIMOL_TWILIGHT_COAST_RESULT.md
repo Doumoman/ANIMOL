@@ -12,9 +12,9 @@
 
 연결한 씬:
 
-- [기존 황혼의 바다 아트 QA](../Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity): 기본 패널의 평면 바닥과 고정 배경을 새 환경으로 교체했다. 장치·나룻배·판정 범위 프리뷰·캐릭터·방울·출구·HUD·기존 QA 도구를 유지했다. 다른 패널의 기존 상태/원본 아트 검수 참조도 유지한다.
-- [새 퍼즐 QA](../Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Puzzle_QA.unity): 기존 `ANIMOL_Puzzle` 씬과 Small 맵을 복사하여 환경 테마만 연결했다. 시작점·이동 칸·장치·수집물·출구·목표·카메라 설정은 원본과 같다.
-- [새 접합 QA](../Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Environment_QA.unity): 제공 coast_join 시트와 같은 검수 지형이다. 플레이 레벨이 아니다.
+- [기존 황혼의 바다 아트 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity): 기본 패널의 평면 바닥과 고정 배경을 새 환경으로 교체했다. 장치·나룻배·판정 범위 프리뷰·캐릭터·방울·출구·HUD·기존 QA 도구를 유지했다. 다른 패널의 기존 상태/원본 아트 검수 참조도 유지한다.
+- [새 퍼즐 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity): 기존 `ANIMOL_Puzzle` 씬과 Small 맵을 복사하여 환경 테마만 연결했다. 시작점·이동 칸·장치·수집물·출구·목표·카메라 설정은 원본과 같다.
+- [새 접합 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Environment_QA.unity): 제공 coast_join 시트와 같은 검수 지형이다. 플레이 레벨이 아니다.
 
 기본 Build Settings는 변경하지 않았다.
 

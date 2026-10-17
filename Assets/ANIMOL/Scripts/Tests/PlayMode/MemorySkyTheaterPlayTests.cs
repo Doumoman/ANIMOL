@@ -13,7 +13,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator ExistingQaKeeps11DeviceWritersWhileReplacingOldEnvironmentAcrossReloads()
         {
             #if UNITY_EDITOR
-            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Art_QA.unity", new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity", new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
             #endif
             yield return null; yield return null;
             var qa = Object.FindFirstObjectByType<ANIMOL.Presentation.DeviceArtQaController>(); var environment = Object.FindFirstObjectByType<MemorySkyTheaterInspection>();

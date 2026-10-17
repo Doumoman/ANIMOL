@@ -1,4 +1,4 @@
-var scenePath="Assets/ANIMOL/Scenes/ANIMOL_Starway_Art_QA.unity";
+var scenePath="Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity";
 if(UnityEditor.EditorApplication.isPlaying)throw new System.Exception("Wait for tests to leave Play Mode.");
 UnityEditor.SceneManagement.EditorSceneManager.playModeStartScene=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.SceneAsset>(scenePath);
 UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scenePath);

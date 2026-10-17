@@ -58,7 +58,7 @@ PNG는 재생성 완료본과 모두 hash 일치, 불투명 색13개(Sweetie16 s
 
 ## 씬 / 실제 실행
 
-`Assets/ANIMOL/Scenes/ANIMOL_LetterObservatory_Art_QA.unity`를 생성했다. DeviceVisualView255개: 9장치 전체 상태 + 장식3 + 광학 fixture5 + 모든 clip/static 역할238. 광선 경로는6개의 표시 renderer로 구성된 **명시적인 아트 fixture**이고 실제 추적/새 레벨이 아니다. 12페이지에는 전시, 상태 갤러리, 4방향 전체 도약 궤적이 있다. 비대칭 궤적이 겹치거나 화면 밖으로 잘리지 않도록 시작점 배치를 분리했다.
+`Assets/ANIMOL/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity`를 생성했다. DeviceVisualView255개: 9장치 전체 상태 + 장식3 + 광학 fixture5 + 모든 clip/static 역할238. 광선 경로는6개의 표시 renderer로 구성된 **명시적인 아트 fixture**이고 실제 추적/새 레벨이 아니다. 12페이지에는 전시, 상태 갤러리, 4방향 전체 도약 궤적이 있다. 비대칭 궤적이 겹치거나 화면 밖으로 잘리지 않도록 시작점 배치를 분리했다.
 
 기존 rabbit_front/soap_bubble_pink/exit_visual_root/hud_visual을 직접 참조했다. pause/cost/bubble는 기존 UI를 유지하며 미연결 COST -- / --/--다. 봉투/별등은 보드 밖에 둔다. 카메라 ortho12·1080×1920에서80px/cell, 즉 새 아트 정수1x다. 기존3 QA 씬/빌드 씬 설정을 유지하고 에디터의 현재/Play 시작 씬을 새 QA로 설정했다. 실제 퍼즐 플레이 씬은 없어 그 연결은 수행하지 못했다.
 

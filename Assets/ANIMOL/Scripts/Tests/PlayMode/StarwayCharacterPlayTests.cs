@@ -33,7 +33,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator FourCharactersAllDirectionsAndStatesPlayOnVisual()
         {
 #if UNITY_EDITOR
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_Starway_Character_QA.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             var qa = Object.FindFirstObjectByType<StarwayCharacterQaController>();
@@ -105,7 +105,7 @@ namespace ANIMOL.Presentation.Tests
             UsePortraitGameView();
             yield return null;
             yield return null;
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;
@@ -128,7 +128,7 @@ namespace ANIMOL.Presentation.Tests
             yield return new WaitForSecondsRealtime(.25f);
             Assert.That(puzzle.CharacterVisual.Direction, Is.EqualTo("side"));
             Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("yeoul"));
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_Starway_Character_QA.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             var qa = Object.FindFirstObjectByType<StarwayCharacterQaController>();
@@ -142,7 +142,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator StarwayPrototypeUsesTheSameCharacterVisual()
         {
 #if UNITY_EDITOR
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_starway_Prototype.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Prototype/ANIMOL_starway_Prototype.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;

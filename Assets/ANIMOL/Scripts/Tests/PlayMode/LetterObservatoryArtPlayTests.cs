@@ -9,7 +9,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class LetterObservatoryArtPlayTests
     {
-        const string Scene="Assets/ANIMOL/Scenes/ANIMOL_LetterObservatory_Art_QA.unity";
+        const string Scene="Assets/ANIMOL/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity";
         [UnityTest] public IEnumerator ObservatoryRunsInPortraitWithAllTexturesAndLayers()
         {
             EditorSceneManager.LoadSceneInPlayMode(Scene,new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;

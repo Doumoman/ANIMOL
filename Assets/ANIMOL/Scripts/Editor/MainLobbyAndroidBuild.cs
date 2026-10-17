@@ -19,7 +19,7 @@ namespace ANIMOL.Menu.Editor
                 EditorUserBuildSettings.buildAppBundle = false;
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
-                    scenes = new[] { "Assets/ANIMOL/Scenes/ANIMOL_Main.unity" },
+                    scenes = new[] { "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity" },
                     locationPathName = output,
                     target = BuildTarget.Android,
                     options = BuildOptions.None

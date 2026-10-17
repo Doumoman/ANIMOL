@@ -54,8 +54,8 @@ namespace ANIMOL.Presentation.Editor
         public const string Backgrounds = "Assets/ANIMOL/Sprites/Background/memory_theater/SkyTheater";
         public const string Data = "Assets/ANIMOL/Data/Art/MemorySkyTheater";
         public const string Prefabs = "Assets/ANIMOL/Prefabs/Environment/MemoryTheater";
-        public const string InspectionScene = "Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Environment_QA.unity";
-        public const string PreviewScene = "Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Puzzle_QA.unity";
+        public const string InspectionScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Environment_QA.unity";
+        public const string PreviewScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Puzzle_QA.unity";
         public const string Catalog = Data + "/EnvironmentArt.asset";
         public static TheaterManifest Read() => JsonUtility.FromJson<TheaterManifest>(File.ReadAllText(Source + "/manifest.json"));
         public static string RuntimePath(string source)
@@ -170,7 +170,7 @@ namespace ANIMOL.Presentation.Editor
             var map = UnityEngine.Object.Instantiate(original); map.name = "MemoryTheaterPreview";
             var theme = UnityEngine.Object.Instantiate(original.theme); theme.name = "MemoryTheater"; theme.skyIsland = null; theme.memorySkyTheater = art;
             AssetDatabase.CreateAsset(theme, Data + "/PuzzleTheme.asset"); map.theme = theme; AssetDatabase.CreateAsset(map, Data + "/PreviewMap.asset");
-            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
+            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
             var scene = EditorSceneManager.OpenScene(PreviewScene); var controller = UnityEngine.Object.FindFirstObjectByType<PuzzleController>(); controller.stage = map;
             EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         }

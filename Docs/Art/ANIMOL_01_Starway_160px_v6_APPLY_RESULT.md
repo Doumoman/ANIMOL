@@ -25,7 +25,7 @@ Manifest에는 별도의 캐릭터 목록 순서가 없고 `clips`의 첫 등장
 
 프로젝트의 식물용 `SpriteFramePlayer`는 `idle/touch` 두 상태 전용이므로 플레이어에 중복 부착하지 않았다. 캐릭터 Visual 하나가 카탈로그의 6장·FPS·loop를 재생한다. 생성한 60개 `.anim`도 같은 카탈로그의 각 모션에 연결되어 있으며 일반 Unity 클립으로 보관한다. 런타임의 프레임 전환은 이 카탈로그의 `frames` 배열을 사용한다. `front=아래`, `back=위`, `side=오른쪽`, 왼쪽은 `side + flipX`이며 나머지 방향에서는 flipX를 해제한다. 정지는 마지막 방향을 유지한다. `idle/move/sliding`은 6/12/10 fps 반복, `jump/victory`는 12/8 fps 1회 후 idle로 돌아간다. 점프 판정은 새로 만들지 않았고 승리 판정도 기존 세션만 결정한다.
 
-[ANIMOL_Starway_Character_QA.unity](../../Assets/ANIMOL/Scenes/ANIMOL_Starway_Character_QA.unity)는 기존 아트 QA 용도의 미리보기 씬으로 4인, 방향, 상태와 현재 일러스트를 확인한다. 게임의 선택/도감 화면으로 취급하지 않는다. 여울은 v6 은백색 묶음머리, 큰 분홍 리본, 분홍/흰 원피스, 흰 귀·꼬리의 90프레임과 새 일러스트를 사용한다. [정면](../Validation/StarwayCharacters160/Portrait/yeoul_front_idle.png) 및 [후면](../Validation/StarwayCharacters160/Portrait/yeoul_back_idle.png) 캡처에서 후면 앞얼굴이 없고 리본·귀·꼬리·신발이 잘리지 않는다.
+[ANIMOL_Starway_Character_QA.unity](../../Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity)는 기존 아트 QA 용도의 미리보기 씬으로 4인, 방향, 상태와 현재 일러스트를 확인한다. 게임의 선택/도감 화면으로 취급하지 않는다. 여울은 v6 은백색 묶음머리, 큰 분홍 리본, 분홍/흰 원피스, 흰 귀·꼬리의 90프레임과 새 일러스트를 사용한다. [정면](../Validation/StarwayCharacters160/Portrait/yeoul_front_idle.png) 및 [후면](../Validation/StarwayCharacters160/Portrait/yeoul_back_idle.png) 캡처에서 후면 앞얼굴이 없고 리본·귀·꼬리·신발이 잘리지 않는다.
 
 ## 임포트와 표시 크기
 

@@ -17,7 +17,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator RealQaScenePlaysTouchAndPooledFxWithoutMovingRoots()
         {
 #if UNITY_EDITOR
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_Starway_Art_QA.unity",new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity",new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;
             var setup=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType("ANIMOL.Presentation.Editor.PortraitGameView")).FirstOrDefault(t=>t!=null);
             Assert.That(setup,Is.Not.Null);setup.GetMethod("SelectFixedResolution",BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic).Invoke(null,new object[]{1080,1920,"Art QA 1080x1920"});yield return null;yield return null;
             Assert.That(Screen.width,Is.EqualTo(1080));Assert.That(Screen.height,Is.EqualTo(1920));

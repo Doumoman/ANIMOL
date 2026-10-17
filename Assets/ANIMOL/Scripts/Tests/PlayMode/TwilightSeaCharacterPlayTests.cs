@@ -17,8 +17,8 @@ namespace ANIMOL.Presentation.Tests
     public class TwilightSeaCharacterPlayTests
     {
         const string Portrait = "Docs/Validation/TwilightSeaCharacters160_v5/Portrait";
-        const string PrototypeScene = "Assets/ANIMOL/Scenes/ANIMOL_twilight_sea_Prototype.unity";
-        const string CoastScene = "Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Puzzle_QA.unity";
+        const string PrototypeScene = "Assets/ANIMOL/Scenes/Prototype/ANIMOL_twilight_sea_Prototype.unity";
+        const string CoastScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()
         {

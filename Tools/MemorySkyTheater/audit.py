@@ -81,7 +81,7 @@ def audit(require_captures=False):
     baseline = json.loads((OUTPUT / 'before_hashes.json').read_text(encoding='utf-8-sig'))
     changed = [f for f, digest in baseline.items() if sha(f) != digest]
     allowed = ['Assets/ANIMOL/Scripts/Runtime/' + n + '.cs' for n in ['PuzzleTheme', 'PuzzleMapView', 'PuzzleBackdrop', 'SkyIslandBackdrop']]
-    allowed += ['Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Art_QA.unity']
+    allowed += ['Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity']
     assert sorted(changed) == sorted(allowed), changed
     report = dict(source_sha256_verified=count, original_png_imports=imports, palette_alpha_and_transparent_rgb_verified=True,
                   fixed_curtain_frame_pixels_verified=fixed_checks, reveal_frames_match_off_dim_on=True,

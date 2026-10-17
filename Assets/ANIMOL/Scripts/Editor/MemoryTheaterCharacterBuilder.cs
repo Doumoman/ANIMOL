@@ -12,7 +12,7 @@ namespace Animol.Art.MemoryTheater160
     {
         const string Root = "Assets/ANIMOL/Art/MemoryTheaterCharacters160";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset";
-        const string QaScene = "Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Character_QA.unity";
+        const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity";
         // The source character_designs.json lists these four IDs in this order.
         static readonly string[] Ids = { "seri", "roan", "mion", "piko" };
         static readonly string[] Names = { "\uC138\uB9AC", "\uB85C\uC548", "\uBBF8\uC628", "\uD53C\uCF54" };

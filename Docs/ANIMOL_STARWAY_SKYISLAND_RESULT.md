@@ -4,7 +4,7 @@
 
 ## 적용 범위와 사전 확인
 
-작업 시작 시 실제 활성 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`, 맵은 `Data/Puzzle/Maps/StarGarden.asset`이었다. 맵에는 지형 418개가 있으며 `PuzzleMap.terrain`이 지형 점유의 기준이다. 장치·장식·방울 목록은 별도다. 기존 지형은 셀마다 네 개 SpriteRenderer로 표시하고 있었고 Tilemap / RuleTile / Sprite Atlas는 사용하지 않았다. 기존 아트 QA 씬은 플레이 가능한 퍼즐과 구분했다.
+작업 시작 시 실제 활성 씬은 `Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity`, 맵은 `Data/Puzzle/Maps/StarGarden.asset`이었다. 맵에는 지형 418개가 있으며 `PuzzleMap.terrain`이 지형 점유의 기준이다. 장치·장식·방울 목록은 별도다. 기존 지형은 셀마다 네 개 SpriteRenderer로 표시하고 있었고 Tilemap / RuleTile / Sprite Atlas는 사용하지 않았다. 기존 아트 QA 씬은 플레이 가능한 퍼즐과 구분했다.
 
 별길 목장의 `StarGarden` 퍼즐 테마에만 새 아트 카탈로그를 연결했다. 기존 맵·씬·HUD 프리팹·스와이프·이동·충돌 판정·수집·출구 코드는 수정하지 않았다. 다른 테마/공통 장치도 복원하거나 수정하지 않았다. [범위 감사](Validation/StarwayIsland/pixel_and_scope_audit.json)는 보호 파일 2,168개의 해시를 비교했고 기존 런타임 파일 중 변경된 것은 시각 연결용 `PuzzleTheme`, `PuzzleMapView`, `PuzzleBackdrop` 세 파일뿐이다. 별도 변경한 기존 편집기 파일은 `PuzzleMapEditor.cs`다. `StarGarden.asset`의 diff는 `skyIsland` 참조 한 줄이다.
 
@@ -88,4 +88,4 @@ Far → Mid → Near → Underside → Grass → 기존 장치/장식/캐릭터 
 
 신규 코드: Runtime `SkyIslandArt.cs`, `SkyIslandMapRenderer.cs`, `SkyIslandBackdrop.cs`, `SkyIslandInspection.cs`; Editor `SkyIslandBuilder.cs`, `SkyIslandGameViewValidation.cs`; Editor/PlayMode `SkyIslandArtTests.cs`, `SkyIslandPlayTests.cs`; `Materials/SkyIslandComposite.shader/.mat`.
 
-신규 데이터/그림/씬: 위 SkyIsland 세 PNG 경로, `Data/Art/StarwayIsland`, `Scenes/ANIMOL_Starway_Island_QA.unity`. 신규 출처/검증 자료는 `Docs/Inbox/StarwaySkyIsland`, `Docs/Validation/StarwayIsland`, `Tools/StarwayIsland`이다. 검사 뒤 원래 퍼즐 씬과 1080×1920 Game View로 복귀했고 원래 씬은 dirty 상태가 아니다.
+신규 데이터/그림/씬: 위 SkyIsland 세 PNG 경로, `Data/Art/StarwayIsland`, `Scenes/QA/ANIMOL_Starway_Island_QA.unity`. 신규 출처/검증 자료는 `Docs/Inbox/StarwaySkyIsland`, `Docs/Validation/StarwayIsland`, `Tools/StarwayIsland`이다. 검사 뒤 원래 퍼즐 씬과 1080×1920 Game View로 복귀했고 원래 씬은 dirty 상태가 아니다.

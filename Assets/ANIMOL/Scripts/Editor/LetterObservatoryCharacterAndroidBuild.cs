@@ -21,8 +21,8 @@ namespace Animol.Art.LetterObservatory160
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
                     scenes = new[] {
-                        "Assets/ANIMOL/Scenes/ANIMOL_letter_observatory_Prototype.unity",
-                        "Assets/ANIMOL/Scenes/ANIMOL_LetterObservatory_Art_QA.unity" },
+                        "Assets/ANIMOL/Scenes/Prototype/ANIMOL_letter_observatory_Prototype.unity",
+                        "Assets/ANIMOL/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity" },
                     locationPathName = output,
                     target = BuildTarget.Android,
                     options = BuildOptions.None

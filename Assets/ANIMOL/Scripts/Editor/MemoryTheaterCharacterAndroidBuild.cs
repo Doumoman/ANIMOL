@@ -21,9 +21,9 @@ namespace Animol.Art.MemoryTheater160
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
                     scenes = new[] {
-                        "Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Puzzle_QA.unity",
-                        "Assets/ANIMOL/Scenes/ANIMOL_memory_theater_Prototype.unity",
-                        "Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Character_QA.unity" },
+                        "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Puzzle_QA.unity",
+                        "Assets/ANIMOL/Scenes/Prototype/ANIMOL_memory_theater_Prototype.unity",
+                        "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity" },
                     locationPathName = output,
                     target = BuildTarget.Android,
                     options = BuildOptions.None

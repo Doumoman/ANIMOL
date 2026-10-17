@@ -16,7 +16,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class LetterObservatoryCharacterPlayTests
     {
-        const string Scene = "Assets/ANIMOL/Scenes/ANIMOL_letter_observatory_Prototype.unity";
+        const string Scene = "Assets/ANIMOL/Scenes/Prototype/ANIMOL_letter_observatory_Prototype.unity";
         const string Portrait = "Docs/Validation/LetterObservatoryCharacters160_v2/Portrait";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()

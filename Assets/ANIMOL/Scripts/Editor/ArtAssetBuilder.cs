@@ -73,7 +73,7 @@ namespace ANIMOL.Presentation.Editor
     public static class ArtAssetBuilder
     {
         public const string Root="Assets/ANIMOL";
-        public const string ScenePath=Root+"/Scenes/ANIMOL_Starway_Art_QA.unity";
+        public const string ScenePath=Root+"/Scenes/QA/ANIMOL_Starway_Art_QA.unity";
         public static ImportManifest Read()=>JsonUtility.FromJson<ImportManifest>(File.ReadAllText(Root+"/Data/art_import_manifest.json"));
         static Sprite Sprite(string id)=>AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/"+Read().assets.First(a=>a.id==id).path);
         static SpriteFrameSequence Frames(string id)=>AssetDatabase.LoadAssetAtPath<SpriteFrameSequence>(Root+"/Data/AnimationSequences/"+id+".asset");

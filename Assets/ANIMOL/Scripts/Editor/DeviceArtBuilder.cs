@@ -14,7 +14,7 @@ namespace ANIMOL.Presentation.Editor
     public static class DeviceArtBuilder
     {
         public const string Root="Assets/ANIMOL";
-        public const string ScenePath=Root+"/Scenes/ANIMOL_Device8_Art_QA.unity";
+        public const string ScenePath=Root+"/Scenes/QA/ANIMOL_Device8_Art_QA.unity";
         static string Key(string id)=>id.Replace('/','_');
         public static DeviceManifest Read()
         {

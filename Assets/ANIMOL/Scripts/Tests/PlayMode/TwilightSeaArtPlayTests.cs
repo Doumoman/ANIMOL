@@ -9,7 +9,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class TwilightSeaArtPlayTests
     {
-        const string Scene="Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity";
+        const string Scene="Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity";
         [UnityTest] public IEnumerator PortraitSceneHasEveryTextureAndPausedSynchronizedFerry()
         {
             EditorSceneManager.LoadSceneInPlayMode(Scene,new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;

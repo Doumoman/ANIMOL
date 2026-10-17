@@ -28,7 +28,7 @@ namespace ANIMOL.Menu.Tests
 
     public class MainLobbyPlayTests
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
         const string Portrait = "Docs/Validation/MainUiV7/Portrait";
 
 #if UNITY_EDITOR

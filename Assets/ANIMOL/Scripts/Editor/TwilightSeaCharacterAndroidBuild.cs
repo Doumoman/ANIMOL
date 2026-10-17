@@ -21,9 +21,9 @@ namespace Animol.Art.TwilightSea160
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
                     scenes = new[] {
-                        "Assets/ANIMOL/Scenes/ANIMOL_twilight_sea_Prototype.unity",
-                        "Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Puzzle_QA.unity",
-                        "Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity" },
+                        "Assets/ANIMOL/Scenes/Prototype/ANIMOL_twilight_sea_Prototype.unity",
+                        "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity",
+                        "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity" },
                     locationPathName = output,
                     target = BuildTarget.Android,
                     options = BuildOptions.None

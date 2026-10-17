@@ -8,7 +8,7 @@ for name in dirs:
     if (root/(name+'.meta')).exists():paths.append(name+'.meta')
 for name in ['Assets/ANIMOL/Sprites/Obstacles/common.meta','Assets/ANIMOL/Sprites/Props.meta','Assets/ANIMOL/Prefabs/Themes.meta']:
     if (root/name).exists():paths.append(name)
-for name in ['Assets/ANIMOL/Scripts/Runtime/DeviceThemeCatalog.cs','Assets/ANIMOL/Scripts/Runtime/DiceOrientationTable.cs','Assets/ANIMOL/Scripts/Editor/MemoryTheaterArtBuilder.cs','Assets/ANIMOL/Scripts/Tests/Editor/MemoryTheaterArtTests.cs','Assets/ANIMOL/Scripts/Tests/PlayMode/MemoryTheaterArtPlayTests.cs','Assets/ANIMOL/Data/memory_theater_import_manifest.json','Assets/ANIMOL/Data/memory_theater_dice_orientations.json','Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Art_QA.unity']:
+for name in ['Assets/ANIMOL/Scripts/Runtime/DeviceThemeCatalog.cs','Assets/ANIMOL/Scripts/Runtime/DiceOrientationTable.cs','Assets/ANIMOL/Scripts/Editor/MemoryTheaterArtBuilder.cs','Assets/ANIMOL/Scripts/Tests/Editor/MemoryTheaterArtTests.cs','Assets/ANIMOL/Scripts/Tests/PlayMode/MemoryTheaterArtPlayTests.cs','Assets/ANIMOL/Data/memory_theater_import_manifest.json','Assets/ANIMOL/Data/memory_theater_dice_orientations.json','Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity']:
     paths.extend([name,name+'.meta'])
 paths.append('Docs/Validation/MemoryTheater/changed_files.txt')
 for name in paths:assert name not in baseline,'Unexpected pre-existing asset selected: '+name

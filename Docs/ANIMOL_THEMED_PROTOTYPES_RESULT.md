@@ -6,10 +6,10 @@
 
 | 테마 | 플레이 가능한 조합 씬 | 크기 | 조합 맵에서 확인하는 장치 | 장치별 연습 맵 |
 |---|---|---:|---|---|
-| 별길 목장 하늘섬 | `Assets/ANIMOL/Scenes/ANIMOL_starway_Prototype.unity` | 9×23 | 별돌·소켓, 압력판·덩굴 다리, 길 따라오는 병아리 | 01, 02, 07, 09, 18, 19, 20, 24 |
-| 기억 극장 | `Assets/ANIMOL/Scenes/ANIMOL_memory_theater_Prototype.unity` | 9×23 | 회전 책장, 도미노, 주사위·숫자 목표 | 04, 06, 07, 08, 09, 13, 17, 18, 19, 22, 23 |
-| 시계 돔 / 편지 천문대 | `Assets/ANIMOL/Scenes/ANIMOL_letter_observatory_Prototype.unity` | 9×31 | 세 칸 도약, 광원·거울·센서·문, 자석·상자, 포털 | 03, 07, 09, 10, 14, 16, 18, 19, 21 |
-| 황혼의 바다 | `Assets/ANIMOL/Scenes/ANIMOL_twilight_sea_Prototype.unity` | 9×31 | 이탈 가시, 배 승하선·조종, 3행동 폭탄, 구르는 통 | 05, 07, 09, 11, 12, 15, 18, 19 |
+| 별길 목장 하늘섬 | `Assets/ANIMOL/Scenes/Prototype/ANIMOL_starway_Prototype.unity` | 9×23 | 별돌·소켓, 압력판·덩굴 다리, 길 따라오는 병아리 | 01, 02, 07, 09, 18, 19, 20, 24 |
+| 기억 극장 | `Assets/ANIMOL/Scenes/Prototype/ANIMOL_memory_theater_Prototype.unity` | 9×23 | 회전 책장, 도미노, 주사위·숫자 목표 | 04, 06, 07, 08, 09, 13, 17, 18, 19, 22, 23 |
+| 시계 돔 / 편지 천문대 | `Assets/ANIMOL/Scenes/Prototype/ANIMOL_letter_observatory_Prototype.unity` | 9×31 | 세 칸 도약, 광원·거울·센서·문, 자석·상자, 포털 | 03, 07, 09, 10, 14, 16, 18, 19, 21 |
+| 황혼의 바다 | `Assets/ANIMOL/Scenes/Prototype/ANIMOL_twilight_sea_Prototype.unity` | 9×31 | 이탈 가시, 배 승하선·조종, 3행동 폭탄, 구르는 통 | 05, 07, 09, 11, 12, 15, 18, 19 |
 
 `Assets/ANIMOL/Data/Puzzle/Prototypes/`에 조합 맵 4개와 01~24 장치 연습 맵 24개, 대응 시나리오와 테마 참조를 저장했다. 24개는 전체 테마에서 중복되는 장치를 합친 수다. 조합 씬에는 각 테마에서 몇 가지 장치를 엮었고, 테마별 나머지 장치는 해당 아트와 함께 연습 맵에서 플레이할 수 있다. 별돌/소켓, 판/다리, 광학 부품 등은 하나의 장치 유형에 속하는 여러 역할이다. 벽·금 간 벽·나무/금속 상자는 보드 부품이다.
 

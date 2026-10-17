@@ -39,7 +39,7 @@ namespace ANIMOL.Presentation.Editor
         public const string Props = "Assets/ANIMOL/Sprites/Tiles/Decoration/ranch/SkyIsland";
         public const string Data = "Assets/ANIMOL/Data/Art/StarwayIsland";
         public const string Catalog = Data + "/IslandArt.asset";
-        public const string Scene = "Assets/ANIMOL/Scenes/ANIMOL_Starway_Island_QA.unity";
+        public const string Scene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Island_QA.unity";
         [MenuItem("ANIMOL/Art QA/Apply Starway island perimeter")]
         public static void Apply()
         {

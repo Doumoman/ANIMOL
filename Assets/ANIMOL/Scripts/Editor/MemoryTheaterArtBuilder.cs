@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Editor
     public static class MemoryTheaterArtBuilder
     {
         public const string Root="Assets/ANIMOL";
-        public const string ScenePath=Root+"/Scenes/ANIMOL_MemoryTheater_Art_QA.unity";
+        public const string ScenePath=Root+"/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity";
         public const string Prefabs=Root+"/Prefabs/Themes/memory_theater";
         public const string CatalogPath=Root+"/Data/Themes/memory_theater.asset";
         public const string DicePath=Root+"/Data/Themes/memory_theater_dice.asset";

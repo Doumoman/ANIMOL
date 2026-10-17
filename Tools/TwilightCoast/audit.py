@@ -93,9 +93,9 @@ def audit(require_captures=False):
     baseline = json.loads((OUTPUT / 'before_hashes.json').read_text(encoding='utf-8-sig'))
     changed = [f for f, digest in baseline.items() if sha(f) != digest]
     allowed = ['Assets/ANIMOL/Scripts/Runtime/' + n + '.cs' for n in ['PuzzleTheme', 'PuzzleMapView', 'PuzzleBackdrop', 'SkyIslandBackdrop']]
-    allowed += ['Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity']
+    allowed += ['Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity']
     assert sorted(changed) == sorted(allowed), changed
-    scene = 'Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity'
+    scene = 'Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity'
     reference_commit = '87674d91'
     old = subprocess.check_output(['git','show',reference_commit+':'+scene]).decode()
     new = Path(scene).read_text()

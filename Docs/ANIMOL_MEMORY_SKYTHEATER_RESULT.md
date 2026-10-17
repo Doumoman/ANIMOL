@@ -4,7 +4,7 @@
 
 ## 실제 프로젝트 확인과 범위
 
-시작 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`, 스테이지는 `StarGarden`이었다. 현재 퍼즐은 가변 크기 정사각형 탑뷰 스와이프 방식이다. `PuzzleMap.terrain`의 위치/재질/blocked가 지형 판정이며 `devices`, `bubbles`, `start`, `exit`는 독립 목록이다. 탑뷰 퍼즐 코드를 사용했고 횡스크롤 러너나 보관된 제작기를 복원하지 않았다.
+시작 씬은 `Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity`, 스테이지는 `StarGarden`이었다. 현재 퍼즐은 가변 크기 정사각형 탑뷰 스와이프 방식이다. `PuzzleMap.terrain`의 위치/재질/blocked가 지형 판정이며 `devices`, `bubbles`, `start`, `exit`는 독립 목록이다. 탑뷰 퍼즐 코드를 사용했고 횡스크롤 러너나 보관된 제작기를 복원하지 않았다.
 
 기억 극장의 실제 기존 씬은 `ANIMOL_MemoryTheater_Art_QA.unity`였다. 개별 SpriteRenderer 바닥 260개, 별도 큰 배경, 11종 마스터와 369개 `DeviceVisualView`가 있었으며 Tilemap/RuleTile은 없었다. 11종은 기존 상태/이벤트를 받는 **표시 프리젠터**다. 현재 실제 퍼즐 런타임의 장치 종류는 Conveyor/Wind/Ice/Brake/Portal이며 기억 극장 11종의 권위 있는 게임 판정 호출자는 아직 연결되어 있지 않다. 이번 환경 작업은 그 상태를 보존하며 새 장치 판정을 만들지 않았다.
 
@@ -111,7 +111,7 @@ Far → Mid → Near → Underside → Wood → Velvet → 장식 → 기존 장
 
 ## 수정 파일과 재현
 
-기존 변경: `Scripts/Runtime/{PuzzleTheme,PuzzleMapView,PuzzleBackdrop,SkyIslandBackdrop}.cs`, `Scenes/ANIMOL_MemoryTheater_Art_QA.unity`, 활성 경로 설명을 추가한 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md`.
+기존 변경: `Scripts/Runtime/{PuzzleTheme,PuzzleMapView,PuzzleBackdrop,SkyIslandBackdrop}.cs`, `Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity`, 활성 경로 설명을 추가한 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md`.
 
 새 런타임: `MemorySkyTheaterArt`, `MemorySkyTheaterLayout`, `MemorySkyTheaterRenderer`, `MemorySkyTheaterFrame`, `MemorySkyTheaterAnimation`, `MemorySkyTheaterInspection`. 새 Editor: `MemorySkyTheaterBuilder`, `MemorySkyTheaterGameViewValidation`. 새 테스트: `MemorySkyTheaterTests`, `MemorySkyTheaterPlayTests`. 신규 그림/데이터/프리팹/씬 경로는 위 목록이며 출처/검증/도구는 `Docs/Inbox/MemorySkyTheater`, `Docs/Validation/MemorySkyTheater`, `Tools/MemorySkyTheater`다. 활성 이름에는 버전 접미사를 붙이지 않았다.
 

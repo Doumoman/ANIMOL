@@ -68,7 +68,7 @@ AGENTS.md 전체와 ProjectVersion/패키지, Scripts/Scenes/Data를 확인했�
 
 ## 씬 / 현재 실행
 
-새 씬 `Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Art_QA.unity`: 11종 전체 상태 프리팹, 고정 레일, 배경·막·등·파괴 표시, 모든 143 static+211 clip 역할, 기존 rabbit_front/soap_bubble_pink/exit_visual_root/hud_visual을 실제 참조한다. 총 DeviceVisualView 369개다. 메인 전시 페이지와 상태 갤러리 15페이지를 기존 QA 컨트롤로 선택할 수 있다. 상태/장치 선택·preview/pause/restart/reset은 검수 조작이다.
+새 씬 `Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity`: 11종 전체 상태 프리팹, 고정 레일, 배경·막·등·파괴 표시, 모든 143 static+211 clip 역할, 기존 rabbit_front/soap_bubble_pink/exit_visual_root/hud_visual을 실제 참조한다. 총 DeviceVisualView 369개다. 메인 전시 페이지와 상태 갤러리 15페이지를 기존 QA 컨트롤로 선택할 수 있다. 상태/장치 선택·preview/pause/restart/reset은 검수 조작이다.
 
 상단 pause·cost·bubble UI는 기존 hud_visual을 그대로 사용하며 COST -- / --/--로 미연결 상태를 표시한다. 플레이어·분홍 방울·출구와 기존 QA 씬/빌드 씬 설정은 바꾸지 않았다. 에디터는 새 QA 씬과 1080×1920 Game View/Play 시작 씬을 설정했다. **기존 퍼즐 플레이 씬이 없어 실제 플레이 씬에 11종을 연결하는 항목은 수행하지 못했다.**
 

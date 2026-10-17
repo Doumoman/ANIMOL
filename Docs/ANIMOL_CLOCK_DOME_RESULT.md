@@ -4,7 +4,7 @@
 
 ## 실제 구조와 적용 범위
 
-시작 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`였다. 가변 크기 정사각형 탑뷰 스와이프 퍼즐이며, `PuzzleMap.terrain`의 위치·재질·blocked가 지형 판정이다. 장치·방울·시작점·출구는 별도 데이터다. 플레이 씬은 `PuzzleController`가 실행 중 지형 렌더러를 만들고, `PuzzleFollowCamera`가 실제 플레이어 이동을 추적한다. 카메라 추적·줌·스와이프·연쇄·수집·출구 코드는 수정하지 않았다.
+시작 씬은 `Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity`였다. 가변 크기 정사각형 탑뷰 스와이프 퍼즐이며, `PuzzleMap.terrain`의 위치·재질·blocked가 지형 판정이다. 장치·방울·시작점·출구는 별도 데이터다. 플레이 씬은 `PuzzleController`가 실행 중 지형 렌더러를 만들고, `PuzzleFollowCamera`가 실제 플레이어 이동을 추적한다. 카메라 추적·줌·스와이프·연쇄·수집·출구 코드는 수정하지 않았다.
 
 편지 천문대의 기존 `ANIMOL_LetterObservatory_Art_QA.unity`에는 Tilemap 없이 개별 바닥 SpriteRenderer 165개, 고정 배경, 장치 프리젠터 255개와 마스터 9개가 있었다. 9개의 ID는 07/09/18/19/03/10/14/16/21이다. 이 장치는 기존 상태·이벤트의 **아트 프리뷰**이며 실제 퍼즐의 권위 있는 장치 판정 호출에 아직 연결되지 않았다. 실제 퍼즐 장치 종류는 Conveyor/Wind/Ice/Brake/Portal이다. 코스트 판정도 아직 없으며 HUD는 기존 `COST --`를 유지한다. 새 기믹이나 UI를 추가하지 않았다.
 
@@ -12,9 +12,9 @@
 
 적용 씬:
 
-- [기존 편지 천문대 아트 QA](../Assets/ANIMOL/Scenes/ANIMOL_LetterObservatory_Art_QA.unity): 평면 바닥·배경을 교체했다. 기존 장치 프리팹·상태·이벤트·위치·광선·캐릭터·HUD·QA 도구를 보존했다. 기본 패널의 이전 망원경 그림만 실행 중 숨기며 프리젠터 참조는 유지한다.
-- [퍼즐 QA](../Assets/ANIMOL/Scenes/ANIMOL_ClockDome_Puzzle_QA.unity): 기존 퍼즐 씬과 Small 맵을 복사하고 환경 테마만 연결했다. 원래 레벨과 다른 테마는 변경하지 않았다.
-- [접합 QA](../Assets/ANIMOL/Scenes/ANIMOL_ClockDome_Environment_QA.unity): 제공 접합 시트와 동일한 검수 지형이다. 플레이 레벨을 대체하지 않는다.
+- [기존 편지 천문대 아트 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity): 평면 바닥·배경을 교체했다. 기존 장치 프리팹·상태·이벤트·위치·광선·캐릭터·HUD·QA 도구를 보존했다. 기본 패널의 이전 망원경 그림만 실행 중 숨기며 프리젠터 참조는 유지한다.
+- [퍼즐 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_ClockDome_Puzzle_QA.unity): 기존 퍼즐 씬과 Small 맵을 복사하고 환경 테마만 연결했다. 원래 레벨과 다른 테마는 변경하지 않았다.
+- [접합 QA](../Assets/ANIMOL/Scenes/QA/ANIMOL_ClockDome_Environment_QA.unity): 제공 접합 시트와 동일한 검수 지형이다. 플레이 레벨을 대체하지 않는다.
 
 Build Settings의 기본 씬은 변경하지 않았다.
 

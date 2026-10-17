@@ -4,7 +4,7 @@
 
 ## 적용 경로와 범위
 
-- 활성 로비 씬은 [ANIMOL_Main.unity](../Assets/ANIMOL/Scenes/ANIMOL_Main.unity), 진입점은 [MainLobbyController.cs](../Assets/ANIMOL/Scripts/Runtime/MainLobbyController.cs)다. `EditorBuildSettings`의 첫 씬으로 등록했고 기존 Art QA 씬은 유지했다. [MainLobbyBuilder.cs](../Assets/ANIMOL/Scripts/Editor/MainLobbyBuilder.cs)의 `ANIMOL/UI/Build Main Lobby`로 같은 구조를 재생성할 수 있다.
+- 활성 로비 씬은 [ANIMOL_Main.unity](../Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity), 진입점은 [MainLobbyController.cs](../Assets/ANIMOL/Scripts/Runtime/MainLobbyController.cs)다. `EditorBuildSettings`의 첫 씬으로 등록했고 기존 Art QA 씬은 유지했다. [MainLobbyBuilder.cs](../Assets/ANIMOL/Scripts/Editor/MainLobbyBuilder.cs)의 `ANIMOL/UI/Build Main Lobby`로 같은 구조를 재생성할 수 있다.
 - 기존 활성 프로젝트에 메인 로비와 메인 일러스트 경로가 없었다. 따라서 패키지의 메인 일러스트 17개를 `Assets/ANIMOL/Sprites/UI/Main/Illustrations/`, 통합 풍경 4개를 `Assets/ANIMOL/Sprites/UI/Main/Backgrounds/`에 신규 등록했다. 기존 활성 `.meta`/GUID가 없어 갱신 유지 대상은 없었다. 생성된 GUID는 카탈로그와 씬에서 참조하며 재생성 시 유지된다. 게임용 160px PNG, PPU, 피벗, 클립, 캐릭터/저장 ID, 콜라이더와 판정은 변경하지 않았다.
 - 입력의 v6 인벤토리와 SHA-256 비교 시 6개(`mion`, `piko`, `lumi`, `soyul`, `haerin`, `stranger`)만 변경됐고, 나머지 11개 메인 일러스트와 배경 4개는 v6와 바이트가 같다. 변경된 6개는 모두 원본 1024×1536 RGBA PNG다. 배경 4개는 1122×1402 RGB 통합 풍경이며 별도 전경을 연결하지 않았다.
 - 게임 카탈로그 4개와 대조한 [MainMenuCatalog.asset](../Assets/ANIMOL/Data/UI/MainMenuCatalog.asset)에 4테마, 저장 인물 ID 16개, 메뉴 외형 17개를 연결했다. `eden`과 `edenpuppy`는 같은 `eden` 인물의 rabbit/puppy 외형이다. 루미의 페럿은 PNG 내부에만 있다. `soyul`은 별도 ID이며 `doyun`을 덮지 않았다. 이방인의 표시 이름은 임의 확정하지 않았다.

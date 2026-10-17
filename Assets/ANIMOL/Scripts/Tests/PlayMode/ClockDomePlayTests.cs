@@ -38,7 +38,7 @@ namespace ANIMOL.Presentation.Tests
         }
         [UnityTest] public IEnumerator ExistingLetterDeviceReferencesAndBeamSurviveNewEnvironment()
         {
-            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/ANIMOL_LetterObservatory_Art_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity",new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single)); yield return null; yield return null;
             var qa = Object.FindFirstObjectByType<DeviceArtQaController>(); var environment = Object.FindFirstObjectByType<ClockDomeInspection>(); Assert.AreEqual(255,qa.views.Length); Assert.AreEqual(9,qa.masters.Length);
             Assert.AreEqual(4,environment.GetComponentsInChildren<Tilemap>().Length); Assert.IsTrue(environment.replacedEnvironment.All(r=>r.forceRenderingOff));
             foreach (var master in qa.masters)

@@ -13,7 +13,7 @@ Assets/ANIMOL/
     Tiles/Decoration/ranch/
     Background/ranch/{Far,Mid}/
   Prefabs/
-  Scenes/ANIMOL_Starway_Art_QA.unity
+  Scenes/QA/ANIMOL_Starway_Art_QA.unity
   Scripts/{Runtime,Editor,Tests}/
   Fonts/
   Materials/

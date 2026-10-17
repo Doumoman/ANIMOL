@@ -49,8 +49,8 @@ namespace ANIMOL.Presentation.Editor
         public const string Data = "Assets/ANIMOL/Data/Art/TwilightCoast";
         public const string Prefabs = "Assets/ANIMOL/Prefabs/Environment/TwilightCoast";
         public const string Catalog = Data + "/EnvironmentArt.asset";
-        public const string InspectionScene = "Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Environment_QA.unity";
-        public const string PreviewScene = "Assets/ANIMOL/Scenes/ANIMOL_TwilightCoast_Puzzle_QA.unity";
+        public const string InspectionScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Environment_QA.unity";
+        public const string PreviewScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity";
         public static TwilightCoastManifest Read() => JsonUtility.FromJson<TwilightCoastManifest>(File.ReadAllText(Source + "/manifest.json"));
         public static string RuntimePath(string source)
         {
@@ -136,7 +136,7 @@ namespace ANIMOL.Presentation.Editor
             var original = AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzleBuilder.Data + "/Maps/Small.asset"); var map = UnityEngine.Object.Instantiate(original); map.name = "TwilightCoastPreview";
             var theme = UnityEngine.Object.Instantiate(original.theme); theme.name = "TwilightCoast"; theme.skyIsland = null; theme.memorySkyTheater = null; theme.clockDome = null; theme.twilightCoast = art;
             AssetDatabase.CreateAsset(theme, Data + "/PuzzleTheme.asset"); map.theme = theme; AssetDatabase.CreateAsset(map, Data + "/PreviewMap.asset");
-            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
+            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
             var scene = EditorSceneManager.OpenScene(PreviewScene); UnityEngine.Object.FindFirstObjectByType<PuzzleController>().stage = map; EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         }
         static void ApplyExistingQa(TwilightCoastArt art)

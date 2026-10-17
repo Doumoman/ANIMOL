@@ -6,7 +6,7 @@ AssetDatabase.MoveAsset으로 이동했고 PNG/폰트 바이트, .meta GUID를 �
 
 어셈블리/클래스의 버전 식별자를 일반 Presentation 이름으로 바꿨으며 직렬화 호환을 위해 MovedFrom을 선언했다. 모든 프리팹·씬을 새 코드로 다시 연결하고 저장했다. GUID 변경·중복·누락 참조·잘못된 PNG/클립명·활성 버전 경로는 각각 0이다. 실제 씬의 누락 스크립트/Sprite도 0이며 컴파일 오류는 없다.
 
-현재 EditMode 4/4, PlayMode 1/1 통과다. 마지막 시작 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Starway_Art_QA.unity`다. QA이며 실제 퍼즐 구현은 아직 없다. 새로운 sprite/importer 기본값은 미등록 32px 그림의 PPU 32이며 이번 원본은 manifest의 기존 80/128 PPU와 프레임 시간을 유지한다.
+현재 EditMode 4/4, PlayMode 1/1 통과다. 마지막 시작 씬은 `Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity`다. QA이며 실제 퍼즐 구현은 아직 없다. 새로운 sprite/importer 기본값은 미등록 32px 그림의 PPU 32이며 이번 원본은 manifest의 기존 80/128 PPU와 프레임 시간을 유지한다.
 
 증거: [이동 목록](Validation/SpriteLayout/move_manifest.json), [감사](Validation/SpriteLayout/audit.json), [씬 검사](Validation/SpriteLayout/scene_check.json), [EditMode](Validation/SpriteLayout/editmode.json), [PlayMode](Validation/SpriteLayout/playmode.json), [1080×1920 캡처](../Screenshots/ArtQA/qa_clean_project.png).
 

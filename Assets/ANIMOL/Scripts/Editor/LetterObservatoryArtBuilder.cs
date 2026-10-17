@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Editor
     public static class LetterObservatoryArtBuilder
     {
         public const string Root="Assets/ANIMOL";
-        public const string ScenePath=Root+"/Scenes/ANIMOL_LetterObservatory_Art_QA.unity";
+        public const string ScenePath=Root+"/Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity";
         public const string Prefabs=Root+"/Prefabs/Themes/letter_observatory";
         public const string CatalogPath=Root+"/Data/Themes/letter_observatory.asset";
         public const string RulesPath=Root+"/Data/Themes/letter_observatory_optics.asset";

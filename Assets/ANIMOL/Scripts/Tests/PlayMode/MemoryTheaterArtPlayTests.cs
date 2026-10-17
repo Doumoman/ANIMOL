@@ -9,7 +9,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class MemoryTheaterArtPlayTests
     {
-        const string Scene="Assets/ANIMOL/Scenes/ANIMOL_MemoryTheater_Art_QA.unity";
+        const string Scene="Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity";
         [UnityTest] public IEnumerator TheaterSceneRunsAtPortraitResolutionWithoutRootMotionOrDuplicateWriters()
         {
             EditorSceneManager.LoadSceneInPlayMode(Scene,new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;

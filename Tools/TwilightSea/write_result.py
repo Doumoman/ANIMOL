@@ -14,7 +14,7 @@ result='''# ANIMOL 황혼의 바다 적용 결과
 
 - 프로젝트: `C:/Users/user/Documents/GitHub/ANIMOL`, Unity 6000.3.8f1, live Editor 7800. AGENTS.md와 패키지/asmdef/활성 스크립트를 확인했다. 런타임은 ANIMOL.Presentation, 에디터/검수는 분리된 asmdef다. Packages를 바꾸지 않았다.
 - 시작 HEAD: `9c9194ae1d522977f0e44a121e798be6991bfd2c`. [작업 전 Git 상태](Docs/Validation/TwilightSea/git_status_before.txt)와 [자산·설정 SHA-256 기준](Docs/Validation/TwilightSea/baseline.json)을 먼저 기록했다. 기존 EditorSettings/ProjectSettings와 Legacy의 사용자 작업을 보존하고 커밋에서 제외했다.
-- 기존 씬은 목장/장치8/기억 극장/편지 천문대의 아트 QA 4개다. 시작 에디터 씬은 편지 천문대 QA, 최종 에디터/Play 시작 씬은 `Assets/ANIMOL/Scenes/ANIMOL_TwilightSea_Art_QA.unity`다. 빌드 씬은 기존 Starway QA 그대로다.
+- 기존 씬은 목장/장치8/기억 극장/편지 천문대의 아트 QA 4개다. 시작 에디터 씬은 편지 천문대 QA, 최종 에디터/Play 시작 씬은 `Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity`다. 빌드 씬은 기존 Starway QA 그대로다.
 - 실제 Grid 컴포넌트/레벨/테마 선택기는 없다. 기존 QA의 한 셀 월드 폭 1을 유지해 PPU 80, 셀 배치 간격 1을 사용했다. Collider/Grid/물리 크기를 추가·변경하지 않았다.
 - 활성 호출 흐름은 `DeviceArtQaController.OnGUI → DeviceVisualView.Present/Notify → Advance → Render`다. 이것은 수동 아트 검수 경로다. 유효 입력 확정→연쇄→장치 턴→게임 결과의 실제 호출자는 발견되지 않았다. `PuzzleHudView`도 표시 어댑터이며 게임 상태 공급자가 없다.
 

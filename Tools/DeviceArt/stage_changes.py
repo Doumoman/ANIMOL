@@ -8,7 +8,7 @@ for name in dirs:
     paths.extend(p.relative_to(root).as_posix() for p in (root/name).rglob('*') if p.is_file())
     meta=root/(name+'.meta')
     if meta.exists():paths.append(meta.relative_to(root).as_posix())
-for name in ['Assets/ANIMOL/Scripts/Runtime/DeviceVisualView.cs','Assets/ANIMOL/Scripts/Runtime/DeviceArtQaController.cs','Assets/ANIMOL/Scripts/Editor/DeviceArtBuilder.cs','Assets/ANIMOL/Scripts/Tests/Editor/DeviceArtTests.cs','Assets/ANIMOL/Scripts/Tests/PlayMode/DeviceArtPlayTests.cs','Assets/ANIMOL/Data/device_art_import_manifest.json','Assets/ANIMOL/Scenes/ANIMOL_Device8_Art_QA.unity']:
+for name in ['Assets/ANIMOL/Scripts/Runtime/DeviceVisualView.cs','Assets/ANIMOL/Scripts/Runtime/DeviceArtQaController.cs','Assets/ANIMOL/Scripts/Editor/DeviceArtBuilder.cs','Assets/ANIMOL/Scripts/Tests/Editor/DeviceArtTests.cs','Assets/ANIMOL/Scripts/Tests/PlayMode/DeviceArtPlayTests.cs','Assets/ANIMOL/Data/device_art_import_manifest.json','Assets/ANIMOL/Scenes/QA/ANIMOL_Device8_Art_QA.unity']:
     paths.extend([name,name+'.meta'])
 for name in ['baseline.json','source_path_map.json','audit.json','device_edit.json','device_play.json','base_edit.json','base_play.json','scene_validation.json','console_final.json','changed_files.txt']:
     paths.append('Docs/Validation/DeviceArt/'+name)

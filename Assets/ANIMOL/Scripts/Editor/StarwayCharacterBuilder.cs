@@ -12,7 +12,7 @@ namespace Animol.Art.Starway160
     {
         const string Root = "Assets/ANIMOL/Art/StarwayCharacters160";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/StarwayCharacters.asset";
-        const string QaScene = "Assets/ANIMOL/Scenes/ANIMOL_Starway_Character_QA.unity";
+        const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity";
         static readonly string[] Ids = { "choa", "uram", "yeoul", "tori" };
         static readonly string[] Names = { "초아", "우람", "여울", "토리" };
 

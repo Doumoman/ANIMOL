@@ -1,6 +1,8 @@
 # 현재 프로젝트 파일 구조
 
-**2026-10-14 퍼즐 구현 업데이트:** 새 플레이 씬은 `Assets/ANIMOL/Scenes/ANIMOL_Puzzle.unity`다. `Scripts/Runtime/Puzzle*`, `Scripts/Editor/Puzzle*`, `Data/Puzzle/{Maps,Themes}`, `Sprites/Tiles/Puzzle`에 가변 크기 탑뷰 퍼즐과 독립 제작기를 추가했다. 실제 격자 이동·자동 연쇄·포털·수집·출구 판정은 이 새 씬에서 실행된다. 아래 아트 적용 이력의 "게임 판정 미구현"은 기존 QA 씬의 범위를 설명한다. QA 씬은 계속 표시 검수용이며 새 퍼즐로 보고하지 않는다. 구현·검수 결과는 [가변 크기 퍼즐 결과](ANIMOL_VARIABLE_PUZZLE_RESULT.md), 근거는 `Validation/Puzzle`에 있다.
+**2026-10-18 씬 분류:** `Assets/ANIMOL/Scenes/Runtime`에는 실제 진입 씬 `ANIMOL_Main`과 플레이 씬 `ANIMOL_Puzzle`을 둔다. `Scenes/Prototype`에는 테마별 장치 프로토타입 4개, `Scenes/QA`에는 아트·환경·캐릭터·퍼즐 검수 씬 14개를 둔다. 씬 이름과 GUID는 유지했으며 빌드 목록의 메인/Starway QA 경로, Editor 제작기, 테스트, 검수 도구의 참조를 새 위치로 갱신했다. QA 조작을 정식 퍼즐 진행으로 취급하지 않는다.
+
+**2026-10-14 퍼즐 구현 업데이트:** 새 플레이 씬은 `Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity`다. `Scripts/Runtime/Puzzle*`, `Scripts/Editor/Puzzle*`, `Data/Puzzle/{Maps,Themes}`, `Sprites/Tiles/Puzzle`에 가변 크기 탑뷰 퍼즐과 독립 제작기를 추가했다. 실제 격자 이동·자동 연쇄·포털·수집·출구 판정은 이 새 씬에서 실행된다. 아래 아트 적용 이력의 "게임 판정 미구현"은 기존 QA 씬의 범위를 설명한다. QA 씬은 계속 표시 검수용이며 새 퍼즐로 보고하지 않는다. 구현·검수 결과는 [가변 크기 퍼즐 결과](ANIMOL_VARIABLE_PUZZLE_RESULT.md), 근거는 `Validation/Puzzle`에 있다.
 
 활성 파일에는 버전 폴더를 붙이지 않는다. 스프라이트와 AnimationClip의 정본은 `Assets/ANIMOL/Sprites`다.
 
@@ -20,11 +22,11 @@ Assets/ANIMOL/
     Props/{memory_theater,twilight_sea}/
     Background/{memory_theater,letter_observatory,twilight_sea}/{Far,Mid,Near}/
   Prefabs/
-  Scenes/ANIMOL_Starway_Art_QA.unity
-  Scenes/ANIMOL_Device8_Art_QA.unity
-  Scenes/ANIMOL_MemoryTheater_Art_QA.unity
-  Scenes/ANIMOL_LetterObservatory_Art_QA.unity
-  Scenes/ANIMOL_TwilightSea_Art_QA.unity
+  Scenes/QA/ANIMOL_Starway_Art_QA.unity
+  Scenes/QA/ANIMOL_Device8_Art_QA.unity
+  Scenes/QA/ANIMOL_MemoryTheater_Art_QA.unity
+  Scenes/QA/ANIMOL_LetterObservatory_Art_QA.unity
+  Scenes/QA/ANIMOL_TwilightSea_Art_QA.unity
   Scripts/{Runtime,Editor,Tests}/
   Fonts/
   Materials/
@@ -70,11 +72,11 @@ Assets/ANIMOL/
 
 ## 2026-10-14 퍼즐과 별길 목장 하늘섬 활성 경로
 
-이전 절의 게임 미구현 설명은 아트 격리 당시의 기록이다. 현재 `Scenes/ANIMOL_Puzzle.unity`에는 기존 탑뷰 스와이프 퍼즐이 있고 `Data/Puzzle/{Maps,Themes}`를 사용한다. 이동/연쇄/수집/출구 구현과 코스트 미연결 상태는 구분한다. 기존 Build Settings의 기본 Art QA 씬은 이번 외곽 적용에서 변경하지 않았다.
+이전 절의 게임 미구현 설명은 아트 격리 당시의 기록이다. 현재 `Scenes/Runtime/ANIMOL_Puzzle.unity`에는 기존 탑뷰 스와이프 퍼즐이 있고 `Data/Puzzle/{Maps,Themes}`를 사용한다. 이동/연쇄/수집/출구 구현과 코스트 미연결 상태는 구분한다. 기존 Build Settings의 기본 Art QA 씬은 이번 외곽 적용에서 변경하지 않았다.
 
 별길 목장 `StarGarden` 퍼즐 테마에는 PNG149개를 원본 그대로 추가했다. 경로는 `Sprites/Tiles/Floor/ranch/SkyIsland/{Grass,Underside}`, `Sprites/Background/ranch/SkyIsland`, `Sprites/Tiles/Decoration/ranch/SkyIsland`이다. `Data/Art/StarwayIsland`에 47쌍의 Tile/아트 카탈로그/검사 맵을 두고 `SkyIslandBuilder`가 가져온다. 두 Tilemap과 반복 배경은 표시 전용이며 기존 판정을 소유하지 않는다. 버전 이름은 출처 패키지에만 유지한다.
 
-`Scenes/ANIMOL_Starway_Island_QA.unity`는 접합 그림 검사 씬이다. 플레이 동작 검수는 기존 `ANIMOL_Puzzle`에서 했다. [적용 결과](ANIMOL_STARWAY_SKYISLAND_RESULT.md), `Validation/StarwayIsland`, `Tools/StarwayIsland`에 실제 Game View의 1배/4배 접합 및 세 배경 좌표 픽셀 일치, 세로 플레이, EditMode63/63·PlayMode15/15 결과를 기록했다. 다른 테마/공통 장치, HUD, 기존 맵/씬을 교체하지 않았다.
+`Scenes/QA/ANIMOL_Starway_Island_QA.unity`는 접합 그림 검사 씬이다. 플레이 동작 검수는 기존 `ANIMOL_Puzzle`에서 했다. [적용 결과](ANIMOL_STARWAY_SKYISLAND_RESULT.md), `Validation/StarwayIsland`, `Tools/StarwayIsland`에 실제 Game View의 1배/4배 접합 및 세 배경 좌표 픽셀 일치, 세로 플레이, EditMode63/63·PlayMode15/15 결과를 기록했다. 다른 테마/공통 장치, HUD, 기존 맵/씬을 교체하지 않았다.
 
 ## 2026-10-14 ?? ?? ?? ?? ??
 
