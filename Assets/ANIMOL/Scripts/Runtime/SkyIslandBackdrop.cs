@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ANIMOL.Puzzle
 {
-    // Native 80px world raster + point-sampled integer display. No gameplay camera/actor transform writes.
+    // Keep 160px character detail in the foreground while the 80px backdrop retains integer pixel scaling.
     [DefaultExecutionOrder(220)]
     public sealed class SkyIslandBackdrop : MonoBehaviour
     {
@@ -11,6 +11,7 @@ namespace ANIMOL.Puzzle
         public Vector2 sampleCameraPixels;
         public bool backgroundOnly, hideBackground;
         public int IntegerScale { get; private set; }
+        public int ForegroundScale { get; private set; }
         public RenderTexture ForegroundTexture { get; private set; }
         public RenderTexture BackgroundTexture { get; private set; }
         public Vector2Int[] Phases { get; } = new Vector2Int[3];
@@ -90,9 +91,12 @@ namespace ANIMOL.Puzzle
             if (NearSequence && animateNear && Application.isPlaying) AdvanceNear(Time.unscaledDeltaTime);
             if (!gameplay || !farSprite) return;
             var rect = gameplay.pixelRect;
-            var h = Mathf.Max(1, Mathf.RoundToInt(gameplay.orthographicSize * 160));
-            var w = Mathf.Max(1, Mathf.RoundToInt(h * gameplay.aspect));
-            IntegerScale = ChooseScale(rect.width, rect.height, w, h);
+            var backgroundHeight = Mathf.Max(1, Mathf.RoundToInt(gameplay.orthographicSize * 160));
+            var backgroundWidth = Mathf.Max(1, Mathf.RoundToInt(backgroundHeight * gameplay.aspect));
+            IntegerScale = ChooseScale(rect.width, rect.height, backgroundWidth, backgroundHeight);
+            var h = backgroundHeight * 2;
+            var w = backgroundWidth * 2;
+            ForegroundScale = ChooseScale(rect.width, rect.height, w, h);
             var fg = new Vector2Int(w, h); var bg = new Vector2Int(Mathf.CeilToInt((float)Screen.width / IntegerScale), Mathf.CeilToInt((float)Screen.height / IntegerScale));
             if (!ForegroundTexture || fg != foregroundSize || bg != backgroundSize)
             {
@@ -104,14 +108,14 @@ namespace ANIMOL.Puzzle
             }
             foregroundCapture.CopyFrom(gameplay); foregroundCapture.tag = "Untagged";
             foregroundCapture.depth = gameplay.depth - 8; foregroundCapture.rect = new Rect(0, 0, 1, 1);
-            foregroundCapture.targetTexture = ForegroundTexture; foregroundCapture.orthographic = true; foregroundCapture.orthographicSize = h / 160f;
+            foregroundCapture.targetTexture = ForegroundTexture; foregroundCapture.orthographic = true; foregroundCapture.orthographicSize = h / 320f;
             foregroundCapture.aspect = (float)w / h; foregroundCapture.allowHDR = false; foregroundCapture.allowMSAA = false;
             foregroundCapture.cullingMask = originalMask & ~((1 << BackgroundLayer) | (1 << BackgroundDisplayLayer) | (1 << ForegroundDisplayLayer));
             foregroundCapture.clearFlags = CameraClearFlags.SolidColor; foregroundCapture.backgroundColor = Color.clear;
             foregroundCapture.transform.SetPositionAndRotation(new Vector3(Mathf.Round(gameplay.transform.position.x * 80) / 80, Mathf.Round(gameplay.transform.position.y * 80) / 80, gameplay.transform.position.z), gameplay.transform.rotation);
             backgroundCapture.orthographicSize = bg.y / 160f; backgroundCapture.aspect = (float)bg.x / bg.y;
             foregroundDisplay.rect = gameplay.rect; foregroundDisplay.depth = gameplay.depth + 1;
-            foregroundQuad.transform.localScale = new Vector3(w * IntegerScale / rect.height, h * IntegerScale / rect.height, 1);
+            foregroundQuad.transform.localScale = new Vector3(w * ForegroundScale / rect.height, h * ForegroundScale / rect.height, 1);
             backgroundQuad.transform.localScale = new Vector3(bg.x * IntegerScale / (float)Screen.height, bg.y * IntegerScale / (float)Screen.height, 1);
             gameplay.cullingMask = 0; gameplay.clearFlags = CameraClearFlags.Nothing;
             var sample = overrideSample ? sampleCameraPixels : new Vector2(gameplay.transform.position.x * 80, -gameplay.transform.position.y * 80);
