@@ -2,28 +2,33 @@ using System;
 using System.IO;
 using ANIMOL.Presentation;
 using ANIMOL.Puzzle;
+using ANIMOL.Menu;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Animol.Art.MemoryTheater160
+namespace Animol.Art.AfterimageTheaterNative
 {
     public static class MemoryTheaterCharacterBuilder
     {
-        const string Root = "Assets/ANIMOL/Art/MemoryTheaterCharacters160";
+        const string Root = "Assets/ANIMOL/Art/AfterimageTheaterCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset";
+        const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
+        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
         const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity";
         // The source character_designs.json lists these four IDs in this order.
         static readonly string[] Ids = { "seri", "roan", "mion", "piko" };
         static readonly string[] Names = { "\uC138\uB9AC", "\uB85C\uC548", "\uBBF8\uC628", "\uD53C\uCF54" };
 
-        [MenuItem("ANIMOL/Art/Connect Memory Theater Characters")]
+        [MenuItem("ANIMOL/Art/Connect Afterimage Theater Characters")]
         public static void Build()
         {
-            var manifest = JsonUtility.FromJson<AnimolMemoryTheater160Importer.Manifest>(
-                File.ReadAllText(Root + "/memory_theater_animations.json"));
-            if (manifest.version != 4 || manifest.outfitRevision != 4 || manifest.clips == null || manifest.clips.Length != 60)
-                throw new InvalidDataException("Memory Theater character manifest must be v4 with 60 clips.");
+            var manifest = JsonUtility.FromJson<AnimolAfterimageTheaterNativeImporter.Manifest>(
+                File.ReadAllText(Root + "/afterimage_theater_native_animations.json"));
+            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 360 ||
+                manifest.clips == null || manifest.clips.Length != 60)
+                throw new InvalidDataException("Afterimage Theater native manifest must have 360 frames and 60 clips.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
             {
@@ -64,17 +69,59 @@ namespace Animol.Art.MemoryTheater160
                 "Assets/ANIMOL/Data/Art/MemorySkyTheater/PuzzleTheme.asset" })
             {
                 var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(path);
-                if (!theme) throw new FileNotFoundException("Missing Memory Theater theme", path);
+                if (!theme) throw new FileNotFoundException("Missing Afterimage Theater theme", path);
                 theme.memoryTheaterCharacters = catalog;
                 theme.memoryTheaterCharacterId = catalog.defaultCharacterId;
                 EditorUtility.SetDirty(theme);
             }
+            ConnectMainMenu(catalog);
             AssetDatabase.SaveAssets();
-            BuildQaScene(catalog);
-            Debug.Log("ANIMOL Memory Theater v4: connected four characters, 60 clips, four illustrations, and both playable Memory Theater themes.");
+            Debug.Log("ANIMOL Afterimage Theater native: connected four characters, 60 clips, and four illustrations while preserving the memory_theater save key.");
         }
 
         public static void BuildBatch() => Build();
+
+        static void ConnectMainMenu(StarwayCharacterCatalog catalog)
+        {
+            var menu = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(MenuPath);
+            if (!menu || menu.themes == null || menu.themes.Length < 2 || menu.themes[1].id != "theater")
+                throw new InvalidDataException("Missing existing theater lobby entry");
+            var entry = menu.themes[1];
+            entry.displayName = "잔영 극장";
+            entry.resourceId = "afterimage_theater";
+            entry.resourceAliases = new[] { "memory_theater" };
+            entry.gameCharacters = catalog;
+            entry.people = new MainMenuPerson[Ids.Length];
+            for (var i = 0; i < Ids.Length; i++)
+            {
+                var id = Ids[i];
+                entry.people[i] = new MainMenuPerson {
+                    characterId = id,
+                    appearances = new[] { new MainMenuAppearance {
+                        artId = id, costumeId = "default", illustration = catalog.Find(id).illustration
+                    } }
+                };
+            }
+            EditorUtility.SetDirty(menu);
+
+            var previous = EditorSceneManager.GetActiveScene();
+            if (previous.IsValid() && previous.isDirty)
+                throw new InvalidOperationException("Save the active scene before updating the lobby theme caption.");
+            var lobby = EditorSceneManager.OpenScene(LobbyScenePath, OpenSceneMode.Single);
+            var changed = 0;
+            foreach (var label in Resources.FindObjectsOfTypeAll<Text>())
+                if (label.gameObject.scene == lobby && (label.text == "기억 극장" || label.text == "잔영 극장"))
+                {
+                    label.text = "잔영 극장";
+                    EditorUtility.SetDirty(label);
+                    changed++;
+                }
+            if (changed == 0) throw new InvalidDataException("Theater lobby caption not found");
+            EditorSceneManager.MarkSceneDirty(lobby);
+            EditorSceneManager.SaveScene(lobby);
+            if (previous.IsValid() && !string.IsNullOrEmpty(previous.path) && previous.path != LobbyScenePath)
+                EditorSceneManager.OpenScene(previous.path, OpenSceneMode.Single);
+        }
 
         static void ConfigureIllustration(string path)
         {
@@ -82,6 +129,10 @@ namespace Animol.Art.MemoryTheater160
             if (!importer) throw new FileNotFoundException("Missing illustration importer", path);
             importer.textureType = TextureImporterType.Sprite;
             importer.spriteImportMode = SpriteImportMode.Single;
+            var settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            settings.spriteMeshType = SpriteMeshType.FullRect;
+            importer.SetTextureSettings(settings);
             importer.filterMode = FilterMode.Bilinear;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.crunchedCompression = false;
@@ -108,7 +159,7 @@ namespace Animol.Art.MemoryTheater160
             camera.GetComponent<Camera>().orthographic = true;
             camera.GetComponent<Camera>().orthographicSize = 4;
             camera.GetComponent<Camera>().backgroundColor = new Color(.1f, .14f, .2f);
-            var root = new GameObject("Memory Theater Character QA");
+            var root = new GameObject("Afterimage Theater Character QA");
             var player = StarwayCharacterVisual.Create(root.transform, Vector2.zero, 40, catalog, catalog.defaultCharacterId);
             var qa = root.AddComponent<MemoryTheaterCharacterQaController>();
             qa.catalog = catalog;

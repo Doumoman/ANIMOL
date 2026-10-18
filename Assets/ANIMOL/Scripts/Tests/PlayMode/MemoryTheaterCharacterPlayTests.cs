@@ -18,7 +18,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class MemoryTheaterCharacterPlayTests
     {
-        const string Portrait = "Docs/Validation/MemoryTheaterCharacters160_v4/Portrait";
+        const string Portrait = "Docs/Validation/AfterimageTheaterNative/Portrait";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()
         {
@@ -42,7 +42,7 @@ namespace ANIMOL.Presentation.Tests
                 .FirstOrDefault(type => type != null);
             Assert.That(setup, Is.Not.Null);
             setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public)
-                .Invoke(null, new object[] { 1080, 1920, "Memory Theater character art QA" });
+                .Invoke(null, new object[] { 1080, 1920, "Afterimage Theater character art QA" });
         }
 
         [UnityTest] public IEnumerator FourCharactersAllDirectionsAndStatesPlayOnVisual()
@@ -50,8 +50,12 @@ namespace ANIMOL.Presentation.Tests
 #if UNITY_EDITOR
             EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
-            yield return null;
-            var qa = Object.FindFirstObjectByType<MemoryTheaterCharacterQaController>();
+            MemoryTheaterCharacterQaController qa = null;
+            for (var attempt = 0; attempt < 60 && !qa; attempt++)
+            {
+                yield return null;
+                qa = Object.FindFirstObjectByType<MemoryTheaterCharacterQaController>();
+            }
             Assert.That(qa, Is.Not.Null);
             var visual = qa.character;
             Assert.That(visual.transform.name, Is.EqualTo("Visual"));
@@ -121,7 +125,7 @@ namespace ANIMOL.Presentation.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV4Art()
+        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepNativeArt()
         {
 #if UNITY_EDITOR
             UsePortraitGameView();

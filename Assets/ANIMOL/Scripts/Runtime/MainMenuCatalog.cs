@@ -24,6 +24,8 @@ namespace ANIMOL.Menu
     public sealed class MainMenuTheme
     {
         public string id;
+        public string resourceId;
+        public string[] resourceAliases = Array.Empty<string>();
         public string displayName;
         public Sprite scenery;
         public StarwayCharacterCatalog gameCharacters;
@@ -41,6 +43,14 @@ namespace ANIMOL.Menu
         {
             if (themes == null || themeIndex < 0 || themeIndex >= themes.Length) return null;
             return Array.Find(themes[themeIndex].people, item => item != null && item.characterId == characterId);
+        }
+
+        public MainMenuTheme FindThemeByResourceId(string resourceId)
+        {
+            if (string.IsNullOrEmpty(resourceId) || themes == null) return null;
+            return Array.Find(themes, theme => theme != null &&
+                (theme.id == resourceId || theme.resourceId == resourceId ||
+                 Array.Exists(theme.resourceAliases ?? Array.Empty<string>(), alias => alias == resourceId)));
         }
     }
 

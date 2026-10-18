@@ -27,7 +27,7 @@ namespace ANIMOL.Presentation
             if (!catalog || !character) return;
             var previous = GUI.matrix;
             GUI.matrix = Matrix4x4.Scale(new Vector3(Screen.width / 1080f, Screen.width / 1080f, 1));
-            GUI.Label(new Rect(30, 20, 950, 50), "MEMORY THEATER CHARACTER ART QA - preview only");
+            GUI.Label(new Rect(30, 20, 950, 50), "AFTERIMAGE THEATER CHARACTER ART QA - preview only");
             for (var i = 0; i < catalog.characters.Length; i++)
             {
                 var entry = catalog.characters[i];

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Menu.MainMenuCatalog
   themes:
   - id: starway
+    resourceId:
+    resourceAliases: []
     displayName: "\uBCC4\uAE38 \uBAA9\uC7A5"
     scenery: {fileID: 21300000, guid: 3ae4c6ef823134d49981e1f6378b4336, type: 3}
     gameCharacters: {fileID: 11400000, guid: 251fe7613ef6f8b498edf6d39b52b360, type: 2}
@@ -39,7 +41,10 @@ MonoBehaviour:
         costumeId: default
         illustration: {fileID: 21300000, guid: df484d40a17906446b9791ad493e8381, type: 3}
   - id: theater
-    displayName: "\uAE30\uC5B5 \uADF9\uC7A5"
+    resourceId: afterimage_theater
+    resourceAliases:
+    - memory_theater
+    displayName: "\uC794\uC601 \uADF9\uC7A5"
     scenery: {fileID: 21300000, guid: bef96dc5f2aaee442978e71578fe90ba, type: 3}
     gameCharacters: {fileID: 11400000, guid: a8ed9db4e8678b44fb852cfd96e37fd3, type: 2}
     people:
@@ -47,23 +52,25 @@ MonoBehaviour:
       appearances:
       - artId: seri
         costumeId: default
-        illustration: {fileID: 21300000, guid: ac5300444bc95cd42953fc01bd766916, type: 3}
+        illustration: {fileID: 21300000, guid: 2b51f869685a3a94fa6999faedb5ad3c, type: 3}
     - characterId: roan
       appearances:
       - artId: roan
         costumeId: default
-        illustration: {fileID: 21300000, guid: f5a320714dfcedc43b84861875edb091, type: 3}
+        illustration: {fileID: 21300000, guid: 900cd79fa5608f5409ccec81097ab5ab, type: 3}
     - characterId: mion
       appearances:
       - artId: mion
         costumeId: default
-        illustration: {fileID: 21300000, guid: 17b0bac6ff36a8044a1e6a5d2cb8a581, type: 3}
+        illustration: {fileID: 21300000, guid: 78f845036187c7a40962678dcdb71967, type: 3}
     - characterId: piko
       appearances:
       - artId: piko
         costumeId: default
-        illustration: {fileID: 21300000, guid: 567778d0778ca6e4ca4a96bf45086af5, type: 3}
+        illustration: {fileID: 21300000, guid: 49fabc53986ab88448bfa5a5c0ff6d47, type: 3}
   - id: observatory
+    resourceId:
+    resourceAliases: []
     displayName: "\uB099\uC77C \uC131\uC18C"
     scenery: {fileID: 21300000, guid: 45c651ae4810e314083f840ab22fe838, type: 3}
     gameCharacters: {fileID: 11400000, guid: f006126b25362c2499481c1111afb212, type: 2}
@@ -94,6 +101,8 @@ MonoBehaviour:
         costumeId: default
         illustration: {fileID: 21300000, guid: 136b1de4f6b3c564ebe7c5eb1f4756e5, type: 3}
   - id: sea
+    resourceId:
+    resourceAliases: []
     displayName: "\uD669\uD63C\uC758 \uBC14\uB2E4"
     scenery: {fileID: 21300000, guid: 0695e3e9e49e8e2468c568ba284436dc, type: 3}
     gameCharacters: {fileID: 11400000, guid: 6b9b5d9c303883f469972bf8f660f3ec, type: 2}

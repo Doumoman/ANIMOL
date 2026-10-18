@@ -42,6 +42,9 @@ namespace ANIMOL.Menu.Tests
             Assert.That(eden.appearances.Select(a => a.costumeId), Is.EqualTo(new[] { "rabbit", "puppy" }));
             Assert.That(catalog.FindPerson(2, "soyul"), Is.Not.Null);
             Assert.That(catalog.FindPerson(2, "doyun"), Is.Not.Null);
+            Assert.That(catalog.themes[1].displayName, Is.EqualTo("잔영 극장"));
+            Assert.That(catalog.FindThemeByResourceId("afterimage_theater"), Is.SameAs(catalog.themes[1]));
+            Assert.That(catalog.FindThemeByResourceId("memory_theater"), Is.SameAs(catalog.themes[1]));
             Assert.That(catalog.themes[2].displayName, Is.EqualTo("낙일 성소"));
             Assert.That(catalog.requiredStageIds, Is.Empty, "No authoritative campaign required-stage policy is present");
         }
@@ -55,6 +58,10 @@ namespace ANIMOL.Menu.Tests
                         Check(appearance.illustration,
                             theme.id == "observatory" && person.characterId == "doyun"
                                 ? new Vector2(1199, 1312)
+                                : theme.id == "theater" && person.characterId == "mion"
+                                    ? new Vector2(1241, 1268)
+                                    : theme.id == "theater" && (person.characterId == "seri" || person.characterId == "piko")
+                                        ? new Vector2(1199, 1312)
                                 : theme.id == "starway" && person.characterId == "yeoul"
                                     ? new Vector2(1145, 1374) : new Vector2(1024, 1536));
             foreach (var sprite in catalog.themes.Select(t => t.scenery))
