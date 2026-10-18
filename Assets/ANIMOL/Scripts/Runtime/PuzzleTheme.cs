@@ -13,6 +13,7 @@ namespace ANIMOL.Puzzle
     public sealed class PuzzleTheme : ScriptableObject
     {
         public SkyIslandArt skyIsland;
+        public StarwayRanchArt starwayRanch;
         public MemorySkyTheaterArt memorySkyTheater;
         public ClockDomeArt clockDome;
         public TwilightCoastArt twilightCoast;

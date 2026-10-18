@@ -1,0 +1,18 @@
+{
+  "source": "ANIMOL_STARWAY_RANCH_CARTOON_V10/device_bindings_template.json",
+  "authority": "Assets/ANIMOL/Scripts/Runtime/PuzzleScenario.cs, PuzzleDeviceSession.cs, PuzzleDeviceView.cs",
+  "artKeysAreSaveIds": false,
+  "families": [
+    {"artKey":"conveyor","role":"Conveyor","existingProjectDeviceId":7,"variant":"","verified":true,"mappedStates":{"idle":"idle_e","active":"run_e"},"events":{"active":"conveyor_visual_running"},"runtimeScope":"east only"},
+    {"artKey":"oneway_gate","role":"OneWayGate","existingProjectDeviceId":9,"variant":"","verified":true,"mappedStates":{"closed":"closed_e, close_e","open":"open_e"},"events":{"open":"allowed_passage_begin","closed":"allowed_passage_clear"},"runtimeScope":"east only"},
+    {"artKey":"bounce_corner","role":"Bounce","existingProjectDeviceId":18,"variant":"","verified":true,"mappedStates":{"idle":"idle_ne","pressed":"impact_ne"},"events":{"pressed":"existing_bounce_resolved"},"runtimeScope":"NE only"},
+    {"artKey":"brake_patch","role":"Brake","existingProjectDeviceId":19,"variant":"","verified":true,"mappedStates":{"idle":"idle_horizontal","pressed":"brake_horizontal, pressed_horizontal"},"events":{"pressed":"forced_motion_stopped"},"runtimeScope":"horizontal only"},
+    {"artKey":"star_stone","role":"StarSocket","existingProjectDeviceId":1,"variant":"","verified":true,"mappedStates":{"idle":"stone","pushed":"stone_push_e"},"events":{"pushed":"existing_push_visual"},"runtimeScope":"push east only"},
+    {"artKey":"star_socket","role":"StarSocket","existingProjectDeviceId":1,"variant":"socket","verified":true,"mappedStates":{"empty":"socket_empty","filled":"socket_filled, socket_insert"},"events":{"filled":"matching_star_socket_committed"},"runtimeScope":"directionless"},
+    {"artKey":"pressure_plate","role":"VineBridge","existingProjectDeviceId":2,"variant":"plate","verified":true,"mappedStates":{"released":"plate_idle, plate_release","pressed":"plate_pressed, plate_press"},"events":{"pressed":"occupancy_became_positive","released":"occupancy_became_zero"},"runtimeScope":"directionless"},
+    {"artKey":"vine_bridge","role":"VineBridge","existingProjectDeviceId":2,"variant":"bridge","verified":true,"mappedStates":{"extended":"bridge_idle_horizontal, bridge_extend_e","retracted":"retracted_e, bridge_retract_e"},"events":{"extended":"existing_bridge_enabled","retracted":"existing_bridge_disabled"},"runtimeScope":"horizontal two cell footprint only; current prototype bridge has a one cell footprint, so original art remains"},
+    {"artKey":"wind_corridor","role":"Wind","existingProjectDeviceId":20,"variant":"field","verified":true,"mappedStates":{"idle":"wind_flow_e","active":"wind_push_e"},"events":{"active":"valid_action_wind_resolved"},"runtimeScope":"east field only; blower remains original"}
+  ],
+  "unmappedDirections": "Other directions and states retain existing project sprites and clips.",
+  "decorativeOnly": ["props/ranch_gate.png", "props/windmill.png"]
+}

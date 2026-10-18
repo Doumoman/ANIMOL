@@ -33,7 +33,10 @@ namespace ANIMOL.Puzzle
                 }
                 else
                 {
-                    var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view; if (view.visual) view.visual.sortingOrder = d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30; }
+                    var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view; if (view.visual) view.visual.sortingOrder = d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30;
+                        if (session.Map.theme && session.Map.theme.starwayRanch)
+                            root.AddComponent<StarwayRanchDeviceArt>().Bind(session.Map.theme.starwayRanch, view, d);
+                    }
                 }
             }
             if (session.Rules.beamPrefab) { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
@@ -45,6 +48,7 @@ namespace ANIMOL.Puzzle
             pendingIdle.Remove(e.actor);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
             else if (!view.Notify(actionId, e.eventName, e.state) && !view.Present(e.state, true)) MissingBindings++;
+            if (roots.TryGetValue(e.actor, out var actor)) actor.GetComponent<StarwayRanchDeviceArt>()?.ApplyNow();
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
         }
         static bool PlayingTransition(DeviceVisualView view)
@@ -85,6 +89,7 @@ namespace ANIMOL.Puzzle
                 pendingIdle.Remove(d.id);
                 if (ferries.TryGetValue(d.id, out ferry)) { if (!ferry.Present(state)) MissingBindings++; }
                 else if (!view.Present(state)) MissingBindings++;
+                root.GetComponent<StarwayRanchDeviceArt>()?.ApplyNow();
             }
             player.enabled = string.IsNullOrEmpty(session.BoatId);
             if (beams) beams.Present(session.Beams.Select(b => new BeamVisualCell { position = b.cell, shape = BeamShape(b) }).ToArray());

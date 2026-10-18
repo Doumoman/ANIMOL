@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Failed(Child)" total="7" passed="6" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:21Z" duration="2.8628219">
+  <test-suite type="TestSuite" id="1000" name="ANIMOL" fullname="ANIMOL" runstate="Runnable" testcasecount="146" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:21Z" duration="2.862822" total="7" passed="6" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1173" name="ANIMOL.Presentation.Tests.Editor.dll" fullname="C:/Users/user/Documents/GitHub/ANIMOL/Library/ScriptAssemblies/ANIMOL.Presentation.Tests.Editor.dll" runstate="Runnable" testcasecount="146" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:21Z" duration="2.856238" total="7" passed="6" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="42980" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1174" name="ANIMOL" fullname="ANIMOL" runstate="Runnable" testcasecount="146" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:21Z" duration="2.855243" total="7" passed="6" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1176" name="Menu" fullname="ANIMOL.Menu" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:20Z" duration="1.102951" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1177" name="Tests" fullname="ANIMOL.Menu.Tests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:20Z" duration="1.102311" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1045" name="MainLobbyArtTests" fullname="ANIMOL.Menu.Tests.MainLobbyArtTests" classname="ANIMOL.Menu.Tests.MainLobbyArtTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:20Z" duration="1.100496" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1046" name="FourThemeCatalogKeepsFiveSunsetSanctumCharacters" fullname="ANIMOL.Menu.Tests.MainLobbyArtTests.FourThemeCatalogKeepsFiveSunsetSanctumCharacters" methodname="FourThemeCatalogKeepsFiveSunsetSanctumCharacters" classname="ANIMOL.Menu.Tests.MainLobbyArtTests" runstate="Runnable" seed="496020067" result="Passed" start-time="2026-10-18 19:32:19Z" end-time="2026-10-18 19:32:20Z" duration="0.991686" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1047" name="FullResolutionMenuSpritesKeepOriginalPixelsAndAndroidEdges" fullname="ANIMOL.Menu.Tests.MainLobbyArtTests.FullResolutionMenuSpritesKeepOriginalPixelsAndAndroidEdges" methodname="FullResolutionMenuSpritesKeepOriginalPixelsAndAndroidEdges" classname="ANIMOL.Menu.Tests.MainLobbyArtTests" runstate="Runnable" seed="189772249" result="Failed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:20Z" duration="0.012277" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Assets/ANIMOL/Art/SunsetSanctumCharacters/Illustrations/animol_sunset_sanctum_sein_illustration.png
+  Expected: FullRect
+  But was:  Tight
+]]></message>
+                  <stack-trace><![CDATA[at ANIMOL.Menu.Tests.MainLobbyArtTests.Check (UnityEngine.Sprite sprite, UnityEngine.Vector2 size) [0x000ff] in C:\Users\user\Documents\GitHub\ANIMOL\Assets\ANIMOL\Scripts\Tests\Editor\MainLobbyArtTests.cs:90
+at ANIMOL.Menu.Tests.MainLobbyArtTests.FullResolutionMenuSpritesKeepOriginalPixelsAndAndroidEdges () [0x0004a] in C:\Users\user\Documents\GitHub\ANIMOL\Assets\ANIMOL\Scripts\Tests\Editor\MainLobbyArtTests.cs:61
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1049" name="LobbyIsTheFirstBuildSceneWithoutRemovingPriorQaScene" fullname="ANIMOL.Menu.Tests.MainLobbyArtTests.LobbyIsTheFirstBuildSceneWithoutRemovingPriorQaScene" methodname="LobbyIsTheFirstBuildSceneWithoutRemovingPriorQaScene" classname="ANIMOL.Menu.Tests.MainLobbyArtTests" runstate="Runnable" seed="2146424306" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:20Z" duration="0.000495" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="SixRevisedMastersMatchTheAcceptedV7Package" fullname="ANIMOL.Menu.Tests.MainLobbyArtTests.SixRevisedMastersMatchTheAcceptedV7Package" methodname="SixRevisedMastersMatchTheAcceptedV7Package" classname="ANIMOL.Menu.Tests.MainLobbyArtTests" runstate="Runnable" seed="2082765772" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:20Z" duration="0.086283" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+        <test-suite type="TestSuite" id="1178" name="Presentation" fullname="ANIMOL.Presentation" runstate="Runnable" testcasecount="100" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:21Z" duration="1.748170" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1179" name="Tests" fullname="ANIMOL.Presentation.Tests" runstate="Runnable" testcasecount="100" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:21Z" duration="1.742697" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1149" name="StarwayRanchV10Tests" fullname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests" classname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:21Z" duration="1.738361" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1150" name="ExactManifestSpritesAndImportValues" fullname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests.ExactManifestSpritesAndImportValues" methodname="ExactManifestSpritesAndImportValues" classname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests" runstate="Runnable" seed="631151791" result="Passed" start-time="2026-10-18 19:32:20Z" end-time="2026-10-18 19:32:21Z" duration="1.193769" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1152" name="ExistingDeviceRolesAndV10ArtStayDistinct" fullname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests.ExistingDeviceRolesAndV10ArtStayDistinct" methodname="ExistingDeviceRolesAndV10ArtStayDistinct" classname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests" runstate="Runnable" seed="10663560" result="Passed" start-time="2026-10-18 19:32:21Z" end-time="2026-10-18 19:32:21Z" duration="0.000379" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1151" name="SavedQaSceneHasIndependentOrderedLayers" fullname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests.SavedQaSceneHasIndependentOrderedLayers" methodname="SavedQaSceneHasIndependentOrderedLayers" classname="ANIMOL.Presentation.Tests.StarwayRanchV10Tests" runstate="Runnable" seed="1507331158" result="Passed" start-time="2026-10-18 19:32:21Z" end-time="2026-10-18 19:32:21Z" duration="0.543449" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: C:\Users\user\Documents\GitHub\ANIMOL\Docs\Validation\StarwayRanchV10\editmode_lobby.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

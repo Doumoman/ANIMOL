@@ -14,6 +14,7 @@ namespace ANIMOL.Puzzle
         Transform objectsRoot;
         RectInt visible;
         SkyIslandMapRenderer island;
+        StarwayRanchMapRenderer ranch;
         MemorySkyTheaterRenderer theater;
         ClockDomeRenderer dome;
         TwilightCoastRenderer coast;
@@ -57,7 +58,14 @@ namespace ANIMOL.Puzzle
                 theater.transform.SetParent(transform, false); theater.Bind(map, map.theme.memorySkyTheater);
             }
             else if (theater) { Remove(theater.gameObject); theater = null; }
-            if (map.theme && map.theme.skyIsland)
+            if (map.theme && map.theme.starwayRanch)
+            {
+                if (!ranch) ranch = new GameObject("Starway Ranch V10 foreground").AddComponent<StarwayRanchMapRenderer>();
+                ranch.transform.SetParent(transform, false);
+                ranch.Bind(map, map.theme.starwayRanch);
+            }
+            else if (ranch) { Remove(ranch.gameObject); ranch = null; }
+            if (map.theme && map.theme.skyIsland && !map.theme.starwayRanch)
             {
                 if (!island) island = gameObject.AddComponent<SkyIslandMapRenderer>();
                 island.Bind(map, map.theme.skyIsland);
@@ -70,17 +78,21 @@ namespace ANIMOL.Puzzle
             }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
-            foreach (var d in map.decorations) if (map.Contains(d.position)) Sprite(objectsRoot, "Decoration", d.sprite ? d.sprite : map.theme.decoration, d.position, 15, Vector2.one * .8f, d.tint);
+            foreach (var d in map.decorations) if (map.Contains(d.position)) Sprite(objectsRoot, "Decoration",
+                ranch ? map.theme.starwayRanch.Find("props/clover_tuft.png") : d.sprite ? d.sprite : map.theme.decoration,
+                d.position, 15, Vector2.one * .8f, d.tint);
             foreach (var p in map.bubbles) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
         }
         public void RefreshNeighborhood(Vector2Int p)
-        { for (var y = -1; y <= 1; y++) for (var x = -1; x <= 1; x++) RefreshCell(p + new Vector2Int(x, y)); }
+        { if (ranch) { ranch.Replan(); ranch.Show(visible); return; }
+            for (var y = -1; y <= 1; y++) for (var x = -1; x <= 1; x++) RefreshCell(p + new Vector2Int(x, y)); }
         public void RefreshCell(Vector2Int p)
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
+            if (ranch) return;
             if ((dome || coast) && map.TryTerrain(p, out var domeCell))
             {
                 if (domeCell.blocked && visible.Contains(p))
@@ -138,6 +150,7 @@ namespace ANIMOL.Puzzle
             var next = new RectInt(min, Vector2Int.Max(Vector2Int.zero, max - min));
             if (!force && next == visible) return;
             var previous = visible; visible = next;
+            if (ranch) ranch.Show(visible);
             if (island) for (var y = previous.yMin; y < previous.yMax; y++) for (var x = previous.xMin; x < previous.xMax; x++)
                 if (!visible.Contains(new Vector2Int(x, y))) island.ClearCell(new Vector2Int(x, y));
             foreach (var p in tiles.Keys.Where(p => !visible.Contains(p)).ToArray()) { Remove(tiles[p]); tiles.Remove(p); }

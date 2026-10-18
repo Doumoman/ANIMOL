@@ -423,6 +423,7 @@ namespace ANIMOL.Menu
         public void SetReducedMotion(bool value)
         {
             reducedMotion = value;
+            ANIMOL.Puzzle.StarwayRanchMotionSettings.ReducedMotion = value;
             if (value)
             {
                 CompleteTransition();

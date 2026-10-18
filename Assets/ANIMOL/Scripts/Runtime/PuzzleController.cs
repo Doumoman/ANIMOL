@@ -74,6 +74,11 @@ namespace ANIMOL.Puzzle
         }
         void Background()
         {
+            if (RuntimeMap.theme.starwayRanch)
+            {
+                StarwayRanchBackground.Create(presentation, FollowCamera.GetComponent<Camera>(), RuntimeMap.theme.starwayRanch);
+                return;
+            }
             var backdrop = new GameObject("Fixed portrait background").AddComponent<PuzzleBackdrop>(); backdrop.transform.SetParent(presentation, false);
             backdrop.Configure(RuntimeMap.theme, FollowCamera.GetComponent<Camera>(), RuntimeMap.cameraSettings);
         }
