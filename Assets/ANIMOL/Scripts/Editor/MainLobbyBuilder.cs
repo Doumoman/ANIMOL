@@ -27,7 +27,7 @@ namespace ANIMOL.Menu.Editor
         static Font font;
 
         static readonly string[] ThemeIds = { "starway", "theater", "observatory", "sea" };
-        static readonly string[] ThemeNames = { "별길 목장", "잔영 극장", "낙일 성소", "황혼의 바다" };
+        static readonly string[] ThemeNames = { "별길 목장", "잔영 극장", "낙일 성소", "별너울 해안" };
         static readonly string[] CatalogPaths = {
             "Assets/ANIMOL/Data/Art/StarwayCharacters.asset",
             "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset",
@@ -104,10 +104,6 @@ namespace ANIMOL.Menu.Editor
         static void ConfigureTextures()
         {
             foreach (var theme in ThemeIds) Configure(Art + "/Backgrounds/" + theme + ".png", false);
-            for (var t = 0; t < CharacterIds.Length; t++)
-                if (t != 0 && t != 1 && t != 2)
-                    foreach (var id in CharacterIds[t]) Configure(Art + "/Illustrations/" + id + ".png", true);
-            Configure(Art + "/Illustrations/edenpuppy.png", true);
         }
 
         static void Configure(string path, bool illustration)
@@ -159,8 +155,9 @@ namespace ANIMOL.Menu.Editor
                 if (!game || game.characters.Length != CharacterIds[t].Length) throw new InvalidDataException("Invalid active game character catalog: " + CatalogPaths[t]);
                 var theme = new MainMenuTheme {
                     id = ThemeIds[t], displayName = ThemeNames[t], gameCharacters = game,
-                    resourceId = t == 1 ? "afterimage_theater" : null,
-                    resourceAliases = t == 1 ? new[] { "memory_theater" } : Array.Empty<string>(),
+                    resourceId = t == 1 ? "afterimage_theater" : t == 3 ? "starwave_coast" : null,
+                    resourceAliases = t == 1 ? new[] { "memory_theater" } :
+                        t == 3 ? new[] { "twilight_sea" } : Array.Empty<string>(),
                     scenery = AssetDatabase.LoadAssetAtPath<Sprite>(Art + "/Backgrounds/" + ThemeIds[t] + ".png"),
                     people = new MainMenuPerson[CharacterIds[t].Length]
                 };
@@ -171,13 +168,15 @@ namespace ANIMOL.Menu.Editor
                     var person = new MainMenuPerson { characterId = id };
                     var twoCostumes = id == "eden";
                     person.appearances = new MainMenuAppearance[twoCostumes ? 2 : 1];
-                    person.appearances[0] = t == 0 || t == 1 || t == 2
-                        ? new MainMenuAppearance { artId = id, costumeId = "default", illustration = game.Find(id).illustration }
+                    person.appearances[0] = t == 0 || t == 1 || t == 2 || t == 3
+                        ? new MainMenuAppearance { artId = id, costumeId = twoCostumes ? "rabbit" : "default",
+                            illustration = game.Find(id).illustration }
                         : Appearance(id, twoCostumes ? "rabbit" : "default");
                     if (twoCostumes)
                     {
                         if (!game.Find(id).HasCostume("puppy")) throw new InvalidDataException("Eden puppy costume is missing in game catalog.");
-                        person.appearances[1] = Appearance("edenpuppy", "puppy");
+                        person.appearances[1] = new MainMenuAppearance { artId = "edenpuppy", costumeId = "puppy",
+                            illustration = game.Find("eden").IllustrationFor("puppy") };
                     }
                     theme.people[i] = person;
                 }

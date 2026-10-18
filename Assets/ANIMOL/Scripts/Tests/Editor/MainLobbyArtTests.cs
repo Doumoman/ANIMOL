@@ -46,6 +46,9 @@ namespace ANIMOL.Menu.Tests
             Assert.That(catalog.FindThemeByResourceId("afterimage_theater"), Is.SameAs(catalog.themes[1]));
             Assert.That(catalog.FindThemeByResourceId("memory_theater"), Is.SameAs(catalog.themes[1]));
             Assert.That(catalog.themes[2].displayName, Is.EqualTo("낙일 성소"));
+            Assert.That(catalog.themes[3].displayName, Is.EqualTo("별너울 해안"));
+            Assert.That(catalog.FindThemeByResourceId("starwave_coast"), Is.SameAs(catalog.themes[3]));
+            Assert.That(catalog.FindThemeByResourceId("twilight_sea"), Is.SameAs(catalog.themes[3]));
             Assert.That(catalog.requiredStageIds, Is.Empty, "No authoritative campaign required-stage policy is present");
         }
 
@@ -62,6 +65,8 @@ namespace ANIMOL.Menu.Tests
                                     ? new Vector2(1241, 1268)
                                     : theme.id == "theater" && (person.characterId == "seri" || person.characterId == "piko")
                                         ? new Vector2(1199, 1312)
+                                : theme.id == "sea" && person.characterId == "haerin"
+                                    ? new Vector2(1069, 1471)
                                 : theme.id == "starway" && person.characterId == "yeoul"
                                     ? new Vector2(1145, 1374) : new Vector2(1024, 1536));
             foreach (var sprite in catalog.themes.Select(t => t.scenery))

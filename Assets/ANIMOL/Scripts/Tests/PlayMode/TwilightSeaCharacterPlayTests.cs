@@ -16,7 +16,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class TwilightSeaCharacterPlayTests
     {
-        const string Portrait = "Docs/Validation/TwilightSeaCharacters160_v5/Portrait";
+        const string Portrait = "Docs/Validation/StarwaveCoastNative/Portrait";
         const string PrototypeScene = "Assets/ANIMOL/Scenes/Prototype/ANIMOL_twilight_sea_Prototype.unity";
         const string CoastScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity";
 
@@ -40,7 +40,7 @@ namespace ANIMOL.Presentation.Tests
                 .FirstOrDefault(type => type != null);
             Assert.That(setup, Is.Not.Null);
             setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public)
-                .Invoke(null, new object[] { 1080, 1920, "Twilight Sea character art QA" });
+                .Invoke(null, new object[] { 1080, 1920, "Starwave Coast character art QA" });
         }
 
         [UnityTest] public IEnumerator FiveAppearancesAllDirectionsAndStatesPlayOnActualPrototypeVisual()
