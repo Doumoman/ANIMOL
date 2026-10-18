@@ -2,27 +2,30 @@ using System;
 using System.IO;
 using ANIMOL.Presentation;
 using ANIMOL.Puzzle;
+using ANIMOL.Menu;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Animol.Art.Starway160
+namespace Animol.Art.StarwayNative
 {
     public static class StarwayCharacterBuilder
     {
-        const string Root = "Assets/ANIMOL/Art/StarwayCharacters160";
+        const string Root = "Assets/ANIMOL/Art/StarwayCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/StarwayCharacters.asset";
+        const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity";
         static readonly string[] Ids = { "choa", "uram", "yeoul", "tori" };
-        static readonly string[] Names = { "초아", "우람", "여울", "토리" };
+        static readonly string[] Names = { "초아", "이솔", "여울", "토리" };
 
         [MenuItem("ANIMOL/Art/Connect Starway Characters")]
         public static void Build()
         {
-            var manifest = JsonUtility.FromJson<AnimolStarway160Importer.Manifest>(
-                File.ReadAllText(Root + "/starway_animations.json"));
-            if (manifest.version != 6 || manifest.clips == null || manifest.clips.Length != 60)
-                throw new InvalidDataException("Starway character manifest must be v6 with 60 clips.");
+            var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
+                File.ReadAllText(Root + "/starway_native_animations.json"));
+            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 360 ||
+                manifest.clips == null || manifest.clips.Length != 60)
+                throw new InvalidDataException("Starway native manifest must have 360 frames and 60 clips.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
             {
@@ -35,8 +38,9 @@ namespace Animol.Art.Starway160
             {
                 var id = Ids[i];
                 var entry = new StarwayCharacterDefinition { id = id, displayName = Names[i] };
-                entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(
-                    Root + "/Illustrations/animol_starway_" + id + "_illustration.png");
+                var illustrationPath = Root + "/Illustrations/animol_starway_" + id + "_illustration.png";
+                ConfigureIllustration(illustrationPath);
+                entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(illustrationPath);
                 if (!entry.illustration) throw new InvalidDataException("Missing illustration: " + id);
                 var index = 0;
                 foreach (var data in manifest.clips)
@@ -71,12 +75,60 @@ namespace Animol.Art.Starway160
                     "Assets/ANIMOL/Sprites/Player/rabbit/Frames/spr_player_rabbit_idle_s.png");
                 EditorUtility.SetDirty(theme);
             }
+            ConnectMainMenu(catalog);
             AssetDatabase.SaveAssets();
-            BuildQaScene(catalog);
-            Debug.Log("ANIMOL Starway v6: connected four characters, 60 clips, four illustrations, and both playable Starway theme assets.");
+            Debug.Log("ANIMOL Starway native: connected four characters, 60 clips, and four illustrations; uram save ID displays as 이솔.");
         }
 
         public static void BuildBatch() => Build();
+
+        static void ConnectMainMenu(StarwayCharacterCatalog catalog)
+        {
+            var menu = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(MenuPath);
+            if (!menu || menu.themes == null || menu.themes.Length < 1 || menu.themes[0].id != "starway")
+                throw new InvalidDataException("Missing existing Starway lobby entry");
+            var entry = menu.themes[0];
+            entry.gameCharacters = catalog;
+            entry.people = new MainMenuPerson[Ids.Length];
+            for (var i = 0; i < Ids.Length; i++)
+            {
+                var id = Ids[i];
+                entry.people[i] = new MainMenuPerson {
+                    characterId = id,
+                    appearances = new[] { new MainMenuAppearance {
+                        artId = id, costumeId = "default", illustration = catalog.Find(id).illustration
+                    } }
+                };
+            }
+            EditorUtility.SetDirty(menu);
+        }
+
+        static void ConfigureIllustration(string path)
+        {
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (!importer) throw new FileNotFoundException("Missing illustration importer", path);
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
+            var settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            settings.spriteMeshType = SpriteMeshType.FullRect;
+            importer.SetTextureSettings(settings);
+            importer.filterMode = FilterMode.Bilinear;
+            importer.textureCompression = TextureImporterCompression.Uncompressed;
+            importer.crunchedCompression = false;
+            importer.mipmapEnabled = false;
+            importer.npotScale = TextureImporterNPOTScale.None;
+            importer.maxTextureSize = 2048;
+            var android = importer.GetPlatformTextureSettings("Android");
+            android.name = "Android";
+            android.overridden = true;
+            android.maxTextureSize = 2048;
+            android.format = TextureImporterFormat.RGBA32;
+            android.textureCompression = TextureImporterCompression.Uncompressed;
+            android.crunchedCompression = false;
+            importer.SetPlatformTextureSettings(android);
+            importer.SaveAndReimport();
+        }
 
         static void BuildQaScene(StarwayCharacterCatalog catalog)
         {

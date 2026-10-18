@@ -52,8 +52,11 @@ namespace ANIMOL.Menu.Tests
             foreach (var theme in catalog.themes)
                 foreach (var person in theme.people)
                     foreach (var appearance in person.appearances)
-                        Check(appearance.illustration, theme.id == "observatory" && person.characterId == "doyun"
-                            ? new Vector2(1199, 1312) : new Vector2(1024, 1536));
+                        Check(appearance.illustration,
+                            theme.id == "observatory" && person.characterId == "doyun"
+                                ? new Vector2(1199, 1312)
+                                : theme.id == "starway" && person.characterId == "yeoul"
+                                    ? new Vector2(1145, 1374) : new Vector2(1024, 1536));
             foreach (var sprite in catalog.themes.Select(t => t.scenery))
                 Check(sprite, new Vector2(1122, 1402));
             Assert.That(AssetDatabase.FindAssets("t:SpriteAtlas", new[] { Art }), Is.Empty);

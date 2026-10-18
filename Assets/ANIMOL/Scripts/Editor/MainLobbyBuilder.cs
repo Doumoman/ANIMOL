@@ -105,7 +105,7 @@ namespace ANIMOL.Menu.Editor
         {
             foreach (var theme in ThemeIds) Configure(Art + "/Backgrounds/" + theme + ".png", false);
             for (var t = 0; t < CharacterIds.Length; t++)
-                if (t != 2)
+                if (t != 0 && t != 2)
                     foreach (var id in CharacterIds[t]) Configure(Art + "/Illustrations/" + id + ".png", true);
             Configure(Art + "/Illustrations/edenpuppy.png", true);
         }
@@ -169,7 +169,7 @@ namespace ANIMOL.Menu.Editor
                     var person = new MainMenuPerson { characterId = id };
                     var twoCostumes = id == "eden";
                     person.appearances = new MainMenuAppearance[twoCostumes ? 2 : 1];
-                    person.appearances[0] = t == 2
+                    person.appearances[0] = t == 0 || t == 2
                         ? new MainMenuAppearance { artId = id, costumeId = "default", illustration = game.Find(id).illustration }
                         : Appearance(id, twoCostumes ? "rabbit" : "default");
                     if (twoCostumes)

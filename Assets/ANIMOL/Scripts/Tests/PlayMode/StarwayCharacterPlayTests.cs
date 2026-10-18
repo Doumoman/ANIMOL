@@ -18,7 +18,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public class StarwayCharacterPlayTests
     {
-        const string Portrait = "Docs/Validation/StarwayCharacters160/Portrait";
+        const string Portrait = "Docs/Validation/StarwayNative/Portrait";
 
         static void UsePortraitGameView()
         {
@@ -35,8 +35,12 @@ namespace ANIMOL.Presentation.Tests
 #if UNITY_EDITOR
             EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
-            yield return null;
-            var qa = Object.FindFirstObjectByType<StarwayCharacterQaController>();
+            StarwayCharacterQaController qa = null;
+            for (var attempt = 0; attempt < 60 && !qa; attempt++)
+            {
+                yield return null;
+                qa = Object.FindFirstObjectByType<StarwayCharacterQaController>();
+            }
             Assert.That(qa, Is.Not.Null);
             var visual = qa.character;
             Assert.That(visual.transform.name, Is.EqualTo("Visual"));
@@ -51,7 +55,9 @@ namespace ANIMOL.Presentation.Tests
                         Assert.That(visual.visual.sprite, Is.Not.Null);
                         Assert.That(visual.Illustration, Is.SameAs(entry.illustration));
                         var motion = entry.Motion(direction == "left" ? "side" : direction, state);
-                        Assert.That(visual.visual.sprite, Is.SameAs(motion.frames[0]));
+                        Assert.That(visual.visual.sprite, Is.SameAs(motion.frames[0]),
+                            "renderer=" + visual.visual.sprite.GetInstanceID() + " frame=" + motion.frames[0].GetInstanceID() +
+                            " sameCatalog=" + ReferenceEquals(qa.catalog, visual.catalog));
                         for (var frame = 1; frame < 6; frame++)
                         {
                             visual.Advance(1f / motion.fps + .0001f);
@@ -99,7 +105,7 @@ namespace ANIMOL.Presentation.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepV6Art()
+        [UnityTest] public IEnumerator ActualPuzzleSpawnSelectionAndSceneReloadKeepNativeArt()
         {
 #if UNITY_EDITOR
             UsePortraitGameView();
@@ -152,7 +158,9 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(prototype.CharacterVisual.characterId, Is.EqualTo("choa"));
             Assert.That(prototype.SelectStarwayCharacter("tori"), Is.True);
             Assert.That(prototype.CharacterVisual.visual.sprite,
-                Is.SameAs(prototype.RuntimeMap.theme.starwayCharacters.Find("tori").FirstFrame("front", "idle")));
+                Is.SameAs(prototype.RuntimeMap.theme.starwayCharacters.Find("tori").FirstFrame("front", "idle")),
+                "renderer=" + prototype.CharacterVisual.visual.sprite.GetInstanceID() +
+                " frame=" + prototype.RuntimeMap.theme.starwayCharacters.Find("tori").FirstFrame("front", "idle").GetInstanceID());
 #else
             Assert.Ignore("Requires Unity Editor scene loader."); yield break;
 #endif
