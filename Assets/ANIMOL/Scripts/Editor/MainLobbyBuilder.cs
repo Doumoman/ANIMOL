@@ -27,7 +27,7 @@ namespace ANIMOL.Menu.Editor
         static Font font;
 
         static readonly string[] ThemeIds = { "starway", "theater", "observatory", "sea" };
-        static readonly string[] ThemeNames = { "별길 목장", "기억 극장", "편지 천문대", "황혼의 바다" };
+        static readonly string[] ThemeNames = { "별길 목장", "기억 극장", "낙일 성소", "황혼의 바다" };
         static readonly string[] CatalogPaths = {
             "Assets/ANIMOL/Data/Art/StarwayCharacters.asset",
             "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset",
@@ -37,7 +37,7 @@ namespace ANIMOL.Menu.Editor
         static readonly string[][] CharacterIds = {
             new[] { "choa", "uram", "yeoul", "tori" },
             new[] { "seri", "roan", "mion", "piko" },
-            new[] { "sein", "daon", "lumi", "soyul" },
+            new[] { "sein", "daon", "lumi", "soyul", "doyun" },
             new[] { "haerin", "stranger", "danu", "eden" }
         };
 
@@ -104,8 +104,9 @@ namespace ANIMOL.Menu.Editor
         static void ConfigureTextures()
         {
             foreach (var theme in ThemeIds) Configure(Art + "/Backgrounds/" + theme + ".png", false);
-            foreach (var ids in CharacterIds)
-                foreach (var id in ids) Configure(Art + "/Illustrations/" + id + ".png", true);
+            for (var t = 0; t < CharacterIds.Length; t++)
+                if (t != 2)
+                    foreach (var id in CharacterIds[t]) Configure(Art + "/Illustrations/" + id + ".png", true);
             Configure(Art + "/Illustrations/edenpuppy.png", true);
         }
 
@@ -155,20 +156,22 @@ namespace ANIMOL.Menu.Editor
             for (var t = 0; t < 4; t++)
             {
                 var game = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPaths[t]);
-                if (!game || game.characters.Length != 4) throw new InvalidDataException("Invalid active game character catalog: " + CatalogPaths[t]);
+                if (!game || game.characters.Length != CharacterIds[t].Length) throw new InvalidDataException("Invalid active game character catalog: " + CatalogPaths[t]);
                 var theme = new MainMenuTheme {
                     id = ThemeIds[t], displayName = ThemeNames[t], gameCharacters = game,
                     scenery = AssetDatabase.LoadAssetAtPath<Sprite>(Art + "/Backgrounds/" + ThemeIds[t] + ".png"),
-                    people = new MainMenuPerson[4]
+                    people = new MainMenuPerson[CharacterIds[t].Length]
                 };
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i < CharacterIds[t].Length; i++)
                 {
                     var id = CharacterIds[t][i];
                     if (game.Find(id) == null) throw new InvalidDataException("Menu/game ID mismatch: " + id);
                     var person = new MainMenuPerson { characterId = id };
                     var twoCostumes = id == "eden";
                     person.appearances = new MainMenuAppearance[twoCostumes ? 2 : 1];
-                    person.appearances[0] = Appearance(id, twoCostumes ? "rabbit" : "default");
+                    person.appearances[0] = t == 2
+                        ? new MainMenuAppearance { artId = id, costumeId = "default", illustration = game.Find(id).illustration }
+                        : Appearance(id, twoCostumes ? "rabbit" : "default");
                     if (twoCostumes)
                     {
                         if (!game.Find(id).HasCostume("puppy")) throw new InvalidDataException("Eden puppy costume is missing in game catalog.");

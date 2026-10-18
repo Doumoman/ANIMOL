@@ -14,19 +14,20 @@ namespace ANIMOL.Menu.Tests
         const string Art = "Assets/ANIMOL/Sprites/UI/Main";
         const string Catalog = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
 
-        [Test] public void FourThemeCatalogKeepsSixteenGameIdsAndSeventeenMenuAppearances()
+        [Test] public void FourThemeCatalogKeepsFiveSunsetSanctumCharacters()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(Catalog);
             Assert.That(catalog, Is.Not.Null);
             Assert.That(Array.ConvertAll(catalog.themes, t => t.id), Is.EqualTo(new[] { "starway", "theater", "observatory", "sea" }));
             var people = catalog.themes.SelectMany(t => t.people).ToArray();
-            Assert.That(people.Length, Is.EqualTo(16));
-            Assert.That(people.SelectMany(p => p.appearances).Count(), Is.EqualTo(17));
+            Assert.That(people.Length, Is.EqualTo(17));
+            Assert.That(people.SelectMany(p => p.appearances).Count(), Is.EqualTo(18));
             Assert.That(people.Count(p => p.characterId == "eden"), Is.EqualTo(1));
-            Assert.That(people.Any(p => p.characterId == "doyun" || p.characterId == "edenpuppy"), Is.False);
+            Assert.That(people.Count(p => p.characterId == "doyun"), Is.EqualTo(1));
+            Assert.That(people.Any(p => p.characterId == "edenpuppy"), Is.False);
             foreach (var theme in catalog.themes)
             {
-                Assert.That(theme.people.Length, Is.EqualTo(4), theme.id);
+                Assert.That(theme.people.Length, Is.EqualTo(theme.id == "observatory" ? 5 : 4), theme.id);
                 Assert.That(theme.scenery, Is.Not.Null, theme.id);
                 Assert.That(theme.gameCharacters, Is.Not.Null, theme.id);
                 foreach (var person in theme.people)
@@ -40,14 +41,19 @@ namespace ANIMOL.Menu.Tests
             Assert.That(eden.appearances.Select(a => a.artId), Is.EqualTo(new[] { "eden", "edenpuppy" }));
             Assert.That(eden.appearances.Select(a => a.costumeId), Is.EqualTo(new[] { "rabbit", "puppy" }));
             Assert.That(catalog.FindPerson(2, "soyul"), Is.Not.Null);
+            Assert.That(catalog.FindPerson(2, "doyun"), Is.Not.Null);
+            Assert.That(catalog.themes[2].displayName, Is.EqualTo("낙일 성소"));
             Assert.That(catalog.requiredStageIds, Is.Empty, "No authoritative campaign required-stage policy is present");
         }
 
         [Test] public void FullResolutionMenuSpritesKeepOriginalPixelsAndAndroidEdges()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(Catalog);
-            foreach (var sprite in catalog.themes.SelectMany(t => t.people).SelectMany(p => p.appearances).Select(a => a.illustration))
-                Check(sprite, new Vector2(1024, 1536));
+            foreach (var theme in catalog.themes)
+                foreach (var person in theme.people)
+                    foreach (var appearance in person.appearances)
+                        Check(appearance.illustration, theme.id == "observatory" && person.characterId == "doyun"
+                            ? new Vector2(1199, 1312) : new Vector2(1024, 1536));
             foreach (var sprite in catalog.themes.Select(t => t.scenery))
                 Check(sprite, new Vector2(1122, 1402));
             Assert.That(AssetDatabase.FindAssets("t:SpriteAtlas", new[] { Art }), Is.Empty);

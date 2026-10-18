@@ -64,7 +64,7 @@ namespace ANIMOL.Menu.Tests
             yield return null;
         }
 
-        [UnityTest] public IEnumerator AllSeventeenAppearancesRenderAtPortraitAndSceneryCoversEveryMotionEnd()
+        [UnityTest] public IEnumerator AllEighteenAppearancesRenderAtPortraitAndSceneryCoversEveryMotionEnd()
         {
 #if UNITY_EDITOR
             UseGameView(1080, 1920);
@@ -107,7 +107,7 @@ namespace ANIMOL.Menu.Tests
                         yield return new WaitForSecondsRealtime(.15f);
                         count++;
                     }
-            Assert.That(count, Is.EqualTo(17));
+            Assert.That(count, Is.EqualTo(18));
             UseGameView(1440, 900);
             yield return null;
             yield return null;

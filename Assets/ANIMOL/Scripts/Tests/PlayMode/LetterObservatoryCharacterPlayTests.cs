@@ -17,7 +17,7 @@ namespace ANIMOL.Presentation.Tests
     public class LetterObservatoryCharacterPlayTests
     {
         const string Scene = "Assets/ANIMOL/Scenes/Prototype/ANIMOL_letter_observatory_Prototype.unity";
-        const string Portrait = "Docs/Validation/LetterObservatoryCharacters160_v2/Portrait";
+        const string Portrait = "Docs/Validation/SunsetSanctumNative/Portrait";
 
         [UnityTearDown] public IEnumerator LeaveEmptySceneForOtherPlayTests()
         {
@@ -39,15 +39,18 @@ namespace ANIMOL.Presentation.Tests
                 .FirstOrDefault(type => type != null);
             Assert.That(setup, Is.Not.Null);
             setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public)
-                .Invoke(null, new object[] { 1080, 1920, "Letter Observatory character art QA" });
+                .Invoke(null, new object[] { 1080, 1920, "Sunset Sanctum character art QA" });
         }
 
-        [UnityTest] public IEnumerator FourCharactersAllDirectionsAndStatesPlayOnPrototypeVisual()
+        [UnityTest] public IEnumerator FiveCharactersAllDirectionsAndStatesPlayOnPrototypeVisual()
         {
             EditorSceneManager.LoadSceneInPlayMode(Scene, new LoadSceneParameters(LoadSceneMode.Single));
-            yield return null;
-            yield return null;
-            var prototype = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            PuzzlePrototypeController prototype = null;
+            for (var attempt = 0; attempt < 60 && !prototype; attempt++)
+            {
+                yield return null;
+                prototype = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            }
             Assert.That(prototype, Is.Not.Null);
             var visual = prototype.CharacterVisual;
             Assert.That(visual, Is.Not.Null);
@@ -60,6 +63,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(visual.transform.parent.localScale, Is.EqualTo(Vector3.one));
             var catalog = prototype.RuntimeMap.theme.letterObservatoryCharacters;
             Assert.That(catalog, Is.Not.Null);
+            Assert.That(catalog.characters.Length, Is.EqualTo(5));
             foreach (var entry in catalog.characters)
             {
                 Assert.That(prototype.SelectLetterObservatoryCharacter(entry.id), Is.True);
@@ -130,7 +134,11 @@ namespace ANIMOL.Presentation.Tests
                     .FirstFrame("front", "idle")));
             Assert.That(prototype.CharacterVisual.Illustration,
                 Is.SameAs(prototype.RuntimeMap.theme.letterObservatoryCharacters.Find("soyul").illustration));
-            Assert.That(prototype.SelectLetterObservatoryCharacter("doyun"), Is.False);
+            Assert.That(prototype.SelectLetterObservatoryCharacter("doyun"), Is.True);
+            Assert.That(prototype.CharacterVisual.characterId, Is.EqualTo("doyun"));
+            Assert.That(prototype.CharacterVisual.Illustration,
+                Is.SameAs(prototype.RuntimeMap.theme.letterObservatoryCharacters.Find("doyun").illustration));
+            Assert.That(prototype.SelectLetterObservatoryCharacter("soyul"), Is.True);
             Assert.That(prototype.CharacterVisual.characterId, Is.EqualTo("soyul"));
             EditorSceneManager.LoadSceneInPlayMode(Scene, new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
