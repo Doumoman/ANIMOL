@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
   title: twilight_sea prototype
   themeId: twilight_sea
-  verificationRoute: EEEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNESEENEEENNNNNNWWWWWWNNESEEEEEN
+  verificationRoute: EEEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNESEEEEENNNNNNNWWWWWWNNESEENEEENNNNNNWWWWWWNNESEEEENNNNNNWWWWWWNNEEEE
   beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
   devices:
   - id: 0_spikes
@@ -32,13 +32,13 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_boat
+  - id: 1_belt1
     variant: 
     group: 1_
     artTheme: twilight_sea
-    visualPrefab: {fileID: 8155362904785189278, guid: e12f60e255e1579448680175d3713248, type: 3}
+    visualPrefab: {fileID: 5982326769492457668, guid: 57df3d04be7ca6e4d909ac27e3f09d53, type: 3}
     initialVisual: 
-    role: 11
+    role: 7
     position: {x: 2, y: 10}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
@@ -47,14 +47,89 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_bomb
+  - id: 1_belt2
+    variant: 
+    group: 1_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 5982326769492457668, guid: 57df3d04be7ca6e4d909ac27e3f09d53, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 10}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 2_gate
     variant: 
     group: 2_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 363080225974697917, guid: 7a29573cf5d098b45980abf32f2e6b2c, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 3, y: 18}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_boat
+    variant: 
+    group: 3_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 8155362904785189278, guid: e12f60e255e1579448680175d3713248, type: 3}
+    initialVisual: 
+    role: 11
+    position: {x: 2, y: 26}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_barrel
+    variant: 
+    group: 4_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 6032176656808242186, guid: b91b54307513f0048ad49a0a125ae2a7, type: 3}
+    initialVisual: 
+    role: 12
+    position: {x: 2, y: 34}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_stopper
+    variant: 
+    group: 4_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 1949040054542601564, guid: 29096951e1fb1904b99e36d34c4f298f, type: 3}
+    initialVisual: static
+    role: 100
+    position: {x: 6, y: 34}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_bomb
+    variant: 
+    group: 5_
     artTheme: twilight_sea
     visualPrefab: {fileID: 1532082625805875982, guid: 054789594866b3145ba118a4784411a7, type: 3}
     initialVisual: 
     role: 15
-    position: {x: 2, y: 18}
+    position: {x: 2, y: 42}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -64,14 +139,14 @@ MonoBehaviour:
     blastOffsets:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
-  - id: 2_cracked
+  - id: 5_cracked
     variant: 
-    group: 2_
+    group: 5_
     artTheme: twilight_sea
     visualPrefab: {fileID: 5152984220031607009, guid: 555b9223cea31b544aa6e568d03cfce6, type: 3}
     initialVisual: static
     role: 101
-    position: {x: 4, y: 18}
+    position: {x: 4, y: 42}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -79,14 +154,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 3_barrel
+  - id: 6_belt
     variant: 
-    group: 3_
+    group: 6_
     artTheme: twilight_sea
-    visualPrefab: {fileID: 6032176656808242186, guid: b91b54307513f0048ad49a0a125ae2a7, type: 3}
+    visualPrefab: {fileID: 5982326769492457668, guid: 57df3d04be7ca6e4d909ac27e3f09d53, type: 3}
     initialVisual: 
-    role: 12
-    position: {x: 2, y: 26}
+    role: 7
+    position: {x: 2, y: 50}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -94,14 +169,74 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 3_stopper
+  - id: 6_bounce
     variant: 
-    group: 3_
+    group: 6_
     artTheme: twilight_sea
-    visualPrefab: {fileID: 1949040054542601564, guid: 29096951e1fb1904b99e36d34c4f298f, type: 3}
-    initialVisual: static
-    role: 100
-    position: {x: 6, y: 26}
+    visualPrefab: {fileID: 6796340674026389125, guid: aa6101e548937d9458fd3ea7061f38e2, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 3, y: 50}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 2
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_brake
+    variant: 
+    group: 6_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 169708038610867640, guid: 9b13f99d5d7e2f547998738b01956f7c, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 3, y: 51}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_belt1
+    variant: 
+    group: 7_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 5982326769492457668, guid: 57df3d04be7ca6e4d909ac27e3f09d53, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_belt2
+    variant: 
+    group: 7_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 5982326769492457668, guid: 57df3d04be7ca6e4d909ac27e3f09d53, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_brake
+    variant: 
+    group: 7_
+    artTheme: twilight_sea
+    visualPrefab: {fileID: 169708038610867640, guid: 9b13f99d5d7e2f547998738b01956f7c, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 4, y: 58}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -110,20 +245,20 @@ MonoBehaviour:
     cells: []
     blastOffsets: []
   water:
-  - {x: 2, y: 10}
-  - {x: 3, y: 10}
-  - {x: 4, y: 10}
-  - {x: 5, y: 10}
+  - {x: 2, y: 26}
+  - {x: 3, y: 26}
+  - {x: 4, y: 26}
+  - {x: 5, y: 26}
   goals:
-  - deviceId: 2_cracked
-    kind: 1
-    cell: {x: 0, y: 16}
-    number: 0
-  - deviceId: 3_barrel
+  - deviceId: 4_barrel
     kind: 2
-    cell: {x: 5, y: 26}
+    cell: {x: 5, y: 34}
     number: 0
-  costLimit: 78
+  - deviceId: 5_cracked
+    kind: 1
+    cell: {x: 0, y: 40}
+    number: 0
+  costLimit: 0
   holdOccupiedBridge: 1
   shutterPhaseAdvancesWhenOccupied: 1
   leapSkipsIntermediate: 1

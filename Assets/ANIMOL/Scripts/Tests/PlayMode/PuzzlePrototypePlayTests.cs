@@ -58,7 +58,28 @@ namespace ANIMOL.Tests
             Assert.That(controller.Session.PortalCuts,Is.EqualTo(1));Assert.That(controller.Session.Direction,Is.EqualTo(Vector2Int.right));Assert.That(controller.Session.Won,Is.True);
             Object.Destroy(map);Object.Destroy(scenario);
         }
-        IEnumerator WaitIdle(){var deadline=Time.realtimeSinceStartup+5;while(controller.IsMoving&&Time.realtimeSinceStartup<deadline)yield return null;Assert.That(controller.IsMoving,Is.False);}
+        IEnumerator WaitIdle(){var deadline=Time.realtimeSinceStartup+15;while(controller.IsMoving&&Time.realtimeSinceStartup<deadline)yield return null;Assert.That(controller.IsMoving,Is.False,controller.stage.name+" at "+controller.Session.Cell);}
+    }
+    public sealed class PuzzlePrototypeScenePlayTests
+    {
+        [UnityTest] public IEnumerator EachThemedPrototypeSceneStartsWithEveryDeviceBound()
+        {
+            var names=new[]{"starway","memory_theater","letter_observatory","twilight_sea"};
+            var expected=new[]{8,11,9,8};
+            for(var i=0;i<names.Length;i++)
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(
+                    "Assets/ANIMOL/Scenes/Prototype/ANIMOL_"+names[i]+"_Prototype.unity",
+                    new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+                yield return null;yield return null;
+                var game=Object.FindFirstObjectByType<PuzzlePrototypeController>();
+                Assert.That(game,Is.Not.Null,names[i]);
+                Assert.That(game.Session,Is.Not.Null,names[i]);
+                Assert.That(game.stage.name,Is.EqualTo(names[i]));
+                Assert.That(game.Session.Devices.Select(d=>d.id.Split('_')[0]).Distinct().Count(),Is.EqualTo(expected[i]),names[i]);
+                Assert.That(game.Devices.MissingBindings,Is.Zero,names[i]);
+            }
+        }
     }
 }
 #endif

@@ -27,6 +27,25 @@ namespace ANIMOL.Tests
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
                 Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
         }
+        [Test] public void ThemedStagesExposeEveryDeviceFamilyWithBoundArt()
+        {
+            var expected = new Dictionary<string, int[]> {
+                { "starway", new[] { 1, 2, 7, 9, 18, 19, 20, 24 } },
+                { "memory_theater", new[] { 4, 6, 7, 8, 9, 13, 17, 18, 19, 22, 23 } },
+                { "letter_observatory", new[] { 3, 7, 9, 10, 14, 16, 18, 19, 21 } },
+                { "twilight_sea", new[] { 5, 7, 9, 11, 12, 15, 18, 19 } }
+            };
+            foreach(var pair in expected)
+            {
+                var map=AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+pair.Key+".asset");
+                Assert.That(map.scenario.themeId,Is.EqualTo(pair.Key));
+                Assert.That(map.scenario.costLimit,Is.Zero,pair.Key);
+                Assert.That(pair.Value,Is.SubsetOf(map.scenario.devices.Select(d=>(int)d.role).Distinct()),pair.Key);
+                Assert.That(map.Height,Is.EqualTo(pair.Value.Length*8-1),pair.Key);
+                Assert.That(map.scenario.devices.All(d=>d.visualPrefab && map.Contains(d.position)),Is.True,pair.Key);
+                Assert.That(map.ValidateMap(),Is.Empty,pair.Key);
+            }
+        }
         [Test] public void EveryLogicalStateAndCommittedClipHasAnExistingArtBinding()
         {
             foreach(var map in AssetDatabase.FindAssets("t:PuzzleMap",new[]{PuzzlePrototypeBuilder.Root}).Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<PuzzleMap>))

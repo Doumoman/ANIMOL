@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
   title: starway prototype
   themeId: starway
-  verificationRoute: EEEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNEEEEEE
+  verificationRoute: EEEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNESEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNEEEEEE
   beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
   devices:
   - id: 0_stone
@@ -77,14 +77,209 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_chick
+  - id: 2_belt1
     variant: 
     group: 2_
+    artTheme: starway
+    visualPrefab: {fileID: 3075119336716363516, guid: ee12c3686cffae0479e42522438bd462, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 18}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 2_belt2
+    variant: 
+    group: 2_
+    artTheme: starway
+    visualPrefab: {fileID: 3075119336716363516, guid: ee12c3686cffae0479e42522438bd462, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 18}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_gate
+    variant: 
+    group: 3_
+    artTheme: starway
+    visualPrefab: {fileID: 5943879363428297570, guid: a380e5d781a6c134081dbb30995b852a, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 3, y: 26}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_belt
+    variant: 
+    group: 4_
+    artTheme: starway
+    visualPrefab: {fileID: 3075119336716363516, guid: ee12c3686cffae0479e42522438bd462, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 34}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_bounce
+    variant: 
+    group: 4_
+    artTheme: starway
+    visualPrefab: {fileID: 5839635066758548250, guid: f1439d650446a654f81dac128d56173c, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 3, y: 34}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 2
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_brake
+    variant: 
+    group: 4_
+    artTheme: starway
+    visualPrefab: {fileID: 4050078667193562565, guid: 595127b96330de942a66ef513d692b69, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 3, y: 35}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_belt1
+    variant: 
+    group: 5_
+    artTheme: starway
+    visualPrefab: {fileID: 3075119336716363516, guid: ee12c3686cffae0479e42522438bd462, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_belt2
+    variant: 
+    group: 5_
+    artTheme: starway
+    visualPrefab: {fileID: 3075119336716363516, guid: ee12c3686cffae0479e42522438bd462, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_brake
+    variant: 
+    group: 5_
+    artTheme: starway
+    visualPrefab: {fileID: 4050078667193562565, guid: 595127b96330de942a66ef513d692b69, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 4, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_wind1
+    variant: field
+    group: 6_
+    artTheme: starway
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: 
+    role: 20
+    position: {x: 2, y: 50}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_wind2
+    variant: field
+    group: 6_
+    artTheme: starway
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: 
+    role: 20
+    position: {x: 3, y: 50}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_blower
+    variant: blower
+    group: 6_
+    artTheme: starway
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: 
+    role: 20
+    position: {x: 1, y: 52}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_metal
+    variant: 
+    group: 6_
+    artTheme: starway
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: metal_crate
+    role: 103
+    position: {x: 4, y: 52}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_chick
+    variant: 
+    group: 7_
     artTheme: starway
     visualPrefab: {fileID: 324627296508315373, guid: 96b1f0a4c69426b49a77dd57da051c8c, type: 3}
     initialVisual: 
     role: 24
-    position: {x: 1, y: 19}
+    position: {x: 1, y: 59}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -98,11 +293,11 @@ MonoBehaviour:
     kind: 0
     cell: {x: 0, y: 0}
     number: 0
-  - deviceId: 2_chick
+  - deviceId: 7_chick
     kind: 2
-    cell: {x: 5, y: 18}
+    cell: {x: 5, y: 58}
     number: 0
-  costLimit: 54
+  costLimit: 0
   holdOccupiedBridge: 1
   shutterPhaseAdvancesWhenOccupied: 1
   leapSkipsIntermediate: 1

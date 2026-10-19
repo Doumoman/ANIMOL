@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
   title: letter_observatory prototype
   themeId: letter_observatory
-  verificationRoute: EEENNNNNNWWWWWWNNENENESSEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNE
+  verificationRoute: EEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNENENESSEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNENNNNNNWWWWWWNNESEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNESEEEEEN
   beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
   devices:
   - id: 0_leap
@@ -32,14 +32,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_source
-    variant: source
+  - id: 1_belt1
+    variant: 
     group: 1_
     artTheme: letter_observatory
-    visualPrefab: {fileID: 3731263424038444035, guid: a04bac434be990e41a728e89999f8591, type: 3}
+    visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
     initialVisual: 
-    role: 10
-    position: {x: 1, y: 12}
+    role: 7
+    position: {x: 2, y: 10}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -47,14 +47,59 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_mirror
-    variant: mirror
+  - id: 1_belt2
+    variant: 
     group: 1_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 10}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 2_gate
+    variant: 
+    group: 2_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 8282199853557697759, guid: 553bafbbfdb8df94d91cea5b6f38ecb0, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 3, y: 18}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_source
+    variant: source
+    group: 3_
     artTheme: letter_observatory
     visualPrefab: {fileID: 3731263424038444035, guid: a04bac434be990e41a728e89999f8591, type: 3}
     initialVisual: 
     role: 10
-    position: {x: 4, y: 12}
+    position: {x: 1, y: 28}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_mirror
+    variant: mirror
+    group: 3_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 3731263424038444035, guid: a04bac434be990e41a728e89999f8591, type: 3}
+    initialVisual: 
+    role: 10
+    position: {x: 4, y: 28}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 1
@@ -62,14 +107,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_sensor
+  - id: 3_sensor
     variant: sensor
-    group: 1_light
+    group: 3_light
     artTheme: letter_observatory
     visualPrefab: {fileID: 3731263424038444035, guid: a04bac434be990e41a728e89999f8591, type: 3}
     initialVisual: 
     role: 10
-    position: {x: 4, y: 13}
+    position: {x: 4, y: 29}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -77,14 +122,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_lightgate
+  - id: 3_lightgate
     variant: gate
-    group: 1_light
+    group: 3_light
     artTheme: letter_observatory
     visualPrefab: {fileID: 3731263424038444035, guid: a04bac434be990e41a728e89999f8591, type: 3}
     initialVisual: 
     role: 10
-    position: {x: 5, y: 10}
+    position: {x: 5, y: 26}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -92,14 +137,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_glass
+  - id: 3_glass
     variant: square
-    group: 1_
+    group: 3_
     artTheme: letter_observatory
     visualPrefab: {fileID: 8975373409925656249, guid: 87374cff7374517429d13892761189d0, type: 3}
     initialVisual: 
     role: 21
-    position: {x: 2, y: 12}
+    position: {x: 2, y: 28}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -107,14 +152,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_magnet
+  - id: 4_magnet
     variant: 
-    group: 2_magnet
+    group: 4_magnet
     artTheme: letter_observatory
     visualPrefab: {fileID: 3812082632807782104, guid: b2e30079c3e16f148aad7d2313201d4c, type: 3}
     initialVisual: 
     role: 14
-    position: {x: 6, y: 20}
+    position: {x: 6, y: 36}
     direction: {x: -1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -122,14 +167,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_switch
+  - id: 4_switch
     variant: switch
-    group: 2_magnet
+    group: 4_magnet
     artTheme: letter_observatory
     visualPrefab: {fileID: 3812082632807782104, guid: b2e30079c3e16f148aad7d2313201d4c, type: 3}
     initialVisual: 
     role: 14
-    position: {x: 2, y: 18}
+    position: {x: 2, y: 34}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -137,14 +182,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_metal
+  - id: 4_metal
     variant: 
-    group: 2_
+    group: 4_
     artTheme: letter_observatory
     visualPrefab: {fileID: 3812082632807782104, guid: b2e30079c3e16f148aad7d2313201d4c, type: 3}
     initialVisual: metal_crate
     role: 103
-    position: {x: 2, y: 20}
+    position: {x: 2, y: 36}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -152,14 +197,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_wood
+  - id: 4_wood
     variant: 
-    group: 2_
+    group: 4_
     artTheme: letter_observatory
     visualPrefab: {fileID: 2746378434069406445, guid: 01f99eae90c8edd4aa2d803c703a33b2, type: 3}
     initialVisual: static
     role: 102
-    position: {x: 2, y: 21}
+    position: {x: 2, y: 37}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -167,14 +212,14 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 3_belt
+  - id: 5_belt
     variant: 
-    group: 3_
+    group: 5_
     artTheme: letter_observatory
     visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
     initialVisual: 
     role: 7
-    position: {x: 2, y: 26}
+    position: {x: 2, y: 42}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -182,31 +227,136 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 3_portalA
+  - id: 5_portalA
     variant: a
-    group: 3_
+    group: 5_
     artTheme: letter_observatory
     visualPrefab: {fileID: 8993837075548714853, guid: 3ae5fafce5b74aa44b0f8b2b7c0dd684, type: 3}
     initialVisual: 
     role: 16
-    position: {x: 3, y: 26}
+    position: {x: 3, y: 42}
     direction: {x: 1, y: 0}
-    target: {x: 6, y: 26}
+    target: {x: 6, y: 42}
     orientation: 0
     number: 1
     active: 0
     cells: []
     blastOffsets: []
-  - id: 3_portalB
+  - id: 5_portalB
     variant: b
-    group: 3_
+    group: 5_
     artTheme: letter_observatory
     visualPrefab: {fileID: 8993837075548714853, guid: 3ae5fafce5b74aa44b0f8b2b7c0dd684, type: 3}
     initialVisual: 
     role: 16
-    position: {x: 6, y: 26}
+    position: {x: 6, y: 42}
     direction: {x: 1, y: 0}
-    target: {x: 3, y: 26}
+    target: {x: 3, y: 42}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_belt
+    variant: 
+    group: 6_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 50}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_bounce
+    variant: 
+    group: 6_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 6454853182602673939, guid: bdb91ec3944e684429dfeffa8cacbbcd, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 3, y: 50}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 2
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_brake
+    variant: 
+    group: 6_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7383355767506522614, guid: bff9e03801d82d543afb2c4252970939, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 3, y: 51}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_belt1
+    variant: 
+    group: 7_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_belt2
+    variant: 
+    group: 7_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7656980327538062211, guid: 99d362350999a1f47a084b3e9a9a93f4, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_brake
+    variant: 
+    group: 7_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 7383355767506522614, guid: bff9e03801d82d543afb2c4252970939, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 4, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 8_glass
+    variant: square
+    group: 8_
+    artTheme: letter_observatory
+    visualPrefab: {fileID: 8975373409925656249, guid: 87374cff7374517429d13892761189d0, type: 3}
+    initialVisual: 
+    role: 21
+    position: {x: 3, y: 66}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
     orientation: 0
     number: 1
     active: 0
@@ -214,15 +364,15 @@ MonoBehaviour:
     blastOffsets: []
   water: []
   goals:
-  - deviceId: 1_sensor
+  - deviceId: 3_sensor
     kind: 0
-    cell: {x: 0, y: 8}
+    cell: {x: 0, y: 24}
     number: 0
-  - deviceId: 2_metal
+  - deviceId: 4_metal
     kind: 2
-    cell: {x: 5, y: 20}
+    cell: {x: 5, y: 36}
     number: 0
-  costLimit: 71
+  costLimit: 0
   holdOccupiedBridge: 1
   shutterPhaseAdvancesWhenOccupied: 1
   leapSkipsIntermediate: 1

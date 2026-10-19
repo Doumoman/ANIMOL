@@ -16,6 +16,14 @@ namespace ANIMOL.Presentation.Editor
             {7,"starway"},{8,"memory_theater"},{9,"starway"},{10,"letter_observatory"},{11,"twilight_sea"},{12,"twilight_sea"},
             {13,"memory_theater"},{14,"letter_observatory"},{15,"twilight_sea"},{16,"letter_observatory"},{17,"memory_theater"},
             {18,"starway"},{19,"starway"},{20,"starway"},{21,"letter_observatory"},{22,"memory_theater"},{23,"memory_theater"},{24,"starway"} };
+        // Every device with art for a theme gets its own playable room in that theme's prototype scene.
+        static readonly string[] ThemedNames = { "starway", "memory_theater", "letter_observatory", "twilight_sea" };
+        static readonly int[][] ThemedRoles = {
+            new[] { 1, 2, 7, 9, 18, 19, 20, 24 },
+            new[] { 4, 6, 7, 8, 9, 13, 17, 18, 19, 22, 23 },
+            new[] { 3, 7, 9, 10, 14, 16, 18, 19, 21 },
+            new[] { 5, 7, 9, 11, 12, 15, 18, 19 }
+        };
         static readonly Dictionary<string,PuzzleTheme> themeAssets = new Dictionary<string,PuzzleTheme>();
         static readonly Dictionary<string,DeviceManifest> manifests = new Dictionary<string,DeviceManifest>();
         static GameObject beam;
@@ -176,10 +184,31 @@ namespace ANIMOL.Presentation.Editor
             }
             return string.Join("\n",issues);
         }
-        static void Persist(PuzzleMap map,string name)
+        static void Persist(PuzzleMap map,string name,bool unlimitedCost=false)
         {
-            map.name=name;BindArt(map);Verify(map);map.scenario.costLimit=map.scenario.verificationRoute.Length+8;
+            map.name=name;BindArt(map);Verify(map);map.scenario.costLimit=unlimitedCost?0:map.scenario.verificationRoute.Length+8;
             map.scenario=Save(map.scenario,Root+"/"+name+"_Scenario.asset");Save(map,Root+"/"+name+".asset");
+        }
+        // Updates the four referenced map assets in place. Rebuilding theme assets would discard
+        // later environment art assignments, so this command only touches prototype maps/scenarios.
+        [MenuItem("ANIMOL/Puzzle/Rebuild themed device test maps")]
+        public static string RebuildThemedDeviceTestMaps()
+        {
+            if(EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty)
+                throw new InvalidOperationException("Exit play mode and save the active scene first.");
+            themeAssets.Clear();manifests.Clear();
+            foreach(var name in ThemedNames)
+            {
+                themeAssets[name]=AssetDatabase.LoadAssetAtPath<PuzzleTheme>(Root+"/"+name+"_Theme.asset");
+                if(!themeAssets[name])throw new Exception("Missing prototype theme: "+name);
+                var manifestName=name=="starway"?"device_art":name;
+                manifests[name]=JsonUtility.FromJson<DeviceManifest>(File.ReadAllText("Assets/ANIMOL/Data/"+manifestName+"_import_manifest.json").Replace("\"event\":","\"eventName\":"));
+            }
+            beam=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Puzzle/OpticsBeam.prefab");
+            if(!beam)throw new Exception("Missing optics beam prefab.");
+            for(int i=0;i<ThemedNames.Length;i++)Persist(Combine(ThemedNames[i],ThemedRoles[i]),ThemedNames[i],true);
+            AssetDatabase.SaveAssets();
+            return string.Join("; ",ThemedNames.Select((name,i)=>name+" "+ThemedRoles[i].Length+" rooms"));
         }
         [MenuItem("ANIMOL/Puzzle/Build themed prototypes")]
         public static string Build()
@@ -197,10 +226,9 @@ namespace ANIMOL.Presentation.Editor
             path.sprites=manifests["letter_observatory"].assets.Where(a=>a.id.StartsWith("d10_optics/beam_")).Select(a=>new BeamVisualSprite { shape=a.id.Split('/')[1],sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/ANIMOL/"+a.path) }).ToArray();
             beam=PrefabUtility.SaveAsPrefabAsset(go,"Assets/ANIMOL/Prefabs/Puzzle/OpticsBeam.prefab");UnityEngine.Object.DestroyImmediate(go);
             for(int i=1;i<=24;i++)Persist(Room(i),"Device"+i.ToString("00")+"_"+(PrototypeRole)i);
-            var sets=new[]{new[]{1,2,24},new[]{8,13,22},new[]{3,10,14,16},new[]{5,11,15,12}};
             for(int i=0;i<4;i++)
             {
-                Persist(Combine(names[i],sets[i]),names[i]);
+                Persist(Combine(names[i],ThemedRoles[i]),names[i],true);
                 var map=AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root+"/"+names[i]+".asset");
                 var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);PuzzlePreview.CreateRoot(map);
                 EditorSceneManager.SaveScene(scene,"Assets/ANIMOL/Scenes/Prototype/ANIMOL_"+names[i]+"_Prototype.unity");

@@ -30,7 +30,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.NotNull(rig);
             Assert.IsEmpty(Object.FindObjectsByType<MemorySkyTheaterRenderer>(FindObjectsSortMode.None));
             Assert.AreEqual("memory_theater", game.RuntimeMap.theme.name);
-            Assert.AreEqual(123, game.RuntimeMap.terrain.Count);
+            Assert.AreEqual(game.stage.terrain.Count, game.RuntimeMap.terrain.Count);
             Assert.IsTrue(game.RuntimeMap.Walkable(game.RuntimeMap.start));
             var floorImages = floor.GetComponentsInChildren<SpriteRenderer>();
             Assert.AreEqual(game.RuntimeMap.terrain.Count, floorImages.Count(r => r.name.StartsWith("Floor ")));

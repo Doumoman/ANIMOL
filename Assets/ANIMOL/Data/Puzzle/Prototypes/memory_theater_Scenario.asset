@@ -14,91 +14,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
   title: memory_theater prototype
   themeId: memory_theater
-  verificationRoute: ESEEEEENNNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNESEEEEEN
+  verificationRoute: EEEEEENNNNNNWWWWWWNNEEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNESEEEEENNNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNEEEEEENNNNNNWWWWWWNNEEEENSEENNNNNNWWWWWWNNESEEEENNNNNNWWWWWWNNEEEENNNNNNWWWWWWNNESEEEEENNNNNNNWWWWWWNNESEEEEEN
   beamPrefab: {fileID: 1136160798950046976, guid: 0cd2e67c1197eae42978788e2b755bca, type: 3}
   devices:
-  - id: 0_plate
-    variant: plate
-    group: 0_shelf
-    artTheme: memory_theater
-    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
-    initialVisual: 
-    role: 8
-    position: {x: 2, y: 2}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    active: 0
-    cells: []
-    blastOffsets: []
-  - id: 0_shelf
+  - id: 0_shutter
     variant: 
-    group: 0_shelf
+    group: 0_
     artTheme: memory_theater
-    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    visualPrefab: {fileID: 8761605271224070040, guid: 3841aacd0cc328144bdd0cb58c886fde, type: 3}
     initialVisual: 
-    role: 8
-    position: {x: 4, y: 3}
+    role: 4
+    position: {x: 3, y: 2}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
-    orientation: 0
+    orientation: 1
     number: 1
     active: 0
     cells: []
     blastOffsets: []
-  - id: 1_domino2
+  - id: 1_stage
     variant: 
     group: 1_
     artTheme: memory_theater
-    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
     initialVisual: 
-    role: 13
+    role: 6
     position: {x: 2, y: 10}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
     number: 1
     active: 0
-    cells: []
+    cells:
+    - {x: 2, y: 10}
+    - {x: 3, y: 10}
     blastOffsets: []
-  - id: 1_domino3
-    variant: 
-    group: 1_
-    artTheme: memory_theater
-    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
-    initialVisual: 
-    role: 13
-    position: {x: 3, y: 10}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    active: 0
-    cells: []
-    blastOffsets: []
-  - id: 1_domino4
-    variant: 
-    group: 1_
-    artTheme: memory_theater
-    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
-    initialVisual: 
-    role: 13
-    position: {x: 4, y: 10}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    active: 0
-    cells: []
-    blastOffsets: []
-  - id: 2_die
+  - id: 2_belt1
     variant: 
     group: 2_
     artTheme: memory_theater
-    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
     initialVisual: 
-    role: 22
+    role: 7
     position: {x: 2, y: 18}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
@@ -107,14 +64,254 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
-  - id: 2_target
-    variant: target
+  - id: 2_belt2
+    variant: 
     group: 2_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 18}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_plate
+    variant: plate
+    group: 3_shelf
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 2, y: 26}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 3_shelf
+    variant: 
+    group: 3_shelf
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 4, y: 27}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 4_gate
+    variant: 
+    group: 4_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 333183891977533475, guid: cb5c85e2f62752046a27bf0e9ce9e631, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 3, y: 34}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_domino2
+    variant: 
+    group: 5_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 2, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_domino3
+    variant: 
+    group: 5_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 3, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 5_domino4
+    variant: 
+    group: 5_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 4, y: 42}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_statue
+    variant: 
+    group: 6_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 823414204023819311, guid: cdef958b0f6f683428cbf5d370daadbd, type: 3}
+    initialVisual: 
+    role: 17
+    position: {x: 6, y: 51}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 6
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 6_glass
+    variant: square
+    group: 6_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8975373409925656249, guid: 87374cff7374517429d13892761189d0, type: 3}
+    initialVisual: 
+    role: 21
+    position: {x: 4, y: 51}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_belt
+    variant: 
+    group: 7_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_bounce
+    variant: 
+    group: 7_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 5751376457866879347, guid: 95ac1691a83f1d34086f37129662ea9a, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 3, y: 58}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 2
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 7_brake
+    variant: 
+    group: 7_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6068852089537676916, guid: 86c4f48174e87af44815dd4cbf74c5d4, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 3, y: 59}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 8_belt1
+    variant: 
+    group: 8_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 66}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 8_belt2
+    variant: 
+    group: 8_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 3, y: 66}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 8_brake
+    variant: 
+    group: 8_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6068852089537676916, guid: 86c4f48174e87af44815dd4cbf74c5d4, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 4, y: 66}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 9_die
+    variant: 
+    group: 9_
     artTheme: memory_theater
     visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
     initialVisual: 
     role: 22
-    position: {x: 3, y: 18}
+    position: {x: 2, y: 74}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
+  - id: 9_target
+    variant: target
+    group: 9_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 3, y: 74}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -122,21 +319,40 @@ MonoBehaviour:
     active: 0
     cells: []
     blastOffsets: []
+  - id: 10_doll
+    variant: 
+    group: 10_
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8295769819911407255, guid: 36f01703ceec555429991a65cbab7db4, type: 3}
+    initialVisual: 
+    role: 23
+    position: {x: 3, y: 82}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    active: 0
+    cells: []
+    blastOffsets: []
   water: []
   goals:
-  - deviceId: 0_plate
+  - deviceId: 3_plate
     kind: 4
-    cell: {x: 2, y: 2}
+    cell: {x: 2, y: 26}
     number: 0
-  - deviceId: 1_domino4
+  - deviceId: 5_domino4
     kind: 0
-    cell: {x: 0, y: 8}
+    cell: {x: 0, y: 40}
     number: 0
-  - deviceId: 2_target
+  - deviceId: 6_glass
+    kind: 1
+    cell: {x: 0, y: 48}
+    number: 0
+  - deviceId: 9_target
     kind: 0
-    cell: {x: 0, y: 16}
+    cell: {x: 0, y: 72}
     number: 0
-  costLimit: 58
+  costLimit: 0
   holdOccupiedBridge: 1
   shutterPhaseAdvancesWhenOccupied: 1
   leapSkipsIntermediate: 1
