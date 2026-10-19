@@ -1,13 +1,12 @@
 {
-  "theme": "편지 천문대",
-  "version": 2,
+  "theme": "낙일 성소",
+  "version": 3,
   "latestUserOverrides": [
-    "루미 이어폰·마이크 제거",
-    "다온 모자는 세인처럼 납작한 시계·장미 장식",
-    "네 번째 캐릭터를 도윤과 별개의 신규 여성 캐릭터 소율(가칭)로 교체; 새 참고 image(20261015-162745).png",
-    "루미: image(20261016-104520).png의 검은 웨이브·흰 앞머리·분홍 가방으로 변경하고 머리 위 동물을 페럿 펫으로 변경",
-    "소율: 기존 디자인을 유지하면서 의상·머리띠·리본을 어두운 남색과 푸른색 계열로 변경",
-    "루미 소품: 가방·끈·장식을 어두운 차콜색으로 변경, 페럿 유지"
+    "테마 이름: 낙일 성소 / Sunset Sanctum",
+    "세인·다온·루미·소율 모두 유지, 도윤을 독립된 제비 캐릭터로 추가",
+    "도윤: 첨부 이미지의 머리·복장 유지, 안경·동물 귀 제거",
+    "5인 모두 굵고 각진 윤곽·플랫 셀 명암으로 통일. 인게임 SD 신체 비율 유지",
+    "소율의 원본 PNG와 자료를 별도 보관"
   ],
   "characters": {
     "sein": {
@@ -27,7 +26,8 @@
         "빌린 물건 안 돌려주기"
       ],
       "hobby": "새 요리법으로 저녁 만들기",
-      "design": "SEIN, a female DEER-themed letter archivist. Preserve the screenshot's VERY LONG dark cool charcoal/navy-gray wavy hair, thick soft swept bangs and paired broad S-curled lengths falling almost to the shoes on both sides. It is long flowing hair, not short or braided. Muted cool violet-gray shadow/end panels, no smooth ombre. Large thin round dark glasses with a subtle muted-rose edge, BOTH lenses clear so the matching gray-lavender irises and tiny catchlights remain visible. The round black clock/rose fascinator with simple silver outlines sits on viewer RIGHT of the head. Adapt the two tall white head shapes to a pair of slender IVORY DEER ANTLERS, with only one small branch each; keep the tall white silhouette, no rabbit ears. Small deer ears tucked into the hair and one little deer tail. Black short high-collar dress/coat with a simple pale center placket, thin silver edging and waist belt, a broad black cape opened at the front, a white inner hem, white/pale little knee boots with dark soles. Do not add the old purple waistcoat. Calm kind reserved smile, one open empty hand near the chest and the other lightly touching the coat edge. No book, staff or floating decorative leaf effect."
+      "design": "SEIN, a female DEER-themed letter archivist. Preserve the screenshot's VERY LONG dark cool charcoal/navy-gray wavy hair, thick soft swept bangs and paired broad S-curled lengths falling almost to the shoes on both sides. It is long flowing hair, not short or braided. Muted cool violet-gray shadow/end panels, no smooth ombre. Large thin round dark glasses with a subtle muted-rose edge, BOTH lenses clear so the matching gray-lavender irises and tiny catchlights remain visible. The round black clock/rose fascinator with simple silver outlines sits on viewer RIGHT of the head. Adapt the two tall white head shapes to a pair of slender IVORY DEER ANTLERS, with only one small branch each; keep the tall white silhouette, no rabbit ears. Small deer ears tucked into the hair and one little deer tail. Black short high-collar dress/coat with a simple pale center placket, thin silver edging and waist belt, a broad black cape opened at the front, a white inner hem, white/pale little knee boots with dark soles. Do not add the old purple waistcoat. Calm kind reserved smile, one open empty hand near the chest and the other lightly touching the coat edge. No book, staff or floating decorative leaf effect.",
+      "visualInvariant": "Round clear glasses remain in every front/side frame, including closed-eye/jump/victory."
     },
     "daon": {
       "id": "daon",
@@ -91,7 +91,8 @@
         "strap": "#232835",
         "hardware": "#778298"
       },
-      "bagLatestOverride": "최신 요청: 분홍 가방과 끈·장식을 어두운 차콜 계열로 변경. 페럿은 유지."
+      "bagLatestOverride": "최신 요청: 분홍 가방과 끈·장식을 어두운 차콜 계열로 변경. 페럿은 유지.",
+      "petAnimation": "Head tilts/blinks, tail sway, walk bob, jump bracing/landing; paws stay on hair in all 90 frames."
     },
     "soyul": {
       "id": "soyul",
@@ -111,8 +112,21 @@
         "hairBow": "#1B2E54"
       },
       "colorPolicy": "Palette guide for broad costume fills; preserve source colors/antialiasing without quantization.",
-      "recolorOnly": true,
-      "noNewPet": true
+      "recolorOnly": false,
+      "noNewPet": true,
+      "preservedOriginal": "Preserved/Soyul_v2",
+      "styleOnlyRevision": true
+    },
+    "doyun": {
+      "id": "doyun",
+      "name": "도윤",
+      "species": "제비",
+      "design": "Cool charcoal-gray short tousled layered hair with cobalt-blue accent lock on character left (viewer right), magenta eyes, no spectacles and no animal ears. Black/navy tailored short jacket with tiny pale turquoise/silver trim, white collar detail, black cape with cobalt edging, black shorts, cool-white boots and burgundy sock accents. Small pointed blue-black swallow wings and a forked swallow tail. Empty hands."
     }
-  }
+  },
+  "themeEnglish": "Sunset Sanctum",
+  "themeId": "sunset_sanctum",
+  "nativeResolution": true,
+  "framePolicy": "Source pixel sizes retained; no resizing/resampling.",
+  "artStyle": "Thick angular navy outlines, large graphic hair shapes, flat polygonal cel shadows. Preserve in-game SD proportions."
 }
