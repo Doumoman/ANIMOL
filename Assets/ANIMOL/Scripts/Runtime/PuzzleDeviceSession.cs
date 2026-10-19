@@ -24,6 +24,7 @@ namespace ANIMOL.Puzzle
         public IReadOnlyDictionary<string, PrototypeDeviceState> States => states;
         public readonly List<BeamCell> Beams = new List<BeamCell>();
         public readonly Dictionary<Vector2Int, Vector2Int> WindCells = new Dictionary<Vector2Int, Vector2Int>();
+        readonly Dictionary<Vector2Int, string> windOwners = new Dictionary<Vector2Int, string>();
         readonly List<PrototypeDevice> definitions;
         Dictionary<string, PrototypeDeviceState> states = new Dictionary<string, PrototypeDeviceState>();
         HashSet<Vector2Int> collected = new HashSet<Vector2Int>(), visited = new HashSet<Vector2Int>();
@@ -54,6 +55,7 @@ namespace ANIMOL.Puzzle
             states = other.states.ToDictionary(p => p.Key, p => p.Value.Copy());
             collected = new HashSet<Vector2Int>(other.collected); visited = new HashSet<Vector2Int>(other.visited);
             Beams.Clear(); Beams.AddRange(other.Beams); WindCells.Clear(); foreach (var p in other.WindCells) WindCells.Add(p.Key, p.Value);
+            windOwners.Clear(); foreach (var p in other.windOwners) windOwners.Add(p.Key, p.Value);
         }
         public bool IsCollected(Vector2Int p) => collected.Contains(p);
         public PrototypeDevice Definition(string id) => definitions.FirstOrDefault(d => d.id == id);
@@ -171,7 +173,7 @@ namespace ANIMOL.Puzzle
             if (!Rules.leapSkipsIntermediate) for (var i = 1; i < 3; i++) if (!Free(p + states[leap.id].direction * i)) return false;
             return true;
         }
-        bool StepPlayer(Vector2Int destination)
+        bool StepPlayer(Vector2Int destination, PrototypeDevice committedWind = null)
         {
             if (!Map.Contains(destination) || !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
             if (!string.IsNullOrEmpty(BoatId))
@@ -202,6 +204,7 @@ namespace ANIMOL.Puzzle
                     if (At(destination, Solid) != null) return false;
                 }
             }
+            if (committedWind != null) WindVisual(committedWind, Direction);
             var previous = Cell; Leave(previous); Move("player", previous, destination); Cell = destination; Collect(); Enter(); Follow(previous);
             RefreshLinks(true); TraceWind(); return true;
         }
@@ -257,8 +260,13 @@ namespace ANIMOL.Puzzle
                 if (brake != null && forced) { Visual(brake, "brake_" + (brake.variant == "vertical" ? "vertical" : "horizontal"), "forced_motion_stopped"); return; }
                 var conveyor = At(Cell, d => d.role == PrototypeRole.Conveyor);
                 var wind = WindCells.TryGetValue(Cell, out var windDirection);
+                PrototypeDevice windSource = null;
                 if (conveyor != null) { Direction = states[conveyor.id].direction; forced = true; Visual(conveyor, "run_" + Dir(Direction), "conveyor_visual_running"); }
-                else if (wind) { Direction = windDirection; forced = true; }
+                else if (wind)
+                {
+                    Direction = windDirection; forced = true;
+                    windSource = windOwners.TryGetValue(Cell, out var owner) ? Definition(owner) : null;
+                }
                 else if (At(Cell, d => d.role == PrototypeRole.Ice) != null) { forced = sliding = true; }
                 else
                 {
@@ -271,7 +279,7 @@ namespace ANIMOL.Puzzle
                     }
                     else if (!sliding) return;
                 }
-                if (!StepPlayer(Cell + Direction)) return;
+                if (!StepPlayer(Cell + Direction, windSource)) return;
             }
         }
         bool Push(PrototypeDevice d, Vector2Int direction)
@@ -516,14 +524,16 @@ namespace ANIMOL.Puzzle
         void TraceWind()
         {
             WindCells.Clear();
+            windOwners.Clear();
             foreach (var d in definitions.Where(d => d.role == PrototypeRole.Wind && !states[d.id].removed))
             {
-                var s = states[d.id]; if (d.variant != "blower") { WindCells[s.cell] = s.direction; continue; }
+                var s = states[d.id]; if (d.variant != "blower") { WindCells[s.cell] = s.direction; windOwners[s.cell] = d.id; continue; }
                 for (var p = s.cell + s.direction; Supported(p); p += s.direction)
                 {
                     var body = At(p, Solid, d.id);
                     if (body != null && !WindMovable(body)) break;
                     WindCells[p] = s.direction;
+                    windOwners[p] = d.id;
                     if (body != null) break;
                 }
             }
@@ -531,14 +541,20 @@ namespace ANIMOL.Puzzle
         static bool WindMovable(PrototypeDevice d) => d.role == PrototypeRole.StarSocket && d.variant != "socket" ||
             d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Barrel || d.role == PrototypeRole.Bomb ||
             d.role == PrototypeRole.Dice && d.variant != "target";
+        void WindVisual(PrototypeDevice wind, Vector2Int direction)
+        {
+            events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = wind.id,
+                state = "wind_push_" + Dir(direction), eventName = "valid_action_wind_resolved",
+                group = group, cells = WindCells.Where(x => x.Value == direction).Select(x => x.Key).ToList() });
+        }
         void WindPulse()
         {
             foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id)))
             {
                 var s = states[d.id];
                 if (!WindCells.TryGetValue(s.cell, out var direction) || !Free(s.cell + direction, d.id)) continue;
-                var wind = At(s.cell, x => x.role == PrototypeRole.Wind) ?? definitions.FirstOrDefault(x => x.role == PrototypeRole.Wind && x.variant == "blower" && states[x.id].direction == direction);
-                if (wind != null) Visual(wind, "wind_push_" + Dir(direction), "valid_action_wind_resolved");
+                var wind = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
+                if (wind != null) WindVisual(wind, direction); // Snapshot the trace before movement.
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
                 pushedThisAction.Add(d.id);
                 if (d.role == PrototypeRole.Dice)

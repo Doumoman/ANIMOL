@@ -1,0 +1,799 @@
+{
+  "version": "V12",
+  "purpose": "Resolve actual Unity project IDs/events/headings/load paths. All direction/state art must come from animation_catalog.json; no legacy fallback.",
+  "implementNewGameplay": false,
+  "families": [
+    {
+      "artKey": "conveyor",
+      "existingProjectDeviceId": "PrototypeRole.Conveyor = 7",
+      "verified": true,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": "idle_e / idle_n / idle_w / idle_s"
+        },
+        {
+          "artState": "active",
+          "existingProjectStateName": "run_e / run_n / run_w / run_s"
+        }
+      ],
+      "pdfDeviceId": "07",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "9a2d84ec12cc2eb4bbc810b2de3e69c7:2035603874337546709 Assets/ANIMOL/Prefabs/Themes/starway/d07_conveyor.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDeviceState.direction set from conveyor direction",
+      "validActionEvent": "PuzzleDeviceSession.ResolveForced: conveyor_visual_running",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "conveyor_east_transport",
+        "conveyor_north_transport",
+        "conveyor_west_transport",
+        "conveyor_south_transport"
+      ],
+      "replacedLegacyReferences": [
+        "ee12c3686cffae0479e42522438bd462:3075119336716363516 Assets/ANIMOL/Prefabs/Devices/d07_conveyor.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "conveyor_east_transport",
+          "heading": "east",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_north_transport",
+          "heading": "north",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_west_transport",
+          "heading": "west",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_south_transport",
+          "heading": "south",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "transport",
+          0
+        ],
+        "active": [
+          "transport",
+          "play_loop"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "oneway_gate",
+      "existingProjectDeviceId": "PrototypeRole.OneWayGate = 9",
+      "verified": true,
+      "states": [
+        {
+          "artState": "closed",
+          "existingProjectStateName": "closed_e / closed_n / closed_w / closed_s"
+        },
+        {
+          "artState": "open",
+          "existingProjectStateName": "open_e / open_n / open_w / open_s"
+        }
+      ],
+      "pdfDeviceId": "09",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "deb1e09fc564481429997e4686565ae6:3420239401674086500 Assets/ANIMOL/Prefabs/Themes/starway/d09_one_way_gate.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDeviceState.direction; committed player movement",
+      "validActionEvent": "allowed_passage_begin / allowed_passage_clear",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "oneway_gate_east_opening",
+        "oneway_gate_east_closing",
+        "oneway_gate_north_opening",
+        "oneway_gate_north_closing",
+        "oneway_gate_west_opening",
+        "oneway_gate_west_closing",
+        "oneway_gate_south_opening",
+        "oneway_gate_south_closing"
+      ],
+      "replacedLegacyReferences": [
+        "a380e5d781a6c134081dbb30995b852a:5943879363428297570 Assets/ANIMOL/Prefabs/Devices/d09_one_way_gate.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "oneway_gate_east_opening",
+          "heading": "east",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_east_closing",
+          "heading": "east",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_north_opening",
+          "heading": "north",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_north_closing",
+          "heading": "north",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_west_opening",
+          "heading": "west",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_west_closing",
+          "heading": "west",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_south_opening",
+          "heading": "south",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_south_closing",
+          "heading": "south",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "closed": [
+          "opening",
+          0
+        ],
+        "open": [
+          "opening",
+          1
+        ],
+        "opening": [
+          "opening",
+          "play"
+        ],
+        "closing": [
+          "closing",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "bounce_corner",
+      "existingProjectDeviceId": "PrototypeRole.Bounce = 18",
+      "verified": true,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": "idle_ne / idle_nw / idle_se / idle_sw"
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": "impact_ne / impact_nw / impact_se / impact_sw"
+        }
+      ],
+      "pdfDeviceId": "18",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "1d59528606e4df748bb4087cabe45740:588088442928477709 Assets/ANIMOL/Prefabs/Themes/starway/d18_bounce_corner.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDevice.orientation -> PuzzleDeviceSession.Corner",
+      "validActionEvent": "existing_bounce_resolved",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "bounce_corner_ne_rebound",
+        "bounce_corner_nw_rebound",
+        "bounce_corner_sw_rebound",
+        "bounce_corner_se_rebound"
+      ],
+      "replacedLegacyReferences": [
+        "f1439d650446a654f81dac128d56173c:5839635066758548250 Assets/ANIMOL/Prefabs/Devices/d18_bounce_corner.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "bounce_corner_ne_rebound",
+          "heading": "ne",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_nw_rebound",
+          "heading": "nw",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_sw_rebound",
+          "heading": "sw",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_se_rebound",
+          "heading": "se",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "rebound_return",
+          0
+        ],
+        "pressed": [
+          "rebound_return",
+          0.34
+        ],
+        "contact": [
+          "rebound_return",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "brake_patch",
+      "existingProjectDeviceId": "PrototypeRole.Brake = 19",
+      "verified": true,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": "idle_horizontal / idle_vertical"
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": "pressed_horizontal / pressed_vertical; brake_horizontal / brake_vertical"
+        }
+      ],
+      "pdfDeviceId": "19",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "ff5d84d2e27f5f443a5e4880cc2e6d14:5164312448115599324 Assets/ANIMOL/Prefabs/Themes/starway/d19_brake_pad.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDevice.variant horizontal/vertical",
+      "validActionEvent": "forced_motion_stopped",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "brake_patch_horizontal_press_release",
+        "brake_patch_vertical_press_release"
+      ],
+      "replacedLegacyReferences": [
+        "595127b96330de942a66ef513d692b69:4050078667193562565 Assets/ANIMOL/Prefabs/Devices/d19_brake_pad.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "brake_patch_horizontal_press_release",
+          "heading": "horizontal",
+          "state": "press_hold_release",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "brake_patch_vertical_press_release",
+          "heading": "vertical",
+          "state": "press_hold_release",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "press_hold_release",
+          0
+        ],
+        "pressed": [
+          "press_hold_release",
+          0.5
+        ],
+        "brake": [
+          "press_hold_release",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "star_stone",
+      "existingProjectDeviceId": "PrototypeRole.StarSocket = 1",
+      "verified": true,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": "stone"
+        },
+        {
+          "artState": "pushed",
+          "existingProjectStateName": "stone_push_e / stone_push_n / stone_push_w / stone_push_s"
+        }
+      ],
+      "pdfDeviceId": "01",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "6ca3efeb44fd17341ac772e7e8736152:6246282583849581694 Assets/ANIMOL/Prefabs/Themes/starway/d01_star_socket.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "Committed push direction in PuzzleDeviceSession",
+      "validActionEvent": "existing_push_visual",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "id01_star_stone_push"
+      ],
+      "replacedLegacyReferences": [
+        "1ed48ff055147dc40805a6900d2b5b2b:350816599780923922 Assets/ANIMOL/Prefabs/Devices/d01_star_socket.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "id01_star_stone_push",
+          "heading": "none",
+          "state": "push",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "push",
+          1
+        ],
+        "moving": [
+          "push",
+          "play_with_existing_movement_tween"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "star_socket",
+      "existingProjectDeviceId": "PrototypeRole.StarSocket = 1",
+      "verified": true,
+      "states": [
+        {
+          "artState": "empty",
+          "existingProjectStateName": "socket_empty"
+        },
+        {
+          "artState": "filled",
+          "existingProjectStateName": "socket_filled"
+        }
+      ],
+      "pdfDeviceId": "01",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "6ca3efeb44fd17341ac772e7e8736152:6246282583849581694 Assets/ANIMOL/Prefabs/Themes/starway/d01_star_socket.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "No heading; variant=socket and active state",
+      "validActionEvent": "matching_star_socket_committed",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "id01_star_socket_seat"
+      ],
+      "replacedLegacyReferences": [
+        "1ed48ff055147dc40805a6900d2b5b2b:350816599780923922 Assets/ANIMOL/Prefabs/Devices/d01_star_socket.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "id01_star_socket_seat",
+          "heading": "none",
+          "state": "seat",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "empty": [
+          "seat",
+          0
+        ],
+        "filled": [
+          "seat",
+          1
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "pressure_plate",
+      "existingProjectDeviceId": "PrototypeRole.VineBridge = 2",
+      "verified": true,
+      "states": [
+        {
+          "artState": "released",
+          "existingProjectStateName": "plate_idle; plate_release"
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": "plate_pressed; plate_press"
+        }
+      ],
+      "pdfDeviceId": "02",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "04459a5b2d2634c40863ce2c2530b3d1:6912199471976416822 Assets/ANIMOL/Prefabs/Themes/starway/d02_pressure_vine_bridge.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "No heading; variant=plate and active state",
+      "validActionEvent": "occupancy_became_positive / occupancy_became_zero",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "id02_pressure_plate_press",
+        "id02_pressure_plate_release"
+      ],
+      "replacedLegacyReferences": [
+        "d3a22d4fcc32835489192a242ee4c69d:3131017493791413046 Assets/ANIMOL/Prefabs/Devices/d02_pressure_vine_bridge.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "id02_pressure_plate_press",
+          "heading": "none",
+          "state": "press",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_pressure_plate_release",
+          "heading": "none",
+          "state": "release",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "released": [
+          "press",
+          0
+        ],
+        "pressed": [
+          "press",
+          1
+        ],
+        "releasing": [
+          "release",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "vine_bridge",
+      "existingProjectDeviceId": "PrototypeRole.VineBridge = 2",
+      "verified": true,
+      "states": [
+        {
+          "artState": "extended",
+          "existingProjectStateName": "bridge_idle_horizontal / bridge_idle_vertical"
+        },
+        {
+          "artState": "retracted",
+          "existingProjectStateName": "retracted_e / retracted_n / retracted_w / retracted_s"
+        }
+      ],
+      "pdfDeviceId": "02",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "04459a5b2d2634c40863ce2c2530b3d1:6912199471976416822 Assets/ANIMOL/Prefabs/Themes/starway/d02_pressure_vine_bridge.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDevice.direction selects horizontal/vertical",
+      "validActionEvent": "existing_bridge_enabled / existing_bridge_disabled",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "id02_vine_bridge_horizontal_open",
+        "id02_vine_bridge_horizontal_close",
+        "id02_vine_bridge_vertical_open",
+        "id02_vine_bridge_vertical_close"
+      ],
+      "replacedLegacyReferences": [
+        "d3a22d4fcc32835489192a242ee4c69d:3131017493791413046 Assets/ANIMOL/Prefabs/Devices/d02_pressure_vine_bridge.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "id02_vine_bridge_horizontal_open",
+          "heading": "horizontal",
+          "state": "open",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_horizontal_close",
+          "heading": "horizontal",
+          "state": "close",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_vertical_open",
+          "heading": "vertical",
+          "state": "open",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_vertical_close",
+          "heading": "vertical",
+          "state": "close",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "retracted": [
+          "open",
+          0
+        ],
+        "extended": [
+          "open",
+          1
+        ],
+        "opening": [
+          "open",
+          "play"
+        ],
+        "closing": [
+          "close",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "wind_corridor",
+      "existingProjectDeviceId": "PrototypeRole.Wind = 20",
+      "verified": true,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": "wind_flow_e/n/w/s; blower_idle_e/n/w/s"
+        },
+        {
+          "artState": "active",
+          "existingProjectStateName": "wind_push_e/n/w/s; blower_run_e/n/w/s"
+        }
+      ],
+      "pdfDeviceId": "20",
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "63413553afa92e94f87161e27b0166bc:4873364921097887510 Assets/ANIMOL/Prefabs/Themes/starway/d20_wind_corridor.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDeviceState.direction and authoritative WindCells",
+      "validActionEvent": "valid_action_wind_resolved",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "wind_corridor.east.flow_effect",
+        "wind_corridor.north.flow_effect",
+        "wind_corridor.west.flow_effect",
+        "wind_corridor.south.flow_effect",
+        "wind_corridor_E_idle",
+        "wind_corridor_E_active",
+        "wind_corridor_W_idle",
+        "wind_corridor_W_active",
+        "wind_corridor_N_idle",
+        "wind_corridor_N_active",
+        "wind_corridor_S_idle",
+        "wind_corridor_S_active"
+      ],
+      "replacedLegacyReferences": [
+        "bf1fb8cd842395c4c9e61592c89e5947:7207353559205717117 Assets/ANIMOL/Prefabs/Devices/d20_wind_corridor.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "wind_corridor.east.flow_effect",
+          "heading": "east",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.north.flow_effect",
+          "heading": "north",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.west.flow_effect",
+          "heading": "west",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.south.flow_effect",
+          "heading": "south",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_E_idle",
+          "heading": "east",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_E_active",
+          "heading": "east",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_W_idle",
+          "heading": "west",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_W_active",
+          "heading": "west",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_N_idle",
+          "heading": "north",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_N_active",
+          "heading": "north",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_S_idle",
+          "heading": "south",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_S_active",
+          "heading": "south",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "idle",
+          0
+        ],
+        "gust_emitter": [
+          "active",
+          "play_loop_while_committed_gust"
+        ],
+        "gust_range_only": [
+          "flow_effect",
+          "play_loop_on_affected_cell_renderer"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "chick",
+      "pdfDeviceId": "24",
+      "existingProjectDeviceId": "PrototypeRole.Chick = 24",
+      "verified": true,
+      "projectClassPath": "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs; PuzzleDeviceView.cs; DeviceVisualView.cs",
+      "prefabGuidAndFileId": "b1db61e0c9ba3a04dbbba47a2312aaa3:444040409623099113 Assets/ANIMOL/Prefabs/Themes/starway/d24_follower_chick.prefab",
+      "spriteRendererPath": "Visual",
+      "headingFieldOrCommittedVector": "PrototypeDeviceState.direction from each committed trail step",
+      "validActionEvent": "existing_recorded_path_following",
+      "poolResetPath": "No device pool found; PuzzlePrototypeController.Load destroys/recreates presentation; DeviceVisualView.OnEnable resets; PuzzleDeviceView.Settle snaps authority.",
+      "latestCatalogClipKeys": [
+        "chick.idle.south",
+        "chick.walk.south",
+        "chick.idle.east",
+        "chick.walk.east",
+        "chick.idle.north",
+        "chick.walk.north",
+        "chick.idle.west",
+        "chick.walk.west"
+      ],
+      "replacedLegacyReferences": [
+        "96b1f0a4c69426b49a77dd57da051c8c:324627296508315373 Assets/ANIMOL/Prefabs/Devices/d24_follower_chick.prefab in nine starway PuzzleScenario assets"
+      ],
+      "clipDefinitions": [
+        {
+          "key": "chick.idle.south",
+          "heading": "south",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.south",
+          "heading": "south",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.east",
+          "heading": "east",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.east",
+          "heading": "east",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.north",
+          "heading": "north",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.north",
+          "heading": "north",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.west",
+          "heading": "west",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.west",
+          "heading": "west",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "idle",
+          0
+        ],
+        "walking": [
+          "walk",
+          "play_loop_along_committed_path"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    }
+  ],
+  "noLegacyFallback": true,
+  "actualUnityMigrationExecuted": true
+}

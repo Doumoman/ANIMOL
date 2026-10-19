@@ -1,0 +1,177 @@
+{
+  "version": "V12",
+  "purpose": "Flat angular cartoon background redraw and theme-specific indigo/teal/sage sky; independent background hierarchy preserved.",
+  "source": "sources/background_decor_cartoon_native.png",
+  "nativeSourceSize": [
+    1536,
+    1024
+  ],
+  "exportMethod": "Generated redraw; native source preserved; alpha component extraction and uniform rescale/pad only. Exact V10 three-decor canvas dimensions, PPU and pivots retained.",
+  "defaultImport": {
+    "filterMode": "Bilinear",
+    "mipmaps": false,
+    "compression": "Uncompressed",
+    "meshType": "FullRect"
+  },
+  "assets": [
+    {
+      "file": "backgrounds/cloud_bank.png",
+      "nativeSourceRect": [
+        14,
+        56,
+        1509,
+        306
+      ],
+      "canvasSize": [
+        1515,
+        321
+      ],
+      "contentRect": [
+        16,
+        10,
+        1484,
+        301
+      ],
+      "contentWorldWidth": 8.933779264214047,
+      "ppu": 166.11111111111111,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        9.120401337792641,
+        1.9324414715719063
+      ],
+      "resized": true,
+      "kind": "background_decor",
+      "width": 1515,
+      "height": 321,
+      "contentRectTopLeft": [
+        16,
+        10,
+        1484,
+        301
+      ],
+      "worldWidth": 8.933779264214047,
+      "source": "sources/background_decor_cartoon_native.png",
+      "uniformScale": 0.9836601307189542,
+      "visibleComponentCount": 1,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V10 canvas. No colour editing.",
+      "sha256": "d7692df445e518de38aa5efe605fd3c564392b6f3c05985172bec57ed8a31b7e"
+    },
+    {
+      "file": "backgrounds/distant_ranch_barn.png",
+      "nativeSourceRect": [
+        36,
+        523,
+        773,
+        492
+      ],
+      "canvasSize": [
+        775,
+        489
+      ],
+      "contentRect": [
+        19,
+        10,
+        737,
+        469
+      ],
+      "contentWorldWidth": 5.856953642384106,
+      "ppu": 125.83333333333333,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        6.158940397350993,
+        3.886092715231788
+      ],
+      "resized": true,
+      "kind": "background_decor",
+      "width": 775,
+      "height": 489,
+      "contentRectTopLeft": [
+        19,
+        10,
+        737,
+        469
+      ],
+      "worldWidth": 5.856953642384106,
+      "source": "sources/background_decor_cartoon_native.png",
+      "uniformScale": 0.9532520325203252,
+      "visibleComponentCount": 1,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V10 canvas. No colour editing.",
+      "sha256": "dae1630a3a11943add886dc0a853ec05a57bb1fcefb0d7a5bb5931da0e7d8af8"
+    },
+    {
+      "file": "backgrounds/distant_ranch_windmill.png",
+      "canvasSize": [
+        647,
+        612
+      ],
+      "contentRect": [
+        16,
+        14,
+        616,
+        585
+      ],
+      "contentWorldWidth": 5.894736842105263,
+      "ppu": 104.5,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        6.1913875598086126,
+        5.856459330143541
+      ],
+      "resized": true,
+      "kind": "background_decor",
+      "width": 647,
+      "height": 612,
+      "contentRectTopLeft": [
+        16,
+        14,
+        616,
+        585
+      ],
+      "worldWidth": 5.894736842105263,
+      "uniformScale": 0.5140597539543058,
+      "visibleComponentCount": 1,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V10 canvas. No colour editing.",
+      "sha256": "2b9660b2616e77acdb8859053266e9b3585a70893925c43d086e846a4c782a50",
+      "nativeSourceRect": [
+        17,
+        48,
+        1198,
+        1138
+      ],
+      "source": "sources/wind_background_native.png",
+      "sourceEdit": "Four equally spaced rotor blades replacing malformed many-blade fan and side fin; unchanged island identity and layout."
+    }
+  ],
+  "theme": "별길 목장",
+  "themeEnglish": "Starway Ranch",
+  "generatedSourceSha256": "8ea0ab87b0d4c57536700f337f77cdf6056d12ec7ca73ebee559770141407468",
+  "skySource": "sources/ranch_sky_indigo_teal_native.png",
+  "sky": {
+    "kind": "background_sky",
+    "file": "backgrounds/sky_base_native.png",
+    "width": 941,
+    "height": 1672,
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "opaque": true,
+    "source": "sources/ranch_sky_indigo_teal_native.png",
+    "sourceSha256": "779a726130723fe447cf112c4b9ed4b90c58572bfe55f60ee16a0a8dee7df590",
+    "unmodifiedGeneratedSource": true
+  },
+  "noMoons": true,
+  "noPlanets": true,
+  "style": "Angular near-black navy outline, matte broad cel planes; indigo/teal/sage sky; no baked stars/clouds, no moons/planets.",
+  "animationCatalog": "animation_catalog.json"
+}

@@ -1,0 +1,9 @@
+별길 목장 V12 독립 배경 적용
+
+새 남색·청록·세이지 하늘과 헛간·풍차·구름을 사용한다. 하늘에는 별·구름이 포함되지 않으며 달·행성은 없다.
+개별 Sprite의 native PPU·피벗은 background_manifest.json과 sprite_import_settings.json을 사용한다.
+배치·균일 scale·Z·정렬·드리프트·재배치 여유는 background_scene_layout.json을 따른다.
+별은 모든 구름 뒤에서 거의 고정하고(.03 배율, drift/twinkle 0), 구름은 깊이에 따라 더 크게 움직인다.
+직교 카메라의 Z만으로 크기·이동 원근은 생기지 않는다. V12 BackgroundRig와 CameraCover를 연결한다.
+기존 게임 로직·카메라 추적·가변 맵 크기를 유지한다. 구체적인 적용과 검증은 README_KO.txt 및 UNITY_APPLY_PROMPT_KO.txt를 따른다.
+이 패키지는 실제 Unity에서 컴파일·실행하지 않았다.

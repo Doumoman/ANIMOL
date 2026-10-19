@@ -1,0 +1,320 @@
+{
+  "version": "V12",
+  "theme": "별길 목장",
+  "assets": [
+    {
+      "id": "windmill",
+      "kind": "prop",
+      "file": "props/windmill.png",
+      "width": 528,
+      "height": 688,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.38372093
+      ],
+      "transformLocalScale": [
+        1,
+        1,
+        1
+      ],
+      "footprintCells": [
+        2,
+        2
+      ],
+      "logical_rect": [
+        8,
+        168,
+        512,
+        512
+      ],
+      "content_rect": [
+        19,
+        5,
+        489,
+        672
+      ],
+      "contact_point_px": [
+        264,
+        677
+      ],
+      "visibleWorldBounds": [
+        1.91015625,
+        2.625
+      ],
+      "visibleWorldRectFromPivot": [
+        -0.95703125,
+        -1.63671875,
+        1.91015625,
+        2.625
+      ],
+      "visualOverhangAllowed": true,
+      "footprintAnchor": "logical rectangle center",
+      "placement": "origin at logical footprint center; visual contact at front edge for props",
+      "source": "New native 4-blade rotor and fixed tower imagegen art; mechanical crop, alpha cleanup, uniform scale and layer assembly only.",
+      "source_file": "sources/wind_windmill_native.png",
+      "contactShadowIncludedInSizing": false,
+      "uniformResizeOnly": true,
+      "majorAxis": "width",
+      "targetMajorAxisWorld": 1.94,
+      "shapeException": "Tall silhouette extends upward beyond ground footprint. Do not use sprite alpha bounds as collider.",
+      "sha256": "9772e599556265b586abc94aa6bbcd135b89a186892a300b55ae4a21250c8bc7",
+      "nativeRedraw": true,
+      "parts": [
+        {
+          "key": "body",
+          "file": "props/windmill_body.png",
+          "canvasSize": [
+            528,
+            688
+          ],
+          "width": 528,
+          "height": 688,
+          "ppu": 256,
+          "pivot": [
+            0.5,
+            0.38372093
+          ],
+          "logicalRect": [
+            8,
+            168,
+            512,
+            512
+          ],
+          "logical_rect": [
+            8,
+            168,
+            512,
+            512
+          ],
+          "localPosition": [
+            0,
+            0,
+            0
+          ],
+          "localScale": [
+            1,
+            1,
+            1
+          ],
+          "stationary": true,
+          "contact_point_px": [
+            264,
+            677
+          ],
+          "source": "sources/wind_windmill_native.png",
+          "nativeSourceRect": [
+            49,
+            160,
+            582,
+            700
+          ],
+          "contentRect": [
+            87,
+            250,
+            355,
+            427
+          ],
+          "rotationPolicy": "Never rotate the tower or prop root."
+        },
+        {
+          "key": "rotor",
+          "file": "props/windmill_rotor.png",
+          "canvasSize": [
+            512,
+            512
+          ],
+          "width": 512,
+          "height": 512,
+          "ppu": 256,
+          "pivot": [
+            0.5005986966080402,
+            0.48405683801529253
+          ],
+          "pivotPixelTopLeft": [
+            256.3065326633166,
+            264.1628989361702
+          ],
+          "logicalRect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "logical_rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "localPosition": [
+            0,
+            0.703125,
+            0
+          ],
+          "localScale": [
+            1,
+            1,
+            1
+          ],
+          "source": "sources/wind_windmill_native.png",
+          "nativeSourceRect": [
+            709,
+            149,
+            796,
+            752
+          ],
+          "nativeHubPixelCenter": [
+            1107.5,
+            537.5
+          ],
+          "contentRect": [
+            12,
+            26,
+            488,
+            461
+          ],
+          "bladeCount": 4,
+          "rotationPolicy": "Visual-only ambient Z rotation around this exact sprite pivot. Independent of gameplay simulation/time-step. No whole-prop rotation.",
+          "recommendedDegreesPerSecond": 18
+        }
+      ],
+      "partAssemblyAnchorPixelTopLeft": [
+        264,
+        424
+      ],
+      "rotorHubPixelInPropTopLeft": [
+        264,
+        244
+      ],
+      "animationPolicy": "Ambient rotor visual only; body stationary. Sprite compatibility view is first assembly state.",
+      "contentRect": [
+        19,
+        5,
+        489,
+        672
+      ],
+      "sourceSha256": "5f447b7bdb8e3aa8eb9d6fd6ad86459a9287a58cd829d32a9e904ca0374f6129"
+    }
+  ],
+  "parts": [
+    {
+      "key": "body",
+      "file": "props/windmill_body.png",
+      "canvasSize": [
+        528,
+        688
+      ],
+      "width": 528,
+      "height": 688,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.38372093
+      ],
+      "logicalRect": [
+        8,
+        168,
+        512,
+        512
+      ],
+      "logical_rect": [
+        8,
+        168,
+        512,
+        512
+      ],
+      "localPosition": [
+        0,
+        0,
+        0
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "stationary": true,
+      "contact_point_px": [
+        264,
+        677
+      ],
+      "source": "sources/wind_windmill_native.png",
+      "nativeSourceRect": [
+        49,
+        160,
+        582,
+        700
+      ],
+      "contentRect": [
+        87,
+        250,
+        355,
+        427
+      ],
+      "rotationPolicy": "Never rotate the tower or prop root."
+    },
+    {
+      "key": "rotor",
+      "file": "props/windmill_rotor.png",
+      "canvasSize": [
+        512,
+        512
+      ],
+      "width": 512,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5005986966080402,
+        0.48405683801529253
+      ],
+      "pivotPixelTopLeft": [
+        256.3065326633166,
+        264.1628989361702
+      ],
+      "logicalRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "logical_rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "localPosition": [
+        0,
+        0.703125,
+        0
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "source": "sources/wind_windmill_native.png",
+      "nativeSourceRect": [
+        709,
+        149,
+        796,
+        752
+      ],
+      "nativeHubPixelCenter": [
+        1107.5,
+        537.5
+      ],
+      "contentRect": [
+        12,
+        26,
+        488,
+        461
+      ],
+      "bladeCount": 4,
+      "rotationPolicy": "Visual-only ambient Z rotation around this exact sprite pivot. Independent of gameplay simulation/time-step. No whole-prop rotation.",
+      "recommendedDegreesPerSecond": 18
+    }
+  ]
+}

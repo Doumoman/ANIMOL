@@ -93,6 +93,7 @@ namespace ANIMOL.Puzzle
         IEnumerator MoveChain(Vector2Int destination)
         {
             var visited = new HashSet<string>(); var teleport = false;
+            Vector2Int? activeWindCell = null;
             do
             {
                 if (teleport)
@@ -114,11 +115,16 @@ namespace ANIMOL.Puzzle
                     if (!RuntimeMap.Walkable(destination)) { Player.position = (Vector2)Session.Cell; Status = "Route changed"; break; }
                     Player.position = (Vector2)destination; Session.Arrive(destination);
                 }
+                if (activeWindCell.HasValue) { View.FinishClassicWind(activeWindCell.Value); activeWindCell = null; }
                 var key = Session.Cell + ":" + Session.Direction + ":" + Session.Sliding + ":" + teleport;
                 if (!visited.Add(key)) { Status = "Automatic loop stopped"; break; }
                 if (!Session.NextAutomatic(teleport, out destination, out teleport)) break;
+                var device = RuntimeMap.DeviceAt(Session.Cell);
+                if (device.kind == DeviceKind.Wind)
+                { activeWindCell = Session.Cell; View.StartClassicWind(activeWindCell.Value); }
                 if (CharacterVisual) CharacterVisual.SetMotion(Session.Direction, Session.Sliding ? "sliding" : "move");
             } while (true);
+            if (activeWindCell.HasValue) View.FinishClassicWind(activeWindCell.Value);
             Session.StopSliding(); IsMoving = false;
             if (CharacterVisual)
             {

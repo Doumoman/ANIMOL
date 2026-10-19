@@ -1,0 +1,779 @@
+{
+  "version": "V12",
+  "purpose": "Resolve actual Unity project IDs/events/headings/load paths. All direction/state art must come from animation_catalog.json; no legacy fallback.",
+  "implementNewGameplay": false,
+  "families": [
+    {
+      "artKey": "conveyor",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "active",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "07",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "conveyor_east_transport",
+        "conveyor_north_transport",
+        "conveyor_west_transport",
+        "conveyor_south_transport"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "conveyor_east_transport",
+          "heading": "east",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_north_transport",
+          "heading": "north",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_west_transport",
+          "heading": "west",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "conveyor_south_transport",
+          "heading": "south",
+          "state": "transport",
+          "fps": 10,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "transport",
+          0
+        ],
+        "active": [
+          "transport",
+          "play_loop"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "oneway_gate",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "closed",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "open",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "09",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "oneway_gate_east_opening",
+        "oneway_gate_east_closing",
+        "oneway_gate_north_opening",
+        "oneway_gate_north_closing",
+        "oneway_gate_west_opening",
+        "oneway_gate_west_closing",
+        "oneway_gate_south_opening",
+        "oneway_gate_south_closing"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "oneway_gate_east_opening",
+          "heading": "east",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_east_closing",
+          "heading": "east",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_north_opening",
+          "heading": "north",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_north_closing",
+          "heading": "north",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_west_opening",
+          "heading": "west",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_west_closing",
+          "heading": "west",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_south_opening",
+          "heading": "south",
+          "state": "opening",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "oneway_gate_south_closing",
+          "heading": "south",
+          "state": "closing",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "closed": [
+          "opening",
+          0
+        ],
+        "open": [
+          "opening",
+          1
+        ],
+        "opening": [
+          "opening",
+          "play"
+        ],
+        "closing": [
+          "closing",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "bounce_corner",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "18",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "bounce_corner_ne_rebound",
+        "bounce_corner_nw_rebound",
+        "bounce_corner_sw_rebound",
+        "bounce_corner_se_rebound"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "bounce_corner_ne_rebound",
+          "heading": "ne",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_nw_rebound",
+          "heading": "nw",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_sw_rebound",
+          "heading": "sw",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        },
+        {
+          "key": "bounce_corner_se_rebound",
+          "heading": "se",
+          "state": "rebound_return",
+          "fps": 12,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "rebound_return",
+          0
+        ],
+        "pressed": [
+          "rebound_return",
+          0.34
+        ],
+        "contact": [
+          "rebound_return",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "brake_patch",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "19",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "brake_patch_horizontal_press_release",
+        "brake_patch_vertical_press_release"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "brake_patch_horizontal_press_release",
+          "heading": "horizontal",
+          "state": "press_hold_release",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "brake_patch_vertical_press_release",
+          "heading": "vertical",
+          "state": "press_hold_release",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "press_hold_release",
+          0
+        ],
+        "pressed": [
+          "press_hold_release",
+          0.5
+        ],
+        "brake": [
+          "press_hold_release",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "star_stone",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "pushed",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "01",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "id01_star_stone_push"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "id01_star_stone_push",
+          "heading": "none",
+          "state": "push",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "push",
+          1
+        ],
+        "moving": [
+          "push",
+          "play_with_existing_movement_tween"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "star_socket",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "empty",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "filled",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "01",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "id01_star_socket_seat"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "id01_star_socket_seat",
+          "heading": "none",
+          "state": "seat",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "empty": [
+          "seat",
+          0
+        ],
+        "filled": [
+          "seat",
+          1
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "pressure_plate",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "released",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "pressed",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "02",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "id02_pressure_plate_press",
+        "id02_pressure_plate_release"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "id02_pressure_plate_press",
+          "heading": "none",
+          "state": "press",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_pressure_plate_release",
+          "heading": "none",
+          "state": "release",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "released": [
+          "press",
+          0
+        ],
+        "pressed": [
+          "press",
+          1
+        ],
+        "releasing": [
+          "release",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "vine_bridge",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "extended",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "retracted",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "02",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "id02_vine_bridge_horizontal_open",
+        "id02_vine_bridge_horizontal_close",
+        "id02_vine_bridge_vertical_open",
+        "id02_vine_bridge_vertical_close"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "id02_vine_bridge_horizontal_open",
+          "heading": "horizontal",
+          "state": "open",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_horizontal_close",
+          "heading": "horizontal",
+          "state": "close",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_vertical_open",
+          "heading": "vertical",
+          "state": "open",
+          "fps": 10,
+          "loop": false
+        },
+        {
+          "key": "id02_vine_bridge_vertical_close",
+          "heading": "vertical",
+          "state": "close",
+          "fps": 10,
+          "loop": false
+        }
+      ],
+      "stableStateSelectionHints": {
+        "retracted": [
+          "open",
+          0
+        ],
+        "extended": [
+          "open",
+          1
+        ],
+        "opening": [
+          "open",
+          "play"
+        ],
+        "closing": [
+          "close",
+          "play"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "wind_corridor",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "states": [
+        {
+          "artState": "idle",
+          "existingProjectStateName": null
+        },
+        {
+          "artState": "active",
+          "existingProjectStateName": null
+        }
+      ],
+      "pdfDeviceId": "20",
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "wind_corridor.east.flow_effect",
+        "wind_corridor.north.flow_effect",
+        "wind_corridor.west.flow_effect",
+        "wind_corridor.south.flow_effect",
+        "wind_corridor_E_idle",
+        "wind_corridor_E_active",
+        "wind_corridor_W_idle",
+        "wind_corridor_W_active",
+        "wind_corridor_N_idle",
+        "wind_corridor_N_active",
+        "wind_corridor_S_idle",
+        "wind_corridor_S_active"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "wind_corridor.east.flow_effect",
+          "heading": "east",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.north.flow_effect",
+          "heading": "north",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.west.flow_effect",
+          "heading": "west",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor.south.flow_effect",
+          "heading": "south",
+          "state": "flow_effect",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_E_idle",
+          "heading": "east",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_E_active",
+          "heading": "east",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_W_idle",
+          "heading": "west",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_W_active",
+          "heading": "west",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_N_idle",
+          "heading": "north",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_N_active",
+          "heading": "north",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        },
+        {
+          "key": "wind_corridor_S_idle",
+          "heading": "south",
+          "state": "idle",
+          "fps": 1,
+          "loop": false
+        },
+        {
+          "key": "wind_corridor_S_active",
+          "heading": "south",
+          "state": "active",
+          "fps": 10,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "idle",
+          0
+        ],
+        "gust_emitter": [
+          "active",
+          "play_loop_while_committed_gust"
+        ],
+        "gust_range_only": [
+          "flow_effect",
+          "play_loop_on_affected_cell_renderer"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    },
+    {
+      "artKey": "chick",
+      "pdfDeviceId": "24",
+      "existingProjectDeviceId": null,
+      "verified": false,
+      "projectClassPath": null,
+      "prefabGuidAndFileId": null,
+      "spriteRendererPath": null,
+      "headingFieldOrCommittedVector": null,
+      "validActionEvent": null,
+      "poolResetPath": null,
+      "latestCatalogClipKeys": [
+        "chick.idle.south",
+        "chick.walk.south",
+        "chick.idle.east",
+        "chick.walk.east",
+        "chick.idle.north",
+        "chick.walk.north",
+        "chick.idle.west",
+        "chick.walk.west"
+      ],
+      "replacedLegacyReferences": [],
+      "clipDefinitions": [
+        {
+          "key": "chick.idle.south",
+          "heading": "south",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.south",
+          "heading": "south",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.east",
+          "heading": "east",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.east",
+          "heading": "east",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.north",
+          "heading": "north",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.north",
+          "heading": "north",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        },
+        {
+          "key": "chick.idle.west",
+          "heading": "west",
+          "state": "idle",
+          "fps": 1,
+          "loop": true
+        },
+        {
+          "key": "chick.walk.west",
+          "heading": "west",
+          "state": "walk",
+          "fps": 12,
+          "loop": true
+        }
+      ],
+      "stableStateSelectionHints": {
+        "idle": [
+          "idle",
+          0
+        ],
+        "walking": [
+          "walk",
+          "play_loop_along_committed_path"
+        ]
+      },
+      "hintConvention": "[exact clip state, normalizedProgress or playback instruction]. Resolve the actual heading; numeric progress requires SnapToState/ApplyNormalizedProgress, not a nonexistent idle clip."
+    }
+  ],
+  "noLegacyFallback": true,
+  "actualUnityMigrationExecuted": false
+}

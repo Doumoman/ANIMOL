@@ -1,0 +1,765 @@
+{
+  "version": "V12",
+  "theme": "별길 목장",
+  "pixelsPerUnit": 256,
+  "coordinateConvention": "Pixel bounds and anchors use top-left origin; Unity pivot is normalized bottom-left origin.",
+  "import": {
+    "filterMode": "Bilinear",
+    "compression": "None",
+    "mipMaps": false,
+    "meshType": "FullRect"
+  },
+  "artRule": "Separate raised pointed angular grass clumps, fringe and low joined patches, with broad flat sage planes and a single dark teal shadow; no grass paint on ground and no succulent art.",
+  "assets": [
+    {
+      "id": "raised_grass_01",
+      "file": "decor/raised_grass/tuft_01.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        71,
+        78,
+        115,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        71,
+        78,
+        115,
+        98
+      ],
+      "visibleWorldSize": [
+        0.44921875,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 35,
+        "top": 111,
+        "width": 474,
+        "height": 404
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 474,
+        "height": 404
+      },
+      "scale": [
+        0.24261603375527427,
+        0.24257425742574257
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "d409c98ea1a2768be04be4e0e0d3388c53c5f625cb0ec0b3bfe5740305e93d78",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_grass_02",
+      "file": "decor/raised_grass/tuft_02.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        51,
+        78,
+        155,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        51,
+        78,
+        155,
+        98
+      ],
+      "visibleWorldSize": [
+        0.60546875,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 530,
+        "top": 214,
+        "width": 472,
+        "height": 299
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 472,
+        "height": 299
+      },
+      "scale": [
+        0.3283898305084746,
+        0.3277591973244147
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 1
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "cf696703261ee60bd58c0e1c8969f624365e2c0c3a71978f16739b2bac3e500a",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_grass_03",
+      "file": "decor/raised_grass/tuft_03.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        65,
+        78,
+        126,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        65,
+        78,
+        126,
+        98
+      ],
+      "visibleWorldSize": [
+        0.4921875,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 39,
+        "top": 592,
+        "width": 472,
+        "height": 368
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 472,
+        "height": 368
+      },
+      "scale": [
+        0.2669491525423729,
+        0.266304347826087
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "b1a9c3afba4f6a8da976b1fc9199c1d829c810caf6d5be058d432e90679c6058",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_grass_04",
+      "file": "decor/raised_grass/tuft_04.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        69,
+        78,
+        118,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        69,
+        78,
+        118,
+        98
+      ],
+      "visibleWorldSize": [
+        0.4609375,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 543,
+        "top": 593,
+        "width": 443,
+        "height": 369
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 443,
+        "height": 369
+      },
+      "scale": [
+        0.26636568848758463,
+        0.26558265582655827
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 1
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "092cd61fd5521cdb53f234b146bdbadf505fe84184fcd6074917be57f7d73974",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_grass_05",
+      "file": "decor/raised_grass/tuft_05.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        49,
+        78,
+        159,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        49,
+        78,
+        159,
+        98
+      ],
+      "visibleWorldSize": [
+        0.62109375,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 45,
+        "top": 1105,
+        "width": 484,
+        "height": 299
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 484,
+        "height": 299
+      },
+      "scale": [
+        0.3285123966942149,
+        0.3277591973244147
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "00ad8bb1fc8d9552a1ccbd888589308ad96281430e79317148b589b998eec0a0",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_grass_06",
+      "file": "decor/raised_grass/tuft_06.png",
+      "kind": "raised_grass_clump",
+      "width": 256,
+      "height": 256,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        176
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        71,
+        78,
+        115,
+        98
+      ],
+      "smooth_alpha_bounds": [
+        71,
+        78,
+        115,
+        98
+      ],
+      "visibleWorldSize": [
+        0.44921875,
+        0.3828125
+      ],
+      "placement": "Place sparsely on grass terrain; nonblocking visual overlay. Pivot is logical cell center; visible contact lies at local image y=176.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 562,
+        "top": 1047,
+        "width": 423,
+        "height": 361
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 423,
+        "height": 361
+      },
+      "scale": [
+        0.2718676122931442,
+        0.27146814404432135
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 1
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "cf968572e876cc221b3123480b15332cf61f20c8d6b25236e58e411f9997e7c4",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_turf_edge_01",
+      "file": "decor/raised_grass/fringe_01.png",
+      "kind": "raised_turf_fringe",
+      "width": 256,
+      "height": 192,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.375
+      ],
+      "logical_size_reference_cell": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        120
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        8,
+        48,
+        240,
+        72
+      ],
+      "smooth_alpha_bounds": [
+        8,
+        48,
+        240,
+        72
+      ],
+      "visibleWorldSize": [
+        0.9375,
+        0.28125
+      ],
+      "placement": "Place contact anchor on exposed grass boundary; nonblocking visual overlay. Pivot equals contact anchor. Keep natural leaf orientation; do not rotate to side edges.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 38,
+        "top": 278,
+        "width": 711,
+        "height": 213
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 711,
+        "height": 213
+      },
+      "scale": [
+        0.33755274261603374,
+        0.3380281690140845
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "7efc8978e461327857580ac3bd23dc9e997f398d911cefb097212cb1dd624ac6",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_turf_edge_02",
+      "file": "decor/raised_grass/fringe_02.png",
+      "kind": "raised_turf_fringe",
+      "width": 256,
+      "height": 192,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.375
+      ],
+      "logical_size_reference_cell": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        120
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        8,
+        48,
+        240,
+        72
+      ],
+      "smooth_alpha_bounds": [
+        8,
+        48,
+        240,
+        72
+      ],
+      "visibleWorldSize": [
+        0.9375,
+        0.28125
+      ],
+      "placement": "Place contact anchor on exposed grass boundary; nonblocking visual overlay. Pivot equals contact anchor. Keep natural leaf orientation; do not rotate to side edges.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 791,
+        "top": 281,
+        "width": 714,
+        "height": 214
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 714,
+        "height": 214
+      },
+      "scale": [
+        0.33613445378151263,
+        0.3364485981308411
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "81d16fcef30fe821d238b4110ea1056c0fd76c8bf1fa94ec03d66e59bcebbb4b",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_turf_edge_03",
+      "file": "decor/raised_grass/fringe_03.png",
+      "kind": "raised_turf_fringe",
+      "width": 256,
+      "height": 192,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.375
+      ],
+      "logical_size_reference_cell": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        120
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        8,
+        49,
+        240,
+        71
+      ],
+      "smooth_alpha_bounds": [
+        8,
+        49,
+        240,
+        71
+      ],
+      "visibleWorldSize": [
+        0.9375,
+        0.27734375
+      ],
+      "placement": "Place contact anchor on exposed grass boundary; nonblocking visual overlay. Pivot equals contact anchor. Keep natural leaf orientation; do not rotate to side edges.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 31,
+        "top": 559,
+        "width": 728,
+        "height": 215
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 728,
+        "height": 215
+      },
+      "scale": [
+        0.32967032967032966,
+        0.3302325581395349
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "8c2a6e6058c9576236b95b9681db959005bf09dc4993adf6a507cf6dad0502cd",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    },
+    {
+      "id": "raised_turf_edge_04",
+      "file": "decor/raised_grass/fringe_04.png",
+      "kind": "raised_turf_fringe",
+      "width": 256,
+      "height": 192,
+      "pixelsPerUnit": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.375
+      ],
+      "logical_size_reference_cell": [
+        256,
+        256
+      ],
+      "anchor_px": [
+        128,
+        120
+      ],
+      "anchorMeaning": "bottom/contact of visible art, top-left pixel origin",
+      "visible_bounds": [
+        8,
+        52,
+        240,
+        68
+      ],
+      "smooth_alpha_bounds": [
+        8,
+        52,
+        240,
+        68
+      ],
+      "visibleWorldSize": [
+        0.9375,
+        0.265625
+      ],
+      "placement": "Place contact anchor on exposed grass boundary; nonblocking visual overlay. Pivot equals contact anchor. Keep natural leaf orientation; do not rotate to side edges.",
+      "collider": false,
+      "sorting": "Depth-sort with props by contact anchor. Draw above grass base and cliff, behind props whose contact is farther forward.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 791,
+        "top": 574,
+        "width": 716,
+        "height": 204
+      },
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 716,
+        "height": 204
+      },
+      "scale": [
+        0.33519553072625696,
+        0.3333333333333333
+      ],
+      "uniformResizeOnly": true,
+      "maximumVerticalCompression": 0,
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "minimumAlpha": 8,
+        "nearOpaqueNormalizedAt": 245,
+        "keptComponents": 1,
+        "removedTinyComponents": 0
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "a2a725e3076090b41372429d5a3739bdc4a895814ae3e5b0081d54588f9a6d34",
+      "nativeRedraw": true,
+      "compatibilityArt": true,
+      "artRule": "Corresponding V11 short angular grass design, fitted to the original optional raised-grass canvas and anchor. No succulent leaf design remains."
+    }
+  ],
+  "qa": {
+    "status": "PASS",
+    "count": 10,
+    "actualGeneratedAlphaUsed": true,
+    "dimensionsAndAnchorsPreserved": true,
+    "uniformResizeOnly": true,
+    "unityExecuted": false
+  }
+}

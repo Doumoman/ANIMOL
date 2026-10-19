@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &588088442928477709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6095426540452866215}
+  - component: {fileID: 54039277123719595}
+  m_Layer: 0
+  m_Name: d18_bounce_corner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6095426540452866215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588088442928477709}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 905708799067053290}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &54039277123719595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588088442928477709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f466075fe838f1b4c94756161ba365da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Presentation.DeviceVisualView
+  deviceId: 18
+  initialState: idle_nw
+  visual: {fileID: 2800508865768159282}
+  states:
+  - name: idle_nw
+    eventName: 
+    sprite: {fileID: 21300000, guid: a8a3745a91a22ac419cdb4f7d856962e, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 7400000, guid: 533fb1a5adc5a2c4e9966a61a298c186, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_nw_rebound
+    v12StaticProgress: 0
+  - name: idle_ne
+    eventName: 
+    sprite: {fileID: 21300000, guid: 10367ad2a8a11264e8aea968d91b9bb8, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 7400000, guid: 870560c70526cbc439d0c9c4998f2d51, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_ne_rebound
+    v12StaticProgress: 0
+  - name: idle_se
+    eventName: 
+    sprite: {fileID: 21300000, guid: 0b840ef4e851108499588b9d175fccfd, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 7400000, guid: 7d73ad23ab9fa4542a752fc720ac7a64, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_se_rebound
+    v12StaticProgress: 0
+  - name: idle_sw
+    eventName: 
+    sprite: {fileID: 21300000, guid: 31cf490d7f47e604594aa2a5dd049367, type: 3}
+    terminal: {fileID: 0}
+    sequence: {fileID: 0}
+    clip: {fileID: 7400000, guid: db052c5ad3a56074fa321f33fc579fb0, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_sw_rebound
+    v12StaticProgress: 0
+  - name: impact_nw
+    eventName: existing_bounce_resolved
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: a8a3745a91a22ac419cdb4f7d856962e, type: 3}
+    sequence: {fileID: 11400000, guid: e5af1fe49dc8f33459524c8c2c3e2d18, type: 2}
+    clip: {fileID: 7400000, guid: 533fb1a5adc5a2c4e9966a61a298c186, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_nw_rebound
+    v12StaticProgress: 0
+  - name: impact_ne
+    eventName: existing_bounce_resolved
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 10367ad2a8a11264e8aea968d91b9bb8, type: 3}
+    sequence: {fileID: 11400000, guid: 12df16fc9a6c0d143a31fa00d1f1ef95, type: 2}
+    clip: {fileID: 7400000, guid: 870560c70526cbc439d0c9c4998f2d51, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_ne_rebound
+    v12StaticProgress: 0
+  - name: impact_se
+    eventName: existing_bounce_resolved
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 0b840ef4e851108499588b9d175fccfd, type: 3}
+    sequence: {fileID: 11400000, guid: bf2d622ebb94df44999a80b35d7be93d, type: 2}
+    clip: {fileID: 7400000, guid: 7d73ad23ab9fa4542a752fc720ac7a64, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_se_rebound
+    v12StaticProgress: 0
+  - name: impact_sw
+    eventName: existing_bounce_resolved
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 31cf490d7f47e604594aa2a5dd049367, type: 3}
+    sequence: {fileID: 11400000, guid: 0a843486fcf69614883342bcc11536bd, type: 2}
+    clip: {fileID: 7400000, guid: db052c5ad3a56074fa321f33fc579fb0, type: 2}
+    v03ClipKey: 
+    v03StaticProgress: 0
+    v12ClipKey: bounce_corner_sw_rebound
+    v12StaticProgress: 0
+  paused: 0
+  initialPhase: 0
+--- !u!1 &4821187504934911959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 905708799067053290}
+  - component: {fileID: 2800508865768159282}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &905708799067053290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4821187504934911959}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6095426540452866215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2800508865768159282
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4821187504934911959}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 21300000, guid: a8a3745a91a22ac419cdb4f7d856962e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.2, y: 1.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0

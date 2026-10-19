@@ -1,0 +1,100 @@
+{
+  "version": "V12",
+  "source": "sources/ranch_v11_bridge_flat_native.png",
+  "artTreatment": "New edited bridge reference RGB sampled under byte-identical original rail and post alpha geometry.",
+  "ppu": 256,
+  "placementCoordinates": "Image top-left pixels from logical map top-left. Y increases down. Unity transform uses (origin.x+x/256,origin.y-y/256) with pivot(0,1).",
+  "postAnchorPixels": [
+    40,
+    58
+  ],
+  "postIntervalCells": 4,
+  "rules": "Rails only border W/S against void. All G/W/S count as walkable, including material changes and banks. Straight runs share continuous cream rails; posts occur only at run ends/turns and every fourth cell on long runs. Shared vertices receive one post.",
+  "renderOrder": "bridge decks, rails by layer, boundary posts, then raised grass and props according to depth",
+  "assets": [
+    {
+      "file": "bridge_decor/cream_rail_horizontal.png",
+      "width": 256,
+      "height": 40,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "kind": "bridge_boundary_rail",
+      "anchorTopLeft": true,
+      "logicalAnchorPixels": [
+        0,
+        20
+      ],
+      "collider": false,
+      "source": "sources/ranch_v11_bridge_flat_native.png",
+      "sourceNative": "sources/ranch_v11_bridge_flat_native.png",
+      "productionSourceROI": [
+        300,
+        182,
+        1,
+        40
+      ],
+      "artRevision": "V11_native_flat_angular"
+    },
+    {
+      "file": "bridge_decor/cream_rail_vertical.png",
+      "width": 40,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "kind": "bridge_boundary_rail",
+      "anchorTopLeft": true,
+      "logicalAnchorPixels": [
+        20,
+        0
+      ],
+      "collider": false,
+      "source": "sources/ranch_v11_bridge_flat_native.png",
+      "sourceNative": "sources/ranch_v11_bridge_flat_native.png",
+      "productionSourceROI": [
+        300,
+        182,
+        1,
+        40
+      ],
+      "artRevision": "V11_native_flat_angular"
+    },
+    {
+      "file": "bridge_decor/emerald_post.png",
+      "width": 80,
+      "height": 136,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "kind": "bridge_boundary_post",
+      "anchorTopLeft": true,
+      "logicalAnchorPixels": [
+        40,
+        58
+      ],
+      "collider": false,
+      "source": "sources/ranch_v11_bridge_flat_native.png",
+      "sourceNative": "sources/ranch_v11_bridge_flat_native.png",
+      "productionSourceROI": [
+        29,
+        367,
+        84,
+        146
+      ],
+      "artRevision": "V11_native_flat_angular"
+    }
+  ],
+  "qa": {
+    "status": "PASS",
+    "details": "ranch_v11_terrain_qa.json",
+    "scope": "All 1728 terrain assets plus 4 optional bridge illustrations, exact alpha/import metadata and actual RGB changes. No Unity execution."
+  },
+  "sourcePolicy": "New V11 raster interiors; native RGB sampled unchanged. Certified old alpha and metadata retained."
+}

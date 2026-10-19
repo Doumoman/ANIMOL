@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
+using ANIMOL.Art.V12;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -13,6 +14,8 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
         readonly HashSet<string> pendingRemoval = new HashSet<string>();
+        readonly Dictionary<Vector2Int, StarwayRanchV12AnimatedVisual> windEffects =
+            new Dictionary<Vector2Int, StarwayRanchV12AnimatedVisual>();
         PuzzleDeviceSession session;
         SpriteRenderer player;
         BeamPathView beams;
@@ -51,7 +54,18 @@ namespace ANIMOL.Puzzle
                         if (theaterArt && theaterArt.v03Animations && d.variant != "plate" && d.variant != "target" && HasV03DeviceArt(d.role))
                             if (!view.ActivateV03(theaterArt.v03Animations, theaterArt.v03ManifestSha256)) MissingBindings++;
                         if (session.Map.theme && session.Map.theme.starwayRanch)
-                            root.AddComponent<StarwayRanchDeviceArt>().Bind(session.Map.theme.starwayRanch, view, d);
+                        {
+                            var ranch = session.Map.theme.starwayRanch;
+                            if (ranch.v12Animations && HasV12DeviceArt(d.role, d.variant))
+                            {
+                                if (!view.ActivateV12(ranch.v12Animations, ranch.v12ManifestSha256)) MissingBindings++;
+                            }
+                            else if (!ranch.v12Animations && HasV12DeviceArt(d.role, d.variant))
+                            {
+                                MissingBindings++;
+                                Debug.LogError("Starway Ranch V12 catalog is missing; refusing legacy device art.", root);
+                            }
+                        }
                     }
                 }
             }
@@ -73,6 +87,23 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Brake:
                 case PrototypeRole.Dice:
                 case PrototypeRole.CowardDoll:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        static bool HasV12DeviceArt(PrototypeRole role, string variant)
+        {
+            switch (role)
+            {
+                case PrototypeRole.StarSocket:
+                case PrototypeRole.VineBridge:
+                case PrototypeRole.Conveyor:
+                case PrototypeRole.OneWayGate:
+                case PrototypeRole.Bounce:
+                case PrototypeRole.Brake:
+                case PrototypeRole.Chick:
+                case PrototypeRole.Wind:
                     return true;
                 default:
                     return false;
@@ -102,11 +133,12 @@ namespace ANIMOL.Puzzle
                 }
             }
             pendingIdle.Remove(e.actor);
+            if (view.IsV12Active && e.eventName == "valid_action_wind_resolved")
+                ShowWindEffects(e);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
-            else if (view.IsV03Active)
+            else if (view.IsV03Active || view.IsV12Active)
             { if (!view.Notify(actionId, e.eventName, e.state)) MissingBindings++; }
             else if (!view.Notify(actionId, e.eventName, e.state) && !view.Present(e.state, true)) MissingBindings++;
-            if (roots.TryGetValue(e.actor, out var actor)) actor.GetComponent<StarwayRanchDeviceArt>()?.ApplyNow();
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
         }
         static bool TryDiceState(int[] faces, out EchoTheaterV03DiceOrientation.State state, out string error)
@@ -129,6 +161,43 @@ namespace ANIMOL.Puzzle
             var state = Array.Find(view.states, s => s.name == view.CurrentState);
             return state != null && state.sequence && !state.sequence.loop && view.Elapsed < state.sequence.Duration;
         }
+        void ShowWindEffects(PrototypeEvent e)
+        {
+            var art = session.Map.theme.starwayRanch;
+            if (!art || !art.v12Animations || e.cells == null) { MissingBindings++; return; }
+            var suffix = e.state.Substring(e.state.LastIndexOf('_') + 1);
+            var direction = suffix == "e" ? "east" : suffix == "n" ? "north" :
+                suffix == "w" ? "west" : suffix == "s" ? "south" : null;
+            if (direction == null) { MissingBindings++; return; }
+            var key = "wind_corridor." + direction + ".flow_effect";
+            foreach (var cell in e.cells)
+            {
+                if (!windEffects.TryGetValue(cell, out var player))
+                {
+                    var go = new GameObject("Wind visual " + cell.x + "," + cell.y);
+                    go.transform.SetParent(transform, false);
+                    go.transform.localPosition = (Vector2)cell;
+                    var renderer = go.AddComponent<SpriteRenderer>();
+                    renderer.sortingOrder = 31;
+                    player = go.AddComponent<StarwayRanchV12AnimatedVisual>();
+                    if (!player.Configure(art.v12Animations, renderer, art.v12ManifestSha256)) MissingBindings++;
+                    windEffects.Add(cell, player);
+                }
+                player.gameObject.SetActive(true);
+                player.GetComponent<SpriteRenderer>().enabled = true;
+                if (!(StarwayRanchMotionSettings.ReducedMotion ? player.SnapToState(key) : player.Play(key))) MissingBindings++;
+            }
+        }
+        void ClearWindEffects()
+        {
+            foreach (var player in windEffects.Values)
+            {
+                if (!player) continue;
+                player.Cancel();
+                player.GetComponent<SpriteRenderer>().enabled = false;
+                player.gameObject.SetActive(false);
+            }
+        }
         void Update()
         {
             foreach (var id in pendingIdle.Keys.ToArray())
@@ -143,6 +212,7 @@ namespace ANIMOL.Puzzle
         }
         public void Settle()
         {
+            ClearWindEffects();
             foreach (var d in session.Devices)
             {
                 var s = session.States[d.id];
@@ -162,7 +232,6 @@ namespace ANIMOL.Puzzle
                 pendingIdle.Remove(d.id);
                 if (ferries.TryGetValue(d.id, out ferry)) { if (!ferry.Present(state)) MissingBindings++; }
                 else if (!view.Present(state)) MissingBindings++;
-                root.GetComponent<StarwayRanchDeviceArt>()?.ApplyNow();
             }
             player.enabled = string.IsNullOrEmpty(session.BoatId);
             if (beams) beams.Present(session.Beams.Select(b => new BeamVisualCell { position = b.cell, shape = BeamShape(b) }).ToArray());
@@ -193,7 +262,7 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Portal: return (d.variant == "b" ? "b" : "a") + "_idle";
                 case PrototypeRole.Bounce: return "idle_" + PuzzleDeviceSession.Corner(d.orientation);
                 case PrototypeRole.Brake: return "idle_" + (d.variant == "vertical" ? "vertical" : "horizontal");
-                case PrototypeRole.Wind: return (d.variant == "blower" ? "blower_run_" : "wind_flow_") + dir;
+                case PrototypeRole.Wind: return (d.variant == "blower" ? "blower_idle_" : "wind_flow_") + dir;
                 case PrototypeRole.Glass: return "intact_" + (string.IsNullOrEmpty(d.variant) ? "square" : d.variant);
                 case PrototypeRole.Dice: return d.variant == "target" ? "target_" + d.number + (s.active ? "_on" : "_off") : s.DiceId;
                 case PrototypeRole.Magnet: return d.variant == "switch" ? (s.active ? "switch_on" : "switch_off") : (s.active ? "on_" : "off_") + dir;

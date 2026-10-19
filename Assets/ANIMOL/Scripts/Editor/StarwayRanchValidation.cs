@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using ANIMOL.Puzzle;
-using Animol.StarwayRanch.V10;
+using Animol.StarwayRanch.V12;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -13,7 +13,7 @@ namespace ANIMOL.Presentation.Editor
     public static class StarwayRanchValidation
     {
         const string Scene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity";
-        const string Output = "Docs/Validation/StarwayRanchV10";
+        const string Output = "Docs/Validation/StarwayRanchV12";
 
         public static void CaptureDeviceQa()
         {
@@ -22,7 +22,7 @@ namespace ANIMOL.Presentation.Editor
             if (!camera) throw new InvalidOperationException("Device QA camera missing");
             Directory.CreateDirectory(Output);
             Save(camera, Output + "/device_qa_1080x1920.png", 1080, 1920);
-            Debug.Log("STARWAY_V10_DEVICE_CAPTURE_OK");
+            Debug.Log("STARWAY_V12_DEVICE_CAPTURE_OK");
         }
 
         public static void Capture()
@@ -31,9 +31,9 @@ namespace ANIMOL.Presentation.Editor
             EditorSceneManager.OpenScene(Scene);
             var camera = UnityEngine.Object.FindFirstObjectByType<Camera>();
             if (!camera) throw new InvalidOperationException("QA camera missing");
-            var rig = UnityEngine.Object.FindFirstObjectByType<StarwayRanchV10BackgroundRig>();
-            var sky = UnityEngine.Object.FindFirstObjectByType<StarwayRanchV10CameraCover>();
-            if (!rig || !sky) throw new InvalidOperationException("V10 background components missing");
+            var rig = UnityEngine.Object.FindFirstObjectByType<StarwayRanchV12BackgroundRig>();
+            var sky = UnityEngine.Object.FindFirstObjectByType<StarwayRanchV12CameraCover>();
+            if (!rig || !sky) throw new InvalidOperationException("V12 background components missing");
             var renderers = rig.GetComponentsInChildren<SpriteRenderer>();
             if (renderers.Length != 129) throw new InvalidOperationException("Expected 128 layers + sky, got " + renderers.Length);
             if (renderers.Any(r => !r.sprite || r.sortingLayerName != "Background"))
@@ -49,7 +49,7 @@ namespace ANIMOL.Presentation.Editor
                 new Vector2(0, -60), new Vector2(0, 60) })
             {
                 camera.transform.position = new Vector3(original.x + p.x, original.y + p.y, original.z);
-                typeof(StarwayRanchV10BackgroundRig).GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic)
+                typeof(StarwayRanchV12BackgroundRig).GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic)
                     .Invoke(rig, null);
                 sky.FitNow();
                 Save(camera, Output + "/qa_camera_" + p.x + "_" + p.y + ".png", 360, 640);
@@ -59,7 +59,7 @@ namespace ANIMOL.Presentation.Editor
             foreach (var size in new[] { 5f, 25f })
             {
                 camera.orthographicSize = size;
-                typeof(StarwayRanchV10BackgroundRig).GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic)
+                typeof(StarwayRanchV12BackgroundRig).GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic)
                     .Invoke(rig, null);
                 sky.FitNow();
                 Save(camera, Output + "/qa_ortho_" + size + ".png", 360, 640);
@@ -67,7 +67,7 @@ namespace ANIMOL.Presentation.Editor
             camera.orthographicSize = originalSize;
             sky.FitNow();
             if (setup.Any(entry => entry.isLoaded && entry.isActive)) EditorSceneManager.RestoreSceneManagerSetup(setup);
-            Debug.Log("STARWAY_V10_CAPTURE_OK renderers=129 1080x1920 and four camera extremes");
+            Debug.Log("STARWAY_V12_CAPTURE_OK renderers=129 1080x1920 and four camera extremes");
         }
 
         static void Save(Camera camera, string file, int width, int height)

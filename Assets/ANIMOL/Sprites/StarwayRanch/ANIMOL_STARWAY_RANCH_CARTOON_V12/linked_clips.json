@@ -1,0 +1,1967 @@
+{
+  "version": "V12",
+  "theme": "별길 목장",
+  "sourceReference": "ANIMOL illustrated device atlas pp8–9, IDs01 and02",
+  "bindingPolicy": "Art semantic keys only. Verify existing project enum, occupancy, heading and physical footprint before binding. Do not invent unresolved wrong-star-match or occupied-closing rules.",
+  "defaultImport": {
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "filterMode": "Bilinear",
+    "compression": "Uncompressed",
+    "mipmaps": false,
+    "wrapMode": "Clamp",
+    "meshType": "FullRect"
+  },
+  "clips": [
+    {
+      "key": "id01_star_stone_push",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "push",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/star_stone/none/push/frame_00.png",
+        "animations/linked/star_stone/none/push/frame_01.png",
+        "animations/linked/star_stone/none/push/frame_02.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "deviceAtlasId": "01",
+      "frameRoles": [
+        "contact",
+        "small_tilt",
+        "settle_approved_V11_body"
+      ]
+    },
+    {
+      "key": "id01_star_socket_seat",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "seat",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/star_socket/none/seat/frame_00.png",
+        "animations/linked/star_socket/none/seat/frame_01.png",
+        "animations/linked/star_socket/none/seat/frame_02.png",
+        "animations/linked/star_socket/none/seat/frame_03.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "deviceAtlasId": "01",
+      "frameRoles": [
+        "empty",
+        "half_seated",
+        "flush",
+        "completed_walkable_floor"
+      ]
+    },
+    {
+      "key": "id02_pressure_plate_press",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "press",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/pressure_plate/none/press_cycle/frame_00.png",
+        "animations/linked/pressure_plate/none/press_cycle/frame_01.png",
+        "animations/linked/pressure_plate/none/press_cycle/frame_02.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "deviceAtlasId": "02",
+      "frameRoles": [
+        "released",
+        "half_pressed",
+        "pressed"
+      ]
+    },
+    {
+      "key": "id02_pressure_plate_release",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "release",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/pressure_plate/none/press_cycle/frame_02.png",
+        "animations/linked/pressure_plate/none/press_cycle/frame_03.png",
+        "animations/linked/pressure_plate/none/press_cycle/frame_00.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "deviceAtlasId": "02",
+      "frameRoles": [
+        "pressed",
+        "releasing",
+        "released"
+      ]
+    },
+    {
+      "key": "id02_vine_bridge_horizontal_open",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/vine_bridge/horizontal/open/frame_00.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_01.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_02.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_03.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_04.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "02",
+      "frameRoles": [
+        "retracted",
+        "unfurl",
+        "partial",
+        "near_extended",
+        "extended"
+      ],
+      "artFootprintNeedsProjectVerification": true
+    },
+    {
+      "key": "id02_vine_bridge_horizontal_close",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "close",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/vine_bridge/horizontal/open/frame_04.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_03.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_02.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_01.png",
+        "animations/linked/vine_bridge/horizontal/open/frame_00.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "02",
+      "reverseOf": "id02_vine_bridge_horizontal_open",
+      "artFootprintNeedsProjectVerification": true
+    },
+    {
+      "key": "id02_vine_bridge_vertical_open",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/vine_bridge/vertical/open/frame_00.png",
+        "animations/linked/vine_bridge/vertical/open/frame_01.png",
+        "animations/linked/vine_bridge/vertical/open/frame_02.png",
+        "animations/linked/vine_bridge/vertical/open/frame_03.png",
+        "animations/linked/vine_bridge/vertical/open/frame_04.png"
+      ],
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "02",
+      "frameRoles": [
+        "retracted",
+        "unfurl",
+        "partial",
+        "near_extended",
+        "extended"
+      ],
+      "artFootprintNeedsProjectVerification": true
+    },
+    {
+      "key": "id02_vine_bridge_vertical_close",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "close",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/linked/vine_bridge/vertical/open/frame_04.png",
+        "animations/linked/vine_bridge/vertical/open/frame_03.png",
+        "animations/linked/vine_bridge/vertical/open/frame_02.png",
+        "animations/linked/vine_bridge/vertical/open/frame_01.png",
+        "animations/linked/vine_bridge/vertical/open/frame_00.png"
+      ],
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "02",
+      "reverseOf": "id02_vine_bridge_vertical_open",
+      "artFootprintNeedsProjectVerification": true
+    }
+  ],
+  "assets": [
+    {
+      "key": "star_stone_none_push_0",
+      "kind": "device_animation_frame",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "push",
+      "frameIndex": 0,
+      "file": "animations/linked/star_stone/none/push/frame_00.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_push_native.png",
+      "nativeSourceRect": [
+        47,
+        79,
+        358,
+        334
+      ],
+      "contentRect": [
+        38,
+        46,
+        244,
+        228
+      ],
+      "nativeUniformResizeScale": 0.6815642458100558,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "33ed1c764d73b256ac147793d4f00f31142453e9b34c1f0e87ca52366d73f030",
+      "artKey": "star_stone_none_push_0"
+    },
+    {
+      "key": "star_stone_none_push_1",
+      "kind": "device_animation_frame",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "push",
+      "frameIndex": 1,
+      "file": "animations/linked/star_stone/none/push/frame_01.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_push_native.png",
+      "nativeSourceRect": [
+        516,
+        86,
+        350,
+        342
+      ],
+      "contentRect": [
+        41,
+        44,
+        239,
+        233
+      ],
+      "nativeUniformResizeScale": 0.6815642458100558,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "454a4a9bd3ec1108d757dbfc34aaf021a77a5de1e42230c810c3a9cea8ca90ae",
+      "artKey": "star_stone_none_push_1"
+    },
+    {
+      "key": "star_stone_none_push_2",
+      "kind": "device_animation_frame",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "push",
+      "frameIndex": 2,
+      "file": "animations/linked/star_stone/none/push/frame_02.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_approved_star_idle_reference.png",
+      "nativeSourceRect": null,
+      "contentRect": [
+        38,
+        45,
+        244,
+        233
+      ],
+      "nativeUniformResizeScale": 1,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "bb87bbbc124bcba18c1406a9cbb071322ee26ef628b2ddd283b4e2a50e46a499",
+      "approvedV11EndpointByteIdentical": true,
+      "artKey": "star_stone_none_push_2"
+    },
+    {
+      "key": "star_socket_none_seat_0",
+      "kind": "device_animation_frame",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "seat",
+      "frameIndex": 0,
+      "file": "animations/linked/star_socket/none/seat/frame_00.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        30,
+        467,
+        411,
+        332
+      ],
+      "contentRect": [
+        40,
+        63,
+        240,
+        194
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "f6f9177181de25202a208131d7416ccca081a1b6a445db9916757cbf417442aa",
+      "artKey": "star_socket_none_seat_0"
+    },
+    {
+      "key": "star_socket_none_seat_1",
+      "kind": "device_animation_frame",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "seat",
+      "frameIndex": 1,
+      "file": "animations/linked/star_socket/none/seat/frame_01.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        472,
+        468,
+        413,
+        330
+      ],
+      "contentRect": [
+        39,
+        64,
+        242,
+        193
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "8529209a373965c823a04b02de1d5cd767b58ab985f6f838c729ff1ffc7f8968",
+      "artKey": "star_socket_none_seat_1"
+    },
+    {
+      "key": "star_socket_none_seat_2",
+      "kind": "device_animation_frame",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "seat",
+      "frameIndex": 2,
+      "file": "animations/linked/star_socket/none/seat/frame_02.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        917,
+        468,
+        410,
+        331
+      ],
+      "contentRect": [
+        40,
+        63,
+        240,
+        194
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "7c5f7f68f655caafcfd27a43100b7f056a64dc34dcfee4fa6f2a7a6f1c158342",
+      "artKey": "star_socket_none_seat_2"
+    },
+    {
+      "key": "star_socket_none_seat_3",
+      "kind": "device_animation_frame",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "seat",
+      "frameIndex": 3,
+      "file": "animations/linked/star_socket/none/seat/frame_03.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        1346,
+        461,
+        417,
+        343
+      ],
+      "contentRect": [
+        38,
+        60,
+        244,
+        201
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "d3fed37571f760eed60b632ab66043c5e75ec97d2ade08673ff987d2868c7e99",
+      "artKey": "star_socket_none_seat_3"
+    },
+    {
+      "key": "pressure_plate_none_press_cycle_0",
+      "kind": "device_animation_frame",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "press_cycle",
+      "frameIndex": 0,
+      "file": "animations/linked/pressure_plate/none/press_cycle/frame_00.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        44,
+        63,
+        628,
+        502
+      ],
+      "contentRect": [
+        41,
+        70,
+        238,
+        190
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "1c559e4f6f5264870d3f74b378d2fdaa5ea0135e5162f0e42cb3faa4d5ec3d4a",
+      "artKey": "pressure_plate_none_press_cycle_0"
+    },
+    {
+      "key": "pressure_plate_none_press_cycle_1",
+      "kind": "device_animation_frame",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "press_cycle",
+      "frameIndex": 1,
+      "file": "animations/linked/pressure_plate/none/press_cycle/frame_01.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        766,
+        156,
+        633,
+        417
+      ],
+      "contentRect": [
+        40,
+        102,
+        240,
+        158
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "82869e9a23667ddb2e4ccabf8e3c6096f6e1f71e11fc1805f09ec2ff3a6260f3",
+      "artKey": "pressure_plate_none_press_cycle_1"
+    },
+    {
+      "key": "pressure_plate_none_press_cycle_2",
+      "kind": "device_animation_frame",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "press_cycle",
+      "frameIndex": 2,
+      "file": "animations/linked/pressure_plate/none/press_cycle/frame_02.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        55,
+        675,
+        643,
+        376
+      ],
+      "contentRect": [
+        38,
+        117,
+        244,
+        143
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "48bccaef2acb524ea03b45f9ca7878d11a753c4dfb48dac22ef27bc19484d8ec",
+      "artKey": "pressure_plate_none_press_cycle_2"
+    },
+    {
+      "key": "pressure_plate_none_press_cycle_3",
+      "kind": "device_animation_frame",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "press_cycle",
+      "frameIndex": 3,
+      "file": "animations/linked/pressure_plate/none/press_cycle/frame_03.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        766,
+        630,
+        633,
+        426
+      ],
+      "contentRect": [
+        40,
+        98,
+        240,
+        162
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "d5abdae32d2b05f127f5c0f5ee7ed83421bf27c77c558c85e59eb610f00342ac",
+      "artKey": "pressure_plate_none_press_cycle_3"
+    },
+    {
+      "key": "vine_bridge_horizontal_open_0",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 0,
+      "file": "animations/linked/vine_bridge/horizontal/open/frame_00.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        21,
+        75,
+        680,
+        273
+      ],
+      "contentRect": [
+        39,
+        100,
+        499,
+        200
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "e2791cfa0d69cd4b31424e81dec0de9cfbe15217b3f217543ec50a1195a9717a",
+      "artKey": "vine_bridge_horizontal_open_0"
+    },
+    {
+      "key": "vine_bridge_horizontal_open_1",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 1,
+      "file": "animations/linked/vine_bridge/horizontal/open/frame_01.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        745,
+        75,
+        681,
+        273
+      ],
+      "contentRect": [
+        39,
+        100,
+        499,
+        200
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "31b1c06fab48381b67604df6b28152f6bcbeaac78672d8ffd38adee4a09fe213",
+      "artKey": "vine_bridge_horizontal_open_1"
+    },
+    {
+      "key": "vine_bridge_horizontal_open_2",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 2,
+      "file": "animations/linked/vine_bridge/horizontal/open/frame_02.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        21,
+        407,
+        680,
+        273
+      ],
+      "contentRect": [
+        39,
+        100,
+        499,
+        200
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "dacd4df04c5ab8b1a42282343caceb5d0fb6fbe9c7f8cd634f2d303882b0f64b",
+      "artKey": "vine_bridge_horizontal_open_2"
+    },
+    {
+      "key": "vine_bridge_horizontal_open_3",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 3,
+      "file": "animations/linked/vine_bridge/horizontal/open/frame_03.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        744,
+        407,
+        682,
+        273
+      ],
+      "contentRect": [
+        38,
+        100,
+        500,
+        200
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "77314783ffc7b1f7db521bce85f7e142a71ced2d149d1a3f73b371e26b7abf33",
+      "artKey": "vine_bridge_horizontal_open_3"
+    },
+    {
+      "key": "vine_bridge_horizontal_open_4",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 4,
+      "file": "animations/linked/vine_bridge/horizontal/open/frame_04.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        20,
+        733,
+        681,
+        272
+      ],
+      "contentRect": [
+        39,
+        101,
+        499,
+        199
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "6e3b2a2cd9a681b37522dc060b107cc9b76fee243d0780f882c09bffcfc7d1c0",
+      "artKey": "vine_bridge_horizontal_open_4"
+    },
+    {
+      "key": "vine_bridge_vertical_open_0",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 0,
+      "file": "animations/linked/vine_bridge/vertical/open/frame_00.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_vertical_native.png",
+      "nativeSourceRect": [
+        52,
+        31,
+        292,
+        685
+      ],
+      "contentRect": [
+        50,
+        29,
+        221,
+        519
+      ],
+      "nativeUniformResizeScale": 0.7580174927113703,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "5662721d321f683a8f746cee7231a60c1e4a0a699305d1aff3d2fdc3964c5c48",
+      "artKey": "vine_bridge_vertical_open_0"
+    },
+    {
+      "key": "vine_bridge_vertical_open_1",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 1,
+      "file": "animations/linked/vine_bridge/vertical/open/frame_01.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_vertical_native.png",
+      "nativeSourceRect": [
+        396,
+        31,
+        291,
+        685
+      ],
+      "contentRect": [
+        50,
+        29,
+        221,
+        519
+      ],
+      "nativeUniformResizeScale": 0.7580174927113703,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "d2ab520ae36ced514e469b18fa181a70c5f283c60b5294042d22098bbdf0ef37",
+      "artKey": "vine_bridge_vertical_open_1"
+    },
+    {
+      "key": "vine_bridge_vertical_open_2",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 2,
+      "file": "animations/linked/vine_bridge/vertical/open/frame_02.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_vertical_native.png",
+      "nativeSourceRect": [
+        741,
+        31,
+        294,
+        686
+      ],
+      "contentRect": [
+        49,
+        28,
+        223,
+        520
+      ],
+      "nativeUniformResizeScale": 0.7580174927113703,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "50c32e0ba4545633d0e5f9008ef9736c695c871dcf84478ade85d8051fd56c2f",
+      "artKey": "vine_bridge_vertical_open_2"
+    },
+    {
+      "key": "vine_bridge_vertical_open_3",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 3,
+      "file": "animations/linked/vine_bridge/vertical/open/frame_03.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_vertical_native.png",
+      "nativeSourceRect": [
+        52,
+        732,
+        292,
+        683
+      ],
+      "contentRect": [
+        50,
+        29,
+        221,
+        518
+      ],
+      "nativeUniformResizeScale": 0.7580174927113703,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "c6b3c6d2769acc26bb05555c665b15005eec8194c047b21b3cda433fa66d4080",
+      "artKey": "vine_bridge_vertical_open_3"
+    },
+    {
+      "key": "vine_bridge_vertical_open_4",
+      "kind": "device_animation_frame",
+      "family": "vine_bridge",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 4,
+      "file": "animations/linked/vine_bridge/vertical/open/frame_04.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_vertical_native.png",
+      "nativeSourceRect": [
+        396,
+        732,
+        291,
+        683
+      ],
+      "contentRect": [
+        50,
+        29,
+        221,
+        518
+      ],
+      "nativeUniformResizeScale": 0.7580174927113703,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "d8ab3d9c6910d01cd2b3e4c387e20a72c394393c3535edf2c8027b7a042e9cb2",
+      "artKey": "vine_bridge_vertical_open_4"
+    }
+  ],
+  "staticAliases": [
+    {
+      "key": "devices/star_stone/idle.png",
+      "kind": "device_art",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "idle",
+      "frameIndex": 2,
+      "file": "devices/star_stone/idle.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_approved_star_idle_reference.png",
+      "nativeSourceRect": null,
+      "contentRect": [
+        38,
+        45,
+        244,
+        233
+      ],
+      "nativeUniformResizeScale": 1,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "bb87bbbc124bcba18c1406a9cbb071322ee26ef628b2ddd283b4e2a50e46a499",
+      "approvedV11EndpointByteIdentical": true,
+      "aliasOf": "animations/linked/star_stone/none/push/frame_02.png",
+      "sourceAnimationState": "push",
+      "artKey": "star_stone_idle"
+    },
+    {
+      "key": "devices/star_stone/pushed.png",
+      "kind": "device_art",
+      "family": "star_stone",
+      "heading": "none",
+      "state": "pushed",
+      "frameIndex": 1,
+      "file": "devices/star_stone/pushed.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_push_native.png",
+      "nativeSourceRect": [
+        516,
+        86,
+        350,
+        342
+      ],
+      "contentRect": [
+        41,
+        44,
+        239,
+        233
+      ],
+      "nativeUniformResizeScale": 0.6815642458100558,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "454a4a9bd3ec1108d757dbfc34aaf021a77a5de1e42230c810c3a9cea8ca90ae",
+      "aliasOf": "animations/linked/star_stone/none/push/frame_01.png",
+      "sourceAnimationState": "push",
+      "artKey": "star_stone_pushed"
+    },
+    {
+      "key": "devices/star_socket/empty.png",
+      "kind": "device_art",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "empty",
+      "frameIndex": 0,
+      "file": "devices/star_socket/empty.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        30,
+        467,
+        411,
+        332
+      ],
+      "contentRect": [
+        40,
+        63,
+        240,
+        194
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "f6f9177181de25202a208131d7416ccca081a1b6a445db9916757cbf417442aa",
+      "aliasOf": "animations/linked/star_socket/none/seat/frame_00.png",
+      "sourceAnimationState": "seat",
+      "artKey": "star_socket_empty"
+    },
+    {
+      "key": "devices/star_socket/filled.png",
+      "kind": "device_art",
+      "family": "star_socket",
+      "heading": "none",
+      "state": "filled",
+      "frameIndex": 3,
+      "file": "devices/star_socket/filled.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_star_socket_floor_native.png",
+      "nativeSourceRect": [
+        1346,
+        461,
+        417,
+        343
+      ],
+      "contentRect": [
+        38,
+        60,
+        244,
+        201
+      ],
+      "nativeUniformResizeScale": 0.5851318944844125,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "d3fed37571f760eed60b632ab66043c5e75ec97d2ade08673ff987d2868c7e99",
+      "aliasOf": "animations/linked/star_socket/none/seat/frame_03.png",
+      "sourceAnimationState": "seat",
+      "artKey": "star_socket_filled"
+    },
+    {
+      "key": "devices/pressure_plate/released.png",
+      "kind": "device_art",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "released",
+      "frameIndex": 0,
+      "file": "devices/pressure_plate/released.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        44,
+        63,
+        628,
+        502
+      ],
+      "contentRect": [
+        41,
+        70,
+        238,
+        190
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "1c559e4f6f5264870d3f74b378d2fdaa5ea0135e5162f0e42cb3faa4d5ec3d4a",
+      "aliasOf": "animations/linked/pressure_plate/none/press_cycle/frame_00.png",
+      "sourceAnimationState": "press_cycle",
+      "artKey": "pressure_plate_released"
+    },
+    {
+      "key": "devices/pressure_plate/pressed.png",
+      "kind": "device_art",
+      "family": "pressure_plate",
+      "heading": "none",
+      "state": "pressed",
+      "frameIndex": 2,
+      "file": "devices/pressure_plate/pressed.png",
+      "width": 320,
+      "height": 320,
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_pressure_plate_native.png",
+      "nativeSourceRect": [
+        55,
+        675,
+        643,
+        376
+      ],
+      "contentRect": [
+        38,
+        117,
+        244,
+        143
+      ],
+      "nativeUniformResizeScale": 0.37947122861586313,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "48bccaef2acb524ea03b45f9ca7878d11a753c4dfb48dac22ef27bc19484d8ec",
+      "aliasOf": "animations/linked/pressure_plate/none/press_cycle/frame_02.png",
+      "sourceAnimationState": "press_cycle",
+      "artKey": "pressure_plate_pressed"
+    },
+    {
+      "key": "devices/vine_bridge/retracted.png",
+      "kind": "device_art",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "retracted",
+      "frameIndex": 0,
+      "file": "devices/vine_bridge/retracted.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        21,
+        75,
+        680,
+        273
+      ],
+      "contentRect": [
+        39,
+        100,
+        499,
+        200
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "e2791cfa0d69cd4b31424e81dec0de9cfbe15217b3f217543ec50a1195a9717a",
+      "aliasOf": "animations/linked/vine_bridge/horizontal/open/frame_00.png",
+      "sourceAnimationState": "open",
+      "artKey": "vine_bridge_retracted"
+    },
+    {
+      "key": "devices/vine_bridge/extended.png",
+      "kind": "device_art",
+      "family": "vine_bridge",
+      "heading": "horizontal",
+      "state": "extended",
+      "frameIndex": 4,
+      "file": "devices/vine_bridge/extended.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/ranch_v12_vine_horizontal_native.png",
+      "nativeSourceRect": [
+        20,
+        733,
+        681,
+        272
+      ],
+      "contentRect": [
+        39,
+        101,
+        499,
+        199
+      ],
+      "nativeUniformResizeScale": 0.7331378299120235,
+      "sourceColorChanges": false,
+      "antialiasingResamplingOnly": true,
+      "sha256": "6e3b2a2cd9a681b37522dc060b107cc9b76fee243d0780f882c09bffcfc7d1c0",
+      "aliasOf": "animations/linked/vine_bridge/horizontal/open/frame_04.png",
+      "sourceAnimationState": "open",
+      "artKey": "vine_bridge_extended"
+    }
+  ]
+}

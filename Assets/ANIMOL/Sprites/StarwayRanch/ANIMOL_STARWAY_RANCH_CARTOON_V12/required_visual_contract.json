@@ -1,0 +1,185 @@
+{
+  "version": "V12",
+  "scopeThemeDisplayName": "별길 목장",
+  "referenceThemeKey": "starway_meadow",
+  "actualProjectThemeKeyVerified": false,
+  "sourceAtlas": {
+    "name": "ANIMOL_24_Puzzle_Devices_Illustrated_Atlas(1).pdf",
+    "pages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "directionConvention": {
+    "east": [
+      1,
+      0
+    ],
+    "north": [
+      0,
+      1
+    ],
+    "west": [
+      -1,
+      0
+    ],
+    "south": [
+      0,
+      -1
+    ],
+    "note": "Convert the project committed grid/world displacement through its coordinate basis; do not use raw swipe screen axes or rotate the gameplay root."
+  },
+  "requiredFamilies": [
+    {
+      "family": "conveyor",
+      "pdfDeviceId": "07",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "animation": "loop",
+      "minDistinctFrames": 4,
+      "feedback": "transport arrow, belt/slats and emission direction all agree with actual forced movement"
+    },
+    {
+      "family": "oneway_gate",
+      "pdfDeviceId": "09",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "animation": "open/close",
+      "minDistinctFrames": 4,
+      "feedback": "allowed vector, opening motion and passable gap agree"
+    },
+    {
+      "family": "bounce_corner",
+      "pdfDeviceId": "18",
+      "headings": [
+        "ne",
+        "nw",
+        "se",
+        "sw"
+      ],
+      "animation": "rebound",
+      "minDistinctFrames": 3,
+      "feedback": "thin L rails around open lane and 45-degree surface, 90-degree deflection; no full blocking block"
+    },
+    {
+      "family": "brake_patch",
+      "pdfDeviceId": "19",
+      "headings": [
+        "horizontal",
+        "vertical"
+      ],
+      "animation": "press/release",
+      "minDistinctFrames": 3,
+      "feedback": "two stop crossbars perpendicular to travel; no conveyor arrow or rebound"
+    },
+    {
+      "family": "star_stone",
+      "pdfDeviceId": "01",
+      "headings": [
+        "none"
+      ],
+      "animation": "push",
+      "minDistinctFrames": 3,
+      "feedback": "whole five-point cream-gray stone; world displacement from existing push tween, not raster pose direction"
+    },
+    {
+      "family": "star_socket",
+      "pdfDeviceId": "01",
+      "headings": [
+        "none"
+      ],
+      "animation": "seat",
+      "minDistinctFrames": 4,
+      "feedback": "matching star seats flush as walkable floor"
+    },
+    {
+      "family": "pressure_plate",
+      "pdfDeviceId": "02",
+      "headings": [
+        "none"
+      ],
+      "animation": "press/release",
+      "minDistinctFrames": 4,
+      "feedback": "occupancy drives plate and linked bridge from the same authoritative state"
+    },
+    {
+      "family": "vine_bridge",
+      "pdfDeviceId": "02",
+      "headings": [
+        "horizontal",
+        "vertical"
+      ],
+      "animation": "extend/retract",
+      "minDistinctFrames": 5,
+      "feedback": "visible unfolding/retraction and direction-specific art, two separated supports when retracted"
+    },
+    {
+      "family": "wind_corridor",
+      "pdfDeviceId": "20",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "animation": "gust",
+      "minDistinctFrames": 4,
+      "feedback": "outlet/wind/target arrow all agree; blocked wind stops behind metal box"
+    },
+    {
+      "family": "chick",
+      "pdfDeviceId": "24",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "animation": "idle/walk",
+      "minDistinctFrames": 4,
+      "feedback": "direction follows each actual committed path segment; north back has no front eyes; small white eye highlights where visible"
+    }
+  ],
+  "decorativeParts": [
+    "windmill stationary body",
+    "windmill four-blade rotor with local pivot"
+  ],
+  "constraints": {
+    "pixelArtRules": false,
+    "ppu": 256,
+    "noNewGameplayRules": true,
+    "noLegacyFallback": true,
+    "noGlobalSharedAssetDeletion": true,
+    "chickVisualChildScale": 0.62,
+    "noGameplayRootRotationOrScaling": true,
+    "noAnimationCallbackDrivesSimulation": true,
+    "simulationNotRealtime": true
+  },
+  "unresolvedGameplay": [
+    "nonmatching stone/socket symbols",
+    "occupied bridge while retracting",
+    "chick portal/leap/boat/nest outcome"
+  ],
+  "completionEvidenceRequired": [
+    "project binding report with concrete prefab/class/event paths",
+    "GUID and subasset fileID mapping",
+    "zero reachable legacy reference proof",
+    "actual Unity import and compilation",
+    "Play Mode direction/state/pause/pool/reload screenshots or video"
+  ],
+  "unityExecutedHere": false
+}

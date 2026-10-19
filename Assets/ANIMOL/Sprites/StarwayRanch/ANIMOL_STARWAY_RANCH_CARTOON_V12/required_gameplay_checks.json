@@ -1,0 +1,768 @@
+{
+  "document": "RANCH_V12_REQUIRED_GAMEPLAY_CHECKS",
+  "scope": "별길 목장 V12의 장치·방향·애니메이션·병아리 교체에 대한 정적/런타임 수락 시나리오. 체크 실행 결과가 아니라 아직 실행하지 않은 검증 계획이다.",
+  "executionStatus": "NOT_RUN",
+  "resultsPolicy": "각 항목은 실제 증거가 생기기 전 NOT_RUN/result:null을 유지한다. 이미지 시트 시각검수, Editor 정적검사, 실제 런타임 테스트 결과를 서로 대체하지 않는다. BLOCKED와 FAIL을 PASS로 바꾸지 않는다.",
+  "sourceRequirements": {
+    "pdf": "upload/ANIMOL_24_Puzzle_Devices_Illustrated_Atlas(1).pdf",
+    "logicAudit": "work/ranch_v12/atlas_logic_audit.json",
+    "pdfPages": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "commonSourceIds": [
+      "07",
+      "09",
+      "18",
+      "19"
+    ],
+    "ranchSourceIds": [
+      "01",
+      "02",
+      "20",
+      "24"
+    ],
+    "paletteRule": "PDF의16색/32px 규칙은 폐기. 현행 굵은 남색선과 평면 셀 음영을 따른다."
+  },
+  "immutableLogic": [
+    "유효한 입력/밀기1회는 코스트1이며, 아무 변화 없는 막힌 입력은 코스트0이고 장치 턴/위상도 진행하지 않는다.",
+    "한 입력의 강제 이동·바람·무빙워크 등 자동 연쇄는 추가 코스트를 만들지 않는다.",
+    "장치 논리 턴은 플레이어 자신의 유효 행동 기준이며 실제 경과시간이나 스프라이트 애니메이션 프레임으로 진행하지 않는다.",
+    "기존 프로젝트 장치 enum·식별자·충돌·점유·밀기·이동 순서·맵 데이터·방향 정의를 아트 교체 때문에 임의 변경하지 않는다.",
+    "별돌/홈과 누름판/다리는 각각 원문ID1개에 여러 아트계열이 매핑된다. PNG수로 게임 장치 수를 재정의하지 않는다.",
+    "병아리는 길을 막지 않고 일반 누름판을 누르지 않으며 자체 코스트가 없다.",
+    "PDF 미확정 항목은 실제 프로젝트의 이미 확정된 규칙을 조회해 유지한다. 규칙이 없으면 BLOCKED로 남기고 새 판정을 만들지 않는다."
+  ],
+  "evidenceTemplate": {
+    "testCaseId": null,
+    "executionType": "STATIC_EDITOR | PLAYMODE | PLAYER_BUILD | MANUAL_VISUAL",
+    "executedAt": null,
+    "projectCommit": null,
+    "unityVersion": null,
+    "buildTarget": null,
+    "scenePath": null,
+    "prefabOrAddressableKey": null,
+    "objectInstanceId": null,
+    "deviceSourceId": null,
+    "existingProjectDeviceId": null,
+    "logicalCell": null,
+    "directionExpected": null,
+    "directionObserved": null,
+    "turnBefore": null,
+    "turnAfter": null,
+    "costBefore": null,
+    "costAfter": null,
+    "devicePhaseBefore": null,
+    "devicePhaseAfter": null,
+    "animationClip": null,
+    "frameIndex": null,
+    "normalizedClipTime": null,
+    "timeScale": null,
+    "spriteAssetPath": null,
+    "spriteGuid": null,
+    "spriteLocalFileId": null,
+    "sourcePngSha256": null,
+    "importedTextureIdentity": null,
+    "provenanceRecordId": null,
+    "screenshotOrVideoPath": null,
+    "logPath": null,
+    "assertionOutcome": null
+  },
+  "runtimeIdentityPolicy": {
+    "requiredTuple": [
+      "source asset path",
+      "sprite GUID",
+      "sprite local fileID",
+      "source PNG SHA-256",
+      "imported sprite/frame identity"
+    ],
+    "runtimeProof": "빌드/가져오기 시 생성한 스프라이트 provenance 매핑을 실제 로드된 Sprite 인스턴스와 연결해 증명한다. 런타임에서 GUID가 자동으로 노출된다고 가정하지 않는다.",
+    "sourceHashCaution": "원본 PNG SHA-256은 원본 파일의 해시이다. 압축/아틀라스/GPU 텍스처 바이트의 해시와 직접 같은 값이라고 비교하지 않는다. 패킹 시 원본→패킹 스프라이트 매핑 증거가 추가로 필요하다.",
+    "expectedManifest": "아트 적용 담당자가 확정한 V12 manifest/import metadata에서 기대 tuple을 가져온다. 이 문서에 GUID/fileID/hash를 지어 넣지 않는다.",
+    "absentMapping": "실제 로드 인스턴스의 provenance를 확인할 수 없으면 NOT_RUN/BLOCKED. 파일이 폴더에 있다는 사실만으로 런타임 교체 성공을 선언하지 않는다."
+  },
+  "checks": [
+    {
+      "id": "C01",
+      "area": "baseline",
+      "name": "원래 로직과 점유 규칙 보존",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "변경 전 프로젝트의 장치ID,논리 방향,충돌·점유,한 행동 처리순서와 코스트 스냅샷",
+        "동일한 맵/seed/입력 경로"
+      ],
+      "actions": [
+        "V12 아트 적용 전후에 같은 입력 기록을 재생"
+      ],
+      "expected": [
+        "허용된 외관·클립·방향스프라이트 바인딩 외 게임 로직 결과가 동일하다.",
+        "별돌과 병아리 등 명시적 사용자 외관 교체가 충돌 규칙을 변경하지 않는다."
+      ],
+      "evidenceRequired": [
+        "전후 맵/장치 상태 로그",
+        "기존 enum/맵ID 비교",
+        "이동·코스트 결과 diff"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C02",
+      "area": "turn",
+      "name": "막힌 입력의 코스트와 장치 위상 정지",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "플레이어 앞칸이 막힌 맵",
+        "누름판/바람통로/자동연쇄 감시 로그"
+      ],
+      "actions": [
+        "같은 막힌 방향으로 여러 번 입력"
+      ],
+      "expected": [
+        "플레이어 위치와 코스트가 변하지 않는다.",
+        "장치 논리 턴·위상·병아리 추종 경로가 진행하지 않는다.",
+        "오직 프로젝트가 허용한 무효입력 시각 피드백만 재생될 수 있고 논리를 바꾸지 않는다."
+      ],
+      "evidenceRequired": [
+        "입력 전후 위치/코스트/논리턴/각 장치 위상 로그",
+        "무효입력 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C03",
+      "area": "turn",
+      "name": "한 행동 자동연쇄의 단일 코스트",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "무빙워크→튕김모서리→제동판 경로",
+        "가능하면 바람/포털 등 기존 연쇄도 연결"
+      ],
+      "actions": [
+        "유효 입력1회로 연쇄 이동"
+      ],
+      "expected": [
+        "총 코스트 증가는1회뿐이다.",
+        "자동 연쇄 중 새 입력을 요구하거나 장치가 추가 코스트를 차감하지 않는다.",
+        "최종 위치와 연쇄 순서는 기존 프로젝트 규칙과 같다."
+      ],
+      "evidenceRequired": [
+        "동일 actionId를 가진 이동 경로 로그",
+        "코스트 전후",
+        "연쇄 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C04",
+      "area": "source_binding",
+      "name": "Scene 직접 참조가 실제 V12를 표시",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "대표 gameplay scene의 장치·병아리 인스턴스",
+        "확정 V12 provenance manifest"
+      ],
+      "actions": [
+        "scene을 로드해 방향/상태별 실제 SpriteRenderer 또는 사용 중인 renderer의 스프라이트를 기록"
+      ],
+      "expected": [
+        "로드된 인스턴스의 GUID/fileID/sourceSHA가 기대 V12 tuple과 대응한다.",
+        "예시 시트만 새 그림이고 실제 scene에는 V10/V11/legacy가 남는 경우가 없다."
+      ],
+      "evidenceRequired": [
+        "실제 인스턴스별 provenance tuple",
+        "scene screenshot",
+        "로드된 renderer 덤프"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C05",
+      "area": "source_binding",
+      "name": "Prefab 및 object pool 재사용 후 참조 유지",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "최초 scene spawn과 pool respawn 경로",
+        "기존 prefab override/variant"
+      ],
+      "actions": [
+        "각 장치/병아리를 생성→비활성화→풀 반환→재생성",
+        "방향/상태를 바꾼 뒤 다른 위치에 재사용"
+      ],
+      "expected": [
+        "모든 재사용 경로에서 실제 V12 provenance를 유지한다.",
+        "이전 사용자의 방향/클립 프레임/스프라이트가 새 인스턴스에 잔류하지 않는다.",
+        "prefab override나 풀 초기화가 legacy 참조를 덮어쓰지 않는다."
+      ],
+      "evidenceRequired": [
+        "최초/재사용 GUID-fileID-SHA 로그",
+        "prefab variant 참조 결과",
+        "풀 cycle 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C06",
+      "area": "source_binding",
+      "name": "Addressables·리소스·지연 로딩 실물 검증",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "프로젝트가 실제 사용하는 Addressables/Resources/번들 경로 목록",
+        "해당사항 없으면 이유와 함께 NOT_APPLICABLE로 기록"
+      ],
+      "actions": [
+        "콜드 로드와 캐시된 재로드 모두 실행",
+        "실제 배포용 catalog 또는 로드 경로로 인스턴스 생성"
+      ],
+      "expected": [
+        "실제 로드 Sprite가 확정 V12 provenance에 대응한다.",
+        "낡은 catalog/캐시/원격 bundle 때문에 legacy 그림이 복원되지 않는다.",
+        "코드에서 새 경로만 써 둔 상태를 실제 교체 성공으로 간주하지 않는다."
+      ],
+      "evidenceRequired": [
+        "실제 key/location/catalog/build identity",
+        "런타임 로드tuple",
+        "콜드/웜 비교 로그"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C07",
+      "area": "source_binding",
+      "name": "AnimationClip 모든 키프레임과 atlas 매핑",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "사용 클립 전체/방향 variant/아틀라스",
+        "확정 V12 프레임목록"
+      ],
+      "actions": [
+        "각 클립의 모든 sprite keyframe과 이벤트 참조를 열거",
+        "게임에서 각 상태/방향 clip을 실제1회 재생"
+      ],
+      "expected": [
+        "키프레임에 legacy/누락/null이 없다.",
+        "스프라이트 atlas 사용 시 packed frame의 원본 GUID/fileID/hash 매핑이 확인된다.",
+        "클립명이 새 이름인 사실만으로 통과하지 않는다."
+      ],
+      "evidenceRequired": [
+        "clip별 keyframe tuple dump",
+        "런타임 재생 frame trace",
+        "atlas 원본 매핑"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C08",
+      "area": "animation",
+      "name": "그림과 프레임의 실제 차이",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "확정 idle/active/pressed/transition clip 목록"
+      ],
+      "actions": [
+        "각 clip을 프레임 단위로 검사하고 실제 재생"
+      ],
+      "expected": [
+        "복제 PNG만 여러 장 나열한 가짜 애니메이션이 없다.",
+        "차이가 요구되는 작동 상태는 위치·실루엣·축 일치 피드백으로 구분된다.",
+        "의도적으로 정지한 hold frame은 명시하며 동작 프레임으로 과장하지 않는다."
+      ],
+      "evidenceRequired": [
+        "프레임별 실제 이미지 hash와 시각 비교",
+        "clip contact sheet",
+        "상태 전환 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C09",
+      "area": "animation",
+      "name": "클립 단계와 논리 phase 동기화",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "장치 상태머신 phase와 art phase 매핑표"
+      ],
+      "actions": [
+        "입력→예고→작동→정착의 실제 논리 순서로 재생",
+        "연속 입력/중단/씬 재로드도 재현"
+      ],
+      "expected": [
+        "새 그림이 논리 효과보다 먼저 통과/정지/열림을 거짓 표시하지 않는다.",
+        "한 번성 작동 clip이 잘못 loop되지 않고 완료 상태로 돌아간다.",
+        "animator event나 clip 종료가 장치 논리 턴을 임의 추가하지 않는다."
+      ],
+      "evidenceRequired": [
+        "논리 phase와 clip/frame 동시 로그",
+        "전환 영상",
+        "반복/재진입 로그"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C10",
+      "area": "pause",
+      "name": "일시정지 및 재개",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "작동 중인 장치와 이동 중인 병아리",
+        "프로젝트 공식 pause 경로"
+      ],
+      "actions": [
+        "클립 초반/중간/완료 직전에 pause",
+        "시간을 충분히 경과시킨 뒤 resume"
+      ],
+      "expected": [
+        "논리 이동·턴·코스트가 pause 중 변하지 않는다.",
+        "게임플레이 장치 클립과 추종 표현은 프로젝트 pause 정책에 맞게 정지하며 재개 시 점프/중복 완료가 없다.",
+        "비배율시간을 사용하는 UI만 예외일 수 있으며 장치 논리와 분리되어야 한다."
+      ],
+      "evidenceRequired": [
+        "pause/timeScale/clip time/turn 로그",
+        "전후 sprite frame",
+        "pause-resume 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C11",
+      "area": "direction",
+      "name": "화살표와 실제 강제 방향의 전 방향 일치",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "기존 프로젝트가 지원하는 각 논리 방향 variant",
+        "화살표·경로예고·작동면/출력구가 보이는 맵"
+      ],
+      "actions": [
+        "각 방향으로 무빙워크/문/모서리/바람을 실제 작동"
+      ],
+      "expected": [
+        "그려진 화살표 벡터와 실제 displacement/출구 방향이 일치한다.",
+        "본체와 효과가 함께 방향을 바꾸며 화살표만 회전해 모순을 만들지 않는다.",
+        "PDF p8 잘못된 보조 화살표를 복사하지 않는다."
+      ],
+      "evidenceRequired": [
+        "방향별 expected/observed movement vector",
+        "4방향(지원 시) screenshot",
+        "실제 경로 log"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C12",
+      "area": "07_conveyor",
+      "name": "무빙워크 연속 운반과 막힘",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "연속3칸 무빙워크와 끝 빈칸",
+        "중간/끝 막힘 variant",
+        "첫 진입 자체가 막힌 variant"
+      ],
+      "actions": [
+        "한 번 진입"
+      ],
+      "expected": [
+        "인쇄된 방향으로 끝/막힌 칸 직전까지 같은 행동에서 이동한다.",
+        "도착칸 테두리와 경로 하이라이트가 실제 최종 경로와 같다.",
+        "진입 불가이면 코스트0이며 작동 phase가 진행하지 않는다."
+      ],
+      "evidenceRequired": [
+        "이동 경로/최종칸/코스트",
+        "방향 효과 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C13",
+      "area": "09_oneway_gate",
+      "name": "허용 진입·접힘·닫힘·역방향 차단",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "문 양편에 빈칸",
+        "반대편 도착칸이 막힌 variant"
+      ],
+      "actions": [
+        "허용 방향으로 통과",
+        "반대 방향으로 시도",
+        "도착칸 막힘 상태에서 허용 방향 시도"
+      ],
+      "expected": [
+        "허용 시 같은 진행 방향으로 접혀 통과시킨 뒤 닫힌다.",
+        "역방향과 막힌 도착칸은 통과하지 않으며 무효입력 규칙을 따른다.",
+        "문 본체/기둥이 실제 통과 축과 모순되는 장벽을 그리지 않는다."
+      ],
+      "evidenceRequired": [
+        "입출구 벡터/문 state trace",
+        "closed-opening-open-close 영상",
+        "차단 로그"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C14",
+      "area": "18_bounce_corner",
+      "name": "얇은 ㄴ 통로와45도 접촉면",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "유효 진입 및 출구가 보이는 모서리",
+        "플레이어/굴러가는 물체 각각"
+      ],
+      "actions": [
+        "강제이동으로45도 작동면에 접촉",
+        "도착할 다음 출구칸을 막고 재실행"
+      ],
+      "expected": [
+        "표시된 방향으로 정확히90도 꺾여 같은 자동 이동을 계속한다.",
+        "얇은 ㄴ 안쪽 통과 공간이 시각적으로 열려 있어 진행체를 큰 건초/소파 덩어리가 가리지 않는다.",
+        "출구가 막히면 기존 규칙대로 모서리 앞 이동 가능한 칸에서 멈춘다.",
+        "일반 좌우 반전 스프링으로 동작을 바꾸지 않는다."
+      ],
+      "evidenceRequired": [
+        "진입/출구 vector",
+        "45도 면·중앙 통과공간 확대 screenshot",
+        "이동/차단 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C15",
+      "area": "19_brake",
+      "name": "제동판의 정확한 칸 정지",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "강제 이동 경로 끝의 제동판",
+        "제동판에 닿지 못하는 blocked variant"
+      ],
+      "actions": [
+        "플레이어/굴러가는 물체를 판 위로 운반"
+      ],
+      "expected": [
+        "진행 잔상이 판에서 끝나고 바로 그 칸 위에 멈춘다.",
+        "불필요한 튕김/추가 한 칸/추가 코스트가 없다.",
+        "플레이어는 다음 유효 입력에서 새 방향을 고를 수 있다.",
+        "도달 불가이면 장치 효과가 없다."
+      ],
+      "evidenceRequired": [
+        "제동 전후 경로/위치/코스트",
+        "정지선과 끊긴 잔상 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C16",
+      "area": "01_star_socket",
+      "name": "별돌 실루엣·밀기·평평한 완성 바닥",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "새 오각별 몸체와 맞는 빈 홈",
+        "다음칸이 막힌 밀기 variant"
+      ],
+      "actions": [
+        "정상 한 칸 밀기→끼움→완성칸 통과",
+        "막힌 밀기 시도"
+      ],
+      "expected": [
+        "돌 외곽 전체가 오각별이며 둥근 바위 테두리가 없다.",
+        "끼워진 상태는 같은 별 모양이 홈과 맞아 떨어지고 높은 물체처럼 솟지 않는 통과 가능한 바닥으로 읽힌다.",
+        "완성 테두리 피드백이 나오고 실제로 그 칸을 걸을 수 있다.",
+        "막힌 밀기는 무효입력 규칙을 따른다."
+      ],
+      "evidenceRequired": [
+        "idle/push/seated/flush screenshot",
+        "실제 walkability log",
+        "끼움 clip 및 통과 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C17",
+      "area": "02_pressure_bridge",
+      "name": "누름판 점유와 다리 연결",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "플레이어 또는 상자가 누를 수 있는 판",
+        "연결 다리와 양쪽 땅"
+      ],
+      "actions": [
+        "판 점유→다리 펼침→건넘",
+        "판 비점유→다리 접힘"
+      ],
+      "expected": [
+        "점유 중 다리가 펼쳐지고 비점유면 접힌다.",
+        "누름판 문양/연결 덩굴/다리 효과가 동일한 연결 대상을 설명한다.",
+        "아트로 표시된 다리 축과 실제 통과 축이 같다.",
+        "기존 점유/접힘 보호 규칙을 그대로 따른다."
+      ],
+      "evidenceRequired": [
+        "판 점유와 다리 phase log",
+        "연결 표시 screenshot",
+        "crossing 영상"
+      ],
+      "notes": [
+        "다리 위 대상이 있을 때 접힘 보호는 PDF 미확정. 프로젝트 규칙 부재 시 해당 edge-case는 BLOCKED로 남긴다."
+      ]
+    },
+    {
+      "id": "C18",
+      "area": "20_wind",
+      "name": "풍차 대칭·회전 중심과 출력축",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "확정 새 송풍기 또는 풍차 sprite/clip",
+        "네 날개가 보이는 대칭 로터"
+      ],
+      "actions": [
+        "회전 clip의 각 프레임과 방향 variant를 실제 재생"
+      ],
+      "expected": [
+        "로터 네 날개의 회전 중심과 본체 고정축이 일치한다.",
+        "프레임마다 회전축/날개 길이/부착 위치가 들쭉날쭉하지 않는다.",
+        "바람은 실제 출력구 방향으로 흐르며 화면 장식 정면 풍차에 임의 화살표만 덧붙인 모습이 아니다."
+      ],
+      "evidenceRequired": [
+        "고정 pivot/rotor center 측정",
+        "frame overlay 또는 비교 screenshot",
+        "회전 및 출력 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C19",
+      "area": "20_wind",
+      "name": "바람 한 칸 밀기와 금속 차단",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "같은 직선1칸폭 범위의 플레이어/가벼운 나무상자",
+        "금속상자와 뒤편 대상",
+        "밀릴 다음칸이 막힌 variant"
+      ],
+      "actions": [
+        "유효 행동1회",
+        "무효 입력1회",
+        "다음 유효 행동1회"
+      ],
+      "expected": [
+        "각 유효 행동 후 범위 안 가벼운 대상만 정확히1칸 민다.",
+        "금속상자는 움직이지 않고 뒤의 바람도 차단한다.",
+        "막힌 다음칸 대상은 제자리에 남는다.",
+        "무효입력에서 바람 논리 turn이 진행하지 않는다.",
+        "바람줄/대상아래 화살표/차단된 구간이 실제 영향범위와 같다."
+      ],
+      "evidenceRequired": [
+        "대상종류/범위/이동량/차단 로그",
+        "한 칸 효과 영상",
+        "비용/turn 전후"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C20",
+      "area": "24_chick",
+      "name": "병아리 동서남북 완성·눈광",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "V12 네 방향 실제사용 sprite/clip"
+      ],
+      "actions": [
+        "각 방향 idle/move를 실제 renderer에서 재생"
+      ],
+      "expected": [
+        "동서남북 모두 새 그림체이며 legacy 정면 sprite로 fallback하지 않는다.",
+        "북쪽(등을 보이는 방향)은 정면 눈/부리가 보이지 않는다.",
+        "옆쪽은 보이는 눈에 흰 광채가 있으며 얼굴 방향과 이동 벡터가 맞는다.",
+        "좌우 반전 시 전용 방향이 필요한 소품/그림이 잘못 뒤집히지 않는다."
+      ],
+      "evidenceRequired": [
+        "방향별 실제 renderer tuple",
+        "4방향 확대 screenshot",
+        "각 방향 clip frame trace"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C21",
+      "area": "24_chick",
+      "name": "우회전 경로와 자동연쇄 추종",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "플레이어가 우측 이동 후 북쪽으로 꺾는 경로",
+        "무빙워크 등 다중칸 실제 이동 경로"
+      ],
+      "actions": [
+        "직선1칸→방향전환1칸→여러칸 강제이동"
+      ],
+      "expected": [
+        "직선거리로 지름길을 택하지 않고 실제 지난 경로를 따라 한 단계 뒤에 선다.",
+        "몸 방향이 실제 추종 경로를 따르며 갑자기 정면으로 바뀌지 않는다.",
+        "발자국과 한 칸 예고가 실제 경로와 일치한다.",
+        "병아리 자체 코스트가 없다."
+      ],
+      "evidenceRequired": [
+        "플레이어 실제 경로와 병아리 경로 log",
+        "cost/actionId",
+        "코너+연쇄 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C22",
+      "area": "24_chick",
+      "name": "병아리 비차단·누름판 비작동",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "병아리와 플레이어/물체 경로가 겹치는 칸",
+        "병아리만 일반 누름판 위에 있는 상태"
+      ],
+      "actions": [
+        "플레이어/물체를 같은 경로로 이동",
+        "병아리만 판에 올라가게 함",
+        "막힌 플레이어 입력"
+      ],
+      "expected": [
+        "병아리가 플레이어·물체 이동을 막지 않는다.",
+        "병아리만으로 일반 누름판이나 다리가 활성화되지 않는다.",
+        "플레이어 무효입력 후 병아리도 경로/추종단계를 진행하지 않는다.",
+        "발자국 효과가 collider나 비용을 만들지 않는다."
+      ],
+      "evidenceRequired": [
+        "충돌/점유 query 결과",
+        "판 활성상태/코스트/turn",
+        "겹침 이동 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C23",
+      "area": "24_chick",
+      "name": "기존 축소 비율·발 접점·정렬 보존",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "기존 승인된 병아리 render scale 및 발 contact anchor",
+        "새4방향 frame"
+      ],
+      "actions": [
+        "같은 grid칸에 각 방향 frame을 교체",
+        "이동/turn animation 재생"
+      ],
+      "expected": [
+        "사용자가 승인한 작은 크기가 유지된다.",
+        "각 방향/프레임에서 발 접점이 grid 기준으로 튀지 않는다.",
+        "padding을 점유크기로 계산해 몸이 작아지거나 중심이 흔들리지 않는다."
+      ],
+      "evidenceRequired": [
+        "logical rect/PPU/pivot/scale/contact 측정",
+        "같은칸 frame overlay",
+        "이동 영상"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C24",
+      "area": "reset",
+      "name": "씬 재시작·체크포인트·저장 로드",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "작동 중 장치/병아리 추종 데이터",
+        "프로젝트 기존 reset/load 경로"
+      ],
+      "actions": [
+        "작동 중 reset 및 checkpoint reload",
+        "정상 입력 재실행"
+      ],
+      "expected": [
+        "장치 논리와 시각상태가 같은 초기/저장 phase로 복구된다.",
+        "북쪽 병아리 reset 후 legacy front가 남거나 풀된 장치가 이전clip중간에서 시작하지 않는다.",
+        "지연 callback/animation event가 복구 후 중복 작동하지 않는다."
+      ],
+      "evidenceRequired": [
+        "reset 전후 논리/clip tuple",
+        "load cycle 영상",
+        "pending event log"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C25",
+      "area": "unresolved",
+      "name": "미확정 사항을 새 규칙으로 만들지 않음",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "다른문양홈/접히는다리위대상/병아리포털·도약·배·둥지 판정 목록"
+      ],
+      "actions": [
+        "기존 프로젝트의 확정 규칙/테스트가 있는지 확인"
+      ],
+      "expected": [
+        "기존 규칙이 있으면 그대로 유지하고 출처를 기록한다.",
+        "없으면 해당 항목을 BLOCKED/미확정으로 남긴다.",
+        "아트 편의 때문에 물리·판정·연쇄 순서를 새로 확정하지 않는다."
+      ],
+      "evidenceRequired": [
+        "확정 규칙 경로/이전 테스트",
+        "미확정 목록과 처리 상태"
+      ],
+      "notes": []
+    },
+    {
+      "id": "C26",
+      "area": "delivery",
+      "name": "실제 표시 커버리지 최종 증거",
+      "status": "NOT_RUN",
+      "result": null,
+      "setup": [
+        "기대 장치×방향×상태×로딩경로 coverage matrix"
+      ],
+      "actions": [
+        "scene/pool/addressable에서 matrix 전체를 실제 표시",
+        "화면캡처/영상과 provenance를 같은 caseId로 묶음"
+      ],
+      "expected": [
+        "모든 필수 case가 PASS 또는 구체적인 BLOCKED/NOT_APPLICABLE 사유를 갖는다.",
+        "누락된 케이스를 새 파일 존재/시트 포함만으로 PASS 처리하지 않는다.",
+        "‘실제 Unity 실행 화면’과 ‘원본 스프라이트 시트/오프라인 합성 예시’를 정확히 구분한다."
+      ],
+      "evidenceRequired": [
+        "coverage matrix",
+        "런타임 proof logs",
+        "실제 build 영상",
+        "별도 offline asset-sheet 목록"
+      ],
+      "notes": []
+    }
+  ],
+  "acceptanceGate": {
+    "artOnlyDelivery": "원화/PNG/명세를 제공했다면 해당 범위만 완료로 적는다.",
+    "runtimeAppliedDelivery": "실제 Unity 적용 완료를 주장하려면 source binding/phase/direction/logic/loaded-asset checks가 필요한 실행환경에서 통과해야 한다.",
+    "currentRun": "이 문서 작성 시점에는 어떤 실제 Unity 테스트도 실행하지 않았다."
+  }
+}

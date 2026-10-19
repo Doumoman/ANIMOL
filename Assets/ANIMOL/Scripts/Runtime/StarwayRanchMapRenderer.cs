@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ANIMOL.Art.V10;
+using ANIMOL.Art.V12;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -41,11 +41,11 @@ namespace ANIMOL.Puzzle
                 }
                 rows[y] = new string(characters);
             }
-            foreach (var body in StarwayRanchV10MaterialSelector.GetBottomFinishes(rows))
+            foreach (var body in StarwayRanchV12MaterialSelector.GetBottomFinishes(rows))
                 Add(body.File, new Vector2(body.CenterCellX, map.Height - 1 - body.CenterCellY), body.IsCollar ? -10 : -20);
             for (var y = 0; y < map.Height; y++) for (var x = 0; x < map.Width; x++)
             {
-                var file = StarwayRanchV10MaterialSelector.GetTopSpritePath(rows, x, y);
+                var file = StarwayRanchV12MaterialSelector.GetTopSpritePath(rows, x, y);
                 if (file == null) continue;
                 var world = new Vector2(x, map.Height - 1 - y);
                 Add(file, world, 0);
@@ -53,7 +53,7 @@ namespace ANIMOL.Puzzle
                 if (rows[y][x] == 'G' && (x * 17 + y * 31) % 19 == 0)
                     Add("decor/turf/tuft_0" + (1 + (x * 7 + y) % 6) + ".png", world + new Vector2(.24f, -.27f), 8);
             }
-            foreach (var piece in StarwayRanchV10BridgeDecorSelector.Select(rows))
+            foreach (var piece in StarwayRanchV12BridgeDecorSelector.Select(rows))
                 Add(piece.File, new Vector2(-.5f + piece.XPixel / 256f,
                     map.Height - .5f - piece.YPixel / 256f), piece.Layer);
         }

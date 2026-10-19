@@ -117,7 +117,10 @@ namespace ANIMOL.Presentation.Editor
             var row=state!=null?manifest.assets.FirstOrDefault(a=>a.id.EndsWith("/"+state)):manifest.assets.FirstOrDefault(a=>a.deviceId==role.ToString("00"));
             if(row==null)throw new Exception("Missing role "+role+" state "+state+" theme "+theme);
             var prefix=row.id.Split('/')[0];
-            string folder=theme=="starway"?"Assets/ANIMOL/Prefabs/Devices":"Assets/ANIMOL/Prefabs/Themes/"+theme;
+            string folder=theme=="starway"
+                ? (state==null && new[]{1,2,7,9,18,19,20,24}.Contains(role)
+                    ? "Assets/ANIMOL/Prefabs/Themes/starway" : "Assets/ANIMOL/Prefabs/Devices")
+                : "Assets/ANIMOL/Prefabs/Themes/"+theme;
             var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(folder+"/"+(state!=null && d.role!=PrototypeRole.MetalCrate?row.id.Replace('/','_')+"_static":prefix)+".prefab");
             if(!prefab)throw new Exception("Missing art prefab "+row.id+" in "+folder);
             d.initialVisual=state!=null?(d.role==PrototypeRole.MetalCrate?state:"static"):null;return prefab;

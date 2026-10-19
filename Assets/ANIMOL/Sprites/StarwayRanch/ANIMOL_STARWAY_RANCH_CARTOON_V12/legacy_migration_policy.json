@@ -1,0 +1,42 @@
+{
+  "version": "V12",
+  "scope": "Resolved actual Starway Ranch ownership and all dynamic spawn/load paths; shared other-theme assets are excluded from destructive changes.",
+  "actualUnityProjectAvailableHere": false,
+  "actualUnityMigrationExecutedHere": false,
+  "latestRuntimeSource": "animation_catalog.json plus manifest.json for approved static terrain/background/props",
+  "noLegacyFallback": true,
+  "preserveMetaGuidForSameLogicalAssets": true,
+  "validateSpriteSubassetFileIds": true,
+  "zeroReferencesRequiredBeforeScopedDeletion": true,
+  "neverDeleteByFilenameAlone": true,
+  "referenceSurfaces": [
+    "Scene including inactive/additive",
+    "Prefab/Variant/Nested Prefab",
+    "ScriptableObject/catalog/map data",
+    "AnimatorController/OverrideController/AnimationClip PPtr",
+    "SpriteAtlas/Variant packables",
+    "Resources strings/LoadAll/default branch",
+    "Addressables GUID/address/label/subobject and built catalog",
+    "AssetBundle manifest/cache",
+    "Pool/prewarm/OnEnable/spawner/DontDestroyOnLoad",
+    "Editor palette/preview/autogenerator",
+    "late sprite/transform writes by old components"
+  ],
+  "requiredReports": [
+    "PROJECT_BINDING_REPORT.md",
+    "LEGACY_REFERENCE_BEFORE_AFTER.json",
+    "SPRITE_GUID_FILEID_MAP.json",
+    "ANIMOL_STARWAY_RANCH_V12_PROJECT_APPLY_RESULT.md"
+  ],
+  "completionNotEstablishedBy": [
+    "copying ZIP files",
+    "rendered offline previews",
+    "renaming old folders to V12",
+    "creating direction strings without separate art",
+    "two static endpoint sprites called animations",
+    "only checking active scene",
+    "only scanning .png paths",
+    "deleting all .meta files",
+    "successful top-level import while individual keys missing"
+  ]
+}

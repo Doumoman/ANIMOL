@@ -1,0 +1,47 @@
+{
+  "version": "V12",
+  "purpose": "Presentation changes on renderer child only; root grid and gameplay data preserved.",
+  "overrides": [
+    {
+      "id": "chick_front",
+      "file": "props/chick_front.png",
+      "sourceSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "sourcePivot": [
+        0.5,
+        0.4822695
+      ],
+      "contactPointTopLeft": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "visualChildOffsetFromOriginalPivot": [
+        0,
+        -0.18703125,
+        0
+      ],
+      "anchorAlternative": "If using a separate contact-anchor parent, place the scaled sprite pivot .30515625 units above it. Use only one method.",
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "spritePNGChanged": true,
+      "revisionNote": "V12 four genuine headings and walk frames; apply existing0.62 contact-anchored child visual scale once, preserve logical root.",
+      "appliesToAllFramesInFamily": "chick"
+    }
+  ]
+}

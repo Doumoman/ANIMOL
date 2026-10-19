@@ -1,0 +1,6812 @@
+{
+  "version": "V12",
+  "tileSize": 256,
+  "ppu": 256,
+  "logicalCellWorldUnits": 1,
+  "canvas": [
+    320,
+    320
+  ],
+  "logical_rect": [
+    32,
+    32,
+    256,
+    256
+  ],
+  "pivot": [
+    0.5,
+    0.5
+  ],
+  "neighborBits": {
+    "N": 1,
+    "NE": 2,
+    "E": 4,
+    "SE": 8,
+    "S": 16,
+    "SW": 32,
+    "W": 64,
+    "NW": 128
+  },
+  "preferredPath": "tiles/grass/organic256/n{mask:D3}.png",
+  "compatibilityPath": "tiles/grass/blob47",
+  "geometry": "Compact 3x3 biweight occupancy field; 256 full 8-neighbour states; 22px base overhang plus two broad 7px lobes; logical cell unchanged.",
+  "renderOrder": "all grouped span bodies, all continuous shallow collars, G tops, W/S tops, separate grass overlays and props",
+  "assets": [
+    {
+      "file": "tiles/grass/organic256/n000.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 0,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n001.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 1,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n002.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 2,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n003.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 3,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n004.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 4,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n005.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 5,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n006.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 6,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n007.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 7,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n008.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 8,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n009.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 9,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n010.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 10,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n011.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 11,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n012.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 12,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n013.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 13,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n014.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 14,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n015.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 15,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n016.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 16,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n017.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 17,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n018.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 18,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n019.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 19,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n020.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 20,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n021.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 21,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n022.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 22,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n023.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 23,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n024.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 24,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n025.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 25,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n026.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 26,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n027.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 27,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n028.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 28,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n029.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 29,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n030.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 30,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n031.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 31,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n032.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 32,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n033.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 33,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n034.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 34,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n035.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 35,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n036.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 36,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n037.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 37,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n038.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 38,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n039.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 39,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n040.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 40,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n041.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 41,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n042.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 42,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n043.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 43,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n044.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 44,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n045.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 45,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n046.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 46,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n047.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 47,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n048.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 48,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n049.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 49,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n050.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 50,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n051.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 51,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n052.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 52,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n053.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 53,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n054.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 54,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n055.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 55,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n056.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 56,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n057.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 57,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n058.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 58,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n059.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 59,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n060.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 60,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n061.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 61,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n062.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 62,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n063.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 63,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n064.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 64,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n065.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 65,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n066.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 66,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n067.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 67,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n068.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 68,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n069.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 69,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n070.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 70,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n071.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 71,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n072.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 72,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n073.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 73,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n074.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 74,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n075.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 75,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n076.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 76,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n077.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 77,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n078.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 78,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n079.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 79,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n080.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 80,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n081.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 81,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n082.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 82,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n083.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 83,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n084.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 84,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n085.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 85,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n086.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 86,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n087.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 87,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n088.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 88,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n089.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 89,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n090.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 90,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n091.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 91,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n092.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 92,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n093.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 93,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n094.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 94,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n095.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 95,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n096.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 96,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n097.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 97,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n098.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 98,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n099.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 99,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n100.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 100,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n101.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 101,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n102.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 102,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n103.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 103,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n104.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 104,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n105.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 105,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n106.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 106,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n107.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 107,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n108.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 108,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n109.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 109,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n110.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 110,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n111.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 111,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n112.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 112,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n113.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 113,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n114.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 114,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n115.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 115,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n116.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 116,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n117.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 117,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n118.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 118,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n119.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 119,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n120.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 120,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n121.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 121,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n122.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 122,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n123.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 123,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n124.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 124,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n125.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 125,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n126.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 126,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n127.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 127,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n128.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 128,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n129.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 129,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n130.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 130,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n131.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 131,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n132.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 132,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n133.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 133,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n134.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 134,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n135.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 135,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n136.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 136,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n137.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 137,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n138.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 138,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n139.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 139,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n140.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 140,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n141.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 141,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n142.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 142,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n143.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 143,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n144.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 144,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n145.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 145,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n146.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 146,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n147.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 147,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n148.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 148,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n149.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 149,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n150.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 150,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n151.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 151,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n152.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 152,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n153.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 153,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n154.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 154,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n155.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 155,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n156.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 156,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n157.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 157,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n158.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 158,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n159.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 159,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n160.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 160,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n161.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 161,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n162.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 162,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n163.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 163,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n164.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 164,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n165.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 165,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n166.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 166,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n167.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 167,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n168.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 168,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n169.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 169,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n170.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 170,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n171.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 171,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n172.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 172,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n173.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 173,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n174.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 174,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n175.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 175,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n176.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 176,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n177.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 177,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n178.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 178,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n179.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 179,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n180.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 180,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n181.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 181,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n182.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 182,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n183.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 183,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n184.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 184,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n185.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 185,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n186.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 186,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n187.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 187,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n188.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 188,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n189.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 189,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n190.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 190,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n191.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 191,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n192.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 192,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n193.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 193,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n194.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 194,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n195.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 195,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n196.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 196,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n197.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 197,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n198.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 198,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n199.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 199,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n200.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 200,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n201.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 201,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n202.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 202,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n203.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 203,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n204.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 204,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n205.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 205,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n206.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 206,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n207.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 207,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n208.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 208,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n209.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 209,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n210.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 210,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n211.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 211,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n212.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 212,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n213.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 213,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n214.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 214,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n215.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 215,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n216.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 216,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n217.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 217,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n218.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 218,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n219.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 219,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n220.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 220,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n221.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 221,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n222.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 222,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n223.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 223,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n224.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 224,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n225.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 225,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n226.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 226,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n227.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 227,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n228.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 228,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n229.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 229,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n230.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 230,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n231.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 231,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n232.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 232,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n233.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 233,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n234.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 234,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n235.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 235,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n236.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 236,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n237.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 237,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n238.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 238,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n239.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 239,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n240.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 240,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n241.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 241,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n242.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 242,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n243.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 243,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n244.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 244,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n245.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 245,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n246.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 246,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n247.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 247,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n248.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 248,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n249.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 249,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n250.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 250,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n251.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 251,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n252.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 252,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n253.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 253,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n254.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 254,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/organic256/n255.png",
+      "kind": "tile",
+      "layer": "grass",
+      "neighborMask": 255,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 255,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 255,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i01.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 127,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 127,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i02.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 253,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 253,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i03.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 125,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 125,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i04.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 247,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 247,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i05.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 119,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 119,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i06.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 245,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 245,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i07.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 117,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 117,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i08.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 223,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 223,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i09.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 95,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 95,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i10.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 221,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 221,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i11.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 93,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 93,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i12.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 215,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 215,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i13.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 87,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 87,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i14.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 213,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 213,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o00_i15.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 85,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 85,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o01_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 124,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 124,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o01_i04.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 116,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 116,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o01_i08.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 92,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 92,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o01_i12.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 84,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 84,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o02_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 241,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 241,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o02_i01.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 113,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 113,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o02_i08.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 209,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 209,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o02_i09.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 81,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 81,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o03_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 112,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 112,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o03_i08.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 80,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 80,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o04_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 199,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 199,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o04_i01.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 71,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 71,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o04_i02.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 197,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 197,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o04_i03.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 69,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 69,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o05_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 68,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 68,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o06_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 193,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 193,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o06_i01.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 65,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 65,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o07_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 64,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 64,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o08_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 31,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 31,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o08_i02.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 29,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 29,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o08_i04.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 23,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 23,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o08_i06.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 21,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 21,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o09_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 28,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 28,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o09_i04.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 20,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 20,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o10_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 17,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 17,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o11_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 16,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 16,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o12_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 7,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 7,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o12_i02.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 5,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 5,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o13_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 4,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 4,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o14_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 1,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 1,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    },
+    {
+      "file": "tiles/grass/blob47/o15_i00.png",
+      "kind": "compatibility_alias",
+      "layer": "grass",
+      "neighborMask": 0,
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "canonicalNeighborMask": 0,
+      "note": "47-state fallback loses diagonal-only adjacency; use full256 for natural boundaries.",
+      "sourceNative": "sources/quiet_meadow_palette_imagegen_native.png",
+      "artRevision": "V11_retained_approved_quiet_V10_ground",
+      "retainedByteIdenticalFrom": "ANIMOL_STARWAY_RANCH_CARTOON_V10"
+    }
+  ],
+  "qa": {
+    "status": "PASS",
+    "details": "ranch_v11_terrain_qa.json",
+    "scope": "All 1728 terrain assets plus 4 optional bridge illustrations, exact alpha/import metadata and actual RGB changes. No Unity execution."
+  },
+  "sourcePolicy": "Approved V10 grass top PNGs retained byte-identical in V11. No grass top resampling, recoloring or texture replacement.",
+  "sourceProcessing": "Retained original V10 runtime PNG bytes, full 8-neighbor connected alpha, logical geometry and import metadata. The original flat meadow native source is retained as provenance.",
+  "sources": {
+    "grass": {
+      "file": "sources/quiet_meadow_palette_imagegen_native.png",
+      "retainedApprovedV10": true,
+      "runtimeSpriteCount": 303,
+      "runtimeByteIdentical": true,
+      "processing": "No V11 resampling or rebuilding; copy original approved PNG bytes."
+    }
+  }
+}

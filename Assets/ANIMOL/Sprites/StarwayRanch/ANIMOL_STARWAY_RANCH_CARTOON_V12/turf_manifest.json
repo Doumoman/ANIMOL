@@ -1,0 +1,1511 @@
+{
+  "version": "V12",
+  "theme": "별길 목장",
+  "pixelsPerUnit": 256,
+  "coordinateConvention": "Image bounds and anchors use top-left origin. Unity pivot is normalized bottom-left origin and equals contact anchor.",
+  "import": {
+    "filterMode": "Bilinear",
+    "compression": "None",
+    "mipMaps": false,
+    "meshType": "FullRect"
+  },
+  "artRule": "Separate raised pointed angular grass clumps, fringe and low joined patches, with broad flat sage planes and a single dark teal shadow; no grass paint on ground and no succulent art.",
+  "assets": [
+    {
+      "id": "patch_01",
+      "file": "decor/turf/patch_01.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        113,
+        8,
+        287,
+        184
+      ],
+      "core_alpha_bounds": [
+        113,
+        8,
+        287,
+        184
+      ],
+      "visibleWorldSize": [
+        1.12109375,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 16,
+        "top": 231,
+        "width": 514,
+        "height": 329
+      },
+      "source_component_bounds": [
+        30,
+        289,
+        496,
+        252
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 514,
+        "height": 329
+      },
+      "source_component_centroid": [
+        285.3413962868498,
+        428.1869505901892
+      ],
+      "source_component_area": 84295,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          287,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.5583657587548638,
+        0.5592705167173252
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "f21844eeeeb2df2511f0ee110b6eabb5e0a43163b0d5b66e63c0636b9de0ae14",
+      "nativeRedraw": true
+    },
+    {
+      "id": "patch_02",
+      "file": "decor/turf/patch_02.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        139,
+        8,
+        235,
+        184
+      ],
+      "core_alpha_bounds": [
+        139,
+        8,
+        235,
+        184
+      ],
+      "visibleWorldSize": [
+        0.91796875,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 556,
+        "top": 215,
+        "width": 455,
+        "height": 356
+      },
+      "source_component_bounds": [
+        555,
+        279,
+        443,
+        271
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 455,
+        "height": 356
+      },
+      "source_component_centroid": [
+        772.859300048626,
+        429.623188024865
+      ],
+      "source_component_area": 76091,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          235,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.5164835164835165,
+        0.5168539325842697
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "5272686cbe5e09782f79e53969e6503da346f881cc710c8998de318c4c9b5230",
+      "nativeRedraw": true
+    },
+    {
+      "id": "patch_03",
+      "file": "decor/turf/patch_03.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        98,
+        8,
+        317,
+        184
+      ],
+      "core_alpha_bounds": [
+        98,
+        9,
+        317,
+        183
+      ],
+      "visibleWorldSize": [
+        1.23828125,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 15,
+        "top": 628,
+        "width": 546,
+        "height": 317
+      },
+      "source_component_bounds": [
+        32,
+        650,
+        521,
+        247
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 546,
+        "height": 317
+      },
+      "source_component_centroid": [
+        293.0565636100176,
+        792.8432222407448
+      ],
+      "source_component_area": 77983,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          317,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.5805860805860806,
+        0.580441640378549
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "3719d7df067162f35d54316326463eea707c097415d3c6cc4552b605c063ebc5",
+      "nativeRedraw": true
+    },
+    {
+      "id": "patch_04",
+      "file": "decor/turf/patch_04.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        132,
+        8,
+        249,
+        184
+      ],
+      "core_alpha_bounds": [
+        132,
+        8,
+        249,
+        184
+      ],
+      "visibleWorldSize": [
+        0.97265625,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 581,
+        "top": 630,
+        "width": 429,
+        "height": 317
+      },
+      "source_component_bounds": [
+        584,
+        645,
+        412,
+        253
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 429,
+        "height": 317
+      },
+      "source_component_centroid": [
+        784.6947912050972,
+        790.6741943862974
+      ],
+      "source_component_area": 65447,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          249,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.5804195804195804,
+        0.580441640378549
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "6338d75d459baa41b619f7592b33996ca80da6ee5934834fff0f770758872b30",
+      "nativeRedraw": true
+    },
+    {
+      "id": "patch_05",
+      "file": "decor/turf/patch_05.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        102,
+        8,
+        309,
+        184
+      ],
+      "core_alpha_bounds": [
+        102,
+        8,
+        309,
+        184
+      ],
+      "visibleWorldSize": [
+        1.20703125,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 17,
+        "top": 1025,
+        "width": 511,
+        "height": 304
+      },
+      "source_component_bounds": [
+        28,
+        1024,
+        490,
+        255
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 511,
+        "height": 304
+      },
+      "source_component_centroid": [
+        261.77275408956825,
+        1170.4961383748994
+      ],
+      "source_component_area": 74580,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          309,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.6046966731898239,
+        0.6052631578947368
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "94636322b96b835f4d6d3e541cd7337ff650116d13229bc9a931d69ea45f6ff7",
+      "nativeRedraw": true
+    },
+    {
+      "id": "patch_06",
+      "file": "decor/turf/patch_06.png",
+      "kind": "raised_turf_patch",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        256,
+        192
+      ],
+      "contactanchor_px": [
+        256,
+        192
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        114,
+        8,
+        285,
+        184
+      ],
+      "core_alpha_bounds": [
+        114,
+        8,
+        285,
+        184
+      ],
+      "visibleWorldSize": [
+        1.11328125,
+        0.71875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Cluster low irregular turf on grass; keep bridge entries and puzzle path readable.",
+      "source_file": "sources/turf_patches_native.png",
+      "source_crop": {
+        "left": 548,
+        "top": 1035,
+        "width": 461,
+        "height": 298
+      },
+      "source_component_bounds": [
+        555,
+        1023,
+        444,
+        268
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 461,
+        "height": 298
+      },
+      "source_component_centroid": [
+        783.706262113395,
+        1179.124013867278
+      ],
+      "source_component_area": 73266,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          285,
+          184
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.6182212581344902,
+        0.6174496644295302
+      ],
+      "sourceSha256": "32d5267465069556e98d8996349143dc2f491bb93c3797fed43cd3585df3515f",
+      "sha256": "c49d4d0cd9e23cfc2b6ab5025c88c4a0b7c2388e0b6373a17c8e9f4adec56341",
+      "nativeRedraw": true
+    },
+    {
+      "id": "fringe_01",
+      "file": "decor/turf/fringe_01.png",
+      "kind": "raised_turf_fringe",
+      "width": 320,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.21875
+      ],
+      "anchor_px": [
+        160,
+        100
+      ],
+      "contactanchor_px": [
+        160,
+        100
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        14,
+        13,
+        292,
+        87
+      ],
+      "core_alpha_bounds": [
+        14,
+        13,
+        292,
+        87
+      ],
+      "visibleWorldSize": [
+        1.140625,
+        0.33984375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Attach to actual exposed organic grass boundary, stems slightly inside land. Do not rotate ninety degrees.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 38,
+        "top": 278,
+        "width": 711,
+        "height": 213
+      },
+      "source_component_bounds": [
+        33,
+        315,
+        721,
+        169
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 711,
+        "height": 213
+      },
+      "source_component_centroid": [
+        399.3460804267853,
+        421.15835050503773
+      ],
+      "source_component_area": 79103,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          292,
+          87
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.41068917018284107,
+        0.4084507042253521
+      ],
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "16bfac300f9344fc828a5ba2c9b3cdbff49ec8cd622a72e49913102975c4324f",
+      "nativeRedraw": true
+    },
+    {
+      "id": "fringe_02",
+      "file": "decor/turf/fringe_02.png",
+      "kind": "raised_turf_fringe",
+      "width": 320,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.21875
+      ],
+      "anchor_px": [
+        160,
+        100
+      ],
+      "contactanchor_px": [
+        160,
+        100
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        14,
+        12,
+        292,
+        88
+      ],
+      "core_alpha_bounds": [
+        14,
+        12,
+        292,
+        88
+      ],
+      "visibleWorldSize": [
+        1.140625,
+        0.34375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Attach to actual exposed organic grass boundary, stems slightly inside land. Do not rotate ninety degrees.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 791,
+        "top": 281,
+        "width": 714,
+        "height": 214
+      },
+      "source_component_bounds": [
+        782,
+        309,
+        726,
+        181
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 714,
+        "height": 214
+      },
+      "source_component_centroid": [
+        1137.576409373457,
+        424.9195710795174
+      ],
+      "source_component_area": 78989,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          292,
+          88
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.40896358543417366,
+        0.411214953271028
+      ],
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "c23907ed1d68cfa9bda89f23958a4f260d047bdefa696343757b7ba5da018ade",
+      "nativeRedraw": true
+    },
+    {
+      "id": "fringe_03",
+      "file": "decor/turf/fringe_03.png",
+      "kind": "raised_turf_fringe",
+      "width": 320,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.21875
+      ],
+      "anchor_px": [
+        160,
+        100
+      ],
+      "contactanchor_px": [
+        160,
+        100
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        14,
+        14,
+        292,
+        86
+      ],
+      "core_alpha_bounds": [
+        14,
+        14,
+        292,
+        86
+      ],
+      "visibleWorldSize": [
+        1.140625,
+        0.3359375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Attach to actual exposed organic grass boundary, stems slightly inside land. Do not rotate ninety degrees.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 31,
+        "top": 559,
+        "width": 728,
+        "height": 215
+      },
+      "source_component_bounds": [
+        29,
+        579,
+        724,
+        184
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 728,
+        "height": 215
+      },
+      "source_component_centroid": [
+        375.3996565527083,
+        696.4736791186465
+      ],
+      "source_component_area": 82691,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          292,
+          86
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.4010989010989011,
+        0.4
+      ],
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "9f94cd8246248341a3c76194dbdd69532cfae45e1713638f6b170001abf966d8",
+      "nativeRedraw": true
+    },
+    {
+      "id": "fringe_04",
+      "file": "decor/turf/fringe_04.png",
+      "kind": "raised_turf_fringe",
+      "width": 320,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.21875
+      ],
+      "anchor_px": [
+        160,
+        100
+      ],
+      "contactanchor_px": [
+        160,
+        100
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        14,
+        17,
+        292,
+        83
+      ],
+      "core_alpha_bounds": [
+        14,
+        17,
+        292,
+        83
+      ],
+      "visibleWorldSize": [
+        1.140625,
+        0.32421875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Attach to actual exposed organic grass boundary, stems slightly inside land. Do not rotate ninety degrees.",
+      "source_file": "sources/turf_fringe_native.png",
+      "source_crop": {
+        "left": 791,
+        "top": 574,
+        "width": 716,
+        "height": 204
+      },
+      "source_component_bounds": [
+        786,
+        608,
+        726,
+        158
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 716,
+        "height": 204
+      },
+      "source_component_centroid": [
+        1146.0432003285196,
+        709.3541030730272
+      ],
+      "source_component_area": 73055,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          292,
+          83
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.40782122905027934,
+        0.4068627450980392
+      ],
+      "sourceSha256": "6ea2e5d26aa9a84050694d489269ab224fc5d59fcf1ca61cdcabea36ca980652",
+      "sha256": "bb6269638b6003a12684bbc145c3b04fe89fd8c6955578cdae10e9ba7f07c5cb",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_01",
+      "file": "decor/turf/tuft_01.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        33,
+        42,
+        63,
+        54
+      ],
+      "core_alpha_bounds": [
+        33,
+        42,
+        63,
+        54
+      ],
+      "visibleWorldSize": [
+        0.24609375,
+        0.2109375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 35,
+        "top": 111,
+        "width": 474,
+        "height": 404
+      },
+      "source_component_bounds": [
+        49,
+        184,
+        455,
+        349
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 474,
+        "height": 404
+      },
+      "source_component_centroid": [
+        279.01248547197383,
+        394.579694134705
+      ],
+      "source_component_area": 86901,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          63,
+          54
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.13291139240506328,
+        0.13366336633663367
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "9ee006bc6dbc05d27c95d17de35962bf1fddcca6718102a35c8d1cc72c2a4a31",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_02",
+      "file": "decor/turf/tuft_02.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        25,
+        46,
+        79,
+        50
+      ],
+      "core_alpha_bounds": [
+        25,
+        46,
+        79,
+        50
+      ],
+      "visibleWorldSize": [
+        0.30859375,
+        0.1953125
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 530,
+        "top": 214,
+        "width": 472,
+        "height": 299
+      },
+      "source_component_bounds": [
+        546,
+        274,
+        449,
+        254
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 472,
+        "height": 299
+      },
+      "source_component_centroid": [
+        772.2965817032207,
+        427.37142249175446
+      ],
+      "source_component_area": 65793,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          79,
+          50
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.1673728813559322,
+        0.16722408026755853
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "eb664caccdbdcf28561f0c078b8b5e400237f7774ef588c3d2a1623bc6f486dd",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_03",
+      "file": "decor/turf/tuft_03.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        30,
+        42,
+        69,
+        54
+      ],
+      "core_alpha_bounds": [
+        30,
+        42,
+        69,
+        54
+      ],
+      "visibleWorldSize": [
+        0.26953125,
+        0.2109375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 39,
+        "top": 592,
+        "width": 472,
+        "height": 368
+      },
+      "source_component_bounds": [
+        55,
+        657,
+        447,
+        336
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 472,
+        "height": 368
+      },
+      "source_component_centroid": [
+        281.43621680260355,
+        865.1552359141253
+      ],
+      "source_component_area": 74667,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          69,
+          54
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.1461864406779661,
+        0.14673913043478262
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "a9a48232e64149a00593145e97eb83eb4e87a6bfe65a3e83e62c9c006935298b",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_04",
+      "file": "decor/turf/tuft_04.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        31,
+        40,
+        67,
+        56
+      ],
+      "core_alpha_bounds": [
+        31,
+        40,
+        67,
+        56
+      ],
+      "visibleWorldSize": [
+        0.26171875,
+        0.21875
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 543,
+        "top": 593,
+        "width": 443,
+        "height": 369
+      },
+      "source_component_bounds": [
+        551,
+        665,
+        437,
+        328
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 443,
+        "height": 369
+      },
+      "source_component_centroid": [
+        774.2049733933688,
+        863.0389889480148
+      ],
+      "source_component_area": 78176,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          67,
+          56
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.15124153498871332,
+        0.15176151761517614
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "fe4149b9af204056c4a30f448c9c0b73b7b3f3ec1e9df95910c6149da7e37ea6",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_05",
+      "file": "decor/turf/tuft_05.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        24,
+        46,
+        81,
+        50
+      ],
+      "core_alpha_bounds": [
+        24,
+        46,
+        81,
+        50
+      ],
+      "visibleWorldSize": [
+        0.31640625,
+        0.1953125
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 45,
+        "top": 1105,
+        "width": 484,
+        "height": 299
+      },
+      "source_component_bounds": [
+        70,
+        1187,
+        449,
+        239
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 484,
+        "height": 299
+      },
+      "source_component_centroid": [
+        290.8497389074763,
+        1318.8446421312653
+      ],
+      "source_component_area": 63962,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          81,
+          50
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.16735537190082644,
+        0.16722408026755853
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "dd01ee3e139d23cc74a72d900f1dd69cfcc5d2d377de4116424a31dff8912ce1",
+      "nativeRedraw": true
+    },
+    {
+      "id": "tuft_06",
+      "file": "decor/turf/tuft_06.png",
+      "kind": "short_grass_tuft",
+      "width": 128,
+      "height": 128,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "anchor_px": [
+        64,
+        96
+      ],
+      "contactanchor_px": [
+        64,
+        96
+      ],
+      "anchorMeaning": "Bottom contact point, pixel coordinates from top-left. Unity pivot exactly equals this contact point.",
+      "visible_bounds": [
+        33,
+        42,
+        63,
+        54
+      ],
+      "core_alpha_bounds": [
+        33,
+        42,
+        63,
+        54
+      ],
+      "visibleWorldSize": [
+        0.24609375,
+        0.2109375
+      ],
+      "reference_grid_cell_pixels": 256,
+      "collider": false,
+      "sorting": "Depth-sort by contact anchor with props. Nonblocking floor art; preserve upright blade and light orientation.",
+      "placement": "Small upright grass cluster for side shores and sparse lawn detail.",
+      "source_file": "sources/turf_short_tufts_native.png",
+      "source_crop": {
+        "left": 562,
+        "top": 1047,
+        "width": 423,
+        "height": 361
+      },
+      "source_component_bounds": [
+        575,
+        1125,
+        392,
+        306
+      ],
+      "source_alpha_crop": {
+        "left": 0,
+        "top": 0,
+        "width": 423,
+        "height": 361
+      },
+      "source_component_centroid": [
+        785.7529100150333,
+        1305.9061922829121
+      ],
+      "source_component_area": 69845,
+      "resample": {
+        "method": "lanczos3",
+        "uniformResizeOnly": true,
+        "targetVisibleSize": [
+          63,
+          54
+        ],
+        "roundingErrorOnly": true
+      },
+      "alphaCleanup": {
+        "coreThreshold": 32,
+        "smoothMinimumAlpha": 8,
+        "postResizeMinimumAlpha": 4,
+        "nearOpaqueNormalizedAt": 245,
+        "fullAtlasConnectedComponentExtraction": true,
+        "nominalGridCropNotUsed": true,
+        "transparentRgbZeroed": true
+      },
+      "source": "V11 built-in imagegen flat angular native redraw; mechanical crop, alpha cleanup, uniform resampling and original canvas placement only",
+      "uniformResizeOnly": true,
+      "scale": [
+        0.14893617021276595,
+        0.14958448753462603
+      ],
+      "sourceSha256": "63efdc7cf4b96fda99e8c98b7f051d4abd17c2b2510458601314549ea28f39fe",
+      "sha256": "17c081b80412ef16ee09bd5db405f99c9ab6fa3f91584fe646aeeac7d24e922c",
+      "nativeRedraw": true
+    }
+  ],
+  "qa": {
+    "status": "PASS",
+    "count": 16,
+    "actualGeneratedAlphaUsed": true,
+    "dimensionsAndAnchorsPreserved": true,
+    "uniformResizeOnly": true,
+    "unityExecuted": false
+  }
+}

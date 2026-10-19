@@ -1,0 +1,2858 @@
+{
+  "schema": "animol.run-planner.fixtures.v06",
+  "fixtures": [
+    {
+      "name": "empty",
+      "rows": [],
+      "expectedLengths": [],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [],
+      "pass": true
+    },
+    {
+      "name": "grass_length_1",
+      "rows": [
+        "G"
+      ],
+      "expectedLengths": [
+        1
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            0
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                0
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_2",
+      "rows": [
+        "GG"
+      ],
+      "expectedLengths": [
+        2
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 2,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                4,
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lend_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_3",
+      "rows": [
+        "GGG"
+      ],
+      "expectedLengths": [
+        3
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 3,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:3:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 3,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                4,
+                68,
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l3_Lend_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_4",
+      "rows": [
+        "GGGG"
+      ],
+      "expectedLengths": [
+        4
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 4,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:4:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 4,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 4,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                4,
+                68,
+                68,
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l4_Lend_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_5",
+      "rows": [
+        "GGGGG"
+      ],
+      "expectedLengths": [
+        5
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 5,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:5:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 5,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_6",
+      "rows": [
+        "GGGGGG"
+      ],
+      "expectedLengths": [
+        6
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 6,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:6:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 6,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 3,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                68,
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l3_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_10",
+      "rows": [
+        "GGGGGGGGGG"
+      ],
+      "expectedLengths": [
+        10
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 10,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:10:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 10,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 3,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 6,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l3_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "grass_length_20",
+      "rows": [
+        "GGGGGGGGGGGGGGGGGGGG"
+      ],
+      "expectedLengths": [
+        20
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 20,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:20:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 20,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l3_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 6,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 10,
+              "length": 2,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 13,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l3_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 18,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "material_join",
+      "rows": [
+        "GGWWSS"
+      ],
+      "expectedLengths": [
+        2,
+        2,
+        2
+      ],
+      "expectedMaterials": [
+        "G",
+        "W",
+        "S"
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 2,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "continue",
+          "leftMaterial": null,
+          "rightMaterial": "wood_bridge",
+          "masks": [
+            4,
+            68
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 2,
+          "y": 0,
+          "length": 2,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "continue",
+          "leftMaterial": "grass",
+          "rightMaterial": "stone_bridge",
+          "masks": [
+            68,
+            68
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-11:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 4,
+          "y": 0,
+          "length": 2,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "end",
+          "leftMaterial": "wood_bridge",
+          "rightMaterial": null,
+          "masks": [
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -9,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-9:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                64
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l2_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "south_any_material_blocks_front",
+      "rows": [
+        "GGGG",
+        "GWSG"
+      ],
+      "expectedLengths": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "expectedY": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 1,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "continue",
+          "leftMaterial": null,
+          "rightMaterial": "wood_bridge",
+          "masks": [
+            7
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                7
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 1,
+          "y": 1,
+          "length": 1,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "continue",
+          "leftMaterial": "grass",
+          "rightMaterial": "stone_bridge",
+          "masks": [
+            199
+          ],
+          "seed": 27,
+          "worldX": -12,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-12:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                199
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l1_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 2,
+          "y": 1,
+          "length": 1,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "continue",
+          "leftMaterial": "wood_bridge",
+          "rightMaterial": "grass",
+          "masks": [
+            199
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-11:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                199
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l1_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 3,
+          "y": 1,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "end",
+          "leftMaterial": "stone_bridge",
+          "rightMaterial": null,
+          "masks": [
+            193
+          ],
+          "seed": 27,
+          "worldX": -10,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-10:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                193
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "mixed_south_concave",
+      "rows": [
+        "GGGGG",
+        "0WS00"
+      ],
+      "expectedLengths": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "concave",
+          "leftMaterial": null,
+          "rightMaterial": "grass",
+          "masks": [
+            12
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "concave",
+              "masks": [
+                12
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rconcave_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 3,
+          "y": 0,
+          "length": 2,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "concave",
+          "rightMode": "end",
+          "leftMaterial": "grass",
+          "rightMaterial": null,
+          "masks": [
+            100,
+            64
+          ],
+          "seed": 27,
+          "worldX": -10,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-10:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "concave",
+              "rightMode": "end",
+              "masks": [
+                100,
+                64
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lconcave_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 1,
+          "y": 1,
+          "length": 1,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "continue",
+          "leftMaterial": null,
+          "rightMaterial": "stone_bridge",
+          "masks": [
+            135
+          ],
+          "seed": 27,
+          "worldX": -12,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-12:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                135
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l1_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 2,
+          "y": 1,
+          "length": 1,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "end",
+          "leftMaterial": "wood_bridge",
+          "rightMaterial": null,
+          "masks": [
+            195
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-11:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                195
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l1_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "one_cell_hole",
+      "rows": [
+        "GGGGG",
+        "GG0GG",
+        "GGGGG"
+      ],
+      "expectedLengths": [
+        1,
+        5
+      ],
+      "expectedHoles": 1,
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 2,
+          "y": 0,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": true,
+          "leftMode": "concave",
+          "rightMode": "concave",
+          "leftMaterial": "grass",
+          "rightMaterial": "grass",
+          "masks": [
+            108
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-11:-29:1:hole",
+          "strategy": "shallow_collar",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 16
+          },
+          "maximumBodyDepthPixels": 36,
+          "clusters": []
+        },
+        {
+          "startX": 0,
+          "y": 2,
+          "length": 5,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            7,
+            197,
+            198,
+            71,
+            193
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -27,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-27:5:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 5,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                197
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                193
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "one_cell_bridge_hole",
+      "rows": [
+        "GGGGG",
+        "GWWSG",
+        "GG0GG",
+        "GGGGG"
+      ],
+      "expectedLengths": [
+        1,
+        5
+      ],
+      "expectedHoles": 1,
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 2,
+          "y": 1,
+          "length": 1,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": true,
+          "leftMode": "concave",
+          "rightMode": "concave",
+          "leftMaterial": "wood_bridge",
+          "rightMaterial": "stone_bridge",
+          "masks": [
+            239
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-11:-28:1:hole",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 16
+          },
+          "maximumBodyDepthPixels": 36,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "shallow",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": true,
+              "leftMode": "concave",
+              "rightMode": "concave",
+              "masks": [
+                239
+              ],
+              "file": "skirts/spans/wood_bridge/hole/l1_Lconcave_Rconcave_v1.png",
+              "maximumDepthPixels": 36
+            }
+          ]
+        },
+        {
+          "startX": 0,
+          "y": 3,
+          "length": 5,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            7,
+            197,
+            198,
+            71,
+            193
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -26,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-26:5:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 5,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 2,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                197,
+                198
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                193
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "large_enclosed_hole",
+      "rows": [
+        "GGGGGGGGGG",
+        "G00000000G",
+        "G00000000G",
+        "GGGGGGGGGG"
+      ],
+      "expectedLengths": [
+        8,
+        10
+      ],
+      "expectedHoles": 1,
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 1,
+          "y": 0,
+          "length": 8,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": true,
+          "leftMode": "concave",
+          "rightMode": "concave",
+          "leftMaterial": "grass",
+          "rightMaterial": "grass",
+          "masks": [
+            100,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            76
+          ],
+          "seed": 27,
+          "worldX": -12,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-12:-29:8:hole",
+          "strategy": "shallow_collar",
+          "collar": {
+            "startOffset": 0,
+            "length": 8,
+            "continuous": true,
+            "maximumDepthPixels": 16
+          },
+          "maximumBodyDepthPixels": 36,
+          "clusters": []
+        },
+        {
+          "startX": 0,
+          "y": 3,
+          "length": 10,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            5,
+            196,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            70,
+            65
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -26,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-26:10:exterior",
+          "strategy": "spaced_clusters",
+          "collar": {
+            "startOffset": 0,
+            "length": 10,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 1,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                196,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 5,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/grass/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 8,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "hanging_cluster",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                70
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "ragged_rows",
+      "rows": [
+        "GGWWS",
+        "GG",
+        "G",
+        null,
+        "SSS"
+      ],
+      "expectedLengths": [
+        2,
+        1,
+        1,
+        1,
+        3
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 2,
+          "y": 0,
+          "length": 2,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "concave",
+          "rightMode": "continue",
+          "leftMaterial": "grass",
+          "rightMaterial": "stone_bridge",
+          "masks": [
+            100,
+            68
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-11:-29:2:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 2,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "concave",
+              "rightMode": "continue",
+              "masks": [
+                100,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l2_Lconcave_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 4,
+          "y": 0,
+          "length": 1,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "continue",
+          "rightMode": "end",
+          "leftMaterial": "wood_bridge",
+          "rightMaterial": null,
+          "masks": [
+            64
+          ],
+          "seed": 27,
+          "worldX": -9,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-9:-29:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                64
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l1_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 1,
+          "y": 1,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "concave",
+          "rightMode": "end",
+          "leftMaterial": "grass",
+          "rightMaterial": null,
+          "masks": [
+            227
+          ],
+          "seed": 27,
+          "worldX": -12,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-12:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "concave",
+              "rightMode": "end",
+              "masks": [
+                227
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lconcave_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 0,
+          "y": 2,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            3
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -27,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-27:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                3
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 0,
+          "y": 4,
+          "length": 3,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -25,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-13:-25:3:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 3,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                4,
+                68,
+                64
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l3_Lend_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "diagonal_land",
+      "rows": [
+        "G000",
+        "0W00",
+        "00S0",
+        "000G"
+      ],
+      "expectedLengths": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            8
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-13:-29:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                8
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 1,
+          "y": 1,
+          "length": 1,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            136
+          ],
+          "seed": 27,
+          "worldX": -12,
+          "worldY": -28,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-12:-28:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                136
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l1_Lend_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 2,
+          "y": 2,
+          "length": 1,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            136
+          ],
+          "seed": 27,
+          "worldX": -11,
+          "worldY": -27,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-11:-27:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "fused",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                136
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l1_Lend_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        },
+        {
+          "startX": 3,
+          "y": 3,
+          "length": 1,
+          "material": "grass",
+          "materialCode": "G",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            128
+          ],
+          "seed": 27,
+          "worldX": -10,
+          "worldY": -26,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "G:-10:-26:1:exterior",
+          "strategy": "fused",
+          "collar": {
+            "startOffset": 0,
+            "length": 1,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 1,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "fused",
+              "material": "grass",
+              "materialCode": "G",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "end",
+              "masks": [
+                128
+              ],
+              "file": "skirts/spans/grass/exterior/l1_Lend_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "wood_length_5",
+      "rows": [
+        "WWWWW"
+      ],
+      "expectedLengths": [
+        5
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 5,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-13:-29:5:exterior",
+          "strategy": "continuous_structure",
+          "collar": {
+            "startOffset": 0,
+            "length": 5,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 2,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l2_Lend_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 2,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                68,
+                64
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l3_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "wood_length_20",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWW"
+      ],
+      "expectedLengths": [
+        20
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 20,
+          "material": "wood_bridge",
+          "materialCode": "W",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "W:-13:-29:20:exterior",
+          "strategy": "continuous_structure",
+          "collar": {
+            "startOffset": 0,
+            "length": 20,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 4,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l4_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l3_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 7,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l3_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 10,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l2_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 12,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l3_Lcontinue_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 15,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l3_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 18,
+              "length": 2,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "wood_bridge",
+              "materialCode": "W",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                64
+              ],
+              "file": "skirts/spans/wood_bridge/exterior/l2_Lcontinue_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "stone_length_6",
+      "rows": [
+        "SSSSSS"
+      ],
+      "expectedLengths": [
+        6
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 6,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-13:-29:6:exterior",
+          "strategy": "continuous_structure",
+          "collar": {
+            "startOffset": 0,
+            "length": 6,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68,
+                68
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l3_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 3,
+              "length": 3,
+              "variant": 0,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                68,
+                64
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l3_Lcontinue_Rend_v0.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "name": "stone_length_10",
+      "rows": [
+        "SSSSSSSSSS"
+      ],
+      "expectedLengths": [
+        10
+      ],
+      "seed": 27,
+      "origin": {
+        "x": -13,
+        "y": -29
+      },
+      "runs": [
+        {
+          "startX": 0,
+          "y": 0,
+          "length": 10,
+          "material": "stone_bridge",
+          "materialCode": "S",
+          "hole": false,
+          "leftMode": "end",
+          "rightMode": "end",
+          "leftMaterial": null,
+          "rightMaterial": null,
+          "masks": [
+            4,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            68,
+            64
+          ],
+          "seed": 27,
+          "worldX": -13,
+          "worldY": -29,
+          "origin": {
+            "x": -13,
+            "y": -29
+          },
+          "key": "S:-13:-29:10:exterior",
+          "strategy": "continuous_structure",
+          "collar": {
+            "startOffset": 0,
+            "length": 10,
+            "continuous": true,
+            "maximumDepthPixels": 24
+          },
+          "maximumBodyDepthPixels": 160,
+          "clusters": [
+            {
+              "startOffset": 0,
+              "length": 4,
+              "variant": 0,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "end",
+              "rightMode": "continue",
+              "masks": [
+                4,
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l4_Lend_Rcontinue_v0.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 4,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "deep",
+              "kind": "continuous_structure",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "continue",
+              "masks": [
+                68,
+                68,
+                68
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l3_Lcontinue_Rcontinue_v1.png",
+              "maximumDepthPixels": 160
+            },
+            {
+              "startOffset": 7,
+              "length": 3,
+              "variant": 1,
+              "depthClass": "medium",
+              "kind": "continuous_structure",
+              "material": "stone_bridge",
+              "materialCode": "S",
+              "hole": false,
+              "leftMode": "continue",
+              "rightMode": "end",
+              "masks": [
+                68,
+                68,
+                64
+              ],
+              "file": "skirts/spans/stone_bridge/exterior/l3_Lcontinue_Rend_v1.png",
+              "maximumDepthPixels": 160
+            }
+          ]
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "hashVectors": [
+    {
+      "x": 0,
+      "y": 0,
+      "seed": 0,
+      "value": 0
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "seed": 27,
+      "value": 936298167
+    },
+    {
+      "x": -1,
+      "y": -1,
+      "seed": 0,
+      "value": 4245456706
+    },
+    {
+      "x": -197,
+      "y": 53,
+      "seed": -32,
+      "value": 2096046893
+    },
+    {
+      "x": -2147483648,
+      "y": 2147483647,
+      "seed": -1,
+      "value": 3375014680
+    }
+  ]
+}

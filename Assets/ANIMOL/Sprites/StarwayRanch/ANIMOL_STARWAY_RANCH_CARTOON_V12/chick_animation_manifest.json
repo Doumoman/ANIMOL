@@ -1,0 +1,1816 @@
+{
+  "version": "ANIMOL_STARWAY_RANCH_CARTOON_V12",
+  "themeDisplayName": "별길 목장",
+  "artOnly": true,
+  "family": "chick",
+  "assetCount": 20,
+  "headingCount": 4,
+  "idleFramesPerHeading": 1,
+  "walkFramesPerHeading": 4,
+  "walkFps": 12,
+  "coordinateConvention": "Pixel rectangles and anchors use top-left image origin; Unity pivot is normalized bottom-left.",
+  "fixedLogicalContactAnchor": [
+    136,
+    272
+  ],
+  "footAnimationNote": "Feet animate within a few pixels around the fixed logical contact anchor. Whole-sprite stabilizing translations bound yellow-body top bounce to at most 4 pixels inside each walk cycle.",
+  "preferredRendererContract": {
+    "canvasSize": [
+      272,
+      282
+    ],
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.4822695
+    ],
+    "logicalRect": [
+      8,
+      18,
+      256,
+      256
+    ],
+    "contactPoint": [
+      136,
+      272
+    ],
+    "logicalRootScale": [
+      1,
+      1,
+      1
+    ],
+    "visualChildScale": [
+      0.62,
+      0.62,
+      1
+    ],
+    "scaleCount": 1,
+    "nonblocking": true,
+    "pressesPressurePlate": false
+  },
+  "followerContract": "Visuals only. Preserve existing committed-path one-step follower behavior, occupancy and pressure-plate logic. This artwork adds no follow/collision logic.",
+  "assets": [
+    {
+      "id": "chick.south.idle",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "south",
+      "state": "idle",
+      "frame": 0,
+      "file": "props/chick/south/idle.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        20,
+        19,
+        233,
+        253
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 36,
+        "top": 26,
+        "width": 329,
+        "height": 354
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9293785310734464,
+      "productionRoundingError": 0.0005247761327349387,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "d0f5497b6edec2ee34d4ed338bb15727a50ce1e94cf0627fab218015827102c4"
+    },
+    {
+      "id": "chick.south.walk_01",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "south",
+      "state": "walk",
+      "frame": 0,
+      "file": "props/chick/south/walk_01.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        18,
+        15,
+        237,
+        258
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 437,
+        "top": 30,
+        "width": 323,
+        "height": 351
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9202279202279202,
+      "productionRoundingError": 0.0016232690651295512,
+      "animationBodyOffsetPx": [
+        0,
+        1
+      ],
+      "sha256": "fb0db8a01c01b7c369b4fe1726c6d7677841f65bb4144e3d528c6bca4103923c"
+    },
+    {
+      "id": "chick.south.walk_02",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "south",
+      "state": "walk",
+      "frame": 1,
+      "file": "props/chick/south/walk_02.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        19,
+        19,
+        235,
+        253
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 830,
+        "top": 30,
+        "width": 320,
+        "height": 345
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.927536231884058,
+      "productionRoundingError": 0.0013175230566534468,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "e1b26421f56f288e60c6c3f715e27015f3f7a3a4f2b6252b4a5369a1989e3db1"
+    },
+    {
+      "id": "chick.south.walk_03",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "south",
+      "state": "walk",
+      "frame": 2,
+      "file": "props/chick/south/walk_03.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        19,
+        14,
+        235,
+        258
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 1216,
+        "top": 29,
+        "width": 322,
+        "height": 351
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9173789173789174,
+      "productionRoundingError": 0.002650235208374818,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "c031d32fcd0e15d28772b748a5abcfece74b6fef2e0a154d4666945e9b5c3130"
+    },
+    {
+      "id": "chick.south.walk_04",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "south",
+      "state": "walk",
+      "frame": 3,
+      "file": "props/chick/south/walk_04.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        19,
+        17,
+        234,
+        255
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 1616,
+        "top": 30,
+        "width": 318,
+        "height": 346
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9190751445086706,
+      "productionRoundingError": 0.0014280856851411894,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "016134c36b77801168698a8eff076ee63cd3221c921fb4c840a73541f875b3ab"
+    },
+    {
+      "id": "chick.east.idle",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "east",
+      "state": "idle",
+      "frame": 0,
+      "file": "props/chick/east/idle.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        19,
+        42,
+        235,
+        230
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 33,
+        "top": 409,
+        "width": 338,
+        "height": 332
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0180722891566265,
+      "productionRoundingError": 0.0036668412781561965,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "5155b2be377911846472c344ac4f4d9b57657a7b467923579411fe05b1b3a657"
+    },
+    {
+      "id": "chick.east.walk_01",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "east",
+      "state": "walk",
+      "frame": 0,
+      "file": "props/chick/east/walk_01.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        16,
+        33,
+        240,
+        239
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 444,
+        "top": 412,
+        "width": 336,
+        "height": 334
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0059880239520957,
+      "productionRoundingError": 0.0018039235336857473,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "93db5a4b17341e1099342192229266f6f5ac65e1e2d18edcaf12b23e2750572e"
+    },
+    {
+      "id": "chick.east.walk_02",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "east",
+      "state": "walk",
+      "frame": 1,
+      "file": "props/chick/east/walk_02.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        17,
+        33,
+        238,
+        239
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 842,
+        "top": 410,
+        "width": 338,
+        "height": 339
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9970501474926253,
+      "productionRoundingError": 0.0012342479110353244,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "88ddf3d8e3c7af8814db3589285829e70d50305c1212aa37b967ff993b47270e"
+    },
+    {
+      "id": "chick.east.walk_03",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "east",
+      "state": "walk",
+      "frame": 2,
+      "file": "props/chick/east/walk_03.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        15,
+        34,
+        243,
+        238
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 1225,
+        "top": 410,
+        "width": 340,
+        "height": 333
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.021021021021021,
+      "productionRoundingError": 1.2617659676639192e-05,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "0e04cdd24e2c5f159ec05469ac32dfbf46c79365f0efd80d10ef6e3c621ea583"
+    },
+    {
+      "id": "chick.east.walk_04",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "east",
+      "state": "walk",
+      "frame": 3,
+      "file": "props/chick/east/walk_04.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        11,
+        32,
+        250,
+        240
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_south_east_native.png",
+      "source_crop": {
+        "left": 1623,
+        "top": 418,
+        "width": 345,
+        "height": 331
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.042296072507553,
+      "productionRoundingError": 0.0006294058408862213,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "1c0b583811be4b00c9a296c35e05813522f6e554ce67cd5e0c04dc36e14f95b2"
+    },
+    {
+      "id": "chick.north.idle",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "north",
+      "state": "idle",
+      "frame": 0,
+      "file": "props/chick/north/idle.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        13,
+        29,
+        246,
+        243
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": false,
+      "backHasNoFrontFace": true,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 51,
+        "top": 50,
+        "width": 311,
+        "height": 306
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0163398692810457,
+      "productionRoundingError": 0.00012103606874847017,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "e2a1517c3360ec6d2e97e0b10c972d1a6713d95e21053c166519662cdcfa7f23"
+    },
+    {
+      "id": "chick.north.walk_01",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "north",
+      "state": "walk",
+      "frame": 0,
+      "file": "props/chick/north/walk_01.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        17,
+        29,
+        239,
+        245
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": false,
+      "backHasNoFrontFace": true,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 446,
+        "top": 40,
+        "width": 310,
+        "height": 316
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9810126582278481,
+      "productionRoundingError": 0.0014208214931542562,
+      "animationBodyOffsetPx": [
+        0,
+        2
+      ],
+      "sha256": "509381d14b35ca0ffb0265cfa14df8744aecbba661000e342badcd90175f0fbb"
+    },
+    {
+      "id": "chick.north.walk_02",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "north",
+      "state": "walk",
+      "frame": 1,
+      "file": "props/chick/north/walk_02.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        17,
+        30,
+        238,
+        242
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": false,
+      "backHasNoFrontFace": true,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 837,
+        "top": 41,
+        "width": 309,
+        "height": 315
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9809523809523809,
+      "productionRoundingError": 0.0025186934277844353,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "0eb6e89e82b5e6cae99e4603babeba4e9df4711dc3acf9f5b3f3ba9736373d32"
+    },
+    {
+      "id": "chick.north.walk_03",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "north",
+      "state": "walk",
+      "frame": 2,
+      "file": "props/chick/north/walk_03.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        17,
+        29,
+        239,
+        243
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": false,
+      "backHasNoFrontFace": true,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 1226,
+        "top": 40,
+        "width": 312,
+        "height": 316
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 0.9873417721518988,
+      "productionRoundingError": 0.0003125488357554884,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "d58217a6d1d7a8f34397c79057e77399952e3ce3f1d8b725e20f5617641e4810"
+    },
+    {
+      "id": "chick.north.walk_04",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "north",
+      "state": "walk",
+      "frame": 3,
+      "file": "props/chick/north/walk_04.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        15,
+        32,
+        242,
+        238
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": false,
+      "backHasNoFrontFace": true,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 1622,
+        "top": 48,
+        "width": 310,
+        "height": 303
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.023102310231023,
+      "productionRoundingError": 0.0020939068696785856,
+      "animationBodyOffsetPx": [
+        0,
+        -2
+      ],
+      "sha256": "148e8461cac8db2a8efbf9cee8555a01b8a047fa5b4896d476c930f126493712"
+    },
+    {
+      "id": "chick.west.idle",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "west",
+      "state": "idle",
+      "frame": 0,
+      "file": "props/chick/west/idle.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        16,
+        36,
+        240,
+        236
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 51,
+        "top": 437,
+        "width": 300,
+        "height": 294
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0204081632653061,
+      "productionRoundingError": 0.0007782774126599001,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "6ecccdf2ce215c7b6f6781835e0bbd137513c9396b7f68282ba71fdfb274109c"
+    },
+    {
+      "id": "chick.west.walk_01",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "west",
+      "state": "walk",
+      "frame": 0,
+      "file": "props/chick/west/walk_01.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        11,
+        35,
+        250,
+        237
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 426,
+        "top": 437,
+        "width": 310,
+        "height": 292
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0616438356164384,
+      "productionRoundingError": 0.0016473036240678418,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "77f72b7b4f471471d4f0df4a80342d4dd02fd4dd8b3b6b573bedf6f011850898"
+    },
+    {
+      "id": "chick.west.walk_02",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "west",
+      "state": "walk",
+      "frame": 1,
+      "file": "props/chick/west/walk_02.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        15,
+        36,
+        243,
+        236
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 829,
+        "top": 437,
+        "width": 300,
+        "height": 292
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0273972602739727,
+      "productionRoundingError": 0.002263756675179751,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "dc73df844a74298cf91e61977920378f489d8da3c8bbe39d2ee97e461cb71ace"
+    },
+    {
+      "id": "chick.west.walk_03",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "west",
+      "state": "walk",
+      "frame": 2,
+      "file": "props/chick/west/walk_03.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        10,
+        34,
+        252,
+        239
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 1221,
+        "top": 437,
+        "width": 309,
+        "height": 293
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0546075085324231,
+      "productionRoundingError": 0.00021420309309250207,
+      "animationBodyOffsetPx": [
+        0,
+        1
+      ],
+      "sha256": "8d4e1a99b68e92513ab7c726e1015ce183ad2b03f994e24d1473947be14a3f72"
+    },
+    {
+      "id": "chick.west.walk_04",
+      "family": "chick",
+      "kind": "follower_character_art",
+      "heading": "west",
+      "state": "walk",
+      "frame": 3,
+      "file": "props/chick/west/walk_04.png",
+      "width": 272,
+      "height": 282,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logical_rect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contact_point_px": [
+        136,
+        272
+      ],
+      "content_rect": [
+        9,
+        37,
+        255,
+        235
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nonblocking": true,
+      "pressesPressurePlate": false,
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true,
+      "logicalRootScale": [
+        1,
+        1,
+        1
+      ],
+      "whiteEyeCatchlights": true,
+      "backHasNoFrontFace": false,
+      "source_file": "sources/chick_north_west_native.png",
+      "source_crop": {
+        "left": 1616,
+        "top": 438,
+        "width": 308,
+        "height": 284
+      },
+      "uniformResizeOnly": true,
+      "nativeAspectRatio": 1.0845070422535212,
+      "productionRoundingError": 0.0005993407252020688,
+      "animationBodyOffsetPx": [
+        0,
+        0
+      ],
+      "sha256": "35fdbce7352e802128191061f05b9d3d2ae4639442f950cacc7a6b3cd9e482f2"
+    }
+  ],
+  "clips": [
+    {
+      "key": "chick.idle.south",
+      "family": "chick",
+      "heading": "south",
+      "state": "idle",
+      "fps": 1,
+      "loop": true,
+      "frames": [
+        "props/chick/south/idle.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.walk.south",
+      "family": "chick",
+      "heading": "south",
+      "state": "walk",
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        "props/chick/south/walk_01.png",
+        "props/chick/south/walk_02.png",
+        "props/chick/south/walk_03.png",
+        "props/chick/south/walk_04.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.idle.east",
+      "family": "chick",
+      "heading": "east",
+      "state": "idle",
+      "fps": 1,
+      "loop": true,
+      "frames": [
+        "props/chick/east/idle.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.walk.east",
+      "family": "chick",
+      "heading": "east",
+      "state": "walk",
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        "props/chick/east/walk_01.png",
+        "props/chick/east/walk_02.png",
+        "props/chick/east/walk_03.png",
+        "props/chick/east/walk_04.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.idle.north",
+      "family": "chick",
+      "heading": "north",
+      "state": "idle",
+      "fps": 1,
+      "loop": true,
+      "frames": [
+        "props/chick/north/idle.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.walk.north",
+      "family": "chick",
+      "heading": "north",
+      "state": "walk",
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        "props/chick/north/walk_01.png",
+        "props/chick/north/walk_02.png",
+        "props/chick/north/walk_03.png",
+        "props/chick/north/walk_04.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.idle.west",
+      "family": "chick",
+      "heading": "west",
+      "state": "idle",
+      "fps": 1,
+      "loop": true,
+      "frames": [
+        "props/chick/west/idle.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    },
+    {
+      "key": "chick.walk.west",
+      "family": "chick",
+      "heading": "west",
+      "state": "walk",
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        "props/chick/west/walk_01.png",
+        "props/chick/west/walk_02.png",
+        "props/chick/west/walk_03.png",
+        "props/chick/west/walk_04.png"
+      ],
+      "canvasSize": [
+        272,
+        282
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4822695
+      ],
+      "logicalRect": [
+        8,
+        18,
+        256,
+        256
+      ],
+      "contactPoint": [
+        136,
+        272
+      ],
+      "visualChildScale": [
+        0.62,
+        0.62,
+        1
+      ],
+      "applyScaleExactlyOnce": true
+    }
+  ]
+}

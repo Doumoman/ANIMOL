@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Animol.StarwayRanch.V10;
+using Animol.StarwayRanch.V12;
+using ANIMOL.Art.V12;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -35,6 +36,8 @@ namespace ANIMOL.Puzzle
     public sealed class StarwayRanchArt : ScriptableObject
     {
         public TextAsset backgroundLayout;
+        public StarwayRanchV12VisualCatalog v12Animations;
+        public string v12ManifestSha256;
         public RanchSpriteEntry[] sprites = Array.Empty<RanchSpriteEntry>();
         Dictionary<string, Sprite> index;
 
@@ -57,10 +60,10 @@ namespace ANIMOL.Puzzle
     // A scene can bake these independent renderers; dynamic puzzle previews use the same factory.
     public static class StarwayRanchBackground
     {
-        public static StarwayRanchV10BackgroundRig Create(Transform parent, Camera camera, StarwayRanchArt art)
+        public static StarwayRanchV12BackgroundRig Create(Transform parent, Camera camera, StarwayRanchArt art)
         {
             if (!camera || !art || art.Layout == null) return null;
-            var root = new GameObject("Starway Ranch background V10").transform;
+            var root = new GameObject("Starway Ranch background V12").transform;
             root.SetParent(parent, false);
             var skyObject = new GameObject("sky_base_native");
             skyObject.transform.SetParent(root, false);
@@ -69,9 +72,9 @@ namespace ANIMOL.Puzzle
             sky.sprite = art.Find("backgrounds/sky_base_native.png");
             sky.sortingLayerName = "Background";
             sky.sortingOrder = -100;
-            skyObject.AddComponent<StarwayRanchV10CameraCover>().Configure(camera, .08f);
+            skyObject.AddComponent<StarwayRanchV12CameraCover>().Configure(camera, .08f);
             var layout = art.Layout;
-            var layers = new StarwayRanchV10BackgroundRig.Layer[layout.layers.Length];
+            var layers = new StarwayRanchV12BackgroundRig.Layer[layout.layers.Length];
             for (var i = 0; i < layout.layers.Length; i++)
             {
                 var row = layout.layers[i];
@@ -85,7 +88,7 @@ namespace ANIMOL.Puzzle
                 renderer.color = new Color(row.color[0], row.color[1], row.color[2], row.color[3]);
                 renderer.sortingLayerName = "Background";
                 renderer.sortingOrder = row.sortingOrder;
-                layers[i] = new StarwayRanchV10BackgroundRig.Layer {
+                layers[i] = new StarwayRanchV12BackgroundRig.Layer {
                     renderer = renderer,
                     sortingOrder = row.sortingOrder,
                     parallaxMultiplier = row.parallaxMultiplier,
@@ -98,7 +101,7 @@ namespace ANIMOL.Puzzle
                     guardWorld = new Vector2(row.guardWorld[0], row.guardWorld[1])
                 };
             }
-            var rig = root.gameObject.AddComponent<StarwayRanchV10BackgroundRig>();
+            var rig = root.gameObject.AddComponent<StarwayRanchV12BackgroundRig>();
             rig.Configure(camera, 0, "Background", layers);
             rig.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
             camera.farClipPlane = Mathf.Max(camera.farClipPlane, 121f);

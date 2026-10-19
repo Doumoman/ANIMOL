@@ -1,0 +1,84 @@
+{
+  "scope": "Source-level structural review only; not a C# compiler, Unity Editor, NUnit or gameplay execution result.",
+  "checks": {
+    "namespaceAllV12": true,
+    "strictExpectedPackageAndHash": true,
+    "exactDirectionNoNoneFallback": true,
+    "committedActionGateBeforePlay": true,
+    "durationProgressPauseHold": true,
+    "noUnscaledTime": true,
+    "noPlayerTransformWrites": true,
+    "rotorChildOnly": true,
+    "rotorDefault18": true,
+    "jsonGuardMissingLoopDuplicate": true,
+    "builderMetadataHashAndGuidChecks": true,
+    "builderSpriteOnlyClipsNoController": true,
+    "batchZeroArgEntry": true,
+    "buildGuardOneCatalog": true,
+    "testsAuthored": true
+  },
+  "files": [
+    {
+      "file": "Editor/StarwayRanchV12AnimationBuilder.cs",
+      "sha256": "84732476cbbfbccd40ed1abdaecd4cb4b8075dd5df15e3d6e37f232eb64f454f",
+      "characters": 21085,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    },
+    {
+      "file": "Editor/StarwayRanchV12JsonSchema.cs",
+      "sha256": "eb3e35f7d48c092c4d159169956c2834f7838b553ada039562e10e442696d63e",
+      "characters": 6578,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    },
+    {
+      "file": "Runtime/StarwayRanchV12AnimatedVisual.cs",
+      "sha256": "f9bb6bce0695cb6382a4eaea25fe8d7f94bfb7a722c55e0c781322267fcfcbbb",
+      "characters": 9453,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    },
+    {
+      "file": "Runtime/StarwayRanchV12RotorVisual.cs",
+      "sha256": "944d7bb89dd6ecf1fe687b3e438482851c737fd4a65d414b295944954b44135a",
+      "characters": 2259,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    },
+    {
+      "file": "Runtime/StarwayRanchV12VisualCatalog.cs",
+      "sha256": "c6b9cb3d3f058f08291021d7b069a918814b04fa6f4d2ef368037a027c5a04fd",
+      "characters": 18305,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    },
+    {
+      "file": "Tests~/StarwayRanchV12VisualTests.cs",
+      "sha256": "ff4f003bfd1ea31022d985e4d695ad67d888142b41c44c20ef8d08e3cb1aba94",
+      "characters": 8802,
+      "lexicallyBalanced": true,
+      "lexicalResult": "balanced"
+    }
+  ],
+  "authoredNUnitTests": 8,
+  "compilerAvailability": {
+    "dotnet": null,
+    "csc": null,
+    "mcs": null,
+    "mono": null,
+    "Unity": null
+  },
+  "notRun": [
+    "C# compilation",
+    "Unity asset import",
+    "Editor animation builder",
+    "NUnit tests",
+    "scene/prefab migration",
+    "Addressables/Resources/SpriteAtlas audit",
+    "gameplay/mobile test"
+  ],
+  "pass": true,
+  "designDocument": "work/ranch_v12/integration_design.md",
+  "integrationGuide": "INTEGRATION_README_KO.txt"
+}

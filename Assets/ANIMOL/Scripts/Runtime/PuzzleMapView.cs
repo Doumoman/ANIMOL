@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using ANIMOL.Art.V12;
 
 namespace ANIMOL.Puzzle
 {
@@ -11,6 +12,13 @@ namespace ANIMOL.Puzzle
         public PuzzleMap map;
         readonly Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
         readonly Dictionary<Vector2Int, GameObject> bubbleViews = new Dictionary<Vector2Int, GameObject>();
+        sealed class ClassicWindVisual
+        {
+            public StarwayRanchV12AnimatedVisual body, effect;
+            public SpriteRenderer effectRenderer;
+            public string direction, idleKey;
+        }
+        readonly Dictionary<Vector2Int, ClassicWindVisual> classicWind = new Dictionary<Vector2Int, ClassicWindVisual>();
         Transform objectsRoot;
         RectInt visible;
         SkyIslandMapRenderer island;
@@ -40,7 +48,8 @@ namespace ANIMOL.Puzzle
         {
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
-            bubbleViews.Clear(); objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            bubbleViews.Clear(); classicWind.Clear();
+            objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.twilightCoast)
             {
                 if (!coast) coast = new GameObject("Twilight coast environment").AddComponent<TwilightCoastRenderer>();
@@ -68,7 +77,7 @@ namespace ANIMOL.Puzzle
             else if (theater) { Remove(theater.gameObject); theater = null; }
             if (map.theme && map.theme.starwayRanch)
             {
-                if (!ranch) ranch = new GameObject("Starway Ranch V10 foreground").AddComponent<StarwayRanchMapRenderer>();
+                if (!ranch) ranch = new GameObject("Starway Ranch V12 foreground").AddComponent<StarwayRanchMapRenderer>();
                 ranch.transform.SetParent(transform, false);
                 ranch.Bind(map, map.theme.starwayRanch);
             }
@@ -86,12 +95,40 @@ namespace ANIMOL.Puzzle
             }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
-            foreach (var d in map.decorations) if (map.Contains(d.position)) Sprite(objectsRoot, "Decoration",
-                ranch ? map.theme.starwayRanch.Find("props/clover_tuft.png") : d.sprite ? d.sprite : map.theme.decoration,
-                d.position, 15, Vector2.one * .8f, d.tint);
+            foreach (var d in map.decorations) if (map.Contains(d.position))
+            {
+                if (ranch && d.sprite == map.theme.starwayRanch.Find("props/windmill_body.png"))
+                    CreateWindmill(d.position);
+                else Sprite(objectsRoot, "Decoration",
+                    ranch ? map.theme.starwayRanch.Find("props/clover_tuft.png") : d.sprite ? d.sprite : map.theme.decoration,
+                    d.position, 15, Vector2.one * .8f, d.tint);
+            }
             foreach (var p in map.bubbles) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
+        }
+        void CreateWindmill(Vector2Int position)
+        {
+            var art = map.theme.starwayRanch;
+            var rotorSprite = art.Find("props/windmill_rotor.png");
+            if (!rotorSprite) { Debug.LogError("Missing V12 windmill rotor", this); return; }
+            var owner = new GameObject("V12 windmill visual");
+            owner.transform.SetParent(objectsRoot, false);
+            owner.transform.localPosition = (Vector2)position;
+            var body = new GameObject("Fixed body");
+            body.transform.SetParent(owner.transform, false);
+            var bodyRenderer = body.AddComponent<SpriteRenderer>();
+            bodyRenderer.sprite = art.Find("props/windmill_body.png");
+            bodyRenderer.sortingOrder = 15;
+            var rotor = new GameObject("Four blade rotor");
+            rotor.transform.SetParent(owner.transform, false);
+            rotor.transform.localPosition = new Vector3(0, .703125f, 0);
+            var rotorRenderer = rotor.AddComponent<SpriteRenderer>();
+            rotorRenderer.sprite = rotorSprite;
+            rotorRenderer.sortingOrder = 16;
+            var motion = owner.AddComponent<StarwayRanchV12RotorVisual>();
+            motion.Configure(rotor.transform, 18f);
+            motion.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
         }
         public void RefreshNeighborhood(Vector2Int p)
         { if (ranch) { ranch.Replan(); ranch.Show(visible); return; }
@@ -130,11 +167,71 @@ namespace ANIMOL.Puzzle
         }
         void DrawDevice(DeviceCell d)
         {
+            if (ranch && map.theme.starwayRanch.v12Animations &&
+                (d.kind == DeviceKind.Conveyor || d.kind == DeviceKind.Wind || d.kind == DeviceKind.Brake))
+            {
+                DrawRanchDevice(d);
+                return;
+            }
             string glyph = d.kind == DeviceKind.Portal ? "O" : d.kind == DeviceKind.Ice ? "~" : d.kind == DeviceKind.Brake ? "X" :
                 d.direction == Vector2Int.up ? "^" : d.direction == Vector2Int.down ? "v" : d.direction == Vector2Int.left ? "<" : ">";
             Color color = d.kind == DeviceKind.Portal ? new Color(.85f, .48f, 1) : d.kind == DeviceKind.Wind ? Color.cyan : d.kind == DeviceKind.Ice ? new Color(.65f, .9f, 1) : Color.yellow;
             var root = new GameObject(d.kind + " " + d.position); root.transform.SetParent(objectsRoot, false); root.transform.localPosition = (Vector2)d.position;
             Label(root.transform, glyph, Vector2.zero, color, 12);
+        }
+        static string V12Direction(Vector2Int direction)
+        {
+            if (direction == Vector2Int.right) return "east";
+            if (direction == Vector2Int.up) return "north";
+            if (direction == Vector2Int.left) return "west";
+            if (direction == Vector2Int.down) return "south";
+            return null;
+        }
+        void DrawRanchDevice(DeviceCell d)
+        {
+            var art = map.theme.starwayRanch;
+            var direction = V12Direction(d.direction);
+            if (direction == null) { Debug.LogError("V12 classic device has no cardinal direction at " + d.position, this); return; }
+            var axis = d.direction.x != 0 ? "horizontal" : "vertical";
+            var capital = direction.Substring(0, 1).ToUpperInvariant();
+            var key = d.kind == DeviceKind.Conveyor ? "conveyor_" + direction + "_transport" :
+                d.kind == DeviceKind.Wind ? "wind_corridor_" + capital + "_idle" :
+                "brake_patch_" + axis + "_press_release";
+            var go = new GameObject("V12 " + d.kind + " " + d.position);
+            go.transform.SetParent(objectsRoot, false);
+            go.transform.localPosition = (Vector2)d.position;
+            var renderer = go.AddComponent<SpriteRenderer>();
+            renderer.sortingOrder = 30;
+            var player = go.AddComponent<StarwayRanchV12AnimatedVisual>();
+            if (!player.Configure(art.v12Animations, renderer, art.v12ManifestSha256) ||
+                !(d.kind == DeviceKind.Conveyor ? player.Play(key) : player.SnapToState(key)))
+                Debug.LogError("V12 classic device binding failed: " + d.kind + " at " + d.position, go);
+            if (d.kind != DeviceKind.Wind) return;
+            var effectObject = new GameObject("V12 wind range overlay");
+            effectObject.transform.SetParent(go.transform, false);
+            var effectRenderer = effectObject.AddComponent<SpriteRenderer>();
+            effectRenderer.sortingOrder = 31;
+            effectRenderer.enabled = false;
+            var effect = effectObject.AddComponent<StarwayRanchV12AnimatedVisual>();
+            if (!effect.Configure(art.v12Animations, effectRenderer, art.v12ManifestSha256))
+                Debug.LogError("V12 classic wind effect binding failed at " + d.position, effectObject);
+            classicWind.Add(d.position, new ClassicWindVisual { body = player, effect = effect,
+                effectRenderer = effectRenderer, direction = direction, idleKey = key });
+        }
+        public void StartClassicWind(Vector2Int cell)
+        {
+            if (!classicWind.TryGetValue(cell, out var visual)) return;
+            var capital = visual.direction.Substring(0, 1).ToUpperInvariant();
+            visual.body.Play("wind_corridor_" + capital + "_active");
+            visual.effectRenderer.enabled = true;
+            visual.effect.Play("wind_corridor." + visual.direction + ".flow_effect");
+        }
+        public void FinishClassicWind(Vector2Int cell)
+        {
+            if (!classicWind.TryGetValue(cell, out var visual)) return;
+            visual.body.SnapToState(visual.idleKey);
+            visual.effect.Cancel();
+            visual.effectRenderer.enabled = false;
         }
         static void Label(Transform parent, string text, Vector2 p, Color color, int order)
         {
