@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ANIMOL.Art.EchoTheaterV03;
 using UnityEngine;
 namespace ANIMOL.Presentation
 {
@@ -10,6 +11,8 @@ namespace ANIMOL.Presentation
         public SpriteFrameSequence sequence;
         // Authored clip references the same frames; only the variable-time sequence writes the renderer.
         public AnimationClip clip;
+        public string v03ClipKey;
+        public float v03StaticProgress;
     }
     // Presentation only: authoritative gameplay calls Present/Notify after committing its action.
     // No movement, occupancy, collection, cost, turn, collider, audio or gameplay RNG is owned here.
@@ -23,16 +26,44 @@ namespace ANIMOL.Presentation
         public string CurrentState {get;private set;}
         public float Elapsed {get;private set;}
         DeviceVisualState active;
+        EchoTheaterV03AnimatedVisual v03Player;
+        bool v03Active;
         readonly HashSet<string> seenEvents=new HashSet<string>();
         readonly Queue<string> eventOrder=new Queue<string>();
         public bool BlocksInput=>false;
+        public bool IsV03Active => v03Active;
         void OnEnable()=>ResetVisual();
+        public bool ActivateV03(EchoTheaterV03VisualCatalog catalog, string manifestSha256)
+        {
+            if (!visual || !catalog) return false;
+            v03Player = GetComponent<EchoTheaterV03AnimatedVisual>();
+            if (!v03Player) v03Player = gameObject.AddComponent<EchoTheaterV03AnimatedVisual>();
+            v03Active = v03Player.Configure(catalog, visual, manifestSha256);
+            return v03Active && Present(CurrentState ?? initialState, true);
+        }
+        public void FailV03(string diagnostic)
+        {
+            if (v03Active) v03Player.SetClip("INVALID_V03_BINDING_" + diagnostic);
+        }
         public bool Present(string state, bool restart=false)
         {
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state);
-            if(next==null)return false;
+            if(next==null)
+            {
+                if (v03Active) FailV03(state);
+                return false;
+            }
             if(active==next && !restart)return true;
-            active=next;CurrentState=state;Elapsed=0;Render();return true;
+            active=next;CurrentState=state;Elapsed=0;
+            if (v03Active)
+            {
+                if (string.IsNullOrEmpty(next.v03ClipKey))
+                    return v03Player.SetClip(next.v03ClipKey);
+                return next.sequence
+                    ? v03Player.Play(next.v03ClipKey)
+                    : v03Player.SnapToState(next.v03ClipKey, next.v03StaticProgress);
+            }
+            Render();return true;
         }
         public bool Notify(string committedEvent,string state)
         {
@@ -43,7 +74,11 @@ namespace ANIMOL.Presentation
         {
             if(string.IsNullOrEmpty(actionId))return false;
             string key=actionId+"\u001f"+committedEvent+"\u001f"+state;
-            if(seenEvents.Contains(key) || !Notify(committedEvent,state))return false;
+            if(seenEvents.Contains(key) || !Notify(committedEvent,state))
+            {
+                if (v03Active && !seenEvents.Contains(key)) FailV03(state);
+                return false;
+            }
             seenEvents.Add(key);eventOrder.Enqueue(key);
             if(eventOrder.Count>256)seenEvents.Remove(eventOrder.Dequeue());
             return true;
@@ -55,9 +90,15 @@ namespace ANIMOL.Presentation
             states=replacement;initialState=initial;active=null;
             if(!Present(state,true))Present(initial,true);
             if(CurrentState==state)Elapsed=elapsed;
-            Render(); // Cosmetic theme changes preserve pause and already-consumed action IDs.
+            if (!v03Active) Render(); // Cosmetic theme changes preserve pause and action IDs.
         }
-        public void Advance(float seconds){if(paused||active==null)return;Elapsed+=Mathf.Max(0,seconds);Render();}
+        public void Advance(float seconds)
+        {
+            if (v03Active) v03Player.SetPaused(paused);
+            if(paused||active==null)return;
+            Elapsed+=Mathf.Max(0,seconds);
+            if (!v03Active) Render();
+        }
         void Render()
         {
             if(!visual||active==null)return;
@@ -66,7 +107,7 @@ namespace ANIMOL.Presentation
             visual.sprite=ended?active.terminal:active.sequence.At(Elapsed);
             visual.enabled=visual.sprite!=null;
         }
-        void Update()=>Advance(Time.unscaledDeltaTime);
+        void Update()=>Advance(v03Active ? Time.deltaTime : Time.unscaledDeltaTime);
         public static Vector2Int Direction(string direction)
         {
             switch(direction){case "n":return Vector2Int.up;case "e":return Vector2Int.right;case "s":return Vector2Int.down;case "w":return Vector2Int.left;default:throw new ArgumentException(direction);}

@@ -1,0 +1,146 @@
+ANIMOL 잔영 극장 V03 — 최신 스프라이트·방향·애니메이션 전면 교체 명령
+
+목표
+잔영 극장과 이 테마에 나타나는 공통 장치가 V03의 방향별 최신 원화·중간 프레임만 사용하게 하라.
+실제 캠페인·대전·에디터·재시작·저장 로드·풀 생성 경로까지 바꾸고 접근 가능한 구 외형 참조를
+제거하라. ZIP 임포트나 예시 씬 한 곳의 교체만으로 완료하지 말라. 다른 세 테마, 기존 게임 규칙,
+장치 ID·저장 데이터·코스트·점유·좌표계를 보존하라. 픽셀/16색 규칙은 폐기되었다.
+
+전달물의 경계
+실제 PNG 프레임·카탈로그·시각 재생기·Editor 생성기·지형/배경 코드와 오프라인 검수 자료다.
+이 환경에서 원 Unity 프로젝트는 확인하지 않았다. .asset/.anim을 실제 프로젝트에서 생성하고
+이 문서의 바인딩·레거시 이관·실행 검증까지 수행하라. 영상은 합성 검토 자료다.
+본 지침은 V02의 정적 상태만 연결하거나 부족한 방향을 구 외형으로 유지하는 지시를 대체한다.
+
+필수 입력
+README_KO.txt, manifest.json, animation_catalog.json, dice_orientation_map.json,
+required_visual_contract.json, sprite_import_settings.json, device_bindings_template.json,
+inspection/atlas_logic_audit.json, required_gameplay_checks.json, legacy_migration_policy.json,
+Runtime/EchoTheaterV03VisualCatalog.cs, Runtime/EchoTheaterV03AnimatedVisual.cs,
+Runtime/EchoTheaterV03DiceOrientation.cs, Runtime/EchoTheaterV03DiceVisualMap.cs,
+Editor/EchoTheaterV03AnimationBuilder.cs, Editor/EchoTheaterV03SpriteImportGuard.cs.
+지형·소품·배경의 각 manifest와 Runtime/배치 명세도 읽어라.
+
+1. 실제 생성·로드·직렬화 참조를 먼저 조사하라.
+실제 극장 테마 ID와 시작 씬, 장치 클래스·저장 ID·방향/점유 필드·상태 enum·유효 행동 이벤트,
+SpriteRenderer 경로·Animator/Override·SO 카탈로그·리소스 주소를 대응시켜라. memory_theater와
+도감 번호는 참고일 뿐 검증된 프로젝트 enum이 아니다. 새 ID를 지어 넣지 말라.
+device_bindings_template.json의 null/verified=false를 실제 소스 위치와 증거로 채워 제출하라.
+
+조사에는 비활성 씬 오브젝트, Nested Prefab/Variant, SO/레벨·테마 카탈로그, Resources.Load/LoadAll,
+Addressables 주소/AssetReferenceSprite/서브오브젝트, AssetBundle와 원격 콘텐츠 카탈로그,
+문자열 키·switch/default·직렬화 기본값, 에디터 맵 미리보기·팩토리·스포너·Instantiate를 포함하라.
+SpriteAtlas/Variant/packing 대상, .anim의 sprite 키프레임, AnimatorController/OverrideController,
+Playable/Timeline도 조사하라. 풀 프리웜·OnEnable/반납/재사용, DontDestroyOnLoad/싱글턴 캐시,
+LateUpdate/코루틴·상태 진입에서 sprite/scale/rotation을 다시 쓰는 코드를 빠뜨리지 말라.
+
+경로명만으로 최신임을 판단하지 말라. manifest의 상대 경로+PNG SHA256와 실제 Unity
+GUID+subasset fileID를 대응하고 생성된 인스턴스의 실제 Renderer 참조까지 확인하라.
+
+2. 도감 규칙과 기존 권위 시뮬레이션을 보존하라.
+공통07무빙워크/09단방향 문/18모서리 튕김/19제동판, 극장04교대 셔터/06이동 무대/
+08회전 책장/13도미노 벽/17돌진 석상/22주사위 블록/23겁쟁이 인형을 연결하라.
+유효 스와이프·밀기는 코스트1, 처음부터 막힌 무효 입력은 코스트0이며 위상을 진행하지 않는다.
+자동 이동 연쇄에 추가 코스트를 붙이지 않는다. 실시간이나 애니메이션 종료가 턴을 진행시키지 않는다.
+기존 로직과 도감이 다르면 차이와 근거를 보고하고 외형 교체 과정에서 새 규칙을 만들지 말라.
+
+04 셔터: 유효 행동마다 A/B 교대. 점유된 곳을 닫아 대상을 압사시키지 않는다. 점유 시 연기/위상
+처리의 세부 규칙은 미확정이므로 실제 기존 로직을 확인하라. H/V의 고정 기둥과 커튼만 움직이는
+단계별 열기·역순 닫기를 연결하고 끝 상태 두 장의 교체로 대체하지 말라.
+06 무대: 유효 행동마다 기존 레일 한 칸, 끝점에서 다음 진행 방향 반전. 막힌 다음 칸에서 정지한다.
+멈춤 뒤 방향 보존/재시도는 실제 규칙을 확인하라. 이동 방향과 점유 모양은 별개다. 기본2×1 무대가
+N/S로 움직여도1×2로 바뀌지 않는다. move_wide 네 방향을 기본으로 쓰고 move_tall은 실제로1×2를
+지원하는 기존 개체에만 연결하라. 시각 프레임이 무대를 한 칸 이동시키지 않게 하라.
+08 책장: 누름판 연동, 중앙 핀 고정, 지면에서 H2×1↔V1×2의90도 회전이다. 앞/뒷면 뒤집기가 아니다.
+대각 중간 프레임과 양방향 전환을 사용하고 플레이어/상자가 회전 목적 영역에 있으면 압사시키지
+않는다. 연기/취소의 미확정 세부는 기존 로직을 확인하라.704×704 sweep/union 캔버스는 아트 범위이며
+2×2Collider 또는 새로운 논리 점유가 아니다. 실제 목적 점유·좌표와 중앙 회전 anchor를 보존하라.
+13 도미노: 표시된 방향으로 첫 패널을 밀면 순차 넘어져 낮은 통행 바닥이 된다. 한 연쇄 코스트1.
+넘어지는 패널을 단일 이미지 투명도나 동시에 눕힘으로 대체하지 말라. 점유물과의 처리 규칙을
+확인하고 복구/자동 재건·새 물리 충격을 만들지 말라.
+17 석상: 정면에서 플레이어 포착→경고와 직선 확정→다음 유효 행동에 확정된 선으로 돌진한다.
+플레이어가 옆으로 이동해도 새 방향으로 추적하지 않는다. 금간 벽을 부술 수 있고 단단한 벽의
+정확한 정지 위치는 기존 규칙을 확인한다. 경고/돌진/충돌/복귀는 시각 표현이며 기존 이동 tween이
+월드 좌표를 움직인다. 프레임 속도로 돌진 거리를 계산하지 말라.
+22 주사위: 초기U1 D6 N5 S2 E3 W4, 실제 유효 굴림90도만 전체6면을 회전시킨다. 초기 E→윗면4,
+W→3,N→2,S→5이다. 이동 실패·Teleport·굴림 없는 재배치는 방향을 바꾸지 않는다. 목표는 점유와
+윗면 일치 상태를 반영한다. 단순 face1→2 증가나 윗면 번호 하나로24개 방향을 대체하지 말라.
+실제 before/after6튜플을 DiceVisualMap에 주어 해당96개 전환을 선택한다. oXX 인덱스 순서를
+로직 방향 enum으로 사용하지 말라. helper는 검증/시각 선택용이고 실제 프로젝트 상태를 덮지 않는다.
+중간 네 굴림 프레임은 숫자를 극장 덮개로 가리는 표현이다. 정확한 시작/종료 면을 반드시 유지하고
+이 덮개 프레임을 숫자 계산의 근거로 쓰지 말라. 유효하지 않은 before/after에는 명확히 실패하라.
+23 인형: 유효 행동 후 플레이어가 상하좌우 인접하면 그 반대로 한 칸, 한 행동당 한 번 후퇴한다.
+막히면 제자리 움찔이며 더 먼 탈출 경로를 탐색하지 않는다. lookHeading은 플레이어 쪽이고
+실제 displacementHeading은 그 반대다. 실제 확정 경로만 이동하며 북쪽은 진짜 뒷모습 원화를 쓴다.
+
+07 무빙워크는 구조·화살표·루프가 실제 같은 이동 축/부호를 향하게 한다.09문은 실제 허용 벡터에
+맞는 고정 기둥·힌지·개구부와 단계별 leaf 회전을 쓴다. 반대 진입/막힌 출구는 기존 무효 판정이다.
+18은 얇은 ㄴ+작은45도 면, 열린 중앙 통로를 유지한다. 입출력은 기존 반사 규칙에 따라90도 꺾이며
+180도 반발이 아니다. 다음 칸이 막히면 안전 정지한다.19는 진입 축에 수직인 두 정지선이고
+운반 화살표가 아니다. 해당 칸에서 연쇄를 끝내며 반발/추가 이동이 없다.
+
+3. 방향과 프레임 선택을 일원화하라.
+실제 grid↔world 변환을 확인하고 확정 이동 벡터를 east/north/west/south로 변환하라. 스와이프 화면
+축이나 grid row 부호를 그대로 쓰지 말라. 세로/뒤 원화를 전체2.5D 이미지와 그림자를 돌려 흉내
+내지 말라. 시각 때문에 게임 루트/Collider를 돌리지 말라.0벡터는 마지막 유효 방향/현재 상태를
+유지하며 임의 east/south fallback을 쓰지 않는다. 필요한 키가 없으면 진단과 검수 실패를 내라.
+
+4. 실제 Unity 카탈로그와 클립을 생성하고 재생자를 연결하라.
+패키지 루트 이름 ANIMOL_ECHO_THEATER_CARTOON_V03를 유지하라. sprite_import_settings.json과
+정확한 ImportGuard를 사용하고 Atlas rotation/tight packing은 끈다. sources/ 원화 전체를 Sprite로
+사용하지 말라. 카탈로그는 프레임만 직접 참조하여 정적 지형 전체를 로드하지 않게 한다.
+아래 실제 경로를 대입하고 실패 로그를 무시하지 말라.
+"<UNITY_EDITOR_PATH>" -batchmode -projectPath "<PROJECT_PATH>" -executeMethod ANIMOL.Art.EchoTheaterV03.EchoTheaterV03AnimationBuilder.BuildFromCommandLine -theaterV03Manifest "Assets/<실제설치경로>/ANIMOL_ECHO_THEATER_CARTOON_V03/animation_catalog.json" -quit -logFile "<PROJECT_PATH>/Logs/theater-v03-catalog-build.log"
+생성 성공 로그와 _Generated/.asset/.anim 목록을 남겨라. JSON 복사만으로 클립 생성 완료를 보고하지
+말라. SourceManifestSha256/animation_catalog_sha256.txt와 주사위 map SHA를 고정해 재빌드를 강제하고
+빈 hash나 이전 패키지 hash를 남기지 말라. 정확한 namespace/공개 메서드는 동봉 소스를 확인하라.
+
+실제 확정 행동 ID/상태/방향이 바뀔 때 재생을 시작하고 duration 또는 normalized progress에 동기화하라.
+매 프레임0으로 다시 시작하지 말라. Pause/재개는 현재 경과를 유지한다. loop 시작뿐 아니라 종료도
+연결하라. 실제 작동 종료에는 권위 상태로 Snap하고, 잠깐 쓰는 보조 Renderer는 명시적으로 숨긴다.
+비루프는 마지막 권위 상태를 유지하고 다음 턴을 콜백으로 호출하지 않는다. 풀 반납/OnEnable/
+씬 재진입/중단에는 실제 상태로 초기화한다. Animator와 새 재생기의 Sprite 쓰기 책임을 중복시키지
+말라. 게임 로직 포함 Animator 전체를 무조건 삭제하지 말고 시각 쓰기 레이어만 이관하라.
+
+5. 레거시 참조를 완전히 이관하되 범위를 지켜라.
+변경 전 old GUID+subasset fileID+경로+사용처를 기록하라. 안전한 같은 논리 자산 교체는.meta를
+유지하고, 새 자산으로 옮길 때는 모든 PPtr을 새 GUID/fileID로 치환하라. slicing이 바뀌면 GUID만
+같다고 안전한 것이 아니다. .meta를 통째로 삭제하거나 GUID를 무작위로 재생성하지 말라.
+V03 endpoint aliases는 최신 프레임 복사본이다. 실제 방향/상태는 카탈로그 키로 선택하라.
+V02/old/legacy/default/Resources를 찾는 fallback, front 하나의 방향 대체, null 뒤 옛 기본 이미지
+복구, 캐시/풀에서 구 Sprite·Animator를 재적용하는 코드를 극장 범위에서 제거하라.
+다른 테마가 공유한 레지스트리는 극장용 Variant/분기로 분리해 다른 테마를 보존하라.
+
+직렬화·문자열 로딩·원격 카탈로그·런타임/풀 재사용을 모두 확인한 뒤, 극장에 한정해 참조0인
+구 시각 자산만 dry-run 의존성 보고서를 남겨 제거하라. 전역 Old 폴더나 타 테마 공유 원본을
+일괄 삭제하지 말라. 최신 키 누락을 구 이미지로 덮지 말고 Editor/빌드 검수를 실패시키라.
+
+6. 크기·지형·배경 계약을 유지하라.
+PPU256와 명시된 canvas/pivot/logical rect를 보존한다.2칸 아트를 한 칸으로 축소하지 말라.
+구 스프라이트 크기에 맞췄던 fitToCell/bounds 기반 축소·프레임별 자동scale/회전 보정은 시각 레이어에서
+제거하라. 기존 보드 전체의 공통 배율은 유지하고 새 art visual 자식은 명세의 기본 배율1을 한 번만
+적용해2×1의 실제 두 칸 폭을 채우게 하라. 이 보정을 게임 루트·Collider·좌표에 적용하지 말라.
+도미노의 H704×448/V448×704 캔버스는 서 있는 판의 높이를 담는 여백이다. 바닥 아트 슬롯은
+2×1/1×2이며 확대된 PNG 크기로 점유를 늘리지 말라.
+책장 alias가704canvas로 바뀌면 실제 Import/시각 anchor를 갱신하되 bounds로 Collider/점유를
+재계산하지 말라. sweep는 아트만의 범위다. moving_stage의 wide/tall 선택도 실제 점유를 따른다.
+G=stage_floor/W=wood_catwalk/S=velvet_carpet이며 S는 지지대 선택에서 G로 정규화한다.
+목장 S=stone_bridge 규칙을 복사하지 않는다.8이웃·연결 하부·군집·목재 통로/난간과 독립 소품,
+별·구름·섬의 Z/Sorting Layer/카메라 움직임을 보존한다. 별은 모든 구름 뒤에서 거의 고정되고
+달/행성은 없다. 게임 루트 아래에 새 카메라나 조명을 임의 추가하지 말라.
+
+7. 실제 프로젝트에서 아래 검증과 증거를 제출하라.
+- import/compile 오류0, Missing Script/Sprite/Clip0, 미바인딩0. 단위 테스트는 실제 TestRunner로 실행.
+-04교대/점유 보호,06한 칸/끝점/막힘과2×1의N/S이동,08H↔V중간 회전/고정중심/점유 보호.
+-13순차 넘어짐/낮은 통행,17경고 후 옆으로 피한 대상 재추적 금지/금간 벽과 단단한 벽.
+-22초기4방향 윗면과 전체24방향×4굴림, 반대 굴림/4회 원복, blocked/teleport불변, 목표 점유/일치.
+-23네 시선/반대 후퇴/한 번만/막힌 움찔.07/09방향·통로,18네 모서리90도,19두 축 정지.
+-10fps이상 재생·Pause/재개·빠른 입력·중단·루프 종료·풀 재사용·씬 재진입·저장 로드.
+-캠페인·해금된 대전·에디터·런타임 생성의 실제 Renderer가 모두 최신 경로/SHA/GUID/fileID 집합 사용.
+-접근 가능한 구 시각 GUID/fileID참조0·문자열 fallback0·구 Animator쓰기0·캐시 복귀0.
+-최신 키를 의도적으로 누락한 음성 검사가 명확히 실패하며 구 이미지가 복구되지 않음.
+-1080×1920/실제 모바일에서 크기·접지·중간 동작·통로 가독성 확인. 다른 테마와 기존 UI/게임 로직 회귀 없음.
+
+최종 제출: 실제 변경 파일/씬/프리팹, 바인딩 표,GUID/fileID 대응표, reachable legacy0와 삭제 증거,
+컴파일/TestRunner/PlayMode 로그, 실제 전환 영상, 미실행 항목/미확정 규칙. 미실행 검사를 pass로
+표시하지 말라. 보고서 ANIMOL_ECHO_THEATER_V03_PROJECT_APPLY_RESULT.md를 작성하라.

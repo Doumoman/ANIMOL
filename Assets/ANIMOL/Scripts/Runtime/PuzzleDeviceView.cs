@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ANIMOL.Art.EchoTheaterV03;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -15,11 +16,24 @@ namespace ANIMOL.Puzzle
         PuzzleDeviceSession session;
         SpriteRenderer player;
         BeamPathView beams;
+        EchoTheaterV03DiceVisualMap diceVisualMap;
         public int MissingBindings { get; private set; }
         public Transform Actor(string id) => roots.TryGetValue(id, out var root) ? root : null;
         public void Bind(PuzzleDeviceSession authority, SpriteRenderer playerRenderer)
         {
             session = authority; player = playerRenderer;
+            var theaterArt = session.Map.theme && session.Map.theme.memorySkyTheater
+                ? session.Map.theme.memorySkyTheater.v02 : null;
+            if (theaterArt && theaterArt.v03Animations)
+            {
+                string error = null;
+                if (!theaterArt.v03DiceOrientationMap ||
+                    !EchoTheaterV03DiceVisualMap.TryParse(theaterArt.v03DiceOrientationMap.bytes,
+                        theaterArt.v03Animations.DiceOrientationMapSha256,
+                        theaterArt.v03Animations, theaterArt.v03ManifestSha256,
+                        out diceVisualMap, out error))
+                { MissingBindings++; Debug.LogError("Invalid V03 dice orientation map: " + error, this); }
+            }
             foreach (var d in session.Devices)
             {
                 if (!d.visualPrefab) { MissingBindings++; continue; }
@@ -34,6 +48,8 @@ namespace ANIMOL.Puzzle
                 else
                 {
                     var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view; if (view.visual) view.visual.sortingOrder = d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30;
+                        if (theaterArt && theaterArt.v03Animations && d.variant != "plate" && d.variant != "target" && HasV03DeviceArt(d.role))
+                            if (!view.ActivateV03(theaterArt.v03Animations, theaterArt.v03ManifestSha256)) MissingBindings++;
                         if (session.Map.theme && session.Map.theme.starwayRanch)
                             root.AddComponent<StarwayRanchDeviceArt>().Bind(session.Map.theme.starwayRanch, view, d);
                     }
@@ -42,14 +58,71 @@ namespace ANIMOL.Puzzle
             if (session.Rules.beamPrefab) { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
             Settle();
         }
+        static bool HasV03DeviceArt(PrototypeRole role)
+        {
+            switch (role)
+            {
+                case PrototypeRole.Shutter:
+                case PrototypeRole.MovingStage:
+                case PrototypeRole.Conveyor:
+                case PrototypeRole.Bookshelf:
+                case PrototypeRole.OneWayGate:
+                case PrototypeRole.Domino:
+                case PrototypeRole.Statue:
+                case PrototypeRole.Bounce:
+                case PrototypeRole.Brake:
+                case PrototypeRole.Dice:
+                case PrototypeRole.CowardDoll:
+                    return true;
+                default:
+                    return false;
+            }
+        }
         public void Notify(PrototypeEvent e, string actionId)
         {
             if (!views.TryGetValue(e.actor ?? "", out var view)) return;
+            var definition = session.Definition(e.actor);
+            if (diceVisualMap != null && definition != null && definition.role == PrototypeRole.Dice &&
+                definition.variant != "target" && e.eventName == "actual_one_cell_die_roll")
+            {
+                string error = null;
+                EchoTheaterV03DiceOrientation.State before, after;
+                string key = null;
+                bool valid = TryDiceState(e.diceBefore, out before, out error) &&
+                    TryDiceState(e.diceAfter, out after, out error) &&
+                    diceVisualMap.TryGetCommittedRollClip(before, after, DiceHeading(e.rollHeading),
+                        true, e.teleport, out key, out error);
+                var binding = Array.Find(view.states, s => s.name == e.state);
+                if (!valid || binding == null || binding.v03ClipKey != key)
+                {
+                    MissingBindings++;
+                    view.FailV03(e.state);
+                    Debug.LogError("V03 die roll visual differs from the committed six-face orientation: " + error, this);
+                    return;
+                }
+            }
             pendingIdle.Remove(e.actor);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
+            else if (view.IsV03Active)
+            { if (!view.Notify(actionId, e.eventName, e.state)) MissingBindings++; }
             else if (!view.Notify(actionId, e.eventName, e.state) && !view.Present(e.state, true)) MissingBindings++;
             if (roots.TryGetValue(e.actor, out var actor)) actor.GetComponent<StarwayRanchDeviceArt>()?.ApplyNow();
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
+        }
+        static bool TryDiceState(int[] faces, out EchoTheaterV03DiceOrientation.State state, out string error)
+        {
+            state = default;
+            if (faces == null || faces.Length != 6) { error = "Missing six-face committed dice state."; return false; }
+            return EchoTheaterV03DiceOrientation.TryCreate(faces[0], faces[1], faces[2], faces[3],
+                faces[4], faces[5], out state, out error);
+        }
+        static EchoTheaterV03DiceOrientation.Heading DiceHeading(Vector2Int direction)
+        {
+            if (direction == Vector2Int.right) return EchoTheaterV03DiceOrientation.Heading.East;
+            if (direction == Vector2Int.up) return EchoTheaterV03DiceOrientation.Heading.North;
+            if (direction == Vector2Int.left) return EchoTheaterV03DiceOrientation.Heading.West;
+            if (direction == Vector2Int.down) return EchoTheaterV03DiceOrientation.Heading.South;
+            return EchoTheaterV03DiceOrientation.Heading.None;
         }
         static bool PlayingTransition(DeviceVisualView view)
         {
@@ -110,7 +183,8 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Shutter: return PuzzleDeviceSession.ShutterPrefix(d) + (s.active ? "open" : "closed");
                 case PrototypeRole.DepartureSpikes: return s.phase == 2 ? "raised" : s.phase == 1 ? "armed" : "flat";
                 case PrototypeRole.CrescentLeap: case PrototypeRole.Conveyor: case PrototypeRole.MovingStage: case PrototypeRole.Boat:
-                case PrototypeRole.CowardDoll: case PrototypeRole.Chick: case PrototypeRole.Barrel: return "idle_" + dir;
+                case PrototypeRole.Chick: case PrototypeRole.Barrel: return "idle_" + dir;
+                case PrototypeRole.CowardDoll: return "idle_" + PuzzleDeviceSession.Dir(s.lookDirection);
                 case PrototypeRole.Statue: return (s.locked ? "warning_hold_" : "idle_") + dir;
                 case PrototypeRole.OneWayGate: return "closed_" + dir;
                 case PrototypeRole.Bookshelf: return d.variant == "plate" ? (s.active ? "plate_pressed" : "plate_idle") : new[] { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" }[s.phase % 4];

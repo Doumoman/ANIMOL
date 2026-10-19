@@ -1,0 +1,94 @@
+{
+  "version": "V03",
+  "theme": "잔영 극장",
+  "ppu": 256,
+  "source": "sources/theater_catwalk_undersides_flat_v02_native.png",
+  "artTreatment": "Fresh imagegen matte angular catwalk artwork, mechanically sampled through preserved production alpha masks.",
+  "rules": "Rails only between W catwalk and void. G/S are existing stage occupancy, never bank end caps. Shared vertices have one post. Extra long-run posts every 4 cells.",
+  "placementCoordinates": "Top-left PNG pixels from logical map origin. Y down. Unity origin+(x/256,-y/256), pivot(0,1).",
+  "postIntervalCells": 4,
+  "assets": [
+    {
+      "kind": "catwalk_boundary_rail",
+      "file": "bridge_decor/theater_rope_rail_horizontal.png",
+      "width": 256,
+      "height": 40,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "collider": false,
+      "logicalAnchorPixels": [
+        0,
+        20
+      ],
+      "sourceNative": "sources/theater_catwalk_undersides_flat_v02_native.png",
+      "sourceCrop": [
+        540,
+        535,
+        180,
+        43
+      ],
+      "sourceMechanicalRotation": 0,
+      "artRevision": "V02_new_native_flat_angular",
+      "sha256": "ed8280f5d13901498ab67d40d2fc3a654e8b621bad414f1dd74ed72c0258bdec"
+    },
+    {
+      "kind": "catwalk_boundary_rail",
+      "file": "bridge_decor/theater_rope_rail_vertical.png",
+      "width": 40,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "collider": false,
+      "logicalAnchorPixels": [
+        20,
+        0
+      ],
+      "sourceNative": "sources/theater_catwalk_undersides_flat_v02_native.png",
+      "sourceCrop": [
+        540,
+        535,
+        180,
+        43
+      ],
+      "sourceMechanicalRotation": 90,
+      "artRevision": "V02_new_native_flat_angular",
+      "sha256": "2a09d567d2fe2aac778c802781c35e754370468426b9dbc88935013f04a333ba"
+    },
+    {
+      "kind": "catwalk_boundary_post",
+      "file": "bridge_decor/theater_brass_wood_post.png",
+      "width": 80,
+      "height": 136,
+      "ppu": 256,
+      "pivot": [
+        0,
+        1
+      ],
+      "collider": false,
+      "logicalAnchorPixels": [
+        40,
+        58
+      ],
+      "sourceNative": "sources/theater_catwalk_undersides_flat_v02_native.png",
+      "sourceCrop": [
+        726,
+        532,
+        86,
+        165
+      ],
+      "sourceMechanicalRotation": 0,
+      "artRevision": "V02_new_native_flat_angular",
+      "sha256": "3c9f44dc807e4885a35749f2ca0d9e24813526581ccb0b8389ec8a0c424a8c7d"
+    }
+  ],
+  "qa": {
+    "currentRevision": "terrain_v02_redraw_qa.json",
+    "scope": "Current V02 alpha/dimensions/metadata; geometry and placement rules preserved; Unity not executed."
+  }
+}

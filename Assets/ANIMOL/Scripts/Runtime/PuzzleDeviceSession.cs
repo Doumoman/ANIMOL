@@ -39,7 +39,7 @@ namespace ANIMOL.Puzzle
             var errors = map.ValidateMap();
             if (errors.Count != 0) throw new ArgumentException(string.Join("; ", errors));
             definitions = Rules.devices.Where(d => Map.Contains(d.position)).OrderBy(d => d.id, StringComparer.Ordinal).ToList();
-            foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, active = d.active, phase = d.orientation });
+            foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, lookDirection = d.direction, active = d.active, phase = d.orientation });
             Cell = map.start; Collect(); RefreshLinks(false); TraceLight(); TraceWind(); Victory(); events.Clear();
         }
         PuzzleDeviceSession(PuzzleDeviceSession source)
@@ -131,6 +131,13 @@ namespace ANIMOL.Puzzle
         { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Move, actor = actor, from = from, to = to, teleport = teleport, group = group++ }); }
         void Visual(PrototypeDevice d, string state, string eventName)
         { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id, state = state, eventName = eventName, group = group }); }
+        void DiceRollVisual(PrototypeDevice d, int[] before, int[] after, Vector2Int direction)
+        {
+            events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id,
+                state = "roll_t" + before[0] + "_n" + before[2] + "_e" + before[4] + "_" + Dir(direction),
+                eventName = "actual_one_cell_die_roll", group = group,
+                diceBefore = (int[])before.Clone(), diceAfter = (int[])after.Clone(), rollHeading = direction });
+        }
         void Collect() { visited.Add(Cell); if (Map.bubbles.Contains(Cell)) collected.Add(Cell); }
         void RejectedCue(Vector2Int destination)
         {
@@ -288,7 +295,7 @@ namespace ANIMOL.Puzzle
             var before = s.cell; s.cell += direction; s.direction = direction; Move(d.id, before, s.cell);
             pushedThisAction.Add(d.id);
             if (d.role == PrototypeRole.Dice)
-            { var from = s.DiceId; Roll(s.dice, direction); Visual(d, "roll_" + from + "_" + Dir(direction), "actual_one_cell_die_roll"); }
+            { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
             if (d.role == PrototypeRole.StarSocket) Visual(d, "stone_push_" + Dir(direction), "existing_push_visual");
             if (d.role == PrototypeRole.Bomb && s.timer == 0) { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
             if (d.role == PrototypeRole.Barrel) Visual(d, "start_" + Dir(direction), "existing_barrel_push_committed");
@@ -309,7 +316,7 @@ namespace ANIMOL.Puzzle
                 {
                     var before = s.cell; s.cell = portal.target; Move(d.id, before, s.cell, true);
                     before = s.cell; s.cell += direction; Move(d.id, before, s.cell);
-                    if (d.role == PrototypeRole.Dice) { var orientation = s.DiceId; Roll(s.dice, direction); Visual(d, "roll_" + orientation + "_" + Dir(direction), "actual_one_cell_die_roll"); }
+                    if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                     TraceWind();
                     if (!rolling && !slidingBody) break;
                     continue;
@@ -322,7 +329,7 @@ namespace ANIMOL.Puzzle
                 else if (!rolling && !slidingBody) break;
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) break;
                 var old = s.cell; s.cell += direction; Move(d.id, old, s.cell);
-                if (d.role == PrototypeRole.Dice) { var orientation = s.DiceId; Roll(s.dice, direction); Visual(d, "roll_" + orientation + "_" + Dir(direction), "actual_one_cell_die_roll"); }
+                if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 TraceWind();
             }
             if (d.role == PrototypeRole.Barrel) Visual(d, "stop_" + Dir(direction), "existing_barrel_blocker_reached");
@@ -390,9 +397,10 @@ namespace ANIMOL.Puzzle
                 if (d.role == PrototypeRole.Statue) Statue(d);
                 if (d.role == PrototypeRole.CowardDoll && (s.cell - Cell).sqrMagnitude == 1)
                 {
-                    var direction = s.cell - Cell; Visual(d, "startle_" + Dir(direction), "player_adjacent_after_valid_action");
-                    if (Free(s.cell + direction, d.id)) { var from = s.cell; s.cell += direction; s.direction = direction; Move(d.id, from, s.cell); Visual(d, "retreat_" + Dir(direction), "doll_one_step_retreat_committed"); }
-                    else Visual(d, "blocked_" + Dir(direction), "doll_retreat_cell_blocked");
+                    var direction = s.cell - Cell; s.lookDirection = -direction;
+                    Visual(d, "startle_" + Dir(s.lookDirection), "player_adjacent_after_valid_action");
+                    if (Free(s.cell + direction, d.id)) { var from = s.cell; s.cell += direction; s.direction = direction; Move(d.id, from, s.cell); Visual(d, "retreat_" + Dir(s.lookDirection), "doll_one_step_retreat_committed"); }
+                    else Visual(d, "blocked_" + Dir(s.lookDirection), "doll_retreat_cell_blocked");
                 }
             }
             TraceWind(); WindPulse();
@@ -534,7 +542,7 @@ namespace ANIMOL.Puzzle
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
                 pushedThisAction.Add(d.id);
                 if (d.role == PrototypeRole.Dice)
-                { var from = s.DiceId; Roll(s.dice, direction); Visual(d, "roll_" + from + "_" + Dir(direction), "actual_one_cell_die_roll"); }
+                { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 if (d.role == PrototypeRole.Bomb && s.timer == 0)
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
                 TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel);

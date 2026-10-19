@@ -1,0 +1,3001 @@
+{
+  "version": "V03",
+  "theme": "잔영 극장",
+  "themeId": "memory_theater",
+  "bindingPolicy": "Semantic art keys and PDF device IDs only; actual project IDs/enums/footprints unverified. Preserve existing collision and occupancy. A bookcase704 sweep canvas is not a2x2 gameplay footprint; wide moving stage remains2x1 for every heading. Tall stage variants optional only if project footprint already supports them.",
+  "clips": [
+    {
+      "key": "id08_bookcase_H_to_V",
+      "family": "rotating_bookcase",
+      "heading": "horizontal_to_vertical",
+      "state": "rotate",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png"
+      ],
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "deviceAtlasId": "08",
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprints": {
+        "horizontal": [
+          2,
+          1
+        ],
+        "vertical": [
+          1,
+          2
+        ]
+      },
+      "centralPinPixels": [
+        352,
+        352
+      ]
+    },
+    {
+      "key": "id08_bookcase_V_to_H",
+      "family": "rotating_bookcase",
+      "heading": "vertical_to_horizontal",
+      "state": "rotate",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png"
+      ],
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "deviceAtlasId": "08",
+      "reverseOf": "id08_bookcase_H_to_V",
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprints": {
+        "horizontal": [
+          2,
+          1
+        ],
+        "vertical": [
+          1,
+          2
+        ]
+      },
+      "centralPinPixels": [
+        352,
+        352
+      ]
+    },
+    {
+      "key": "id04_shutter_horizontal_open",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/alternating_shutter/horizontal/open/frame_00.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_01.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_02.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_03.png"
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "deviceAtlasId": "04"
+    },
+    {
+      "key": "id04_shutter_horizontal_close",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "close",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/alternating_shutter/horizontal/open/frame_03.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_02.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_01.png",
+        "animations/stage/alternating_shutter/horizontal/open/frame_00.png"
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "deviceAtlasId": "04",
+      "reverseOf": "id04_shutter_horizontal_open"
+    },
+    {
+      "key": "id04_shutter_vertical_open",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "open",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/alternating_shutter/vertical/open/frame_00.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_01.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_02.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_03.png"
+      ],
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "04"
+    },
+    {
+      "key": "id04_shutter_vertical_close",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "close",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/alternating_shutter/vertical/open/frame_03.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_02.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_01.png",
+        "animations/stage/alternating_shutter/vertical/open/frame_00.png"
+      ],
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "04",
+      "reverseOf": "id04_shutter_vertical_open"
+    },
+    {
+      "key": "id06_stage_E_move_wide",
+      "family": "moving_stage",
+      "heading": "east",
+      "state": "move_wide",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/E/move_wide/frame_00.png",
+        "animations/stage/moving_stage/E/move_wide/frame_01.png",
+        "animations/stage/moving_stage/E/move_wide/frame_02.png",
+        "animations/stage/moving_stage/E/move_wide/frame_03.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    },
+    {
+      "key": "id06_stage_W_move_wide",
+      "family": "moving_stage",
+      "heading": "west",
+      "state": "move_wide",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/W/move_wide/frame_00.png",
+        "animations/stage/moving_stage/W/move_wide/frame_01.png",
+        "animations/stage/moving_stage/W/move_wide/frame_02.png",
+        "animations/stage/moving_stage/W/move_wide/frame_03.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    },
+    {
+      "key": "id06_stage_N_move_wide",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_wide",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/N/move_wide/frame_00.png",
+        "animations/stage/moving_stage/N/move_wide/frame_01.png",
+        "animations/stage/moving_stage/N/move_wide/frame_02.png",
+        "animations/stage/moving_stage/N/move_wide/frame_03.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    },
+    {
+      "key": "id06_stage_S_move_wide",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_wide",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/S/move_wide/frame_00.png",
+        "animations/stage/moving_stage/S/move_wide/frame_01.png",
+        "animations/stage/moving_stage/S/move_wide/frame_02.png",
+        "animations/stage/moving_stage/S/move_wide/frame_03.png"
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    },
+    {
+      "key": "id06_stage_N_move_tall_optional",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_tall_optional",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/N/move_tall_optional/frame_00.png",
+        "animations/stage/moving_stage/N/move_tall_optional/frame_01.png",
+        "animations/stage/moving_stage/N/move_tall_optional/frame_02.png",
+        "animations/stage/moving_stage/N/move_tall_optional/frame_03.png"
+      ],
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    },
+    {
+      "key": "id06_stage_S_move_tall_optional",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_tall_optional",
+      "fps": 10,
+      "loop": false,
+      "frames": [
+        "animations/stage/moving_stage/S/move_tall_optional/frame_00.png",
+        "animations/stage/moving_stage/S/move_tall_optional/frame_01.png",
+        "animations/stage/moving_stage/S/move_tall_optional/frame_02.png",
+        "animations/stage/moving_stage/S/move_tall_optional/frame_03.png"
+      ],
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "deviceAtlasId": "06",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "projectPositionTweenNotInRaster": true
+    }
+  ],
+  "assets": [
+    {
+      "key": "bookcase_yaw_0",
+      "artKey": "bookcase_yaw_0",
+      "kind": "device_animation_frame",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "rotate",
+      "frameIndex": 0,
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        34,
+        66,
+        469,
+        349
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "50bd9ba90f64121d47afb49789f1c8a2ef9498b951799220eb7991cb02cb4944",
+      "yawDegrees": 0,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": [
+        2,
+        1
+      ],
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596
+    },
+    {
+      "key": "bookcase_yaw_1",
+      "artKey": "bookcase_yaw_1",
+      "kind": "device_animation_frame",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "rotate",
+      "frameIndex": 1,
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        535,
+        77,
+        449,
+        403
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "e99109d187f75fd509883aff98124448653b6de2945f299d16142655e720d12a",
+      "yawDegrees": 22.5,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": null,
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596
+    },
+    {
+      "key": "bookcase_yaw_2",
+      "artKey": "bookcase_yaw_2",
+      "kind": "device_animation_frame",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "rotate",
+      "frameIndex": 2,
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        72,
+        532,
+        401,
+        445
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "2256a85a2ca32de4cb4f214965a889ecc3d3b00b2ea2c725c436aaa9f6630d88",
+      "yawDegrees": 45,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": null,
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596
+    },
+    {
+      "key": "bookcase_yaw_3",
+      "artKey": "bookcase_yaw_3",
+      "kind": "device_animation_frame",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "rotate",
+      "frameIndex": 3,
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        609,
+        519,
+        323,
+        470
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "29894ec428d915dc8c39ea4811a4fb5bd3ca6547b4cab500b07553f2ae69d515",
+      "yawDegrees": 67.5,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": null,
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596
+    },
+    {
+      "key": "bookcase_yaw_4",
+      "artKey": "bookcase_yaw_4",
+      "kind": "device_animation_frame",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "rotate",
+      "frameIndex": 4,
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        148,
+        1011,
+        224,
+        423
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "ed3dec90b80f31ec9dfc7ad2bc8c6ed36d3394fa51de5610f8513b7398ff96e4",
+      "yawDegrees": 90,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": [
+        1,
+        2
+      ],
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596
+    },
+    {
+      "key": "shutter_horizontal_0",
+      "artKey": "shutter_horizontal_0",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 0,
+      "file": "animations/stage/alternating_shutter/horizontal/open/frame_00.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        5,
+        23,
+        434,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "a11f205c0391dda03f72cbc1a2f283a2f7061e0b9dde456112933b084e2f47e5",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286
+    },
+    {
+      "key": "shutter_horizontal_1",
+      "artKey": "shutter_horizontal_1",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 1,
+      "file": "animations/stage/alternating_shutter/horizontal/open/frame_01.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        448,
+        23,
+        436,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "df1843feff16ce00df154b90dd331e0b4e24a9c8bbff06159eb65e3ffefe97f6",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286
+    },
+    {
+      "key": "shutter_horizontal_2",
+      "artKey": "shutter_horizontal_2",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 2,
+      "file": "animations/stage/alternating_shutter/horizontal/open/frame_02.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        892,
+        23,
+        434,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "b83a46eec51f4f18057e408c54486d09bbefbd494bbad154c07aa57fd2ea6fe1",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286
+    },
+    {
+      "key": "shutter_horizontal_3",
+      "artKey": "shutter_horizontal_3",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 3,
+      "file": "animations/stage/alternating_shutter/horizontal/open/frame_03.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        1335,
+        23,
+        434,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "99a3bba51d135d35b4c669e0430257e9b1d0b2fdb3c5891b381d1b745cf2a113",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286
+    },
+    {
+      "key": "shutter_vertical_0",
+      "artKey": "shutter_vertical_0",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 0,
+      "file": "animations/stage/alternating_shutter/vertical/open/frame_00.png",
+      "width": 352,
+      "height": 576,
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        90,
+        317,
+        265,
+        516
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "fb86001759cace4dcfe2d04419de525386f16e57564de6ceb36ec93c6950e731",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        110,
+        122,
+        134,
+        411
+      ],
+      "commonUniformScale": 1.0077519379844961
+    },
+    {
+      "key": "shutter_vertical_1",
+      "artKey": "shutter_vertical_1",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 1,
+      "file": "animations/stage/alternating_shutter/vertical/open/frame_01.png",
+      "width": 352,
+      "height": 576,
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        534,
+        318,
+        264,
+        515
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "40d612c8e2e1bac35b312da090b6824e02f40a172a65ff69747074b4d1276839",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        110,
+        122,
+        134,
+        411
+      ],
+      "commonUniformScale": 1.0077519379844961
+    },
+    {
+      "key": "shutter_vertical_2",
+      "artKey": "shutter_vertical_2",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 2,
+      "file": "animations/stage/alternating_shutter/vertical/open/frame_02.png",
+      "width": 352,
+      "height": 576,
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        977,
+        317,
+        265,
+        515
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "6e08f3da8b2069c38f34dec3208e921c679ceddeb2ded3bee41de64944509f9b",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        110,
+        122,
+        134,
+        411
+      ],
+      "commonUniformScale": 1.0077519379844961
+    },
+    {
+      "key": "shutter_vertical_3",
+      "artKey": "shutter_vertical_3",
+      "kind": "device_animation_frame",
+      "family": "alternating_shutter",
+      "heading": "vertical",
+      "state": "open",
+      "frameIndex": 3,
+      "file": "animations/stage/alternating_shutter/vertical/open/frame_03.png",
+      "width": 352,
+      "height": 576,
+      "canvasSize": [
+        352,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        48,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        1421,
+        318,
+        264,
+        514
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "81b09d8dd030f3c3d2576fd674666d04ab0c03849f3db8277cb4d318e7cf8087",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        110,
+        122,
+        134,
+        411
+      ],
+      "commonUniformScale": 1.0077519379844961
+    },
+    {
+      "key": "stage_E_move_wide_0",
+      "artKey": "stage_E_move_wide_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "east",
+      "state": "move_wide",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/E/move_wide/frame_00.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        182,
+        7,
+        531,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "5dac9487a85d4234dd3be8729bc5b08831de51df3347a63e6966f2a2bfa6150f",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9416195856873822,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_E_move_wide_1",
+      "artKey": "stage_E_move_wide_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "east",
+      "state": "move_wide",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/E/move_wide/frame_01.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        182,
+        223,
+        531,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "92213406ae8ba073d427d35576930a8789ab527716ff848c49d36d9409c16d72",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9416195856873822,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_E_move_wide_2",
+      "artKey": "stage_E_move_wide_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "east",
+      "state": "move_wide",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/E/move_wide/frame_02.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        182,
+        441,
+        531,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "c9a2125ff646a8d10aa7f8c6b4e5dbc757f1a234f4bb5e54bdcf612c5919878e",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9416195856873822,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_E_move_wide_3",
+      "artKey": "stage_E_move_wide_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "east",
+      "state": "move_wide",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/E/move_wide/frame_03.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        182,
+        658,
+        531,
+        217
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "fa7f5f1a7f618835e4bdecd78fccd70c756e6290fcd5c0255e170d29a3237aa0",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9416195856873822,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_W_move_wide_0",
+      "artKey": "stage_W_move_wide_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "west",
+      "state": "move_wide",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/W/move_wide/frame_00.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        1062,
+        6,
+        532,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "8cdd758e7287ecfdc3dd12fae0e21ec311bef95f99d81624361c05cffc26c56a",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9380863039399625,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_W_move_wide_1",
+      "artKey": "stage_W_move_wide_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "west",
+      "state": "move_wide",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/W/move_wide/frame_01.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        1062,
+        223,
+        532,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "c313b8dea164e59ae61671a730553974185a5bf70d820416d737b3182f5a64d5",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9380863039399625,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_W_move_wide_2",
+      "artKey": "stage_W_move_wide_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "west",
+      "state": "move_wide",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/W/move_wide/frame_02.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        1061,
+        441,
+        533,
+        215
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "71af57ca81e80c7076f2731bbc4d7493bdd17fbcbfa40ca5be62e18459274790",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9380863039399625,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_W_move_wide_3",
+      "artKey": "stage_W_move_wide_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "west",
+      "state": "move_wide",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/W/move_wide/frame_03.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ew_native.png",
+      "nativeSourceRect": [
+        1062,
+        658,
+        532,
+        217
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "a59d7407d26a177a9482684ba5d04222fcec675c151625abbd84e5cd4679f755",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9380863039399625,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_wide_0",
+      "artKey": "stage_N_move_wide_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_wide",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/N/move_wide/frame_00.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        285,
+        45,
+        504,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "e7aa05dda883fa45fcfbae12400582ed4df906a9c326cc69ba471c5bc11402ed",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_wide_1",
+      "artKey": "stage_N_move_wide_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_wide",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/N/move_wide/frame_01.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        284,
+        273,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "a968647c6b81691bee2d1b28ba890a89b72b0adcf8613108b815417304a382b8",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_wide_2",
+      "artKey": "stage_N_move_wide_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_wide",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/N/move_wide/frame_02.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        284,
+        500,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "78218cc873b74955f24cad234e5206c6c036bf864de8775ef2b78447c473d13b",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_wide_3",
+      "artKey": "stage_N_move_wide_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_wide",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/N/move_wide/frame_03.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        284,
+        693,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "c2940cc53892ecffb387f84a219cec9d0178f977d039a39972dab76476d28919",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_wide_0",
+      "artKey": "stage_S_move_wide_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_wide",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/S/move_wide/frame_00.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        986,
+        45,
+        504,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "bbc26980a34372bb07edec69c421f96f2f283c710972140428925326c5d21d59",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_wide_1",
+      "artKey": "stage_S_move_wide_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_wide",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/S/move_wide/frame_01.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        986,
+        273,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "9fe8e36cc0cc845711554fd4d065eac870fe930b701c8466f9b264c2b52aa8e4",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_wide_2",
+      "artKey": "stage_S_move_wide_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_wide",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/S/move_wide/frame_02.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        986,
+        504,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "866e918695850ae42159f020f4b6b82e416f352fe95e765d74ca1752630e16ba",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_wide_3",
+      "artKey": "stage_S_move_wide_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_wide",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/S/move_wide/frame_03.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        986,
+        693,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "7bfa798b4d19eaa698ea6e5cafd6c95ffcae32089c15f1d6594ada2010b400b9",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_tall_optional_0",
+      "artKey": "stage_N_move_tall_optional_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_tall_optional",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/N/move_tall_optional/frame_00.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        15,
+        55,
+        198,
+        677
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "fdd913112007d61f543e5eee71ce86873aa2ecad3a38934c928d1ef5eca16669",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7680945347119645,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_tall_optional_1",
+      "artKey": "stage_N_move_tall_optional_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_tall_optional",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/N/move_tall_optional/frame_01.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        237,
+        55,
+        197,
+        677
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "b6d84a44cf91f149fd8eb173d436fef7fb9cb9ceeaa6069312c0667738101df1",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7680945347119645,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_tall_optional_2",
+      "artKey": "stage_N_move_tall_optional_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_tall_optional",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/N/move_tall_optional/frame_02.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        458,
+        55,
+        199,
+        677
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "b81676f7ef138dddab5ecb9b30aa49831c61f32477f4e1d65c6483b9bfbf6e52",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7680945347119645,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_N_move_tall_optional_3",
+      "artKey": "stage_N_move_tall_optional_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "move_tall_optional",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/N/move_tall_optional/frame_03.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        680,
+        55,
+        197,
+        677
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "fc589ff27feb108936e845a3bc847ad472b9f7dd3ad74d974cfadb593c4099de",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7680945347119645,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_tall_optional_0",
+      "artKey": "stage_S_move_tall_optional_0",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_tall_optional",
+      "frameIndex": 0,
+      "file": "animations/stage/moving_stage/S/move_tall_optional/frame_00.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        15,
+        948,
+        198,
+        673
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "10e679e5b3ba9475f75b89d304f0e062e039b1a60a96e6397d328526431e8d3a",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7726597325408618,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_tall_optional_1",
+      "artKey": "stage_S_move_tall_optional_1",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_tall_optional",
+      "frameIndex": 1,
+      "file": "animations/stage/moving_stage/S/move_tall_optional/frame_01.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        237,
+        948,
+        197,
+        673
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "b3619e00f0cefdfa0133975d6227dd03e8008b645b540b67ed78b665d331b7c4",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7726597325408618,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_tall_optional_2",
+      "artKey": "stage_S_move_tall_optional_2",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_tall_optional",
+      "frameIndex": 2,
+      "file": "animations/stage/moving_stage/S/move_tall_optional/frame_02.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        458,
+        948,
+        198,
+        673
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "e74b834773463a703c0ed78f447cde419f0d6ea1ba17ba8d287bd0f828ab8de0",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7726597325408618,
+      "actualTranslationInProject": true
+    },
+    {
+      "key": "stage_S_move_tall_optional_3",
+      "artKey": "stage_S_move_tall_optional_3",
+      "kind": "device_animation_frame",
+      "family": "moving_stage",
+      "heading": "south",
+      "state": "move_tall_optional",
+      "frameIndex": 3,
+      "file": "animations/stage/moving_stage/S/move_tall_optional/frame_03.png",
+      "width": 320,
+      "height": 576,
+      "canvasSize": [
+        320,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_tall_ns_optional_native.png",
+      "nativeSourceRect": [
+        679,
+        948,
+        197,
+        673
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "0f1caf99fa5978ee323fb9d1265b2729be203198cd57265cb175e2a6a3b9f48b",
+      "artSlotCells": [
+        1,
+        2
+      ],
+      "optionalOrientationVariant": true,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.7726597325408618,
+      "actualTranslationInProject": true
+    }
+  ],
+  "staticAliases": [
+    {
+      "key": "bookcase_yaw_0",
+      "artKey": "rotating_bookcase_front",
+      "kind": "latest_endpoint_alias",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "front",
+      "frameIndex": 0,
+      "file": "devices/rotating_bookcase/front.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        34,
+        66,
+        469,
+        349
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "50bd9ba90f64121d47afb49789f1c8a2ef9498b951799220eb7991cb02cb4944",
+      "yawDegrees": 0,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": [
+        2,
+        1
+      ],
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596,
+      "latestEndpointAliasOf": "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    },
+    {
+      "key": "bookcase_yaw_4",
+      "artKey": "rotating_bookcase_turned",
+      "kind": "latest_endpoint_alias",
+      "family": "rotating_bookcase",
+      "heading": "sweep",
+      "state": "turned",
+      "frameIndex": 4,
+      "file": "devices/rotating_bookcase/turned.png",
+      "width": 704,
+      "height": 704,
+      "canvasSize": [
+        704,
+        704
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "logical_rect": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_bookcase_yaw_native.png",
+      "nativeSourceRect": [
+        148,
+        1011,
+        224,
+        423
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "ed3dec90b80f31ec9dfc7ad2bc8c6ed36d3394fa51de5610f8513b7398ff96e4",
+      "yawDegrees": 90,
+      "logicalUnion": [
+        96,
+        96,
+        512,
+        512
+      ],
+      "artSweepUnionCells": [
+        2,
+        2
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprintCells": [
+        1,
+        2
+      ],
+      "centralPinPixels": [
+        352,
+        352
+      ],
+      "centralPinSourceRect": [
+        705,
+        1219,
+        93,
+        89
+      ],
+      "centralPinRenderRect": [
+        336,
+        337,
+        32,
+        30
+      ],
+      "commonUniformScale": 1.0893617021276596,
+      "latestEndpointAliasOf": "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    },
+    {
+      "key": "shutter_horizontal_0",
+      "artKey": "alternating_shutter_closed",
+      "kind": "latest_endpoint_alias",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "closed",
+      "frameIndex": 0,
+      "file": "devices/alternating_shutter/closed.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        5,
+        23,
+        434,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "a11f205c0391dda03f72cbc1a2f283a2f7061e0b9dde456112933b084e2f47e5",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286,
+      "latestEndpointAliasOf": "animations/stage/alternating_shutter/horizontal/open/frame_00.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    },
+    {
+      "key": "shutter_horizontal_3",
+      "artKey": "alternating_shutter_open",
+      "kind": "latest_endpoint_alias",
+      "family": "alternating_shutter",
+      "heading": "horizontal",
+      "state": "open",
+      "frameIndex": 3,
+      "file": "devices/alternating_shutter/open.png",
+      "width": 576,
+      "height": 352,
+      "canvasSize": [
+        576,
+        352
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_shutter_hv_native.png",
+      "nativeSourceRect": [
+        1335,
+        23,
+        434,
+        280
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "99a3bba51d135d35b4c669e0430257e9b1d0b2fdb3c5891b381d1b745cf2a113",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "fixedStructureFromFrame": 0,
+      "animatedCurtainWindow": [
+        121,
+        135,
+        333,
+        193
+      ],
+      "commonUniformScale": 1.1285714285714286,
+      "latestEndpointAliasOf": "animations/stage/alternating_shutter/horizontal/open/frame_03.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    },
+    {
+      "key": "stage_N_move_wide_0",
+      "artKey": "moving_stage_idle",
+      "kind": "latest_endpoint_alias",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "idle",
+      "frameIndex": 0,
+      "file": "devices/moving_stage/idle.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        285,
+        45,
+        504,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "e7aa05dda883fa45fcfbae12400582ed4df906a9c326cc69ba471c5bc11402ed",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true,
+      "latestEndpointAliasOf": "animations/stage/moving_stage/N/move_wide/frame_00.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    },
+    {
+      "key": "stage_N_move_wide_2",
+      "artKey": "moving_stage_active",
+      "kind": "latest_endpoint_alias",
+      "family": "moving_stage",
+      "heading": "north",
+      "state": "active",
+      "frameIndex": 2,
+      "file": "devices/moving_stage/active.png",
+      "width": 576,
+      "height": 320,
+      "canvasSize": [
+        576,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "source": "sources/theater_v03_stage_wide_ns_native.png",
+      "nativeSourceRect": [
+        284,
+        500,
+        505,
+        192
+      ],
+      "sourceColorChanges": false,
+      "productionRGBQuantization": false,
+      "sha256": "78218cc873b74955f24cad234e5206c6c036bf864de8775ef2b78447c473d13b",
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "optionalOrientationVariant": false,
+      "headingDoesNotChangeFootprint": true,
+      "commonUniformScale": 0.9900990099009901,
+      "actualTranslationInProject": true,
+      "latestEndpointAliasOf": "animations/stage/moving_stage/N/move_wide/frame_02.png",
+      "artRevision": "V03_directional_animation_endpoint",
+      "compatibilityPathOnly": true
+    }
+  ]
+}

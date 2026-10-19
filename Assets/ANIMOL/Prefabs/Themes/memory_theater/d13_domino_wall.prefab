@@ -51,76 +51,100 @@ MonoBehaviour:
   states:
   - name: standing_e
     eventName: 
-    sprite: {fileID: 21300000, guid: 41a2b29605ea72844833d33bd7e88ae9, type: 3}
+    sprite: {fileID: 21300000, guid: edae50bb75474e14dac77244bf3bd9e8, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 27b0f99d341ba1f46af206e4adba29f5, type: 2}
+    v03ClipKey: domino_wall.fall.east
+    v03StaticProgress: 0
   - name: folded_e
     eventName: 
-    sprite: {fileID: 21300000, guid: 8496d5d94e4a73a41ae7093184f6b6bf, type: 3}
+    sprite: {fileID: 21300000, guid: b50a459cbd83ca9498860442726f6e59, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 27b0f99d341ba1f46af206e4adba29f5, type: 2}
+    v03ClipKey: domino_wall.fall.east
+    v03StaticProgress: 1
   - name: standing_s
     eventName: 
-    sprite: {fileID: 21300000, guid: dee6ee87dd33a364b8388b5b2bd041cb, type: 3}
+    sprite: {fileID: 21300000, guid: 403a86cd49790ff4f899b05a67e43e5a, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 29f0a182b9844b647a4e57ddc2d88eb5, type: 2}
+    v03ClipKey: domino_wall.fall.south
+    v03StaticProgress: 0
   - name: folded_s
     eventName: 
-    sprite: {fileID: 21300000, guid: 3b234b2a9d3771d4fa40e5701d55960b, type: 3}
+    sprite: {fileID: 21300000, guid: 970b3c9f274b1254cae54453a08b9e1e, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 29f0a182b9844b647a4e57ddc2d88eb5, type: 2}
+    v03ClipKey: domino_wall.fall.south
+    v03StaticProgress: 1
   - name: standing_w
     eventName: 
-    sprite: {fileID: 21300000, guid: 42c679c577e6e624ea9435ac1eb40b34, type: 3}
+    sprite: {fileID: 21300000, guid: eed5ef4a2cd6bc34aa585cfbcca01834, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: dc01866eff37de6439894408a505c466, type: 2}
+    v03ClipKey: domino_wall.fall.west
+    v03StaticProgress: 0
   - name: folded_w
     eventName: 
-    sprite: {fileID: 21300000, guid: 59f4ef245a0b9c84b900282b79816156, type: 3}
+    sprite: {fileID: 21300000, guid: 148871705d0a78c4590e3a1e900311fd, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: dc01866eff37de6439894408a505c466, type: 2}
+    v03ClipKey: domino_wall.fall.west
+    v03StaticProgress: 1
   - name: standing_n
     eventName: 
-    sprite: {fileID: 21300000, guid: ed24a4819db1528408656717d66437d6, type: 3}
+    sprite: {fileID: 21300000, guid: 61e6d9bf3f535c74d86ee388eaed716f, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 6f0e36e6bcf63cd4988a0a2b30ea0217, type: 2}
+    v03ClipKey: domino_wall.fall.north
+    v03StaticProgress: 0
   - name: folded_n
     eventName: 
-    sprite: {fileID: 21300000, guid: 8fead56a7ae11ab47acc0381666e130f, type: 3}
+    sprite: {fileID: 21300000, guid: 439d49e43657caf4dbcd3d78e2dd7f81, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 0}
+    clip: {fileID: 7400000, guid: 6f0e36e6bcf63cd4988a0a2b30ea0217, type: 2}
+    v03ClipKey: domino_wall.fall.north
+    v03StaticProgress: 1
   - name: fold_e
     eventName: this_domino_piece_fold_committed
     sprite: {fileID: 0}
-    terminal: {fileID: 21300000, guid: c5f0b17b17bfe8b4b8b1097778fce02a, type: 3}
-    sequence: {fileID: 11400000, guid: d30cb400c91d116469093a17bcdbebf6, type: 2}
-    clip: {fileID: 7400000, guid: daf3008bbe9601e4cb10d1ba76b6ef65, type: 2}
+    terminal: {fileID: 21300000, guid: b50a459cbd83ca9498860442726f6e59, type: 3}
+    sequence: {fileID: 11400000, guid: 213ea25d725e608438ef973e3b52c93c, type: 2}
+    clip: {fileID: 7400000, guid: 27b0f99d341ba1f46af206e4adba29f5, type: 2}
+    v03ClipKey: domino_wall.fall.east
+    v03StaticProgress: 0
   - name: fold_s
     eventName: this_domino_piece_fold_committed
     sprite: {fileID: 0}
-    terminal: {fileID: 21300000, guid: 3b234b2a9d3771d4fa40e5701d55960b, type: 3}
-    sequence: {fileID: 11400000, guid: 0061a7464b7ef1741883f046b829e63d, type: 2}
-    clip: {fileID: 7400000, guid: e3a494f47fc6a5f43aea459f65fa3f3a, type: 2}
+    terminal: {fileID: 21300000, guid: 970b3c9f274b1254cae54453a08b9e1e, type: 3}
+    sequence: {fileID: 11400000, guid: ec7b9aa3769993340859babb9d757564, type: 2}
+    clip: {fileID: 7400000, guid: 29f0a182b9844b647a4e57ddc2d88eb5, type: 2}
+    v03ClipKey: domino_wall.fall.south
+    v03StaticProgress: 0
   - name: fold_w
     eventName: this_domino_piece_fold_committed
     sprite: {fileID: 0}
-    terminal: {fileID: 21300000, guid: 59f4ef245a0b9c84b900282b79816156, type: 3}
-    sequence: {fileID: 11400000, guid: 0fffc2388a097e04ba1b1aa16a5a7fb0, type: 2}
-    clip: {fileID: 7400000, guid: d612203d0b68dfc43b98b63f921605e6, type: 2}
+    terminal: {fileID: 21300000, guid: 148871705d0a78c4590e3a1e900311fd, type: 3}
+    sequence: {fileID: 11400000, guid: b4ba59c07483e0e489f6eb8d7efc0d91, type: 2}
+    clip: {fileID: 7400000, guid: dc01866eff37de6439894408a505c466, type: 2}
+    v03ClipKey: domino_wall.fall.west
+    v03StaticProgress: 0
   - name: fold_n
     eventName: this_domino_piece_fold_committed
     sprite: {fileID: 0}
-    terminal: {fileID: 21300000, guid: 8fead56a7ae11ab47acc0381666e130f, type: 3}
-    sequence: {fileID: 11400000, guid: 93c42e125341afb4d8ddaa39e895a7e3, type: 2}
-    clip: {fileID: 7400000, guid: 47be75f4aa2daa946b653a4e3d5b12ad, type: 2}
+    terminal: {fileID: 21300000, guid: 439d49e43657caf4dbcd3d78e2dd7f81, type: 3}
+    sequence: {fileID: 11400000, guid: 543655e7d37d17d439543aa0c022fab7, type: 2}
+    clip: {fileID: 7400000, guid: 6f0e36e6bcf63cd4988a0a2b30ea0217, type: 2}
+    v03ClipKey: domino_wall.fall.north
+    v03StaticProgress: 0
   paused: 0
   initialPhase: 0
 --- !u!1 &8774194520029248831
@@ -204,7 +228,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 41a2b29605ea72844833d33bd7e88ae9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: edae50bb75474e14dac77244bf3bd9e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

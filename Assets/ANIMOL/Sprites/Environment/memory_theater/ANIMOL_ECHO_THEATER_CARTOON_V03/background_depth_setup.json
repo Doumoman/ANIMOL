@@ -1,0 +1,182 @@
+{
+  "version": "V03",
+  "camera": {
+    "projection": "orthographic",
+    "worldZExample": -10,
+    "forward": "+Z",
+    "gameplayPlaneZ": 0,
+    "farClipMinimumExample": 150,
+    "referencePosition": [
+      0,
+      0,
+      -10
+    ],
+    "orthographicSize": 9.6,
+    "referenceAspect": 0.5625
+  },
+  "sorting": {
+    "layer": "Background",
+    "placement": "below every gameplay Sorting Layer",
+    "explicitOrderRequired": true
+  },
+  "base": {
+    "file": "backgrounds/sky_base_native.png",
+    "worldZ": 95,
+    "sortingOrder": -100,
+    "component": "Animol.EchoTheater.V02.EchoTheaterV02CameraCover",
+    "overscanFraction": 0.08,
+    "registeredInMotionRig": false
+  },
+  "layers": [
+    {
+      "kind": "farStars",
+      "files": "backgrounds/stars/*",
+      "worldZ": 70,
+      "sortingOrder": -90,
+      "factorAtCameraZMinus10": 0.00375,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorldMinimum": [
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03
+    },
+    {
+      "kind": "farClouds",
+      "file": "backgrounds/cloud_bank.png",
+      "worldZ": 18,
+      "sortingOrder": -60,
+      "factorAtCameraZMinus10": 0.35714285714285715,
+      "driftAmplitude": [
+        0.8,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        80,
+        117
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": true,
+      "guardRule": "renderer.bounds.extents + 2*abs(driftAmplitude) + 0.35 world units",
+      "parallaxMultiplier": 1
+    },
+    {
+      "kind": "middleStars",
+      "files": "backgrounds/stars/*",
+      "worldZ": 65,
+      "sortingOrder": -85,
+      "factorAtCameraZMinus10": 0.004,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": true,
+      "guardWorldMinimum": [
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "twinklePeriodSeconds": 7
+    },
+    {
+      "kind": "distantTheaterIslands",
+      "files": [
+        "backgrounds/distant_theater_balcony.png",
+        "backgrounds/distant_stage_island.png"
+      ],
+      "worldZ": 6,
+      "factorAtCameraZMinus10": 0.625,
+      "driftAmplitude": [
+        0.12,
+        0.06
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "parallaxMultiplier": 1,
+      "driftPeriodSeconds": [
+        70,
+        93
+      ],
+      "guardRule": "unique islands do not wrap",
+      "sortingOrder": -30
+    },
+    {
+      "kind": "middleClouds",
+      "file": "backgrounds/cloud_bank.png",
+      "worldZ": 8,
+      "sortingOrder": -40,
+      "factorAtCameraZMinus10": 0.5555555555555556,
+      "driftAmplitude": [
+        1.3,
+        0.09
+      ],
+      "driftPeriodSeconds": [
+        60,
+        91
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": true,
+      "guardRule": "renderer.bounds.extents + 2*abs(driftAmplitude) + 0.35 world units",
+      "parallaxMultiplier": 1
+    },
+    {
+      "kind": "nearStars",
+      "files": "backgrounds/stars/*",
+      "worldZ": 60,
+      "sortingOrder": -80,
+      "factorAtCameraZMinus10": 0.004285714285714285,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": true,
+      "guardWorldMinimum": [
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "twinklePeriodSeconds": 7
+    },
+    {
+      "kind": "nearClouds",
+      "file": "backgrounds/cloud_bank.png",
+      "worldZ": 2,
+      "sortingOrder": -20,
+      "factorAtCameraZMinus10": 0.8333333333333334,
+      "driftAmplitude": [
+        1.9,
+        0.12
+      ],
+      "driftPeriodSeconds": [
+        42,
+        73
+      ],
+      "twinkleAmount": 0,
+      "wrapToView": true,
+      "guardRule": "renderer.bounds.extents + 2*abs(driftAmplitude) + 0.35 world units",
+      "parallaxMultiplier": 1
+    }
+  ],
+  "motionClock": "Time.deltaTime; pauses at timeScale=0",
+  "determinism": "No runtime random: authored positions and phaseDegrees are serialized. A scene builder may use a fixed seed for initial placement only.",
+  "reducedMotion": "rig.SetReducedMotion(true): zero relative parallax, no drift/twinkle, camera-follow retained, current positions rebased without jump",
+  "wrapping": "Wrap independent stars/clouds only after complete bounds leave expanded camera view. Shift cached anchor and transform together. Modulo handles large teleports in one step.",
+  "noMoons": true,
+  "noPlanets": true,
+  "sourceOfTruth": "background_scene_layout.json: exact theater per-instance positions, scales, orders, phases, parallaxMultiplier and motion values override this summary.",
+  "starDrawOrderInvariant": "Every star sortingOrder is lower than every cloud and theater-island sortingOrder; star Z is beyond all cloud and island Z.",
+  "twinkleDefault": "OFF on every star in the canonical theater layout.",
+  "guardRule": "For wrapping layers, guardWorld >= renderer.bounds.extents + 2*abs(driftAmplitude) + 0.35 world units, calculated from final sprite scale.",
+  "theme": "잔영 극장",
+  "runtimeChangesForeground": false,
+  "themeId": "memory_theater",
+  "canonicalThemeId": "memory_theater"
+}

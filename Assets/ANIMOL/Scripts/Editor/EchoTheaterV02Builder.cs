@@ -29,6 +29,9 @@ namespace ANIMOL.Art.EchoTheaterV02
         public static string Apply()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before applying Echo Theater art.");
+            var active = AssetDatabase.LoadAssetAtPath<EchoTheaterV02Art>(Catalog);
+            if (active && active.v03Animations)
+                throw new InvalidOperationException("Echo Theater V03 is active. The V02 importer cannot replace its live catalog or device bindings.");
             AssetDatabase.Refresh();
             var settingsFile = AssetDatabase.LoadAssetAtPath<TextAsset>(Data + "/sprite_import_settings.json");
             var settings = JsonUtility.FromJson<Settings>(settingsFile.text);

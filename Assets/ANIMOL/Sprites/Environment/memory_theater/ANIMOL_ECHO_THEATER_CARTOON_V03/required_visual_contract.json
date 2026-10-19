@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "version": "V03",
+  "packageId": "ANIMOL_ECHO_THEATER_CARTOON_V03",
+  "requiredFamilies": [
+    {
+      "family": "conveyor",
+      "pdfDeviceId": "07",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 4
+    },
+    {
+      "family": "oneway_gate",
+      "pdfDeviceId": "09",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 4
+    },
+    {
+      "family": "bounce_corner",
+      "pdfDeviceId": "18",
+      "headings": [
+        "ne",
+        "nw",
+        "se",
+        "sw"
+      ],
+      "minDistinctFrames": 3
+    },
+    {
+      "family": "brake_pad",
+      "pdfDeviceId": "19",
+      "headings": [
+        "horizontal",
+        "vertical"
+      ],
+      "minDistinctFrames": 3
+    },
+    {
+      "family": "alternating_shutter",
+      "pdfDeviceId": "04",
+      "headings": [
+        "horizontal",
+        "vertical"
+      ],
+      "minDistinctFrames": 4
+    },
+    {
+      "family": "moving_stage",
+      "pdfDeviceId": "06",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 4
+    },
+    {
+      "family": "rotating_bookcase",
+      "pdfDeviceId": "08",
+      "headings": [],
+      "minDistinctFrames": 5
+    },
+    {
+      "family": "domino_wall",
+      "pdfDeviceId": "13",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 5
+    },
+    {
+      "family": "charging_statue",
+      "pdfDeviceId": "17",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 5
+    },
+    {
+      "family": "dice_block",
+      "pdfDeviceId": "22",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south",
+        "none"
+      ],
+      "minDistinctFrames": 4
+    },
+    {
+      "family": "timid_puppet",
+      "pdfDeviceId": "23",
+      "headings": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "minDistinctFrames": 5
+    }
+  ],
+  "commonCanvasContract": {
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "noPerFrameScale": true,
+    "wholeBillboardRotationForMissingDirection": false
+  },
+  "bookcase": {
+    "nativeYawDegrees": [
+      0,
+      22.5,
+      45,
+      67.5,
+      90
+    ],
+    "canvas": [
+      704,
+      704
+    ],
+    "fixedPinPixel": [
+      352,
+      352
+    ],
+    "horizontalArtSlotCells": [
+      2,
+      1
+    ],
+    "verticalArtSlotCells": [
+      1,
+      2
+    ],
+    "actualGameplayFootprintVerified": false,
+    "unionCanvasIsCollisionFootprint": false,
+    "requiredReversibleTransition": true
+  },
+  "movingStage": {
+    "defaultArtSlotCells": [
+      2,
+      1
+    ],
+    "actualGameplayFootprintVerified": false,
+    "requiredWideHeadings": [
+      "east",
+      "north",
+      "west",
+      "south"
+    ],
+    "tallFootprintIsOptionalAndRequiresExistingSupport": true
+  },
+  "dice": {
+    "initial": {
+      "up": 1,
+      "down": 6,
+      "north": 5,
+      "south": 2,
+      "east": 3,
+      "west": 4
+    },
+    "stableOrientationCount": 24,
+    "rollTransitionCount": 96,
+    "rollFrameCount": 6,
+    "coveredIntermediateFrames": 4,
+    "rollFps": 12,
+    "authoritativeFullSixFaceTuple": true,
+    "blockedAndTeleportNoRotation": true
+  },
+  "domino": {
+    "horizontalCanvas": [
+      704,
+      448
+    ],
+    "verticalCanvas": [
+      448,
+      704
+    ],
+    "horizontalLogicalRect": [
+      96,
+      96,
+      512,
+      256
+    ],
+    "verticalLogicalRect": [
+      96,
+      96,
+      256,
+      512
+    ],
+    "canvasPaddingIsGameplayFootprint": false,
+    "sameNativePanelDimensionsAcrossAllPhases": true
+  },
+  "gate": {
+    "fixedHingePixels": true,
+    "minimumOpenLogicalWidthFraction": 0.6
+  },
+  "bounce": {
+    "minimumOpenCenterFraction": 0.55,
+    "maximumArmThicknessFraction": 0.2,
+    "reflectionDegrees": 90
+  },
+  "approvedStaticArtPreserved": true,
+  "unityExecuted": false
+}

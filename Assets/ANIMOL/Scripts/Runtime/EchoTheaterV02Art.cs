@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ANIMOL.Art.EchoTheaterV03;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -16,6 +17,9 @@ namespace ANIMOL.Puzzle
     {
         public EchoTheaterV02SpriteEntry[] sprites;
         public TextAsset backgroundLayout;
+        public EchoTheaterV03VisualCatalog v03Animations;
+        public string v03ManifestSha256;
+        public TextAsset v03DiceOrientationMap;
         Dictionary<string, Sprite> lookup;
 
         public Sprite Find(string path)

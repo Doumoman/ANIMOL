@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Animol.EchoTheater.V02;
+using Animol.EchoTheater.V03;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -26,14 +26,14 @@ namespace ANIMOL.Puzzle
     // Independent background SpriteRenderers, owned by the existing puzzle presentation.
     public sealed class EchoTheaterV02Background : MonoBehaviour
     {
-        EchoTheaterV02BackgroundRig rig;
+        EchoTheaterV03BackgroundRig rig;
 
         public void Configure(EchoTheaterV02Art art, Camera camera)
         {
             if (!art || !art.backgroundLayout || !camera) return;
             var layout = JsonUtility.FromJson<EchoTheaterV02BackgroundLayout>(art.backgroundLayout.text);
             if (layout?.skyBase == null || layout.layers == null || layout.layers.Length != 130)
-                throw new InvalidOperationException("Echo Theater V02 background layout requires 130 independent layers and one sky.");
+                throw new InvalidOperationException("Echo Theater V03 background layout requires 130 independent layers and one sky.");
             camera.farClipPlane = Mathf.Max(camera.farClipPlane, 128f);
             var root = new GameObject("Independent theater sky and depth layers").transform;
             root.SetParent(transform, false);
@@ -42,9 +42,9 @@ namespace ANIMOL.Puzzle
             var sky = Renderer(root, "Sky base", skySprite,
                 new Vector3(camera.transform.position.x, camera.transform.position.y, layout.skyBase.positionZ),
                 Vector3.one, layout.skyBase.sortingOrder, Color.white);
-            sky.gameObject.AddComponent<EchoTheaterV02CameraCover>().Configure(camera, layout.skyBase.coverOverscan);
+            sky.gameObject.AddComponent<EchoTheaterV03CameraCover>().Configure(camera, layout.skyBase.coverOverscan);
 
-            var layers = new List<EchoTheaterV02BackgroundRig.Layer>(layout.layers.Length);
+            var layers = new List<EchoTheaterV03BackgroundRig.Layer>(layout.layers.Length);
             foreach (var item in layout.layers)
             {
                 var sprite = art.Find(item.file);
@@ -54,7 +54,7 @@ namespace ANIMOL.Puzzle
                 var renderer = Renderer(root, item.id, sprite, position,
                     new Vector3(item.localScale[0], item.localScale[1], item.localScale[2]),
                     item.sortingOrder, new Color(item.color[0], item.color[1], item.color[2], item.color[3]));
-                layers.Add(new EchoTheaterV02BackgroundRig.Layer
+                layers.Add(new EchoTheaterV03BackgroundRig.Layer
                 {
                     renderer = renderer,
                     sortingOrder = item.sortingOrder,
@@ -68,7 +68,7 @@ namespace ANIMOL.Puzzle
                     guardWorld = new Vector2(item.guardWorld[0], item.guardWorld[1])
                 });
             }
-            rig = root.gameObject.AddComponent<EchoTheaterV02BackgroundRig>();
+            rig = root.gameObject.AddComponent<EchoTheaterV03BackgroundRig>();
             rig.Configure(camera, 0f, "Background", layers.ToArray());
             rig.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
         }

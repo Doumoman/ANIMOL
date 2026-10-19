@@ -1,0 +1,7251 @@
+{
+  "version": "V03",
+  "theme": "잔영 극장",
+  "themeEnglish": "Echo Theater",
+  "themeId": "memory_theater",
+  "canonicalThemeId": "memory_theater",
+  "referenceScreenSize": [
+    1080,
+    1920
+  ],
+  "referencePixelsPerWorldUnit": 100,
+  "referenceCamera": {
+    "position": [
+      0,
+      0,
+      -10
+    ],
+    "orthographic": true,
+    "orthographicSize": 9.6,
+    "aspect": 0.5625,
+    "gameplayPlaneZ": 0,
+    "nearClipPlane": 0.1,
+    "farClipMinimumExclusive": 120
+  },
+  "sortingLayer": "Background",
+  "backgroundRoot": {
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "parent": "World root, not camera or gameplay object"
+  },
+  "skyBase": {
+    "file": "backgrounds/sky_base_native.png",
+    "positionZ": 95,
+    "sortingOrder": -100,
+    "coverOverscan": 0.08,
+    "nativePpu": 256,
+    "nativeSize": [
+      941,
+      1672
+    ]
+  },
+  "motion": {
+    "depthFactor": "Clamp01(d/(d+depth)*parallaxMultiplier). Stars multiplier=.03, twinkle=0. All star orders behind every cloud.",
+    "wave": "amplitude*(sin(TAU*t/period+phase)-sin(phase)); Y phase+PI/2",
+    "time": "Time.deltaTime; pause with timeScale=0",
+    "recycle": "Per-sprite full renderer bounds outside expanded orthographic viewport, adjust cached anchor by modulo width/height. No visible sprite is wrapped.",
+    "reducedMotion": "Rig.SetReducedMotion(true) rebases and camera-locks; drift and twinkle stop",
+    "base": "Uniform camera cover; no tiled full portrait starfield",
+    "unscaledCameraExample": false,
+    "style": "Almost fixed common stars; independent purple theater clouds, floating stage and balcony islands."
+  },
+  "layers": [
+    {
+      "id": "far_dot_00",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -5.957024598866701,
+        5.337495495658368,
+        70
+      ],
+      "localScale": [
+        0.12494146798786365,
+        0.12494146798786365,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 26.350521510466933,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.0449008400581385,
+        0.0449008400581385
+      ],
+      "showcaseWidthWorld": 0.0449008400581385,
+      "showcaseHeightWorld": 0.0449008400581385,
+      "showcaseRectPixelsTopLeft": [
+        -57.947501889576984,
+        424.0054084312562,
+        4.49008400581385,
+        4.49008400581385
+      ]
+    },
+    {
+      "id": "far_dot_01",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        1.8720672078430654,
+        -5.8084801630117,
+        70
+      ],
+      "localScale": [
+        0.16945927582289044,
+        0.16945927582289044,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 166.64440046064556,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06089942724885125,
+        0.06156137754503442
+      ],
+      "showcaseWidthWorld": 0.06089942724885125,
+      "showcaseHeightWorld": 0.06156137754503442,
+      "showcaseRectPixelsTopLeft": [
+        724.161749421864,
+        1537.7699474239182,
+        6.089942724885125,
+        6.156137754503442
+      ]
+    },
+    {
+      "id": "far_dot_02",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        3.0264490507543087,
+        9.64948942763731,
+        70
+      ],
+      "localScale": [
+        0.09707358892861899,
+        0.09707358892861899,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 221.46379365585744,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.035265014727974865,
+        0.03488582102122245
+      ],
+      "showcaseWidthWorld": 0.035265014727974865,
+      "showcaseHeightWorld": 0.03488582102122245,
+      "showcaseRectPixelsTopLeft": [
+        840.8816543390321,
+        -6.6932338147921655,
+        3.5265014727974866,
+        3.488582102122245
+      ]
+    },
+    {
+      "id": "far_dot_03",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -6.155220546573401,
+        2.3447682774625718,
+        70
+      ],
+      "localScale": [
+        0.19155859733882705,
+        0.19155859733882705,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 69.58220916800201,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.06884137091864097,
+        0.06884137091864097
+      ],
+      "showcaseWidthWorld": 0.06884137091864097,
+      "showcaseHeightWorld": 0.06884137091864097,
+      "showcaseRectPixelsTopLeft": [
+        -78.96412320327215,
+        722.0811037078108,
+        6.884137091864097,
+        6.884137091864097
+      ]
+    },
+    {
+      "id": "far_dot_04",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -5.132006449252367,
+        -6.277025270182639,
+        70
+      ],
+      "localScale": [
+        0.2181803171258224,
+        0.2181803171258224,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 58.95665726624429,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.07840855146709243,
+        0.07926081833086517
+      ],
+      "showcaseWidthWorld": 0.07840855146709243,
+      "showcaseHeightWorld": 0.07926081833086517,
+      "showcaseRectPixelsTopLeft": [
+        22.87892750140861,
+        1583.7394861017206,
+        7.840855146709242,
+        7.926081833086516
+      ]
+    },
+    {
+      "id": "far_dot_05",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        6.996822620183229,
+        -1.2211288900114596,
+        70
+      ],
+      "localScale": [
+        0.19480262025610193,
+        0.19480262025610193,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 334.73790432326496,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.07076813938991203,
+        0.07000719165453663
+      ],
+      "showcaseWidthWorld": 0.07076813938991203,
+      "showcaseHeightWorld": 0.07000719165453663,
+      "showcaseRectPixelsTopLeft": [
+        1236.1438550488274,
+        1078.6125294184192,
+        7.076813938991203,
+        7.000719165453663
+      ]
+    },
+    {
+      "id": "far_dot_06",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -1.7928738869726657,
+        -7.58838725136593,
+        70
+      ],
+      "localScale": [
+        0.1661868419145283,
+        0.1661868419145283,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 55.13228922151029,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.059723396313033604,
+        0.059723396313033604
+      ],
+      "showcaseWidthWorld": 0.059723396313033604,
+      "showcaseHeightWorld": 0.059723396313033604,
+      "showcaseRectPixelsTopLeft": [
+        357.72644148708173,
+        1715.8525553209413,
+        5.9723396313033605,
+        5.9723396313033605
+      ]
+    },
+    {
+      "id": "far_dot_07",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -2.4519638143479825,
+        4.542106380220503,
+        70
+      ],
+      "localScale": [
+        0.09342825927232441,
+        0.09342825927232441,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 55.74010225944221,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.03357578067599159,
+        0.033940734813774104
+      ],
+      "showcaseWidthWorld": 0.03357578067599159,
+      "showcaseHeightWorld": 0.033940734813774104,
+      "showcaseRectPixelsTopLeft": [
+        293.12482953140216,
+        504.09232523726104,
+        3.357578067599159,
+        3.3940734813774105
+      ]
+    },
+    {
+      "id": "far_dot_08",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        2.347914730757475,
+        -9.763772083539516,
+        70
+      ],
+      "localScale": [
+        0.16658200202050147,
+        0.16658200202050147,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 12.995526557788253,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.0605161179215103,
+        0.05986540697611772
+      ],
+      "showcaseWidthWorld": 0.0605161179215103,
+      "showcaseHeightWorld": 0.05986540697611772,
+      "showcaseRectPixelsTopLeft": [
+        771.7656671796719,
+        1933.3839380051456,
+        6.05161179215103,
+        5.986540697611772
+      ]
+    },
+    {
+      "id": "far_dot_09",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -1.4468770913779736,
+        4.577649594750255,
+        70
+      ],
+      "localScale": [
+        0.11370281432804309,
+        0.11370281432804309,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 327.3331419657916,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.040861948899140486,
+        0.040861948899140486
+      ],
+      "showcaseWidthWorld": 0.040861948899140486,
+      "showcaseHeightWorld": 0.040861948899140486,
+      "showcaseRectPixelsTopLeft": [
+        393.2691934172456,
+        500.19194308001744,
+        4.086194889914049,
+        4.086194889914049
+      ]
+    },
+    {
+      "id": "far_dot_10",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -5.475396821647882,
+        -2.06597349839285,
+        70
+      ],
+      "localScale": [
+        0.10146489168468274,
+        0.10146489168468274,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 316.705991467461,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.03646394544918286,
+        0.03686029268232615
+      ],
+      "showcaseWidthWorld": 0.03646394544918286,
+      "showcaseHeightWorld": 0.03686029268232615,
+      "showcaseRectPixelsTopLeft": [
+        -9.36287943724733,
+        1164.7543352051687,
+        3.6463945449182864,
+        3.686029268232615
+      ]
+    },
+    {
+      "id": "far_dot_11",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        1.0172738291323185,
+        0.7602924711070955,
+        70
+      ],
+      "localScale": [
+        0.11202919439835982,
+        0.11202919439835982,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 241.0802100878209,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.04069810577752915,
+        0.040260491736910556
+      ],
+      "showcaseWidthWorld": 0.04069810577752915,
+      "showcaseHeightWorld": 0.040260491736910556,
+      "showcaseRectPixelsTopLeft": [
+        639.6924776243554,
+        881.9577283024449,
+        4.069810577752915,
+        4.026049173691056
+      ]
+    },
+    {
+      "id": "far_dot_12",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -5.5327639885246755,
+        2.182815358322114,
+        70
+      ],
+      "localScale": [
+        0.11758767077797339,
+        0.11758767077797339,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 8.531216299161315,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.042258069185834184,
+        0.042258069185834184
+      ],
+      "showcaseWidthWorld": 0.042258069185834184,
+      "showcaseHeightWorld": 0.042258069185834184,
+      "showcaseRectPixelsTopLeft": [
+        -15.389302311759252,
+        739.6055607084969,
+        4.225806918583419,
+        4.225806918583419
+      ]
+    },
+    {
+      "id": "far_dot_13",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        5.111793268471956,
+        6.50816168775782,
+        70
+      ],
+      "localScale": [
+        0.11818450789702566,
+        0.11818450789702566,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 103.56646592728794,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.042472557525493594,
+        0.04293421575946635
+      ],
+      "showcaseWidthWorld": 0.042472557525493594,
+      "showcaseHeightWorld": 0.04293421575946635,
+      "showcaseRectPixelsTopLeft": [
+        1049.055698970921,
+        307.03712043624466,
+        4.24725575254936,
+        4.293421575946635
+      ]
+    },
+    {
+      "id": "far_dot_14",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -0.13271643295884133,
+        -6.299779323209077,
+        70
+      ],
+      "localScale": [
+        0.1050499083779075,
+        0.1050499083779075,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 288.29976855777204,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.03816266202791171,
+        0.03775231082331051
+      ],
+      "showcaseWidthWorld": 0.03816266202791171,
+      "showcaseHeightWorld": 0.03775231082331051,
+      "showcaseRectPixelsTopLeft": [
+        524.8202236027203,
+        1588.0903167797421,
+        3.8162662027911707,
+        3.7752310823310506
+      ]
+    },
+    {
+      "id": "far_dot_15",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -3.3102761708199977,
+        5.769437634106725,
+        70
+      ],
+      "localScale": [
+        0.10551099262739483,
+        0.10551099262739483,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 357.10216644220054,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.03791801297547002,
+        0.03791801297547002
+      ],
+      "showcaseWidthWorld": 0.03791801297547002,
+      "showcaseHeightWorld": 0.03791801297547002,
+      "showcaseRectPixelsTopLeft": [
+        207.07648226922674,
+        381.160335940554,
+        3.7918012975470017,
+        3.7918012975470017
+      ]
+    },
+    {
+      "id": "far_dot_16",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        1.1432669632136823,
+        5.317906733136624,
+        70
+      ],
+      "localScale": [
+        0.13667147134479724,
+        0.13667147134479724,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 115.35437590442598,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04911631001453651,
+        0.04965018294947712
+      ],
+      "showcaseWidthWorld": 0.04911631001453651,
+      "showcaseHeightWorld": 0.04965018294947712,
+      "showcaseRectPixelsTopLeft": [
+        651.8708808206414,
+        425.72681753886377,
+        4.91163100145365,
+        4.965018294947712
+      ]
+    },
+    {
+      "id": "far_dot_17",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -6.898528604954481,
+        -9.615926839504391,
+        70
+      ],
+      "localScale": [
+        0.09831050835646592,
+        0.09831050835646592,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 162.92579124681652,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.03571436436387238,
+        0.03533033894060494
+      ],
+      "showcaseWidthWorld": 0.03571436436387238,
+      "showcaseHeightWorld": 0.03533033894060494,
+      "showcaseRectPixelsTopLeft": [
+        -151.63857871364178,
+        1919.826167003409,
+        3.571436436387238,
+        3.5330338940604937
+      ]
+    },
+    {
+      "id": "far_dot_18",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -6.493616900593042,
+        0.43079463941976426,
+        70
+      ],
+      "localScale": [
+        0.13346729956175152,
+        0.13346729956175152,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 113.00505115650594,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.047964810780004453,
+        0.047964810780004453
+      ],
+      "showcaseWidthWorld": 0.047964810780004453,
+      "showcaseHeightWorld": 0.047964810780004453,
+      "showcaseRectPixelsTopLeft": [
+        -111.75993059830444,
+        914.5222955190234,
+        4.796481078000445,
+        4.796481078000445
+      ]
+    },
+    {
+      "id": "far_dot_19",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -0.08956986889243126,
+        7.420512328203768,
+        70
+      ],
+      "localScale": [
+        0.17225778115423102,
+        0.17225778115423102,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 326.9071676116437,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06190514010230177,
+        0.06257802205993548
+      ],
+      "showcaseWidthWorld": 0.06190514010230177,
+      "showcaseHeightWorld": 0.06257802205993548,
+      "showcaseRectPixelsTopLeft": [
+        527.9477561056418,
+        214.81986607662645,
+        6.190514010230177,
+        6.257802205993548
+      ]
+    },
+    {
+      "id": "far_dot_20",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        0.7261296562850476,
+        -0.5787189063616097,
+        70
+      ],
+      "localScale": [
+        0.1348532718807072,
+        0.1348532718807072,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 15.482217287644744,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.048989665175413165,
+        0.04846289458212915
+      ],
+      "showcaseWidthWorld": 0.048989665175413165,
+      "showcaseHeightWorld": 0.04846289458212915,
+      "showcaseRectPixelsTopLeft": [
+        610.1634823697341,
+        1015.4487459070546,
+        4.898966517541316,
+        4.846289458212915
+      ]
+    },
+    {
+      "id": "far_dot_21",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -6.291392516344786,
+        11.287409159447998,
+        70
+      ],
+      "localScale": [
+        0.216886246957277,
+        0.216886246957277,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 127.75059546343982,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.07794349500027142,
+        0.07794349500027142
+      ],
+      "showcaseWidthWorld": 0.07794349500027142,
+      "showcaseHeightWorld": 0.07794349500027142,
+      "showcaseRectPixelsTopLeft": [
+        -93.03642638449219,
+        -172.6380906948134,
+        7.794349500027142,
+        7.794349500027142
+      ]
+    },
+    {
+      "id": "far_dot_22",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -4.604069904237986,
+        10.858457129728048,
+        70
+      ],
+      "localScale": [
+        0.19665958530024477,
+        0.19665958530024477,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 97.3898324277252,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.07067453846727546,
+        0.07144273997235455
+      ],
+      "showcaseWidthWorld": 0.07067453846727546,
+      "showcaseHeightWorld": 0.07144273997235455,
+      "showcaseRectPixelsTopLeft": [
+        76.05928265283768,
+        -129.41784997142258,
+        7.067453846727546,
+        7.144273997235455
+      ]
+    },
+    {
+      "id": "far_dot_23",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        3.032249180227518,
+        -0.5796536126174032,
+        70
+      ],
+      "localScale": [
+        0.16659476627003064,
+        0.16659476627003064,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 287.6979723852128,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.06052075493403457,
+        0.05986999412829226
+      ],
+      "showcaseWidthWorld": 0.06052075493403457,
+      "showcaseHeightWorld": 0.05986999412829226,
+      "showcaseRectPixelsTopLeft": [
+        840.1988802760501,
+        1014.9718615553257,
+        6.052075493403457,
+        5.986999412829226
+      ]
+    },
+    {
+      "id": "far_dot_24",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        3.6987586610019205,
+        -4.5276731324382125,
+        70
+      ],
+      "localScale": [
+        0.17819019167046798,
+        0.17819019167046798,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 105.65851486288011,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.06403710013157443,
+        0.06403710013157443
+      ],
+      "showcaseWidthWorld": 0.06403710013157443,
+      "showcaseHeightWorld": 0.06403710013157443,
+      "showcaseRectPixelsTopLeft": [
+        906.6740110936133,
+        1409.5654582372426,
+        6.403710013157443,
+        6.403710013157443
+      ]
+    },
+    {
+      "id": "far_dot_25",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -0.6225357703864575,
+        -1.6564457939006387,
+        70
+      ],
+      "localScale": [
+        0.13277158850117732,
+        0.13277158850117732,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 205.73191861622036,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.047714789617610595,
+        0.04823342863519332
+      ],
+      "showcaseWidthWorld": 0.047714789617610595,
+      "showcaseHeightWorld": 0.04823342863519332,
+      "showcaseRectPixelsTopLeft": [
+        475.3606834804737,
+        1123.2329079583042,
+        4.771478961761059,
+        4.823342863519333
+      ]
+    },
+    {
+      "id": "far_dot_26",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        5.872765376418829,
+        -0.29697373704984786,
+        70
+      ],
+      "localScale": [
+        0.14256448498019925,
+        0.14256448498019925,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 13.998668035492301,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.051791004309213004,
+        0.051234111789759104
+      ],
+      "showcaseWidthWorld": 0.051791004309213004,
+      "showcaseHeightWorld": 0.051234111789759104,
+      "showcaseRectPixelsTopLeft": [
+        1124.6869874264223,
+        987.1356681154969,
+        5.1791004309213005,
+        5.1234111789759105
+      ]
+    },
+    {
+      "id": "far_dot_27",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.5158499218523502,
+        -8.693370979372412,
+        70
+      ],
+      "localScale": [
+        0.1486938630907159,
+        0.1486938630907159,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 253.27890205197036,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.053436857048226025,
+        0.053436857048226025
+      ],
+      "showcaseWidthWorld": 0.053436857048226025,
+      "showcaseHeightWorld": 0.053436857048226025,
+      "showcaseRectPixelsTopLeft": [
+        688.9131493328237,
+        1826.6652550848298,
+        5.343685704822603,
+        5.343685704822603
+      ]
+    },
+    {
+      "id": "far_dot_28",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        6.776901047676802,
+        2.82504185764119,
+        70
+      ],
+      "localScale": [
+        0.1101193548503675,
+        0.1101193548503675,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 79.85360554419458,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.03957414314935082,
+        0.04000429687923507
+      ],
+      "showcaseWidthWorld": 0.03957414314935082,
+      "showcaseHeightWorld": 0.04000429687923507,
+      "showcaseRectPixelsTopLeft": [
+        1215.7113976102128,
+        675.4955993919193,
+        3.9574143149350824,
+        4.000429687923507
+      ]
+    },
+    {
+      "id": "far_dot_29",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        4.310116828233004,
+        -7.303747803065926,
+        70
+      ],
+      "localScale": [
+        0.13207854890204093,
+        0.13207854890204093,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 132.41236324422061,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.047981660343319556,
+        0.04746572851167096
+      ],
+      "showcaseWidthWorld": 0.047981660343319556,
+      "showcaseHeightWorld": 0.04746572851167096,
+      "showcaseRectPixelsTopLeft": [
+        968.6125998061344,
+        1688.001493881009,
+        4.798166034331955,
+        4.746572851167096
+      ]
+    },
+    {
+      "id": "far_dot_30",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        2.9565422616899015,
+        2.0464295293204486,
+        70
+      ],
+      "localScale": [
+        0.10589877103504382,
+        0.10589877103504382,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 203.85267614386976,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.03805737084071887,
+        0.03805737084071887
+      ],
+      "showcaseWidthWorld": 0.03805737084071887,
+      "showcaseHeightWorld": 0.03805737084071887,
+      "showcaseRectPixelsTopLeft": [
+        833.7513576269541,
+        753.4541785259191,
+        3.805737084071887,
+        3.805737084071887
+      ]
+    },
+    {
+      "id": "far_dot_31",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        5.629713801294566,
+        -4.377091188076884,
+        70
+      ],
+      "localScale": [
+        0.13675897886878566,
+        0.13675897886878566,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 136.55584040097892,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.049147758030969844,
+        0.04968197279217604
+      ],
+      "showcaseWidthWorld": 0.049147758030969844,
+      "showcaseHeightWorld": 0.04968197279217604,
+      "showcaseRectPixelsTopLeft": [
+        1100.5139922279081,
+        1395.2250201680795,
+        4.914775803096984,
+        4.968197279217604
+      ]
+    },
+    {
+      "id": "far_dot_32",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        4.6091163866221905,
+        -6.416966758389026,
+        70
+      ],
+      "localScale": [
+        0.14830301804976032,
+        0.14830301804976032,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 31.76438874565065,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.05387570577588949,
+        0.053296397111632615
+      ],
+      "showcaseWidthWorld": 0.05387570577588949,
+      "showcaseHeightWorld": 0.053296397111632615,
+      "showcaseRectPixelsTopLeft": [
+        998.2178533734245,
+        1599.0318559833208,
+        5.387570577588948,
+        5.329639711163262
+      ]
+    },
+    {
+      "id": "far_dot_33",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.7664529748260975,
+        -2.1173935965634882,
+        70
+      ],
+      "localScale": [
+        0.09460340311652736,
+        0.09460340311652736,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 273.6860943865031,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.03399809799500202,
+        0.03399809799500202
+      ],
+      "showcaseWidthWorld": 0.03399809799500202,
+      "showcaseHeightWorld": 0.03399809799500202,
+      "showcaseRectPixelsTopLeft": [
+        714.9453925828597,
+        1170.0394547565988,
+        3.3998097995002023,
+        3.3998097995002023
+      ]
+    },
+    {
+      "id": "far_dot_34",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -2.7502734281122683,
+        9.307703794073314,
+        70
+      ],
+      "localScale": [
+        0.12867675655766536,
+        0.12867675655766536,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 158.94953741692007,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04624320938791099,
+        0.04674585296821437
+      ],
+      "showcaseWidthWorld": 0.04624320938791099,
+      "showcaseHeightWorld": 0.04674585296821437,
+      "showcaseRectPixelsTopLeft": [
+        262.66049671937765,
+        26.892327944257886,
+        4.624320938791099,
+        4.674585296821436
+      ]
+    },
+    {
+      "id": "far_dot_35",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -5.449865236133337,
+        -7.706406279746443,
+        70
+      ],
+      "localScale": [
+        0.16883019026223717,
+        0.16883019026223717,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 132.03623372130096,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.061332842556203346,
+        0.06067334962549148
+      ],
+      "showcaseWidthWorld": 0.061332842556203346,
+      "showcaseHeightWorld": 0.06067334962549148,
+      "showcaseRectPixelsTopLeft": [
+        -8.053165741143857,
+        1727.6069604933698,
+        6.133284255620334,
+        6.067334962549148
+      ]
+    },
+    {
+      "id": "far_dot_36",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.4767767481505871,
+        3.7745175722055135,
+        70
+      ],
+      "localScale": [
+        0.11919763263903164,
+        0.11919763263903164,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 117.31432638131082,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.042836649229651996,
+        0.042836649229651996
+      ],
+      "showcaseWidthWorld": 0.042836649229651996,
+      "showcaseHeightWorld": 0.042836649229651996,
+      "showcaseRectPixelsTopLeft": [
+        685.5358423535761,
+        580.406410317966,
+        4.283664922965199,
+        4.283664922965199
+      ]
+    },
+    {
+      "id": "far_dot_37",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -4.2358271352946755,
+        -10.191920527908952,
+        70
+      ],
+      "localScale": [
+        0.19353096171429285,
+        0.19353096171429285,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 208.2988395821303,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06955018936607399,
+        0.07030616968527045
+      ],
+      "showcaseWidthWorld": 0.06955018936607399,
+      "showcaseHeightWorld": 0.07030616968527045,
+      "showcaseRectPixelsTopLeft": [
+        112.93977700222871,
+        1975.6767443066317,
+        6.955018936607399,
+        7.030616968527045
+      ]
+    },
+    {
+      "id": "far_dot_38",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        0.4375966273248196,
+        2.0179952974431217,
+        70
+      ],
+      "localScale": [
+        0.08521593886536438,
+        0.08521593886536438,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 344.7634950187057,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.030957352790933153,
+        0.030624478029740325
+      ],
+      "showcaseWidthWorld": 0.030957352790933153,
+      "showcaseHeightWorld": 0.030624478029740325,
+      "showcaseRectPixelsTopLeft": [
+        582.2117950929353,
+        756.6692463542008,
+        3.0957352790933155,
+        3.0624478029740323
+      ]
+    },
+    {
+      "id": "far_dot_39",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        0.06121925488114357,
+        6.998951079603285,
+        70
+      ],
+      "localScale": [
+        0.21029923175510606,
+        0.21029923175510606,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 18.329090801998973,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.07557628641199124,
+        0.07557628641199124
+      ],
+      "showcaseWidthWorld": 0.07557628641199124,
+      "showcaseHeightWorld": 0.07557628641199124,
+      "showcaseRectPixelsTopLeft": [
+        542.3431111675148,
+        256.32607771907203,
+        7.557628641199124,
+        7.557628641199124
+      ]
+    },
+    {
+      "id": "far_dot_40",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -5.805933297425509,
+        6.527320777159185,
+        70
+      ],
+      "localScale": [
+        0.1561041485635858,
+        0.1561041485635858,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 217.1534428652376,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.05609992839003864,
+        0.056709710220365146
+      ],
+      "showcaseWidthWorld": 0.05609992839003864,
+      "showcaseHeightWorld": 0.056709710220365146,
+      "showcaseRectPixelsTopLeft": [
+        -43.39832616205274,
+        304.4324367730633,
+        5.609992839003864,
+        5.670971022036515
+      ]
+    },
+    {
+      "id": "far_dot_41",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -1.6212108068168163,
+        -4.878506575617939,
+        70
+      ],
+      "localScale": [
+        0.14459497241230754,
+        0.14459497241230754,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 190.34788887016475,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.052528642321658596,
+        0.05196381821067302
+      ],
+      "showcaseWidthWorld": 0.052528642321658596,
+      "showcaseHeightWorld": 0.05196381821067302,
+      "showcaseRectPixelsTopLeft": [
+        375.25248720223544,
+        1445.2524666512602,
+        5.25286423216586,
+        5.196381821067302
+      ]
+    },
+    {
+      "id": "far_dot_42",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -6.211756751686335,
+        5.395559654664249,
+        70
+      ],
+      "localScale": [
+        0.1246798583080894,
+        0.1246798583080894,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 62.74535461328924,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.04480682407946963,
+        0.04480682407946963
+      ],
+      "showcaseWidthWorld": 0.04480682407946963,
+      "showcaseHeightWorld": 0.04480682407946963,
+      "showcaseRectPixelsTopLeft": [
+        -83.41601637260692,
+        418.2036933296017,
+        4.480682407946963,
+        4.480682407946963
+      ]
+    },
+    {
+      "id": "far_dot_43",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        3.054886219650507,
+        7.150107598956675,
+        70
+      ],
+      "localScale": [
+        0.1759922964949357,
+        0.1759922964949357,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 260.64498293213546,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06324723155286752,
+        0.06393470146105086
+      ],
+      "showcaseWidthWorld": 0.06324723155286752,
+      "showcaseHeightWorld": 0.06393470146105086,
+      "showcaseRectPixelsTopLeft": [
+        842.3262603874073,
+        241.79250503128003,
+        6.324723155286752,
+        6.393470146105086
+      ]
+    },
+    {
+      "id": "far_dot_44",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -1.7920166797935964,
+        -9.55612184079364,
+        70
+      ],
+      "localScale": [
+        0.08597141909908938,
+        0.08597141909908938,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 319.15832511149347,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.031231804594591066,
+        0.030895978738735248
+      ],
+      "showcaseWidthWorld": 0.031231804594591066,
+      "showcaseHeightWorld": 0.030895978738735248,
+      "showcaseRectPixelsTopLeft": [
+        359.23674179091086,
+        1914.0673851424274,
+        3.1231804594591064,
+        3.0895978738735246
+      ]
+    },
+    {
+      "id": "far_dot_45",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -1.756372844427824,
+        9.990029656793922,
+        70
+      ],
+      "localScale": [
+        0.1921647268847415,
+        0.1921647268847415,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 91.78209478966892,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.06905919872420398,
+        0.06905919872420398
+      ],
+      "showcaseWidthWorld": 0.06905919872420398,
+      "showcaseHeightWorld": 0.06905919872420398,
+      "showcaseRectPixelsTopLeft": [
+        360.90975562100743,
+        -42.45592561560238,
+        6.905919872420398,
+        6.905919872420398
+      ]
+    },
+    {
+      "id": "far_dot_46",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -2.547430244833231,
+        8.120761855971068,
+        70
+      ],
+      "localScale": [
+        0.1648992179569445,
+        0.1648992179569445,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 352.8224843647331,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.05926065645327693,
+        0.05990479402342125
+      ],
+      "showcaseWidthWorld": 0.05926065645327693,
+      "showcaseHeightWorld": 0.05990479402342125,
+      "showcaseRectPixelsTopLeft": [
+        282.2939426940131,
+        144.92857470172214,
+        5.926065645327693,
+        5.990479402342125
+      ]
+    },
+    {
+      "id": "far_dot_47",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        2.830867103487253,
+        3.064049362298101,
+        70
+      ],
+      "localScale": [
+        0.12754837221913523,
+        0.12754837221913523,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 233.29604390077293,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.04633593209523272,
+        0.045837696266251726
+      ],
+      "showcaseWidthWorld": 0.04633593209523272,
+      "showcaseHeightWorld": 0.045837696266251726,
+      "showcaseRectPixelsTopLeft": [
+        820.7699137439636,
+        651.3031789568773,
+        4.633593209523272,
+        4.583769626625172
+      ]
+    },
+    {
+      "id": "far_dot_48",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.6983361713588239,
+        -7.623765603918582,
+        70
+      ],
+      "localScale": [
+        0.1410849114468223,
+        0.1410849114468223,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 180.93212253414094,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.050702390051201765,
+        0.050702390051201765
+      ],
+      "showcaseWidthWorld": 0.050702390051201765,
+      "showcaseHeightWorld": 0.050702390051201765,
+      "showcaseRectPixelsTopLeft": [
+        707.2984976333223,
+        1719.8414408892982,
+        5.070239005120176,
+        5.070239005120176
+      ]
+    },
+    {
+      "id": "far_dot_49",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        1.049824447184801,
+        10.074228940811008,
+        70
+      ],
+      "localScale": [
+        0.19090465056268793,
+        0.19090465056268793,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 144.9018723797053,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06860635879596598,
+        0.06935208008722647
+      ],
+      "showcaseWidthWorld": 0.06860635879596598,
+      "showcaseHeightWorld": 0.06935208008722647,
+      "showcaseRectPixelsTopLeft": [
+        641.5521267786818,
+        -50.89049808546213,
+        6.860635879596598,
+        6.935208008722647
+      ]
+    },
+    {
+      "id": "far_dot_50",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -4.2357080318033695,
+        -4.888923733402043,
+        70
+      ],
+      "localScale": [
+        0.21236912392950677,
+        0.21236912392950677,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 55.898814937099814,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.07714972080251613,
+        0.0763201539121665
+      ],
+      "showcaseWidthWorld": 0.07714972080251613,
+      "showcaseHeightWorld": 0.0763201539121665,
+      "showcaseRectPixelsTopLeft": [
+        112.57171077953723,
+        1445.076365644596,
+        7.714972080251613,
+        7.632015391216649
+      ]
+    },
+    {
+      "id": "far_dot_51",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -0.0032941482961177824,
+        -10.46137817138806,
+        70
+      ],
+      "localScale": [
+        0.17807175322582847,
+        0.17807175322582847,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 42.19596999697387,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.0639945363155321,
+        0.0639945363155321
+      ],
+      "showcaseWidthWorld": 0.0639945363155321,
+      "showcaseHeightWorld": 0.0639945363155321,
+      "showcaseRectPixelsTopLeft": [
+        536.4708583546117,
+        2002.9380903230292,
+        6.399453631553211,
+        6.399453631553211
+      ]
+    },
+    {
+      "id": "far_dot_52",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        6.077747326344252,
+        -6.598956459481269,
+        70
+      ],
+      "localScale": [
+        0.18339024393182052,
+        0.18339024393182052,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 72.30454704724252,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.065905868912998,
+        0.06662223705335667
+      ],
+      "showcaseWidthWorld": 0.065905868912998,
+      "showcaseHeightWorld": 0.06662223705335667,
+      "showcaseRectPixelsTopLeft": [
+        1144.4794391887754,
+        1616.564534095459,
+        6.5905868912998,
+        6.662223705335666
+      ]
+    },
+    {
+      "id": "far_dot_53",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -1.953668736666441,
+        6.102991422917694,
+        70
+      ],
+      "localScale": [
+        0.20317917823791504,
+        0.20317917823791504,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 244.85919917933643,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.07381118584424257,
+        0.07301751717925072
+      ],
+      "showcaseWidthWorld": 0.07381118584424257,
+      "showcaseHeightWorld": 0.07301751717925072,
+      "showcaseRectPixelsTopLeft": [
+        340.9425670411438,
+        346.0499818492681,
+        7.381118584424256,
+        7.301751717925072
+      ]
+    },
+    {
+      "id": "far_dot_54",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        6.53993820771575,
+        3.096086626779288,
+        70
+      ],
+      "localScale": [
+        0.14324600545983565,
+        0.14324600545983565,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 156.35483949445188,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.05147903321212844,
+        0.05147903321212844
+      ],
+      "showcaseWidthWorld": 0.05147903321212844,
+      "showcaseHeightWorld": 0.05147903321212844,
+      "showcaseRectPixelsTopLeft": [
+        1191.4198691109686,
+        647.8173856614648,
+        5.147903321212844,
+        5.147903321212844
+      ]
+    },
+    {
+      "id": "far_dot_55",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -6.232241090387106,
+        1.4275298318825662,
+        70
+      ],
+      "localScale": [
+        0.11546554653268112,
+        0.11546554653268112,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 187.3600200098008,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04149543078518228,
+        0.041946468076325565
+      ],
+      "showcaseWidthWorld": 0.04149543078518228,
+      "showcaseHeightWorld": 0.041946468076325565,
+      "showcaseRectPixelsTopLeft": [
+        -85.29888057796973,
+        815.1496934079271,
+        4.149543078518228,
+        4.194646807632556
+      ]
+    },
+    {
+      "id": "far_dot_56",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -5.508348644524813,
+        -2.8054309797473254,
+        70
+      ],
+      "localScale": [
+        0.16001553671700613,
+        0.16001553671700613,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 77.8318730648607,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.05813064419797488,
+        0.05750558350767408
+      ],
+      "showcaseWidthWorld": 0.05813064419797488,
+      "showcaseHeightWorld": 0.05750558350767408,
+      "showcaseRectPixelsTopLeft": [
+        -13.741396662379998,
+        1237.6678187993489,
+        5.813064419797488,
+        5.750558350767408
+      ]
+    },
+    {
+      "id": "far_dot_57",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        6.53991029933095,
+        8.248576624598353,
+        70
+      ],
+      "localScale": [
+        0.14080171497244584,
+        0.14080171497244584,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 332.1576152276248,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.05060061631822273,
+        0.05060061631822273
+      ],
+      "showcaseWidthWorld": 0.05060061631822273,
+      "showcaseHeightWorld": 0.05060061631822273,
+      "showcaseRectPixelsTopLeft": [
+        1191.4609991171837,
+        132.61230672425347,
+        5.060061631822273,
+        5.060061631822273
+      ]
+    },
+    {
+      "id": "far_dot_58",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        6.378849294036627,
+        -6.207513948250562,
+        70
+      ],
+      "localScale": [
+        0.12284136094545064,
+        0.12284136094545064,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 204.5476137008518,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04414611408977132,
+        0.04462596315596449
+      ],
+      "showcaseWidthWorld": 0.04414611408977132,
+      "showcaseHeightWorld": 0.04462596315596449,
+      "showcaseRectPixelsTopLeft": [
+        1175.677623699174,
+        1578.520096667258,
+        4.414611408977132,
+        4.462596315596449
+      ]
+    },
+    {
+      "id": "far_dot_59",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -6.3328047774732115,
+        9.615337581094355,
+        70
+      ],
+      "localScale": [
+        0.1332505296731924,
+        0.1332505296731924,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 145.4050152283162,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.04840741898283943,
+        0.04788690910130352
+      ],
+      "showcaseWidthWorld": 0.04840741898283943,
+      "showcaseHeightWorld": 0.04788690910130352,
+      "showcaseRectPixelsTopLeft": [
+        -95.70084869646303,
+        -3.9281035645007023,
+        4.840741898283943,
+        4.788690910130352
+      ]
+    },
+    {
+      "id": "far_dot_60",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.1182953290641309,
+        -5.592316361982375,
+        70
+      ],
+      "localScale": [
+        0.15024799848857678,
+        0.15024799848857678,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 119.29693750105798,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.05399537445683228,
+        0.05399537445683228
+      ],
+      "showcaseWidthWorld": 0.05399537445683228,
+      "showcaseHeightWorld": 0.05399537445683228,
+      "showcaseRectPixelsTopLeft": [
+        649.1297641835715,
+        1516.5318674753958,
+        5.399537445683228,
+        5.399537445683228
+      ]
+    },
+    {
+      "id": "far_dot_61",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -4.804863249510527,
+        -9.498396557662636,
+        70
+      ],
+      "localScale": [
+        0.1865188885989942,
+        0.1865188885989942,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 55.152223063632846,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.06703022559026355,
+        0.06775881499885336
+      ],
+      "showcaseWidthWorld": 0.06703022559026355,
+      "showcaseHeightWorld": 0.06775881499885336,
+      "showcaseRectPixelsTopLeft": [
+        56.16216376943413,
+        1906.451715016321,
+        6.703022559026355,
+        6.775881499885336
+      ]
+    },
+    {
+      "id": "far_dot_62",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -0.0368214525282383,
+        0.6790770317427814,
+        70
+      ],
+      "localScale": [
+        0.1349473356271719,
+        0.1349473356271719,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 139.31075572036207,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.04902383677080854,
+        0.0484966987410149
+      ],
+      "showcaseWidthWorld": 0.04902383677080854,
+      "showcaseHeightWorld": 0.0484966987410149,
+      "showcaseRectPixelsTopLeft": [
+        533.8666629086357,
+        889.6674618886711,
+        4.902383677080854,
+        4.84966987410149
+      ]
+    },
+    {
+      "id": "far_dot_63",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        2.425996235758066,
+        -0.6075313397683203,
+        70
+      ],
+      "localScale": [
+        0.199361345266041,
+        0.199361345266041,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 192.04933944158256,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.07164548345498348,
+        0.07164548345498348
+      ],
+      "showcaseWidthWorld": 0.07164548345498348,
+      "showcaseHeightWorld": 0.07164548345498348,
+      "showcaseRectPixelsTopLeft": [
+        779.0173494030574,
+        1017.1708598040829,
+        7.164548345498348,
+        7.164548345498348
+      ]
+    },
+    {
+      "id": "far_dot_64",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -6.731261182576418,
+        -4.559130428452045,
+        70
+      ],
+      "localScale": [
+        0.11824203240244013,
+        0.11824203240244013,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 338.20913976989686,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04249323039462692,
+        0.042955113333698954
+      ],
+      "showcaseWidthWorld": 0.04249323039462692,
+      "showcaseHeightWorld": 0.042955113333698954,
+      "showcaseRectPixelsTopLeft": [
+        -135.25077977737305,
+        1413.7652871785194,
+        4.249323039462692,
+        4.2955113333698955
+      ]
+    },
+    {
+      "id": "far_dot_65",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -3.46560168787837,
+        -8.1539498523809,
+        70
+      ],
+      "localScale": [
+        0.18670900728795436,
+        0.18670900728795436,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 232.54968772642314,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.06782788155382717,
+        0.0670985494941086
+      ],
+      "showcaseWidthWorld": 0.06782788155382717,
+      "showcaseHeightWorld": 0.0670985494941086,
+      "showcaseRectPixelsTopLeft": [
+        190.0484371344716,
+        1772.0400577633845,
+        6.782788155382717,
+        6.709854949410859
+      ]
+    },
+    {
+      "id": "far_dot_66",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        2.9578917883336544,
+        2.171771431993693,
+        70
+      ],
+      "localScale": [
+        0.15358528814817732,
+        0.15358528814817732,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 310.4544462170452,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.055194712928251226,
+        0.055194712928251226
+      ],
+      "showcaseWidthWorld": 0.055194712928251226,
+      "showcaseHeightWorld": 0.055194712928251226,
+      "showcaseRectPixelsTopLeft": [
+        833.0294431869529,
+        740.0631211542182,
+        5.519471292825123,
+        5.519471292825123
+      ]
+    },
+    {
+      "id": "far_dot_67",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -1.1170441053807736,
+        3.230206028278917,
+        70
+      ],
+      "localScale": [
+        0.21713390990307457,
+        0.21713390990307457,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 344.6129389386624,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.07803249887141743,
+        0.0788806782069763
+      ],
+      "showcaseWidthWorld": 0.07803249887141743,
+      "showcaseHeightWorld": 0.0788806782069763,
+      "showcaseRectPixelsTopLeft": [
+        424.39396451835177,
+        633.0353632617595,
+        7.803249887141743,
+        7.88806782069763
+      ]
+    },
+    {
+      "id": "far_dot_68",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -1.7131461091339588,
+        -5.180781626421958,
+        70
+      ],
+      "localScale": [
+        0.10947554947493912,
+        0.10947554947493912,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 38.30444178543985,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.03977041445769273,
+        0.039342775592556244
+      ],
+      "showcaseWidthWorld": 0.03977041445769273,
+      "showcaseHeightWorld": 0.039342775592556244,
+      "showcaseRectPixelsTopLeft": [
+        366.69686836371943,
+        1476.111023862568,
+        3.977041445769273,
+        3.9342775592556243
+      ]
+    },
+    {
+      "id": "far_dot_69",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        3.437895179539919,
+        -10.565745613072067,
+        70
+      ],
+      "localScale": [
+        0.09661428514279817,
+        0.09661428514279817,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 355.90823675505817,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.03472075872319309,
+        0.03472075872319309
+      ],
+      "showcaseWidthWorld": 0.03472075872319309,
+      "showcaseHeightWorld": 0.03472075872319309,
+      "showcaseRectPixelsTopLeft": [
+        882.0534800178323,
+        2014.8385233710471,
+        3.4720758723193095,
+        3.4720758723193095
+      ]
+    },
+    {
+      "id": "far_dot_70",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -3.889232663065195,
+        -0.0014095072634518146,
+        70
+      ],
+      "localScale": [
+        0.17014915591792057,
+        0.17014915591792057,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 61.26542835496366,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.0611473529080027,
+        0.06181199804830708
+      ],
+      "showcaseWidthWorld": 0.0611473529080027,
+      "showcaseHeightWorld": 0.06181199804830708,
+      "showcaseRectPixelsTopLeft": [
+        148.01936604808037,
+        957.0503508239299,
+        6.114735290800271,
+        6.181199804830708
+      ]
+    },
+    {
+      "id": "far_dot_71",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -7.11531935557723,
+        -3.2443079807795585,
+        70
+      ],
+      "localScale": [
+        0.0838404775594736,
+        0.0838404775594736,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 24.517322508618236,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.03045767348840252,
+        0.030130171622935825
+      ],
+      "showcaseWidthWorld": 0.03045767348840252,
+      "showcaseHeightWorld": 0.030130171622935825,
+      "showcaseRectPixelsTopLeft": [
+        -173.05481923214313,
+        1282.924289496809,
+        3.045767348840252,
+        3.0130171622935826
+      ]
+    },
+    {
+      "id": "far_dot_72",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        0.0493251197040081,
+        3.9674309718422593,
+        70
+      ],
+      "localScale": [
+        0.15479339047482138,
+        0.15479339047482138,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 228.04536796174943,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.05562887470188893,
+        0.05562887470188893
+      ],
+      "showcaseWidthWorld": 0.05562887470188893,
+      "showcaseHeightWorld": 0.05562887470188893,
+      "showcaseRectPixelsTopLeft": [
+        542.1510682353064,
+        560.4754590806797,
+        5.562887470188893,
+        5.562887470188893
+      ]
+    },
+    {
+      "id": "far_dot_73",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -4.756359951943159,
+        -0.2380868182517588,
+        70
+      ],
+      "localScale": [
+        0.13528938306005378,
+        0.13528938306005378,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 52.13766018860042,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.04861962203720683,
+        0.04914809618978516
+      ],
+      "showcaseWidthWorld": 0.04861962203720683,
+      "showcaseHeightWorld": 0.04914809618978516,
+      "showcaseRectPixelsTopLeft": [
+        61.933023703823835,
+        981.3512770156866,
+        4.861962203720683,
+        4.914809618978516
+      ]
+    },
+    {
+      "id": "far_dot_74",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        -5.447603986412287,
+        6.374664829205722,
+        70
+      ],
+      "localScale": [
+        0.11699075252978831,
+        0.11699075252978831,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 271.00700779818,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.04250054681746216,
+        0.04204355169039267
+      ],
+      "showcaseWidthWorld": 0.04250054681746216,
+      "showcaseHeightWorld": 0.04204355169039267,
+      "showcaseRectPixelsTopLeft": [
+        -6.885425982101879,
+        320.43133949490823,
+        4.250054681746216,
+        4.2043551690392675
+      ]
+    },
+    {
+      "id": "far_dot_75",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        -6.2144105695188046,
+        -0.0730716579593718,
+        70
+      ],
+      "localScale": [
+        0.13375476774416473,
+        0.13375476774416473,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 239.78556144051254,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.0480681196580592,
+        0.0480681196580592
+      ],
+      "showcaseWidthWorld": 0.0480681196580592,
+      "showcaseHeightWorld": 0.0480681196580592,
+      "showcaseRectPixelsTopLeft": [
+        -83.84446293478334,
+        964.9037598130342,
+        4.806811965805919,
+        4.806811965805919
+      ]
+    },
+    {
+      "id": "far_dot_76",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -6.134350425750017,
+        -7.215182330925018,
+        70
+      ],
+      "localScale": [
+        0.16547653700176038,
+        0.16547653700176038,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 43.12100521288812,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.05946813048500763,
+        0.06011452320767076
+      ],
+      "showcaseWidthWorld": 0.05946813048500763,
+      "showcaseHeightWorld": 0.06011452320767076,
+      "showcaseRectPixelsTopLeft": [
+        -76.40844909925215,
+        1678.5125069321182,
+        5.946813048500763,
+        6.011452320767076
+      ]
+    },
+    {
+      "id": "far_dot_77",
+      "file": "backgrounds/stars/dot_indigo.png",
+      "positionWorld": [
+        7.047458112984896,
+        -2.5569170714356004,
+        70
+      ],
+      "localScale": [
+        0.1762700926793086,
+        0.1762700926793086,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 185.9993105661124,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        93,
+        92
+      ],
+      "sizeWorld": [
+        0.06403561960615507,
+        0.06334706455662653
+      ],
+      "showcaseWidthWorld": 0.06403561960615507,
+      "showcaseHeightWorld": 0.06334706455662653,
+      "showcaseRectPixelsTopLeft": [
+        1241.5440303181817,
+        1212.5243539157286,
+        6.403561960615507,
+        6.334706455662653
+      ]
+    },
+    {
+      "id": "far_dot_78",
+      "file": "backgrounds/stars/dot_cream.png",
+      "positionWorld": [
+        1.8961811386048795,
+        8.37723443163559,
+        70
+      ],
+      "localScale": [
+        0.1778173609783775,
+        0.1778173609783775,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 137.41905271075666,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        92
+      ],
+      "sizeWorld": [
+        0.06390311410160442,
+        0.06390311410160442
+      ],
+      "showcaseWidthWorld": 0.06390311410160442,
+      "showcaseHeightWorld": 0.06390311410160442,
+      "showcaseRectPixelsTopLeft": [
+        726.4229581554077,
+        119.08140113136096,
+        6.390311410160441,
+        6.390311410160441
+      ]
+    },
+    {
+      "id": "far_dot_79",
+      "file": "backgrounds/stars/dot_gray.png",
+      "positionWorld": [
+        -6.652086301892996,
+        -4.192223919276148,
+        70
+      ],
+      "localScale": [
+        0.0930841464745371,
+        0.0930841464745371,
+        1
+      ],
+      "sortingOrder": -90,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 7.542289523407817,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        92,
+        93
+      ],
+      "sizeWorld": [
+        0.03345211513928677,
+        0.03381572508645293
+      ],
+      "showcaseWidthWorld": 0.03345211513928677,
+      "showcaseHeightWorld": 0.03381572508645293,
+      "showcaseRectPixelsTopLeft": [
+        -126.88123594626393,
+        1377.5316056732922,
+        3.345211513928677,
+        3.3815725086452932
+      ]
+    },
+    {
+      "id": "middle_star_00",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        -1.7712558647617698,
+        -9.0186544559896,
+        65
+      ],
+      "localScale": [
+        0.244806551552989,
+        0.244806551552989,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 115.07467674091458,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.074558357940987,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.17117333096869153,
+        0.23524379563295036
+      ],
+      "showcaseWidthWorld": 0.17117333096869153,
+      "showcaseHeightWorld": 0.23524379563295036,
+      "showcaseRectPixelsTopLeft": [
+        354.31574697538844,
+        1850.1032558173124,
+        17.117333096869153,
+        23.524379563295035
+      ]
+    },
+    {
+      "id": "middle_star_01",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        3.938924930524081,
+        -6.919891545176506,
+        65
+      ],
+      "localScale": [
+        0.1921887419238594,
+        0.1921887419238594,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 168.62133686430752,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.070487194228917,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.1328804973457934,
+        0.18393063191931858
+      ],
+      "showcaseWidthWorld": 0.1328804973457934,
+      "showcaseHeightWorld": 0.18393063191931858,
+      "showcaseRectPixelsTopLeft": [
+        927.2484681851184,
+        1642.7926229216846,
+        13.28804973457934,
+        18.39306319193186
+      ]
+    },
+    {
+      "id": "middle_star_02",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        -0.9438904337584972,
+        6.270880388468504,
+        65
+      ],
+      "localScale": [
+        0.3712226319015026,
+        0.3712226319015026,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 338.7690130993724,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.323295303387567,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.255215559432283,
+        0.35672174784285016
+      ],
+      "showcaseWidthWorld": 0.255215559432283,
+      "showcaseHeightWorld": 0.35672174784285016,
+      "showcaseRectPixelsTopLeft": [
+        432.8501786525361,
+        315.0758737610071,
+        25.521555943228304,
+        35.67217478428502
+      ]
+    },
+    {
+      "id": "middle_star_03",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        6.0866440073587,
+        8.925919423997403,
+        65
+      ],
+      "localScale": [
+        0.1399701928476566,
+        0.1399701928476566,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 263.1655730959028,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.827606365084648,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.15691970838780253,
+        0.17332246536213727
+      ],
+      "showcaseWidthWorld": 0.15691970838780253,
+      "showcaseHeightWorld": 0.17332246536213727,
+      "showcaseRectPixelsTopLeft": [
+        1140.8184153164798,
+        58.74193433215282,
+        15.691970838780254,
+        17.332246536213727
+      ]
+    },
+    {
+      "id": "middle_star_04",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        3.9099638601765037,
+        0.16110093668103218,
+        65
+      ],
+      "localScale": [
+        0.2755586490163043,
+        0.2755586490163043,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 138.94741287454963,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.249354290077463,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.192675774116869,
+        0.2647946392891049
+      ],
+      "showcaseWidthWorld": 0.192675774116869,
+      "showcaseHeightWorld": 0.2647946392891049,
+      "showcaseRectPixelsTopLeft": [
+        921.3625973118069,
+        930.6501743674415,
+        19.2675774116869,
+        26.47946392891049
+      ]
+    },
+    {
+      "id": "middle_star_05",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        2.6210908866487443,
+        2.21911900639534,
+        65
+      ],
+      "localScale": [
+        0.3596703663968151,
+        0.3596703663968151,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 158.95188921131194,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.530166033189744,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.24867833926654795,
+        0.34421578034070194
+      ],
+      "showcaseWidthWorld": 0.24867833926654795,
+      "showcaseHeightWorld": 0.34421578034070194,
+      "showcaseRectPixelsTopLeft": [
+        789.675171701547,
+        720.877310343431,
+        24.867833926654797,
+        34.421578034070194
+      ]
+    },
+    {
+      "id": "middle_star_06",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        6.9367639143019915,
+        -6.815048227459192,
+        65
+      ],
+      "localScale": [
+        0.22833200660347938,
+        0.22833200660347938,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 112.61317983269691,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.915886051720008,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.1569782545398921,
+        0.21941278759553096
+      ],
+      "showcaseWidthWorld": 0.1569782545398921,
+      "showcaseHeightWorld": 0.21941278759553096,
+      "showcaseRectPixelsTopLeft": [
+        1225.8274787032046,
+        1630.5341833661428,
+        15.697825453989209,
+        21.941278759553096
+      ]
+    },
+    {
+      "id": "middle_star_07",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        1.4834357243962586,
+        4.553436316549778,
+        65
+      ],
+      "localScale": [
+        0.19788609841652902,
+        0.19788609841652902,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 301.2645862530917,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.20517613273114,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.22184886814665558,
+        0.24503864530484257
+      ],
+      "showcaseWidthWorld": 0.22184886814665558,
+      "showcaseHeightWorld": 0.24503864530484257,
+      "showcaseRectPixelsTopLeft": [
+        677.2511290322931,
+        492.40443607978006,
+        22.184886814665557,
+        24.503864530484258
+      ]
+    },
+    {
+      "id": "middle_star_08",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        -0.7615456460043788,
+        10.338342110067606,
+        65
+      ],
+      "localScale": [
+        0.24557121663005807,
+        0.24557121663005807,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 146.07203358784318,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.531042495043948,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.1717079991280484,
+        0.23597859098044643
+      ],
+      "showcaseWidthWorld": 0.1717079991280484,
+      "showcaseHeightWorld": 0.23597859098044643,
+      "showcaseRectPixelsTopLeft": [
+        455.2600354431597,
+        -85.63314055578303,
+        17.170799912804842,
+        23.597859098044644
+      ]
+    },
+    {
+      "id": "middle_star_09",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        2.2046995791606605,
+        -4.595126429200173,
+        65
+      ],
+      "localScale": [
+        0.321199534413237,
+        0.321199534413237,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 124.04779535718262,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.834970532450825,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.22207936559040214,
+        0.30739799191891826
+      ],
+      "showcaseWidthWorld": 0.22207936559040214,
+      "showcaseHeightWorld": 0.30739799191891826,
+      "showcaseRectPixelsTopLeft": [
+        749.3659896365459,
+        1404.1427433240715,
+        22.207936559040213,
+        30.739799191891827
+      ]
+    },
+    {
+      "id": "middle_star_10",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        1.6158871799707413,
+        9.73889213129878,
+        65
+      ],
+      "localScale": [
+        0.36911204990744595,
+        0.36911204990744595,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 119.76342368870974,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.878081909148023,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.2537645343113691,
+        0.35469361045793635
+      ],
+      "showcaseWidthWorld": 0.2537645343113691,
+      "showcaseHeightWorld": 0.35469361045793635,
+      "showcaseRectPixelsTopLeft": [
+        688.9004912815057,
+        -31.62389365277477,
+        25.37645343113691,
+        35.46936104579363
+      ]
+    },
+    {
+      "id": "middle_star_11",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -6.30778089677915,
+        2.7076155111193656,
+        65
+      ],
+      "localScale": [
+        0.1274228021315543,
+        0.1274228021315543,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 291.2489378359169,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.774960255250335,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.1428529070771722,
+        0.15778526670196372
+      ],
+      "showcaseWidthWorld": 0.1428529070771722,
+      "showcaseHeightWorld": 0.15778526670196372,
+      "showcaseRectPixelsTopLeft": [
+        -97.92073503177357,
+        681.3491855529653,
+        14.285290707717218,
+        15.778526670196372
+      ]
+    },
+    {
+      "id": "middle_star_12",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        -2.9852744536474347,
+        -2.151990597695112,
+        65
+      ],
+      "localScale": [
+        0.2510433742897642,
+        0.2510433742897642,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 72.10856733843684,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.03751213871874,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.17553423436667107,
+        0.2412369924815703
+      ],
+      "showcaseWidthWorld": 0.17553423436667107,
+      "showcaseHeightWorld": 0.2412369924815703,
+      "showcaseRectPixelsTopLeft": [
+        232.69584291692297,
+        1163.1372101454326,
+        17.553423436667106,
+        24.12369924815703
+      ]
+    },
+    {
+      "id": "middle_star_13",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        -3.9653645963408053,
+        8.31963609457016,
+        65
+      ],
+      "localScale": [
+        0.31191573973768244,
+        0.31191573973768244,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 312.9674831125885,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.92466733744368,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.215660491928007,
+        0.2985131102958289
+      ],
+      "showcaseWidthWorld": 0.215660491928007,
+      "showcaseHeightWorld": 0.2985131102958289,
+      "showcaseRectPixelsTopLeft": [
+        132.6805157695191,
+        113.1107350281925,
+        21.566049192800698,
+        29.851311029582888
+      ]
+    },
+    {
+      "id": "middle_star_14",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        5.631595341488719,
+        5.534810992330312,
+        65
+      ],
+      "localScale": [
+        0.31217926266789436,
+        0.31217926266789436,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 161.50118730962276,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.383083244552836,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.21462324308417738,
+        0.29998476021992976
+      ],
+      "showcaseWidthWorld": 0.21462324308417738,
+      "showcaseHeightWorld": 0.29998476021992976,
+      "showcaseRectPixelsTopLeft": [
+        1092.428371994663,
+        391.51966275597226,
+        21.462324308417738,
+        29.998476021992975
+      ]
+    },
+    {
+      "id": "middle_star_15",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -5.102571442257613,
+        3.8799555733799935,
+        65
+      ],
+      "localScale": [
+        0.17326123651983114,
+        0.17326123651983114,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 125.12482482008636,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.710511007346213,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.19424208937965443,
+        0.21454614053432214
+      ],
+      "showcaseWidthWorld": 0.19424208937965443,
+      "showcaseHeightWorld": 0.21454614053432214,
+      "showcaseRectPixelsTopLeft": [
+        20.03075130525599,
+        561.2771356352846,
+        19.424208937965442,
+        21.454614053432213
+      ]
+    },
+    {
+      "id": "middle_star_16",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        -3.9,
+        -3.336468078941107,
+        65
+      ],
+      "localScale": [
+        0.3484692476424703,
+        0.3484692476424703,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 67.01223911717534,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.039495862321928,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.24365623175000853,
+        0.3348571676564363
+      ],
+      "showcaseWidthWorld": 0.24365623175000853,
+      "showcaseHeightWorld": 0.3348571676564363,
+      "showcaseRectPixelsTopLeft": [
+        137.8171884124996,
+        1276.9039495112888,
+        24.365623175000852,
+        33.48571676564363
+      ]
+    },
+    {
+      "id": "middle_star_17",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        -1.077183858025819,
+        3.45012609064579,
+        65
+      ],
+      "localScale": [
+        0.34206401767197603,
+        0.34206401767197603,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 15.785157876089215,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.101903800386935,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.23650519971851466,
+        0.32736595441263333
+      ],
+      "showcaseWidthWorld": 0.23650519971851466,
+      "showcaseHeightWorld": 0.32736595441263333,
+      "showcaseRectPixelsTopLeft": [
+        420.45635421149234,
+        598.6190932147892,
+        23.650519971851466,
+        32.73659544126333
+      ]
+    },
+    {
+      "id": "middle_star_18",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        3.690484296530485,
+        -1.0858144409954549,
+        65
+      ],
+      "localScale": [
+        0.32374560472369196,
+        0.32374560472369196,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 68.88772901147604,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.156683658016846,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.2225751032475382,
+        0.31109929203917275
+      ],
+      "showcaseWidthWorld": 0.2225751032475382,
+      "showcaseHeightWorld": 0.31109929203917275,
+      "showcaseRectPixelsTopLeft": [
+        897.9196744906716,
+        1053.026479497587,
+        22.25751032475382,
+        31.109929203917275
+      ]
+    },
+    {
+      "id": "middle_star_19",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -5.750993990805,
+        3.1481489166617393,
+        65
+      ],
+      "localScale": [
+        0.165545174283735,
+        0.165545174283735,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 48.483801847323775,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.412488665431738,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.18559166023215604,
+        0.20499148534353123
+      ],
+      "showcaseWidthWorld": 0.18559166023215604,
+      "showcaseHeightWorld": 0.20499148534353123,
+      "showcaseRectPixelsTopLeft": [
+        -44.378982092107776,
+        634.9355340666496,
+        18.559166023215603,
+        20.49914853435312
+      ]
+    },
+    {
+      "id": "middle_star_20",
+      "file": "backgrounds/stars/star_04.png",
+      "positionWorld": [
+        4.8710039323195815,
+        10.999366606026888,
+        65
+      ],
+      "localScale": [
+        0.21360652636896615,
+        0.21360652636896615,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 1.9890368543565273,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.670957966009155,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        179,
+        246
+      ],
+      "sizeWorld": [
+        0.14935768835955054,
+        0.20526252143267842
+      ],
+      "showcaseWidthWorld": 0.14935768835955054,
+      "showcaseHeightWorld": 0.20526252143267842,
+      "showcaseRectPixelsTopLeft": [
+        1019.6325088139806,
+        -150.1997866743227,
+        14.935768835955054,
+        20.526252143267843
+      ]
+    },
+    {
+      "id": "middle_star_21",
+      "file": "backgrounds/stars/star_05.png",
+      "positionWorld": [
+        5.699340423103422,
+        -6.276348549127579,
+        65
+      ],
+      "localScale": [
+        0.3573947897757062,
+        0.3573947897757062,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 355.4584784153849,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.97330905450508,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        177,
+        245
+      ],
+      "sizeWorld": [
+        0.24710499136835937,
+        0.34203798240253136
+      ],
+      "showcaseWidthWorld": 0.24710499136835937,
+      "showcaseHeightWorld": 0.34203798240253136,
+      "showcaseRectPixelsTopLeft": [
+        1097.5787927419242,
+        1570.5329557926311,
+        24.710499136835935,
+        34.203798240253136
+      ]
+    },
+    {
+      "id": "middle_star_22",
+      "file": "backgrounds/stars/star_06.png",
+      "positionWorld": [
+        2.674343729391694,
+        -8.48178772702813,
+        65
+      ],
+      "localScale": [
+        0.2280364636480808,
+        0.2280364636480808,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 11.457970440387726,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 9.374669883167371,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        176,
+        246
+      ],
+      "sizeWorld": [
+        0.15677506875805555,
+        0.21912878928682766
+      ],
+      "showcaseWidthWorld": 0.15677506875805555,
+      "showcaseHeightWorld": 0.21912878928682766,
+      "showcaseRectPixelsTopLeft": [
+        799.5956195012666,
+        1797.2223332384717,
+        15.677506875805555,
+        21.912878928682765
+      ]
+    },
+    {
+      "id": "middle_star_23",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -3.7632094654254615,
+        4.688777114450931,
+        65
+      ],
+      "localScale": [
+        0.1910966342049771,
+        0.1910966342049771,
+        1
+      ],
+      "sortingOrder": -85,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 254.03061325661838,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.841852425597608,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.21423724225323607,
+        0.23663137907413181
+      ],
+      "showcaseWidthWorld": 0.21423724225323607,
+      "showcaseHeightWorld": 0.23663137907413181,
+      "showcaseRectPixelsTopLeft": [
+        152.96719134479207,
+        479.2907196012003,
+        21.423724225323607,
+        23.66313790741318
+      ]
+    },
+    {
+      "id": "near_star_00",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -4.8,
+        9,
+        60
+      ],
+      "localScale": [
+        0.3617022605839691,
+        0.3617022605839691,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 266.9828749448061,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.063616657396778,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.4055021437015591,
+        0.447889127363743
+      ],
+      "showcaseWidthWorld": 0.4055021437015591,
+      "showcaseHeightWorld": 0.447889127363743,
+      "showcaseRectPixelsTopLeft": [
+        39.72489281492204,
+        37.60554363181279,
+        40.55021437015591,
+        44.7889127363743
+      ]
+    },
+    {
+      "id": "near_star_01",
+      "file": "backgrounds/stars/star_02.png",
+      "positionWorld": [
+        -2.75,
+        8.3,
+        60
+      ],
+      "localScale": [
+        0.36252723824809974,
+        0.36252723824809974,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 97.93432437814772,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 6.4382007527165115,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        300,
+        354
+      ],
+      "sizeWorld": [
+        0.42483660732199185,
+        0.5013071966399504
+      ],
+      "showcaseWidthWorld": 0.42483660732199185,
+      "showcaseHeightWorld": 0.5013071966399504,
+      "showcaseRectPixelsTopLeft": [
+        243.75816963390042,
+        104.93464016800249,
+        42.48366073219918,
+        50.13071966399504
+      ]
+    },
+    {
+      "id": "near_star_02",
+      "file": "backgrounds/stars/star_03.png",
+      "positionWorld": [
+        1.1,
+        8.8,
+        60
+      ],
+      "localScale": [
+        0.29511924076080326,
+        0.29511924076080326,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 116.12922308966517,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.98044502758421,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        296,
+        345
+      ],
+      "sizeWorld": [
+        0.3412316221296788,
+        0.39771928930655126
+      ],
+      "showcaseWidthWorld": 0.3412316221296788,
+      "showcaseHeightWorld": 0.39771928930655126,
+      "showcaseRectPixelsTopLeft": [
+        632.9384188935161,
+        60.11403553467244,
+        34.12316221296788,
+        39.77192893065513
+      ]
+    },
+    {
+      "id": "near_star_03",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        2.4,
+        7.4,
+        60
+      ],
+      "localScale": [
+        0.3652845191603657,
+        0.3652845191603657,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 322.2115171607584,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.67670114710927,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.4095181914024412,
+        0.45232497099154656
+      ],
+      "showcaseWidthWorld": 0.4095181914024412,
+      "showcaseHeightWorld": 0.45232497099154656,
+      "showcaseRectPixelsTopLeft": [
+        759.524090429878,
+        197.38375145042266,
+        40.95181914024412,
+        45.232497099154656
+      ]
+    },
+    {
+      "id": "near_star_04",
+      "file": "backgrounds/stars/star_02.png",
+      "positionWorld": [
+        -3.9,
+        7.15,
+        60
+      ],
+      "localScale": [
+        0.3047107030975987,
+        0.3047107030975987,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 118.60965672880411,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.235026377020404,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        300,
+        354
+      ],
+      "sizeWorld": [
+        0.35708285519249844,
+        0.4213577691271482
+      ],
+      "showcaseWidthWorld": 0.35708285519249844,
+      "showcaseHeightWorld": 0.4213577691271482,
+      "showcaseRectPixelsTopLeft": [
+        132.14585724037505,
+        223.93211154364258,
+        35.70828551924984,
+        42.13577691271482
+      ]
+    },
+    {
+      "id": "near_star_05",
+      "file": "backgrounds/stars/star_03.png",
+      "positionWorld": [
+        -2.1,
+        6.72,
+        60
+      ],
+      "localScale": [
+        0.31445373272895816,
+        0.31445373272895816,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 67.7938920725137,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 6.685629748273641,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        296,
+        345
+      ],
+      "sizeWorld": [
+        0.36358712846785785,
+        0.42377553824801
+      ],
+      "showcaseWidthWorld": 0.36358712846785785,
+      "showcaseHeightWorld": 0.42377553824801,
+      "showcaseRectPixelsTopLeft": [
+        311.82064357660715,
+        266.8112230875995,
+        36.358712846785785,
+        42.377553824801
+      ]
+    },
+    {
+      "id": "near_star_06",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -5,
+        4.55,
+        60
+      ],
+      "localScale": [
+        0.3456100641229496,
+        0.3456100641229496,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 52.69761884585023,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.298125730128959,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.38746128282533804,
+        0.42796246221474615
+      ],
+      "showcaseWidthWorld": 0.38746128282533804,
+      "showcaseHeightWorld": 0.42796246221474615,
+      "showcaseRectPixelsTopLeft": [
+        20.626935858733077,
+        483.6018768892627,
+        38.7461282825338,
+        42.79624622147462
+      ]
+    },
+    {
+      "id": "near_star_07",
+      "file": "backgrounds/stars/star_02.png",
+      "positionWorld": [
+        4.78,
+        2.6,
+        60
+      ],
+      "localScale": [
+        0.28003509847211167,
+        0.28003509847211167,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 267.6728667598218,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.402203344739974,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        300,
+        354
+      ],
+      "sizeWorld": [
+        0.32816613102200587,
+        0.3872360346059669
+      ],
+      "showcaseWidthWorld": 0.32816613102200587,
+      "showcaseHeightWorld": 0.3872360346059669,
+      "showcaseRectPixelsTopLeft": [
+        1001.5916934488998,
+        680.6381982697017,
+        32.816613102200584,
+        38.72360346059669
+      ]
+    },
+    {
+      "id": "near_star_08",
+      "file": "backgrounds/stars/star_03.png",
+      "positionWorld": [
+        -4.62,
+        -3.8,
+        60
+      ],
+      "localScale": [
+        0.2655605282783508,
+        0.2655605282783508,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 17.065388560295105,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.670101340627298,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        296,
+        345
+      ],
+      "sizeWorld": [
+        0.3070543608218431,
+        0.3578843056876212
+      ],
+      "showcaseWidthWorld": 0.3070543608218431,
+      "showcaseHeightWorld": 0.3578843056876212,
+      "showcaseRectPixelsTopLeft": [
+        62.647281958907854,
+        1322.105784715619,
+        30.705436082184313,
+        35.78843056876212
+      ]
+    },
+    {
+      "id": "near_star_09",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        -3.5,
+        -5.75,
+        60
+      ],
+      "localScale": [
+        0.285862592260776,
+        0.285862592260776,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 218.4119509253651,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 8.728571882005781,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.3204787655423543,
+        0.353978288072914
+      ],
+      "showcaseWidthWorld": 0.3204787655423543,
+      "showcaseHeightWorld": 0.353978288072914,
+      "showcaseRectPixelsTopLeft": [
+        173.97606172288226,
+        1517.3010855963544,
+        32.04787655423543,
+        35.3978288072914
+      ]
+    },
+    {
+      "id": "near_star_10",
+      "file": "backgrounds/stars/star_02.png",
+      "positionWorld": [
+        -2.62,
+        -7,
+        60
+      ],
+      "localScale": [
+        0.2995073857105954,
+        0.2995073857105954,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 252.807625439018,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 6.589608686277643,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        300,
+        354
+      ],
+      "sizeWorld": [
+        0.35098521762960394,
+        0.4141625568029327
+      ],
+      "showcaseWidthWorld": 0.35098521762960394,
+      "showcaseHeightWorld": 0.4141625568029327,
+      "showcaseRectPixelsTopLeft": [
+        260.4507391185198,
+        1639.2918721598535,
+        35.098521762960395,
+        41.41625568029327
+      ]
+    },
+    {
+      "id": "near_star_11",
+      "file": "backgrounds/stars/star_03.png",
+      "positionWorld": [
+        0.5,
+        -7.4,
+        60
+      ],
+      "localScale": [
+        0.39323158417429244,
+        0.39323158417429244,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 136.92828624509275,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 6.035940242931247,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        296,
+        345
+      ],
+      "sizeWorld": [
+        0.4546740192015256,
+        0.5299410021098863
+      ],
+      "showcaseWidthWorld": 0.4546740192015256,
+      "showcaseHeightWorld": 0.5299410021098863,
+      "showcaseRectPixelsTopLeft": [
+        567.2662990399238,
+        1673.5029498945057,
+        45.46740192015256,
+        52.99410021098863
+      ]
+    },
+    {
+      "id": "near_star_12",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        2.86,
+        -8,
+        60
+      ],
+      "localScale": [
+        0.3991234527390821,
+        0.3991234527390821,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 299.63300462812185,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.82450356031768,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.44745480834420537,
+        0.49422708796206655
+      ],
+      "showcaseWidthWorld": 0.44745480834420537,
+      "showcaseHeightWorld": 0.49422708796206655,
+      "showcaseRectPixelsTopLeft": [
+        803.6272595827897,
+        1735.2886456018966,
+        44.74548083442053,
+        49.422708796206656
+      ]
+    },
+    {
+      "id": "near_star_13",
+      "file": "backgrounds/stars/star_02.png",
+      "positionWorld": [
+        1.41,
+        -9.08,
+        60
+      ],
+      "localScale": [
+        0.32931980008810335,
+        0.32931980008810335,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 338.63221851177514,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.346042933408171,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        300,
+        354
+      ],
+      "sizeWorld": [
+        0.38592164072824614,
+        0.4553875360593304
+      ],
+      "showcaseWidthWorld": 0.38592164072824614,
+      "showcaseHeightWorld": 0.4553875360593304,
+      "showcaseRectPixelsTopLeft": [
+        661.7039179635876,
+        1845.2306231970335,
+        38.592164072824616,
+        45.53875360593304
+      ]
+    },
+    {
+      "id": "near_star_14",
+      "file": "backgrounds/stars/star_03.png",
+      "positionWorld": [
+        4.64,
+        -6.55,
+        60
+      ],
+      "localScale": [
+        0.3204074799673898,
+        0.3204074799673898,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 210.9651537425816,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.4117655486334115,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        296,
+        345
+      ],
+      "sizeWorld": [
+        0.3704711487122944,
+        0.43179914292480265
+      ],
+      "showcaseWidthWorld": 0.3704711487122944,
+      "showcaseHeightWorld": 0.43179914292480265,
+      "showcaseRectPixelsTopLeft": [
+        985.4764425643853,
+        1593.41004285376,
+        37.04711487122944,
+        43.17991429248026
+      ]
+    },
+    {
+      "id": "near_star_15",
+      "file": "backgrounds/stars/star_01.png",
+      "positionWorld": [
+        4.01,
+        7.12,
+        60
+      ],
+      "localScale": [
+        0.3726192165036923,
+        0.3726192165036923,
+        1
+      ],
+      "sortingOrder": -80,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        100,
+        137
+      ],
+      "phaseDegrees": 160.8653316926211,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7.408843743614852,
+      "wrapToView": true,
+      "guardWorld": [
+        1,
+        1
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.03,
+      "nativePpu": 256,
+      "nativeSize": [
+        287,
+        317
+      ],
+      "sizeWorld": [
+        0.41774107475218625,
+        0.4614073891862127
+      ],
+      "showcaseWidthWorld": 0.41774107475218625,
+      "showcaseHeightWorld": 0.4614073891862127,
+      "showcaseRectPixelsTopLeft": [
+        920.1129462623907,
+        224.92963054068935,
+        41.77410747521863,
+        46.140738918621274
+      ]
+    },
+    {
+      "id": "far_cloud_left",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        -5.6,
+        6.0,
+        18
+      ],
+      "localScale": [
+        0.6491458607095927,
+        0.6491458607095927,
+        1
+      ],
+      "sortingOrder": -60,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.8,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        80,
+        117
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        4.949999999999999,
+        1.4594875164257557
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        6.0,
+        1.9789750328515112
+      ],
+      "showcaseWidthWorld": 6.0,
+      "showcaseHeightWorld": 1.9789750328515112,
+      "showcaseRectPixelsTopLeft": [
+        -320.0,
+        261.05124835742436,
+        600.0,
+        197.89750328515112
+      ]
+    },
+    {
+      "id": "far_cloud_right",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        6.0,
+        -6.2,
+        18
+      ],
+      "localScale": [
+        0.6924222514235655,
+        0.6924222514235655,
+        1
+      ],
+      "sortingOrder": -60,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.8,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        80,
+        117
+      ],
+      "phaseDegrees": 18,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        5.15,
+        1.5254533508541392
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        6.4,
+        2.1109067017082785
+      ],
+      "showcaseWidthWorld": 6.4,
+      "showcaseHeightWorld": 2.1109067017082785,
+      "showcaseRectPixelsTopLeft": [
+        820.0,
+        1474.454664914586,
+        640.0,
+        211.09067017082785
+      ]
+    },
+    {
+      "id": "mid_cloud_lower",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        -5.5,
+        -6.9,
+        8
+      ],
+      "localScale": [
+        0.8871660096364432,
+        0.8871660096364432,
+        1
+      ],
+      "sortingOrder": -40,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        1.3,
+        0.09
+      ],
+      "driftPeriodSeconds": [
+        60,
+        91
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        7.049999999999999,
+        1.8822996057818657
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        8.2,
+        2.704599211563732
+      ],
+      "showcaseWidthWorld": 8.2,
+      "showcaseHeightWorld": 2.704599211563732,
+      "showcaseRectPixelsTopLeft": [
+        -420.0,
+        1514.7700394218134,
+        819.9999999999999,
+        270.4599211563732
+      ]
+    },
+    {
+      "id": "mid_cloud_upper",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        6.4,
+        4.5,
+        8
+      ],
+      "localScale": [
+        0.7140604467805519,
+        0.7140604467805519,
+        1
+      ],
+      "sortingOrder": -40,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        1.3,
+        0.09
+      ],
+      "driftPeriodSeconds": [
+        60,
+        91
+      ],
+      "phaseDegrees": 18,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        6.25,
+        1.618436268068331
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        6.6000000000000005,
+        2.1768725361366625
+      ],
+      "showcaseWidthWorld": 6.6000000000000005,
+      "showcaseHeightWorld": 2.1768725361366625,
+      "showcaseRectPixelsTopLeft": [
+        850.0,
+        401.1563731931668,
+        660.0,
+        217.68725361366626
+      ]
+    },
+    {
+      "id": "near_cloud_left",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        -6.2,
+        -10.9,
+        2
+      ],
+      "localScale": [
+        0.973718791064389,
+        0.973718791064389,
+        1
+      ],
+      "sortingOrder": -20,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        1.9,
+        0.12
+      ],
+      "driftPeriodSeconds": [
+        42,
+        73
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        8.65,
+        2.0742312746386333
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        9.0,
+        2.968462549277267
+      ],
+      "showcaseWidthWorld": 9.0,
+      "showcaseHeightWorld": 2.968462549277267,
+      "showcaseRectPixelsTopLeft": [
+        -530.0,
+        1901.5768725361368,
+        900.0,
+        296.8462549277267
+      ]
+    },
+    {
+      "id": "near_cloud_right",
+      "file": "backgrounds/cloud_bank.png",
+      "positionWorld": [
+        6.5,
+        -10.3,
+        2
+      ],
+      "localScale": [
+        0.973718791064389,
+        0.973718791064389,
+        1
+      ],
+      "sortingOrder": -20,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        1.9,
+        0.12
+      ],
+      "driftPeriodSeconds": [
+        42,
+        73
+      ],
+      "phaseDegrees": 18,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": true,
+      "guardWorld": [
+        8.65,
+        2.0742312746386333
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 82.33333333333333,
+      "nativeSize": [
+        761,
+        251
+      ],
+      "sizeWorld": [
+        9.0,
+        2.968462549277267
+      ],
+      "showcaseWidthWorld": 9.0,
+      "showcaseHeightWorld": 2.968462549277267,
+      "showcaseRectPixelsTopLeft": [
+        740.0,
+        1841.5768725361368,
+        900.0,
+        296.8462549277267
+      ]
+    },
+    {
+      "id": "distant_stage_island",
+      "file": "backgrounds/distant_stage_island.png",
+      "positionWorld": [
+        2.9,
+        7.7,
+        6
+      ],
+      "localScale": [
+        0.45153970826580225,
+        0.45153970826580225,
+        1
+      ],
+      "sortingOrder": -30,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.12,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        70,
+        93
+      ],
+      "phaseDegrees": 15,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        1.9899999999999998,
+        1.928995137763371
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 99.5,
+      "nativeSize": [
+        617,
+        643
+      ],
+      "sizeWorld": [
+        2.8,
+        2.917990275526742
+      ],
+      "showcaseWidthWorld": 2.8,
+      "showcaseHeightWorld": 2.917990275526742,
+      "showcaseRectPixelsTopLeft": [
+        690.0,
+        44.10048622366287,
+        280.0,
+        291.7990275526742
+      ]
+    },
+    {
+      "id": "distant_theater_balcony",
+      "file": "backgrounds/distant_theater_balcony.png",
+      "positionWorld": [
+        -3.5,
+        -8.25,
+        6
+      ],
+      "localScale": [
+        0.4992117117117117,
+        0.4992117117117117,
+        1
+      ],
+      "sortingOrder": -30,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.12,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        70,
+        93
+      ],
+      "phaseDegrees": 90,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        2.14,
+        1.6560641891891894
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 95.33333333333333,
+      "nativeSize": [
+        592,
+        453
+      ],
+      "sizeWorld": [
+        3.1,
+        2.3721283783783784
+      ],
+      "showcaseWidthWorld": 3.1,
+      "showcaseHeightWorld": 2.3721283783783784,
+      "showcaseRectPixelsTopLeft": [
+        35.0,
+        1666.3935810810813,
+        310.0,
+        237.21283783783784
+      ]
+    },
+    {
+      "id": "velvet_swag_upper_left",
+      "file": "backgrounds/velvet_swag.png",
+      "positionWorld": [
+        -2.8,
+        8.65,
+        4
+      ],
+      "localScale": [
+        0.4532374100719424,
+        0.4532374100719424,
+        1
+      ],
+      "sortingOrder": -25,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.04,
+        0.02
+      ],
+      "driftPeriodSeconds": [
+        100,
+        130
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        2.5300000000000002,
+        0.9731654676258992
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 75.0,
+      "nativeSize": [
+        695,
+        193
+      ],
+      "sizeWorld": [
+        4.2,
+        1.1663309352517983
+      ],
+      "showcaseWidthWorld": 4.2,
+      "showcaseHeightWorld": 1.1663309352517983,
+      "showcaseRectPixelsTopLeft": [
+        49.99999999999994,
+        36.683453237409935,
+        420.0,
+        116.63309352517983
+      ]
+    },
+    {
+      "id": "velvet_swag_lower_right",
+      "file": "backgrounds/velvet_swag.png",
+      "positionWorld": [
+        2.8,
+        -8.4,
+        4
+      ],
+      "localScale": [
+        0.3884892086330935,
+        0.3884892086330935,
+        1
+      ],
+      "sortingOrder": -25,
+      "parallaxMultiplier": 1,
+      "driftAmplitude": [
+        0.04,
+        0.02
+      ],
+      "driftPeriodSeconds": [
+        100,
+        130
+      ],
+      "phaseDegrees": 90,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        2.23,
+        0.8898561151079136
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "nativePpu": 75.0,
+      "nativeSize": [
+        695,
+        193
+      ],
+      "sizeWorld": [
+        3.6,
+        0.9997122302158272
+      ],
+      "showcaseWidthWorld": 3.6,
+      "showcaseHeightWorld": 0.9997122302158272,
+      "showcaseRectPixelsTopLeft": [
+        640.0,
+        1750.0143884892086,
+        360.0,
+        99.97122302158272
+      ]
+    }
+  ],
+  "counts": {
+    "stars": 120,
+    "farDots": 80,
+    "middleStars": 24,
+    "nearStars": 16,
+    "clouds": 6,
+    "distantTheaterIslands": 2,
+    "optionalSwags": 2,
+    "independentRenderers": 130,
+    "skyBases": 1,
+    "totalBackgroundRenderers": 131
+  },
+  "previewCameraMotion": {
+    "xAmplitude": 0.28,
+    "periodSeconds": 12,
+    "yAmplitude": 0
+  },
+  "showcase": {
+    "terrainSafeRectPixels": [
+      90,
+      360,
+      900,
+      1300
+    ],
+    "stageIslandZone": "upper right, above the showcase terrain",
+    "balconyZone": "lower left, below the showcase terrain",
+    "cloudPlacement": "screen edges; the upper-right stage island is clear at reference time",
+    "optionalSwags": "upper-left and lower-right edges, independently placeable"
+  },
+  "noMoons": true,
+  "noPlanets": true,
+  "foregroundChangedByBackgroundRuntime": false,
+  "unityExecuted": false,
+  "style": "New plum/wine/dusty-rose hard-banded sky; independent stars and clouds."
+}

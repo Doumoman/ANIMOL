@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ANIMOL.Art.EchoTheaterV02;
+using ANIMOL.Art.EchoTheaterV03;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -47,18 +48,18 @@ namespace ANIMOL.Puzzle
                 if (Application.isPlaying) Destroy(artwork.gameObject);
                 else DestroyImmediate(artwork.gameObject);
             }
-            artwork = new GameObject("Echo Theater V02 artwork").transform;
+            artwork = new GameObject("Echo Theater V03 artwork").transform;
             artwork.SetParent(transform, false);
             var occupancy = new bool[map.Width, map.Height];
             for (var y = 0; y < map.Height; y++)
                 for (var x = 0; x < map.Width; x++)
                     occupancy[x, y] = map.TryTerrain(new Vector2Int(x, map.Height - 1 - y), out _);
-            var rows = EchoTheaterV02MaterialSelector.BuildVisualMaterialRows(occupancy,
+            var rows = EchoTheaterV03MaterialSelector.BuildVisualMaterialRows(occupancy,
                 (x, y) => catwalk.Contains(new Vector2Int(x, map.Height - 1 - y)),
                 (x, y) => carpet.Contains(new Vector2Int(x, map.Height - 1 - y)));
 
             // Full-map planning preserves diagonal neighbors, hole classification and span grouping.
-            var finishes = EchoTheaterV02MaterialSelector.GetBottomFinishes(rows, 0, 0, 0);
+            var finishes = EchoTheaterV03MaterialSelector.GetBottomFinishes(rows, 0, 0, 0);
             foreach (var finish in finishes)
                 Add(finish.File, "Support " + finish.Kind,
                     new Vector3(finish.CenterCellX, map.Height - 1 - finish.CenterCellY, 0),
@@ -66,12 +67,12 @@ namespace ANIMOL.Puzzle
             for (var y = 0; y < map.Height; y++)
                 for (var x = 0; x < map.Width; x++)
                 {
-                    var path = EchoTheaterV02MaterialSelector.GetTopSpritePath(rows, x, y);
+                    var path = EchoTheaterV03MaterialSelector.GetTopSpritePath(rows, x, y);
                     if (path != null) Add(path, "Floor " + x + "," + y,
                         new Vector3(x, map.Height - 1 - y, 0), 0);
                 }
             var origin = new Vector2(-.5f, map.Height - .5f);
-            foreach (var rail in EchoTheaterV02BridgeDecorSelector.Select(rows))
+            foreach (var rail in EchoTheaterV03BridgeDecorSelector.Select(rows))
                 Add(rail.File, "Catwalk " + rail.Kind,
                     new Vector3(origin.x + rail.XPixel / 256f, origin.y - rail.YPixel / 256f, 0),
                     rail.Layer);
@@ -142,7 +143,7 @@ namespace ANIMOL.Puzzle
         SpriteRenderer Add(string path, string label, Vector3 position, int order)
         {
             var sprite = art.Find(path);
-            if (!sprite) { Debug.LogError("Missing Echo Theater V02 sprite: " + path, this); return null; }
+            if (!sprite) { Debug.LogError("Missing Echo Theater V03 sprite: " + path, this); return null; }
             var go = new GameObject(label);
             go.transform.SetParent(artwork, false);
             go.transform.localPosition = position;

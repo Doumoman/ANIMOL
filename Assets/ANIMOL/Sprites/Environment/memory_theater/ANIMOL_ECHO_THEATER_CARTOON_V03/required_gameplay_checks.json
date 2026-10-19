@@ -1,0 +1,265 @@
+{
+  "document": "ECHO_THEATER_V03_REQUIRED_GAMEPLAY_CHECKS",
+  "executionStatus": "NOT_RUN",
+  "sourceAudit": "inspection/atlas_logic_audit.json",
+  "scope": "잔영극장V03만. RanchV12불변.",
+  "checks": [
+    {
+      "id": "G01",
+      "name": "기존게임규칙/ID/점유불변",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "같은맵·seed·입력으로V02와V03비교",
+      "expected": "기존ID/논리점유/충돌/코스트/턴처리순서는외관교체때문에변하지않는다.",
+      "evidence": null
+    },
+    {
+      "id": "G02",
+      "name": "무효입력정지",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "막힌입력을반복",
+      "expected": "코스트0,셔터/무대/석상/인형/주사위논리위상이진행하지않는다.",
+      "evidence": null
+    },
+    {
+      "id": "G03",
+      "name": "자동연쇄단일코스트",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "무빙워크→모서리→제동판을한입력으로통과",
+      "expected": "전체코스트1. 자동연쇄는추가입력을요구하지않는다.",
+      "evidence": null
+    },
+    {
+      "id": "G04",
+      "name": "실제로드최신자산검증",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "Scene·Prefab·Pool재생성·Addressables콜드/웜경로각각실행",
+      "expected": "실제로표시된Sprite가확정V03GUID/localFileID/sourcePNG-SHA와대응. 새파일이존재하는것만으로PASS하지않는다.",
+      "evidence": null
+    },
+    {
+      "id": "G05",
+      "name": "클립참조전체검증",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "모든방향/상태clip키프레임과실제재생을기록",
+      "expected": "legacy/null/다른방향fallback없음. atlas사용시원본→packedframe매핑증거가있다.",
+      "evidence": null
+    },
+    {
+      "id": "G06",
+      "name": "pause/reset/phase",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "작동중pause,resume,reset,undo/load",
+      "expected": "논리턴/코스트정지. clip이중복완료/이중힘적용을일으키지않고실제권위phase와일치. endhold/loop종료/숨김은실제상태종료에서처리.",
+      "evidence": null
+    },
+    {
+      "id": "G07",
+      "name": "공통4종축/공간",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "ID07/09/18/19지원방향각각작동",
+      "expected": "방향화살표=실제이동축,고정문경첩,얇은ㄴ중앙통과,45도면90도전환,제동판정확한칸정지가실제로맞는다.",
+      "evidence": null
+    },
+    {
+      "id": "T04A",
+      "name": "셔터교대",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "Aopen/Bclosed에서유효행동2회",
+      "expected": "행동마다A/B가반대위상으로교대하고예고는실제로닫힐쪽만표시한다.",
+      "evidence": null
+    },
+    {
+      "id": "T04B",
+      "name": "셔터압착방지",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "닫힐셔터칸을플레이어/상자가점유",
+      "expected": "점유칸닫힘없음. 위상처리는기존확정규칙준수; 규칙부재면BLOCKED.",
+      "evidence": null
+    },
+    {
+      "id": "T06A",
+      "name": "무대1칸과끝반전",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "H/V레일양끝까지유효행동",
+      "expected": "각행동1칸,끝도착후다음진행방향반전. 예고/화살표/실제도착칸일치.",
+      "evidence": null
+    },
+    {
+      "id": "T06B",
+      "name": "무대막힘",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "다음레일칸을막음",
+      "expected": "충돌전정지. 방향유지/재시도는기존규칙또는BLOCKED,새규칙금지.",
+      "evidence": null
+    },
+    {
+      "id": "T08A",
+      "name": "책장중앙90도",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "연결판을눌러V→H와H→V를작동",
+      "expected": "동일고정핀,같은길이몸체가평면90도로회전하며점유칸/열린통로도함께바뀜. 앞뒤장식교체로대체불가.",
+      "evidence": null
+    },
+    {
+      "id": "T08B",
+      "name": "책장타깃점유",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "회전후점유칸에플레이어/상자배치",
+      "expected": "압착없음. 회전보류/전체입력취소중기존확정판정을적용,없으면BLOCKED.",
+      "evidence": null
+    },
+    {
+      "id": "T13A",
+      "name": "도미노순차한코스트",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "연결첫벽을표시방향에서밀기",
+      "expected": "선두→후속순차접힘,전체코스트1,낮아진칸실제로통과가능.",
+      "evidence": null
+    },
+    {
+      "id": "T13B",
+      "name": "도미노점유예외",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "낙하칸/연쇄끝을점유",
+      "expected": "기존중단/불발규칙을조회해유지,미확정이면BLOCKED.",
+      "evidence": null
+    },
+    {
+      "id": "T17A",
+      "name": "석상예고고정",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "정면에보인뒤플레이어가옆으로피하는유효입력",
+      "expected": "경고한턴후다음유효입력에기존고정직선으로돌진. 재타겟없고경로금간벽파괴.",
+      "evidence": null
+    },
+    {
+      "id": "T17B",
+      "name": "석상막힌입력/단단한벽",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "예고중무효입력,이후단단한벽방향작동",
+      "expected": "무효입력은돌진턴안진행. 단단한벽정지위치는기존규칙또는BLOCKED.",
+      "evidence": null
+    },
+    {
+      "id": "T22A",
+      "name": "주사위초기한칸정답",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "U1D6N5S2E3W4에서각방향별독립1회굴림",
+      "expected": "E→U4,W→U3,N→U2,S→U5. 아트윗면·작은인접면·다음윗면예고가모두일치.",
+      "evidence": null
+    },
+    {
+      "id": "T22B",
+      "name": "24방향96전이",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "각24정상방향에서E/W/N/S1회굴림",
+      "expected": "audit의96전이와여섯면전체가일치. 윗면만바꾸거나그림6장에의존하지않는다.",
+      "evidence": null
+    },
+    {
+      "id": "T22C",
+      "name": "주사위역/순환",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "각상태에서E→W,N→S와같은방향4회굴림",
+      "expected": "원래전체여섯면방향으로복귀. 윗면만같다고통과처리하지않음.",
+      "evidence": null
+    },
+    {
+      "id": "T22D",
+      "name": "주사위막힘/비굴림",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "막힌밀기및기존순간이동재배치",
+      "expected": "실제한칸굴림이없으면면방향불변. 코스트/이동판정은기존규칙.",
+      "evidence": null
+    },
+    {
+      "id": "T22E",
+      "name": "주사위숫자발판",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "윗면과맞는발판점유→불일치/이탈",
+      "expected": "일치+점유일때만연결장치ON. 일치/점유해제시OFF.",
+      "evidence": null
+    },
+    {
+      "id": "T23A",
+      "name": "인형사방한번도피",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "플레이어가각상하좌우인접칸에서유효행동",
+      "expected": "플레이어반대다음칸으로1회만물러남. 대각선/원거리/실시간반응없음. 눈은위협방향,예고는도피방향.",
+      "evidence": null
+    },
+    {
+      "id": "T23B",
+      "name": "인형막힘",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "도피다음칸을막고인접유효행동",
+      "expected": "제자리움찔만,더먼경로탐색/연속도피/추가코스트없음.",
+      "evidence": null
+    },
+    {
+      "id": "G08",
+      "name": "실제영상과오프라인시트구분",
+      "status": "NOT_RUN",
+      "result": null,
+      "scenario": "자산시트·합성영상·Unity실행화면각각표시",
+      "expected": "오프라인frame재생을실제유니티로직검증으로부르지않는다. runtime검증은actualinstance증거가필요.",
+      "evidence": null
+    }
+  ],
+  "evidenceTemplate": {
+    "caseId": null,
+    "projectCommit": null,
+    "unityVersion": null,
+    "buildTarget": null,
+    "scene": null,
+    "prefabOrAddressableKey": null,
+    "instance": null,
+    "sourceDeviceId": null,
+    "existingProjectEnum": null,
+    "actionId": null,
+    "turnBefore": null,
+    "turnAfter": null,
+    "costBefore": null,
+    "costAfter": null,
+    "positionBefore": null,
+    "positionAfter": null,
+    "heading": null,
+    "phase": null,
+    "clip": null,
+    "frame": null,
+    "spriteAssetPath": null,
+    "spriteGuid": null,
+    "spriteLocalFileId": null,
+    "sourcePngSha256": null,
+    "importedOrPackedSpriteIdentity": null,
+    "videoOrScreenshot": null,
+    "log": null
+  },
+  "identityPolicy": "빌드/Editor에서원본GUID·fileID·PNG-SHA를확정하고실제로드Sprite와provenance매핑을연결한다. runtimeSprite가자체적으로GUID를제공한다고가정하지않고PNG-SHA와GPU압축텍스처해시를직접같다고비교하지않는다.",
+  "unresolvedPolicy": "미확정판정은기존프로젝트규칙조회. 없으면BLOCKED;아트가새규칙을만들지않는다.",
+  "actualUnityRun": false
+}
