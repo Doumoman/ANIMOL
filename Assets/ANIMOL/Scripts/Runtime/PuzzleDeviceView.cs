@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
 using ANIMOL.Art.V12;
+using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -14,17 +15,21 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
         readonly HashSet<string> pendingRemoval = new HashSet<string>();
-        readonly Dictionary<Vector2Int, StarwayRanchV12AnimatedVisual> windEffects =
-            new Dictionary<Vector2Int, StarwayRanchV12AnimatedVisual>();
+        readonly Dictionary<string, AnimolWindRouteRenderer> windRoutes =
+            new Dictionary<string, AnimolWindRouteRenderer>(StringComparer.Ordinal);
+        readonly Dictionary<string, WindRoute> displayedWindRoutes =
+            new Dictionary<string, WindRoute>(StringComparer.Ordinal);
         PuzzleDeviceSession session;
+        float windFeedbackDuration = .16f;
         SpriteRenderer player;
         BeamPathView beams;
         EchoTheaterV03DiceVisualMap diceVisualMap;
         public int MissingBindings { get; private set; }
         public Transform Actor(string id) => roots.TryGetValue(id, out var root) ? root : null;
-        public void Bind(PuzzleDeviceSession authority, SpriteRenderer playerRenderer)
+        public void Bind(PuzzleDeviceSession authority, SpriteRenderer playerRenderer, float actionDurationSeconds = .16f)
         {
             session = authority; player = playerRenderer;
+            windFeedbackDuration = Mathf.Max(.001f, actionDurationSeconds);
             var theaterArt = session.Map.theme && session.Map.theme.memorySkyTheater
                 ? session.Map.theme.memorySkyTheater.v02 : null;
             if (theaterArt && theaterArt.v03Animations)
@@ -64,6 +69,27 @@ namespace ANIMOL.Puzzle
                             {
                                 MissingBindings++;
                                 Debug.LogError("Starway Ranch V12 catalog is missing; refusing legacy device art.", root);
+                            }
+                        }
+                    }
+                    if (d.role == PrototypeRole.Wind && d.variant == "blower" &&
+                        session.Map.theme && session.Map.theme.starwayRanch)
+                    {
+                        var art = session.Map.theme.starwayRanch;
+                        if (!art.windRouteMaterial)
+                        { MissingBindings++; Debug.LogError("P01 wind material is missing.", root); }
+                        else
+                        {
+                            var child = new GameObject("P01 wind route");
+                            child.transform.SetParent(root.transform, false);
+                            var range = child.AddComponent<AnimolWindRouteRenderer>();
+                            range.ConfigureMaterial(art.windRouteMaterial, "Default", 25);
+                            windRoutes.Add(d.id, range);
+                            var route = session.WindRouteFor(d.id);
+                            if (route != null)
+                            {
+                                range.SetRoute(route, transform, new Vector2(-.5f, -.5f), 1f);
+                                displayedWindRoutes.Add(d.id, route);
                             }
                         }
                     }
@@ -134,7 +160,7 @@ namespace ANIMOL.Puzzle
             }
             pendingIdle.Remove(e.actor);
             if (view.IsV12Active && e.eventName == "valid_action_wind_resolved")
-                ShowWindEffects(e);
+                ShowWindRoute(e);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
             else if (view.IsV03Active || view.IsV12Active)
             { if (!view.Notify(actionId, e.eventName, e.state)) MissingBindings++; }
@@ -161,42 +187,44 @@ namespace ANIMOL.Puzzle
             var state = Array.Find(view.states, s => s.name == view.CurrentState);
             return state != null && state.sequence && !state.sequence.loop && view.Elapsed < state.sequence.Duration;
         }
-        void ShowWindEffects(PrototypeEvent e)
+        void ShowWindRoute(PrototypeEvent e)
         {
-            var art = session.Map.theme.starwayRanch;
-            if (!art || !art.v12Animations || e.cells == null) { MissingBindings++; return; }
-            var suffix = e.state.Substring(e.state.LastIndexOf('_') + 1);
-            var direction = suffix == "e" ? "east" : suffix == "n" ? "north" :
-                suffix == "w" ? "west" : suffix == "s" ? "south" : null;
-            if (direction == null) { MissingBindings++; return; }
-            var key = "wind_corridor." + direction + ".flow_effect";
-            foreach (var cell in e.cells)
+            if (e.windRoute == null) return; // The existing one-cell field variant is not an emitter.
+            if (!windRoutes.TryGetValue(e.actor, out var renderer))
             {
-                if (!windEffects.TryGetValue(cell, out var player))
+                MissingBindings++; Debug.LogError("P01 wind route renderer is missing: " + e.actor, this); return;
+            }
+            if (!displayedWindRoutes.TryGetValue(e.actor, out var current) || !ReferenceEquals(current, e.windRoute))
+            {
+                renderer.SetRoute(e.windRoute, transform, new Vector2(-.5f, -.5f), 1f);
+                displayedWindRoutes[e.actor] = e.windRoute;
+            }
+            renderer.PlayCommittedAction(true, session.Cost, windFeedbackDuration);
+        }
+        public void SetWindActionProgress01(float progress)
+        {
+            foreach (var renderer in windRoutes.Values)
+                if (renderer) renderer.SetActionProgress01(progress);
+        }
+        void SettleWindRoutes()
+        {
+            foreach (var pair in windRoutes)
+            {
+                var renderer = pair.Value;
+                renderer.CompleteAction(true);
+                var route = session.WindRouteFor(pair.Key);
+                if (route == null) { renderer.HideRoute(); displayedWindRoutes.Remove(pair.Key); }
+                else if (!displayedWindRoutes.TryGetValue(pair.Key, out var old) || !ReferenceEquals(old, route))
                 {
-                    var go = new GameObject("Wind visual " + cell.x + "," + cell.y);
-                    go.transform.SetParent(transform, false);
-                    go.transform.localPosition = (Vector2)cell;
-                    var renderer = go.AddComponent<SpriteRenderer>();
-                    renderer.sortingOrder = 31;
-                    player = go.AddComponent<StarwayRanchV12AnimatedVisual>();
-                    if (!player.Configure(art.v12Animations, renderer, art.v12ManifestSha256)) MissingBindings++;
-                    windEffects.Add(cell, player);
+                    renderer.SetRoute(route, transform, new Vector2(-.5f, -.5f), 1f);
+                    displayedWindRoutes[pair.Key] = route;
                 }
-                player.gameObject.SetActive(true);
-                player.GetComponent<SpriteRenderer>().enabled = true;
-                if (!(StarwayRanchMotionSettings.ReducedMotion ? player.SnapToState(key) : player.Play(key))) MissingBindings++;
             }
         }
-        void ClearWindEffects()
+        void OnDestroy()
         {
-            foreach (var player in windEffects.Values)
-            {
-                if (!player) continue;
-                player.Cancel();
-                player.GetComponent<SpriteRenderer>().enabled = false;
-                player.gameObject.SetActive(false);
-            }
+            foreach (var route in windRoutes.Values)
+                if (route) { route.HideRoute(); route.ResetActionSequence(); }
         }
         void Update()
         {
@@ -212,7 +240,7 @@ namespace ANIMOL.Puzzle
         }
         public void Settle()
         {
-            ClearWindEffects();
+            SettleWindRoutes();
             foreach (var d in session.Devices)
             {
                 var s = session.States[d.id];

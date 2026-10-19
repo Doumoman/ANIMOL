@@ -1,5 +1,5 @@
 {
-  "version": "V12",
+  "version": "V12-P01",
   "scopeThemeDisplayName": "별길 목장",
   "referenceThemeKey": "starway_meadow",
   "actualProjectThemeKeyVerified": false,
@@ -181,5 +181,24 @@
     "actual Unity import and compilation",
     "Play Mode direction/state/pause/pool/reload screenshots or video"
   ],
-  "unityExecutedHere": false
+  "unityExecutedHere": false,
+  "patchId": "ANIMOL_DEVICE_PATCH_P01",
+  "p01BindingRequirements": "p01_binding_requirements.json",
+  "onewayGate": {
+    "occupiedCells": 1,
+    "artSlotCells": [
+      1,
+      1
+    ],
+    "allOtherApproachesBlocked": true,
+    "outputCellIsCheckOnly": true,
+    "visualScale": 1
+  },
+  "gate": {
+    "fixedRailPixels": true,
+    "fixedHingePixels": false,
+    "motion": "Split bar retracts into same-cell side rails. Closed bar remains for denied input.",
+    "minimumOpenLogicalWidthFraction": 0.5,
+    "occupiedCells": 1
+  }
 }

@@ -1,136 +1,41 @@
 {
-  "version": "V12",
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_DEVICE_CLARITY_PATCH_01",
+  "version": "PATCH_01",
   "theme": "별길 목장",
   "family": "wind_corridor",
+  "pdfDeviceId": "20",
   "existingGameplayId": null,
-  "headingConvention": "E=screen right, N=screen up, W=screen left, S=screen down. Artwork is independently drawn per heading; no complete billboard rotation.",
-  "uniqueDirectionalStateFrames": 20,
-  "compatibilityAliases": {
-    "devices/wind_corridor/idle.png": "devices/wind_corridor/E/idle.png",
-    "devices/wind_corridor/active.png": "devices/wind_corridor/E/active_00.png"
+  "headingConvention": "E right, N up, W left, S down. Each stationary body is native cardinal art; no complete billboard rotation.",
+  "logicalContract": {
+    "canvasSize": [
+      320,
+      320
+    ],
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "logicalRect": [
+      32,
+      32,
+      256,
+      256
+    ],
+    "footprintCells": [
+      1,
+      1
+    ]
   },
   "assets": [
     {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_E_idle",
-      "heading": "east",
-      "state": "idle",
-      "file": "devices/wind_corridor/E/idle.png",
-      "contentRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        12,
-        268,
-        294,
-        238
-      ],
-      "sha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_E_active_0",
-      "heading": "east",
-      "state": "active",
-      "phase": 0,
       "file": "devices/wind_corridor/E/active_00.png",
-      "bodySourceFile": "devices/wind_corridor/E/idle.png",
-      "bodySha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "effectSourceFile": "production/wind_layers/E/gust_00.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        348,
-        306,
-        254,
-        178
-      ],
-      "effectCanvasRect": [
-        128,
-        59,
-        176,
-        123
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 1,
-      "sha256": "54e22ef7701d021b0c8004782bec77519afc69989273967830c6e94ba9d0f3a6",
-      "pdfDeviceId": "20"
-    },
-    {
+      "artKey": "wind_corridor_E_active_0",
       "family": "wind_corridor",
+      "heading": "east",
+      "state": "active",
+      "phase": 0,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -161,41 +66,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_E_active_1",
-      "heading": "east",
-      "state": "active",
-      "phase": 1,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "rotorComponentFile": "production/rotor_layers/E/rotor_00.png",
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "headingVector": [
+        1,
+        0
+      ],
+      "sha256": "35c1ec3903ddc2386021b6ba686723bccff557d7439f489fb41c62713bde6b2a",
+      "contentRect": [
+        38,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          24,
+          275,
+          320,
+          558
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
       "file": "devices/wind_corridor/E/active_01.png",
-      "bodySourceFile": "devices/wind_corridor/E/idle.png",
-      "bodySha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "effectSourceFile": "production/wind_layers/E/gust_01.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        636,
-        327,
-        275,
-        161
-      ],
-      "effectCanvasRect": [
-        128,
-        69,
-        176,
-        103
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 1,
-      "sha256": "4cf23c4127da2102babe703f39d9a84b541a0003be586473790b244a8e59fa09",
-      "pdfDeviceId": "20"
-    },
-    {
+      "artKey": "wind_corridor_E_active_1",
       "family": "wind_corridor",
+      "heading": "east",
+      "state": "active",
+      "phase": 1,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -226,41 +143,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_E_active_2",
-      "heading": "east",
-      "state": "active",
-      "phase": 2,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "rotorComponentFile": "production/rotor_layers/E/rotor_01.png",
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "headingVector": [
+        1,
+        0
+      ],
+      "sha256": "432b394217320587e6405dc4009b53077e7793c99d642aa883e14d7c95773b37",
+      "contentRect": [
+        38,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          24,
+          275,
+          320,
+          558
+        ],
+        "rotor": [
+          341,
+          718,
+          626,
+          987
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
       "file": "devices/wind_corridor/E/active_02.png",
-      "bodySourceFile": "devices/wind_corridor/E/idle.png",
-      "bodySha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "effectSourceFile": "production/wind_layers/E/gust_02.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        944,
-        312,
-        287,
-        168
-      ],
-      "effectCanvasRect": [
-        128,
-        69,
-        176,
-        103
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 4,
-      "sha256": "0fce8b8c9fd33261461c0f1c13b4de8b275e0b6d3749897195325fd49f3fd625",
-      "pdfDeviceId": "20"
-    },
-    {
+      "artKey": "wind_corridor_E_active_2",
       "family": "wind_corridor",
+      "heading": "east",
+      "state": "active",
+      "phase": 2,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -291,41 +220,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "rotorComponentFile": "production/rotor_layers/E/rotor_02.png",
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "headingVector": [
+        1,
+        0
+      ],
+      "sha256": "5c928c418dc24b2a21450ce135159e56be08f9beb5b617e5954f1cfdfb5104be",
+      "contentRect": [
+        38,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          24,
+          275,
+          320,
+          558
+        ],
+        "rotor": [
+          651,
+          722,
+          914,
+          983
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/E/active_03.png",
       "artKey": "wind_corridor_E_active_3",
+      "family": "wind_corridor",
       "heading": "east",
       "state": "active",
       "phase": 3,
-      "file": "devices/wind_corridor/E/active_03.png",
-      "bodySourceFile": "devices/wind_corridor/E/idle.png",
-      "bodySha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "effectSourceFile": "production/wind_layers/E/gust_03.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        1261,
-        326,
-        255,
-        147
-      ],
-      "effectCanvasRect": [
-        128,
-        70,
-        176,
-        101
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 6,
-      "sha256": "3d7b3c2b3796eb93bb73b6d88052b14d3593553c752734c3c6ef0c64089ea145",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -356,344 +297,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_W_idle",
-      "heading": "west",
-      "state": "idle",
-      "file": "devices/wind_corridor/W/idle.png",
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "rotorComponentFile": "production/rotor_layers/E/rotor_03.png",
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "headingVector": [
+        1,
+        0
+      ],
+      "sha256": "212fe23de560037b9d78b651d1138d9523075319b9afc68f571c0cfea4626687",
       "contentRect": [
         38,
-        71,
-        244,
-        198
+        51,
+        248,
+        237
       ],
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        24,
-        652,
-        294,
-        239
-      ],
-      "sha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "pdfDeviceId": "20"
+      "nativeSourceRects": {
+        "body": [
+          24,
+          275,
+          320,
+          558
+        ],
+        "rotor": [
+          947,
+          712,
+          1239,
+          997
+        ]
+      },
+      "nativeComponentAssembly": true
     },
     {
+      "file": "devices/wind_corridor/E/idle.png",
+      "artKey": "wind_corridor_E_idle",
       "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_W_active_0",
-      "heading": "west",
-      "state": "active",
-      "phase": 0,
-      "file": "devices/wind_corridor/W/active_00.png",
-      "bodySourceFile": "devices/wind_corridor/W/idle.png",
-      "bodySha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "effectSourceFile": "production/wind_layers/W/gust_00.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        345,
-        686,
-        247,
-        182
-      ],
-      "effectCanvasRect": [
-        16,
-        56,
-        174,
-        128
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 1,
-      "sha256": "0962e3229ad94a3eecd88b8134b4f692697cc0a18a81a7efafa2d91191ef7ffd",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_W_active_1",
-      "heading": "west",
-      "state": "active",
-      "phase": 1,
-      "file": "devices/wind_corridor/W/active_01.png",
-      "bodySourceFile": "devices/wind_corridor/W/idle.png",
-      "bodySha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "effectSourceFile": "production/wind_layers/W/gust_01.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        626,
-        712,
-        271,
-        159
-      ],
-      "effectCanvasRect": [
-        16,
-        69,
-        176,
-        103
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 1,
-      "sha256": "029080ed27cf67885aadae582e5656c6b9def4d2bbeaec3c9e0966412b4c73dd",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_W_active_2",
-      "heading": "west",
-      "state": "active",
-      "phase": 2,
-      "file": "devices/wind_corridor/W/active_02.png",
-      "bodySourceFile": "devices/wind_corridor/W/idle.png",
-      "bodySha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "effectSourceFile": "production/wind_layers/W/gust_02.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        930,
-        692,
-        288,
-        166
-      ],
-      "effectCanvasRect": [
-        16,
-        70,
-        176,
-        101
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 3,
-      "sha256": "64540b03d0f633ccb8341136b49b2d0f03b8dac775a2ed1467e1076ae3454e29",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_W_active_3",
-      "heading": "west",
-      "state": "active",
-      "phase": 3,
-      "file": "devices/wind_corridor/W/active_03.png",
-      "bodySourceFile": "devices/wind_corridor/W/idle.png",
-      "bodySha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "effectSourceFile": "production/wind_layers/W/gust_03.png",
-      "source": "sources/wind_EW_native.png",
-      "nativeSourceRect": [
-        1259,
-        703,
-        257,
-        153
-      ],
-      "effectCanvasRect": [
-        16,
-        68,
-        176,
-        105
-      ],
-      "bodyCanvasRect": [
-        38,
-        71,
-        244,
-        198
-      ],
-      "sourceComponentCount": 7,
-      "sha256": "1147539ef5875bf071d3294f98bc88809d19d107cd13784f2a011f1649f212e0",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
-      "kind": "device_art",
-      "canvasSize": [
-        320,
-        320
-      ],
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "logical_rect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_N_idle",
-      "heading": "north",
+      "heading": "east",
       "state": "idle",
-      "file": "devices/wind_corridor/N/idle.png",
-      "contentRect": [
-        57,
-        48,
-        206,
-        244
-      ],
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        42,
-        141,
-        262,
-        311
-      ],
-      "sha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
+      "phase": 0,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -724,41 +374,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_N_active_0",
-      "heading": "north",
-      "state": "active",
-      "phase": 0,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "rotorComponentFile": "production/rotor_layers/E/rotor_00.png",
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "headingVector": [
+        1,
+        0
+      ],
+      "sha256": "35c1ec3903ddc2386021b6ba686723bccff557d7439f489fb41c62713bde6b2a",
+      "contentRect": [
+        38,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          24,
+          275,
+          320,
+          558
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
       "file": "devices/wind_corridor/N/active_00.png",
-      "bodySourceFile": "devices/wind_corridor/N/idle.png",
-      "bodySha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "effectSourceFile": "production/wind_layers/N/gust_00.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        382,
-        159,
-        212,
-        289
-      ],
-      "effectCanvasRect": [
-        96,
-        12,
-        128,
-        174
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        206,
-        244
-      ],
-      "sourceComponentCount": 2,
-      "sha256": "1aa55714dc8f61fcd666411d85da0e9b14ce2ae8ff09d5d4cd57ffb2140f046d",
-      "pdfDeviceId": "20"
-    },
-    {
+      "artKey": "wind_corridor_N_active_0",
       "family": "wind_corridor",
+      "heading": "north",
+      "state": "active",
+      "phase": 0,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -789,41 +451,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "rotorComponentFile": "production/rotor_layers/N/rotor_00.png",
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "headingVector": [
+        0,
+        1
+      ],
+      "sha256": "eec5f26474c8c2d7fc77caa1606b975d4410f33a50600a98aaf5e24520107e2d",
+      "contentRect": [
+        47,
+        34,
+        226,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          340,
+          249,
+          623,
+          559
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/N/active_01.png",
       "artKey": "wind_corridor_N_active_1",
+      "family": "wind_corridor",
       "heading": "north",
       "state": "active",
       "phase": 1,
-      "file": "devices/wind_corridor/N/active_01.png",
-      "bodySourceFile": "devices/wind_corridor/N/idle.png",
-      "bodySha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "effectSourceFile": "production/wind_layers/N/gust_01.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        671,
-        85,
-        224,
-        364
-      ],
-      "effectCanvasRect": [
-        104,
-        12,
-        113,
-        184
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        206,
-        244
-      ],
-      "sourceComponentCount": 3,
-      "sha256": "863eaed57780977f0f53fbd40e0fe5a2da56ae2562a96948dc5e9217a712475e",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -854,41 +528,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "rotorComponentFile": "production/rotor_layers/N/rotor_01.png",
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "headingVector": [
+        0,
+        1
+      ],
+      "sha256": "b86aaf09cb6a0a4f262e4ff8c9cbcd347db17e9bf7c8322f27973afde3a2d519",
+      "contentRect": [
+        47,
+        34,
+        226,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          340,
+          249,
+          623,
+          559
+        ],
+        "rotor": [
+          341,
+          718,
+          626,
+          987
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/N/active_02.png",
       "artKey": "wind_corridor_N_active_2",
+      "family": "wind_corridor",
       "heading": "north",
       "state": "active",
       "phase": 2,
-      "file": "devices/wind_corridor/N/active_02.png",
-      "bodySourceFile": "devices/wind_corridor/N/idle.png",
-      "bodySha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "effectSourceFile": "production/wind_layers/N/gust_02.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        959,
-        34,
-        230,
-        422
-      ],
-      "effectCanvasRect": [
-        110,
-        12,
-        100,
-        184
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        206,
-        244
-      ],
-      "sourceComponentCount": 3,
-      "sha256": "d8ae4ab4bf89baa7fbb35979cb16fbf08d26c4139ef249758f6dbdb90474a303",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -919,41 +605,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "rotorComponentFile": "production/rotor_layers/N/rotor_02.png",
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "headingVector": [
+        0,
+        1
+      ],
+      "sha256": "e7acfc55b8c0b7471777e4f5b3cdb4626d4140d351f398cf4411b1cd5849134b",
+      "contentRect": [
+        47,
+        34,
+        226,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          340,
+          249,
+          623,
+          559
+        ],
+        "rotor": [
+          651,
+          722,
+          914,
+          983
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/N/active_03.png",
       "artKey": "wind_corridor_N_active_3",
+      "family": "wind_corridor",
       "heading": "north",
       "state": "active",
       "phase": 3,
-      "file": "devices/wind_corridor/N/active_03.png",
-      "bodySourceFile": "devices/wind_corridor/N/idle.png",
-      "bodySha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "effectSourceFile": "production/wind_layers/N/gust_03.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        1259,
-        63,
-        221,
-        387
-      ],
-      "effectCanvasRect": [
-        108,
-        12,
-        105,
-        184
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        206,
-        244
-      ],
-      "sourceComponentCount": 7,
-      "sha256": "8073d2a877863825a1a9e52adda9fecf7da90809f6ba2a2bb2d35719a98a9866",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -984,30 +682,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
-      "artKey": "wind_corridor_S_idle",
-      "heading": "south",
-      "state": "idle",
-      "file": "devices/wind_corridor/S/idle.png",
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "rotorComponentFile": "production/rotor_layers/N/rotor_03.png",
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "headingVector": [
+        0,
+        1
+      ],
+      "sha256": "db2797cf5f0148ea62d184f21ea04a28397d0236530bcd5b12f0dc1abfcd47db",
       "contentRect": [
-        57,
-        48,
-        207,
-        244
+        47,
+        34,
+        226,
+        248
       ],
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        43,
-        571,
-        260,
-        307
-      ],
-      "sha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "pdfDeviceId": "20"
+      "nativeSourceRects": {
+        "body": [
+          340,
+          249,
+          623,
+          559
+        ],
+        "rotor": [
+          947,
+          712,
+          1239,
+          997
+        ]
+      },
+      "nativeComponentAssembly": true
     },
     {
+      "file": "devices/wind_corridor/N/idle.png",
+      "artKey": "wind_corridor_N_idle",
       "family": "wind_corridor",
+      "heading": "north",
+      "state": "idle",
+      "phase": 0,
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -1038,41 +759,438 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "rotorComponentFile": "production/rotor_layers/N/rotor_00.png",
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "headingVector": [
+        0,
+        1
+      ],
+      "sha256": "eec5f26474c8c2d7fc77caa1606b975d4410f33a50600a98aaf5e24520107e2d",
+      "contentRect": [
+        47,
+        34,
+        226,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          340,
+          249,
+          623,
+          559
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/W/active_00.png",
+      "artKey": "wind_corridor_W_active_0",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "active",
+      "phase": 0,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "rotorComponentFile": "production/rotor_layers/W/rotor_00.png",
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "headingVector": [
+        -1,
+        0
+      ],
+      "sha256": "52ff5f8242b9c171cfd45d0349d25072f488b66600a911ccda80e1c3b125fc24",
+      "contentRect": [
+        33,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          629,
+          275,
+          924,
+          557
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/W/active_01.png",
+      "artKey": "wind_corridor_W_active_1",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "active",
+      "phase": 1,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "rotorComponentFile": "production/rotor_layers/W/rotor_01.png",
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "headingVector": [
+        -1,
+        0
+      ],
+      "sha256": "e5ca9ff76b1deed30f68ad1128126b93821ef4c4adee76c137464267f14d34ed",
+      "contentRect": [
+        33,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          629,
+          275,
+          924,
+          557
+        ],
+        "rotor": [
+          341,
+          718,
+          626,
+          987
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/W/active_02.png",
+      "artKey": "wind_corridor_W_active_2",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "active",
+      "phase": 2,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "rotorComponentFile": "production/rotor_layers/W/rotor_02.png",
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "headingVector": [
+        -1,
+        0
+      ],
+      "sha256": "1ff1810bc816ab7f170b079035a1d964a372afc4ca9de88842ecbdd5e1a6b6d3",
+      "contentRect": [
+        33,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          629,
+          275,
+          924,
+          557
+        ],
+        "rotor": [
+          651,
+          722,
+          914,
+          983
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/W/active_03.png",
+      "artKey": "wind_corridor_W_active_3",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "active",
+      "phase": 3,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "rotorComponentFile": "production/rotor_layers/W/rotor_03.png",
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "headingVector": [
+        -1,
+        0
+      ],
+      "sha256": "002e45698c2377713879a436bfb020d1650ff47e8cc29edada51e3b1866e8ff6",
+      "contentRect": [
+        33,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          629,
+          275,
+          924,
+          557
+        ],
+        "rotor": [
+          947,
+          712,
+          1239,
+          997
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/W/idle.png",
+      "artKey": "wind_corridor_W_idle",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "idle",
+      "phase": 0,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "rotorComponentFile": "production/rotor_layers/W/rotor_00.png",
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "headingVector": [
+        -1,
+        0
+      ],
+      "sha256": "52ff5f8242b9c171cfd45d0349d25072f488b66600a911ccda80e1c3b125fc24",
+      "contentRect": [
+        33,
+        51,
+        248,
+        237
+      ],
+      "nativeSourceRects": {
+        "body": [
+          629,
+          275,
+          924,
+          557
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/S/active_00.png",
       "artKey": "wind_corridor_S_active_0",
+      "family": "wind_corridor",
       "heading": "south",
       "state": "active",
       "phase": 0,
-      "file": "devices/wind_corridor/S/active_00.png",
-      "bodySourceFile": "devices/wind_corridor/S/idle.png",
-      "bodySha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "effectSourceFile": "production/wind_layers/S/gust_00.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        384,
-        567,
-        210,
-        271
-      ],
-      "effectCanvasRect": [
-        96,
-        143,
-        128,
-        165
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        207,
-        244
-      ],
-      "sourceComponentCount": 3,
-      "sha256": "525e393239537ef459e50e2197631cdc15500c40874263d287cc76e12e8c3850",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -1103,41 +1221,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "rotorComponentFile": "production/rotor_layers/S/rotor_00.png",
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "headingVector": [
+        0,
+        -1
+      ],
+      "sha256": "04ce5a8c0a088bfd183611fb2a77a6246cce6720d4f7ca79494952441895f0dd",
+      "contentRect": [
+        50,
+        40,
+        222,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          964,
+          276,
+          1232,
+          576
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/S/active_01.png",
       "artKey": "wind_corridor_S_active_1",
+      "family": "wind_corridor",
       "heading": "south",
       "state": "active",
       "phase": 1,
-      "file": "devices/wind_corridor/S/active_01.png",
-      "bodySourceFile": "devices/wind_corridor/S/idle.png",
-      "bodySha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "effectSourceFile": "production/wind_layers/S/gust_01.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        672,
-        566,
-        224,
-        351
-      ],
-      "effectCanvasRect": [
-        102,
-        124,
-        117,
-        184
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        207,
-        244
-      ],
-      "sourceComponentCount": 3,
-      "sha256": "b7108f8aaf05649d80c1deb877904a00a6f3fe37dc53774efe028f98b5b86336",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -1168,41 +1298,53 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "rotorComponentFile": "production/rotor_layers/S/rotor_01.png",
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "headingVector": [
+        0,
+        -1
+      ],
+      "sha256": "b17f19e58c22bb81bdbbef9a9f01b5779866df3f4b5d9d364fbe897699a8d5ec",
+      "contentRect": [
+        50,
+        40,
+        222,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          964,
+          276,
+          1232,
+          576
+        ],
+        "rotor": [
+          341,
+          718,
+          626,
+          987
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/S/active_02.png",
       "artKey": "wind_corridor_S_active_2",
+      "family": "wind_corridor",
       "heading": "south",
       "state": "active",
       "phase": 2,
-      "file": "devices/wind_corridor/S/active_02.png",
-      "bodySourceFile": "devices/wind_corridor/S/idle.png",
-      "bodySha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "effectSourceFile": "production/wind_layers/S/gust_02.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        963,
-        566,
-        232,
-        410
-      ],
-      "effectCanvasRect": [
-        108,
-        124,
-        104,
-        184
-      ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        207,
-        244
-      ],
-      "sourceComponentCount": 4,
-      "sha256": "d9b5134d4c6fc035d2e806a1dfde04cd9492d0082255617b8fc9a33d3290b476",
-      "pdfDeviceId": "20"
-    },
-    {
-      "family": "wind_corridor",
       "kind": "device_art",
       "canvasSize": [
         320,
@@ -1233,38 +1375,199 @@
       ],
       "actualGameplayFootprintCells": null,
       "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "uniformResizeOnly": true,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "rotorComponentFile": "production/rotor_layers/S/rotor_02.png",
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "headingVector": [
+        0,
+        -1
+      ],
+      "sha256": "cb8559b39b69324ae652d3b410b6b1eb096a18b730c84da8ed41531f54a35e29",
+      "contentRect": [
+        50,
+        40,
+        222,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          964,
+          276,
+          1232,
+          576
+        ],
+        "rotor": [
+          651,
+          722,
+          914,
+          983
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/S/active_03.png",
       "artKey": "wind_corridor_S_active_3",
+      "family": "wind_corridor",
       "heading": "south",
       "state": "active",
       "phase": 3,
-      "file": "devices/wind_corridor/S/active_03.png",
-      "bodySourceFile": "devices/wind_corridor/S/idle.png",
-      "bodySha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "effectSourceFile": "production/wind_layers/S/gust_03.png",
-      "source": "sources/wind_NS_native.png",
-      "nativeSourceRect": [
-        1264,
-        564,
-        220,
-        395
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
       ],
-      "effectCanvasRect": [
-        109,
-        124,
-        102,
-        184
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
       ],
-      "bodyCanvasRect": [
-        57,
-        48,
-        207,
-        244
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
       ],
-      "sourceComponentCount": 7,
-      "sha256": "5d1500cc5566699eaf5d18e3751ac5e186aaac7de156444185e31205eebf6e46",
-      "pdfDeviceId": "20"
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "rotorComponentFile": "production/rotor_layers/S/rotor_03.png",
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "headingVector": [
+        0,
+        -1
+      ],
+      "sha256": "91a3750868a05f70471ce92cdb52a329d7aba725e64dda902ce53792522796e5",
+      "contentRect": [
+        50,
+        40,
+        222,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          964,
+          276,
+          1232,
+          576
+        ],
+        "rotor": [
+          947,
+          712,
+          1239,
+          997
+        ]
+      },
+      "nativeComponentAssembly": true
+    },
+    {
+      "file": "devices/wind_corridor/S/idle.png",
+      "artKey": "wind_corridor_S_idle",
+      "family": "wind_corridor",
+      "heading": "south",
+      "state": "idle",
+      "phase": 0,
+      "kind": "device_art",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "pdfDeviceId": "20",
+      "source": "sources/wind_emitter_components_native.png",
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "rotorComponentFile": "production/rotor_layers/S/rotor_00.png",
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "headingVector": [
+        0,
+        -1
+      ],
+      "sha256": "04ce5a8c0a088bfd183611fb2a77a6246cce6720d4f7ca79494952441895f0dd",
+      "contentRect": [
+        50,
+        40,
+        222,
+        248
+      ],
+      "nativeSourceRects": {
+        "body": [
+          964,
+          276,
+          1232,
+          576
+        ],
+        "rotor": [
+          27,
+          716,
+          313,
+          991
+        ]
+      },
+      "nativeComponentAssembly": true
     }
   ],
   "clips": [
@@ -1293,15 +1596,20 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     },
     {
       "key": "wind_corridor_E_active",
       "family": "wind_corridor",
       "heading": "east",
       "state": "active",
-      "fps": 10,
+      "fps": 12,
       "loop": true,
       "frames": [
         "devices/wind_corridor/E/active_00.png",
@@ -1324,73 +1632,13 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "playbackPolicy": "Visual clip only. Start/restart exclusively on verified committed valid-action gust event for existing device ID20. Loop only while that committed gust visual is active; stop/return idle on authoritative resolve/stop. Never autonomous world simulation or device logic from elapsed clip time.",
-      "bodyPixelSource": "devices/wind_corridor/E/idle.png",
-      "bodySourceSha256": "fa6a25d8ba4441ea2b4cbdb2a521bd1394c854239f94eb98bfa21c329ec17949",
-      "pdfDeviceId": "20"
-    },
-    {
-      "key": "wind_corridor_W_idle",
-      "family": "wind_corridor",
-      "heading": "west",
-      "state": "idle",
-      "fps": 1,
-      "loop": false,
-      "frames": [
-        "devices/wind_corridor/W/idle.png"
-      ],
-      "canvasSize": [
-        320,
-        320
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "existingGameplayId": null,
-      "pdfDeviceId": "20"
-    },
-    {
-      "key": "wind_corridor_W_active",
-      "family": "wind_corridor",
-      "heading": "west",
-      "state": "active",
-      "fps": 10,
-      "loop": true,
-      "frames": [
-        "devices/wind_corridor/W/active_00.png",
-        "devices/wind_corridor/W/active_01.png",
-        "devices/wind_corridor/W/active_02.png",
-        "devices/wind_corridor/W/active_03.png"
-      ],
-      "canvasSize": [
-        320,
-        320
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "existingGameplayId": null,
-      "playbackPolicy": "Visual clip only. Start/restart exclusively on verified committed valid-action gust event for existing device ID20. Loop only while that committed gust visual is active; stop/return idle on authoritative resolve/stop. Never autonomous world simulation or device logic from elapsed clip time.",
-      "bodyPixelSource": "devices/wind_corridor/W/idle.png",
-      "bodySourceSha256": "6af0595df6614dcc81fcc8670c666ed11f5f417231e0b3a49388785460ded605",
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     },
     {
       "key": "wind_corridor_N_idle",
@@ -1417,15 +1665,20 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     },
     {
       "key": "wind_corridor_N_active",
       "family": "wind_corridor",
       "heading": "north",
       "state": "active",
-      "fps": 10,
+      "fps": 12,
       "loop": true,
       "frames": [
         "devices/wind_corridor/N/active_00.png",
@@ -1448,11 +1701,82 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "playbackPolicy": "Visual clip only. Start/restart exclusively on verified committed valid-action gust event for existing device ID20. Loop only while that committed gust visual is active; stop/return idle on authoritative resolve/stop. Never autonomous world simulation or device logic from elapsed clip time.",
-      "bodyPixelSource": "devices/wind_corridor/N/idle.png",
-      "bodySourceSha256": "5835c973a37ca37e573d8e9988c9739facfb490ba477d87c03240783f430dbd3",
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
+    },
+    {
+      "key": "wind_corridor_W_idle",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "idle",
+      "fps": 1,
+      "loop": false,
+      "frames": [
+        "devices/wind_corridor/W/idle.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
+      "existingGameplayId": null,
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
+    },
+    {
+      "key": "wind_corridor_W_active",
+      "family": "wind_corridor",
+      "heading": "west",
+      "state": "active",
+      "fps": 12,
+      "loop": true,
+      "frames": [
+        "devices/wind_corridor/W/active_00.png",
+        "devices/wind_corridor/W/active_01.png",
+        "devices/wind_corridor/W/active_02.png",
+        "devices/wind_corridor/W/active_03.png"
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
+      "existingGameplayId": null,
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     },
     {
       "key": "wind_corridor_S_idle",
@@ -1479,15 +1803,20 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     },
     {
       "key": "wind_corridor_S_active",
       "family": "wind_corridor",
       "heading": "south",
       "state": "active",
-      "fps": 10,
+      "fps": 12,
       "loop": true,
       "frames": [
         "devices/wind_corridor/S/active_00.png",
@@ -1510,13 +1839,158 @@
         256,
         256
       ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "pdfDeviceId": "20",
       "existingGameplayId": null,
-      "playbackPolicy": "Visual clip only. Start/restart exclusively on verified committed valid-action gust event for existing device ID20. Loop only while that committed gust visual is active; stop/return idle on authoritative resolve/stop. Never autonomous world simulation or device logic from elapsed clip time.",
-      "bodyPixelSource": "devices/wind_corridor/S/idle.png",
-      "bodySourceSha256": "b50dab87c7df93388f839ba2a29017f37ded4a9d387a2241df3a92eaa64ec15b",
-      "pdfDeviceId": "20"
+      "playbackPolicy": "Visual-only. Active rotor playback follows authoritative committed gust presentation lifetime; return idle on resolve/stop. Frame time never starts or changes gameplay wind."
     }
   ],
-  "logicPolicy": "Keep existing ID20 collision, movement and grid mapping. Playback consumes committed gameplay events only. No animation-driven gusts or time-based gameplay. Idle is fixed. Gust ribbons are genuine native phase art over byte-identical stationary body layer.",
-  "pdfDeviceId": "20"
+  "compatibilityAliases": {
+    "devices/wind_corridor/idle.png": "devices/wind_corridor/E/idle.png",
+    "devices/wind_corridor/active.png": "devices/wind_corridor/E/active_00.png"
+  },
+  "bodies": [
+    {
+      "heading": "E",
+      "headingVector": [
+        1,
+        0
+      ],
+      "outletAnchorPixel": [
+        282,
+        160
+      ],
+      "tileCenterPixel": [
+        160,
+        160
+      ],
+      "rotorHubPixel": [
+        148,
+        162
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "bodyComponentFile": "production/components/body_E.png",
+      "bodySha256": "cc2339aa83e160aa29472ae08b2b027934f6dd48d526b128be502dad0d9b9988",
+      "sourceRect": [
+        24,
+        275,
+        320,
+        558
+      ]
+    },
+    {
+      "heading": "N",
+      "headingVector": [
+        0,
+        1
+      ],
+      "outletAnchorPixel": [
+        160,
+        38
+      ],
+      "tileCenterPixel": [
+        160,
+        160
+      ],
+      "rotorHubPixel": [
+        160,
+        167
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "bodyComponentFile": "production/components/body_N.png",
+      "bodySha256": "eab12111aceeb27a7073f9cedb2bc0f85c8a09e7b9c51f449b3443ac0d0ba570",
+      "sourceRect": [
+        340,
+        249,
+        623,
+        559
+      ]
+    },
+    {
+      "heading": "W",
+      "headingVector": [
+        -1,
+        0
+      ],
+      "outletAnchorPixel": [
+        38,
+        160
+      ],
+      "tileCenterPixel": [
+        160,
+        160
+      ],
+      "rotorHubPixel": [
+        165,
+        163
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "bodyComponentFile": "production/components/body_W.png",
+      "bodySha256": "d15f1ab0b296b4096b33856d2ed8c7879559adc9f895cf94a0efa9ba7c19aaa5",
+      "sourceRect": [
+        629,
+        275,
+        924,
+        557
+      ]
+    },
+    {
+      "heading": "S",
+      "headingVector": [
+        0,
+        -1
+      ],
+      "outletAnchorPixel": [
+        160,
+        281
+      ],
+      "tileCenterPixel": [
+        160,
+        160
+      ],
+      "rotorHubPixel": [
+        160,
+        149
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "bodyComponentFile": "production/components/body_S.png",
+      "bodySha256": "2f4678f5c0c5e26ca2f38575776e0456513b805723b9ecdc454a3065939d08eb",
+      "sourceRect": [
+        964,
+        276,
+        1232,
+        576
+      ]
+    }
+  ],
+  "rangeVisualPolicy": "No baked wind-range ribbons in emitter art. Authoritative finite cell route is rendered by companion wind shader behind emitter and play actors. The shader starts at tile center and emerges at the printed outlet; corner turns come from the same authoritative route. Decorative Ranch windmill prop is not modified.",
+  "nativeArtProvenance": {
+    "tool": "built-in imagegen",
+    "source": "sources/wind_emitter_components_native.png",
+    "assembly": "Crop native component regions; uniform resize; place fixed native body and genuine phase rotor parts. No RGB repaint, quantization, procedural sprite illustration, complete-body rotation, or baked long wind."
+  },
+  "logicPolicy": "Preserve actual ID20 logic/occupancy. This sheet only changes visual clarity; host binding must consume existing committed gust event and exact gameplay route. Never change simulation from elapsed animation or shader time."
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ANIMOL.Art.DevicePatch01;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -25,6 +26,8 @@ namespace ANIMOL.Puzzle
         public readonly List<BeamCell> Beams = new List<BeamCell>();
         public readonly Dictionary<Vector2Int, Vector2Int> WindCells = new Dictionary<Vector2Int, Vector2Int>();
         readonly Dictionary<Vector2Int, string> windOwners = new Dictionary<Vector2Int, string>();
+        readonly Dictionary<string, WindRoute> windRoutes = new Dictionary<string, WindRoute>(StringComparer.Ordinal);
+        public WindRoute WindRouteFor(string id) => id != null && windRoutes.TryGetValue(id, out var route) ? route : null;
         readonly List<PrototypeDevice> definitions;
         Dictionary<string, PrototypeDeviceState> states = new Dictionary<string, PrototypeDeviceState>();
         HashSet<Vector2Int> collected = new HashSet<Vector2Int>(), visited = new HashSet<Vector2Int>();
@@ -56,6 +59,7 @@ namespace ANIMOL.Puzzle
             collected = new HashSet<Vector2Int>(other.collected); visited = new HashSet<Vector2Int>(other.visited);
             Beams.Clear(); Beams.AddRange(other.Beams); WindCells.Clear(); foreach (var p in other.WindCells) WindCells.Add(p.Key, p.Value);
             windOwners.Clear(); foreach (var p in other.windOwners) windOwners.Add(p.Key, p.Value);
+            windRoutes.Clear(); foreach (var p in other.windRoutes) windRoutes.Add(p.Key, p.Value);
         }
         public bool IsCollected(Vector2Int p) => collected.Contains(p);
         public PrototypeDevice Definition(string id) => definitions.FirstOrDefault(d => d.id == id);
@@ -98,8 +102,32 @@ namespace ANIMOL.Puzzle
             (d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) || d.role == PrototypeRole.MovingStage) != null);
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && (Supported(p) || (water && Rules.water.Contains(p))) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null && At(p, d => d.role == PrototypeRole.Boat, except) == null;
-        bool GateAllows(Vector2Int from, Vector2Int to, Vector2Int direction) => !definitions.Any(d => d.role == PrototypeRole.OneWayGate && !states[d.id].removed &&
-            (states[d.id].cell == from || states[d.id].cell == to) && states[d.id].direction != direction);
+        static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
+        static GateHeading GateDirection(Vector2Int p)
+        {
+            if (p == Vector2Int.up) return GateHeading.North;
+            if (p == Vector2Int.right) return GateHeading.East;
+            if (p == Vector2Int.down) return GateHeading.South;
+            if (p == Vector2Int.left) return GateHeading.West;
+            throw new ArgumentException("Gate heading must be cardinal.");
+        }
+        GateDecision GateCheck(PrototypeDevice gate, Vector2Int from, Vector2Int to, Vector2Int direction)
+        {
+            var cell = states[gate.id].cell;
+            var heading = GateDirection(states[gate.id].direction);
+            var outlet = cell + states[gate.id].direction;
+            var outputFree = Free(outlet);
+            return from == cell
+                ? OneCellGateRules.EvaluateExit(GatePoint(cell), heading, GatePoint(direction), outputFree)
+                : OneCellGateRules.EvaluateEntry(GatePoint(cell), heading, GatePoint(from), GatePoint(direction), outputFree);
+        }
+        bool GateAllows(Vector2Int from, Vector2Int to, Vector2Int direction)
+        {
+            foreach (var gate in definitions.Where(d => d.role == PrototypeRole.OneWayGate && !states[d.id].removed))
+                if ((states[gate.id].cell == from || states[gate.id].cell == to) &&
+                    !GateCheck(gate, from, to, direction).allowed) return false;
+            return true;
+        }
         public PrototypeAction Apply(Vector2Int direction)
         {
             if (Won || Failed || !PuzzleSession.IsCardinal(direction)) return new PrototypeAction { reason = "Input unavailable" };
@@ -145,7 +173,7 @@ namespace ANIMOL.Puzzle
         {
             var gate = At(destination, d => d.role == PrototypeRole.OneWayGate) ?? At(Cell, d => d.role == PrototypeRole.OneWayGate);
             if (gate != null && !GateAllows(Cell, destination, Direction))
-            { Visual(gate, "blocked_" + Dir(Direction), "existing_rejected_gate_contact"); return; }
+            { Visual(gate, "blocked_" + Dir(states[gate.id].direction), "existing_rejected_gate_contact"); return; }
             if (!string.IsNullOrEmpty(BoatId))
             { Visual(Definition(BoatId), "blocked_" + Dir(Direction), "existing_boat_or_disembark_rejected"); return; }
             var device = At(destination);
@@ -525,17 +553,58 @@ namespace ANIMOL.Puzzle
         {
             WindCells.Clear();
             windOwners.Clear();
+            windRoutes.Clear();
             foreach (var d in definitions.Where(d => d.role == PrototypeRole.Wind && !states[d.id].removed))
             {
                 var s = states[d.id]; if (d.variant != "blower") { WindCells[s.cell] = s.direction; windOwners[s.cell] = d.id; continue; }
-                for (var p = s.cell + s.direction; Supported(p); p += s.direction)
+                // The existing blower had no authored range field: it ran until board/blocker.
+                // The board cell count is a finite upper bound; a repeated cell stops earlier.
+                var route = AnimolWindRoute.Trace(new WindBoard(this, d.id),
+                    new WindGridCell(s.cell.x, s.cell.y), WindHeadingFor(s.direction),
+                    Map.Width * Map.Height);
+                windRoutes.Add(d.id, route);
+                foreach (var segment in route.cells)
                 {
-                    var body = At(p, Solid, d.id);
-                    if (body != null && !WindMovable(body)) break;
-                    WindCells[p] = s.direction;
+                    var p = new Vector2Int(segment.cell.x, segment.cell.y);
+                    WindCells[p] = WindVector(segment.localForceHeading);
                     windOwners[p] = d.id;
-                    if (body != null) break;
                 }
+            }
+        }
+        static WindHeading WindHeadingFor(Vector2Int p) =>
+            p == Vector2Int.up ? WindHeading.North : p == Vector2Int.right ? WindHeading.East :
+            p == Vector2Int.down ? WindHeading.South : p == Vector2Int.left ? WindHeading.West :
+            throw new ArgumentException("Wind heading must be cardinal.");
+        static Vector2Int WindVector(WindHeading h) =>
+            h == WindHeading.North ? Vector2Int.up : h == WindHeading.East ? Vector2Int.right :
+            h == WindHeading.South ? Vector2Int.down : Vector2Int.left;
+        sealed class WindBoard : IWindBoard
+        {
+            readonly PuzzleDeviceSession session;
+            readonly string emitter;
+            public WindBoard(PuzzleDeviceSession session, string emitter)
+            { this.session = session; this.emitter = emitter; }
+            public WindCellKind Classify(WindGridCell cell, WindHeading incomingTravel)
+            {
+                var p = new Vector2Int(cell.x, cell.y);
+                if (!session.Supported(p)) return WindCellKind.Void;
+                var body = session.At(p, session.Solid, emitter);
+                if (body != null)
+                    return body.role == PrototypeRole.MetalCrate ? WindCellKind.MetalBlock :
+                        WindMovable(body) ? WindCellKind.Open : WindCellKind.HardBlock;
+                var corner = session.At(p, d => d.role == PrototypeRole.Bounce);
+                if (corner != null && ReflectCorner(WindVector(incomingTravel), corner.orientation) == Vector2Int.zero)
+                    return WindCellKind.HardBlock;
+                return WindCellKind.Open;
+            }
+            public bool TryTurnWind(WindGridCell cell, WindHeading incomingTravel, out WindHeading outgoingTravel)
+            {
+                var p = new Vector2Int(cell.x, cell.y);
+                var corner = session.At(p, d => d.role == PrototypeRole.Bounce);
+                var reflected = corner == null ? Vector2Int.zero :
+                    ReflectCorner(WindVector(incomingTravel), corner.orientation);
+                outgoingTravel = reflected == Vector2Int.zero ? incomingTravel : WindHeadingFor(reflected);
+                return reflected != Vector2Int.zero;
             }
         }
         static bool WindMovable(PrototypeDevice d) => d.role == PrototypeRole.StarSocket && d.variant != "socket" ||
@@ -543,17 +612,28 @@ namespace ANIMOL.Puzzle
             d.role == PrototypeRole.Dice && d.variant != "target";
         void WindVisual(PrototypeDevice wind, Vector2Int direction)
         {
+            var route = WindRouteFor(wind.id);
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = wind.id,
                 state = "wind_push_" + Dir(direction), eventName = "valid_action_wind_resolved",
-                group = group, cells = WindCells.Where(x => x.Value == direction).Select(x => x.Key).ToList() });
+                group = group, windRoute = route,
+                cells = route == null ? new List<Vector2Int>() :
+                    route.cells.Select(x => new Vector2Int(x.cell.x, x.cell.y)).ToList() });
         }
         void WindPulse()
         {
             foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id)))
             {
                 var s = states[d.id];
-                if (!WindCells.TryGetValue(s.cell, out var direction) || !Free(s.cell + direction, d.id)) continue;
                 var wind = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
+                if (!WindCells.TryGetValue(s.cell, out var direction)) continue;
+                if (wind != null && wind.variant == "blower")
+                {
+                    var route = WindRouteFor(wind.id);
+                    if (route == null || !route.TryGetForce(new WindGridCell(s.cell.x, s.cell.y),
+                            out var forceHeading)) continue;
+                    direction = WindVector(forceHeading);
+                }
+                if (!Free(s.cell + direction, d.id)) continue;
                 if (wind != null) WindVisual(wind, direction); // Snapshot the trace before movement.
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
                 pushedThisAction.Add(d.id);

@@ -3,6 +3,7 @@ using System.Linq;
 using ANIMOL.Puzzle;
 using Animol.StarwayRanch.V12;
 using ANIMOL.Art.V12;
+using ANIMOL.Art.DevicePatch01;
 using NUnit.Framework;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -13,6 +14,17 @@ namespace ANIMOL.Presentation.Tests
 {
     public sealed class StarwayRanchV12PlayTests
     {
+        [SetUp] public void ResetMotionBeforeTest()
+        {
+            Time.timeScale = 1;
+            StarwayRanchMotionSettings.ReducedMotion = false;
+        }
+        [TearDown] public void ResetMotionAfterTest()
+        {
+            Time.timeScale = 1;
+            StarwayRanchMotionSettings.ReducedMotion = false;
+        }
+
         [Test] public void MissingLatestKeyShowsDiagnosticInsteadOfLegacySprite()
         {
             var art = UnityEditor.AssetDatabase.LoadAssetAtPath<StarwayRanchArt>(
@@ -33,7 +45,7 @@ namespace ANIMOL.Presentation.Tests
             finally { Object.DestroyImmediate(go); }
         }
 
-        [Test] public void CommittedWindCellsUseSeparateLatestEffectRenderersAndClearOnSettle()
+        [Test] public void CommittedWindUsesSameRouteAndRetainsStaticRangeOnSettle()
         {
             var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/Prototypes/Device20_Wind.asset");
@@ -49,23 +61,27 @@ namespace ANIMOL.Presentation.Tests
                 var action = session.Apply(Vector2Int.right);
                 Assert.That(action.accepted, Is.True);
                 Assert.That(session.Cost, Is.EqualTo(1));
-                var cue = action.events.First(e => e.eventName == "valid_action_wind_resolved");
+                var cue = action.events.First(e => e.eventName == "valid_action_wind_resolved" && e.actor == "blower");
                 Assert.That(cue.cells.Count, Is.GreaterThan(0));
+                Assert.That(cue.windRoute, Is.Not.Null);
                 var view = visualRoot.AddComponent<PuzzleDeviceView>();
                 view.Bind(session, player);
                 view.Notify(cue, "wind-authority-step");
-                var effects = view.GetComponentsInChildren<StarwayRanchV12AnimatedVisual>()
-                    .Where(v => v.name.StartsWith("Wind visual ")).ToArray();
-                Assert.That(effects.Length, Is.EqualTo(cue.cells.Count));
-                foreach (var effect in effects)
+                var ranges = view.GetComponentsInChildren<AnimolWindRouteRenderer>();
+                Assert.That(ranges.Length, Is.EqualTo(1));
+                Assert.That(ranges[0].HasVisibleRange, Is.True);
+                Assert.That(ranges[0].IsActive, Is.True);
+                foreach (var segment in cue.windRoute.cells)
                 {
-                    Assert.That(effect.GetComponent<SpriteRenderer>().enabled, Is.True);
-                    Assert.That(effect.CurrentKey, Is.EqualTo("wind_corridor.east.flow_effect"));
-                    Assert.That(UnityEditor.AssetDatabase.GetAssetPath(effect.GetComponent<SpriteRenderer>().sprite),
-                        Does.StartWith("Assets/ANIMOL/Sprites/StarwayRanch/ANIMOL_STARWAY_RANCH_CARTOON_V12/"));
+                    Assert.That(cue.windRoute.TryGetForce(segment.cell, out var heading), Is.True);
+                    Assert.That(session.WindCells[new Vector2Int(segment.cell.x, segment.cell.y)],
+                        Is.EqualTo(heading == WindHeading.North ? Vector2Int.up :
+                            heading == WindHeading.East ? Vector2Int.right :
+                            heading == WindHeading.South ? Vector2Int.down : Vector2Int.left));
                 }
                 view.Settle();
-                Assert.That(effects.All(e => !e.GetComponent<SpriteRenderer>().enabled), Is.True);
+                Assert.That(ranges[0].HasVisibleRange, Is.True);
+                Assert.That(ranges[0].IsActive, Is.False);
             }
             finally
             {
@@ -127,7 +143,8 @@ namespace ANIMOL.Presentation.Tests
             var bodyRotation = body.localRotation;
             var rotorRotation = rotor.localRotation;
             yield return new WaitForSeconds(.15f);
-            Assert.That(Quaternion.Angle(rotor.localRotation, rotorRotation), Is.GreaterThan(1f));
+            Assert.That(Quaternion.Angle(rotor.localRotation, rotorRotation), Is.GreaterThan(1f),
+                $"scale={Time.timeScale}, delta={Time.deltaTime}, active={motion.isActiveAndEnabled}");
             Assert.That(body.localRotation, Is.EqualTo(bodyRotation));
             Time.timeScale = 0;
             try
@@ -167,9 +184,8 @@ namespace ANIMOL.Presentation.Tests
             puzzle.View.StartClassicWind(wind.position);
             Assert.That(windGo.GetComponent<StarwayRanchV12AnimatedVisual>().CurrentKey,
                 Does.EndWith("_active"));
-            Assert.That(windGo.transform.Find("V12 wind range overlay").GetComponent<SpriteRenderer>().enabled, Is.True);
+            Assert.That(windGo.transform.Find("V12 wind range overlay"), Is.Null);
             puzzle.View.FinishClassicWind(wind.position);
-            Assert.That(windGo.transform.Find("V12 wind range overlay").GetComponent<SpriteRenderer>().enabled, Is.False);
             Assert.That(windGo.GetComponent<StarwayRanchV12AnimatedVisual>().CurrentKey,
                 Does.EndWith("_idle"));
         }
@@ -218,7 +234,8 @@ namespace ANIMOL.Presentation.Tests
             var starShift = star.position.x - camera.transform.position.x - starScreen;
             var cloudShift = cloud.position.x - camera.transform.position.x - cloudScreen;
             Assert.That(starShift, Is.EqualTo(-.00375f).Within(.02f));
-            Assert.That(cloudShift, Is.EqualTo(-.35714f).Within(.04f));
+            Assert.That(cloudShift, Is.EqualTo(-.35714f).Within(.04f),
+                $"scale={Time.timeScale}, delta={Time.deltaTime}, rigActive={rig.isActiveAndEnabled}, reduced={rig.ReducedMotion}");
             try
             {
                 Time.timeScale = 0;

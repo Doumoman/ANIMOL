@@ -38,6 +38,7 @@ namespace ANIMOL.Puzzle
         public TextAsset backgroundLayout;
         public StarwayRanchV12VisualCatalog v12Animations;
         public string v12ManifestSha256;
+        public Material windRouteMaterial;
         public RanchSpriteEntry[] sprites = Array.Empty<RanchSpriteEntry>();
         Dictionary<string, Sprite> index;
 

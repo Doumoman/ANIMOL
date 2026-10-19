@@ -1,0 +1,2493 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_DEVICE_VISUAL_PATCH_01",
+  "version": "PATCH_01",
+  "family": "domino_wall",
+  "sourcePdfDeviceId": 13,
+  "existingGameplayId": null,
+  "actualProjectBindingVerified": false,
+  "runtimeAssetCount": 20,
+  "compatibilityAliasCount": 2,
+  "clipCount": 4,
+  "footprintCells": [
+    1,
+    1
+  ],
+  "canvasSize": [
+    576,
+    576
+  ],
+  "logicalRect": [
+    160,
+    160,
+    256,
+    256
+  ],
+  "groundFootprintRect": [
+    160,
+    160,
+    256,
+    256
+  ],
+  "visualOverhangAllowed": true,
+  "deriveColliderFromAlpha": false,
+  "ppu": 256,
+  "pivot": [
+    0.5,
+    0.5
+  ],
+  "scope": "Single-cell modular replacement for legacy three-panels-in-two-cells aggregate. Exactly one illustrated domino module per host occupied cell. Chain length and cell list are NOT inferred from raster alpha or hardcoded three panels.",
+  "sourceAssembly": {
+    "type": "New native drawn directional pose components and native fixed one-cell base plates, mechanically registered by per-part similarity transforms. Fixed base, corner feet and hinge sockets are invariant across phases.",
+    "nativeSources": [
+      "sources/domino_east_west_native.png",
+      "sources/domino_north_south_native.png",
+      "sources/domino_cell_bases_native.png"
+    ],
+    "sourceRgbRepaint": false,
+    "codeDrawnProductionArt": false,
+    "wholeBillboardDirectionRotation": false,
+    "guideImagesAreRuntimeArt": false,
+    "partScaleDoesNotChangeWorldPPU": true
+  },
+  "occupancyMigration": {
+    "legacyRasterAggregate": [
+      2,
+      1
+    ],
+    "newVisualModule": [
+      1,
+      1
+    ],
+    "actualGameplayFootprintVerified": false,
+    "bindRule": "Read the actual existing device occupied cell list. Place one 1x1 module at each listed cell with host-owned ordering. Never force a new 3-cell chain or shrink the gameplay object to one cell just because art changed. Remove obsolete aggregate renderer after each module is bound."
+  },
+  "timing": "Host invokes or samples one 5-frame fall clip per existing chain cell, staggered by existing simulation chain order. No reverse reset gameplay is introduced.",
+  "limitation": "Directional native cartoon poses prioritize broad readable standing faces. These are 2D cel illustrations with registered fixed hinge axes, not a 3D physics render. Actual Unity import/Play Mode and game integration remain NOT_RUN.",
+  "assets": [
+    {
+      "id": "domino_wall.east.0",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/east/frame_00.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "east",
+      "phase": 0,
+      "angleDegrees": 0,
+      "content_rect": [
+        160,
+        56,
+        256,
+        355
+      ],
+      "physicalHingeAxis": [
+        [
+          182.95172413793102,
+          190
+        ],
+        [
+          182.95172413793102,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          182.95172413793102,
+          239.91724137931033
+        ],
+        [
+          182.95172413793102,
+          333.4896551724138
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          75,
+          18,
+          203,
+          363
+        ],
+        "sourceAxis": [
+          [
+            83,
+            158
+          ],
+          [
+            83,
+            363
+          ]
+        ],
+        "targetAxis": [
+          [
+            182.95172413793102,
+            190
+          ],
+          [
+            182.95172413793102,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.9560975609756097,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          176,
+          56,
+          193,
+          347
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "eae0347c506b2b24941749b6a41f05df1cb0cffd2a14fc07397fb1ab5124a00e",
+      "decodedRgbaSha256": "62310e326cac492cd537d2dc94b1442e12bec209fd0e649ef00d5224db29328a"
+    },
+    {
+      "id": "domino_wall.east.1",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/east/frame_01.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "east",
+      "phase": 1,
+      "angleDegrees": 30,
+      "content_rect": [
+        160,
+        61,
+        256,
+        350
+      ],
+      "physicalHingeAxis": [
+        [
+          182.95172413793102,
+          190
+        ],
+        [
+          182.95172413793102,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          182.95172413793102,
+          239.91724137931033
+        ],
+        [
+          182.95172413793102,
+          333.4896551724138
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          460,
+          21,
+          224,
+          360
+        ],
+        "sourceAxis": [
+          [
+            468,
+            157
+          ],
+          [
+            468,
+            363
+          ]
+        ],
+        "targetAxis": [
+          [
+            182.95172413793102,
+            190
+          ],
+          [
+            182.95172413793102,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.9514563106796117,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          175,
+          61,
+          213,
+          342
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "15ca59339dab691af9d7f00baf135f83077804ffd92a7a08445400025ed9ab1b",
+      "decodedRgbaSha256": "fc34b92c9753aeb14241400546d3a9c6064a4dc2450c47378ac2596edbcff1ed"
+    },
+    {
+      "id": "domino_wall.east.2",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/east/frame_02.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "east",
+      "phase": 2,
+      "angleDegrees": 55,
+      "content_rect": [
+        160,
+        102,
+        256,
+        309
+      ],
+      "physicalHingeAxis": [
+        [
+          182.95172413793102,
+          190
+        ],
+        [
+          182.95172413793102,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          182.95172413793102,
+          239.91724137931033
+        ],
+        [
+          182.95172413793102,
+          333.4896551724138
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          861,
+          58,
+          258,
+          322
+        ],
+        "sourceAxis": [
+          [
+            870,
+            154
+          ],
+          [
+            870,
+            367
+          ]
+        ],
+        "targetAxis": [
+          [
+            182.95172413793102,
+            190
+          ],
+          [
+            182.95172413793102,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.92018779342723,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          175,
+          102,
+          237,
+          295
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "74bec030ba5fc07e4717acea0f369f397adbacd0ebc48a14431ebfd600bf3a82",
+      "decodedRgbaSha256": "c51585beea3541037e25fac81925da3bf12ac7f2f468255d6f303ef67e693a49"
+    },
+    {
+      "id": "domino_wall.east.3",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/east/frame_03.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "east",
+      "phase": 3,
+      "angleDegrees": 80,
+      "content_rect": [
+        160,
+        161,
+        256,
+        250
+      ],
+      "physicalHingeAxis": [
+        [
+          182.95172413793102,
+          190
+        ],
+        [
+          182.95172413793102,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          182.95172413793102,
+          239.91724137931033
+        ],
+        [
+          182.95172413793102,
+          333.4896551724138
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          1254,
+          91,
+          265,
+          277
+        ],
+        "sourceAxis": [
+          [
+            1262,
+            126
+          ],
+          [
+            1262,
+            355
+          ]
+        ],
+        "targetAxis": [
+          [
+            182.95172413793102,
+            190
+          ],
+          [
+            182.95172413793102,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.8558951965065502,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          176,
+          161,
+          227,
+          236
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "b5303dc814e66731096730a150a2db1b00a9a46865778ce879ce504e018714fd",
+      "decodedRgbaSha256": "00ea63a1f3c133f324bd40cbb0b8fc4c6702a3e9ab4dd84cd66d83e97482265f"
+    },
+    {
+      "id": "domino_wall.east.4",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/east/frame_04.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "east",
+      "phase": 4,
+      "angleDegrees": 90,
+      "content_rect": [
+        160,
+        164,
+        256,
+        247
+      ],
+      "physicalHingeAxis": [
+        [
+          182.95172413793102,
+          190
+        ],
+        [
+          182.95172413793102,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          182.95172413793102,
+          239.91724137931033
+        ],
+        [
+          182.95172413793102,
+          333.4896551724138
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          1641,
+          105,
+          276,
+          256
+        ],
+        "sourceAxis": [
+          [
+            1648,
+            113
+          ],
+          [
+            1648,
+            352
+          ]
+        ],
+        "targetAxis": [
+          [
+            182.95172413793102,
+            190
+          ],
+          [
+            182.95172413793102,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.8200836820083682,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          177,
+          183,
+          227,
+          210
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "796159184cc8b2824d45d6dc292573b8ce51529c56671ad30ba95d687571eebf",
+      "decodedRgbaSha256": "a93595c2c4bebce736e3abe4a81bb90df78a33a0956dcdd5cbcaafb02ad3677f"
+    },
+    {
+      "id": "domino_wall.north.0",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/north/frame_00.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "north",
+      "phase": 0,
+      "angleDegrees": 0,
+      "content_rect": [
+        163,
+        160,
+        249,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          389.9259259259259
+        ],
+        [
+          386,
+          389.9259259259259
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          234.7037037037037,
+          389.9259259259259
+        ],
+        [
+          336.03703703703707,
+          389.9259259259259
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          69,
+          132,
+          260,
+          165
+        ],
+        "sourceAxis": [
+          [
+            76,
+            289
+          ],
+          [
+            322,
+            289
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            389.9259259259259
+          ],
+          [
+            386,
+            389.9259259259259
+          ]
+        ],
+        "uniformNativePartScale": 0.7967479674796748,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 5.684341886080802e-14,
+        "panelContentRect": [
+          184,
+          265,
+          208,
+          131
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "c0551fe6fc24590a75abfc1aee33ae473ee2355247b9f6e257a5d45a7058a66d",
+      "decodedRgbaSha256": "fe5803a5461f563f1c401d13ae8e1a775c3bf7e3fd4dd2c3a9e131476b651ef2"
+    },
+    {
+      "id": "domino_wall.north.1",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/north/frame_01.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "north",
+      "phase": 1,
+      "angleDegrees": 30,
+      "content_rect": [
+        163,
+        160,
+        249,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          389.9259259259259
+        ],
+        [
+          386,
+          389.9259259259259
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          234.7037037037037,
+          389.9259259259259
+        ],
+        [
+          336.03703703703707,
+          389.9259259259259
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          463,
+          119,
+          260,
+          179
+        ],
+        "sourceAxis": [
+          [
+            470,
+            290
+          ],
+          [
+            716,
+            290
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            389.9259259259259
+          ],
+          [
+            386,
+            389.9259259259259
+          ]
+        ],
+        "uniformNativePartScale": 0.7967479674796748,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          254,
+          208,
+          142
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "c077d6f473cea57b13db6bbece810ebb6458882aeff6f991847ad0cd080ca51b",
+      "decodedRgbaSha256": "9fa9f2368b80e8f6f9243c065553f615d9666de96a632728797737abee35d792"
+    },
+    {
+      "id": "domino_wall.north.2",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/north/frame_02.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "north",
+      "phase": 2,
+      "angleDegrees": 55,
+      "content_rect": [
+        163,
+        160,
+        249,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          389.9259259259259
+        ],
+        [
+          386,
+          389.9259259259259
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          234.7037037037037,
+          389.9259259259259
+        ],
+        [
+          336.03703703703707,
+          389.9259259259259
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          862,
+          100,
+          259,
+          202
+        ],
+        "sourceAxis": [
+          [
+            869,
+            294
+          ],
+          [
+            1114,
+            294
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            389.9259259259259
+          ],
+          [
+            386,
+            389.9259259259259
+          ]
+        ],
+        "uniformNativePartScale": 0.8,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          235,
+          208,
+          161
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "909bfa1bb595b4e39ab37cc39b84e08cd63f440748690381efe6dbd37bad5db6",
+      "decodedRgbaSha256": "eed8d78fe88c220fa9f9e96458b4a70c32c0c4418874dd18bf48688c3c7bc7af"
+    },
+    {
+      "id": "domino_wall.north.3",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/north/frame_03.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "north",
+      "phase": 3,
+      "angleDegrees": 80,
+      "content_rect": [
+        163,
+        160,
+        249,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          389.9259259259259
+        ],
+        [
+          386,
+          389.9259259259259
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          234.7037037037037,
+          389.9259259259259
+        ],
+        [
+          336.03703703703707,
+          389.9259259259259
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          1262,
+          77,
+          261,
+          222
+        ],
+        "sourceAxis": [
+          [
+            1269,
+            291
+          ],
+          [
+            1516,
+            291
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            389.9259259259259
+          ],
+          [
+            386,
+            389.9259259259259
+          ]
+        ],
+        "uniformNativePartScale": 0.7935222672064778,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          220,
+          207,
+          176
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "82169b716c7a003a7a213d48064c55c1164603bd03c681035b81ae2ebc976d60",
+      "decodedRgbaSha256": "2a5d6596556a7156bf4d804d45b061d1afdf76289a7f378ffa90758626fd57c6"
+    },
+    {
+      "id": "domino_wall.north.4",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/north/frame_04.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "north",
+      "phase": 4,
+      "angleDegrees": 90,
+      "content_rect": [
+        163,
+        160,
+        249,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          389.9259259259259
+        ],
+        [
+          386,
+          389.9259259259259
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          234.7037037037037,
+          389.9259259259259
+        ],
+        [
+          336.03703703703707,
+          389.9259259259259
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          1657,
+          71,
+          262,
+          231
+        ],
+        "sourceAxis": [
+          [
+            1664,
+            294
+          ],
+          [
+            1912,
+            294
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            389.9259259259259
+          ],
+          [
+            386,
+            389.9259259259259
+          ]
+        ],
+        "uniformNativePartScale": 0.7903225806451613,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          214,
+          208,
+          182
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "7553394544acb527acaafb685e1aa57652bfce86af77b4d1ad5f898d2094709b",
+      "decodedRgbaSha256": "af1528718994891a434bc2fcf1bb1cba93569e8ccad108aa33c4fcc195a887e1"
+    },
+    {
+      "id": "domino_wall.west.0",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/west/frame_00.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "west",
+      "phase": 0,
+      "angleDegrees": 0,
+      "content_rect": [
+        160,
+        72,
+        256,
+        340
+      ],
+      "physicalHingeAxis": [
+        [
+          389.9259259259259,
+          190
+        ],
+        [
+          389.9259259259259,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          389.9259259259259,
+          240.44444444444446
+        ],
+        [
+          389.9259259259259,
+          334.66666666666663
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          74,
+          392,
+          208,
+          359
+        ],
+        "sourceAxis": [
+          [
+            274,
+            521
+          ],
+          [
+            274,
+            736
+          ]
+        ],
+        "targetAxis": [
+          [
+            389.9259259259259,
+            190
+          ],
+          [
+            389.9259259259259,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.9116279069767442,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          208,
+          72,
+          189,
+          328
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "ff7fbbcf5b654c2fa0bc575e55f9d677afde5c590a8dff86f6eb72349e5f86c0",
+      "decodedRgbaSha256": "467af74f6f7d4ec7ddb132a3ab94cb0f469a31cdd096098ee292f7676faf9647"
+    },
+    {
+      "id": "domino_wall.west.1",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/west/frame_01.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "west",
+      "phase": 1,
+      "angleDegrees": 30,
+      "content_rect": [
+        160,
+        74,
+        256,
+        338
+      ],
+      "physicalHingeAxis": [
+        [
+          389.9259259259259,
+          190
+        ],
+        [
+          389.9259259259259,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          389.9259259259259,
+          240.44444444444446
+        ],
+        [
+          389.9259259259259,
+          334.66666666666663
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          459,
+          400,
+          226,
+          346
+        ],
+        "sourceAxis": [
+          [
+            677,
+            524
+          ],
+          [
+            677,
+            732
+          ]
+        ],
+        "targetAxis": [
+          [
+            389.9259259259259,
+            190
+          ],
+          [
+            389.9259259259259,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.9423076923076923,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          185,
+          74,
+          212,
+          325
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "fd2cc00c7bbfbc8b8dd39f6e5499240e4d060bb8d60032ae067ab7521edd66e2",
+      "decodedRgbaSha256": "6790d0a36f5cf341592d0ebd52fc0574c76d2ff5824af1ce0b8e487c0d95a2c5"
+    },
+    {
+      "id": "domino_wall.west.2",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/west/frame_02.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "west",
+      "phase": 2,
+      "angleDegrees": 55,
+      "content_rect": [
+        150,
+        92,
+        266,
+        320
+      ],
+      "physicalHingeAxis": [
+        [
+          389.9259259259259,
+          190
+        ],
+        [
+          389.9259259259259,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          389.9259259259259,
+          240.44444444444446
+        ],
+        [
+          389.9259259259259,
+          334.66666666666663
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          861,
+          430,
+          254,
+          317
+        ],
+        "sourceAxis": [
+          [
+            1107,
+            531
+          ],
+          [
+            1107,
+            732
+          ]
+        ],
+        "targetAxis": [
+          [
+            389.9259259259259,
+            190
+          ],
+          [
+            389.9259259259259,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.9751243781094527,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          150,
+          92,
+          248,
+          308
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "2e2e60d68c389630013dd305c0dacb69d4f858e6a493d7360051fd85a9a6fb55",
+      "decodedRgbaSha256": "202be3bff90c744df1b942c2d3bd2893ab62e047b0f2a24179cb4c288280550a"
+    },
+    {
+      "id": "domino_wall.west.3",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/west/frame_03.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "west",
+      "phase": 3,
+      "angleDegrees": 80,
+      "content_rect": [
+        160,
+        147,
+        256,
+        265
+      ],
+      "physicalHingeAxis": [
+        [
+          389.9259259259259,
+          190
+        ],
+        [
+          389.9259259259259,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          389.9259259259259,
+          240.44444444444446
+        ],
+        [
+          389.9259259259259,
+          334.66666666666663
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          1262,
+          444,
+          266,
+          285
+        ],
+        "sourceAxis": [
+          [
+            1520,
+            493
+          ],
+          [
+            1520,
+            716
+          ]
+        ],
+        "targetAxis": [
+          [
+            389.9259259259259,
+            190
+          ],
+          [
+            389.9259259259259,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.8789237668161435,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          163,
+          147,
+          234,
+          250
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "fa0b16d3cbb93422c53ff7e2df6faba017f0dba209a30ceb431905fe63eb60a4",
+      "decodedRgbaSha256": "2623e29e39ae6152b4aa871592dde9a2d33f5e3a4d274d1507be09cf056986c6"
+    },
+    {
+      "id": "domino_wall.west.4",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/west/frame_04.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "west",
+      "phase": 4,
+      "angleDegrees": 90,
+      "content_rect": [
+        160,
+        164,
+        256,
+        248
+      ],
+      "physicalHingeAxis": [
+        [
+          389.9259259259259,
+          190
+        ],
+        [
+          389.9259259259259,
+          386
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          389.9259259259259,
+          240.44444444444446
+        ],
+        [
+          389.9259259259259,
+          334.66666666666663
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_east_west_native.png",
+        "sourceRect": [
+          1642,
+          464,
+          281,
+          257
+        ],
+        "sourceAxis": [
+          [
+            1915,
+            472
+          ],
+          [
+            1915,
+            710
+          ]
+        ],
+        "targetAxis": [
+          [
+            389.9259259259259,
+            190
+          ],
+          [
+            389.9259259259259,
+            386
+          ]
+        ],
+        "uniformNativePartScale": 0.8235294117647058,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          165,
+          183,
+          231,
+          212
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "a23155f4f720e6d70de6e1ea5c6ca9e2d502636aab36313f5382161a78f90973",
+      "decodedRgbaSha256": "5ea2d2687cc93ddca474ac84af39390bbb9df794bf830b70e2663f164a97b3ab"
+    },
+    {
+      "id": "domino_wall.south.0",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/south/frame_00.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "south",
+      "phase": 0,
+      "angleDegrees": 0,
+      "content_rect": [
+        160,
+        66,
+        256,
+        350
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          186.13457076566124
+        ],
+        [
+          386,
+          186.13457076566124
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          233.05800464037122,
+          186.13457076566124
+        ],
+        [
+          338.1902552204176,
+          186.13457076566124
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          69,
+          399,
+          261,
+          160
+        ],
+        "sourceAxis": [
+          [
+            76,
+            551
+          ],
+          [
+            323,
+            551
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            186.13457076566124
+          ],
+          [
+            386,
+            186.13457076566124
+          ]
+        ],
+        "uniformNativePartScale": 0.7935222672064778,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          66,
+          207,
+          126
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "542d7072c43b3808b1bf938598bc9a6acb3db680e50d0395bc26cce976ee2d86",
+      "decodedRgbaSha256": "b65933788db021203fb1f3d0e874b992138f47bb611838c5e7e0b915941eadf0"
+    },
+    {
+      "id": "domino_wall.south.1",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/south/frame_01.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "south",
+      "phase": 1,
+      "angleDegrees": 30,
+      "content_rect": [
+        160,
+        79,
+        256,
+        337
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          186.13457076566124
+        ],
+        [
+          386,
+          186.13457076566124
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          233.05800464037122,
+          186.13457076566124
+        ],
+        [
+          338.1902552204176,
+          186.13457076566124
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          463,
+          433,
+          261,
+          143
+        ],
+        "sourceAxis": [
+          [
+            470,
+            568
+          ],
+          [
+            717,
+            568
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            186.13457076566124
+          ],
+          [
+            386,
+            186.13457076566124
+          ]
+        ],
+        "uniformNativePartScale": 0.7935222672064778,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          79,
+          208,
+          113
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "b9591a0159f90f84175d024a753c10b5518f92a190e99ef9b3ca192778d0334f",
+      "decodedRgbaSha256": "393a3132e583617f69aadc82c5063ad322b3b99d890dfc59dbb2f44f23f6e7e4"
+    },
+    {
+      "id": "domino_wall.south.2",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/south/frame_02.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "south",
+      "phase": 2,
+      "angleDegrees": 55,
+      "content_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          186.13457076566124
+        ],
+        [
+          386,
+          186.13457076566124
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          233.05800464037122,
+          186.13457076566124
+        ],
+        [
+          338.1902552204176,
+          186.13457076566124
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          861,
+          514,
+          261,
+          146
+        ],
+        "sourceAxis": [
+          [
+            868,
+            522
+          ],
+          [
+            1115,
+            522
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            186.13457076566124
+          ],
+          [
+            386,
+            186.13457076566124
+          ]
+        ],
+        "uniformNativePartScale": 0.7935222672064778,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          182,
+          208,
+          114
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "350c3d97dde43c538206e118e54b39255ee3789baf18afaa2b9a4ebe1fe384e4",
+      "decodedRgbaSha256": "ab0f8f52b8cecf7a3ef8f36c8e0a06d3148c7d55987d072675c01bed38fa9cf3"
+    },
+    {
+      "id": "domino_wall.south.3",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/south/frame_03.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "south",
+      "phase": 3,
+      "angleDegrees": 80,
+      "content_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          186.13457076566124
+        ],
+        [
+          386,
+          186.13457076566124
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          233.05800464037122,
+          186.13457076566124
+        ],
+        [
+          338.1902552204176,
+          186.13457076566124
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          1262,
+          489,
+          262,
+          239
+        ],
+        "sourceAxis": [
+          [
+            1269,
+            497
+          ],
+          [
+            1517,
+            497
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            186.13457076566124
+          ],
+          [
+            386,
+            186.13457076566124
+          ]
+        ],
+        "uniformNativePartScale": 0.7903225806451613,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          180,
+          207,
+          189
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "e311ee67ba10c88a00edec808e610097e3ea345f73dd42be6caf0fd4315a9777",
+      "decodedRgbaSha256": "f512d41b25b28719db22f6d9bc4d76589e769b76f37cbc1fc4053faca46a6faa"
+    },
+    {
+      "id": "domino_wall.south.4",
+      "family": "domino_wall",
+      "kind": "single_cell_fall_frame",
+      "file": "devices/domino_wall/south/frame_04.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pixelsPerUnit": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "heading": "south",
+      "phase": 4,
+      "angleDegrees": 90,
+      "content_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "physicalHingeAxis": [
+        [
+          190,
+          186.13457076566124
+        ],
+        [
+          386,
+          186.13457076566124
+        ]
+      ],
+      "fixedSocketCenters": [
+        [
+          233.05800464037122,
+          186.13457076566124
+        ],
+        [
+          338.1902552204176,
+          186.13457076566124
+        ]
+      ],
+      "sourceAssembly": {
+        "source": "sources/domino_north_south_native.png",
+        "sourceRect": [
+          1657,
+          486,
+          263,
+          242
+        ],
+        "sourceAxis": [
+          [
+            1664,
+            494
+          ],
+          [
+            1913,
+            494
+          ]
+        ],
+        "targetAxis": [
+          [
+            190,
+            186.13457076566124
+          ],
+          [
+            386,
+            186.13457076566124
+          ]
+        ],
+        "uniformNativePartScale": 0.7871485943775101,
+        "nativePartRotationDegrees": 0.0,
+        "axisResidualPx": 0.0,
+        "panelContentRect": [
+          184,
+          180,
+          207,
+          190
+        ]
+      },
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "sha256": "48e98d9e28a7ae33b29f5e9caacac434248c09a52e1dd436fef6b33ba485ec42",
+      "decodedRgbaSha256": "20f8cfc8f419b4be45cbd987aef2a519eadb439319bbcf908d8ce0defb91d948"
+    }
+  ],
+  "aliases": [
+    {
+      "file": "devices/domino_wall/upright.png",
+      "aliasOf": "devices/domino_wall/east/frame_00.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "eae0347c506b2b24941749b6a41f05df1cb0cffd2a14fc07397fb1ab5124a00e",
+      "legacyAggregateRetired": true,
+      "integrationRequired": "Do not bind to old 2x1 aggregate renderer. Instantiate or reuse one visual per actual host occupied cell; preserve host chain length.",
+      "pixelsPerUnit": 256,
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "family": "domino_wall",
+      "kind": "single_cell_latest_compatibility_alias",
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "decodedRgbaSha256": "62310e326cac492cd537d2dc94b1442e12bec209fd0e649ef00d5224db29328a"
+    },
+    {
+      "file": "devices/domino_wall/fallen.png",
+      "aliasOf": "devices/domino_wall/east/frame_04.png",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "groundFootprintRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "deriveColliderFromAlpha": false,
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "796159184cc8b2824d45d6dc292573b8ce51529c56671ad30ba95d687571eebf",
+      "legacyAggregateRetired": true,
+      "integrationRequired": "Do not bind to old 2x1 aggregate renderer. Instantiate or reuse one visual per actual host occupied cell; preserve host chain length.",
+      "pixelsPerUnit": 256,
+      "logical_rect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "family": "domino_wall",
+      "kind": "single_cell_latest_compatibility_alias",
+      "existingGameplayId": null,
+      "sourcePdfDeviceId": 13,
+      "decodedRgbaSha256": "a93595c2c4bebce736e3abe4a81bb90df78a33a0956dcdd5cbcaafb02ad3677f"
+    }
+  ],
+  "clips": [
+    {
+      "key": "domino_wall.fall.east",
+      "family": "domino_wall",
+      "heading": "east",
+      "state": "fall",
+      "fps": 12,
+      "loop": false,
+      "frames": [
+        "devices/domino_wall/east/frame_00.png",
+        "devices/domino_wall/east/frame_01.png",
+        "devices/domino_wall/east/frame_02.png",
+        "devices/domino_wall/east/frame_03.png",
+        "devices/domino_wall/east/frame_04.png"
+      ],
+      "canvasSize": [
+        576,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "onCompleteVisualState": "walkable_floor",
+      "sourcePdfDeviceId": 13,
+      "existingGameplayId": null,
+      "gameplayAuthority": "Existing project owns occupied cell list, chain order, trigger, collision, timing and final walkability. This clip changes only the visual panel in ONE existing occupied cell."
+    },
+    {
+      "key": "domino_wall.fall.north",
+      "family": "domino_wall",
+      "heading": "north",
+      "state": "fall",
+      "fps": 12,
+      "loop": false,
+      "frames": [
+        "devices/domino_wall/north/frame_00.png",
+        "devices/domino_wall/north/frame_01.png",
+        "devices/domino_wall/north/frame_02.png",
+        "devices/domino_wall/north/frame_03.png",
+        "devices/domino_wall/north/frame_04.png"
+      ],
+      "canvasSize": [
+        576,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "onCompleteVisualState": "walkable_floor",
+      "sourcePdfDeviceId": 13,
+      "existingGameplayId": null,
+      "gameplayAuthority": "Existing project owns occupied cell list, chain order, trigger, collision, timing and final walkability. This clip changes only the visual panel in ONE existing occupied cell."
+    },
+    {
+      "key": "domino_wall.fall.west",
+      "family": "domino_wall",
+      "heading": "west",
+      "state": "fall",
+      "fps": 12,
+      "loop": false,
+      "frames": [
+        "devices/domino_wall/west/frame_00.png",
+        "devices/domino_wall/west/frame_01.png",
+        "devices/domino_wall/west/frame_02.png",
+        "devices/domino_wall/west/frame_03.png",
+        "devices/domino_wall/west/frame_04.png"
+      ],
+      "canvasSize": [
+        576,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "onCompleteVisualState": "walkable_floor",
+      "sourcePdfDeviceId": 13,
+      "existingGameplayId": null,
+      "gameplayAuthority": "Existing project owns occupied cell list, chain order, trigger, collision, timing and final walkability. This clip changes only the visual panel in ONE existing occupied cell."
+    },
+    {
+      "key": "domino_wall.fall.south",
+      "family": "domino_wall",
+      "heading": "south",
+      "state": "fall",
+      "fps": 12,
+      "loop": false,
+      "frames": [
+        "devices/domino_wall/south/frame_00.png",
+        "devices/domino_wall/south/frame_01.png",
+        "devices/domino_wall/south/frame_02.png",
+        "devices/domino_wall/south/frame_03.png",
+        "devices/domino_wall/south/frame_04.png"
+      ],
+      "canvasSize": [
+        576,
+        576
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        160,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "onCompleteVisualState": "walkable_floor",
+      "sourcePdfDeviceId": 13,
+      "existingGameplayId": null,
+      "gameplayAuthority": "Existing project owns occupied cell list, chain order, trigger, collision, timing and final walkability. This clip changes only the visual panel in ONE existing occupied cell."
+    }
+  ]
+}

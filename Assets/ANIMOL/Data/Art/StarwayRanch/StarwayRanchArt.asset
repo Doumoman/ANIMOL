@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.StarwayRanchArt
   backgroundLayout: {fileID: 4900000, guid: 59bebf757bd30d14bb64c786b4126ebf, type: 3}
   v12Animations: {fileID: 11400000, guid: 5716ab5afc926444187ab412b2fd9061, type: 2}
-  v12ManifestSha256: f9b0c4f03def0023afa13c201266e899d108c872126cb8801425a5c6c85b42ef
+  v12ManifestSha256: 493330ea695d90fa3fad55059488aed2063a4def6015778674719007d5bf4378
+  windRouteMaterial: {fileID: 2100000, guid: 5ba5ed28de32d5c4e84135a203852277, type: 2}
   sprites:
   - file: tiles/grass/organic256/n000.png
     sprite: {fileID: 21300000, guid: 9c1b3746eafe7f742b94c5a12d4e29ae, type: 3}
@@ -3616,10 +3617,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 92473b9d55bfe8c488c3cd8723798abd, type: 3}
   - file: devices/conveyor/active.png
     sprite: {fileID: 21300000, guid: 7e03b75691a726447af3ae7f9193653f, type: 3}
-  - file: devices/oneway_gate/closed.png
-    sprite: {fileID: 21300000, guid: db2341a048998e64284ae4781bd1a69c, type: 3}
-  - file: devices/oneway_gate/open.png
-    sprite: {fileID: 21300000, guid: 531a7622ca705334ebff163aa423269e, type: 3}
   - file: devices/bounce_corner/idle.png
     sprite: {fileID: 21300000, guid: 1e21243756a719a48b2e65faa13197f9, type: 3}
   - file: devices/bounce_corner/pressed.png
@@ -3644,10 +3641,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 3916d0e2332531d4d924f41e56fba12c, type: 3}
   - file: devices/vine_bridge/retracted.png
     sprite: {fileID: 21300000, guid: e7a26de6f2fc0264ca6905146e2f9060, type: 3}
-  - file: devices/wind_corridor/idle.png
-    sprite: {fileID: 21300000, guid: 0ac70e49b27cee14f8bdaa78064810c3, type: 3}
-  - file: devices/wind_corridor/active.png
-    sprite: {fileID: 21300000, guid: ae468f07cee84084bafb6573b7486cb0, type: 3}
   - file: devices/conveyor/east/frame_00.png
     sprite: {fileID: 21300000, guid: bea9e1734a80eb04399d371fdc1ef4d8, type: 3}
   - file: devices/conveyor/east/frame_01.png
@@ -3680,38 +3673,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 7bd81a5a2a57a81489ac900a31f54195, type: 3}
   - file: devices/conveyor/south/frame_03.png
     sprite: {fileID: 21300000, guid: d6a1c7de67e822a4bbd4877897b92fa0, type: 3}
-  - file: devices/oneway_gate/east/frame_00.png
-    sprite: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
-  - file: devices/oneway_gate/east/frame_01.png
-    sprite: {fileID: 21300000, guid: bf62e27751883b547a5940061e6b25d4, type: 3}
-  - file: devices/oneway_gate/east/frame_02.png
-    sprite: {fileID: 21300000, guid: 0c770520f337922439e20575855e44e6, type: 3}
-  - file: devices/oneway_gate/east/frame_03.png
-    sprite: {fileID: 21300000, guid: a457d06d3330849459e69b9d9c2e34bd, type: 3}
-  - file: devices/oneway_gate/north/frame_00.png
-    sprite: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
-  - file: devices/oneway_gate/north/frame_01.png
-    sprite: {fileID: 21300000, guid: f91c11ad1fa0af746a566b7727a95f92, type: 3}
-  - file: devices/oneway_gate/north/frame_02.png
-    sprite: {fileID: 21300000, guid: f7a30072f29d5884cbee79eceb89156c, type: 3}
-  - file: devices/oneway_gate/north/frame_03.png
-    sprite: {fileID: 21300000, guid: 1c88f68c70290724697723af5537cf6e, type: 3}
-  - file: devices/oneway_gate/west/frame_00.png
-    sprite: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
-  - file: devices/oneway_gate/west/frame_01.png
-    sprite: {fileID: 21300000, guid: 3b932bd9aecbd7d46887206902a48139, type: 3}
-  - file: devices/oneway_gate/west/frame_02.png
-    sprite: {fileID: 21300000, guid: c6e0773cc5cb3a741a2bab0e746dac63, type: 3}
-  - file: devices/oneway_gate/west/frame_03.png
-    sprite: {fileID: 21300000, guid: 2396be00107a13c459c63cf020b5e856, type: 3}
-  - file: devices/oneway_gate/south/frame_00.png
-    sprite: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
-  - file: devices/oneway_gate/south/frame_01.png
-    sprite: {fileID: 21300000, guid: 3b8cf1355317b334eb8d5a5e06ebf184, type: 3}
-  - file: devices/oneway_gate/south/frame_02.png
-    sprite: {fileID: 21300000, guid: d1a72bf8864ee4d4294f03a4967d5b39, type: 3}
-  - file: devices/oneway_gate/south/frame_03.png
-    sprite: {fileID: 21300000, guid: 304bcbe6668099748abf132dfcf7dd19, type: 3}
   - file: devices/bounce_corner/ne/frame_00.png
     sprite: {fileID: 21300000, guid: 10367ad2a8a11264e8aea968d91b9bb8, type: 3}
   - file: devices/bounce_corner/ne/frame_01.png
@@ -3788,78 +3749,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 821fa1ed9c081e64296596b910329371, type: 3}
   - file: props/chick/west/walk_04.png
     sprite: {fileID: 21300000, guid: a603a8e45305aa84a9fd017dca5b6ed4, type: 3}
-  - file: effects/wind_corridor/east/gust_00.png
-    sprite: {fileID: 21300000, guid: 6c702c8db2768d946a54a41882d6aa92, type: 3}
-  - file: effects/wind_corridor/east/gust_01.png
-    sprite: {fileID: 21300000, guid: d68181ba2b38bc44cae874fd1e9480d3, type: 3}
-  - file: effects/wind_corridor/east/gust_02.png
-    sprite: {fileID: 21300000, guid: 811e91a26714f1842a6b91b773023661, type: 3}
-  - file: effects/wind_corridor/east/gust_03.png
-    sprite: {fileID: 21300000, guid: 014f21e3d4072c34fb12a36213731586, type: 3}
-  - file: effects/wind_corridor/north/gust_00.png
-    sprite: {fileID: 21300000, guid: de7a9e53ea7d6624888e7d595c2b5e3c, type: 3}
-  - file: effects/wind_corridor/north/gust_01.png
-    sprite: {fileID: 21300000, guid: 1096b9a6c3aac3940a749e620c965bd7, type: 3}
-  - file: effects/wind_corridor/north/gust_02.png
-    sprite: {fileID: 21300000, guid: 03d09e11dc3f5044980e919cf9ecd5e8, type: 3}
-  - file: effects/wind_corridor/north/gust_03.png
-    sprite: {fileID: 21300000, guid: 412b93d34ddf33d4ba15b8851ab4cf07, type: 3}
-  - file: effects/wind_corridor/west/gust_00.png
-    sprite: {fileID: 21300000, guid: ceba905d8ecef86459f68b3701276848, type: 3}
-  - file: effects/wind_corridor/west/gust_01.png
-    sprite: {fileID: 21300000, guid: d3c89248a4112124ca56ecea0aa44850, type: 3}
-  - file: effects/wind_corridor/west/gust_02.png
-    sprite: {fileID: 21300000, guid: ed1173f03cf66fa4da1b95491fac9196, type: 3}
-  - file: effects/wind_corridor/west/gust_03.png
-    sprite: {fileID: 21300000, guid: 6a84b8ff94e048f44b0a9ef5bf86d282, type: 3}
-  - file: effects/wind_corridor/south/gust_00.png
-    sprite: {fileID: 21300000, guid: 0ed1e1f5049b1164ea4919f834cb49d3, type: 3}
-  - file: effects/wind_corridor/south/gust_01.png
-    sprite: {fileID: 21300000, guid: 0930274f36a97c8498a986b05041c4a1, type: 3}
-  - file: effects/wind_corridor/south/gust_02.png
-    sprite: {fileID: 21300000, guid: d65b5f92fa08f444fadea1caad657227, type: 3}
-  - file: effects/wind_corridor/south/gust_03.png
-    sprite: {fileID: 21300000, guid: 8903fed8aac0e0f42b7557db5fda8d59, type: 3}
-  - file: devices/wind_corridor/E/idle.png
-    sprite: {fileID: 21300000, guid: 7097be04f9669844f8401c2bee32552a, type: 3}
-  - file: devices/wind_corridor/E/active_00.png
-    sprite: {fileID: 21300000, guid: 5c617c249a2852a47b23b0f1c7a60f5e, type: 3}
-  - file: devices/wind_corridor/E/active_01.png
-    sprite: {fileID: 21300000, guid: 42b9d7eb6eaf4ec44a8e8071f1a596ac, type: 3}
-  - file: devices/wind_corridor/E/active_02.png
-    sprite: {fileID: 21300000, guid: be1186e458784d44998530d0afbc0f51, type: 3}
-  - file: devices/wind_corridor/E/active_03.png
-    sprite: {fileID: 21300000, guid: 76c9f9bb6e89809479638d385219e7f8, type: 3}
-  - file: devices/wind_corridor/W/idle.png
-    sprite: {fileID: 21300000, guid: 183b627c4a29ae945ab64fb4d611ced6, type: 3}
-  - file: devices/wind_corridor/W/active_00.png
-    sprite: {fileID: 21300000, guid: 04e84b58066445e4aaa645c8c386bfdf, type: 3}
-  - file: devices/wind_corridor/W/active_01.png
-    sprite: {fileID: 21300000, guid: c2a049e8ac2d17b428ef3d8baff3d7f6, type: 3}
-  - file: devices/wind_corridor/W/active_02.png
-    sprite: {fileID: 21300000, guid: df031f2ebdde678458953d355bd7c6ed, type: 3}
-  - file: devices/wind_corridor/W/active_03.png
-    sprite: {fileID: 21300000, guid: 053539eb64d7faa4e96ba76308c4c9c3, type: 3}
-  - file: devices/wind_corridor/N/idle.png
-    sprite: {fileID: 21300000, guid: 1c9d7027a32cca646bdc959deeb03816, type: 3}
-  - file: devices/wind_corridor/N/active_00.png
-    sprite: {fileID: 21300000, guid: 36e227a739bb4714a9dd0c961ff7aedf, type: 3}
-  - file: devices/wind_corridor/N/active_01.png
-    sprite: {fileID: 21300000, guid: 65d2b37c3f3a94a40a41e2ef65df5e51, type: 3}
-  - file: devices/wind_corridor/N/active_02.png
-    sprite: {fileID: 21300000, guid: 0faf17fd606b48d41a924ed057d979ed, type: 3}
-  - file: devices/wind_corridor/N/active_03.png
-    sprite: {fileID: 21300000, guid: f84b265178aa05144a40843f238d8f91, type: 3}
-  - file: devices/wind_corridor/S/idle.png
-    sprite: {fileID: 21300000, guid: b785cb2927cf7774382c91ba1c432600, type: 3}
-  - file: devices/wind_corridor/S/active_00.png
-    sprite: {fileID: 21300000, guid: 04914631ce1caa644935d699e7a442c1, type: 3}
-  - file: devices/wind_corridor/S/active_01.png
-    sprite: {fileID: 21300000, guid: a0e675f7571364d4ebedd31593581071, type: 3}
-  - file: devices/wind_corridor/S/active_02.png
-    sprite: {fileID: 21300000, guid: 18d32c37caeb3924eba319dbfafae6e7, type: 3}
-  - file: devices/wind_corridor/S/active_03.png
-    sprite: {fileID: 21300000, guid: 9e185c47f5ae2ca44a083f1589f68d12, type: 3}
   - file: props/windmill_body.png
     sprite: {fileID: 21300000, guid: 00b89974d7c1aa44bac0706c901ee2d5, type: 3}
   - file: props/windmill_rotor.png
@@ -3906,3 +3795,99 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 9c08f54f35dcd574a9485296fdff5b9f, type: 3}
   - file: animations/linked/vine_bridge/vertical/open/frame_04.png
     sprite: {fileID: 21300000, guid: 6ce122a5cf661964ea8700f466450d6a, type: 3}
+  - file: devices/oneway_gate/east/frame_00.png
+    sprite: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
+  - file: devices/oneway_gate/east/frame_01.png
+    sprite: {fileID: 21300000, guid: bf62e27751883b547a5940061e6b25d4, type: 3}
+  - file: devices/oneway_gate/east/frame_02.png
+    sprite: {fileID: 21300000, guid: 0c770520f337922439e20575855e44e6, type: 3}
+  - file: devices/oneway_gate/east/frame_03.png
+    sprite: {fileID: 21300000, guid: a457d06d3330849459e69b9d9c2e34bd, type: 3}
+  - file: devices/oneway_gate/east/blocked_00.png
+    sprite: {fileID: 21300000, guid: 388ca44cb1a0f1a4e86383b4e33c32ae, type: 3}
+  - file: devices/oneway_gate/east/blocked_01.png
+    sprite: {fileID: 21300000, guid: 4e371634c8a9ebe4484bb8a42c7b254c, type: 3}
+  - file: devices/oneway_gate/north/frame_00.png
+    sprite: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
+  - file: devices/oneway_gate/north/frame_01.png
+    sprite: {fileID: 21300000, guid: f91c11ad1fa0af746a566b7727a95f92, type: 3}
+  - file: devices/oneway_gate/north/frame_02.png
+    sprite: {fileID: 21300000, guid: f7a30072f29d5884cbee79eceb89156c, type: 3}
+  - file: devices/oneway_gate/north/frame_03.png
+    sprite: {fileID: 21300000, guid: 1c88f68c70290724697723af5537cf6e, type: 3}
+  - file: devices/oneway_gate/north/blocked_00.png
+    sprite: {fileID: 21300000, guid: 262a39abc57eae1448977dc587b1205a, type: 3}
+  - file: devices/oneway_gate/north/blocked_01.png
+    sprite: {fileID: 21300000, guid: 62240c8c33132264db1aab6d14a46705, type: 3}
+  - file: devices/oneway_gate/west/frame_00.png
+    sprite: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
+  - file: devices/oneway_gate/west/frame_01.png
+    sprite: {fileID: 21300000, guid: 3b932bd9aecbd7d46887206902a48139, type: 3}
+  - file: devices/oneway_gate/west/frame_02.png
+    sprite: {fileID: 21300000, guid: c6e0773cc5cb3a741a2bab0e746dac63, type: 3}
+  - file: devices/oneway_gate/west/frame_03.png
+    sprite: {fileID: 21300000, guid: 2396be00107a13c459c63cf020b5e856, type: 3}
+  - file: devices/oneway_gate/west/blocked_00.png
+    sprite: {fileID: 21300000, guid: a928f55f73cffc74fa4718b15801a12e, type: 3}
+  - file: devices/oneway_gate/west/blocked_01.png
+    sprite: {fileID: 21300000, guid: 4362a90b57375f54aae6fa9bd1743452, type: 3}
+  - file: devices/oneway_gate/south/frame_00.png
+    sprite: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
+  - file: devices/oneway_gate/south/frame_01.png
+    sprite: {fileID: 21300000, guid: 3b8cf1355317b334eb8d5a5e06ebf184, type: 3}
+  - file: devices/oneway_gate/south/frame_02.png
+    sprite: {fileID: 21300000, guid: d1a72bf8864ee4d4294f03a4967d5b39, type: 3}
+  - file: devices/oneway_gate/south/frame_03.png
+    sprite: {fileID: 21300000, guid: 304bcbe6668099748abf132dfcf7dd19, type: 3}
+  - file: devices/oneway_gate/south/blocked_00.png
+    sprite: {fileID: 21300000, guid: dcd0ef834be3bed479b50a7178daa7ae, type: 3}
+  - file: devices/oneway_gate/south/blocked_01.png
+    sprite: {fileID: 21300000, guid: 77fb3a44e83367d458d262359dbf261a, type: 3}
+  - file: devices/wind_corridor/E/idle.png
+    sprite: {fileID: 21300000, guid: 7097be04f9669844f8401c2bee32552a, type: 3}
+  - file: devices/wind_corridor/E/active_00.png
+    sprite: {fileID: 21300000, guid: 5c617c249a2852a47b23b0f1c7a60f5e, type: 3}
+  - file: devices/wind_corridor/E/active_01.png
+    sprite: {fileID: 21300000, guid: 42b9d7eb6eaf4ec44a8e8071f1a596ac, type: 3}
+  - file: devices/wind_corridor/E/active_02.png
+    sprite: {fileID: 21300000, guid: be1186e458784d44998530d0afbc0f51, type: 3}
+  - file: devices/wind_corridor/E/active_03.png
+    sprite: {fileID: 21300000, guid: 76c9f9bb6e89809479638d385219e7f8, type: 3}
+  - file: devices/wind_corridor/N/idle.png
+    sprite: {fileID: 21300000, guid: 1c9d7027a32cca646bdc959deeb03816, type: 3}
+  - file: devices/wind_corridor/N/active_00.png
+    sprite: {fileID: 21300000, guid: 36e227a739bb4714a9dd0c961ff7aedf, type: 3}
+  - file: devices/wind_corridor/N/active_01.png
+    sprite: {fileID: 21300000, guid: 65d2b37c3f3a94a40a41e2ef65df5e51, type: 3}
+  - file: devices/wind_corridor/N/active_02.png
+    sprite: {fileID: 21300000, guid: 0faf17fd606b48d41a924ed057d979ed, type: 3}
+  - file: devices/wind_corridor/N/active_03.png
+    sprite: {fileID: 21300000, guid: f84b265178aa05144a40843f238d8f91, type: 3}
+  - file: devices/wind_corridor/W/idle.png
+    sprite: {fileID: 21300000, guid: 183b627c4a29ae945ab64fb4d611ced6, type: 3}
+  - file: devices/wind_corridor/W/active_00.png
+    sprite: {fileID: 21300000, guid: 04e84b58066445e4aaa645c8c386bfdf, type: 3}
+  - file: devices/wind_corridor/W/active_01.png
+    sprite: {fileID: 21300000, guid: c2a049e8ac2d17b428ef3d8baff3d7f6, type: 3}
+  - file: devices/wind_corridor/W/active_02.png
+    sprite: {fileID: 21300000, guid: df031f2ebdde678458953d355bd7c6ed, type: 3}
+  - file: devices/wind_corridor/W/active_03.png
+    sprite: {fileID: 21300000, guid: 053539eb64d7faa4e96ba76308c4c9c3, type: 3}
+  - file: devices/wind_corridor/S/idle.png
+    sprite: {fileID: 21300000, guid: b785cb2927cf7774382c91ba1c432600, type: 3}
+  - file: devices/wind_corridor/S/active_00.png
+    sprite: {fileID: 21300000, guid: 04914631ce1caa644935d699e7a442c1, type: 3}
+  - file: devices/wind_corridor/S/active_01.png
+    sprite: {fileID: 21300000, guid: a0e675f7571364d4ebedd31593581071, type: 3}
+  - file: devices/wind_corridor/S/active_02.png
+    sprite: {fileID: 21300000, guid: 18d32c37caeb3924eba319dbfafae6e7, type: 3}
+  - file: devices/wind_corridor/S/active_03.png
+    sprite: {fileID: 21300000, guid: 9e185c47f5ae2ca44a083f1589f68d12, type: 3}
+  - file: devices/oneway_gate/closed.png
+    sprite: {fileID: 21300000, guid: db2341a048998e64284ae4781bd1a69c, type: 3}
+  - file: devices/oneway_gate/open.png
+    sprite: {fileID: 21300000, guid: 531a7622ca705334ebff163aa423269e, type: 3}
+  - file: devices/wind_corridor/idle.png
+    sprite: {fileID: 21300000, guid: 0ac70e49b27cee14f8bdaa78064810c3, type: 3}
+  - file: devices/wind_corridor/active.png
+    sprite: {fileID: 21300000, guid: ae468f07cee84084bafb6573b7486cb0, type: 3}

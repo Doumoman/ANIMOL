@@ -23,8 +23,8 @@ namespace ANIMOL.Art.V12
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before rebinding ranch art.");
             var manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(Root + "/manifest.json"));
-            if (manifest?.assets == null || manifest.assets.Length != 1945)
-                throw new InvalidDataException("The complete V12 1945-sprite manifest is required.");
+            if (manifest?.assets == null || manifest.assets.Length != 1937)
+                throw new InvalidDataException("The complete P01 V12 1937-sprite manifest is required.");
             var art = AssetDatabase.LoadAssetAtPath<StarwayRanchArt>(ArtPath);
             if (!art) throw new InvalidDataException("Existing Starway Ranch art asset is missing.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayRanchV12VisualCatalog>(
@@ -58,9 +58,14 @@ namespace ANIMOL.Art.V12
             art.backgroundLayout = layout;
             art.v12Animations = catalog;
             art.v12ManifestSha256 = catalog.SourceManifestSha256;
+            art.windRouteMaterial = AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/ANIMOL/Materials/VividWindRoute.mat");
+            if (!art.windRouteMaterial || !art.windRouteMaterial.shader ||
+                !art.windRouteMaterial.shader.isSupported || ShaderUtil.ShaderHasError(art.windRouteMaterial.shader))
+                throw new InvalidDataException("P01 wind route material is missing or failed compilation.");
             EditorUtility.SetDirty(art);
             AssetDatabase.SaveAssets();
-            return "Rebound 1945 verified V12 sprites and 46 animated clips to existing ranch art.";
+            return "Rebound 1937 verified P01 V12 sprites and 54 animated clips to existing ranch art.";
         }
 
         [MenuItem("ANIMOL/Art QA/Refresh Starway Ranch V12 QA scenes")]

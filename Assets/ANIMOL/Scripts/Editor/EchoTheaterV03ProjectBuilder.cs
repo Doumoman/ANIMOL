@@ -28,8 +28,8 @@ namespace ANIMOL.Art.EchoTheaterV03
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before rebinding theater art.");
             var manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(Root + "/manifest.json"));
-            if (manifest?.assets == null || manifest.assets.Length != 1969)
-                throw new InvalidDataException("The complete V03 1969-sprite manifest is required.");
+            if (manifest?.assets == null || manifest.assets.Length != 1977)
+                throw new InvalidDataException("The complete P01 V03 1977-sprite manifest is required.");
             var art = AssetDatabase.LoadAssetAtPath<EchoTheaterV02Art>(CatalogPath);
             var theme = AssetDatabase.LoadAssetAtPath<MemorySkyTheaterArt>(ThemePath);
             if (!art || !theme || theme.v02 != art)
@@ -67,8 +67,8 @@ namespace ANIMOL.Art.EchoTheaterV03
             if (!art.v03DiceOrientationMap) throw new InvalidDataException("V03 dice orientation map is missing.");
             EditorUtility.SetDirty(art);
             AssetDatabase.SaveAssets();
-            Debug.Log("[Echo Theater V03] Existing theater catalog rebound to 1969 verified V03 sprites and the independent background layout.");
-            return "1969 V03 environment sprites rebound";
+            Debug.Log("[Echo Theater V03] Existing theater catalog rebound to 1977 verified P01 V03 sprites and the independent background layout.");
+            return "1977 P01 V03 environment sprites rebound";
         }
     }
 }

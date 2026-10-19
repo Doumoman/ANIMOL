@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "V03",
+  "version": "V03-P01",
   "packageId": "ANIMOL_ECHO_THEATER_CARTOON_V03",
   "requiredFamilies": [
     {
@@ -127,32 +127,52 @@
     "wholeBillboardRotationForMissingDirection": false
   },
   "bookcase": {
-    "nativeYawDegrees": [
-      0,
-      22.5,
-      45,
-      67.5,
-      90
+    "referenceHorizontalOffsets": [
+      [
+        -1,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ]
     ],
+    "referenceVerticalOffsets": [
+      [
+        0,
+        -1
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "actualProjectFootprintVerified": false,
+    "centered2cellHAndVGridAlignmentPossible": false,
     "canvas": [
-      704,
-      704
+      1024,
+      1024
     ],
-    "fixedPinPixel": [
-      352,
-      352
+    "artSweepBounds": [
+      96,
+      96,
+      832,
+      832
     ],
-    "horizontalArtSlotCells": [
-      2,
-      1
-    ],
-    "verticalArtSlotCells": [
-      1,
-      2
-    ],
-    "actualGameplayFootprintVerified": false,
-    "unionCanvasIsCollisionFootprint": false,
-    "requiredReversibleTransition": true
+    "endpointOccupancyUnion": [
+      128,
+      128,
+      768,
+      768
+    ]
   },
   "movingStage": {
     "defaultArtSlotCells": [
@@ -186,32 +206,19 @@
     "blockedAndTeleportNoRotation": true
   },
   "domino": {
-    "horizontalCanvas": [
-      704,
-      448
+    "moduleArtSlotCells": [
+      1,
+      1
     ],
-    "verticalCanvas": [
-      448,
-      704
-    ],
-    "horizontalLogicalRect": [
-      96,
-      96,
-      512,
-      256
-    ],
-    "verticalLogicalRect": [
-      96,
-      96,
-      256,
-      512
-    ],
-    "canvasPaddingIsGameplayFootprint": false,
-    "sameNativePanelDimensionsAcrossAllPhases": true
+    "chainLengthFromActualOccupiedCells": true,
+    "aggregate3panelsIn2cellsRetired": true
   },
   "gate": {
-    "fixedHingePixels": true,
-    "minimumOpenLogicalWidthFraction": 0.6
+    "fixedRailPixels": true,
+    "fixedHingePixels": false,
+    "motion": "Split bar retracts into same-cell side rails. Closed bar remains for denied input.",
+    "minimumOpenLogicalWidthFraction": 0.5625,
+    "occupiedCells": 1
   },
   "bounce": {
     "minimumOpenCenterFraction": 0.55,
@@ -219,5 +226,17 @@
     "reflectionDegrees": 90
   },
   "approvedStaticArtPreserved": true,
-  "unityExecuted": false
+  "unityExecuted": false,
+  "patchId": "ANIMOL_DEVICE_PATCH_P01",
+  "p01BindingRequirements": "p01_binding_requirements.json",
+  "onewayGate": {
+    "occupiedCells": 1,
+    "artSlotCells": [
+      1,
+      1
+    ],
+    "allOtherApproachesBlocked": true,
+    "outputCellIsCheckOnly": true,
+    "visualScale": 1
+  }
 }

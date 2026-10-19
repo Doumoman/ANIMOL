@@ -49,7 +49,7 @@ namespace ANIMOL.Puzzle
             {
                 var backdrop = new GameObject("Native pixel background").AddComponent<PuzzleBackdrop>(); backdrop.transform.SetParent(presentation, false); backdrop.Configure(RuntimeMap.theme, cam, RuntimeMap.cameraSettings);
             }
-            Devices = new GameObject("Committed devices").AddComponent<PuzzleDeviceView>(); Devices.transform.SetParent(presentation, false); Devices.Bind(Session, renderer); view.Present(Session);
+            Devices = new GameObject("Committed devices").AddComponent<PuzzleDeviceView>(); Devices.transform.SetParent(presentation, false); Devices.Bind(Session, renderer, secondsPerCell); view.Present(Session);
             var input = GetComponent<PuzzleSwipeInput>(); if (!input) input = gameObject.AddComponent<PuzzleSwipeInput>(); input.SetReceiver(RequestMove);
             if (hudPrefab)
             {
@@ -74,10 +74,18 @@ namespace ANIMOL.Puzzle
         IEnumerator Animate(PrototypeAction result)
         {
             var consumed = new System.Collections.Generic.HashSet<PrototypeEvent>();
+            int dominoPanelsRemaining = result.events.FindAll(e =>
+                e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
             {
                 if (consumed.Contains(e)) continue;
-                if (e.kind == PrototypeEventKind.Visual) { Devices.Notify(e, Session.Cost + ":" + e.group); continue; }
+                if (e.kind == PrototypeEventKind.Visual)
+                {
+                    Devices.Notify(e, Session.Cost + ":" + e.group);
+                    if (e.eventName == "this_domino_piece_fold_committed" && --dominoPanelsRemaining > 0)
+                        yield return new WaitForSeconds(Mathf.Min(.1f, secondsPerCell * .5f));
+                    continue;
+                }
                 if (e.kind != PrototypeEventKind.Move) continue;
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor); if (!actor) continue;
                 if (e.actor == "player" && CharacterVisual) CharacterVisual.SetMotion(e.to - e.from, "move");
@@ -95,7 +103,7 @@ namespace ANIMOL.Puzzle
                 else
                 {
                     var from = actor.position; var passengerFrom = passenger ? passenger.position : Vector3.zero; var elapsed = 0f;
-                    while (elapsed < secondsPerCell) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / secondsPerCell); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)e.to, progress); yield return null; }
+                    while (elapsed < secondsPerCell) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / secondsPerCell); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)e.to, progress); Devices.SetWindActionProgress01(progress); yield return null; }
                     actor.position = (Vector2)e.to;
                     if (passenger) passenger.position = (Vector2)e.to;
                 }

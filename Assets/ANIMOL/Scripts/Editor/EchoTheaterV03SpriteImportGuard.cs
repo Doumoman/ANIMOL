@@ -1,6 +1,6 @@
 // Echo Theater V03 optional exact-spec sprite importer.
 // Keep the ANIMOL_ECHO_THEATER_CARTOON_V03 root folder name.
-// Only the 1969 explicitly enumerated runtime sprites are processed.
+// Only the 1977 explicitly enumerated runtime sprites are processed.
 // Native sources, inspection images and examples are excluded.
 // Generated source; Unity project compilation/runtime were not executed here.
 using System;
@@ -212,19 +212,27 @@ namespace ANIMOL.Art.EchoTheaterV03
             { "devices/moving_stage/active.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/moving_stage/idle.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/closed.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/east/blocked_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/east/blocked_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/east/frame_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/east/frame_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/east/frame_02.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/east/frame_03.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/north/blocked_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/north/blocked_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/north/frame_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/north/frame_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/north/frame_02.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/north/frame_03.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/open.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/south/blocked_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/south/blocked_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/south/frame_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/south/frame_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/south/frame_02.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/south/frame_03.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/west/blocked_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
+            { "devices/oneway_gate/west/blocked_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/west/frame_00.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/west/frame_01.png", new SpriteSpec(256f, 0.5f, 0.5f) },
             { "devices/oneway_gate/west/frame_02.png", new SpriteSpec(256f, 0.5f, 0.5f) },

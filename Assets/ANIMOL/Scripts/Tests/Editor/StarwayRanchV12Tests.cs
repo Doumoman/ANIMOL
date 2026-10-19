@@ -19,8 +19,8 @@ namespace ANIMOL.Presentation.Tests
         {
             var art = AssetDatabase.LoadAssetAtPath<StarwayRanchArt>(Art);
             Assert.That(art, Is.Not.Null);
-            Assert.That(art.sprites.Length, Is.EqualTo(1945));
-            Assert.That(art.sprites.Select(entry => entry.file).Distinct().Count(), Is.EqualTo(1945));
+            Assert.That(art.sprites.Length, Is.EqualTo(1937));
+            Assert.That(art.sprites.Select(entry => entry.file).Distinct().Count(), Is.EqualTo(1937));
             foreach (var entry in art.sprites)
             {
                 Assert.That(entry.sprite, Is.Not.Null, entry.file);
@@ -38,8 +38,8 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(chick.pivot.y / chick.rect.height, Is.EqualTo(.4822695f).Within(.00001f));
             Assert.That(art.Find("backgrounds/cloud_bank.png").pixelsPerUnit, Is.EqualTo(166.11111f).Within(.001f));
             Assert.That(art.v12Animations, Is.Not.Null);
-            Assert.That(art.v12Animations.ClipCount, Is.EqualTo(46));
-            Assert.That(art.v12Animations.SpriteCount, Is.EqualTo(129));
+            Assert.That(art.v12Animations.ClipCount, Is.EqualTo(54));
+            Assert.That(art.v12Animations.SpriteCount, Is.EqualTo(121));
             Assert.That(art.v12Animations.SourceManifestSha256, Is.EqualTo(art.v12ManifestSha256));
             Assert.That(art.v12Animations.ValidateIntegrity(art.v12ManifestSha256, out var error), Is.True, error);
             Assert.That(art.v12Animations.TryGetClip("missing_latest_key", art.v12ManifestSha256,

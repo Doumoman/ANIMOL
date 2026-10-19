@@ -21,10 +21,10 @@ namespace ANIMOL.Presentation.Tests
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterV03VisualCatalog>(
                 Root + "/_Generated/EchoTheaterV03VisualCatalog.asset");
             Assert.DoesNotThrow(() => EchoTheaterV03AnimationBuilder.ValidateBuiltCatalog(catalog));
-            Assert.That(catalog.SpriteCount, Is.EqualTo(187));
-            Assert.That(catalog.ClipCount, Is.EqualTo(190));
+            Assert.That(catalog.SpriteCount, Is.EqualTo(195));
+            Assert.That(catalog.ClipCount, Is.EqualTo(202));
             var environment = AssetDatabase.LoadAssetAtPath<EchoTheaterV02Art>(Environment);
-            Assert.That(environment.sprites.Length, Is.EqualTo(1969));
+            Assert.That(environment.sprites.Length, Is.EqualTo(1977));
             Assert.That(environment.v03Animations, Is.SameAs(catalog));
             Assert.That(environment.v03ManifestSha256, Is.EqualTo(catalog.SourceManifestSha256));
             Assert.That(environment.v03DiceOrientationMap, Is.Not.Null);

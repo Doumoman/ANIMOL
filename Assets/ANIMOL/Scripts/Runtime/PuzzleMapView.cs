@@ -14,8 +14,7 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<Vector2Int, GameObject> bubbleViews = new Dictionary<Vector2Int, GameObject>();
         sealed class ClassicWindVisual
         {
-            public StarwayRanchV12AnimatedVisual body, effect;
-            public SpriteRenderer effectRenderer;
+            public StarwayRanchV12AnimatedVisual body;
             public string direction, idleKey;
         }
         readonly Dictionary<Vector2Int, ClassicWindVisual> classicWind = new Dictionary<Vector2Int, ClassicWindVisual>();
@@ -207,31 +206,21 @@ namespace ANIMOL.Puzzle
                 !(d.kind == DeviceKind.Conveyor ? player.Play(key) : player.SnapToState(key)))
                 Debug.LogError("V12 classic device binding failed: " + d.kind + " at " + d.position, go);
             if (d.kind != DeviceKind.Wind) return;
-            var effectObject = new GameObject("V12 wind range overlay");
-            effectObject.transform.SetParent(go.transform, false);
-            var effectRenderer = effectObject.AddComponent<SpriteRenderer>();
-            effectRenderer.sortingOrder = 31;
-            effectRenderer.enabled = false;
-            var effect = effectObject.AddComponent<StarwayRanchV12AnimatedVisual>();
-            if (!effect.Configure(art.v12Animations, effectRenderer, art.v12ManifestSha256))
-                Debug.LogError("V12 classic wind effect binding failed at " + d.position, effectObject);
-            classicWind.Add(d.position, new ClassicWindVisual { body = player, effect = effect,
-                effectRenderer = effectRenderer, direction = direction, idleKey = key });
+            // Classic DeviceCell.Wind moves only an actor already on its own cell. It has
+            // no range authority; the removed V12 gust sprites must not invent one.
+            classicWind.Add(d.position, new ClassicWindVisual { body = player,
+                direction = direction, idleKey = key });
         }
         public void StartClassicWind(Vector2Int cell)
         {
             if (!classicWind.TryGetValue(cell, out var visual)) return;
             var capital = visual.direction.Substring(0, 1).ToUpperInvariant();
             visual.body.Play("wind_corridor_" + capital + "_active");
-            visual.effectRenderer.enabled = true;
-            visual.effect.Play("wind_corridor." + visual.direction + ".flow_effect");
         }
         public void FinishClassicWind(Vector2Int cell)
         {
             if (!classicWind.TryGetValue(cell, out var visual)) return;
             visual.body.SnapToState(visual.idleKey);
-            visual.effect.Cancel();
-            visual.effectRenderer.enabled = false;
         }
         static void Label(Transform parent, string text, Vector2 p, Color color, int order)
         {

@@ -13,7 +13,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator EveryDeviceRunsPausesAndResetsWithoutMovingRoots()
         {
             EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/QA/ANIMOL_Device8_Art_QA.unity",new LoadSceneParameters(LoadSceneMode.Single));yield return null;yield return null;
-            var views=Object.FindObjectsByType<DeviceVisualView>(FindObjectsSortMode.None);Assert.AreEqual(353,views.Length);
+            var views=Object.FindObjectsByType<DeviceVisualView>(FindObjectsSortMode.None);Assert.AreEqual(361,views.Length);
             var roots=views.Select(v=>v.transform.position).ToArray();
             foreach(var v in views)v.paused=true;
             var elapsed=views.Select(v=>v.Elapsed).ToArray();yield return new WaitForSecondsRealtime(.1f);

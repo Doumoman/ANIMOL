@@ -1,0 +1,1972 @@
+{
+  "schemaVersion": 1,
+  "patchId": "ANIMOL_DEVICE_CLARITY_PATCH_01",
+  "theme": "theater",
+  "family": "oneway_gate",
+  "artScope": "REPLACEMENT_ONLY",
+  "logicIntegration": "NOT_RUN_NO_UNITY_PROJECT",
+  "occupancy": [
+    1,
+    1
+  ],
+  "allowedEntryRule": "Movement vector must equal allowedEntryVector AND source is cell - vector AND destination cell + vector is available. Invalid/opposite/lateral input must leave gameplay position, orientation, turn cost, and gate closed unchanged; blocked visual only. Do not infer permission from current art/open endpoint.",
+  "externalVisualPixelCell": [
+    32,
+    32,
+    256,
+    256
+  ],
+  "actualGameplayId": null,
+  "runtimeSprites": [
+    {
+      "key": "oneway_gate_east_00",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "opening",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/east/frame_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "0d95728605ad19bc0dac7a532b4fe7d741b69650c37702d6893edc126a422513",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_east_01",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "opening",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/east/frame_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "0187361030143dd60baf899f3b4fe2646433d403fae8c39fe338761bbafee543",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_east_02",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "opening",
+      "frameIndex": 2,
+      "file": "devices/oneway_gate/east/frame_02.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "0614748b47184bdf67e3aff0075b78da81f9e2724e0474674e5006f4c2868772",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_east_03",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "opening",
+      "frameIndex": 3,
+      "file": "devices/oneway_gate/east/frame_03.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "6e85750fafcad66357e3994201e081c0a13c38500dad50b9862366d741da79cd",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_east_blocked_00",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "blocked",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/east/blocked_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "3607bf95a363699604e4007a1c69c8ade90949491d396a74341c3bdff6a3469d",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_east_blocked_01",
+      "family": "oneway_gate",
+      "heading": "east",
+      "state": "blocked",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/east/blocked_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "e0670255b212f0536685b49fe51e4645d31da96153a6f4b4f24ba7e272e2972e",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_north_00",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "opening",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/north/frame_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "48f0d9322c2f41a0e5d32784fd5ec038ae0991b494a605d53b9b2cd83630cfc7",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_north_01",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "opening",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/north/frame_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "cca7cb58cbc3d8b2059fb89bd9156bc7c9d4d8dae948f997889c7fa9d9436ee3",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_north_02",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "opening",
+      "frameIndex": 2,
+      "file": "devices/oneway_gate/north/frame_02.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "522a0cb6c987fcc11daf4b90cd0528f6fcdcca8dc10ac4cd488e85708cde210b",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_north_03",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "opening",
+      "frameIndex": 3,
+      "file": "devices/oneway_gate/north/frame_03.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "689b7e675a401f5f1badd87c01dd2765f4455215005a1b3274424786372b36bc",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_north_blocked_00",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "blocked",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/north/blocked_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "26deddf75fa17e94e5198f1673bbb9e0cc65edb7dd87fbede714a91cbfff26cd",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_north_blocked_01",
+      "family": "oneway_gate",
+      "heading": "north",
+      "state": "blocked",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/north/blocked_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "dc5292585ff938c3b01aa2b85f793674ee583ad51a4a295ca1ca69c3aaf28205",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_west_00",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "opening",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/west/frame_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "627965d438af0327264ae404d851c61db7ec136d99d7625551c968652eeb9ac3",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_west_01",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "opening",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/west/frame_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "546f1c4857076782239e0724272921a613f1cf708c9eb4ad6c14d725ba27b056",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_west_02",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "opening",
+      "frameIndex": 2,
+      "file": "devices/oneway_gate/west/frame_02.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "2397db42f50bc04ad261c1247077328f6740379bc452b40000f8dcb0059bba4d",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_west_03",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "opening",
+      "frameIndex": 3,
+      "file": "devices/oneway_gate/west/frame_03.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "801cad8d4a30a79c2231550358031037176cb2129c06577a355a1b4508a44191",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_west_blocked_00",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "blocked",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/west/blocked_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "de754e4f0b44708b344bffc85f6cb842af18d581bde42dc7d15794eb34618524",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_west_blocked_01",
+      "family": "oneway_gate",
+      "heading": "west",
+      "state": "blocked",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/west/blocked_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "666bc997444514d07157bc669cb014037ab19b4eb8596a9165db8a5c4531ed57",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        38,
+        32,
+        282,
+        288
+      ]
+    },
+    {
+      "key": "oneway_gate_south_00",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "opening",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/south/frame_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "f4a9fd037472e28279441ee7fc250250c24dd1a442b98fc4fdbfa7960c2eb6c1",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_south_01",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "opening",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/south/frame_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "7e46ea383290f5c4b260ef97b86450e0c0eba2b1fcdcf5115bf938a6f5c7cade",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_south_02",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "opening",
+      "frameIndex": 2,
+      "file": "devices/oneway_gate/south/frame_02.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "3f68720dc270c40d896fa6d14d89a38f9c0dd1bfbe8fdb266c80672b5bc78ee3",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_south_03",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "opening",
+      "frameIndex": 3,
+      "file": "devices/oneway_gate/south/frame_03.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "02cc73ce16e42bac1f07801e2e2f89aac8b9b922d4c41727abbc740888be8251",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_south_blocked_00",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "blocked",
+      "frameIndex": 0,
+      "file": "devices/oneway_gate/south/blocked_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "147aae94c3360e5d39609c9cc092a623276b928b51c4c8ce754302d897f45f4a",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    },
+    {
+      "key": "oneway_gate_south_blocked_01",
+      "family": "oneway_gate",
+      "heading": "south",
+      "state": "blocked",
+      "frameIndex": 1,
+      "file": "devices/oneway_gate/south/blocked_01.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "sha256": "48178fe0db6e029773b50facdfc3091dc4a7bbcf5ca53278434276dbccb9b6cf",
+      "source": "sources/theater_onecell_gate_parts_native.png",
+      "sources": [
+        "sources/theater_onecell_gate_parts_native.png",
+        "sources/theater_onecell_gate_bases_native.png"
+      ],
+      "alphaBoundingRect": [
+        32,
+        38,
+        288,
+        282
+      ]
+    }
+  ],
+  "endpointAliases": [
+    {
+      "file": "devices/oneway_gate/closed.png",
+      "latestEndpointAliasOf": "devices/oneway_gate/east/frame_00.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "devices/oneway_gate/open.png",
+      "latestEndpointAliasOf": "devices/oneway_gate/east/frame_03.png",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "family": "oneway_gate",
+      "heading": "east",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "actualDisplacement": [
+        1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_east_closed",
+      "state": "closed",
+      "frames": [
+        "devices/oneway_gate/east/frame_00.png"
+      ],
+      "triggerRule": "Resting, unoccupied closed state"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "east",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "actualDisplacement": [
+        1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_east_opening",
+      "state": "opening",
+      "frames": [
+        "devices/oneway_gate/east/frame_00.png",
+        "devices/oneway_gate/east/frame_01.png",
+        "devices/oneway_gate/east/frame_02.png",
+        "devices/oneway_gate/east/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "east",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "actualDisplacement": [
+        1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_east_open",
+      "state": "open",
+      "frames": [
+        "devices/oneway_gate/east/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "east",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "actualDisplacement": [
+        1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_east_closing",
+      "state": "closing",
+      "frames": [
+        "devices/oneway_gate/east/frame_03.png",
+        "devices/oneway_gate/east/frame_02.png",
+        "devices/oneway_gate/east/frame_01.png",
+        "devices/oneway_gate/east/frame_00.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "east",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "actualDisplacement": [
+        1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_east_blocked",
+      "state": "blocked",
+      "frames": [
+        "devices/oneway_gate/east/blocked_00.png",
+        "devices/oneway_gate/east/blocked_01.png",
+        "devices/oneway_gate/east/blocked_00.png",
+        "devices/oneway_gate/east/frame_00.png"
+      ],
+      "triggerRule": "Invalid opposite or either lateral input; never opening"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "north",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "actualDisplacement": [
+        0,
+        1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_north_closed",
+      "state": "closed",
+      "frames": [
+        "devices/oneway_gate/north/frame_00.png"
+      ],
+      "triggerRule": "Resting, unoccupied closed state"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "north",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "actualDisplacement": [
+        0,
+        1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_north_opening",
+      "state": "opening",
+      "frames": [
+        "devices/oneway_gate/north/frame_00.png",
+        "devices/oneway_gate/north/frame_01.png",
+        "devices/oneway_gate/north/frame_02.png",
+        "devices/oneway_gate/north/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "north",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "actualDisplacement": [
+        0,
+        1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_north_open",
+      "state": "open",
+      "frames": [
+        "devices/oneway_gate/north/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "north",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "actualDisplacement": [
+        0,
+        1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_north_closing",
+      "state": "closing",
+      "frames": [
+        "devices/oneway_gate/north/frame_03.png",
+        "devices/oneway_gate/north/frame_02.png",
+        "devices/oneway_gate/north/frame_01.png",
+        "devices/oneway_gate/north/frame_00.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "north",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "actualDisplacement": [
+        0,
+        1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_north_blocked",
+      "state": "blocked",
+      "frames": [
+        "devices/oneway_gate/north/blocked_00.png",
+        "devices/oneway_gate/north/blocked_01.png",
+        "devices/oneway_gate/north/blocked_00.png",
+        "devices/oneway_gate/north/frame_00.png"
+      ],
+      "triggerRule": "Invalid opposite or either lateral input; never opening"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "west",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "actualDisplacement": [
+        -1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_west_closed",
+      "state": "closed",
+      "frames": [
+        "devices/oneway_gate/west/frame_00.png"
+      ],
+      "triggerRule": "Resting, unoccupied closed state"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "west",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "actualDisplacement": [
+        -1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_west_opening",
+      "state": "opening",
+      "frames": [
+        "devices/oneway_gate/west/frame_00.png",
+        "devices/oneway_gate/west/frame_01.png",
+        "devices/oneway_gate/west/frame_02.png",
+        "devices/oneway_gate/west/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "west",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "actualDisplacement": [
+        -1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_west_open",
+      "state": "open",
+      "frames": [
+        "devices/oneway_gate/west/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "west",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "actualDisplacement": [
+        -1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_west_closing",
+      "state": "closing",
+      "frames": [
+        "devices/oneway_gate/west/frame_03.png",
+        "devices/oneway_gate/west/frame_02.png",
+        "devices/oneway_gate/west/frame_01.png",
+        "devices/oneway_gate/west/frame_00.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "west",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "actualDisplacement": [
+        -1,
+        0
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_west_blocked",
+      "state": "blocked",
+      "frames": [
+        "devices/oneway_gate/west/blocked_00.png",
+        "devices/oneway_gate/west/blocked_01.png",
+        "devices/oneway_gate/west/blocked_00.png",
+        "devices/oneway_gate/west/frame_00.png"
+      ],
+      "triggerRule": "Invalid opposite or either lateral input; never opening"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "south",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "actualDisplacement": [
+        0,
+        -1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_south_closed",
+      "state": "closed",
+      "frames": [
+        "devices/oneway_gate/south/frame_00.png"
+      ],
+      "triggerRule": "Resting, unoccupied closed state"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "south",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "actualDisplacement": [
+        0,
+        -1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_south_opening",
+      "state": "opening",
+      "frames": [
+        "devices/oneway_gate/south/frame_00.png",
+        "devices/oneway_gate/south/frame_01.png",
+        "devices/oneway_gate/south/frame_02.png",
+        "devices/oneway_gate/south/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "south",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "actualDisplacement": [
+        0,
+        -1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_south_open",
+      "state": "open",
+      "frames": [
+        "devices/oneway_gate/south/frame_03.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "south",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "actualDisplacement": [
+        0,
+        -1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_south_closing",
+      "state": "closing",
+      "frames": [
+        "devices/oneway_gate/south/frame_03.png",
+        "devices/oneway_gate/south/frame_02.png",
+        "devices/oneway_gate/south/frame_01.png",
+        "devices/oneway_gate/south/frame_00.png"
+      ],
+      "triggerRule": "Accepted interaction only"
+    },
+    {
+      "family": "oneway_gate",
+      "heading": "south",
+      "sourceId": "09",
+      "canvasSize": [
+        320,
+        320
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "actualDisplacement": [
+        0,
+        -1
+      ],
+      "fps": 12,
+      "loop": false,
+      "key": "oneway_gate_south_blocked",
+      "state": "blocked",
+      "frames": [
+        "devices/oneway_gate/south/blocked_00.png",
+        "devices/oneway_gate/south/blocked_01.png",
+        "devices/oneway_gate/south/blocked_00.png",
+        "devices/oneway_gate/south/frame_00.png"
+      ],
+      "triggerRule": "Invalid opposite or either lateral input; never opening"
+    }
+  ],
+  "rigs": [
+    {
+      "heading": "east",
+      "motion": "two native sliding half-bars retract under unchanged opaque fixed side rails",
+      "fixedRailPixels": 286,
+      "fixedOpaqueRailCoreRGBAUnchanged": true,
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "minimumOpenClearancePixels": 144,
+      "minimumOpenClearanceFraction": 0.5625,
+      "allAlphaContainedInOneCell": true,
+      "fourDistinctOpeningFrames": true,
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "blockedApproaches": [
+        "north",
+        "west",
+        "south"
+      ],
+      "allowedEntryVector": [
+        1,
+        0
+      ],
+      "noWholeBillboardRotation": true,
+      "noGateOpeningForInvalidInput": true
+    },
+    {
+      "heading": "north",
+      "motion": "two native sliding half-bars retract under unchanged opaque fixed side rails",
+      "fixedRailPixels": 456,
+      "fixedOpaqueRailCoreRGBAUnchanged": true,
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "minimumOpenClearancePixels": 156,
+      "minimumOpenClearanceFraction": 0.609375,
+      "allAlphaContainedInOneCell": true,
+      "fourDistinctOpeningFrames": true,
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "blockedApproaches": [
+        "east",
+        "west",
+        "south"
+      ],
+      "allowedEntryVector": [
+        0,
+        1
+      ],
+      "noWholeBillboardRotation": true,
+      "noGateOpeningForInvalidInput": true
+    },
+    {
+      "heading": "west",
+      "motion": "two native sliding half-bars retract under unchanged opaque fixed side rails",
+      "fixedRailPixels": 286,
+      "fixedOpaqueRailCoreRGBAUnchanged": true,
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "minimumOpenClearancePixels": 144,
+      "minimumOpenClearanceFraction": 0.5625,
+      "allAlphaContainedInOneCell": true,
+      "fourDistinctOpeningFrames": true,
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "blockedApproaches": [
+        "east",
+        "north",
+        "south"
+      ],
+      "allowedEntryVector": [
+        -1,
+        0
+      ],
+      "noWholeBillboardRotation": true,
+      "noGateOpeningForInvalidInput": true
+    },
+    {
+      "heading": "south",
+      "motion": "two native sliding half-bars retract under unchanged opaque fixed side rails",
+      "fixedRailPixels": 456,
+      "fixedOpaqueRailCoreRGBAUnchanged": true,
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "minimumOpenClearancePixels": 156,
+      "minimumOpenClearanceFraction": 0.609375,
+      "allAlphaContainedInOneCell": true,
+      "fourDistinctOpeningFrames": true,
+      "groundFootprint": [
+        1,
+        1
+      ],
+      "blockedApproaches": [
+        "east",
+        "north",
+        "west"
+      ],
+      "allowedEntryVector": [
+        0,
+        -1
+      ],
+      "noWholeBillboardRotation": true,
+      "noGateOpeningForInvalidInput": true
+    }
+  ],
+  "mechanismChange": "Visual form updated from folding leaves to compact split sliding crossbar; actual gameplay still arrow-only passage, 1×1 cell.",
+  "invalidInteractionOpensGate": false
+}

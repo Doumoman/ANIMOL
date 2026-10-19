@@ -1,108 +1,9 @@
 {
-  "version": "V03",
+  "version": "V03-P01",
   "theme": "잔영 극장",
   "themeId": "memory_theater",
-  "bindingPolicy": "Semantic art keys and PDF device IDs only; actual project IDs/enums/footprints unverified. Preserve existing collision and occupancy. A bookcase704 sweep canvas is not a2x2 gameplay footprint; wide moving stage remains2x1 for every heading. Tall stage variants optional only if project footprint already supports them.",
+  "bindingPolicy": "Semantic art keys and PDF IDs only; actual project IDs and footprints unverified. P01 bookcase uses 1024px art sweep and centered3cell H/V visual reference, so preflight actual footprint BEFORE copying. Canvas is not occupancy. Unchanged wide moving stage remains2x1; tall optional variants require actual footprint support.",
   "clips": [
-    {
-      "key": "id08_bookcase_H_to_V",
-      "family": "rotating_bookcase",
-      "heading": "horizontal_to_vertical",
-      "state": "rotate",
-      "fps": 10,
-      "loop": false,
-      "frames": [
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png"
-      ],
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "deviceAtlasId": "08",
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprints": {
-        "horizontal": [
-          2,
-          1
-        ],
-        "vertical": [
-          1,
-          2
-        ]
-      },
-      "centralPinPixels": [
-        352,
-        352
-      ]
-    },
-    {
-      "key": "id08_bookcase_V_to_H",
-      "family": "rotating_bookcase",
-      "heading": "vertical_to_horizontal",
-      "state": "rotate",
-      "fps": 10,
-      "loop": false,
-      "frames": [
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
-        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png"
-      ],
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "deviceAtlasId": "08",
-      "reverseOf": "id08_bookcase_H_to_V",
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprints": {
-        "horizontal": [
-          2,
-          1
-        ],
-        "vertical": [
-          1,
-          2
-        ]
-      },
-      "centralPinPixels": [
-        352,
-        352
-      ]
-    },
     {
       "key": "id04_shutter_horizontal_open",
       "family": "alternating_shutter",
@@ -446,395 +347,142 @@
       "optionalOrientationVariant": true,
       "headingDoesNotChangeFootprint": true,
       "projectPositionTweenNotInRaster": true
+    },
+    {
+      "family": "rotating_bookcase",
+      "state": "rotate",
+      "fps": 10,
+      "loop": false,
+      "canvasSize": [
+        1024,
+        1024
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointOccupancyUnion": [
+        128,
+        128,
+        768,
+        768
+      ],
+      "deviceAtlasId": "08",
+      "centralPinPixels": [
+        512,
+        512
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "occupancyPolicy": "Visual reference only; verify host cell occupancy and pivot. Never modify gameplay collision or map data from sprite alpha.",
+      "key": "id08_bookcase_H_to_V",
+      "heading": "horizontal_to_vertical",
+      "frames": [
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png"
+      ]
+    },
+    {
+      "family": "rotating_bookcase",
+      "state": "rotate",
+      "fps": 10,
+      "loop": false,
+      "canvasSize": [
+        1024,
+        1024
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointOccupancyUnion": [
+        128,
+        128,
+        768,
+        768
+      ],
+      "deviceAtlasId": "08",
+      "centralPinPixels": [
+        512,
+        512
+      ],
+      "sweepBoxIsGameplayFootprint": false,
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "occupancyPolicy": "Visual reference only; verify host cell occupancy and pivot. Never modify gameplay collision or map data from sprite alpha.",
+      "key": "id08_bookcase_V_to_H",
+      "heading": "vertical_to_horizontal",
+      "frames": [
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+        "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png"
+      ],
+      "reverseOf": "id08_bookcase_H_to_V"
     }
   ],
   "assets": [
-    {
-      "key": "bookcase_yaw_0",
-      "artKey": "bookcase_yaw_0",
-      "kind": "device_animation_frame",
-      "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "rotate",
-      "frameIndex": 0,
-      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        34,
-        66,
-        469,
-        349
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "50bd9ba90f64121d47afb49789f1c8a2ef9498b951799220eb7991cb02cb4944",
-      "yawDegrees": 0,
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "artSweepUnionCells": [
-        2,
-        2
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": [
-        2,
-        1
-      ],
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596
-    },
-    {
-      "key": "bookcase_yaw_1",
-      "artKey": "bookcase_yaw_1",
-      "kind": "device_animation_frame",
-      "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "rotate",
-      "frameIndex": 1,
-      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        535,
-        77,
-        449,
-        403
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "e99109d187f75fd509883aff98124448653b6de2945f299d16142655e720d12a",
-      "yawDegrees": 22.5,
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "artSweepUnionCells": [
-        2,
-        2
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": null,
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596
-    },
-    {
-      "key": "bookcase_yaw_2",
-      "artKey": "bookcase_yaw_2",
-      "kind": "device_animation_frame",
-      "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "rotate",
-      "frameIndex": 2,
-      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        72,
-        532,
-        401,
-        445
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "2256a85a2ca32de4cb4f214965a889ecc3d3b00b2ea2c725c436aaa9f6630d88",
-      "yawDegrees": 45,
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "artSweepUnionCells": [
-        2,
-        2
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": null,
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596
-    },
-    {
-      "key": "bookcase_yaw_3",
-      "artKey": "bookcase_yaw_3",
-      "kind": "device_animation_frame",
-      "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "rotate",
-      "frameIndex": 3,
-      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        609,
-        519,
-        323,
-        470
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "29894ec428d915dc8c39ea4811a4fb5bd3ca6547b4cab500b07553f2ae69d515",
-      "yawDegrees": 67.5,
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "artSweepUnionCells": [
-        2,
-        2
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": null,
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596
-    },
-    {
-      "key": "bookcase_yaw_4",
-      "artKey": "bookcase_yaw_4",
-      "kind": "device_animation_frame",
-      "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "rotate",
-      "frameIndex": 4,
-      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        148,
-        1011,
-        224,
-        423
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "ed3dec90b80f31ec9dfc7ad2bc8c6ed36d3394fa51de5610f8513b7398ff96e4",
-      "yawDegrees": 90,
-      "logicalUnion": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "artSweepUnionCells": [
-        2,
-        2
-      ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": [
-        1,
-        2
-      ],
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596
-    },
     {
       "key": "shutter_horizontal_0",
       "artKey": "shutter_horizontal_0",
@@ -2594,24 +2242,261 @@
       "headingDoesNotChangeFootprint": true,
       "commonUniformScale": 0.7726597325408618,
       "actualTranslationInProject": true
+    },
+    {
+      "family": "rotating_bookcase",
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
+      "kind": "animation_frame",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "43deea89118636bc0541719f893045d9f966d21302cb81bb14e72a256b2216f3",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
+      ]
+    },
+    {
+      "family": "rotating_bookcase",
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_01.png",
+      "kind": "animation_frame",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "f3e41217b574b7b532b997d2ec35289e8b404e86b519e006d083d07699100706",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
+      ]
+    },
+    {
+      "family": "rotating_bookcase",
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_02.png",
+      "kind": "animation_frame",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "911d006408129446d9ee81543be4340678fd6efa74e238b1fe89978d161b2264",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
+      ]
+    },
+    {
+      "family": "rotating_bookcase",
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_03.png",
+      "kind": "animation_frame",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "45847bb3e0a8b8fff147cd899d0ba0829967a92d2d1e7d2b713b4fbaccf16965",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
+      ]
+    },
+    {
+      "family": "rotating_bookcase",
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "logicalUnion": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
+      ],
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
+      "kind": "animation_frame",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "fdee9035e25b694d5174e1191f294b8d2d66224a5d4c2f38ded37ea4250d6c48",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
+      ]
     }
   ],
   "staticAliases": [
     {
-      "key": "bookcase_yaw_0",
-      "artKey": "rotating_bookcase_front",
-      "kind": "latest_endpoint_alias",
       "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "front",
-      "frameIndex": 0,
-      "file": "devices/rotating_bookcase/front.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
       "ppu": 256,
       "pivot": [
         0.5,
@@ -2620,80 +2505,52 @@
       "logicalRect": [
         96,
         96,
-        512,
-        512
+        832,
+        832
       ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        34,
-        66,
-        469,
-        349
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "50bd9ba90f64121d47afb49789f1c8a2ef9498b951799220eb7991cb02cb4944",
-      "yawDegrees": 0,
       "logicalUnion": [
         96,
         96,
-        512,
-        512
+        832,
+        832
       ],
-      "artSweepUnionCells": [
-        2,
-        2
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
       ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": [
-        2,
-        1
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "devices/rotating_bookcase/front.png",
+      "kind": "latest_endpoint_alias",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "43deea89118636bc0541719f893045d9f966d21302cb81bb14e72a256b2216f3",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
       ],
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596,
       "latestEndpointAliasOf": "animations/stage/rotating_bookcase/sweep/rotate/frame_00.png",
-      "artRevision": "V03_directional_animation_endpoint",
-      "compatibilityPathOnly": true
+      "compatibilityPathOnly": true,
+      "state": "front",
+      "artKey": "rotating_bookcase_front"
     },
     {
-      "key": "bookcase_yaw_4",
-      "artKey": "rotating_bookcase_turned",
-      "kind": "latest_endpoint_alias",
       "family": "rotating_bookcase",
-      "heading": "sweep",
-      "state": "turned",
-      "frameIndex": 4,
-      "file": "devices/rotating_bookcase/turned.png",
-      "width": 704,
-      "height": 704,
-      "canvasSize": [
-        704,
-        704
-      ],
       "ppu": 256,
       "pivot": [
         0.5,
@@ -2702,64 +2559,49 @@
       "logicalRect": [
         96,
         96,
-        512,
-        512
+        832,
+        832
       ],
-      "logical_rect": [
-        96,
-        96,
-        512,
-        512
-      ],
-      "actualGameplayFootprintCells": null,
-      "existingGameplayId": null,
-      "existingGameplayStateEnum": null,
-      "source": "sources/theater_v03_bookcase_yaw_native.png",
-      "nativeSourceRect": [
-        148,
-        1011,
-        224,
-        423
-      ],
-      "sourceColorChanges": false,
-      "productionRGBQuantization": false,
-      "sha256": "ed3dec90b80f31ec9dfc7ad2bc8c6ed36d3394fa51de5610f8513b7398ff96e4",
-      "yawDegrees": 90,
       "logicalUnion": [
         96,
         96,
-        512,
-        512
+        832,
+        832
       ],
-      "artSweepUnionCells": [
-        2,
-        2
+      "artSweepBounds": [
+        96,
+        96,
+        832,
+        832
       ],
-      "sweepBoxIsGameplayFootprint": false,
-      "endpointArtFootprintCells": [
-        1,
-        2
+      "endpointArtFootprints": {
+        "horizontal": [
+          3,
+          1
+        ],
+        "vertical": [
+          1,
+          3
+        ]
+      },
+      "projectFootprintVerification": "NOT_VERIFIED_PROJECT",
+      "file": "devices/rotating_bookcase/turned.png",
+      "kind": "latest_endpoint_alias",
+      "heading": "vertical_to_horizontal",
+      "width": 1024,
+      "height": 1024,
+      "sha256": "fdee9035e25b694d5174e1191f294b8d2d66224a5d4c2f38ded37ea4250d6c48",
+      "artRevision": "P01_tile_readability",
+      "logical_rect": [
+        96,
+        96,
+        832,
+        832
       ],
-      "centralPinPixels": [
-        352,
-        352
-      ],
-      "centralPinSourceRect": [
-        705,
-        1219,
-        93,
-        89
-      ],
-      "centralPinRenderRect": [
-        336,
-        337,
-        32,
-        30
-      ],
-      "commonUniformScale": 1.0893617021276596,
       "latestEndpointAliasOf": "animations/stage/rotating_bookcase/sweep/rotate/frame_04.png",
-      "artRevision": "V03_directional_animation_endpoint",
-      "compatibilityPathOnly": true
+      "compatibilityPathOnly": true,
+      "state": "turned",
+      "artKey": "rotating_bookcase_turned"
     },
     {
       "key": "shutter_horizontal_0",
@@ -2997,5 +2839,6 @@
       "artRevision": "V03_directional_animation_endpoint",
       "compatibilityPathOnly": true
     }
-  ]
+  ],
+  "bookcaseBindingRequirement": "Verify actual centered3cell H/V occupancy BEFORE copying or rebinding P01 bookcase. No alpha-to-collider conversion."
 }

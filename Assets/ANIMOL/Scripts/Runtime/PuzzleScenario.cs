@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using ANIMOL.Art.DevicePatch01;
 
 namespace ANIMOL.Puzzle
 {
@@ -98,6 +99,7 @@ namespace ANIMOL.Puzzle
         public bool teleport;
         public int group;
         public List<Vector2Int> cells;
+        [NonSerialized] public WindRoute windRoute;
     }
     public sealed class PrototypeAction
     {

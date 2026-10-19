@@ -54,10 +54,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: fdee3e2bd41c6f843bbec019088edbcd, type: 2}
-    v03ClipKey: 
+    clip: {fileID: 7400000, guid: 3db0ac63d2f04f04aaebb0fe4cdc6199, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_east_opening
+    v12ClipKey: oneway_gate_east_closed
     v12StaticProgress: 0
   - name: open_e
     eventName: allowed_passage_begin
@@ -65,7 +65,7 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: a457d06d3330849459e69b9d9c2e34bd, type: 3}
     sequence: {fileID: 11400000, guid: 5eabcc7e65b1ae548b82820eab6ee885, type: 2}
     clip: {fileID: 7400000, guid: fdee3e2bd41c6f843bbec019088edbcd, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_east_opening
     v12StaticProgress: 0
@@ -74,10 +74,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: 0714ec75f30cdad46a8957486fe7d6c0, type: 2}
-    v03ClipKey: 
+    clip: {fileID: 7400000, guid: 510b04f55e8ab504c8338f02ef4464b1, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_south_opening
+    v12ClipKey: oneway_gate_south_closed
     v12StaticProgress: 0
   - name: open_s
     eventName: allowed_passage_begin
@@ -85,7 +85,7 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: 304bcbe6668099748abf132dfcf7dd19, type: 3}
     sequence: {fileID: 11400000, guid: 27053c6253107e44885e81387a83941b, type: 2}
     clip: {fileID: 7400000, guid: 0714ec75f30cdad46a8957486fe7d6c0, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_south_opening
     v12StaticProgress: 0
@@ -94,10 +94,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: b9e5edcb81aa2184c8926bd1b117b5c5, type: 2}
-    v03ClipKey: 
+    clip: {fileID: 7400000, guid: eb612f1629f4d0445bcedc9af67dd2f4, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_west_opening
+    v12ClipKey: oneway_gate_west_closed
     v12StaticProgress: 0
   - name: open_w
     eventName: allowed_passage_begin
@@ -105,7 +105,7 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: 2396be00107a13c459c63cf020b5e856, type: 3}
     sequence: {fileID: 11400000, guid: af05abc617a4d3c4588e77ba6f9abafb, type: 2}
     clip: {fileID: 7400000, guid: b9e5edcb81aa2184c8926bd1b117b5c5, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_west_opening
     v12StaticProgress: 0
@@ -114,10 +114,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
     terminal: {fileID: 0}
     sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: 2d80b744d0907f24db06f4baea48d074, type: 2}
-    v03ClipKey: 
+    clip: {fileID: 7400000, guid: 1aa095541fa8d1e46a4a08c4949d559b, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_north_opening
+    v12ClipKey: oneway_gate_north_closed
     v12StaticProgress: 0
   - name: open_n
     eventName: allowed_passage_begin
@@ -125,7 +125,7 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: 1c88f68c70290724697723af5537cf6e, type: 3}
     sequence: {fileID: 11400000, guid: d7dcdc00db502534cb562dd0fb83bc15, type: 2}
     clip: {fileID: 7400000, guid: 2d80b744d0907f24db06f4baea48d074, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_north_opening
     v12StaticProgress: 0
@@ -135,19 +135,19 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
     sequence: {fileID: 11400000, guid: 6c87e6eab0b72ee4abecfb197716af98, type: 2}
     clip: {fileID: 7400000, guid: 9a31cbdf5852c1b40ab18669b7f1f790, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_east_closing
     v12StaticProgress: 0
   - name: blocked_e
     eventName: existing_rejected_gate_contact
-    sprite: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
-    terminal: {fileID: 0}
-    sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: fdee3e2bd41c6f843bbec019088edbcd, type: 2}
-    v03ClipKey: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 4e3a4705cac3cce4a8567a2998f38837, type: 3}
+    sequence: {fileID: 11400000, guid: 0afaad950272d6b40a3e10c7bfa78899, type: 2}
+    clip: {fileID: 7400000, guid: 8e9481d227560e140b3d0a5dcb37884c, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_east_opening
+    v12ClipKey: oneway_gate_east_blocked
     v12StaticProgress: 0
   - name: close_s
     eventName: allowed_passage_clear
@@ -155,19 +155,19 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
     sequence: {fileID: 11400000, guid: 4eeddbe6aabf7684d907e9b1c0000318, type: 2}
     clip: {fileID: 7400000, guid: 0813cf71aa1775945ba154860a046251, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_south_closing
     v12StaticProgress: 0
   - name: blocked_s
     eventName: existing_rejected_gate_contact
-    sprite: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
-    terminal: {fileID: 0}
-    sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: 0714ec75f30cdad46a8957486fe7d6c0, type: 2}
-    v03ClipKey: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: bef441ac6aee0384cb91b796e5db397e, type: 3}
+    sequence: {fileID: 11400000, guid: f53204c1bc2f5c443a8cae01138e6aeb, type: 2}
+    clip: {fileID: 7400000, guid: 6aec8c0c7fb28244cb6249cf88cfc797, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_south_opening
+    v12ClipKey: oneway_gate_south_blocked
     v12StaticProgress: 0
   - name: close_w
     eventName: allowed_passage_clear
@@ -175,19 +175,19 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
     sequence: {fileID: 11400000, guid: f7fcea49b2c974747955b3fecef6d035, type: 2}
     clip: {fileID: 7400000, guid: 419f50e146a8d4542897f693002ba14c, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_west_closing
     v12StaticProgress: 0
   - name: blocked_w
     eventName: existing_rejected_gate_contact
-    sprite: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
-    terminal: {fileID: 0}
-    sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: b9e5edcb81aa2184c8926bd1b117b5c5, type: 2}
-    v03ClipKey: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: 8048cc5c6df281944bb43ca45f013ffa, type: 3}
+    sequence: {fileID: 11400000, guid: b44a984169178ee4aa8924e45a958c81, type: 2}
+    clip: {fileID: 7400000, guid: a8a6045cc25ed574bb3dbae0fd399d4e, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_west_opening
+    v12ClipKey: oneway_gate_west_blocked
     v12StaticProgress: 0
   - name: close_n
     eventName: allowed_passage_clear
@@ -195,19 +195,19 @@ MonoBehaviour:
     terminal: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
     sequence: {fileID: 11400000, guid: 8a1b0e144f811b8439846edc41e2b526, type: 2}
     clip: {fileID: 7400000, guid: d8bdb793a7d0d714682698de1379c19e, type: 2}
-    v03ClipKey: 
+    v03ClipKey:
     v03StaticProgress: 0
     v12ClipKey: oneway_gate_north_closing
     v12StaticProgress: 0
   - name: blocked_n
     eventName: existing_rejected_gate_contact
-    sprite: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
-    terminal: {fileID: 0}
-    sequence: {fileID: 0}
-    clip: {fileID: 7400000, guid: 2d80b744d0907f24db06f4baea48d074, type: 2}
-    v03ClipKey: 
+    sprite: {fileID: 0}
+    terminal: {fileID: 21300000, guid: ba623805c1462094a8ff4b935d76d868, type: 3}
+    sequence: {fileID: 11400000, guid: 66b571e56fcf9f34a97bd48177aca17e, type: 2}
+    clip: {fileID: 7400000, guid: e44b750346933b9499d79b0eb6325212, type: 2}
+    v03ClipKey:
     v03StaticProgress: 0
-    v12ClipKey: oneway_gate_north_opening
+    v12ClipKey: oneway_gate_north_blocked
     v12StaticProgress: 0
   paused: 0
   initialPhase: 0
