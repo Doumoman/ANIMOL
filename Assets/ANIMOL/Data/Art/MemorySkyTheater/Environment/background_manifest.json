@@ -1,0 +1,733 @@
+{
+  "version": "ANIMOL_ECHO_THEATER_CARTOON_V02",
+  "themeDisplayName": "잔영 극장",
+  "themeEnglish": "Echo Theater",
+  "themeId": "memory_theater",
+  "purpose": "Almost fixed stars behind every cloud; moving clouds and responsive distant theater islands.",
+  "assets": [
+    {
+      "kind": "background",
+      "file": "backgrounds/sky_base_native.png",
+      "width": 941,
+      "height": 1672,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "cameraMode": "cover",
+      "repeat": false,
+      "starsBaked": false,
+      "cloudsBaked": false,
+      "noPlanets": true,
+      "noMoons": true,
+      "source": "sources/theater_sky_plum_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_01.png",
+      "nativeSourceRect": [
+        73,
+        134,
+        271,
+        301
+      ],
+      "canvasSize": [
+        287,
+        317
+      ],
+      "contentRect": [
+        8,
+        8,
+        271,
+        301
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        278,
+        308
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 287,
+      "height": 317,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_02.png",
+      "nativeSourceRect": [
+        484,
+        110,
+        284,
+        338
+      ],
+      "canvasSize": [
+        300,
+        354
+      ],
+      "contentRect": [
+        8,
+        8,
+        284,
+        338
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        291,
+        345
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": true,
+      "kind": "background_star",
+      "resized": false,
+      "width": 300,
+      "height": 354,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_03.png",
+      "nativeSourceRect": [
+        909,
+        117,
+        280,
+        329
+      ],
+      "canvasSize": [
+        296,
+        345
+      ],
+      "contentRect": [
+        8,
+        8,
+        280,
+        329
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        287,
+        336
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": true,
+      "kind": "background_star",
+      "resized": false,
+      "width": 296,
+      "height": 345,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_04.png",
+      "nativeSourceRect": [
+        123,
+        612,
+        163,
+        230
+      ],
+      "canvasSize": [
+        179,
+        246
+      ],
+      "contentRect": [
+        8,
+        8,
+        163,
+        230
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        170,
+        237
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 179,
+      "height": 246,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_05.png",
+      "nativeSourceRect": [
+        546,
+        610,
+        161,
+        229
+      ],
+      "canvasSize": [
+        177,
+        245
+      ],
+      "contentRect": [
+        8,
+        8,
+        161,
+        229
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        168,
+        236
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 177,
+      "height": 245,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/star_06.png",
+      "nativeSourceRect": [
+        972,
+        612,
+        160,
+        230
+      ],
+      "canvasSize": [
+        176,
+        246
+      ],
+      "contentRect": [
+        8,
+        8,
+        160,
+        230
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        167,
+        237
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 176,
+      "height": 246,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/dot_cream.png",
+      "nativeSourceRect": [
+        168,
+        1021,
+        76,
+        76
+      ],
+      "canvasSize": [
+        92,
+        92
+      ],
+      "contentRect": [
+        8,
+        8,
+        76,
+        76
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        83,
+        83
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 92,
+      "height": 92,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/dot_gray.png",
+      "nativeSourceRect": [
+        589,
+        1018,
+        76,
+        77
+      ],
+      "canvasSize": [
+        92,
+        93
+      ],
+      "contentRect": [
+        8,
+        8,
+        76,
+        77
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        83,
+        84
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 92,
+      "height": 93,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "file": "backgrounds/stars/dot_indigo.png",
+      "nativeSourceRect": [
+        1012,
+        1019,
+        77,
+        76
+      ],
+      "canvasSize": [
+        93,
+        92
+      ],
+      "contentRect": [
+        8,
+        8,
+        77,
+        76
+      ],
+      "contentBoundsInclusive": [
+        8,
+        8,
+        84,
+        83
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "outlined": false,
+      "kind": "background_star",
+      "resized": false,
+      "width": 93,
+      "height": 92,
+      "source": "sources/stars_cartoon_native.png"
+    },
+    {
+      "kind": "background_decor",
+      "file": "backgrounds/distant_stage_island.png",
+      "width": 617,
+      "height": 643,
+      "canvasSize": [
+        617,
+        643
+      ],
+      "nativeSourceRect": [
+        83,
+        22,
+        666,
+        671
+      ],
+      "contentRect": [
+        10,
+        21,
+        597,
+        601
+      ],
+      "contentRectTopLeft": [
+        10,
+        21,
+        597,
+        601
+      ],
+      "contentWorldWidth": 6,
+      "worldWidth": 6,
+      "ppu": 99.5,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        6.201005025125628,
+        6.4623115577889445
+      ],
+      "source": "sources/theater_background_decor_native.png",
+      "resized": true,
+      "visibleComponentCount": 4,
+      "retainedDetachedRockCount": 3,
+      "uniformScale": 0.8963963963963963,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V01 canvas. No colour editing."
+    },
+    {
+      "kind": "background_decor",
+      "file": "backgrounds/distant_theater_balcony.png",
+      "width": 592,
+      "height": 453,
+      "canvasSize": [
+        592,
+        453
+      ],
+      "nativeSourceRect": [
+        845,
+        194,
+        625,
+        485
+      ],
+      "contentRect": [
+        17,
+        10,
+        558,
+        433
+      ],
+      "contentRectTopLeft": [
+        17,
+        10,
+        558,
+        433
+      ],
+      "contentWorldWidth": 5.853146853146853,
+      "worldWidth": 5.853146853146853,
+      "ppu": 95.33333333333333,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        6.20979020979021,
+        4.751748251748252
+      ],
+      "source": "sources/theater_background_decor_native.png",
+      "resized": true,
+      "visibleComponentCount": 4,
+      "retainedDetachedRockCount": 3,
+      "uniformScale": 0.8927835051546392,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V01 canvas. No colour editing."
+    },
+    {
+      "kind": "background_decor",
+      "file": "backgrounds/cloud_bank.png",
+      "width": 761,
+      "height": 251,
+      "canvasSize": [
+        761,
+        251
+      ],
+      "nativeSourceRect": [
+        29,
+        760,
+        783,
+        233
+      ],
+      "contentRect": [
+        10,
+        15,
+        741,
+        221
+      ],
+      "contentRectTopLeft": [
+        10,
+        15,
+        741,
+        221
+      ],
+      "contentWorldWidth": 9,
+      "worldWidth": 9,
+      "ppu": 82.33333333333333,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        9.242914979757085,
+        3.048582995951417
+      ],
+      "source": "sources/theater_background_decor_native.png",
+      "resized": true,
+      "visibleComponentCount": 1,
+      "retainedDetachedRockCount": 0,
+      "uniformScale": 0.946360153256705,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V01 canvas. No colour editing."
+    },
+    {
+      "kind": "background_decor",
+      "file": "backgrounds/velvet_swag.png",
+      "width": 695,
+      "height": 193,
+      "canvasSize": [
+        695,
+        193
+      ],
+      "nativeSourceRect": [
+        805,
+        755,
+        698,
+        201
+      ],
+      "contentRect": [
+        47,
+        10,
+        601,
+        173
+      ],
+      "contentRectTopLeft": [
+        47,
+        10,
+        601,
+        173
+      ],
+      "contentWorldWidth": 8.013333333333334,
+      "worldWidth": 8.013333333333334,
+      "ppu": 75,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "worldCanvasSize": [
+        9.266666666666667,
+        2.5733333333333333
+      ],
+      "source": "sources/theater_background_decor_native.png",
+      "resized": true,
+      "visibleComponentCount": 1,
+      "retainedDetachedRockCount": 0,
+      "uniformScale": 0.8606965174129353,
+      "mechanicalOperations": "True-alpha component mask extraction; alpha <8 removed and >=245 normalized opaque; uniform aspect-preserving resize and transparent padding into exact V01 canvas. No colour editing."
+    }
+  ],
+  "background": {
+    "file": "backgrounds/sky_base_native.png",
+    "nativeSize": [
+      941,
+      1671
+    ],
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "cameraMode": "cover",
+    "starsBaked": false,
+    "cloudsBaked": false,
+    "decor": [
+      {
+        "kind": "background_decor",
+        "file": "backgrounds/distant_stage_island.png",
+        "width": 617,
+        "height": 643,
+        "canvasSize": [
+          617,
+          643
+        ],
+        "nativeSourceRect": [
+          109,
+          49,
+          597,
+          623
+        ],
+        "contentRect": [
+          10,
+          10,
+          597,
+          623
+        ],
+        "contentRectTopLeft": [
+          10,
+          10,
+          597,
+          623
+        ],
+        "contentWorldWidth": 6,
+        "worldWidth": 6,
+        "ppu": 99.5,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "worldCanvasSize": [
+          6.201005025125628,
+          6.4623115577889445
+        ],
+        "source": "sources/theater_background_decor_native.png",
+        "resized": false,
+        "visibleComponentCount": 4,
+        "retainedDetachedRockCount": 3
+      },
+      {
+        "kind": "background_decor",
+        "file": "backgrounds/distant_theater_balcony.png",
+        "width": 592,
+        "height": 453,
+        "canvasSize": [
+          592,
+          453
+        ],
+        "nativeSourceRect": [
+          865,
+          206,
+          572,
+          433
+        ],
+        "contentRect": [
+          10,
+          10,
+          572,
+          433
+        ],
+        "contentRectTopLeft": [
+          10,
+          10,
+          572,
+          433
+        ],
+        "contentWorldWidth": 6,
+        "worldWidth": 6,
+        "ppu": 95.33333333333333,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "worldCanvasSize": [
+          6.20979020979021,
+          4.751748251748252
+        ],
+        "source": "sources/theater_background_decor_native.png",
+        "resized": false,
+        "visibleComponentCount": 4,
+        "retainedDetachedRockCount": 3
+      },
+      {
+        "kind": "background_decor",
+        "file": "backgrounds/cloud_bank.png",
+        "width": 761,
+        "height": 251,
+        "canvasSize": [
+          761,
+          251
+        ],
+        "nativeSourceRect": [
+          41,
+          744,
+          741,
+          231
+        ],
+        "contentRect": [
+          10,
+          10,
+          741,
+          231
+        ],
+        "contentRectTopLeft": [
+          10,
+          10,
+          741,
+          231
+        ],
+        "contentWorldWidth": 9,
+        "worldWidth": 9,
+        "ppu": 82.33333333333333,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "worldCanvasSize": [
+          9.242914979757085,
+          3.048582995951417
+        ],
+        "source": "sources/theater_background_decor_native.png",
+        "resized": false,
+        "visibleComponentCount": 1,
+        "retainedDetachedRockCount": 0
+      },
+      {
+        "kind": "background_decor",
+        "file": "backgrounds/velvet_swag.png",
+        "width": 695,
+        "height": 193,
+        "canvasSize": [
+          695,
+          193
+        ],
+        "nativeSourceRect": [
+          822,
+          764,
+          675,
+          173
+        ],
+        "contentRect": [
+          10,
+          10,
+          675,
+          173
+        ],
+        "contentRectTopLeft": [
+          10,
+          10,
+          675,
+          173
+        ],
+        "contentWorldWidth": 9,
+        "worldWidth": 9,
+        "ppu": 75.0,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "worldCanvasSize": [
+          9.266666666666667,
+          2.5733333333333333
+        ],
+        "source": "sources/theater_background_decor_native.png",
+        "resized": false,
+        "visibleComponentCount": 1,
+        "retainedDetachedRockCount": 0
+      }
+    ]
+  },
+  "sceneLayout": "background_scene_layout.json",
+  "runtime": [
+    "Runtime/EchoTheaterV02BackgroundRig.cs",
+    "Runtime/EchoTheaterV02CameraCover.cs"
+  ],
+  "sourcePolicy": "V02 newly redrawn theater sky, islands, clouds and velvet. Only nine common flat star sprites are reused.",
+  "noMoons": true,
+  "noPlanets": true,
+  "starMotion": "No independent drift or twinkle; multiplier 0.03 keeps stars almost screen-fixed.",
+  "depthPolicy": "Positive world Z from orthographic gameplay plane; all star sorting orders precede every cloud and theater decoration.",
+  "csharpCompiled": false,
+  "unityExecuted": false,
+  "style": "Broad matte cel fields; angular near-black navy outlines; plum/wine/lavender theater sky."
+}

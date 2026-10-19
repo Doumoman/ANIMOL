@@ -1,0 +1,1951 @@
+{
+  "version": "ANIMOL_ECHO_THEATER_CARTOON_V02",
+  "theme": "잔영 극장",
+  "status": "READY_FOR_VISUAL_REVIEW",
+  "expectedFinalStateCount": 26,
+  "expectedSemanticFamilyCount": 11,
+  "exportedStateCount": 26,
+  "exportedSemanticFamilyCount": 11,
+  "style": "Native redraw: very thick angular navy contours, large hard-edged flat burgundy/plum/ochre/cream blocks, simplified geometric theater details. No procedural color quantization.",
+  "defaultImport": {
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "filterMode": "Bilinear",
+    "mipmaps": false,
+    "compression": "Uncompressed",
+    "meshType": "FullRect"
+  },
+  "coordinateConvention": "Logical art slot centred on sprite pivot; upright silhouettes may overhang the art slot inside a larger transparent frame. Paired states share canvas dimensions and bottom baseline.",
+  "actualGameplayBindingsVerified": false,
+  "fullAnimationsIncluded": false,
+  "sources": [
+    {
+      "file": "sources/theater_common_devices_native.png",
+      "nativeSize": [
+        1086,
+        1448
+      ],
+      "nominalGrid": [
+        2,
+        4
+      ],
+      "retainedMainComponents": 9,
+      "removedTinyComponents": 211,
+      "originalGeneratedFile": "exec-2083f6cf-2f15-4ac2-b192-9c8f2c639b6d.png",
+      "alphaPolicy": "Retain components with at least 100 alpha>=8 pixels, preserving their original antialiasing within two pixels; zero RGB under alpha zero. Generated color planes are unchanged."
+    },
+    {
+      "file": "sources/theater_stage_devices_native.png",
+      "nativeSize": [
+        1086,
+        1448
+      ],
+      "nominalGrid": [
+        2,
+        4
+      ],
+      "retainedMainComponents": 8,
+      "removedTinyComponents": 350,
+      "originalGeneratedFile": "exec-06962dab-a302-42fb-a15c-1c44aadeb6ec.png",
+      "alphaPolicy": "Retain components with at least 100 alpha>=8 pixels, preserving their original antialiasing within two pixels; zero RGB under alpha zero. Generated color planes are unchanged."
+    },
+    {
+      "file": "sources/theater_performer_devices_native.png",
+      "nativeSize": [
+        1254,
+        1254
+      ],
+      "nominalGrid": [
+        2,
+        2
+      ],
+      "retainedMainComponents": 4,
+      "removedTinyComponents": 181,
+      "originalGeneratedFile": "exec-7c43c656-805c-40a1-a08b-9eeb190f1c1d.png",
+      "alphaPolicy": "Retain components with at least 100 alpha>=8 pixels, preserving their original antialiasing within two pixels; zero RGB under alpha zero. Generated color planes are unchanged."
+    },
+    {
+      "file": "sources/theater_dice_faces_native.png",
+      "nativeSize": [
+        1536,
+        1024
+      ],
+      "nominalGrid": [
+        3,
+        2
+      ],
+      "retainedMainComponents": 6,
+      "removedTinyComponents": 18,
+      "originalGeneratedFile": "exec-0bd20d73-5718-4d9b-adf1-d31456901ecd.png",
+      "alphaPolicy": "Retain components with at least 100 alpha>=8 pixels, preserving their original antialiasing within two pixels; zero RGB under alpha zero. Generated color planes are unchanged."
+    }
+  ],
+  "assets": [
+    {
+      "artKey": "conveyor_idle",
+      "family": "conveyor",
+      "state": "idle",
+      "file": "devices/conveyor/idle.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        22,
+        31,
+        510,
+        331
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        86,
+        244,
+        157
+      ],
+      "bodyBaselinePx": 244,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 98,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "2ff71fd6c3dd8b8c4f6e64d98a34bf97279ae275012f1d65cc293edc250260e9",
+      "coreContentRect": [
+        39,
+        87,
+        242,
+        156
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "conveyor_active",
+      "family": "conveyor",
+      "state": "active",
+      "file": "devices/conveyor/active.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        566,
+        32,
+        514,
+        330
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        87,
+        244,
+        156
+      ],
+      "bodyBaselinePx": 244,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 118,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "d32d4f5e862ab89339b671535ab24a718714edc9fab5ba62895370796465c529",
+      "coreContentRect": [
+        39,
+        88,
+        242,
+        155
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "oneway_gate_closed",
+      "family": "oneway_gate",
+      "state": "closed",
+      "file": "devices/oneway_gate/closed.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        29,
+        403,
+        487,
+        309
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        39,
+        85,
+        243,
+        154
+      ],
+      "bodyBaselinePx": 239,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 171,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "7b19825605f7cb3dec1b4871478b5b81dd4af89036e3807eb173dcafe34eae66",
+      "coreContentRect": [
+        40,
+        86,
+        241,
+        152
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 243,
+      "actualVisibleWidthRatioToArtSlot": 0.94921875
+    },
+    {
+      "artKey": "oneway_gate_open",
+      "family": "oneway_gate",
+      "state": "open",
+      "file": "devices/oneway_gate/open.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        570,
+        402,
+        509,
+        310
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        39,
+        91,
+        243,
+        148
+      ],
+      "bodyBaselinePx": 239,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 2,
+      "exportedComponentsAtAlpha1": 127,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "7c7e12200e63ce4ba16330ac6236c43af44d241dd1b0e4671454c9aabad6367c",
+      "coreContentRect": [
+        40,
+        92,
+        241,
+        146
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 243,
+      "actualVisibleWidthRatioToArtSlot": 0.94921875
+    },
+    {
+      "artKey": "bounce_corner_idle",
+      "family": "bounce_corner",
+      "state": "idle",
+      "file": "devices/bounce_corner/idle.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        46,
+        761,
+        474,
+        346
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        79,
+        244,
+        178
+      ],
+      "bodyBaselinePx": 257,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 114,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "7f842e30502133e77216083950a2cf1f9322733b45dd4530db3be1bf70990ca0",
+      "coreContentRect": [
+        39,
+        80,
+        242,
+        176
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "bounce_corner_pressed",
+      "family": "bounce_corner",
+      "state": "pressed",
+      "file": "devices/bounce_corner/pressed.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        595,
+        764,
+        469,
+        345
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        78,
+        244,
+        179
+      ],
+      "bodyBaselinePx": 257,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 108,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "5f9b71e32726f93f17f75ee4323a01352330df4a6da723054646c1013c5cfd3d",
+      "coreContentRect": [
+        39,
+        79,
+        242,
+        177
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "brake_pad_idle",
+      "family": "brake_pad",
+      "state": "idle",
+      "file": "devices/brake_pad/idle.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        12,
+        1161,
+        531,
+        229
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        116,
+        244,
+        105
+      ],
+      "bodyBaselinePx": 221,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 81,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "0987861b716cd64ee43063d1daa0b9adf0efbaf39190e77a3463002d56c28196",
+      "coreContentRect": [
+        39,
+        117,
+        242,
+        103
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "brake_pad_pressed",
+      "family": "brake_pad",
+      "state": "pressed",
+      "file": "devices/brake_pad/pressed.png",
+      "source": "sources/theater_common_devices_native.png",
+      "nativeSourceRect": [
+        555,
+        1164,
+        529,
+        226
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        117,
+        244,
+        104
+      ],
+      "bodyBaselinePx": 221,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 101,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "8b5792b4d2ec5686f5395433ef572ecf2d80530805402b28424e46fddc02e64d",
+      "coreContentRect": [
+        39,
+        118,
+        242,
+        102
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "alternating_shutter_closed",
+      "family": "alternating_shutter",
+      "state": "closed",
+      "file": "devices/alternating_shutter/closed.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        22,
+        20,
+        520,
+        337
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        44,
+        15,
+        488,
+        316
+      ],
+      "bodyBaselinePx": 331,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 34,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "62046a7a0887c7b548da84834e98f6500b663270cad01d93f1cef9b3c023f648",
+      "coreContentRect": [
+        46,
+        17,
+        484,
+        312
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 0.9753982300884956,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "alternating_shutter_open",
+      "family": "alternating_shutter",
+      "state": "open",
+      "file": "devices/alternating_shutter/open.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        569,
+        18,
+        501,
+        339
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        44,
+        1,
+        488,
+        330
+      ],
+      "bodyBaselinePx": 331,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 32,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "fbba745bb64768318fa0bef64240a7811b268f27483106f44e9a336685525c2b",
+      "coreContentRect": [
+        47,
+        4,
+        483,
+        325
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 0.9753982300884956,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "moving_stage_idle",
+      "family": "moving_stage",
+      "state": "idle",
+      "file": "devices/moving_stage/idle.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        23,
+        396,
+        530,
+        263
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        27,
+        500,
+        248
+      ],
+      "bodyBaselinePx": 275,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 16,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "a05fe6f3e62bf789417fc934349f797ddec7d9ccd800ffd0c3224830893c61fb",
+      "coreContentRect": [
+        40,
+        29,
+        496,
+        244
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.9765625
+    },
+    {
+      "artKey": "moving_stage_active",
+      "family": "moving_stage",
+      "state": "active",
+      "file": "devices/moving_stage/active.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        559,
+        396,
+        519,
+        263
+      ],
+      "canvasSize": [
+        576,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        22,
+        500,
+        253
+      ],
+      "bodyBaselinePx": 275,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 21,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "6bd281175c7744da21f2411d9410ff55a7ef912fa39a66f64fa7f8870ce5e6ef",
+      "coreContentRect": [
+        40,
+        24,
+        496,
+        249
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.9765625
+    },
+    {
+      "artKey": "rotating_bookcase_front",
+      "family": "rotating_bookcase",
+      "state": "front",
+      "file": "devices/rotating_bookcase/front.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        20,
+        675,
+        527,
+        387
+      ],
+      "canvasSize": [
+        576,
+        448
+      ],
+      "logicalRect": [
+        32,
+        96,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        47,
+        76,
+        481,
+        353
+      ],
+      "bodyBaselinePx": 429,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 30,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "d2003650338e08284b392a42cb00f516ba87e01daa905bd67492a7022a8d11ee",
+      "coreContentRect": [
+        49,
+        78,
+        477,
+        349
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 0.9627482352941177,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.939453125
+    },
+    {
+      "artKey": "rotating_bookcase_turned",
+      "family": "rotating_bookcase",
+      "state": "turned",
+      "file": "devices/rotating_bookcase/turned.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        586,
+        682,
+        478,
+        425
+      ],
+      "canvasSize": [
+        576,
+        448
+      ],
+      "logicalRect": [
+        32,
+        96,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        47,
+        1,
+        481,
+        428
+      ],
+      "bodyBaselinePx": 429,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 46,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "05f281cc76aa5abed934ffaedc41e3a7762a1e12f56e6f8a208ddbe7eaa74ddb",
+      "coreContentRect": [
+        50,
+        4,
+        477,
+        423
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 0.9627482352941177,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.939453125
+    },
+    {
+      "artKey": "domino_wall_upright",
+      "family": "domino_wall",
+      "state": "upright",
+      "file": "devices/domino_wall/upright.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        16,
+        1086,
+        525,
+        311
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        29,
+        500,
+        296
+      ],
+      "bodyBaselinePx": 325,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 36,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "a16db6e38c4e70a820f7933e53a7f6e1946378c9dd5200b816877cfae743678f",
+      "coreContentRect": [
+        40,
+        32,
+        496,
+        289
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.9765625
+    },
+    {
+      "artKey": "domino_wall_fallen",
+      "family": "domino_wall",
+      "state": "fallen",
+      "file": "devices/domino_wall/fallen.png",
+      "source": "sources/theater_stage_devices_native.png",
+      "nativeSourceRect": [
+        553,
+        1177,
+        531,
+        222
+      ],
+      "canvasSize": [
+        576,
+        352
+      ],
+      "logicalRect": [
+        32,
+        48,
+        512,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        116,
+        500,
+        209
+      ],
+      "bodyBaselinePx": 325,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 26,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "35a59ee7417688c807f15bf457521156de2b4210730d2e0d929c8a15d8401dcc",
+      "coreContentRect": [
+        40,
+        118,
+        496,
+        205
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 500,
+      "actualVisibleWidthRatioToArtSlot": 0.9765625
+    },
+    {
+      "artKey": "charging_statue_idle",
+      "family": "charging_statue",
+      "state": "idle",
+      "file": "devices/charging_statue/idle.png",
+      "source": "sources/theater_performer_devices_native.png",
+      "nativeSourceRect": [
+        67,
+        22,
+        499,
+        645
+      ],
+      "canvasSize": [
+        384,
+        384
+      ],
+      "logicalRect": [
+        64,
+        64,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        67,
+        34,
+        250,
+        322
+      ],
+      "bodyBaselinePx": 357,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "pedestal bottom 10 percent, alpha >=32",
+      "pedestalReference": {
+        "sourceX": 73,
+        "width": 487,
+        "targetWidth": 244
+      },
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 256,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "25326ffd2592954206c9beccc965329c7c313531fc8069e8c2b10d5f03167e54",
+      "coreContentRect": [
+        68,
+        35,
+        248,
+        321
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.9765625
+    },
+    {
+      "artKey": "charging_statue_charging",
+      "family": "charging_statue",
+      "state": "charging",
+      "file": "devices/charging_statue/charging.png",
+      "source": "sources/theater_performer_devices_native.png",
+      "nativeSourceRect": [
+        589,
+        64,
+        658,
+        603
+      ],
+      "canvasSize": [
+        384,
+        384
+      ],
+      "logicalRect": [
+        64,
+        64,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        15,
+        56,
+        328,
+        300
+      ],
+      "bodyBaselinePx": 357,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "pedestal bottom 10 percent, alpha >=32",
+      "pedestalReference": {
+        "sourceX": 700,
+        "width": 489,
+        "targetWidth": 244
+      },
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 257,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "1471c55580695331ef9639ba7735fbefe4c889974717a5446189ea5f8a71ce95",
+      "coreContentRect": [
+        16,
+        57,
+        326,
+        299
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 1.28125
+    },
+    {
+      "artKey": "timid_puppet_shy",
+      "family": "timid_puppet",
+      "state": "shy",
+      "file": "devices/timid_puppet/shy.png",
+      "source": "sources/theater_performer_devices_native.png",
+      "nativeSourceRect": [
+        69,
+        736,
+        501,
+        477
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        37,
+        50,
+        248,
+        236
+      ],
+      "bodyBaselinePx": 287,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "pedestal bottom 10 percent, alpha >=32",
+      "pedestalReference": {
+        "sourceX": 71,
+        "width": 492,
+        "targetWidth": 244
+      },
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 147,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "6a35c81b8041eb7d4d84f2ff47f01dd8ed904915662712022a408102dfd0f31f",
+      "coreContentRect": [
+        38,
+        51,
+        246,
+        235
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.96875
+    },
+    {
+      "artKey": "timid_puppet_peek",
+      "family": "timid_puppet",
+      "state": "peek",
+      "file": "devices/timid_puppet/peek.png",
+      "source": "sources/theater_performer_devices_native.png",
+      "nativeSourceRect": [
+        695,
+        737,
+        505,
+        476
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        37,
+        52,
+        249,
+        234
+      ],
+      "bodyBaselinePx": 287,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "pedestal bottom 10 percent, alpha >=32",
+      "pedestalReference": {
+        "sourceX": 698,
+        "width": 495,
+        "targetWidth": 244
+      },
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 167,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "90516d8ac10f4f5ecb07a4d2cd7af1ee637b5e9807502dbc11c44fff67235723",
+      "coreContentRect": [
+        38,
+        53,
+        247,
+        233
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.97265625
+    },
+    {
+      "artKey": "dice_block_face_1",
+      "family": "dice_block",
+      "state": "face_1",
+      "file": "devices/dice_block/face_1.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        34,
+        47,
+        494,
+        442
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        52,
+        244,
+        218
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 97,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "33cc79501424f5e40755bb465a9e51bece5ffdf84d4e5dbc54900a556f53f883",
+      "coreContentRect": [
+        39,
+        53,
+        242,
+        216
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "dice_block_face_2",
+      "family": "dice_block",
+      "state": "face_2",
+      "file": "devices/dice_block/face_2.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        530,
+        47,
+        478,
+        442
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        44,
+        244,
+        226
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 101,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "b7651b80bb8157ee599f2faf525e64691490ecb54608efbf636151ed7f87ebc2",
+      "coreContentRect": [
+        39,
+        45,
+        242,
+        224
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "dice_block_face_3",
+      "family": "dice_block",
+      "state": "face_3",
+      "file": "devices/dice_block/face_3.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        1009,
+        47,
+        493,
+        442
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        51,
+        244,
+        219
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 105,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "3faaa6ac5c6d800b7a73eab499c36c7b2d7f9cba1327be790a1f03a90d8081af",
+      "coreContentRect": [
+        39,
+        52,
+        242,
+        217
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "dice_block_face_4",
+      "family": "dice_block",
+      "state": "face_4",
+      "file": "devices/dice_block/face_4.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        36,
+        521,
+        492,
+        441
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        51,
+        244,
+        219
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 105,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "3d8fad7057b5bc85673b99fa13e5a7eccb96b52aea49f470a3c93d2f43c3fcee",
+      "coreContentRect": [
+        39,
+        52,
+        242,
+        217
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "dice_block_face_5",
+      "family": "dice_block",
+      "state": "face_5",
+      "file": "devices/dice_block/face_5.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        530,
+        521,
+        477,
+        441
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        44,
+        244,
+        226
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 90,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "237bd6c2939187cb8cd812ace698fabd004e09c6aa1bff1b69b5ca1823b20c74",
+      "coreContentRect": [
+        39,
+        45,
+        242,
+        224
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    },
+    {
+      "artKey": "dice_block_face_6",
+      "family": "dice_block",
+      "state": "face_6",
+      "file": "devices/dice_block/face_6.png",
+      "source": "sources/theater_dice_faces_native.png",
+      "nativeSourceRect": [
+        1008,
+        521,
+        493,
+        441
+      ],
+      "canvasSize": [
+        320,
+        320
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "footprintPurpose": "Art slot only; actual gameplay footprint is unverified and must be preserved from the Unity project.",
+      "existingGameplayId": null,
+      "existingGameplayStateEnum": null,
+      "actualGameplayFootprintCells": null,
+      "contentRect": [
+        38,
+        52,
+        244,
+        218
+      ],
+      "bodyBaselinePx": 270,
+      "pairedStateFrame": true,
+      "pairedStateBaseline": true,
+      "scaleReference": "whole visible body width",
+      "pedestalReference": null,
+      "sourceComponentCount": 1,
+      "exportedComponentsAtAlpha1": 113,
+      "transparentBorder": true,
+      "zeroRgbPixelsCleaned": 0,
+      "sourceAntialiasingPreserved": true,
+      "motionGlyphsOmitted": false,
+      "sourcePixelsOutsideNominalAtlasCellRetained": true,
+      "uniformResizeOnly": true,
+      "stateBinding": "Semantic art state only, not a verified project enum or a full animation.",
+      "sha256": "eb8cf181c6ab225649aadcef6eabe5caeadc5c0566c777eb584ab7c46a7ca86d",
+      "coreContentRect": [
+        39,
+        53,
+        242,
+        216
+      ],
+      "styleRevision": "native flat angular V02 redraw",
+      "commonFamilyFit": 1,
+      "normalizedTargetBodyOrPedestalWidth": 244,
+      "actualVisibleWidthRatioToArtSlot": 0.953125
+    }
+  ],
+  "artRevision": "V02_FLAT_ANGULAR_REDRAW"
+}

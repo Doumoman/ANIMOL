@@ -30,6 +30,11 @@ namespace ANIMOL.Puzzle
             if (data.memorySkyTheater)
             {
                 var art = data.memorySkyTheater;
+                if (art.v02)
+                {
+                    gameObject.AddComponent<EchoTheaterV02Background>().Configure(art.v02, gameplay);
+                    return;
+                }
                 gameObject.AddComponent<SkyIslandBackdrop>().Configure(art.far, art.mid, art.near, art.compositor, gameplay); return;
             }
             if (data.skyIsland)

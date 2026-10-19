@@ -16,6 +16,7 @@ namespace ANIMOL.Puzzle
         SkyIslandMapRenderer island;
         StarwayRanchMapRenderer ranch;
         MemorySkyTheaterRenderer theater;
+        EchoTheaterV02MapRenderer theaterV02;
         ClockDomeRenderer dome;
         TwilightCoastRenderer coast;
         public int RefreshedCells { get; private set; }
@@ -52,7 +53,14 @@ namespace ANIMOL.Puzzle
                 dome.transform.SetParent(transform, false); dome.Bind(map, map.theme.clockDome);
             }
             else if (dome) { Remove(dome.gameObject); dome = null; }
-            if (map.theme && map.theme.memorySkyTheater)
+            if (map.theme && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02)
+            {
+                if (!theaterV02) theaterV02 = new GameObject("Echo theater environment").AddComponent<EchoTheaterV02MapRenderer>();
+                theaterV02.transform.SetParent(transform, false);
+                theaterV02.Bind(map, map.theme.memorySkyTheater.v02, map.theme.memorySkyTheater.defaultLayout);
+            }
+            else if (theaterV02) { Remove(theaterV02.gameObject); theaterV02 = null; }
+            if (map.theme && map.theme.memorySkyTheater && !map.theme.memorySkyTheater.v02)
             {
                 if (!theater) theater = new GameObject("Memory theater environment").AddComponent<MemorySkyTheaterRenderer>();
                 theater.transform.SetParent(transform, false); theater.Bind(map, map.theme.memorySkyTheater);
@@ -102,7 +110,7 @@ namespace ANIMOL.Puzzle
                 }
                 return;
             }
-            if (theater && map.TryTerrain(p, out var ground) && !ground.blocked) return;
+            if ((theaterV02 || theater) && map.TryTerrain(p, out _)) return;
             if (island)
             {
                 if (visible.Contains(p)) island.RefreshCell(p); else island.ClearCell(p);

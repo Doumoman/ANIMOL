@@ -19,6 +19,7 @@ namespace ANIMOL.Puzzle
     [CreateAssetMenu(menuName = "ANIMOL/Memory Theater Environment Art")]
     public sealed class MemorySkyTheaterArt : ScriptableObject
     {
+        public EchoTheaterV02Art v02;
         public TheaterBlob[] blob47;
         public TheaterProp[] props;
         public Sprite far, mid, near;
