@@ -34,7 +34,7 @@
 | 극장 도미노 | `PrototypeRole.Domino=13`, scenario의 `domino2/3/4` | 각 확정 붕괴 신호 `this_domino_piece_fold_committed` → `domino_wall.fall.{heading}` | 각 셀의 1×1 프리팹. 한 행동의 세 확정 신호를 짧게 엇갈려 재생하고 마지막 낮은 바닥 상태를 유지. 턴·비용은 한 번만 확정. |
 | 극장 책장 | `PrototypeRole.Bookshelf=8`, scenario의 `shelf`, phase 짝수 H / 홀수 V | H→V `id08_bookcase_H_to_V`, V→H `id08_bookcase_V_to_H` | 중심 핀 고정, H와 V가 각각 3개 셀. P01의 세 칸 원화 계약과 실제 호스트가 일치해 사전 조건 통과. 회전·점유 판정은 기존 Session. |
 
-`DeviceKind.Wind`를 쓰는 별도 클래식 캠페인 맵은 자기 셀에서만 작용하는 기존 규칙이다. 삭제된 `flow_effect` 스프라이트 재생을 제거하고 V12 본체 active/idle만 유지했다. 이를 ranged ID20 바람으로 바꾸지 않았다. 장식용 `props/windmill`과 배경 풍차에도 힘을 추가하지 않았다. 현재 프로토타입 뷰는 로드마다 Instantiate/Destroy하며 재사용 풀을 사용하지 않는다. 파괴 시 바람 route를 숨기고 action sequence를 초기화한다.
+`DeviceKind.Wind`를 쓰는 별도 클래식 캠페인 맵은 자기 셀에서만 작용하는 기존 규칙이다. 삭제된 `flow_effect` 스프라이트 재생을 제거하고 V12 본체 active/idle만 유지했다. 이를 ranged ID20 바람으로 바꾸지 않았다. 프로토타입 ID20 안에서도 `blower`의 힘은 대상당 한 유효 행동에 한 칸이며, 기존 `wind1/2` 필드 변형의 연결 이동은 승인된 맵 경로를 위해 유지했다. 장식용 `props/windmill`과 배경 풍차에도 힘을 추가하지 않았다. 현재 프로토타입 뷰는 로드마다 Instantiate/Destroy하며 재사용 풀을 사용하지 않는다. 파괴 시 바람 route를 숨기고 action sequence를 초기화한다.
 
 실제 원형 점유 출력(기준 전후 동일): 문 `gate=(3,2)` 한 칸; 바람 `blower=(1,4)`, `wind1=(2,2)`, `wind2=(3,2)` 각 한 칸; 도미노 `(2,2),(3,2),(4,2)` 각 한 칸; 책장 H `(3,3),(4,3),(5,3)`이고 중앙 `(4,3)` 고정, V는 `(4,2),(4,3),(4,4)`다. 원래 `Footprint` 소스와 적용 후 실제 `PuzzleDeviceSession` 출력으로 확인했다. 맵 데이터·Collider·저장 ID는 수정하지 않았다.
 
@@ -49,9 +49,9 @@
 | 상태 | 검사 | 근거 |
 | --- | --- | --- |
 | PASS | Unity 임포트·컴파일, P01 셰이더 | 마지막 Editor ground truth `compilationFailed=false`, 오류 0. `ANIMOL/DevicePatch01/VividWindRoute` supported, `ShaderHasError=false`. |
-| PASS | 전체 TestRunner | 최종 EditMode **202/202**, PlayMode **52/52**. [unity_test_results.json](Validation/DevicePatchP01/unity_test_results.json). |
+| PASS | 전체 TestRunner | 최종 EditMode **203/203**, PlayMode **53/53**. [unity_test_results.json](Validation/DevicePatchP01/unity_test_results.json). |
 | PASS | 문 4방향·두 테마, 거절/출구 막힘/내부 옆 이탈/1칸 점유 | `DevicePatchP01HostTests` 2개 케이스, `OneCellGateRulesTests` 4개, 기존 장치 로직 테스트. |
-| PASS | 바람 단일 코너와 실제 힘·표시 route 일치, 순수 경로의 차단·거리·순환 | 호스트 바람 테스트, `AnimolWindRouteTests` 9개, 목장 PlayMode 범위 유지 검사. |
+| PASS | `blower` 한 칸 힘, 기존 필드 연결 이동, 단일 코너 힘·표시 route 일치, 순수 경로의 차단·거리·순환 | 호스트 바람 테스트, `AnimolWindRouteTests` 9개, P01 PlayMode 검사 및 기존 Device20 검증 맵 회귀. |
 | PASS | 도미노 3개 실제 체인·순차 시각·한 코스트, 책장 H/V 고정 중심 | 호스트 테스트, `DevicePatchP01PlayTests`, 기존 `PuzzleDeviceLogicTests`. |
 | PASS | 카탈로그·PPtr·프리팹 연결 | 생성 클립 256개 바인딩 검사, PNG 87개 GUID/fileID 대조, 테마 프리팹 373개 검사. |
 | PASS | 프로토타입 Play Mode 시작·바인딩 | 목장 18개·극장 21개 `MissingBindings=0`; [목장 1080×1920 시작 화면](Validation/DevicePatchP01/starway_prototype_play.png), [극장 1080×1920 시작 화면](Validation/DevicePatchP01/theater_prototype_play.png). |

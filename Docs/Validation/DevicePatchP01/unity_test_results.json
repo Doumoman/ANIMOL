@@ -2,21 +2,22 @@
   "date": "2026-10-19",
   "runner": "live Unity 6000.3.8f1 Editor via Unity MCP TestRunner",
   "finalRuns": [
-    {"mode": "EditMode", "filter": null, "total": 202, "passed": 202, "failed": 0, "skipped": 0, "inconclusive": 0},
-    {"mode": "PlayMode", "filter": null, "total": 52, "passed": 52, "failed": 0, "skipped": 0, "inconclusive": 0}
+    {"mode": "EditMode", "filter": null, "total": 203, "passed": 203, "failed": 0, "skipped": 0, "inconclusive": 0},
+    {"mode": "PlayMode", "filter": null, "total": 53, "passed": 53, "failed": 0, "skipped": 0, "inconclusive": 0}
   ],
   "targetedRunsBeforeFinal": [
-    {"mode": "EditMode", "filter": "DevicePatchP01", "passed": 4, "failed": 0},
+    {"mode": "EditMode", "filter": "DevicePatchP01", "passed": 5, "failed": 0},
     {"mode": "EditMode", "filter": "AnimolWindRouteTests", "passed": 9, "failed": 0},
     {"mode": "EditMode", "filter": "OneCellGateRulesTests", "passed": 4, "failed": 0},
     {"mode": "EditMode", "filter": "PuzzleDeviceLogicTests", "passed": 43, "failed": 0},
     {"mode": "PlayMode", "filter": "StarwayRanchV12PlayTests", "passed": 6, "failed": 0},
-    {"mode": "PlayMode", "filter": "DevicePatchP01PlayTests", "passed": 1, "failed": 0}
+    {"mode": "PlayMode", "filter": "DevicePatchP01PlayTests", "passed": 2, "failed": 0}
   ],
   "earlierFailuresResolved": [
     "V12/V03 generated catalog count assertions reflected pre-patch catalogs.",
     "Device art QA scene contained eight stale V12 expected SHA values and the view-count assertion reflected an older scene.",
-    "An earlier whole-suite PlayMode run inherited the lobby test's global ReducedMotion setting; the ranch test fixture now resets it."
+    "An earlier whole-suite PlayMode run inherited the lobby test's global ReducedMotion setting; the ranch test fixture now resets it.",
+    "An initial one-step limiter also changed the preexisting wind1/2 authored route. The limiter now applies only to ranged blower routes."
   ],
   "compileAfterFinalRuns": {"compilationFailed": false, "compiling": false, "consoleErrorsAfterClear": 0}
 }

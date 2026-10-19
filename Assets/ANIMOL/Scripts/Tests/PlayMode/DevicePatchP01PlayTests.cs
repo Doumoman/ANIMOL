@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Puzzle;
 using ANIMOL.Presentation;
 using NUnit.Framework;
@@ -42,6 +43,48 @@ namespace ANIMOL.Tests
                 Assert.That(host.Session.Cost, Is.EqualTo(1));
             }
             finally { Object.Destroy(map); Time.timeScale = 1; }
+        }
+
+        [UnityTest]
+        public IEnumerator WindCornerUsesOneStepAndKeepsTheRouteVisible()
+        {
+            Time.timeScale = 1;
+            EditorSceneManager.LoadSceneInPlayMode(
+                "Assets/ANIMOL/Scenes/Prototype/ANIMOL_starway_Prototype.unity",
+                new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null; yield return null; yield return null;
+            var host = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device20_Wind.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.devices.Add(new PrototypeDevice {
+                id = "corner", role = PrototypeRole.Bounce, position = new Vector2Int(3, 4),
+                direction = Vector2Int.right, orientation = 2,
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                    "Assets/ANIMOL/Prefabs/Themes/starway/d18_bounce_corner.prefab")
+            });
+            map.scenario.devices.Add(new PrototypeDevice {
+                id = "qa_wood", role = PrototypeRole.WoodCrate, position = new Vector2Int(2, 4),
+                direction = Vector2Int.right,
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/crate_wood.prefab")
+            });
+            try
+            {
+                host.Load(map);
+                var visual = host.Devices.Actor("blower").GetComponentInChildren<AnimolWindRouteRenderer>();
+                Assert.That(visual, Is.Not.Null);
+                Assert.That(visual.HasVisibleRange, Is.True);
+                Assert.That(host.Devices.MissingBindings, Is.Zero);
+                Assert.That(host.RequestMove(Vector2Int.right), Is.True);
+                Assert.That(host.Session.Cost, Is.EqualTo(1));
+                Assert.That(host.Session.Cell, Is.EqualTo(new Vector2Int(4, 2)));
+                Assert.That(host.Session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 4)));
+                yield return new WaitForSeconds(.5f);
+                Assert.That(visual.HasVisibleRange, Is.True);
+                Assert.That(host.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(map.scenario); Object.Destroy(map); Time.timeScale = 1; }
         }
     }
 }

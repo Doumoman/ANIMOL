@@ -256,7 +256,7 @@ namespace ANIMOL.Puzzle
         }
         void Automatic()
         {
-            var seen = new HashSet<string>(); var arrivedFromPortal = false;
+            var seen = new HashSet<string>(); var arrivedFromPortal = false; var windUsed = false;
             for (int limit = 0; limit < Map.Width * Map.Height * 8; limit++)
             {
                 if (!seen.Add(Cell + ":" + Direction + ":" + forced + ":" + sliding + ":" + arrivedFromPortal)) return;
@@ -294,6 +294,11 @@ namespace ANIMOL.Puzzle
                 {
                     Direction = windDirection; forced = true;
                     windSource = windOwners.TryGetValue(Cell, out var owner) ? Definition(owner) : null;
+                    if (windSource != null && windSource.variant == "blower")
+                    {
+                        if (windUsed) return;
+                        windUsed = true;
+                    }
                 }
                 else if (At(Cell, d => d.role == PrototypeRole.Ice) != null) { forced = sliding = true; }
                 else
@@ -341,7 +346,7 @@ namespace ANIMOL.Puzzle
             { s.removed = true; states[socket.id].active = true; Visual(socket, "socket_insert", "matching_star_socket_committed"); }
             return true;
         }
-        void SettleBody(PrototypeDevice d, Vector2Int direction, bool rolling)
+        void SettleBody(PrototypeDevice d, Vector2Int direction, bool rolling, bool windUsed = false)
         {
             var s = states[d.id]; var seen = new HashSet<string>(); bool slidingBody = false;
             for (var i = 0; i < Map.Width * Map.Height * 4; i++)
@@ -360,7 +365,17 @@ namespace ANIMOL.Puzzle
                 if (At(s.cell, x => x.role == PrototypeRole.Brake) != null) break;
                 var conveyor = At(s.cell, x => x.role == PrototypeRole.Conveyor);
                 if (conveyor != null) direction = states[conveyor.id].direction;
-                else if (WindCells.TryGetValue(s.cell, out var wind)) { if (d.role == PrototypeRole.MetalCrate) break; direction = wind; }
+                else if (WindCells.TryGetValue(s.cell, out var wind))
+                {
+                    if (d.role == PrototypeRole.MetalCrate) break;
+                    var source = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
+                    if (source != null && source.variant == "blower")
+                    {
+                        if (windUsed) break;
+                        windUsed = true;
+                    }
+                    direction = wind;
+                }
                 else if (At(s.cell, x => x.role == PrototypeRole.Ice) != null) slidingBody = true;
                 else if (!rolling && !slidingBody) break;
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) break;
@@ -641,7 +656,7 @@ namespace ANIMOL.Puzzle
                 { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 if (d.role == PrototypeRole.Bomb && s.timer == 0)
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
-                TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel);
+                TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
             }
         }
         void Victory()

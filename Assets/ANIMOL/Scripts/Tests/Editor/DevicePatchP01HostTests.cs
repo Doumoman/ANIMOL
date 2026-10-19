@@ -102,6 +102,30 @@ namespace ANIMOL.Tests
         }
 
         [Test]
+        public void OneCommittedActionAppliesAtMostOneWindStepPerLightActor()
+        {
+            var map = Clone("20_Wind");
+            map.scenario.devices.Add(new PrototypeDevice {
+                id = "corner", role = PrototypeRole.Bounce, position = new Vector2Int(3, 4),
+                direction = Vector2Int.right, orientation = 2
+            });
+            map.scenario.devices.Add(new PrototypeDevice {
+                id = "qa_wood", role = PrototypeRole.WoodCrate, position = new Vector2Int(2, 4),
+                direction = Vector2Int.right
+            });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.right);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 2)),
+                "The existing field variants keep their authored connected movement.");
+            Assert.That(session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 4)),
+                "The wood stops at the corner until the next committed action.");
+            Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "qa_wood"),
+                Is.EqualTo(1));
+        }
+
+        [Test]
         public void TheaterDominoAndBookcaseKeepOriginalCellContracts()
         {
             var domino = new PuzzleDeviceSession(Clone("13_Domino"));
