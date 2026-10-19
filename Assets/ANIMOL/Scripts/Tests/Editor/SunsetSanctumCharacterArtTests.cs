@@ -57,7 +57,7 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(sprite.pivot.y, Is.EqualTo(metadata.pivot[1] * metadata.height).Within(.1f), spritePath);
                     Assert.That(importer.textureType, Is.EqualTo(TextureImporterType.Sprite), spritePath);
                     Assert.That(importer.spriteImportMode, Is.EqualTo(SpriteImportMode.Single), spritePath);
-                    Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Point), spritePath);
+                    Assert.That(importer.filterMode, Is.EqualTo(data.character == "doyun" ? FilterMode.Bilinear : FilterMode.Point), spritePath);
                     Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), spritePath);
                     Assert.That(importer.mipmapEnabled, Is.False, spritePath);
                     Assert.That(importer.npotScale, Is.EqualTo(TextureImporterNPOTScale.None), spritePath);

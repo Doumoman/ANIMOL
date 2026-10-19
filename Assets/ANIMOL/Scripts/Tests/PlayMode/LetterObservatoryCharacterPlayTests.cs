@@ -149,5 +149,37 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(prototype.CharacterVisual.Illustration,
                 Is.SameAs(prototype.RuntimeMap.theme.letterObservatoryCharacters.Find("lumi").illustration));
         }
+
+        [UnityTest] public IEnumerator DoyunRepairPlaysEveryDirectionAndStateWithoutChangingCharacterScale()
+        {
+            EditorSceneManager.LoadSceneInPlayMode(Scene, new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null;
+            yield return null;
+            var prototype = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            Assert.That(prototype, Is.Not.Null);
+            Assert.That(prototype.SelectLetterObservatoryCharacter("doyun"), Is.True);
+            var visual = prototype.CharacterVisual;
+            var definition = prototype.RuntimeMap.theme.letterObservatoryCharacters.Find("doyun");
+            Assert.That(visual.transform.localScale, Is.EqualTo(Vector3.one * .85f));
+            Assert.That(visual.transform.parent.localScale, Is.EqualTo(Vector3.one));
+            Assert.That(visual.GetComponents<Animator>(), Is.Empty);
+            foreach (var direction in new[] { "front", "side", "left", "back" })
+                foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory" })
+                {
+                    Assert.That(visual.PlayPose(direction, state), Is.True, direction + "/" + state);
+                    var motion = definition.Motion(direction == "left" ? "side" : direction, state);
+                    Assert.That(visual.CurrentClip, Is.SameAs(motion.clip));
+                    Assert.That(visual.visual.flipX, Is.EqualTo(direction == "left"));
+                    for (var frame = 0; frame < 6; frame++)
+                    {
+                        if (frame > 0) visual.Advance(1f / motion.fps + .0001f);
+                        Assert.That(visual.visual.sprite, Is.SameAs(motion.frames[frame]),
+                            direction + "/" + state + "/" + frame);
+                    }
+                }
+            Assert.That(prototype.SelectLetterObservatoryCharacter("soyul"), Is.True);
+            Assert.That(visual.visual.sprite, Is.SameAs(
+                prototype.RuntimeMap.theme.letterObservatoryCharacters.Find("soyul").FirstFrame("front", "idle")));
+        }
     }
 }

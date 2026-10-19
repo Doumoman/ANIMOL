@@ -82,7 +82,7 @@ namespace Animol.Art.SunsetSanctumNative
                             importer.textureType=TextureImporterType.Sprite;
                             importer.spriteImportMode=SpriteImportMode.Single;
                             importer.spritePixelsPerUnit=frameInfo.pixelsPerUnit;
-                            importer.filterMode=FilterMode.Point;
+                            importer.filterMode=data.character=="doyun"?FilterMode.Bilinear:FilterMode.Point;
                             importer.textureCompression=TextureImporterCompression.Uncompressed;
                             importer.crunchedCompression=false;
                             importer.mipmapEnabled=false;
