@@ -3,6 +3,7 @@
 ## 적용 위치와 연결
 
 - 테마 저장 ID와 기존 레벨 경로: `memory_theater` 유지. 기존 극장 아트 에셋에 V02 참조를 추가해 같은 `PuzzleTheme`에서 사용한다.
+- 표시명: 로비의 한글 `잔영 극장`을 유지하고, 극장 캐릭터 메타데이터의 영문 표시값을 `Echo Theater`로 갱신했다. 메타데이터의 제작용 `id`와 실제 저장 ID `memory_theater`는 변경하지 않았다.
 - 런타임 원화: `Assets/ANIMOL/Sprites/Environment/memory_theater/`에 원본 PNG 1,782개를 바이트 변경 없이 설치했다. 지형 1,728개, 소품 14개, 장치 26개, 배경 14개다. `.meta`가 있던 기존 아트와 프리팹의 GUID는 유지했다.
 - 명세와 카탈로그: `Assets/ANIMOL/Data/Art/MemorySkyTheater/Environment/`. `sprite_import_settings.json`의 1,782개 항목을 Unity 임포터와 대조한다.
 - 실제 퍼즐 씬: `Assets/ANIMOL/Scenes/Prototype/ANIMOL_memory_theater_Prototype.unity`. 기존 맵·카메라·장치 컴포넌트를 사용하고, 런타임 극장 아트 렌더러만 새 선택기로 연결했다. 씬 에셋 자체와 저장 데이터는 변경하지 않았다.
