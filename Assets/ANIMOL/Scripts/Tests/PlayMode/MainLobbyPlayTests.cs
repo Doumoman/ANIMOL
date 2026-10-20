@@ -7,6 +7,7 @@ using ANIMOL.Menu;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -116,6 +117,16 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
             ScreenCapture.CaptureScreenshot(Portrait + "/pc_window.png");
             yield return new WaitForSecondsRealtime(.2f);
+            UseGameView(1080, 2400);
+            yield return null;
+            lobby.ForceLayout();
+            var titleCorners = new Vector3[4];
+            var frameCorners = new Vector3[4];
+            lobby.logoRect.Find("William Paradox Title").GetComponent<RectTransform>().GetWorldCorners(titleCorners);
+            lobby.frame.GetWorldCorners(frameCorners);
+            Assert.That(titleCorners[0].x, Is.GreaterThan(frameCorners[0].x + 1f));
+            Assert.That(titleCorners[2].x, Is.LessThan(frameCorners[2].x - 1f));
+            Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
             UseGameView(1080, 1920);
             yield return null;
             EditorSceneManager.LoadSceneInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
@@ -294,7 +305,7 @@ namespace ANIMOL.Menu.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator LiveUpdateChangesBothImagesAfterFiveSeconds()
+        [UnityTest] public IEnumerator LiveUpdateKeepsTheSameLobbyVisitAfterFiveSeconds()
         {
 #if UNITY_EDITOR
             yield return OpenLobby();
@@ -309,13 +320,35 @@ namespace ANIMOL.Menu.Tests
                 lobby.SendMessage("OnApplicationFocus", true);
                 yield return null;
             }
-            Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(startingTheme));
-            Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(startingArt));
+            Assert.That(lobby.CurrentThemeIndex, Is.EqualTo(startingTheme));
+            Assert.That(lobby.CurrentArtId, Is.EqualTo(startingArt));
             Assert.That(lobby.IsAppearanceTransitioning, Is.False);
             Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.catalog.themes[lobby.CurrentThemeIndex].scenery));
             Assert.That(lobby.heroImage.sprite,
                 Is.SameAs(lobby.catalog.FindPerson(lobby.CurrentThemeIndex, lobby.CurrentCharacterId)
                     .appearances.First(item => item.artId == lobby.CurrentArtId).illustration));
+#else
+            Assert.Ignore("Requires Unity Editor scene loading."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator PressMovesOnlyAnInteractableButtonAndReleaseRestoresIt()
+        {
+#if UNITY_EDITOR
+            yield return OpenLobby();
+            var lobby = Object.FindFirstObjectByType<MainLobbyController>();
+            var start = lobby.playButton.GetComponent<RectTransform>().anchoredPosition;
+            var pointer = new PointerEventData(EventSystem.current);
+            ExecuteEvents.Execute(lobby.playButton.gameObject, pointer, ExecuteEvents.pointerDownHandler);
+            Assert.That(lobby.playButton.GetComponent<RectTransform>().anchoredPosition.y,
+                Is.EqualTo(start.y - 2f).Within(.01f));
+            ExecuteEvents.Execute(lobby.playButton.gameObject, pointer, ExecuteEvents.pointerUpHandler);
+            Assert.That(lobby.playButton.GetComponent<RectTransform>().anchoredPosition,
+                Is.EqualTo(start));
+            var lockedStart = lobby.battleButton.GetComponent<RectTransform>().anchoredPosition;
+            ExecuteEvents.Execute(lobby.battleButton.gameObject, pointer, ExecuteEvents.pointerDownHandler);
+            Assert.That(lobby.battleButton.GetComponent<RectTransform>().anchoredPosition,
+                Is.EqualTo(lockedStart));
 #else
             Assert.Ignore("Requires Unity Editor scene loading."); yield break;
 #endif

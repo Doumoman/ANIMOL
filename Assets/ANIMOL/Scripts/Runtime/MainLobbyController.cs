@@ -12,11 +12,12 @@ namespace ANIMOL.Menu
         const float HorizontalAmplitude = .02f;
         const float VerticalAmplitude = .009f;
         const float Overscan = 1.052f;
-        const float DockHeight = 210f;
+        const float DockHeight = 136f;
         public const float AppearanceInterval = 5f;
         public const float AppearanceWipeDuration = .45f;
 
         public MainMenuCatalog catalog;
+        public MainMenuSkin skin;
         public MonoBehaviour requiredStageProgress;
         public Canvas canvas;
         public RectTransform safeRoot;
@@ -51,12 +52,16 @@ namespace ANIMOL.Menu
         public Button campaignButton;
         public Button customButton;
         public Button settingsButton;
+        public Button soundButton;
         public Button removeAdsButton;
         public Button campaignBackButton;
         public Button campaignContinueButton;
         public Button modalCloseButton;
         public Button[] themeButtons = Array.Empty<Button>();
         public Image[] themeCards = Array.Empty<Image>();
+        public Image[] themeSurfaces = Array.Empty<Image>();
+        public Image[] themeChecks = Array.Empty<Image>();
+        public Image battleLockImage;
 
         readonly Dictionary<int, List<int>> shuffleBags = new Dictionary<int, List<int>>();
         readonly Dictionary<int, int> lastPerson = new Dictionary<int, int>();
@@ -105,6 +110,7 @@ namespace ANIMOL.Menu
             customButton.onClick.AddListener(() => SelectMode("custom"));
             battleButton.onClick.AddListener(() => SelectMode("battle"));
             settingsButton.onClick.AddListener(OpenSettings);
+            if (soundButton) soundButton.onClick.AddListener(OpenSettings);
             removeAdsButton.onClick.AddListener(() => OpenModal("광고 제거", "구매와 복원 서비스가 연결되지 않았습니다."));
             campaignBackButton.onClick.AddListener(CloseCampaign);
             campaignContinueButton.onClick.AddListener(() => OpenModal("스테이지 선택", "정식 캠페인 스테이지 목록이 아직 연결되지 않았습니다."));
@@ -161,7 +167,6 @@ namespace ANIMOL.Menu
             var elapsed = skipNextTick ? 0 : Time.unscaledDeltaTime;
             skipNextTick = false;
             AdvanceMotion(elapsed);
-            AdvanceAppearance(elapsed);
             RefreshDiagonalLine();
         }
 
@@ -338,7 +343,15 @@ namespace ANIMOL.Menu
             frame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, frameWidth);
             frame.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
             dock.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, DockHeight);
+            artArea.offsetMin = new Vector2(0, DockHeight);
             Canvas.ForceUpdateCanvases();
+            if (skin)
+            {
+                var logoWidth = Mathf.Min(330f, Mathf.Max(120f, artArea.rect.width - 24f));
+                logoRect.sizeDelta = new Vector2(logoWidth, logoWidth * 763f / 2060f + 4f);
+                var title = logoRect.Find("William Paradox Title") as RectTransform;
+                if (title) title.sizeDelta = new Vector2(logoWidth, logoWidth * 763f / 2060f);
+            }
             FitBackground();
             FitHero();
             FitCampaignCards();
@@ -448,8 +461,10 @@ namespace ANIMOL.Menu
                     { BattleUnlocked = false; break; }
             }
             battleButton.interactable = BattleUnlocked;
+            if (battleLockImage) battleLockImage.gameObject.SetActive(!BattleUnlocked);
             battleNote.text = BattleUnlocked ? "전체 4테마" : "클리어 후 해금";
             if (!BattleUnlocked && mode == "battle") SelectMode("campaign");
+            else ApplyModeSkin();
         }
 
         public string[] BattleThemeIds()
@@ -465,16 +480,39 @@ namespace ANIMOL.Menu
             mode = next;
             playTitle.text = next == "campaign" ? "캠페인 시작" : next == "battle" ? "대전 시작" : "커스텀 입장";
             playNote.text = next == "campaign" ? "테마 선택으로" : next == "battle" ? "서비스 연결 대기" : "방 서비스 연결 대기";
-            campaignButton.GetComponent<Image>().color = next == "campaign" ? Ink : Paper;
-            customButton.GetComponent<Image>().color = next == "custom" ? Ink : Paper;
-            battleButton.GetComponent<Image>().color = next == "battle" ? Ink : Paper;
-            campaignButton.GetComponentInChildren<Text>().color = next == "campaign" ? Paper : Ink;
-            customButton.GetComponentInChildren<Text>().color = next == "custom" ? Paper : Ink;
-            battleButton.GetComponentInChildren<Text>().color = next == "battle" ? Paper : Ink;
+            ApplyModeSkin();
         }
 
-        static readonly Color Ink = new Color(.094f, .094f, .18f);
-        static readonly Color Paper = new Color(1, .976f, .914f);
+        void ApplyModeSkin()
+        {
+            if (skin)
+            {
+                SetModeButton(campaignButton, mode == "campaign", false);
+                SetModeButton(customButton, mode == "custom", false);
+                SetModeButton(battleButton, mode == "battle", !BattleUnlocked);
+                return;
+            }
+            campaignButton.GetComponent<Image>().color = mode == "campaign" ? Ink : Paper;
+            customButton.GetComponent<Image>().color = mode == "custom" ? Ink : Paper;
+            battleButton.GetComponent<Image>().color = mode == "battle" ? Ink : Paper;
+            campaignButton.GetComponentInChildren<Text>().color = mode == "campaign" ? Paper : Ink;
+            customButton.GetComponentInChildren<Text>().color = mode == "custom" ? Paper : Ink;
+            battleButton.GetComponentInChildren<Text>().color = mode == "battle" ? Paper : Ink;
+        }
+
+        void SetModeButton(Button button, bool selected, bool locked)
+        {
+            if (!button) return;
+            var image = button.GetComponent<Image>();
+            image.sprite = locked ? skin.disabledTab : selected ? skin.selectedTab : skin.tab;
+            image.type = Image.Type.Sliced;
+            image.color = Color.white;
+            var label = button.GetComponentInChildren<Text>();
+            if (label) label.color = Ink;
+        }
+
+        static readonly Color Ink = new Color(7f / 255, 28f / 255, 57f / 255);
+        static readonly Color Paper = new Color(1f, 242f / 255, 211f / 255);
 
         public void Play()
         {
@@ -500,12 +538,18 @@ namespace ANIMOL.Menu
             campaignTheme = index;
             campaignSelection.text = catalog.themes[index].displayName;
             for (var i = 0; i < themeButtons.Length; i++)
-                themeButtons[i].GetComponent<Outline>().effectColor = i == index ? new Color(1, .51f, .73f) : Ink;
+            {
+                if (i < themeChecks.Length && themeChecks[i]) themeChecks[i].gameObject.SetActive(i == index);
+                if (i < themeSurfaces.Length && themeSurfaces[i] && skin)
+                    themeSurfaces[i].color = i == index ? new Color(1f, .89f, .78f) : Color.white;
+                var outline = themeButtons[i].GetComponent<Outline>();
+                if (outline) outline.effectColor = i == index ? new Color(1, .51f, .73f) : Ink;
+            }
         }
 
         public void OpenSettings()
         {
-            OpenModal("설정", "배경 움직임과 자동 교체를 멈출 수 있습니다.");
+            OpenModal("설정", "모션 줄이기를 켜면 배경 움직임이 멈춥니다. 효과음 설정은 아직 연결되지 않았습니다.");
             settingsControls.SetActive(true);
         }
 

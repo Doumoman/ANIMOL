@@ -1,0 +1,763 @@
+{
+  "revision": 8,
+  "coordinateOrigin": "top-left for atlas rects; individual PNG borders are left,bottom,right,top",
+  "policy": "All surface and icon PNGs contain no lettering. Editable labels live outside these sprites.",
+  "sprites": [
+    {
+      "id": "ui-tab",
+      "group": "surface",
+      "png": "assets/ui/tab.png",
+      "display": "assets/ui/tab.webp",
+      "pixels": [
+        408,
+        153
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        0,
+        431,
+        400
+      ],
+      "trimWithinCell": [
+        29,
+        161,
+        413,
+        290
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "b79dabd189131ac4cf944265fc6294d4c036b125850b52bea3e49a36fe690d64"
+    },
+    {
+      "id": "ui-tab-selected",
+      "group": "surface",
+      "png": "assets/ui/tab-selected.png",
+      "display": "assets/ui/tab-selected.webp",
+      "pixels": [
+        408,
+        154
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        431,
+        0,
+        831,
+        400
+      ],
+      "trimWithinCell": [
+        6,
+        161,
+        390,
+        291
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "9f93ffb4177257123918519c085f8ffd5f5788dbbf99c5bf018f9dd326ed2df5"
+    },
+    {
+      "id": "ui-tab-disabled",
+      "group": "surface",
+      "png": "assets/ui/tab-disabled.png",
+      "display": "assets/ui/tab-disabled.webp",
+      "pixels": [
+        407,
+        154
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        831,
+        0,
+        1254,
+        400
+      ],
+      "trimWithinCell": [
+        21,
+        161,
+        404,
+        291
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "8b12bb0cd1e56346bca24f899c2df445e1ba331848edd5c60d53d68819bdc9d5"
+    },
+    {
+      "id": "ui-primary",
+      "group": "surface",
+      "png": "assets/ui/primary.png",
+      "display": "assets/ui/primary.webp",
+      "pixels": [
+        421,
+        161
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        400,
+        431,
+        780
+      ],
+      "trimWithinCell": [
+        26,
+        145,
+        423,
+        282
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "478325a4ebef2c1f39305739b1d7bcd41fa4d997b48db12ddab8caa555bf4d15"
+    },
+    {
+      "id": "ui-profile-surface",
+      "group": "surface",
+      "png": "assets/ui/profile.png",
+      "display": "assets/ui/profile.webp",
+      "pixels": [
+        387,
+        156
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        431,
+        400,
+        831,
+        780
+      ],
+      "trimWithinCell": [
+        25,
+        144,
+        388,
+        276
+      ],
+      "border": [
+        26,
+        42,
+        105,
+        42
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "9f6c75ec7e8389d01d6da5551248109b654d7016d6aeddf193dba23665cd1ea7"
+    },
+    {
+      "id": "ui-utility",
+      "group": "surface",
+      "png": "assets/ui/utility.png",
+      "display": "assets/ui/utility.webp",
+      "pixels": [
+        234,
+        216
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        831,
+        400,
+        1254,
+        780
+      ],
+      "trimWithinCell": [
+        114,
+        120,
+        324,
+        312
+      ],
+      "border": [
+        62,
+        62,
+        62,
+        62
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "9a9dc744f838d5ff756a58e82b518af930f1443e4648358f8086132716795e25"
+    },
+    {
+      "id": "ui-dialog",
+      "group": "surface",
+      "png": "assets/ui/dialog.png",
+      "display": "assets/ui/dialog.webp",
+      "pixels": [
+        365,
+        345
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        780,
+        431,
+        1254
+      ],
+      "trimWithinCell": [
+        54,
+        58,
+        395,
+        379
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "ffbb90308c784f7eff3f2270f5b43b25223e258c1c6357aa9df7f10d3981382e"
+    },
+    {
+      "id": "ui-card",
+      "group": "surface",
+      "png": "assets/ui/card.png",
+      "display": "assets/ui/card.webp",
+      "pixels": [
+        354,
+        344
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        431,
+        780,
+        831,
+        1254
+      ],
+      "trimWithinCell": [
+        36,
+        59,
+        366,
+        379
+      ],
+      "border": [
+        52,
+        52,
+        52,
+        52
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "e5a2498aa9e315fb41d5f4df1a8856003e7eb53e5bc4ce6e668ee7d345dcd329"
+    },
+    {
+      "id": "ui-ad",
+      "group": "surface",
+      "png": "assets/ui/ad.png",
+      "display": "assets/ui/ad.webp",
+      "pixels": [
+        419,
+        139
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        831,
+        780,
+        1254,
+        1254
+      ],
+      "trimWithinCell": [
+        9,
+        166,
+        404,
+        281
+      ],
+      "border": [
+        38,
+        38,
+        38,
+        38
+      ],
+      "imageType": "Sliced",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "0048e6daf8b4d5c366baf7fe15fc4cdc82437a0a9109a82183882f28a77fa263"
+    },
+    {
+      "id": "ui-campaign",
+      "group": "icon",
+      "png": "assets/ui/campaign.png",
+      "display": "assets/ui/campaign.webp",
+      "pixels": [
+        328,
+        256
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        0,
+        380,
+        385
+      ],
+      "trimWithinCell": [
+        57,
+        114,
+        361,
+        346
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "c350710a18d77f47f68fa8705e74989d254c7f027a31c7fafce480427419a1c0"
+    },
+    {
+      "id": "ui-battle",
+      "group": "icon",
+      "png": "assets/ui/battle.png",
+      "display": "assets/ui/battle.webp",
+      "pixels": [
+        369,
+        264
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        380,
+        0,
+        766,
+        385
+      ],
+      "trimWithinCell": [
+        18,
+        106,
+        363,
+        346
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "4cb8d294a0c3421310a99797089cf9c16c0a0f5f15c2b8e90c0c26acca73477e"
+    },
+    {
+      "id": "ui-custom",
+      "group": "icon",
+      "png": "assets/ui/custom.png",
+      "display": "assets/ui/custom.webp",
+      "pixels": [
+        294,
+        256
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        766,
+        0,
+        1109,
+        385
+      ],
+      "trimWithinCell": [
+        47,
+        109,
+        317,
+        341
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "54bdf0ae0390f1e42c2f227488ce169f140ffddf15a40930fd7d326ccfd035f2"
+    },
+    {
+      "id": "ui-profile",
+      "group": "icon",
+      "png": "assets/ui/profile-icon.png",
+      "display": "assets/ui/profile-icon.webp",
+      "pixels": [
+        256,
+        252
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        1109,
+        0,
+        1448,
+        385
+      ],
+      "trimWithinCell": [
+        52,
+        113,
+        284,
+        341
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "86be8702be7fe2b476f84408ca351cf1d2ef45408850820076685bf444fe6e42"
+    },
+    {
+      "id": "ui-sound",
+      "group": "icon",
+      "png": "assets/ui/sound.png",
+      "display": "assets/ui/sound.webp",
+      "pixels": [
+        304,
+        261
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        385,
+        380,
+        741
+      ],
+      "trimWithinCell": [
+        66,
+        70,
+        346,
+        307
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "8e7cd81dd71185bc93028ffb35350e400075d0d876d89eac27bb719cabcf2e08"
+    },
+    {
+      "id": "ui-settings",
+      "group": "icon",
+      "png": "assets/ui/settings.png",
+      "display": "assets/ui/settings.webp",
+      "pixels": [
+        310,
+        302
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        380,
+        385,
+        766,
+        741
+      ],
+      "trimWithinCell": [
+        45,
+        41,
+        331,
+        319
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "63f65d8e6cacd2af005ad71dbb2521ae5bc6bf7713e774ca3c49d82036c21b54"
+    },
+    {
+      "id": "ui-lock",
+      "group": "icon",
+      "png": "assets/ui/lock.png",
+      "display": "assets/ui/lock.webp",
+      "pixels": [
+        251,
+        290
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        766,
+        385,
+        1109,
+        741
+      ],
+      "trimWithinCell": [
+        43,
+        40,
+        270,
+        306
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "6676c0147448910c87bedc84f7905b7485170a93e494eae02bde8134c1dda289"
+    },
+    {
+      "id": "ui-arrow-right",
+      "group": "icon",
+      "png": "assets/ui/arrow-right.png",
+      "display": "assets/ui/arrow-right.webp",
+      "pixels": [
+        291,
+        251
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        1109,
+        385,
+        1448,
+        741
+      ],
+      "trimWithinCell": [
+        26,
+        71,
+        293,
+        298
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "718bccc88ccab782d37b97873b61fb79c9ed0265adc38acc606d8f105585cdc1"
+    },
+    {
+      "id": "ui-arrow-left",
+      "group": "icon",
+      "png": "assets/ui/arrow-left.png",
+      "display": "assets/ui/arrow-left.webp",
+      "pixels": [
+        308,
+        252
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        0,
+        741,
+        380,
+        1086
+      ],
+      "trimWithinCell": [
+        53,
+        39,
+        337,
+        267
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "d970f44abdc67c588bdb16024b89c6827bfe01d72f60add62cf797036667dbbf"
+    },
+    {
+      "id": "ui-close",
+      "group": "icon",
+      "png": "assets/ui/close.png",
+      "display": "assets/ui/close.webp",
+      "pixels": [
+        276,
+        263
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        380,
+        741,
+        766,
+        1086
+      ],
+      "trimWithinCell": [
+        55,
+        35,
+        307,
+        274
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "6778b5ddfe2e2bbeba91c4851c35090be7aabfb4f1bbe73180096c6e7953bdae"
+    },
+    {
+      "id": "ui-check",
+      "group": "icon",
+      "png": "assets/ui/check.png",
+      "display": "assets/ui/check.webp",
+      "pixels": [
+        318,
+        253
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        766,
+        741,
+        1109,
+        1086
+      ],
+      "trimWithinCell": [
+        23,
+        47,
+        317,
+        276
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "31cc0b8b82e7ad6184739a6ff9993da3a779a5ac97fd5510c8c042d66fb795f6"
+    },
+    {
+      "id": "ui-play-icon",
+      "group": "icon",
+      "png": "assets/ui/play-icon.png",
+      "display": "assets/ui/play-icon.webp",
+      "pixels": [
+        229,
+        251
+      ],
+      "alphaPadding": 12,
+      "textFree": true,
+      "atlasRectTopLeft": [
+        1109,
+        741,
+        1448,
+        1086
+      ],
+      "trimWithinCell": [
+        73,
+        40,
+        278,
+        267
+      ],
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "imageType": "Simple",
+      "filterMode": "Bilinear",
+      "meshType": "FullRect",
+      "mipmaps": false,
+      "wrapMode": "Clamp",
+      "sha256": "c8e1fa80fc56d1678c9bfcb5b525cdf5dec8d37c135582ec2b7aac6f315606f9"
+    }
+  ]
+}
