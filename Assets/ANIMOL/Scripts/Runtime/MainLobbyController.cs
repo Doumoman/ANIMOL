@@ -12,7 +12,7 @@ namespace ANIMOL.Menu
         const float HorizontalAmplitude = .02f;
         const float VerticalAmplitude = .009f;
         const float Overscan = 1.052f;
-        const float DockHeight = 136f;
+        const float DockHeight = 148f;
         public const float AppearanceInterval = 5f;
         public const float AppearanceWipeDuration = .45f;
 
@@ -167,6 +167,7 @@ namespace ANIMOL.Menu
             var elapsed = skipNextTick ? 0 : Time.unscaledDeltaTime;
             skipNextTick = false;
             AdvanceMotion(elapsed);
+            AdvanceAppearance(elapsed);
             RefreshDiagonalLine();
         }
 

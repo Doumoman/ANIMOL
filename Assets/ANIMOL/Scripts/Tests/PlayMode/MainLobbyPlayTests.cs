@@ -305,7 +305,7 @@ namespace ANIMOL.Menu.Tests
 #endif
         }
 
-        [UnityTest] public IEnumerator LiveUpdateKeepsTheSameLobbyVisitAfterFiveSeconds()
+        [UnityTest] public IEnumerator LiveUpdateChangesBothImagesAfterFiveSeconds()
         {
 #if UNITY_EDITOR
             yield return OpenLobby();
@@ -320,8 +320,8 @@ namespace ANIMOL.Menu.Tests
                 lobby.SendMessage("OnApplicationFocus", true);
                 yield return null;
             }
-            Assert.That(lobby.CurrentThemeIndex, Is.EqualTo(startingTheme));
-            Assert.That(lobby.CurrentArtId, Is.EqualTo(startingArt));
+            Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(startingTheme));
+            Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(startingArt));
             Assert.That(lobby.IsAppearanceTransitioning, Is.False);
             Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.catalog.themes[lobby.CurrentThemeIndex].scenery));
             Assert.That(lobby.heroImage.sprite,

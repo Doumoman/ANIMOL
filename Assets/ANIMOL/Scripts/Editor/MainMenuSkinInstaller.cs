@@ -208,15 +208,15 @@ namespace ANIMOL.Menu.Editor
                 Chrome("lock"), new Vector2(-7, -5), new Vector2(12, 14), new Vector2(1, 1));
             SetButton(c.playButton, skin.primary);
             var playRect = (RectTransform)c.playButton.transform;
-            playRect.sizeDelta = new Vector2(-50, 44);
+            playRect.sizeDelta = new Vector2(-11, 55);
             playRect.anchoredPosition = new Vector2(0, -48);
             c.playTitle.rectTransform.offsetMin = new Vector2(18, 0);
             c.playTitle.rectTransform.offsetMax = new Vector2(-18, 0);
             c.playTitle.alignment = TextAnchor.MiddleCenter;
-            c.playTitle.fontSize = 19;
+            c.playTitle.fontSize = 22;
             c.playNote.gameObject.SetActive(false);
             AddIcon((RectTransform)c.playButton.transform, "Play Arrow", Chrome("arrow-right"),
-                new Vector2(-15, 0), new Vector2(24, 22), new Vector2(1, .5f));
+                new Vector2(-18, 0), new Vector2(28, 26), new Vector2(1, .5f));
             var ad = Child(c.dock, "Ad Row");
             if (ad)
             {

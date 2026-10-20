@@ -65,7 +65,7 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.catalog.themes.Length, Is.EqualTo(4));
             Assert.That(lobby.playButton.GetComponent<Image>().sprite, Is.SameAs(lobby.skin.primary));
             Assert.That(((RectTransform)lobby.playButton.transform).sizeDelta,
-                Is.EqualTo(new Vector2(-50, 44)));
+                Is.EqualTo(new Vector2(-11, 55)));
             Assert.That(lobby.campaignButton.GetComponent<RectTransform>().rect.height,
                 Is.EqualTo(44).Within(.1f));
             Assert.That(lobby.soundButton, Is.Not.Null);
