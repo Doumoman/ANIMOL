@@ -17,7 +17,7 @@ namespace ANIMOL.Menu.Editor
         const string Art = "Assets/ANIMOL/Sprites/UI/Main";
         const string CatalogPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
-        const string FontPath = "Assets/ANIMOL/Fonts/ANIMOLMenuKorean.ttf";
+        const string FontPath = "Assets/ANIMOL/Fonts/Galmuri14.ttf";
         const string RevealMaterialPath = "Assets/ANIMOL/Materials/MainLobbyDiagonalReveal.mat";
         static readonly Color Ink = new Color(.094f, .094f, .18f);
         static readonly Color Paper = new Color(1, .976f, .914f);
@@ -47,7 +47,7 @@ namespace ANIMOL.Menu.Editor
             AssetDatabase.Refresh();
             ConfigureTextures();
             font = AssetDatabase.LoadAssetAtPath<Font>(FontPath);
-            if (!font) throw new FileNotFoundException("Missing v7 Korean UI font", FontPath);
+            if (!font) throw new FileNotFoundException("Missing Galmuri14 UI font", FontPath);
             var catalog = BuildCatalog();
             BuildScene(catalog, CreateRevealMaterial());
             Debug.Log("ANIMOL main UI: built active lobby with 4 scenery sprites, 16 people, 17 appearances, and fail-closed battle gate.");

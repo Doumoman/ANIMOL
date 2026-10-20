@@ -20,6 +20,7 @@ namespace WilliamParadox.Story.Tests.PlayMode
         public IEnumerator PreviewButtonsPreserveRescueOrderAndBookResume()
         {
 #if UNITY_EDITOR
+            SetGameView(1080, 1920);
             EditorSceneManager.LoadSceneInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;
@@ -65,9 +66,11 @@ namespace WilliamParadox.Story.Tests.PlayMode
             var sawEmptyCup = false;
             var sawNoodle = false;
             var blockedLamp = false;
-            for (var steps = 0; steps < 240 && runner.CurrentNode.kind != "credits"; steps++)
+            for (var steps = 0; steps < 300 && runner.CurrentNode.kind != "credits"; steps++)
             {
                 yield return new WaitForSecondsRealtime(0.18f);
+                Focus(runner, true);
+                Assert.That(runner.IsPaused, Is.False, runner.CurrentNodeId);
                 var node = runner.CurrentNode;
                 if (node.id == "R04_B1_L001") sawWorkyard = node.artId == "BG14_workyard_day";
                 if (node.id == "R04_B2_L001") sawPudding = node.artId == "BG14_home_pudding";
@@ -90,7 +93,7 @@ namespace WilliamParadox.Story.Tests.PlayMode
                 if (runner.CurrentNodeId == "R16_B4_L001")
                     Assert.That(runner.CurrentNode.artId, Is.EqualTo("R16"));
             }
-            Assert.That(runner.CurrentNode.kind, Is.EqualTo("credits"));
+            Assert.That(runner.CurrentNode.kind, Is.EqualTo("credits"), runner.CurrentNodeId);
             Assert.That(sawWorkyard && sawPudding && sawEmptyCup && sawNoodle && blockedLamp, Is.True);
             Assert.That(runner.HasFlag("ISOL_PRESENT"), Is.True);
             Assert.That(runner.HasFlag("RETURN_PATH_USED"), Is.True);
