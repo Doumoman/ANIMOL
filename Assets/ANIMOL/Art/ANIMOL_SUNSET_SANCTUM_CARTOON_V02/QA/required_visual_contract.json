@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "themeDisplayNames": {
+    "beforeStory": "낙일 성소",
+    "afterStory": "천구 날조국",
+    "actualStoryFlag": null,
+    "actualProjectThemeId": null
+  },
+  "sourceEvidence": {
+    "pdfFilename": "ANIMOL_24_Puzzle_Devices_Illustrated_Atlas(1).pdf",
+    "sourceSha256": "77cf5fef5fead310058757cb9d7aabd27afeea2265ec701f4f2235b686b111f8",
+    "reviewedPdfPages": [
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "textEvidence": "reference/device_atlas.txt",
+    "actualImagesVisuallyInspected": true,
+    "obsoletePaletteOrPixelRulesOverriddenByCurrentUserPrompt": true
+  },
+  "artContract": {
+    "pixelArtRules": false,
+    "ppu": 256,
+    "logicalCellWorldUnits": 1,
+    "defaultCanvasSize": [
+      320,
+      320
+    ],
+    "defaultLogicalRect": [
+      32,
+      32,
+      256,
+      256
+    ],
+    "defaultPivot": [
+      0.5,
+      0.5
+    ],
+    "defaultArtFootprintCells": [
+      1,
+      1
+    ],
+    "actualProjectFootprintsVerified": false,
+    "canvasPaddingIsNotOccupancy": true,
+    "fullRectSingleSprite": true,
+    "filter": "Bilinear",
+    "mipMaps": false,
+    "compression": "None",
+    "thickNavyAngularOutline": true,
+    "flatCelTonesPerMaterial": [
+      2,
+      3
+    ],
+    "noGrainOrDither": true,
+    "noBillboardRotationForDirectionalSprites": true,
+    "minMotionFps": 10,
+    "nativePngRequired": true,
+    "nativeAlphaPreserved": true
+  },
+  "commonDeviceCategories": [
+    {
+      "sourceId": "07",
+      "category": "conveyor",
+      "headingVariants": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "states": [
+        "idle",
+        "active",
+        "blocked_end_feedback"
+      ],
+      "confirmed": [
+        "Entry automatically carries along printed travel direction until end or last free cell.",
+        "No added cost for automatic travel.",
+        "If initial entry impossible, input is invalid."
+      ],
+      "visualChecks": [
+        "Motion of deck/slats/arrows matches world travel vector.",
+        "Horizontal structure cannot show vertical transport arrow.",
+        "Stop/end preview matches actual accepted trace."
+      ]
+    },
+    {
+      "sourceId": "09",
+      "category": "oneway_gate",
+      "headingVariants": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "actualOccupiedCellsRequired": 1,
+      "outputCellRegisteredOccupied": false,
+      "states": [
+        "closed",
+        "opening",
+        "open",
+        "closing",
+        "blocked"
+      ],
+      "confirmed": [
+        "Travel allowed only along indicated direction.",
+        "Reverse attempt and blocked output are invalid0cost."
+      ],
+      "currentUserRefinements": [
+        "One cell only.",
+        "Both side approaches are also denied.",
+        "Wrong approach retains closed bar and shows obvious redX."
+      ],
+      "visualChecks": [
+        "All opaque gate body/rails remain inside logical cell.",
+        "Blocked animation changes only denial marker, never opens bar.",
+        "Output is passability check only; no second occupied cell.",
+        "Player safety controls closing; never trap active transit actor."
+      ]
+    },
+    {
+      "sourceId": "18",
+      "category": "bounce_corner",
+      "headingVariants": [
+        "ne",
+        "nw",
+        "se",
+        "sw"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "states": [
+        "idle",
+        "contact",
+        "rebound",
+        "rest"
+      ],
+      "confirmed": [
+        "Forced movement contacting45degree reflecting face turns90degrees and continues same automatic action.",
+        "If output blocked, stop before entering unsafe corner according to existing host.",
+        "No extra input cost for deflection."
+      ],
+      "visualChecks": [
+        "Thin L frame has clearly visible passable channel.",
+        "No protruding tips that make device read as a solid block.",
+        "Reflection labels/art map to actual existing callback; no inferred new NE/NW mapping."
+      ]
+    },
+    {
+      "sourceId": "19",
+      "category": "brake",
+      "headingVariants": [
+        "horizontal",
+        "vertical"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "states": [
+        "released",
+        "contact",
+        "pressed",
+        "released_after"
+      ],
+      "confirmed": [
+        "Arrival ends forced movement in the same cell.",
+        "Player may choose new direction on subsequent input.",
+        "No push/rebound or additional cost."
+      ],
+      "visualChecks": [
+        "Stopbars perpendicular to axis of travel.",
+        "No directional arrows implying automatic conveyor movement.",
+        "Motion trail ends exactly in braking cell."
+      ]
+    }
+  ],
+  "themeDeviceCategories": [
+    {
+      "sourceId": "03",
+      "pdfPage": 19,
+      "category": "moon_jump",
+      "components": [
+        "directional_launch_pad",
+        "matching_landing_marker",
+        "three_cell_trajectory_feedback"
+      ],
+      "headingVariants": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "rangeIsNotOccupancy": 3,
+      "confirmed": [
+        "Valid indicated-direction jump reaches landing cell3cells away in one action.",
+        "Intermediate cells are jumped over.",
+        "Automatic travel adds no extra cost."
+      ],
+      "unresolvedSourceRules": [
+        "Exact trigger/input timing.",
+        "Intermediate-cell device interaction.",
+        "Blocked landing prevention is presented as a safe draft, not a final rule."
+      ],
+      "visualChecks": [
+        "Crescent mark remains a device glyph, never a sky moon.",
+        "All4direction arrows and target3cell offsets match host path.",
+        "Compression/release/reset phases keep fixed base.",
+        "Trajectory and landing ring do not count as occupied device cells."
+      ],
+      "hostPolicy": "Preserve actual existing host decisions; do not invent missing rules or claim them source-confirmed."
+    },
+    {
+      "sourceId": "10",
+      "pdfPage": 20,
+      "category": "optics",
+      "components": [
+        "light_emitter",
+        "mirror",
+        "light_receiver",
+        "linked_opening",
+        "beam_route"
+      ],
+      "headingVariants": {
+        "emitter": [
+          "east",
+          "north",
+          "west",
+          "south"
+        ],
+        "mirror": [
+          "slash",
+          "backslash"
+        ],
+        "receiver": [
+          "none"
+        ],
+        "linked_opening": [
+          "project_supported_axes"
+        ]
+      },
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "confirmed": [
+        "Source emits in printed heading.",
+        "Mirror orientation changes beam travel.",
+        "ReceiverON only while beam reaches it; OFF when interrupted.",
+        "Opaque walls and boxes stop beam.",
+        "Glass transmits light.",
+        "Player on a broken-glass cell blocks light, as confirmed in21after panel."
+      ],
+      "unresolvedSourceRules": [
+        "Direct input used to rotate the mirror."
+      ],
+      "visualChecks": [
+        "Beam trace is shared authority for receiver/light-gate state and rendering.",
+        "Fixed base and rotation pin stay fixed through mirror sweep.",
+        "Beam enters/exits reflecting face and joins adjacent tiles continuously.",
+        "Source arrow and actual emission direction agree.",
+        "Receiver and linked opening use matching symbol, not color alone.",
+        "No beam drawn behind opaque blocker; glass keeps continuous beam."
+      ],
+      "hostPolicy": "Delegate direct mirror interaction and link IDs to actual project; no new control scheme."
+    },
+    {
+      "sourceId": "14",
+      "pdfPage": 21,
+      "category": "magnet",
+      "components": [
+        "directional_U_magnet",
+        "linked_switch",
+        "marked_metal_crate",
+        "unmarked_wood_crate",
+        "pull_feedback"
+      ],
+      "headingVariants": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "confirmed": [
+        "Linked switch activates magnet.",
+        "Only collinear metal crate is pulled toward magnet.",
+        "Wood remains unchanged.",
+        "Metal moves until obstructed; does not pass walls or other objects.",
+        "Already blocked crate stays."
+      ],
+      "visualChecks": [
+        "U-shape readable; mouth faces the affected line.",
+        "Moving arrows point TOWARD magnet, not away.",
+        "Body fixed while native pole/field phases change.",
+        "Metal crate and magnet share recognizable metal glyph; wood lacks it.",
+        "Field extent and force use same existing path results."
+      ],
+      "hostPolicy": "Do not add realtime forces, per-frame movement or invented pull range/priority."
+    },
+    {
+      "sourceId": "16",
+      "pdfPage": 22,
+      "category": "paired_portal",
+      "components": [
+        "paired_floor_portals",
+        "pair_glyphs",
+        "directional_entry_exit_feedback",
+        "blocked_exit_marker"
+      ],
+      "headingVariants": [
+        "east",
+        "north",
+        "west",
+        "south"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "confirmed": [
+        "Direction and walking/sliding state preserved in world space through paired portal.",
+        "Walking entry exits one cell beyond pair in same direction then stops.",
+        "Sliding entry keeps sliding beyond pair.",
+        "Blocked cell immediately beyond pair prevents entry; actor stops immediately before entrance.",
+        "Impossible initial walking input is0cost.",
+        "Previously accepted sliding chain keeps prior valid input cost; no extra portal cost."
+      ],
+      "visualChecks": [
+        "Portals are floor pads, not two-cell tall blocking doors.",
+        "No permanent painted arrow that imposes new direction.",
+        "Pair glyph identity is readable without color.",
+        "Entry/exit4heading feedback agrees with unchanged world direction.",
+        "Blocked output redX visible before actor disappears.",
+        "No loop/duplicate teleport event from animation callbacks."
+      ],
+      "hostPolicy": "Preserve actual existing portal pairing/latch/loop guard and occupancy; visual animation never teleports actor."
+    },
+    {
+      "sourceId": "21",
+      "pdfPage": 23,
+      "category": "glass_wall",
+      "components": [
+        "intact",
+        "crack_transition",
+        "break_transition",
+        "open_floor_endpoint"
+      ],
+      "headingVariants": [
+        "project_supported_axes"
+      ],
+      "visualSlotCells": [
+        1,
+        1
+      ],
+      "confirmed": [
+        "Intact glass transmits light and blocks bodies/player/objects/wind.",
+        "Existing bomb explosion or charging statue breaks glass into a passable cell.",
+        "Walking or pushing directly into intact glass is invalid.",
+        "Once broken, actor standing in open cell can block light."
+      ],
+      "visualChecks": [
+        "Large transparent center; crisp rim and very few graphic facet lines.",
+        "Crack frame is visual transition only; no invented multi-hit damage.",
+        "Break clears enough center to read as walkable floor.",
+        "Fragments remain visual only and do not add collision/occupied cells.",
+        "Light stays continuous through intact glass."
+      ],
+      "hostPolicy": "Use actual authoritative destruction event; do not add weak-hit health or make ordinary walking break glass."
+    }
+  ],
+  "environmentChecks": [
+    "True aligned top-down square floor, short front underside.",
+    "Exposed floating edge has irregular finished material.",
+    "2/3/4cell undersides form continuous bodies; longer spans use stable variable spacing.",
+    "Both wood and stone bridges join H/V/corners/T/cross without gaps.",
+    "All inner-hole corners and edge masks close without isolated spikes.",
+    "No baked repeated grass; raised decorative clumps are independent when present.",
+    "Dome/props/sky use same flat angular language and coherent palette.",
+    "No Saturn/planet/moon objects in background.",
+    "Star sprites behind clouds; star parallax nearly0; cloud/scenery larger response.",
+    "Z and sorting order explicit, with stars not incorrectly overpainting front clouds.",
+    "Decorations fill intended slots but never become unregistered gameplay collision."
+  ],
+  "sharedGameplayInvariants": [
+    "Valid swipe/push consumes existing1cost.",
+    "Unchanged blocked input consumes0cost and advances0device turns.",
+    "Automatic chains do not add cost.",
+    "Animation events, shaders and feedback clocks never move actors or advance turns.",
+    "Existing actual device IDs, map data, control scheme and unresolved rules remain authoritative."
+  ],
+  "latestOnlyRequirements": [
+    "Every runtime asset belongs to explicit latest manifest and has SHA/dim/PPU/pivot.",
+    "Catalog frames and endpoint aliases resolve exact latest files; no guessed fallback.",
+    "Importer enumerates latest files exactly; old80PPU art is never selected.",
+    "Actual Prefab/pool/Scene/Animator/Addressables stale bindings must be audited in original project.",
+    "Reference counts0 and actual bindings may not be claimed from package file QA alone."
+  ],
+  "actualUnityVerification": {
+    "import": "NOT_RUN",
+    "csharpCompile": "NOT_RUN",
+    "shaderCompile": "NOT_RUN",
+    "NUnit": "NOT_RUN",
+    "PlayMode": "NOT_RUN",
+    "prefabBinding": "NOT_RUN",
+    "legacyReferencesZero": "NOT_RUN"
+  },
+  "v02EvidenceStatus": "SOURCE_CONTRACT_UNCHANGED; V02 offline native/art/file/geometry checks COMPLETE, actual Unity NOT_RUN."
+}

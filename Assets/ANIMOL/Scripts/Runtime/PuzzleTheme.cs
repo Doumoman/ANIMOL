@@ -16,6 +16,9 @@ namespace ANIMOL.Puzzle
         public StarwayRanchArt starwayRanch;
         public MemorySkyTheaterArt memorySkyTheater;
         public ClockDomeArt clockDome;
+        public ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02VisualCatalog sunsetSanctumV02Catalog;
+        public Material sunsetSanctumV02BeamMaterial;
+        public TextAsset sunsetSanctumV02BackgroundLayout;
         public TwilightCoastArt twilightCoast;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;

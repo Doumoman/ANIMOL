@@ -1,0 +1,102 @@
+ANIMOL 낙일 성소 V02 - 실제 Unity 프로젝트 적용 지시
+
+목표
+제공된 V02는 전 스프라이트의 둥근 형태를 실제로 새로 그린 각진 형태로 바꾼 최종 교체본이다. V01의 원형 포털/도약판/렌즈, 둥근 U자석 코너, 돔/아치/기둥, 천구의와 랜턴 고리, 두루마리 끝, 구름과 작은 볼트를 직선·쐐기·사다리꼴·잘린 모서리로 통일했다. 초승달 장치는 뾰족한 분절형 초승달로 유지했고 배경과 장치는 굵은 남색 윤곽선과 넓은 평면 셀 음영을 공유한다. 실제 프로젝트에 이 완성된 원화를 접합하고 방향·동작·참조 마이그레이션을 검증하라.
+제공된 V02의 1024개 runtime PNG는 새 imagegen native 원화에서 이미 조립된 최종 교체본이다. 이 파일들을 그대로 설치·바인딩하라. 추가 아트 수정이 필요한 경우에도 V01 파일을 필터·양자화·polygonize·외곽선 처리하거나 코드로 RGB를 다시 그려 대체하지 마라. 별/화살표/별칭/FX를 V01 픽셀로 되돌리지 마라. 동일 상대 경로/106개 clip key/방향·상태·PPU256·pivot·logicalRect·footprint·열린 통로/점유 계약을 유지하라. 실제 동작/실제 ID를 그림체 변경에 맞춰 바꾸지 마라.
+제공된 ANIMOL_SUNSET_SANCTUM_CARTOON_V02의 새 원화, 방향별 상태 프레임, 최신 선택 코드로 낙일 성소의 시각 자산을 교체하라. 도감의 성소 5범주(03 도약판,10 광원/거울/감지기,14 자석,16 짝 포털,21 유리벽)와 공통 4범주(07 무빙워크,09 일방향 문,18 튕김 모서리,19 제동판)가 대상이다. 이 번호는 도감 분류이며 실제 프로젝트 ID를 뜻하지 않는다.
+실제 프로젝트에서 확인 가능한 수정, 바인딩과 검증을 계속 진행하라. 제공 패키지의 파일 검사를 게임 실행 완료로 해석하지 마라. 원본 Unity 프로젝트가 없어 제공 단계의 Import/C#컴파일/셰이더컴파일/NUnit/Play Mode/실제 참조 교체는 NOT_RUN이다. 실제로 수행한 항목만 PASS, 미실행은 NOT_RUN, 선행 조건 불일치는 BLOCKED_PRECONDITION으로 보고하라.
+
+다운로드와 설치 파일 합치기
+- 01_CORE, 02_FLOOR, 03_BRIDGES 세 ZIP을 모두 받아 동일한 상위 폴더의 같은 위치에 풀어라. 내부 ANIMOL_SUNSET_SANCTUM_CARTOON_V02 폴더 하나로 합쳐야 하며 번호별 별도 설치나 같은 이름의 중첩 폴더를 만들지 마라. 합본의 런타임 PNG1024개와 클립106개를 확인한 뒤 Assets 아래에 설치하라.
+- 04_SOURCES는 원화 편집·재제작용 선택 파일이다. sources/Authoring/production 구성요소가 없는 세 인게임 ZIP 합본도 정상 설치 대상이다. 선택 원본을 게임 Sprite 후보로 등록하지 마라.
+- 인게임 합본의 파일 검수는 Python/Pillow 환경에서 패키지 폴더를 현재 경로로 하여 python QA/verify_sanctum_package.py --package . --report "<검수JSON경로>" --runtime-only로 실행하라. 런타임 1024PNG/106클립, 임포터, 별칭, 패키지 내 그룹 manifest, 지형과 배경/포함된 검토 씬 layout 검사는 유지한다. 선택 원본/production의 존재·decode·바이트 SHA와 외부 제작 export 비교는 이 모드에서 생략한 항목으로 남긴다. 외부 옛 픽셀 baseline이 없는 실행은 해당 원본 비교를 NOT_AVAILABLE로 남기며 비교0건을 재사용0 검증으로 부풀리지 마라. 04_SOURCES까지 합친 배포본의 전체 검수는 같은 명령에서 --runtime-only를 빼라. full 모드는 원본 파일 검사를 유지하고, 외부 frozen export가 있으면 이를 우선 비교하며 없으면 패키지 내 그룹 manifest를 비교한 사실을 기록한다.
+
+1. 설치 전에 실제 계약을 먼저 확인하라
+- 사용 중인 Unity 버전, 렌더 파이프라인, 성소의 실제 테마 key와 장치 타입/ID를 조사하라. 기존 Prefab/SO/Scene/맵 데이터/보드 registry/방향 enum/입력 검증/유효 행동 커밋/코스트/자동 이동 체인/스폰과 풀/Animator/Addressables 연결을 매핑 표로 남겨라. 제공 JSON의 null/미확인 ID를 실제 ID에 덮어쓰지 마라.
+- 각 장치의 실제 occupied cell 목록, 지면 앵커, 방향 벡터, 회전 핀, 활성/비활성/차단/파괴 상태를 확인하라. 도감 그림의 크기나 PNG 캔버스 크기만으로 실제 점유를 정하지 마라. 새 장치 원화 기본 슬롯은1×1이다. 실제 점유 계약과 다른 경우 transform을 억지로 늘리거나 Collider/맵을 바꾸지 말고 불일치 상태를 기록한 뒤 호환 가능한 부분을 계속 적용하라.
+- 현재 사용자 변경과 버전관리 상태를 보존하라. 성소와 무관한 별길 목장/잔영 극장/별너울 해안, 캐릭터, 도미노, 책장 등 다른 테마의 로직과 자산을 삭제하지 마라. 옛 폴더가 공통 자산을 공유하면 성소의 실제 참조만 통제하여 전환하라.
+- 문서의 미확정 규칙을 확정된 새 게임 규칙으로 만들지 마라. 도약판의 정확한 활성 입력/중간 칸 장치 반응/막힌 착지 처리, 거울 직접 회전 입력은 실제 기존 구현에서 찾고 그대로 연결하라. 없으면 해당 규칙만 BLOCKED_PRECONDITION으로 기록하라. 그림에 보이는 이펙트로 조작이나 충돌을 역산하지 마라.
+
+2. 새 패키지를 설치하고 원화 정체성을 연결하라
+- V01 설치가 있으면 먼저 V01 catalog·Sprite GUID/fileID·컴포넌트·풀 원형·Animator override 참조를 조사하라. V02는 ANIMOL_SUNSET_SANCTUM_CARTOON_V02 폴더와 ANIMOL.Art.SunsetSanctumV02 namespace로 별도 설치하고 V02 클래스/카탈로그에 명시적으로 연결하라. V01 .meta를 V02 새 파일에 복제하거나 MonoScript GUID를 무차별 바꾸지 마라. 기존 V01 컴포넌트는 해당 인스턴스의 직렬화 값/행동 sequence/정렬층을 실제 V02 타입에 옮기고 중복 renderer 소유자를 제거하는 순서로 전환하라.
+- 상대 runtime 경로와 clip key가 같아도 V01/V02 원화와 generated catalog/.anim은 서로 다른 패키지 자산이다. V02 expectedManifestSha256를 함께 재핀하고 풀 OnEnable/Start/Animator/Addressables가 V01로 돌아가지 않는지 확인하라. 낙일 성소의 실제 테마/장치 ID·occupiedCells·맵/세이브·스토리 플래그·코스트는 보존하라. V01 미사용 자산은 실제 전환과 참조0을 확인한 해당 범위에 한해서만 정리하라. 다른 테마/공용 참조나 미저장 사용자 변경을 삭제하지 마라.
+- 패키지 루트 이름 ANIMOL_SUNSET_SANCTUM_CARTOON_V02을 유지해 Assets 아래에 설치하라. 기존 ClockDome/LetterObservatory 등의 폴더를 지운 자리에 통째 덮어쓰는 방법을 쓰지 마라. 새 패키지 자산을 임포트한 뒤 실제 참조를 새 GUID+Sprite fileID에 통제하여 연결하라.
+- 같은 새 패키지를 업데이트하는 경우 기존 경로의 .meta를 보존하라. 기존 외부 자산/MonoScript의 GUID를 새 코드로 무차별 텍스트 치환하거나 .meta를 일괄 삭제하지 마라. 새 경로만 Unity가 새 .meta를 만들도록 한다. 기존 컴포넌트의 의미가 바뀌는 곳은 새 타입을 붙이고 값을 매핑한 뒤 기존 타입을 제거하라.
+- Runtime/Editor/Shader 및 최신 manifest/catalog/import 설정을 함께 설치하라. Editor 코드는 Editor 어셈블리에 유지하라. Tests~는 Unity의 자동 테스트 어셈블리가 아니므로 기존 프로젝트 테스트 어셈블리에 필요한 소스를 연결한 뒤 실제 실행하라.
+- 런타임 PNG는 Sprite Single/FullRect, PPU256, 선언된 pivot, Bilinear/Clamp/무압축/mipmap OFF/NPOT None으로 임포트하라. 타이트 메시, 아틀라스 회전, 옛80PPU 강제 임포터를 새 패키지에 중복 적용하지 마라. sources와 검수 이미지를 게임 스프라이트 후보에 넣지 마라.
+- 기본320×320 캔버스의 지면 슬롯은 [32,32,256,256], world1칸이다. 장식의 다칸 슬롯과 별도 캔버스는 개별 manifest를 따르라. 여백/alpha bounding box/회전 sweep를 점유나 Collider로 바꾸지 마라. 부모 scale/fitToCell/autoScaleToBounds가 슬롯을 다시 축소·확대하는 잔재를 확인하라. 실제 지면 앵커에 논리 슬롯이 맞고 장치가 슬롯을 충분히 채워야 한다.
+
+3. 최신 카탈로그를 빌드하고 정확한 참조만 사용하라
+아래 namespace, 메서드와 flag는 현재 V02 Editor 소스에서 확인한 무인자 진입점이다. 이 소스 대조는 컴파일/Unity 실행 검증이 아니다. 설치한 최종 소스와도 일치하는지 확인하라. <...>는 실제 경로로 바꾸고 로그 폴더를 먼저 준비하라.
+
+"<UNITY_EDITOR>" -batchmode -quit -projectPath "<UNITY_PROJECT>" -executeMethod ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02AnimationBuilder.BuildFromCommandLine -sanctumV02Manifest "Assets/<실제부모경로>/ANIMOL_SUNSET_SANCTUM_CARTOON_V02/animation_catalog.json" -logFile "<LOG_DIR>/SunsetSanctumV02_Catalog.log"
+
+광선 머티리얼 생성/갱신(각 호출은 별도 Unity 실행):
+"<UNITY_EDITOR>" -batchmode -quit -projectPath "<UNITY_PROJECT>" -executeMethod ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02MaterialBuilder.BuildFromCommandLine -sanctumV02BeamMaterial "Assets/<실제부모경로>/ANIMOL_SUNSET_SANCTUM_CARTOON_V02/Materials/LightBeam.mat" -logFile "<LOG_DIR>/SunsetSanctumV02_BeamMaterial.log"
+
+선택적 아트 검토 씬 생성(실제 게임 적용/검증과 별개):
+"<UNITY_EDITOR>" -batchmode -quit -projectPath "<UNITY_PROJECT>" -executeMethod ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02ArtReviewSceneBuilder.BuildFromCommandLine -sanctumV02ReviewLayout "Assets/<실제부모경로>/ANIMOL_SUNSET_SANCTUM_CARTOON_V02/review_scene_layout.json" -logFile "<LOG_DIR>/SunsetSanctumV02_ArtReview.log"
+
+- 이 명령은 검증된 최신 카탈로그와 layout으로 _Generated/SunsetSanctumV02ArtReview.unity라는 별도 아트 검토 씬을 만든다. 기존 플레이 씬/Build Settings/맵/Collider/장치 ID/입력/코스트를 이식하는 명령이 아니다. 해당 검토 씬이 열려 있으면 덮어쓰지 않으므로 먼저 닫은 뒤 재실행하라. 생산 씬의 미저장 변경을 닫거나 저장해 우회하지 마라.
+- ArtReviewPlayback은 아트 검토 marker와 허용 플래그/최신 SHA가 맞는 검토 씬 전용이다. 이 자동 재생 컴포넌트를 실제 게임 장치 컨트롤러로 쓰지 마라. 검토 씬의 생성/재생 성공을 실제 게임의 Play Mode 시뮬레이션 검증으로 보고하지 마라.
+
+- 머티리얼 builder의 CreateOrUpdate(string)를 -executeMethod에 직접 넣지 마라. Shader.Find의 최신 ANIMOL/SunsetSanctumV02/LightBeam을 사용하고 실제 프로젝트의 pipeline/2D renderer에서 import/compile/pass/정렬을 검증하라. 셰이더 실패를 구버전 아트 fallback으로 숨기지 마라.
+- BuildFromManifest(string)를 -executeMethod에 직접 넣지 마라. 빌드 실패를 catch/Exit(0)로 성공 처리하지 마라. 카탈로그의 SHA, 원화 SHA, 실제 임포트된 Sprite GUID/fileID, PPU/pivot 검증을 우회하지 마라.
+- 생성되는 _Generated/SunsetSanctumV02VisualCatalog.asset과 .anim을 실제 사용 중인 Prefab/Scene/풀 원형에 연결하라. expectedManifestSha256는 제공 animation_catalog.json의 실제 SHA256로 고정하고 animation_catalog_sha256.txt와 대조하라. 옛 expected SHA를 비우거나 검사 분기를 제거해 통과시키지 마라.
+- SunsetSanctumV02StaticVisual.Configure 후 BindExactFile은 최신 카탈로그에 등록된 상대 PNG 경로를 사용한다. 정적 parts key와 상대 경로가 일치하는지 확인하라. SunsetSanctumV02AnimatedVisual.Configure 후 정확한 catalog clip key를 선택하라. heading/state를 추측하거나 파일명을 유사 검색해서 고르지 마라.
+- 실제 유효 행동이 확정된 시점에 PlayForCommittedSequence(정확한clipKey,true,단조증가actionSequence,실제feedbackDuration)를 우선 사용하라. 거절/중복/이전 sequence는 재생을 다시 시작하면 안 된다. 기존 PlayForCommittedAction을 사용한다면 어댑터에서 같은 action sequence 중복을 직접 걸러라. 호스트가 tween 진행도를 제공하면 ApplyNormalizedProgress로 같은 진행도를 주고 pause에서 멈춰라. reset/undo/rebind는 SnapToState로 실제 확정 상태를 즉시 표시하라.
+- 풀 재사용/새 세션에서는 이전 재생을 Cancel 또는 확정 상태 SnapToState로 정리하고 ResetActionSequence를 한 번 호출하라. 매 프레임이나 일반 상태 갱신마다 sequence guard를 지우지 마라.
+- raw swipe, Update 시간, Sprite frame 완료 이벤트, 셰이더를 입력 커밋·코스트·이동·턴의 근거로 쓰지 마라. 일반 잘못된 입력은 현재 시뮬레이션/기믹 턴을 바꾸지 않고, 문 등의 명시적 거절 표시만 별도로 재생할 수 있다.
+- Animator와 시각 컴포넌트가 같은 SpriteRenderer.m_Sprite를 동시에 덮어쓰지 않도록 단일 소유자를 정하라. Animator override controller, SpriteResolver/동적 material, 초기 Start idle, 풀 재사용 OnEnable, Resources/Addressables fallback 등에서 옛 스프라이트로 되돌아가는 경로를 조사하라.
+
+4. 공통 장치 4종을 연결하라
+- 무빙워크: 실제 진행 벡터, 데크 축, 인쇄 화살표와 반복 프레임의 흐름이 같아야 한다. 동서 방향 구조에 남북 화살표를 섞지 마라. 실제 자동 이동 경로의 끝/막힘 직전 칸에 표시를 맞추고 자동 이동에 추가 코스트를 주지 마라.
+- 일방향 문: 실제 registry의 occupied cell은 문 한 칸이다. gate+allowedHeading은 통과 가능 여부를 검사할 출구이며 둘째 점유/예약 칸이 아니다. 반대·두 측면 접근을 모두 거절하고 닫힌 차단봉에 빨간X만 표시하라. 허용 방향이어도 출구가 막혔으면 opening을 재생하지 마라. 기존 두 칸 점유, 비정상 부모 scale, collider 확대 잔재를 제거한 뒤 실제 목록을 출력해 확인하라.
+- OneCellGateRules는 순수 사전 검증 보조다. 실제 이동/충돌 타입의 어댑터에서 쓰되 위치/코스트 변경은 기존 단일 경로에서 수행하라. EvaluateExit는 액터의 실제 현재 셀이 gate cell인 경우만 호출한다. 무관한 이동의 NotEnteringThisGate에는 차단X를 띄우지 마라. 열린 원화가 반대 방향 이동을 허용하는 상태가 되어서는 안 된다. 통과 중인 액터 위에 문을 닫지 말고 기존 안전한 점유 해소 시점을 유지하라.
+- 튕김 모서리: 얇은 ㄴ자 레일과 통과 가능한 중앙 공간을 유지하라. NE/NW 아트 이름이나 Sprite.rotation으로 새 반사 표를 발명하지 말고 기존 권위 있는45도면→90도 방향 변환을 사용하라. 들어갈 수 없는 면/막힌 출구도 실제 기존 규칙으로 판단하고 같은 자동 이동에 추가 코스트를 주지 마라.
+- 제동판: 실제 진행 축에 수직인 정지선이 보이고 도착한 그 칸에서 강제 이동이 끝나야 한다. 무빙워크 화살표/역방향 운반/새 반발을 추가하지 마라.
+
+5. 성소의 5범주와 관련 상태를 연결하라
+03 초승달 도약판
+- 허용된 방향의 실제 한 행동으로 출발점에서3칸 떨어진 착지점까지 가야 한다. 중간 두 칸은 도약 경로이며 장치가3칸을 점유하는 뜻이 아니다. 방향별 원화/출발 압축·방출/목적지 마커를 실제 호스트 경로와 맞춰라.
+- JumpVisualHint는 source+3×heading의 시각 힌트다. 착지 차단·입력 시점·중간 장치 반응은 기존 host 결정값을 전달하고, 미확정 상태를 허용/불허로 새로 단정하지 마라. 궤적 픽셀이나 애니메이션 완료로 플레이어를 이동시키지 마라.
+
+10 광원·거울·빛 감지기
+- V02 광원20프레임(별칭 포함)은 native 몸체를248px 최대길이로 한 칸에 채우기 위해 iris의 시각 등록 위치만 진행 축 방향으로 달라졌다. opticalAnchorPixel/opticalAnchorRole은 native iris의 시각용 등록 좌표이며 실제 ray/gameplay/cell 원점으로 쓰지 마라. logicalRayAnchorPixel=[160,160]과 E[288,160]/N[160,32]/W[32,160]/S[160,288] 출구 경계 anchor는 유지된다. 직교축 offset0·4phase anchor 고정·logical slot/PPU/pivot/footprint 불변을 검증하고 비교 보고서에 허용된 시각 메타데이터 예외20개를 명시하라.
+- 광원 화살표의 세계 진행 방향과 실제 ray가 같아야 한다. 거울은 반사면과 핀을 고정해 실제 각도 전환 프레임을 재생하라. 아트 PNG와 Transform.Rotate를 중복 적용하지 마라. 직접 거울을 돌리는 입력은 기존 host를 따른다.
+- +gridY North일 때 화면 / 반사면은 E→N,N→E,W→S,S→W, 화면 \ 반사면은 E→S,S→E,W→N,N→W다. 실제 mirror enum을 명시적으로 매핑하고 다른 프로젝트 방향 enum을 int 캐스팅해 추정하지 마라. 실제 비반사면/상태도 host callback으로 판정하라.
+- 현재 점유를 읽는 ISanctumLightBoard를 연결하고 같은 불변 SanctumLightRoute를 빛 경로 mesh와 receiver/link 판정에 전달하라. 이미 권위 있는 trace가 있으면 그 결과를 계약에 맞게 변환하고 서로 다른 두 계산기를 병행하지 마라.
+- 벽/불투명 상자/플레이어는 실제 경로를 막고 유리는 빛을 통과시킨다. 유리가 깨진 칸에 선 플레이어는 다시 Opaque다. 표시만 통과하거나 receiver만 옛 경로에 켜진 상태를 남기지 마라.
+- SunsetSanctumV02BeamRenderer.Configure에 생성한 최신 material/정렬층/order를 지정하고 SetRoute에 같은 route, 실제 gridSpace, 좌하단 gridOrigin, cellSize를 전달하라. 빔은 타일보다 위, 광원/거울/배우 아래에서 하드웨어 중심을 잇고 유리의 투명 중심으로 보여야 한다.
+- 경로가 바뀔 때만 SetRoute를 호출하고 유효 행동 뒤 PlayCommittedAction(true,같은행동sequence,실제feedbackDuration)을 재생하라. 호스트 tween은 SetNormalizedProgress로 동기화하고 pause에서 고정한다. CompleteAction은 흐름 강조만 끝내며 현재 광선은 남긴다. 끊긴 경로는 현재 trace로 다시 그리거나 HideBeam, 풀/새 세션은 HideBeam 뒤 ResetActionSequence를 사용하라. 렌더러가 힘·이동·코스트를 일으켜서는 안 된다.
+- receiverKey/link ID와 receiverStopsRay, 여러 광원 합산·순환 방지·기존 최대 검사 한계는 실제 정의를 사용하라. 본문에 없는 수신기 관통/광선 사거리/상호 우선순위를 새로 정하지 마라. 빛이 닿을 때만 receiverON/연결문 열림, 끊기면 OFF/기존 안전한 닫힘으로 전환한다. 양 끝 같은 표식을 사용하고 색상만으로 연결을 숨기지 마라.
+
+14 자석 견인
+- 실제 연결 스위치의 상태와 유효 행동 처리에 맞춰 켜고 끄라. 자석과 같은 직선상 금속 상자만 자석 쪽으로 장애물 앞까지 이동한다. 나무는 움직이지 않고 같은 금속 표식도 갖지 않는다.
+- 당김 화살표는 U자 입구 바깥으로 분출하는 방향이 아니라 금속에서 자석을 향해야 한다. 기존 경로 결과에 실제 종료 칸/차폐/이미 막힌 상자를 맞추고 범위·우선순위·반복 횟수를 새로 만들지 마라. 시각 반복이나 realtime physics force로 상자를 밀거나 당기지 마라.
+
+16 짝 포털
+- 포털은 한 칸 바닥 장치이며 영구 화살표로 통과 방향을 새로 강제하지 않는다. 실제 짝과 같은 문양을 사용하고 서로 다른 짝은 색 이외의 모양으로도 구분하라.
+- 세계 이동 방향과 Walking/Sliding 상태를 유지하라. 걸어서 들어간 경우 짝 포털의 같은 방향 바로 다음 칸으로 한 칸 나와 정지하고, 미끄러져 들어가면 짝을 지나 계속 미끄러진다. 다른 각도의 포털 원화가 세계 진행 벡터를 회전시켜서는 안 된다.
+- 짝 포털 밖 바로 다음 칸을 입장 전에 검사하라. 막혀 있으면 입구에 진입하기 직전 칸에서 멈추고 출구 빨간X를 표시한다. 불가능한 첫 걷기 입력은 이동/코스트/턴0이며 이미 시작된 미끄럼 연쇄는 기존 유효 입력 비용만 유지한다. 포털 자체의 비용은 추가하지 않는다.
+- SanctumPortalPreview.Evaluate는 인접 진입과 beyondExit의 시각 사전 판정이다. 실제 pair 존재, 통행 가능, 예약 점유, 재진입 latch/순환 방지는 기존 시뮬레이션이 검사해야 한다. 재생 프레임 콜백으로 teleport를 수행하지 마라.
+
+21 유리벽
+- 온전한 유리는 몸체/플레이어/상자/바람을 막고 빛만 통과시킨다. 일반 걷기나 상자 밀기로 깨뜨리지 마라. 기존 폭탄 폭발 또는 석상 충격의 권위 있는 파괴 이벤트를 연결하라.
+- 금 간 프레임은 파괴 전환의 시각 단계이며 새로운 체력/두 번 타격 규칙이 아니다. 실제 host 파괴 확정 시점에 통행 상태를 바꾸고 애니메이션 끝을 기다리는 새 게임 규칙을 만들지 마라. 마지막 open 상태에서 중앙에 유리 잔상이 남아 막힌 칸으로 보이면 안 된다. 파편은 시각용이며 Collider/추가 점유를 만들지 않는다.
+
+6. 지형·배경·이름 연출을 적용하라
+- 실제 보드의8이웃/구멍/모서리를 기준으로 최신 바닥과 노출 가장자리를 선택하라. 내부 연결에 외곽 마감을 그리지 말고 안쪽 구멍의 오목 모서리를 빠뜨리지 마라. 목재/석재 다리의 H/V/코너/T/교차 연결과 실제 타일 분류를 맞춰라.
+- 2/3/4칸으로 연결된 노출 하부는 하나의 연속 몸체처럼 배치하고 그보다 긴 구간은 안정된 구간 분할/간격을 사용하라. 매 프레임 random으로 모양이나 위치를 바꾸지 마라. 짧은 그림자와 불규칙한 마감은 완성하되 각 타일 아래에 별개 사각 상자가 매달린 모습은 피하라. 장식은 의도한 칸을 충분히 채우면서 실제 길·충돌 경계를 가리지 않아야 한다.
+- sky, 별, 구름, 원경 섬/돔을 독립 SpriteRenderer로 배치하고 명시적 sorting layer/order와 worldZ를 함께 설정하라. SpriteRenderer 정렬은 Z만으로 보장되지 않는다. 별이 구름 뒤에 있고 거의 고정, 구름과 가까운 섬/구조는 카메라 이동에 더 민감해야 한다. 하늘에 큰 달/토성/행성을 다시 넣지 마라.
+- SunsetSanctumV02CameraCover는 가장 뒤 불투명 하늘판에만 쓰고 게임 타일/장치에 붙이지 마라. SunsetSanctumV02BackgroundRig.Configure에 기존 orthographic camera/게임평면Z/정렬층/각 독립 layer를 전달하라. 카메라 기울기·clip range·화면비·zoom에서 빈 하늘 모서리나 구름 순간이동이 노출되지 않는지 확인하라. 별 parallax multiplier는 매우 작게, 구름/섬은 더 크게 설정한다. pause/reduced-motion에서 배경이 과도하게 움직이지 않아야 한다.
+- 게임의 실제 theme key/저장 ID/매칭 ID/맵 ID는 보존하고 표시 이름만 바꿔라. 첫 진입/스토리 완료 전은 낙일 성소, 실제 승인된 완료 플래그 이후는 천구 날조국이다. 새 임의 PlayerPrefs key나 별도 저장 진행도를 만들지 마라. 이미 완료한 저장과 신규 저장을 각각 검사하라.
+
+7. 실제 검증과 레거시 조사 결과를 남겨라
+- V01/V02의 실제 1024개 대응 PNG를 decode하여 RGBA SHA를 비교하고, 전부 변경됐는지 확인하라. PNG 파일 바이트만 바뀐 재인코딩은 실패다. 비교 스크립트는 native 파일도 검사하므로 V02의 04_SOURCES를 합치고 V01 원본 패키지를 준비해야 한다. python QA/compare_v01_angular_revision.py --baseline "<V01원본패키지경로>" --package "<V02패키지경로>" --report "<LOG_DIR>/V01_to_V02_RGBA_and_contract.json"을 실행하고 same-path/106same-key/방향·상태·PPU/pivot/slot/footprint/새 native source closure 결과를 남겨라. 인게임01~03 합본 설치 검사는 별도의 QA/verify_sanctum_package.py --runtime-only 명령이다. 정말 양쪽 모두 alpha0인 동일 파일에 한해 명시적 경로 예외 목록을 검토해 --allow-transparent-unchanged로 제공할 수 있으나, 예외를 제외하고 1024/1024 성공했다고 쓰지 마라. V01 baseline에는 완전 투명 파일이 없다.
+- angular_required_qa_checklist.json의16항목을 새 native 원화·방향/전환 contact sheet·게임 크기의 오프라인 전체 씬에서 육안 검수하라. hashdiff만으로 각진 실루엣/2–3단계 재질/필터가 아닌 새 제작을 인증하지 마라. 폴리곤 테두리 안에 매끈한 원형 구멍/렌즈/곡선 회오리가 남아 있는 경우도 수정 대상이다.
+- 제공 QA/actual_gameplay_checks_NOT_RUN.json의86개 시나리오를 실제 프로젝트에서 실행하라. PNG/카탈로그 파일 PASS는 실제 Unity Import/Compile/Play Mode의 PASS가 아니다. 원본 로그와 실패/미실행 원인을 구분하라.
+- 최신 카탈로그의 프레임·정적 parts·별칭·원화 SHA와 실제 generated .asset/.anim을 대조하라. 생성 클립에 Transform 이동·콜라이더·게임 이벤트가 없어야 한다. 실제 사용 렌더러가 최신 source root의 Sprite GUID/fileID만 쓰는지 확인하라.
+- 성소의 실제 Scene/Prefab/SO/Animator/override controller/Resources/Addressables/SpriteAtlas/동적 선택기/스폰과 풀/캐시에서 옛80PPU/구 ClockDome/구 장치 상태로 돌아가는 참조를 조사하라. 해당 성소 사용 경로를 최신으로 연결한 다음에만 미사용 후보의 참조0을 확인하고 삭제하라. 이름에 clock/old가 들어간다는 이유만으로 타 테마/공용 파일을 지우지 마라.
+- 좁은 셀,넓은 맵,화면 가장자리,구멍,복합 자동 체인,빠른 연속 입력,pause/undo/restart,pool 재사용을 검사하라. 차단 입력이 다른 장치의 턴/기믹을 진행시키지 않는지 확인하라.
+- 결과에는 실제 변경 파일, ID/방향/상태/점유 매핑 표, 최신 catalog SHA·기대 SHA·생성 자산 경로, 실제 레거시 참조 조사 범위와 잔여 수, Import/C#/Shader/NUnit/Play Mode 로그, 장치별4방향·전환 동작과 하부/다리 연결 화면 또는 짧은 영상을 남겨라. 미실행을 완료라고 쓰지 마라.

@@ -7,6 +7,7 @@ using UnityEngine;
 using ANIMOL.Puzzle;
 using ANIMOL.Presentation;
 using ANIMOL.Presentation.Editor;
+using ANIMOL.Art.SunsetSanctumV02;
 namespace ANIMOL.Tests
 {
     public sealed class PuzzleDeviceLogicTests
@@ -26,6 +27,26 @@ namespace ANIMOL.Tests
         {
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
                 Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
+        }
+        [Test] public void SunsetSanctumV02KeepsOneCellFootprintsAndOneMotifForItsActualPortalPair()
+        {
+            foreach(var map in AssetDatabase.FindAssets("t:PuzzleMap",new[]{PuzzlePrototypeBuilder.Root})
+                .Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<PuzzleMap>)
+                .Where(m=>m.scenario && m.scenario.themeId=="letter_observatory"))
+            {
+                var session=new PuzzleDeviceSession(map);
+                Assert.That(map.scenario.beamPrefab,Is.Null,map.name);
+                foreach(var device in session.Devices.Where(SunsetSanctumV02PuzzleBinding.Covers))
+                    Assert.That(session.Footprint(device).Count(),Is.EqualTo(1),map.name+" "+device.id);
+                var portals=session.Devices.Where(d=>d.role==PrototypeRole.Portal).ToArray();
+                foreach(var portal in portals)
+                {
+                    var partner=portals.Single(d=>d.position==portal.target);
+                    Assert.That(partner.target,Is.EqualTo(portal.position));
+                    Assert.That(SunsetSanctumV02PuzzleBinding.IdleClip(portal,session.States[portal.id]),
+                        Is.EqualTo(SunsetSanctumV02PuzzleBinding.IdleClip(partner,session.States[partner.id])));
+                }
+            }
         }
         [Test] public void ThemedStagesExposeEveryDeviceFamilyWithBoundArt()
         {
@@ -57,6 +78,18 @@ namespace ANIMOL.Tests
                     foreach(var e in action.events.Where(e=>e.kind==PrototypeEventKind.Visual))
                     {
                         var definition=session.Definition(e.actor);var view=definition.visualPrefab.GetComponent<DeviceVisualView>();
+                        if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(definition))
+                        {
+                            var key = SunsetSanctumV02PuzzleBinding.TransitionClip(definition, e, session.States[e.actor]);
+                            if (key != null)
+                            {
+                                SunsetSanctumV02VisualCatalog.Clip clip; string error;
+                                Assert.That(map.theme.sunsetSanctumV02Catalog.TryGetClip(key,
+                                    SunsetSanctumV02PuzzleBinding.ManifestSha256, out clip, out error), Is.True,
+                                    map.name + " " + e.actor + " " + key + " " + error);
+                            }
+                            continue;
+                        }
                         if(!view)view=definition.visualPrefab.GetComponent<FerryVisualView>().clock;
                         Assert.That(view.states.Any(s=>s.name==e.state && s.eventName==e.eventName),Is.True,map.name+" "+e.actor+" "+e.state+" "+e.eventName);
                     }
@@ -69,6 +102,28 @@ namespace ANIMOL.Tests
             foreach(var d in session.Devices.Where(d=>!session.States[d.id].removed))
             {
                 Assert.That(d.visualPrefab,Is.Not.Null,d.id);var view=d.visualPrefab.GetComponent<DeviceVisualView>();
+                if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(d))
+                {
+                    var catalog = session.Map.theme.sunsetSanctumV02Catalog;
+                    Assert.That(catalog, Is.Not.Null, d.id);
+                    if (d.role == PrototypeRole.MetalCrate)
+                    {
+                        Assert.That(d.visualPrefab.GetComponent<SunsetSanctumV02StaticVisual>(), Is.Not.Null, d.id);
+                        SunsetSanctumV02VisualCatalog.Part part; string error;
+                        Assert.That(catalog.TryGetPart("devices/metal_box/idle.png",
+                            SunsetSanctumV02PuzzleBinding.ManifestSha256, out part, out error), Is.True, error);
+                    }
+                    else
+                    {
+                        Assert.That(d.visualPrefab.GetComponent<SunsetSanctumV02AnimatedVisual>(), Is.Not.Null, d.id);
+                        var key = SunsetSanctumV02PuzzleBinding.IdleClip(d, session.States[d.id]);
+                        SunsetSanctumV02VisualCatalog.Clip clip; string error;
+                        Assert.That(catalog.TryGetClip(key, SunsetSanctumV02PuzzleBinding.ManifestSha256,
+                            out clip, out error), Is.True, d.id + " " + key + " " + error);
+                    }
+                    Assert.That(d.visualPrefab.GetComponentsInChildren<Collider2D>(true), Is.Empty);
+                    continue;
+                }
                 if(!view)view=d.visualPrefab.GetComponent<FerryVisualView>().clock;
                 Assert.That(view.states.Any(s=>s.name==PuzzleDeviceView.Idle(d,session.States[d.id])),Is.True,d.id+" "+PuzzleDeviceView.Idle(d,session.States[d.id]));
                 Assert.That(d.visualPrefab.GetComponentsInChildren<Collider2D>(true),Is.Empty);
@@ -151,7 +206,14 @@ namespace ANIMOL.Tests
             Assert.That(cue.state,Is.EqualTo("blocked_square"));
             Assert.That(cue.eventName,Is.EqualTo("existing_body_glass_contact_rejected"));
             var art=session.Definition(cue.actor).visualPrefab.GetComponent<DeviceVisualView>();
-            Assert.That(art.states.Any(s=>s.name==cue.state&&s.eventName==cue.eventName),Is.True);
+            if (art) Assert.That(art.states.Any(s=>s.name==cue.state&&s.eventName==cue.eventName),Is.True);
+            else
+            {
+                Assert.That(session.Definition(cue.actor).visualPrefab.GetComponent<SunsetSanctumV02AnimatedVisual>(), Is.Not.Null);
+                // V02 has no glass contact clip; the rejected host cue leaves intact glass displayed.
+                Assert.That(SunsetSanctumV02PuzzleBinding.TransitionClip(session.Definition(cue.actor), cue,
+                    session.States[cue.actor]), Is.Null);
+            }
         }
         [Test] public void DieRollsForEveryPhysicalCellButKeepsFacesDuringPortalCut()
         {

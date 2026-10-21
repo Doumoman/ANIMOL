@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "group": "scenery",
+  "status": "PASS_OFFLINE_VISUAL",
+  "scope": "Independent visual review of selected new native components and exported contact/scene previews, plus separate file/RGBA/invariant/geometry reports. Not Unity execution.",
+  "manifestSha256": "227125081500b2fe7b8298d60e6fd3ddd19068a8bef47d8ddc0256c8bb3b304e",
+  "nativeSourcesViewed": [
+    "sources/sanctum_architecture_native.png",
+    "sources/sanctum_props_native.png",
+    "sources/sanctum_sky_native.png",
+    "sources/sanctum_sky_parts_native.png"
+  ],
+  "inspectionFilesViewed": [
+    "inspection/scenery_contact_sheet.png",
+    "inspection/scenery_dome_assembled_preview.png",
+    "inspection/scenery_sky_parts_contact_sheet.png"
+  ],
+  "findings": [
+    {
+      "item": "Architecture",
+      "result": "PASS_VISUAL",
+      "evidence": "Native4 and full contact/assembled scenery viewed. Dome is a faceted canopy with ridge direction breaks; arches pointed/stepped, columns prism-like and floating rock large polygon shards."
+    },
+    {
+      "item": "Props and ornaments",
+      "result": "PASS_VISUAL",
+      "evidence": "Armillary rings polygonal, lantern loop replaced by pointed cap, scroll becomes folded angular paper, bookshelf/balustrade chamfered and vegetation raised narrow shards. No cylindrical column/round scroll end remains."
+    },
+    {
+      "item": "Sky/cloud/star",
+      "result": "PASS_VISUAL",
+      "evidence": "Four broad sky fields separated by hard diagonal boundaries; cloud silhouettes form long jagged ribbons and stars wedge/diamond facets. No moon/planet/Saturn."
+    },
+    {
+      "item": "Layering and integration",
+      "result": "PASS_METADATA_AND_PREVIEW",
+      "evidence": "New scenery preview keeps stars behind cloud and island rendering, opaque island/frame placement, quiet central board area. Final root gameplay-board scene remains pending."
+    }
+  ],
+  "errorCount": 0,
+  "errors": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingsVerified": false,
+  "latestSkyRuntimeSha256": "1bc69232bd28b5bbe078bc983613616e5ee28cf42424dc91119afa4a24a9e4e0",
+  "skyRefreshReview": "Latest native/runtime sky and sky-parts contact viewed after owner re-generation; hard diagonal region boundaries retained and all29 file/RGBA checks refreshed. Other28 runtime pixels unchanged."
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "gridOrigin": [
+    -4.5,
+    -6.375
+  ],
+  "cellSize": 1,
+  "lightRoute": {
+    "emitter": {
+      "x": 1,
+      "y": 8
+    },
+    "heading": "east",
+    "cells": [
+      {
+        "x": 2,
+        "y": 8,
+        "kind": "open",
+        "incoming": "east",
+        "outgoing": "east"
+      },
+      {
+        "x": 3,
+        "y": 8,
+        "kind": "glass",
+        "incoming": "east",
+        "outgoing": "east"
+      },
+      {
+        "x": 4,
+        "y": 8,
+        "kind": "open",
+        "incoming": "east",
+        "outgoing": "east"
+      },
+      {
+        "x": 5,
+        "y": 8,
+        "kind": "open",
+        "incoming": "east",
+        "outgoing": "east"
+      },
+      {
+        "x": 6,
+        "y": 8,
+        "kind": "mirror",
+        "incoming": "east",
+        "outgoing": "north"
+      },
+      {
+        "x": 6,
+        "y": 9,
+        "kind": "open",
+        "incoming": "north",
+        "outgoing": "north"
+      },
+      {
+        "x": 6,
+        "y": 10,
+        "kind": "receiver",
+        "incoming": "north",
+        "outgoing": "north",
+        "receiverKey": "review_sensor"
+      }
+    ],
+    "stop": "receiver",
+    "receiverKey": "review_sensor"
+  },
+  "worldSegments": [
+    {
+      "from": [
+        -3,
+        2.125
+      ],
+      "to": [
+        2,
+        2.125
+      ]
+    },
+    {
+      "from": [
+        2,
+        2.125
+      ],
+      "to": [
+        2,
+        4.125
+      ]
+    }
+  ],
+  "beamWidthWorld": 0.11,
+  "beamInnerWidthWorld": 0.045,
+  "beamSortingOrder": 5,
+  "sortingOrder": 5,
+  "beamStyle": "navy outline, vivid cyan core, cream center, crisp flat unlit; no bloom",
+  "moonJumpGuide": {
+    "fromCell": [
+      2,
+      3
+    ],
+    "toCell": [
+      5,
+      3
+    ],
+    "heading": "east",
+    "distanceCells": 3,
+    "fromWorld": [
+      -2,
+      -2.875
+    ],
+    "toWorld": [
+      1,
+      -2.875
+    ],
+    "controlWorld": [
+      -0.5,
+      -1.975
+    ],
+    "intermediateRowsAreVoid": true,
+    "actualTransitRule": "Unresolved source semantics; guide is a software illustration only, not gameplay."
+  },
+  "actualUnityExecuted": false,
+  "softwarePreviewTimingOnly": true
+}

@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_OFFLINE",
+  "scope": "File SHA,dims,PPU,pivot,clip/alias closure,declared logical geometry and old-pixel reuse only; visual/host state authority requires independent review.",
+  "manifest": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v02/movement_exports/movement_manifest.json",
+  "manifestSha256": "a06dafff1a5d6506d83d2f970f5c119f0a90097492e876e6a022874c376902bc",
+  "runtimeAssets": 96,
+  "runtimeFamilies": {
+    "moon_jump": 20,
+    "moon_jump_landing": 1,
+    "blocked_endpoint": 1,
+    "magnet": 24,
+    "magnet_switch": 2,
+    "metal_box": 1,
+    "wood_box": 1,
+    "paired_portal": 14,
+    "portal_travel_fx": 16,
+    "magnetic_pull_fx": 16
+  },
+  "clipCount": 42,
+  "clips": [
+    {
+      "key": "moon_jump.east.idle",
+      "family": "moon_jump",
+      "heading": "east",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.east.jump",
+      "family": "moon_jump",
+      "heading": "east",
+      "state": "jump",
+      "frames": 5,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.north.idle",
+      "family": "moon_jump",
+      "heading": "north",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.north.jump",
+      "family": "moon_jump",
+      "heading": "north",
+      "state": "jump",
+      "frames": 5,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.west.idle",
+      "family": "moon_jump",
+      "heading": "west",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.west.jump",
+      "family": "moon_jump",
+      "heading": "west",
+      "state": "jump",
+      "frames": 5,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.south.idle",
+      "family": "moon_jump",
+      "heading": "south",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "moon_jump.south.jump",
+      "family": "moon_jump",
+      "heading": "south",
+      "state": "jump",
+      "frames": 5,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.east.idle",
+      "family": "magnet",
+      "heading": "east",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.east.active",
+      "family": "magnet",
+      "heading": "east",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnet.east.deactivate",
+      "family": "magnet",
+      "heading": "east",
+      "state": "deactivate",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.north.idle",
+      "family": "magnet",
+      "heading": "north",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.north.active",
+      "family": "magnet",
+      "heading": "north",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnet.north.deactivate",
+      "family": "magnet",
+      "heading": "north",
+      "state": "deactivate",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.west.idle",
+      "family": "magnet",
+      "heading": "west",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.west.active",
+      "family": "magnet",
+      "heading": "west",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnet.west.deactivate",
+      "family": "magnet",
+      "heading": "west",
+      "state": "deactivate",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.south.idle",
+      "family": "magnet",
+      "heading": "south",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet.south.active",
+      "family": "magnet",
+      "heading": "south",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnet.south.deactivate",
+      "family": "magnet",
+      "heading": "south",
+      "state": "deactivate",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet_switch.none.press",
+      "family": "magnet_switch",
+      "heading": "none",
+      "state": "press",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnet_switch.none.release",
+      "family": "magnet_switch",
+      "heading": "none",
+      "state": "release",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_01_idle",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_01_idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_01_enter",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_01_enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_01_exit",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_01_exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_01_blocked",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_01_blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_02_idle",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_02_idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_02_enter",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_02_enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_02_exit",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_02_exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "paired_portal.none.pair_02_blocked",
+      "family": "paired_portal",
+      "heading": "none",
+      "state": "pair_02_blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.east.enter",
+      "family": "portal_travel_fx",
+      "heading": "east",
+      "state": "enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.east.exit",
+      "family": "portal_travel_fx",
+      "heading": "east",
+      "state": "exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.north.enter",
+      "family": "portal_travel_fx",
+      "heading": "north",
+      "state": "enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.north.exit",
+      "family": "portal_travel_fx",
+      "heading": "north",
+      "state": "exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.west.enter",
+      "family": "portal_travel_fx",
+      "heading": "west",
+      "state": "enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.west.exit",
+      "family": "portal_travel_fx",
+      "heading": "west",
+      "state": "exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.south.enter",
+      "family": "portal_travel_fx",
+      "heading": "south",
+      "state": "enter",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "portal_travel_fx.south.exit",
+      "family": "portal_travel_fx",
+      "heading": "south",
+      "state": "exit",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "magnetic_pull_fx.east.pull",
+      "family": "magnetic_pull_fx",
+      "heading": "east",
+      "state": "pull",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnetic_pull_fx.north.pull",
+      "family": "magnetic_pull_fx",
+      "heading": "north",
+      "state": "pull",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnetic_pull_fx.west.pull",
+      "family": "magnetic_pull_fx",
+      "heading": "west",
+      "state": "pull",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "magnetic_pull_fx.south.pull",
+      "family": "magnetic_pull_fx",
+      "heading": "south",
+      "state": "pull",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    }
+  ],
+  "endpointAliasesChecked": 14,
+  "nativeSourceReferencesChecked": 3,
+  "alphaInsideLogicalRect": {
+    "inside": 96,
+    "outside": 0
+  },
+  "oldPixelReusedFiles": [],
+  "errorCount": 0,
+  "errors": [],
+  "warnings": [],
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

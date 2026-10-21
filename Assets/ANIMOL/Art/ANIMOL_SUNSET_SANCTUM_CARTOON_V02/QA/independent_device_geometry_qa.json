@@ -1,0 +1,716 @@
+{
+  "schemaVersion": 1,
+  "group": "all",
+  "status": "PASS_OFFLINE",
+  "scope": "Independent decoded RGBA fixed hardware/denial/body/heading motion/slot geometry and source-bound metadata only. Not actual Unity behavior.",
+  "checks": {
+    "common": {
+      "manifestSha256": "3cef86561b5d1eac9ad8ce0385bcfbad2ccd4141e94f6e552b510dc4e0bf1762",
+      "gates": [
+        {
+          "heading": "east",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "north",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "west",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "south",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        }
+      ],
+      "conveyors": [
+        {
+          "heading": "east",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.3571128198966719,
+          "motionPngOffsetPixels": [
+            21,
+            0
+          ],
+          "worldTravel": [
+            1,
+            0
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.3031659257479273
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.2263757058752853
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.5432611438183348
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.459735071488646
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "north",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.5207557371140213,
+          "motionPngOffsetPixels": [
+            0,
+            -21
+          ],
+          "worldTravel": [
+            0,
+            1
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.17865403099843807
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.18454133125075092
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.1891370299170972
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.18203322119428092
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "west",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.34332572389763305,
+          "motionPngOffsetPixels": [
+            -21,
+            0
+          ],
+          "worldTravel": [
+            -1,
+            0
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.6834900276342666
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.4580454763907245
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.397618046377508
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.4718926468821338
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "south",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.4085666226120389,
+          "motionPngOffsetPixels": [
+            0,
+            21
+          ],
+          "worldTravel": [
+            0,
+            -1
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.8824642556770395
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.7296422563979335
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 2.145868376787216
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 2.2324582482278026
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        }
+      ],
+      "corners": [
+        {
+          "corner": "ne",
+          "centralOpaqueFraction": 0.02015625,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "nw",
+          "centralOpaqueFraction": 0.0258203125,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "se",
+          "centralOpaqueFraction": 0.023984375,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "sw",
+          "centralOpaqueFraction": 0.0381640625,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        }
+      ],
+      "brakes": [
+        {
+          "travelAxis": "horizontal",
+          "stopbarAxis": "vertical",
+          "outerFrameExactlyStable": true,
+          "noTransportArrow": true
+        },
+        {
+          "travelAxis": "vertical",
+          "stopbarAxis": "horizontal",
+          "outerFrameExactlyStable": true,
+          "noTransportArrow": true
+        }
+      ]
+    },
+    "movement": {
+      "manifestSha256": "a06dafff1a5d6506d83d2f970f5c119f0a90097492e876e6a022874c376902bc",
+      "jump": [
+        {
+          "heading": "east",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            3,
+            0
+          ]
+        },
+        {
+          "heading": "north",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            0,
+            3
+          ]
+        },
+        {
+          "heading": "west",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            -3,
+            0
+          ]
+        },
+        {
+          "heading": "south",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            0,
+            -3
+          ]
+        }
+      ],
+      "magnet": [
+        {
+          "mouthHeading": "east",
+          "pullTravelHeading": "west",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53217
+        },
+        {
+          "mouthHeading": "north",
+          "pullTravelHeading": "south",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 51319
+        },
+        {
+          "mouthHeading": "west",
+          "pullTravelHeading": "east",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53601
+        },
+        {
+          "mouthHeading": "south",
+          "pullTravelHeading": "north",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53143
+        }
+      ],
+      "pairedPortal": [
+        {
+          "pair": "pair_01",
+          "pairGlyph": "diamond",
+          "outsideNativeCoreExactlyStable": true,
+          "fixedVisiblePixels": 19059,
+          "permanentHeading": null
+        },
+        {
+          "pair": "pair_02",
+          "pairGlyph": "fork",
+          "outsideNativeCoreExactlyStable": true,
+          "fixedVisiblePixels": 23256,
+          "permanentHeading": null
+        }
+      ],
+      "feedbackMotion": [
+        {
+          "family": "portal_travel_fx",
+          "heading": "east",
+          "worldCentroidStepPixels": [
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "north",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              23.999999999999986
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            23.999999999999986
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "west",
+          "worldCentroidStepPixels": [
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.000000000000014,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.000000000000014
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "south",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              -23.999999999999986
+            ],
+            [
+              0.0,
+              -24.0
+            ],
+            [
+              0.0,
+              -24.0
+            ]
+          ],
+          "forwardDotPixels": [
+            23.999999999999986,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "east",
+          "worldCentroidStepPixels": [
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "north",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              23.999999999999986
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            23.999999999999986
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "west",
+          "worldCentroidStepPixels": [
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.000000000000014,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.000000000000014
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "south",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              -23.999999999999986
+            ],
+            [
+              0.0,
+              -24.0
+            ],
+            [
+              0.0,
+              -24.0
+            ]
+          ],
+          "forwardDotPixels": [
+            23.999999999999986,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        }
+      ]
+    },
+    "optics": {
+      "manifestSha256": "a6f4caedbb636789e50fc4225b1ae9b2c9203da7c750249896af8442cdfcf4cb",
+      "emitters": [
+        {
+          "heading": "east",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            85,
+            122,
+            161,
+            198
+          ],
+          "fixedVisiblePixels": 27665,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            123.449,
+            160.0
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            288,
+            160
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "north",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            122,
+            168,
+            198,
+            244
+          ],
+          "fixedVisiblePixels": 32346,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            160.0,
+            205.939
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            160,
+            32
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "west",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            161,
+            122,
+            237,
+            198
+          ],
+          "fixedVisiblePixels": 27956,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            198.814,
+            160.0
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            32,
+            160
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "south",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            122,
+            78,
+            198,
+            154
+          ],
+          "fixedVisiblePixels": 28051,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            160.0,
+            116.134
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            160,
+            288
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        }
+      ],
+      "mirror": {
+        "pinPixel": [
+          160,
+          160
+        ],
+        "center10pxDiscExactlyStable": true,
+        "entireNativeDiamondPinExactlyStable": true,
+        "nativePinPixelsChecked": 841,
+        "outsideNativeBladeSweepExactlyStable": true,
+        "fixedVisiblePixels": 21408,
+        "outsideSweepEqualsRegisteredNativePlinth": true,
+        "nativePlinthPixelsChecked": 21408,
+        "nativeBladeSweepFractionOfCanvas": 0.275791015625,
+        "uniqueNativeYawFrames": 5
+      },
+      "light_gate": {
+        "openCenterTransparent": true,
+        "openCentral160OpaqueFraction": 0.1938671875,
+        "nativeGoldOuterGuardExactlyStable": true,
+        "checkedFramePixels": 9370
+      },
+      "glass_wall": {
+        "openCenterTransparent": true,
+        "openCentral160OpaqueFraction": 0.0,
+        "nativeGoldOuterGuardExactlyStable": true,
+        "checkedFramePixels": 7824
+      },
+      "receiverDoorSharedGlyph": "four_point_diamond"
+    }
+  },
+  "errors": [],
+  "errorCount": 0,
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

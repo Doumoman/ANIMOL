@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "group": "movement",
+  "status": "PASS_OFFLINE",
+  "scope": "Independent decoded RGBA fixed hardware/denial/body/heading motion/slot geometry and source-bound metadata only. Not actual Unity behavior.",
+  "checks": {
+    "movement": {
+      "manifestSha256": "a06dafff1a5d6506d83d2f970f5c119f0a90097492e876e6a022874c376902bc",
+      "jump": [
+        {
+          "heading": "east",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            3,
+            0
+          ]
+        },
+        {
+          "heading": "north",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            0,
+            3
+          ]
+        },
+        {
+          "heading": "west",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            -3,
+            0
+          ]
+        },
+        {
+          "heading": "south",
+          "baseAndArrowOutsideDynamicNativePartsExactlyStable": true,
+          "fixedVisiblePixels": 27585,
+          "landingOffsetCells": [
+            0,
+            -3
+          ]
+        }
+      ],
+      "magnet": [
+        {
+          "mouthHeading": "east",
+          "pullTravelHeading": "west",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53217
+        },
+        {
+          "mouthHeading": "north",
+          "pullTravelHeading": "south",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 51319
+        },
+        {
+          "mouthHeading": "west",
+          "pullTravelHeading": "east",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53601
+        },
+        {
+          "mouthHeading": "south",
+          "pullTravelHeading": "north",
+          "outsideNativeArmatureExactlyStable": true,
+          "fixedVisiblePixels": 53143
+        }
+      ],
+      "pairedPortal": [
+        {
+          "pair": "pair_01",
+          "pairGlyph": "diamond",
+          "outsideNativeCoreExactlyStable": true,
+          "fixedVisiblePixels": 19059,
+          "permanentHeading": null
+        },
+        {
+          "pair": "pair_02",
+          "pairGlyph": "fork",
+          "outsideNativeCoreExactlyStable": true,
+          "fixedVisiblePixels": 23256,
+          "permanentHeading": null
+        }
+      ],
+      "feedbackMotion": [
+        {
+          "family": "portal_travel_fx",
+          "heading": "east",
+          "worldCentroidStepPixels": [
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "north",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              23.999999999999986
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            23.999999999999986
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "west",
+          "worldCentroidStepPixels": [
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.000000000000014,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.000000000000014
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "portal_travel_fx",
+          "heading": "south",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              -23.999999999999986
+            ],
+            [
+              0.0,
+              -24.0
+            ],
+            [
+              0.0,
+              -24.0
+            ]
+          ],
+          "forwardDotPixels": [
+            23.999999999999986,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "east",
+          "worldCentroidStepPixels": [
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ],
+            [
+              24.0,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "north",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              24.0
+            ],
+            [
+              0.0,
+              23.999999999999986
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            23.999999999999986
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "west",
+          "worldCentroidStepPixels": [
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.0,
+              0.0
+            ],
+            [
+              -24.000000000000014,
+              0.0
+            ]
+          ],
+          "forwardDotPixels": [
+            24.0,
+            24.0,
+            24.000000000000014
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        },
+        {
+          "family": "magnetic_pull_fx",
+          "heading": "south",
+          "worldCentroidStepPixels": [
+            [
+              0.0,
+              -23.999999999999986
+            ],
+            [
+              0.0,
+              -24.0
+            ],
+            [
+              0.0,
+              -24.0
+            ]
+          ],
+          "forwardDotPixels": [
+            23.999999999999986,
+            24.0,
+            24.0
+          ],
+          "maxOrthogonalDriftPixels": 0.0,
+          "occupancyParticipation": false
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "errorCount": 0,
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

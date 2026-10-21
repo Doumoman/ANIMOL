@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "group": "movement",
+  "status": "PASS_OFFLINE_VISUAL",
+  "scope": "Independent native/contact/full-scene style review and separate SHA/RGBA/contract/geometry tests, never an actual Unity run.",
+  "manifestSha256": "a06dafff1a5d6506d83d2f970f5c119f0a90097492e876e6a022874c376902bc",
+  "nativeSourcesViewed": [
+    "sources/magnet_components_native.png",
+    "sources/moon_jump_components_native.png",
+    "sources/portal_components_native.png"
+  ],
+  "inspectionFilesViewed": [
+    "inspection/moon_jump_directions_frames.png",
+    "inspection/magnet_directions_frames.png",
+    "inspection/portal_pair_channels_and_travel.png"
+  ],
+  "findings": [
+    {
+      "item": "Polygon portal",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Both outer/inner housing and apertures have visible straight chamfers; rotating shapes are triangular wedges. Pair glyph diamond/fork distinguish by shape."
+    },
+    {
+      "item": "Jump and new compression cap",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Native3 and contact3 viewed. Square pedestal/polygon rim and segmented crescent remain visible through all4 poses; compressed frame still retains the cap. Direction arrows separate and4headings clear."
+    },
+    {
+      "item": "Straight U magnet and boxes",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "U bend is built from straight cut-angle segments, bolts square, native lever prism; metal marked U, wood unmarked. Pull FX and portal arrows sharp and newly generated."
+    }
+  ],
+  "errorCount": 0,
+  "errors": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingsVerified": false
+}

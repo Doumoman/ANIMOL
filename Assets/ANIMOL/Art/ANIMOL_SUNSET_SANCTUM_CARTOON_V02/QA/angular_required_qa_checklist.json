@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "status": "PASS_OFFLINE_WITH_UNITY_NOT_RUN",
+  "reference": "ART_AND_RUNTIME_CONTRACT.txt plus user V02 angular redesign instruction overrides V01 drawing style.",
+  "priority": "New angular native bitmap redesign across every runtime slot is the main goal; motion/occupancy and gameplay remain unchanged.",
+  "automatedPixelMetricsCannotCertifyAngularArt": true,
+  "offlineChecksPassed": 15,
+  "offlineChecksTotal": 15,
+  "actualUnityExecution": "NOT_RUN",
+  "checks": [
+    {
+      "id": "A01",
+      "scope": "Every runtime",
+      "acceptance": "Inspect each new native atlas plus contact sheet and full-scene composition. Outer silhouette and internal construction use long straight edges, visible directional breaks and cut corners. A mostly circular silhouette with angular trim fails.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "common_angular_visual_review.json",
+        "movement_angular_visual_review.json",
+        "optics_angular_visual_review.json",
+        "terrain_angular_visual_review.json",
+        "scenery_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A02",
+      "scope": "Portal/rotor",
+      "acceptance": "No continuous circle/ellipse in either rim or cavity, pinwheel blades are straight wedges. Pair glyphs distinguish by shape; no permanent travel heading.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "movement_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A03",
+      "scope": "Moon jump/landing",
+      "acceptance": "Polygon ground/rim/recess and segmented sharp-cut crescent, not a curved round disk. Three-cell cue legible.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "movement_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A04",
+      "scope": "Magnets/switch/boxes",
+      "acceptance": "Recognizable U channel with straight cut-angle corners, no soft U bends. All bolts square/diamond; switch lever and pivot faceted.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "movement_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A05",
+      "scope": "Optics",
+      "acceptance": "Faceted lens/window/iris/prism barrel, polygon receiver and hub; no round lens shine or cylindrical barrel ends. Mirror pin fixed and slash planes legible.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "optics_angular_visual_review.json",
+        "independent_device_geometry_qa.json"
+      ]
+    },
+    {
+      "id": "A06",
+      "scope": "Dome/arch/columns/armillary/lantern",
+      "acceptance": "Faceted canopy with straight ridge segments, pointed or stepped trapezoid arches, prism columns, polygon ring ornaments and lantern loop.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "scenery_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A07",
+      "scope": "Books/scroll/plants",
+      "acceptance": "Book planes and scroll ends angular; no circular rolled-paper end, no spherical/scalloped foliage or round fasteners. Raised vegetation separate.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "scenery_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A08",
+      "scope": "Sky/cloud/star",
+      "acceptance": "Sky flat angular masses without smooth gradients; cloud long jagged ribbons, stars sharp wedge/diamond construction; moon/planet/Saturn absent.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "scenery_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A09",
+      "scope": "Material/outline consistency",
+      "acceptance": "Thick crisp navy exterior, simpler thinner interior; broad clean base+shadow+small accent planes, 2–3tones per material; no grain/dither/airbrush/3D gloss. Assess at game scale and native scale, not number of antialias colors.",
+      "method": "MANUAL_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "common_angular_visual_review.json",
+        "movement_angular_visual_review.json",
+        "optics_angular_visual_review.json",
+        "terrain_angular_visual_review.json",
+        "scenery_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A10",
+      "scope": "All 1024 slots including aliases/FX",
+      "acceptance": "Compare actual decoded RGBA hash to corresponding V01 path, not PNG byte hash only. 1024 changed required; only individually declared genuinely all-transparent unchanged slots may be excepted. Aliases/arrows/stars cannot be quietly reused.",
+      "method": "AUTOMATED_RGBA_DIFF",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "final_v01_to_v02_revision_qa.json"
+      ]
+    },
+    {
+      "id": "A11",
+      "scope": "Native provenance",
+      "acceptance": "Every referenced native source exists/decodes/SHA matches, source hashes differ from V01, and each runtime asset resolves to new native source(s), crop/registration/component recipe. A changed hash alone does not establish native generation.",
+      "method": "FILE_AND_PROVENANCE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "final_v01_to_v02_revision_qa.json",
+        "final_package_independent_qa.json"
+      ]
+    },
+    {
+      "id": "A12",
+      "scope": "File/clip invariants",
+      "acceptance": "Same 1024 paths, 106 keys and exact family/heading/state tuples; same frames/path sequence/fps/loop, PPU/size/pivot/logicalRect/footprint, semantic direction vectors and visual-only flags. Any intentional exception needs explicit parent review.",
+      "method": "AUTOMATED_CONTRACT_DIFF",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "final_v01_to_v02_revision_qa.json",
+        "final_package_independent_qa.json"
+      ],
+      "approvedVisualRegistrationException": "20 emitter opticalAnchorPixel values shift only along ray axis; logicalRayAnchorPixel160/160, boundary outlet, PPU/pivot/slot/footprint/heading/gameplay remain unchanged. See final_v01_to_v02_revision_qa.json."
+    },
+    {
+      "id": "A13",
+      "scope": "Device geometry/transitions",
+      "acceptance": "Fixed body/pin stable outside declared moving part; >=10fps and native unique poses; alias exact endpoint; one-cell gate clear/open/denied silhouette, thin L lane, transparent open glass/linked-door center.",
+      "method": "PIXEL_AND_MANUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_device_geometry_qa.json",
+        "final_package_independent_qa.json"
+      ]
+    },
+    {
+      "id": "A14",
+      "scope": "Terrain",
+      "acceptance": "Full256 per3materials, 6144 compatible H/V world-overlap cases exactRGBA, joined2/3/4 bodies, stable long split, shallow inner-hole caps, cross-material H/V/corner/T/cross connections. Angular edges must not introduce seams.",
+      "method": "6144_OVERLAP_AND_MANUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_terrain_overlap_qa.json",
+        "terrain_angular_visual_review.json"
+      ]
+    },
+    {
+      "id": "A15",
+      "scope": "Offline scene",
+      "acceptance": "Current main/catalog pins and runtime refs; 9x12 fixture88ground cells, fixed anchors and valid declared footprints; same beam/glass/slash/receiver link, jump3, portal beyond1, magnet direction; explicit star-behind-cloud sort+depth and sensitivity order.",
+      "method": "FILE_AND_MANUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_scene_preview_qa.json"
+      ]
+    },
+    {
+      "id": "A16",
+      "scope": "Actual game status",
+      "acceptance": "Original Unity unavailable: import/C#/shader/NUnit/PlayMode/actual IDs/Prefab bindings/actual legacy0 remain NOT_RUN or UNVERIFIED. Offline art/timing proof cannot promote these to PASS.",
+      "method": "STATUS_DISCIPLINE",
+      "result": "NOT_RUN",
+      "evidenceFiles": [
+        "actual_gameplay_checks_NOT_RUN.json"
+      ],
+      "reason": "Original Unity project absent: import/compile/Play/actual bindings/legacy0 were not executed. Status discipline was checked; no runtime pass is claimed."
+    }
+  ]
+}

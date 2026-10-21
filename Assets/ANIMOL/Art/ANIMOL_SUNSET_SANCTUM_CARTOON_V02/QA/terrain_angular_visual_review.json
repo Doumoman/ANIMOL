@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "group": "terrain",
+  "status": "PASS_OFFLINE_VISUAL",
+  "scope": "Independent native/contact/full-scene style review and separate SHA/RGBA/contract/geometry tests, never an actual Unity run.",
+  "manifestSha256": "7f57c7d79db0af3bd484bff30c46219a6791478589ce0429afbf2bb3e7086f31",
+  "nativeSourcesViewed": [
+    "sources/sanctum_foundation_spans_native.png",
+    "sources/sanctum_terrain_components_flat_native.png",
+    "sources/sanctum_wood_support_spans_native.png"
+  ],
+  "inspectionFilesViewed": [
+    "inspection/angular_material_and_support_review.png",
+    "inspection/terrain_join_map.png"
+  ],
+  "findings": [
+    {
+      "item": "Angular materials",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "New native3 viewed: large straight chamfers, diamond hardware and broad stone/wood cel planes; runtime perimeter24px cut corners and irregular straight directional breaks visible."
+    },
+    {
+      "item": "Floating joined bodies",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Jagged triangular masonry facets and straight wood diagonal braces form continuous2/3/4-cell native span bodies; no rounded dangling cubes per tile."
+    },
+    {
+      "item": "Connectivity",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Cross-material horizontal/vertical/corners/T/cross and shallow inner-hole caps viewed in join map; all6144 compatible world overlap cases exactRGBA difference0."
+    }
+  ],
+  "errorCount": 0,
+  "errors": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingsVerified": false
+}

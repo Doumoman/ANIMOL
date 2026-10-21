@@ -1,0 +1,1010 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "ppu": 256,
+  "southFacingExposedRunsOnly": true,
+  "materialToSupport": {
+    "G": "masonry",
+    "S": "masonry",
+    "W": "wood"
+  },
+  "spanFiles": {
+    "masonry": {
+      "1": "undersides/masonry/span_01.png",
+      "2": "undersides/masonry/span_02.png",
+      "3": "undersides/masonry/span_03.png",
+      "4": "undersides/masonry/span_04.png"
+    },
+    "wood": {
+      "1": "undersides/wood/span_01.png",
+      "2": "undersides/wood/span_02.png",
+      "3": "undersides/wood/span_03.png",
+      "4": "undersides/wood/span_04.png"
+    }
+  },
+  "planner": "Extract contiguous same-support south-exposed runs. Length1/2/3/4 uses exactly one matching native fused sprite. Longer runs use deterministic2–4-cell chunks; do not use one body per tile.",
+  "logicalRectOrigin": [
+    32,
+    32
+  ],
+  "logicalCellCenterY": 160,
+  "bodyTopPixelY": 276,
+  "canvasHeight": 512,
+  "pivot": [
+    0.5,
+    0.6875
+  ],
+  "sortPolicy": "draw supports before all terrain tops; support alpha never defines occupancy/colliders",
+  "longRunCapPolicy": "Native shallow cap strips remain continuous at chunk joins; broad irregular body groups may have stable gaps below the cap. Internal chunks use no gameplay collision.",
+  "assets": [
+    {
+      "file": "undersides/masonry/span_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "2a92a517214135a0817ea1135ed8cc0c976a691dbba39a75412053a400bfa5b0",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        500,
+        85,
+        1037,
+        245
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/masonry/span_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "38cbe0423bcbad9b64dc63edb57f9f6018476f13f6c22128c6aa30b699e31786",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        347,
+        311,
+        1189,
+        489
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/masonry/span_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "9c71e5e029cab3c28ae53f46981a7659b0b03ce520233c29470553af9faf40b6",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        189,
+        540,
+        1347,
+        715
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/masonry/span_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "25eef2e777eb2c4ceed8f22c14d0d4ad2787066061492a28e41e3dc4b0e08cb3",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        19,
+        782,
+        1518,
+        979
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "b77a77555c12ff9cc9a7256ae299af59b743bc2c588d9868448d1beee0043815",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        466,
+        80,
+        1070,
+        225
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "7c785d2de62e64b8595c296e92efad09e3f350fc31647c707adb3eb312c48475",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        247,
+        319,
+        1289,
+        465
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "fbe3ed8978a46af62c991cfd72c0ae3a0d4b079d1cb195d3ce6d6236b315aff2",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        58,
+        552,
+        1478,
+        701
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "3e0d658f7fb798331b7190861468662e5ed1cf7f4dca3ffcfae7c57b85b9be94",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        16,
+        793,
+        1520,
+        937
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/masonry/cap_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "efd9a97de4b4eb0e705f31771acf537d2ada034f99bfd586c64b841f795674de",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        500,
+        85,
+        1037,
+        245
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/masonry/span_01.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/masonry/cap_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "1d3d6f2de259561c0d764c078a1e41601a38fdcbd092771352700549d79c526d",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        347,
+        311,
+        1189,
+        489
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/masonry/span_02.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/masonry/cap_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "1bbfe03d762079afc3f5dc79abc9f5a7699a4e91488043c977ba4799fb8b95df",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        189,
+        540,
+        1347,
+        715
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/masonry/span_03.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/masonry/cap_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "e9afa7f2ef42d1ff0089af7628b0acc293f187b595e201c7aae8d095ea3524ea",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "masonry",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_foundation_spans_native.png",
+      "nativeSourceRect": [
+        19,
+        782,
+        1518,
+        979
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/masonry/span_04.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "0822d3130179b1102146c212f8f23c7a4e6fad02a91a0366cd568a8bc9888adc",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        466,
+        80,
+        1070,
+        225
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_01.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "5bdf4c54eaaef0d7dad66617bd5c9f3747ddd5200d252d1f313ffe2e3fc32fa5",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        247,
+        319,
+        1289,
+        465
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_02.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "d55e4185ed92985953a9d7327d4f0f143a3da3d677b71b742bd1b12c95fe8175",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        58,
+        552,
+        1478,
+        701
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_03.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "b2931101029e2fd2ca8e6e0d676e9edad4a1a2b93385a5429acab1d73bafc501",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "material": "wood",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/sanctum_wood_support_spans_native.png",
+      "nativeSourceRect": [
+        16,
+        793,
+        1520,
+        937
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_04.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    }
+  ],
+  "clips": [],
+  "actualUnityExecutionVerified": false,
+  "shallowCapFiles": {
+    "masonry": {
+      "1": "undersides/masonry/cap_01.png",
+      "2": "undersides/masonry/cap_02.png",
+      "3": "undersides/masonry/cap_03.png",
+      "4": "undersides/masonry/cap_04.png"
+    },
+    "wood": {
+      "1": "undersides/wood/cap_01.png",
+      "2": "undersides/wood/cap_02.png",
+      "3": "undersides/wood/cap_03.png",
+      "4": "undersides/wood/cap_04.png"
+    }
+  },
+  "holeFacePolicy": "For enclosed or narrow holes choose matching shallowCapFile. Native facade ends20px below logical tile south edge, retaining the hole opening. Outer island silhouettes use full matching-length native body."
+}

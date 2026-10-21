@@ -1,0 +1,2324 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "version": "V02",
+  "themeDisplayName": "낙일 성소",
+  "postStoryDisplayName": "천구 날조국",
+  "themeId": null,
+  "themeIdVerifiedInUnityProject": false,
+  "backgroundSceneLayout": "background_scene_layout.json",
+  "backgroundSceneLayoutBindingVerified": false,
+  "assets": [
+    {
+      "file": "backgrounds/sanctum/sky_base.png",
+      "name": "sanctum_sky_base",
+      "family": "sky",
+      "kind": "background_base",
+      "heading": "none",
+      "state": "static",
+      "width": 1080,
+      "height": 1920,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "footprintCells": null,
+      "source": "sources/sanctum_sky_native.png",
+      "sourceNative": "sources/sanctum_sky_native.png",
+      "sourceSize": [
+        940,
+        1673
+      ],
+      "sha256": "1bc69232bd28b5bbe078bc983613616e5ee28cf42424dc91119afa4a24a9e4e0",
+      "actualUnityBindingVerified": false,
+      "gameplayOccupancy": null,
+      "deriveColliderFromAlpha": false
+    },
+    {
+      "file": "backgrounds/sanctum/far_library_island.png",
+      "name": "far_library_island",
+      "kind": "background_component",
+      "family": "sanctum_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 1152,
+      "height": 704,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1152,
+        704
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1152,
+        704
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_architecture_native.png",
+      "sourceNative": "sources/sanctum_architecture_native.png",
+      "nativeSourceRect": [
+        33,
+        8,
+        720,
+        553
+      ],
+      "nativeSourceRectXYXY": [
+        33,
+        8,
+        753,
+        561
+      ],
+      "uniformNativeScale": 1.2151898734177216,
+      "contentRect": [
+        138,
+        16,
+        875,
+        672
+      ],
+      "sha256": "e57ea6317551d16c6fd76066455ae74f10ef89a752835ea73dcb00412b0f3f64",
+      "placementPolicy": "Outside central gameplay rectangle; non-colliding scenery, independent z/sorting.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/far_open_dome_island.png",
+      "name": "far_open_dome_island",
+      "kind": "background_component",
+      "family": "sanctum_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 1024,
+      "height": 704,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1024,
+        704
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1024,
+        704
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_architecture_native.png",
+      "sourceNative": "sources/sanctum_architecture_native.png",
+      "nativeSourceRect": [
+        795,
+        12,
+        710,
+        552
+      ],
+      "nativeSourceRectXYXY": [
+        795,
+        12,
+        1505,
+        564
+      ],
+      "uniformNativeScale": 1.2173913043478262,
+      "contentRect": [
+        80,
+        16,
+        864,
+        672
+      ],
+      "sha256": "b40a6f58430c2486a362d3d1c6de29d1d744ea4b754b714f9e9ccb36a4b329a2",
+      "placementPolicy": "Outside central gameplay rectangle; non-colliding scenery, independent z/sorting.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/frame_arch_left.png",
+      "name": "frame_arch_left",
+      "kind": "background_component",
+      "family": "sanctum_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 640,
+      "height": 640,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "logical_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_architecture_native.png",
+      "sourceNative": "sources/sanctum_architecture_native.png",
+      "nativeSourceRect": [
+        7,
+        480,
+        692,
+        528
+      ],
+      "nativeSourceRectXYXY": [
+        7,
+        480,
+        699,
+        1008
+      ],
+      "uniformNativeScale": 0.8786127167630058,
+      "contentRect": [
+        16,
+        88,
+        608,
+        464
+      ],
+      "sha256": "ff8e6e24ddd59e548c33d530f0a81cc1612e9cc92d5d1c24c38d99a721fc4f7f",
+      "placementPolicy": "Outside central gameplay rectangle; non-colliding scenery, independent z/sorting.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/frame_arch_right.png",
+      "name": "frame_arch_right",
+      "kind": "background_component",
+      "family": "sanctum_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 640,
+      "height": 640,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "logical_rect": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_architecture_native.png",
+      "sourceNative": "sources/sanctum_architecture_native.png",
+      "nativeSourceRect": [
+        836,
+        481,
+        695,
+        527
+      ],
+      "nativeSourceRectXYXY": [
+        836,
+        481,
+        1531,
+        1008
+      ],
+      "uniformNativeScale": 0.874820143884892,
+      "contentRect": [
+        16,
+        89,
+        608,
+        461
+      ],
+      "sha256": "ce512d911cedad12f404ac3a4af025d7fa686be42e99d43efc5c0bff5d6ce134",
+      "placementPolicy": "Outside central gameplay rectangle; non-colliding scenery, independent z/sorting.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_0.png",
+      "name": "cloud_0",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        0,
+        116,
+        362,
+        146
+      ],
+      "nativeSourceRectXYXY": [
+        0,
+        116,
+        362,
+        262
+      ],
+      "uniformNativeScale": 2.386740331491713,
+      "contentRect": [
+        16,
+        18,
+        864,
+        348
+      ],
+      "sha256": "f5b9ff1569384c7cf23cbcacbe27d69059b7fc6aff5534aadbd9c146e885551e",
+      "placementPolicy": "Stars behind clouds. Independent camera parallax and visual drift only.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_1.png",
+      "name": "cloud_1",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        367,
+        116,
+        357,
+        137
+      ],
+      "nativeSourceRectXYXY": [
+        367,
+        116,
+        724,
+        253
+      ],
+      "uniformNativeScale": 2.4201680672268906,
+      "contentRect": [
+        16,
+        26,
+        864,
+        332
+      ],
+      "sha256": "0ac78167b8aeeca4e5d377117ff40a627b2b680f3b62e3ed4376b43e06aea6a4",
+      "placementPolicy": "Stars behind clouds. Independent camera parallax and visual drift only.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_2.png",
+      "name": "cloud_2",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        727,
+        113,
+        356,
+        146
+      ],
+      "nativeSourceRectXYXY": [
+        727,
+        113,
+        1083,
+        259
+      ],
+      "uniformNativeScale": 2.410958904109589,
+      "contentRect": [
+        19,
+        16,
+        858,
+        352
+      ],
+      "sha256": "fc8bf93a95630599aecb458439a6e5aad2048a0cc34a2a3546ca6bf502c6f9b5",
+      "placementPolicy": "Stars behind clouds. Independent camera parallax and visual drift only.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_3.png",
+      "name": "cloud_3",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        1086,
+        125,
+        361,
+        128
+      ],
+      "nativeSourceRectXYXY": [
+        1086,
+        125,
+        1447,
+        253
+      ],
+      "uniformNativeScale": 2.3933518005540164,
+      "contentRect": [
+        16,
+        39,
+        864,
+        306
+      ],
+      "sha256": "ddc514d07efe6e8be093b57820028c94dadcc27941916d612d058824e55e60b0",
+      "placementPolicy": "Stars behind clouds. Independent camera parallax and visual drift only.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_four_point.png",
+      "name": "ivory_four_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        28,
+        377,
+        307,
+        313
+      ],
+      "nativeSourceRectXYXY": [
+        28,
+        377,
+        335,
+        690
+      ],
+      "uniformNativeScale": 0.5111821086261981,
+      "contentRect": [
+        17,
+        16,
+        157,
+        160
+      ],
+      "sha256": "e8263e259baf28e44bc844894cb46432a6c84a7637149584327e8ce6cbd59db0",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "name": "gold_four_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        428,
+        417,
+        229,
+        235
+      ],
+      "nativeSourceRectXYXY": [
+        428,
+        417,
+        657,
+        652
+      ],
+      "uniformNativeScale": 0.6808510638297872,
+      "contentRect": [
+        18,
+        16,
+        156,
+        160
+      ],
+      "sha256": "d7792f69c27fcdd24c0fbc58c86c09b69e444e62e6791f892fc1bede74459750",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_eight_point.png",
+      "name": "ivory_eight_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        752,
+        377,
+        308,
+        314
+      ],
+      "nativeSourceRectXYXY": [
+        752,
+        377,
+        1060,
+        691
+      ],
+      "uniformNativeScale": 0.5095541401273885,
+      "contentRect": [
+        17,
+        16,
+        157,
+        160
+      ],
+      "sha256": "2bde2fe96a76d4f9107334e40767de08d8befaaf0600d6bee2caae7e5021d252",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/cyan_long_glint.png",
+      "name": "cyan_long_glint",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        1178,
+        378,
+        179,
+        317
+      ],
+      "nativeSourceRectXYXY": [
+        1178,
+        378,
+        1357,
+        695
+      ],
+      "uniformNativeScale": 0.5047318611987381,
+      "contentRect": [
+        51,
+        16,
+        90,
+        160
+      ],
+      "sha256": "8c6d93d2fcca306f67cfe0e797441120cf8d67f3a5f8bf5a0c040c201a30c9a4",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/gold_five_point.png",
+      "name": "gold_five_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        34,
+        738,
+        291,
+        280
+      ],
+      "nativeSourceRectXYXY": [
+        34,
+        738,
+        325,
+        1018
+      ],
+      "uniformNativeScale": 0.5498281786941581,
+      "contentRect": [
+        16,
+        19,
+        160,
+        154
+      ],
+      "sha256": "2ae330d02d3ae5488318fcb2ec97e25d0fa5a4e2b2129389604ef7f8687055ee",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "name": "ivory_diamond",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        479,
+        746,
+        127,
+        271
+      ],
+      "nativeSourceRectXYXY": [
+        479,
+        746,
+        606,
+        1017
+      ],
+      "uniformNativeScale": 0.5904059040590406,
+      "contentRect": [
+        58,
+        16,
+        75,
+        160
+      ],
+      "sha256": "fde2389f522547af3b7151d480106cdeeea3dae9aa6c635d1b276980ee6865e8",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/constellation_three.png",
+      "name": "constellation_three",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 384,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "logical_rect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        753,
+        769,
+        288,
+        251
+      ],
+      "nativeSourceRectXYXY": [
+        753,
+        769,
+        1041,
+        1020
+      ],
+      "uniformNativeScale": 0.8924302788844621,
+      "contentRect": [
+        63,
+        16,
+        257,
+        224
+      ],
+      "sha256": "fa2b18d48a70b8c9ee91b71e74d8411fbe0b4351c0b3f46b8a0169fd8699173f",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "backgrounds/sanctum/stars/constellation_four.png",
+      "name": "constellation_four",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 384,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "logical_rect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "source": "sources/sanctum_sky_parts_native.png",
+      "sourceNative": "sources/sanctum_sky_parts_native.png",
+      "nativeSourceRect": [
+        1117,
+        740,
+        305,
+        283
+      ],
+      "nativeSourceRectXYXY": [
+        1117,
+        740,
+        1422,
+        1023
+      ],
+      "uniformNativeScale": 0.7915194346289752,
+      "contentRect": [
+        71,
+        16,
+        241,
+        224
+      ],
+      "sha256": "732238ecda74b0c01b4562fee151ea07b0bb484f217eaf7a988adcc5ed74ccfe",
+      "placementPolicy": "Behind every cloud layer; near fixed, no drift/no spin/no rapid twinkle.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false
+    },
+    {
+      "file": "props/sanctum/sanctum_column.png",
+      "name": "sanctum_column",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 576,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.2777777777777778
+      ],
+      "logicalRect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        94,
+        3,
+        169,
+        376
+      ],
+      "nativeSourceRectXYXY": [
+        94,
+        3,
+        263,
+        379
+      ],
+      "uniformNativeScale": 1.4042553191489362,
+      "contentRect": [
+        41,
+        16,
+        237,
+        528
+      ],
+      "sha256": "0e0b22fd99b84540e8ef8ad4777e6c4859dda97c2125cb3b532f0eaf825e5749",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/broken_column.png",
+      "name": "broken_column",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        409,
+        71,
+        252,
+        306
+      ],
+      "nativeSourceRectXYXY": [
+        409,
+        71,
+        661,
+        377
+      ],
+      "uniformNativeScale": 0.9841269841269841,
+      "contentRect": [
+        36,
+        51,
+        248,
+        301
+      ],
+      "sha256": "a6868c04b862f9298698bcd2484c0c1d54138680311090133ffb92c5ae37f3a3",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/arch_doorway.png",
+      "name": "arch_doorway",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 576,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        512
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        512
+      ],
+      "footprintCells": [
+        2,
+        2
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        512
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        712,
+        15,
+        321,
+        355
+      ],
+      "nativeSourceRectXYXY": [
+        712,
+        15,
+        1033,
+        370
+      ],
+      "uniformNativeScale": 1.3971830985915492,
+      "contentRect": [
+        64,
+        32,
+        448,
+        496
+      ],
+      "sha256": "7ba831eb4ec9f2825bd856f270dce9402b0c2aa6088e857f9fe001bb8550f3f8",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        2,
+        2
+      ]
+    },
+    {
+      "file": "props/sanctum/library_shelf.png",
+      "name": "library_shelf",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        1051,
+        165,
+        394,
+        203
+      ],
+      "nativeSourceRectXYXY": [
+        1051,
+        165,
+        1445,
+        368
+      ],
+      "uniformNativeScale": 1.2588832487309645,
+      "contentRect": [
+        40,
+        160,
+        496,
+        256
+      ],
+      "sha256": "5492044a62fa02a3053a5aa7a8b00d68ae92df0e5c1484aae4894f7258d737f2",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        2,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/reading_lectern.png",
+      "name": "reading_lectern",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        57,
+        459,
+        272,
+        314
+      ],
+      "nativeSourceRectXYXY": [
+        57,
+        459,
+        329,
+        773
+      ],
+      "uniformNativeScale": 0.9117647058823529,
+      "contentRect": [
+        36,
+        66,
+        248,
+        286
+      ],
+      "sha256": "88780273fa16545eb50a95ab84de536112e5dd5e7203f256a29b21131cb738d1",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/sanctum_lantern.png",
+      "name": "sanctum_lantern",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3125
+      ],
+      "logicalRect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        421,
+        383,
+        212,
+        392
+      ],
+      "nativeSourceRectXYXY": [
+        421,
+        383,
+        633,
+        775
+      ],
+      "uniformNativeScale": 1.169811320754717,
+      "contentRect": [
+        36,
+        21,
+        248,
+        459
+      ],
+      "sha256": "d50524d9acddc92c6822ee5ad0fa0a3cf4b930b75d9f20ed823491bfeae6c5cd",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/armillary_instrument.png",
+      "name": "armillary_instrument",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        769,
+        396,
+        236,
+        378
+      ],
+      "nativeSourceRectXYXY": [
+        769,
+        396,
+        1005,
+        774
+      ],
+      "uniformNativeScale": 0.8888888888888888,
+      "contentRect": [
+        55,
+        16,
+        210,
+        336
+      ],
+      "sha256": "1b880416777e6884bf10aaa9bd20a168dca382c409d78758e3522d82665b429e",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/raised_planter.png",
+      "name": "raised_planter",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        1069,
+        465,
+        361,
+        313
+      ],
+      "nativeSourceRectXYXY": [
+        1069,
+        465,
+        1430,
+        778
+      ],
+      "uniformNativeScale": 0.6869806094182825,
+      "contentRect": [
+        36,
+        137,
+        248,
+        215
+      ],
+      "sha256": "e038026ba05ea995ab6859d1938c58e0791bf595e0e2336037f80ff1a4874496",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/moss_bud_clump.png",
+      "name": "moss_bud_clump",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        19,
+        798,
+        333,
+        277
+      ],
+      "nativeSourceRectXYXY": [
+        19,
+        798,
+        352,
+        1075
+      ],
+      "uniformNativeScale": 0.7447447447447447,
+      "contentRect": [
+        36,
+        82,
+        248,
+        206
+      ],
+      "sha256": "829bb834858ec328f97126a1e40490d96893dad9dd9b0acf4271d5ef5481106f",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/raised_copper_foliage.png",
+      "name": "raised_copper_foliage",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        377,
+        785,
+        298,
+        283
+      ],
+      "nativeSourceRectXYXY": [
+        377,
+        785,
+        675,
+        1068
+      ],
+      "uniformNativeScale": 0.8322147651006712,
+      "contentRect": [
+        36,
+        52,
+        248,
+        236
+      ],
+      "sha256": "6c4c47dcb4bb8738fb2d491a3330a20a390e1544a6bb42d2760dfc6d09a9578c",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/books_and_scroll.png",
+      "name": "books_and_scroll",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        710,
+        829,
+        322,
+        241
+      ],
+      "nativeSourceRectXYXY": [
+        710,
+        829,
+        1032,
+        1070
+      ],
+      "uniformNativeScale": 0.7701863354037267,
+      "contentRect": [
+        36,
+        102,
+        248,
+        186
+      ],
+      "sha256": "2a13de6e6db9f17e2511df12281930c6ca7a02d624c39cdb306cb5c8528e5fb5",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/sanctum/stone_balustrade.png",
+      "name": "stone_balustrade",
+      "kind": "decorative_prop",
+      "family": "sanctum_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "source": "sources/sanctum_props_native.png",
+      "sourceNative": "sources/sanctum_props_native.png",
+      "nativeSourceRect": [
+        1033,
+        853,
+        410,
+        218
+      ],
+      "nativeSourceRectXYXY": [
+        1033,
+        853,
+        1443,
+        1071
+      ],
+      "uniformNativeScale": 1.2097560975609756,
+      "contentRect": [
+        40,
+        152,
+        496,
+        264
+      ],
+      "sha256": "470e5e77c6d8ecce7da176ecec55a3fac161d8e9a9fb86d90cfb8dd357d79467",
+      "placementPolicy": "Place from groundFootprintRect center; canvas/visual height is not collision. Decor only; preserve actual host occupancy.",
+      "existingGameplayId": null,
+      "actualUnityBindingVerified": false,
+      "collisionPolicy": "No automatic collider or gameplay occupancy; use actual existing scene declaration.",
+      "artSlotCells": [
+        2,
+        1
+      ]
+    }
+  ],
+  "clips": [],
+  "sources": [
+    {
+      "file": "sources/sanctum_sky_native.png",
+      "sha256": "f3ba48aaded6b841339f2e404266096774efd2af371bd25329baabbed78532b9",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-acdf9cfa-3563-48bf-acc0-528739d156eb.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "sky"
+    },
+    {
+      "file": "sources/sanctum_architecture_native.png",
+      "sha256": "9de8aa1296caba07df521d61211b85873db6754b263e95c37cfbe128a6423c3d",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-c9270111-6570-40b9-a62e-41c97b6cf0db.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "architecture"
+    },
+    {
+      "file": "sources/sanctum_sky_parts_native.png",
+      "sha256": "e9bfa7134a5b864a75e13ae50899067ee82a6a1ef2336332208c810b0fdea5e7",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-68ee4af2-216a-45e2-864d-79dc1e62e5ec.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "sky_parts"
+    },
+    {
+      "file": "sources/sanctum_props_native.png",
+      "sha256": "196f4f0c48ea9859e63bd008d531ae694f71f4079902d6b01ced2a36a977c90f",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-2e3671c0-f433-43e6-8778-2f023d7aaff2.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "props"
+    }
+  ],
+  "layerContract": {
+    "cameraConvention": "Orthographic camera on negative Z looking toward +Z. Confirm actual projection/near-far planes; positive Z in this contract is farther away. Use explicit sorting regardless of Z.",
+    "boardReferenceZ": 0,
+    "layers": [
+      {
+        "key": "sky",
+        "files": [
+          "backgrounds/sanctum/sky_base.png"
+        ],
+        "z": 9,
+        "sortingOrder": -1000,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "stars",
+        "files": [
+          "backgrounds/sanctum/stars/ivory_four_point.png",
+          "backgrounds/sanctum/stars/gold_four_point.png",
+          "backgrounds/sanctum/stars/ivory_eight_point.png",
+          "backgrounds/sanctum/stars/cyan_long_glint.png",
+          "backgrounds/sanctum/stars/gold_five_point.png",
+          "backgrounds/sanctum/stars/ivory_diamond.png",
+          "backgrounds/sanctum/stars/constellation_three.png",
+          "backgrounds/sanctum/stars/constellation_four.png"
+        ],
+        "z": 8,
+        "sortingOrder": -900,
+        "cameraParallax": 0.01,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 0.92
+      },
+      {
+        "key": "far_sanctuary_islands",
+        "files": [
+          "backgrounds/sanctum/far_library_island.png",
+          "backgrounds/sanctum/far_open_dome_island.png"
+        ],
+        "z": 7,
+        "sortingOrder": -850,
+        "cameraParallax": 0.08,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "far_clouds",
+        "files": [
+          "backgrounds/sanctum/clouds/cloud_0.png",
+          "backgrounds/sanctum/clouds/cloud_1.png"
+        ],
+        "z": 6,
+        "sortingOrder": -800,
+        "cameraParallax": 0.2,
+        "visualDriftUnitsPerSecond": 0.025,
+        "opacity": 0.72
+      },
+      {
+        "key": "side_dome_arches",
+        "files": [
+          "backgrounds/sanctum/frame_arch_left.png",
+          "backgrounds/sanctum/frame_arch_right.png"
+        ],
+        "z": 4,
+        "sortingOrder": -700,
+        "cameraParallax": 0.3,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "near_clouds",
+        "files": [
+          "backgrounds/sanctum/clouds/cloud_2.png",
+          "backgrounds/sanctum/clouds/cloud_3.png"
+        ],
+        "z": 2,
+        "sortingOrder": -600,
+        "cameraParallax": 0.45,
+        "visualDriftUnitsPerSecond": 0.045,
+        "opacity": 0.88
+      }
+    ],
+    "starsBehindClouds": true,
+    "starsNearFixed": true,
+    "allCloudsIndependent": true,
+    "moonAndPlanetsAbsent": true,
+    "pausePolicy": "Visual-only background drift; host pause may freeze it. No movement/cost/device logic from background clock.",
+    "centralBoardProtection": "Place distant islands and framing arches outside the board/camera-safe rectangle; cloud drift clips/wraps outside board and cannot obscure devices."
+  },
+  "nativeAssembly": [
+    {
+      "file": "backgrounds/sanctum/far_library_island.png",
+      "source": "sources/sanctum_architecture_native.png",
+      "crop": [
+        33,
+        8,
+        753,
+        561
+      ],
+      "uniformScale": 1.2151898734177216,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/far_open_dome_island.png",
+      "source": "sources/sanctum_architecture_native.png",
+      "crop": [
+        795,
+        12,
+        1505,
+        564
+      ],
+      "uniformScale": 1.2173913043478262,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/frame_arch_left.png",
+      "source": "sources/sanctum_architecture_native.png",
+      "crop": [
+        7,
+        480,
+        699,
+        1008
+      ],
+      "uniformScale": 0.8786127167630058,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/frame_arch_right.png",
+      "source": "sources/sanctum_architecture_native.png",
+      "crop": [
+        836,
+        481,
+        1531,
+        1008
+      ],
+      "uniformScale": 0.874820143884892,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_0.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        0,
+        116,
+        362,
+        262
+      ],
+      "uniformScale": 2.386740331491713,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_1.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        367,
+        116,
+        724,
+        253
+      ],
+      "uniformScale": 2.4201680672268906,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_2.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        727,
+        113,
+        1083,
+        259
+      ],
+      "uniformScale": 2.410958904109589,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/clouds/cloud_3.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        1086,
+        125,
+        1447,
+        253
+      ],
+      "uniformScale": 2.3933518005540164,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_four_point.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        28,
+        377,
+        335,
+        690
+      ],
+      "uniformScale": 0.5111821086261981,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        428,
+        417,
+        657,
+        652
+      ],
+      "uniformScale": 0.6808510638297872,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_eight_point.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        752,
+        377,
+        1060,
+        691
+      ],
+      "uniformScale": 0.5095541401273885,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/cyan_long_glint.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        1178,
+        378,
+        1357,
+        695
+      ],
+      "uniformScale": 0.5047318611987381,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/gold_five_point.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        34,
+        738,
+        325,
+        1018
+      ],
+      "uniformScale": 0.5498281786941581,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        479,
+        746,
+        606,
+        1017
+      ],
+      "uniformScale": 0.5904059040590406,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/constellation_three.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        753,
+        769,
+        1041,
+        1020
+      ],
+      "uniformScale": 0.8924302788844621,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "backgrounds/sanctum/stars/constellation_four.png",
+      "source": "sources/sanctum_sky_parts_native.png",
+      "crop": [
+        1117,
+        740,
+        1422,
+        1023
+      ],
+      "uniformScale": 0.7915194346289752,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/sanctum_column.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        94,
+        3,
+        263,
+        379
+      ],
+      "uniformScale": 1.4042553191489362,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/broken_column.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        409,
+        71,
+        661,
+        377
+      ],
+      "uniformScale": 0.9841269841269841,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/arch_doorway.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        712,
+        15,
+        1033,
+        370
+      ],
+      "uniformScale": 1.3971830985915492,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/library_shelf.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        1051,
+        165,
+        1445,
+        368
+      ],
+      "uniformScale": 1.2588832487309645,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/reading_lectern.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        57,
+        459,
+        329,
+        773
+      ],
+      "uniformScale": 0.9117647058823529,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/sanctum_lantern.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        421,
+        383,
+        633,
+        775
+      ],
+      "uniformScale": 1.169811320754717,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/armillary_instrument.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        769,
+        396,
+        1005,
+        774
+      ],
+      "uniformScale": 0.8888888888888888,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/raised_planter.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        1069,
+        465,
+        1430,
+        778
+      ],
+      "uniformScale": 0.6869806094182825,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/moss_bud_clump.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        19,
+        798,
+        352,
+        1075
+      ],
+      "uniformScale": 0.7447447447447447,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/raised_copper_foliage.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        377,
+        785,
+        675,
+        1068
+      ],
+      "uniformScale": 0.8322147651006712,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/books_and_scroll.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        710,
+        829,
+        1032,
+        1070
+      ],
+      "uniformScale": 0.7701863354037267,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    },
+    {
+      "file": "props/sanctum/stone_balustrade.png",
+      "source": "sources/sanctum_props_native.png",
+      "crop": [
+        1033,
+        853,
+        1443,
+        1071
+      ],
+      "uniformScale": 1.2097560975609756,
+      "sourceRgbRepaint": false,
+      "alphaCutoffBelow": 4,
+      "componentCleanup": "Keep main native connected component (all detached neighboring fragments excluded); 3px antialias support. No RGB repaint."
+    }
+  ],
+  "productionPolicy": "New native drawn imagery, cropped and uniformly resized without RGB repaint; small native alpha values under4 and detached neighboring-atlas components removed; only target main component retained. No RGB painting. No old pixel art runtime reuse.",
+  "actualUnityExecution": "NOT_RUN",
+  "actualProjectBindingsVerified": false
+}

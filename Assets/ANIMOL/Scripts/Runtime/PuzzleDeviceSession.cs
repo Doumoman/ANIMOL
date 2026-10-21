@@ -10,6 +10,12 @@ namespace ANIMOL.Puzzle
     public sealed class PuzzleDeviceSession : IPuzzleBoardState
     {
         public sealed class BeamCell { public Vector2Int cell, incoming, outgoing; public bool terminal; }
+        public sealed class BeamTrace
+        {
+            public string sourceId;
+            public Vector2Int emitter, heading;
+            public readonly List<BeamCell> cells = new List<BeamCell>();
+        }
         public PuzzleMap Map { get; }
         public PuzzleScenario Rules => Map.scenario;
         public Vector2Int Cell { get; private set; }
@@ -24,6 +30,7 @@ namespace ANIMOL.Puzzle
         public IReadOnlyList<PrototypeDevice> Devices => definitions;
         public IReadOnlyDictionary<string, PrototypeDeviceState> States => states;
         public readonly List<BeamCell> Beams = new List<BeamCell>();
+        public readonly List<BeamTrace> BeamTraces = new List<BeamTrace>();
         public readonly Dictionary<Vector2Int, Vector2Int> WindCells = new Dictionary<Vector2Int, Vector2Int>();
         readonly Dictionary<Vector2Int, string> windOwners = new Dictionary<Vector2Int, string>();
         readonly Dictionary<string, WindRoute> windRoutes = new Dictionary<string, WindRoute>(StringComparer.Ordinal);
@@ -57,7 +64,9 @@ namespace ANIMOL.Puzzle
             Failure = other.Failure; BoatId = other.BoatId; PortalCuts = other.PortalCuts;
             states = other.states.ToDictionary(p => p.Key, p => p.Value.Copy());
             collected = new HashSet<Vector2Int>(other.collected); visited = new HashSet<Vector2Int>(other.visited);
-            Beams.Clear(); Beams.AddRange(other.Beams); WindCells.Clear(); foreach (var p in other.WindCells) WindCells.Add(p.Key, p.Value);
+            Beams.Clear(); Beams.AddRange(other.Beams);
+            BeamTraces.Clear(); BeamTraces.AddRange(other.BeamTraces);
+            WindCells.Clear(); foreach (var p in other.WindCells) WindCells.Add(p.Key, p.Value);
             windOwners.Clear(); foreach (var p in other.windOwners) windOwners.Add(p.Key, p.Value);
             windRoutes.Clear(); foreach (var p in other.windRoutes) windRoutes.Add(p.Key, p.Value);
         }
@@ -534,10 +543,12 @@ namespace ANIMOL.Puzzle
         }
         public void TraceLight()
         {
-            Beams.Clear(); var lit = new HashSet<string>();
+            Beams.Clear(); BeamTraces.Clear(); var lit = new HashSet<string>();
             foreach (var source in definitions.Where(d => d.role == PrototypeRole.Optics && d.variant == "source" && !states[d.id].removed))
             {
                 var start = Beams.Count; var direction = states[source.id].direction; var p = states[source.id].cell + direction;
+                var trace = new BeamTrace { sourceId = source.id, emitter = states[source.id].cell, heading = direction };
+                BeamTraces.Add(trace);
                 var seen = new HashSet<string>();
                 while (Supported(p) && seen.Add(p + ":" + direction))
                 {
@@ -547,7 +558,8 @@ namespace ANIMOL.Puzzle
                     if (blocker != null) break;
                     var sensor = At(p, d => d.role == PrototypeRole.Optics && d.variant == "sensor"); if (sensor != null) lit.Add(sensor.id);
                     var outgoing = mirror == null ? direction : ReflectMirror(direction, states[mirror.id].phase == 0);
-                    Beams.Add(new BeamCell { cell = p, incoming = direction, outgoing = outgoing }); direction = outgoing; p += direction;
+                    var segment = new BeamCell { cell = p, incoming = direction, outgoing = outgoing };
+                    Beams.Add(segment); trace.cells.Add(segment); direction = outgoing; p += direction;
                 }
                 if (Beams.Count > start) Beams[Beams.Count - 1].terminal = true;
             }

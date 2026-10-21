@@ -25,6 +25,7 @@ namespace ANIMOL.Puzzle
         MemorySkyTheaterRenderer theater;
         EchoTheaterV02MapRenderer theaterV02;
         ClockDomeRenderer dome;
+        SunsetSanctumV02MapRenderer sanctumV02;
         TwilightCoastRenderer coast;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
@@ -55,7 +56,14 @@ namespace ANIMOL.Puzzle
                 coast.transform.SetParent(transform, false); coast.Bind(map, map.theme.twilightCoast);
             }
             else if (coast) { Remove(coast.gameObject); coast = null; }
-            if (map.theme && map.theme.clockDome)
+            if (map.theme && map.theme.sunsetSanctumV02Catalog)
+            {
+                if (!sanctumV02) sanctumV02 = new GameObject("Sunset Sanctum V02 world").AddComponent<SunsetSanctumV02MapRenderer>();
+                sanctumV02.transform.SetParent(transform, false);
+                sanctumV02.Bind(map, map.theme.sunsetSanctumV02Catalog);
+            }
+            else if (sanctumV02) { Remove(sanctumV02.gameObject); sanctumV02 = null; }
+            if (map.theme && map.theme.clockDome && !sanctumV02)
             {
                 if (!dome) dome = new GameObject("Clock dome environment").AddComponent<ClockDomeRenderer>();
                 dome.transform.SetParent(transform, false); dome.Bind(map, map.theme.clockDome);
@@ -130,12 +138,14 @@ namespace ANIMOL.Puzzle
             motion.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
         }
         public void RefreshNeighborhood(Vector2Int p)
-        { if (ranch) { ranch.Replan(); ranch.Show(visible); return; }
+        { if (sanctumV02) { sanctumV02.RefreshNeighborhood(p); return; }
+            if (ranch) { ranch.Replan(); ranch.Show(visible); return; }
             for (var y = -1; y <= 1; y++) for (var x = -1; x <= 1; x++) RefreshCell(p + new Vector2Int(x, y)); }
         public void RefreshCell(Vector2Int p)
         {
             RefreshedCells++;
             if (tiles.TryGetValue(p, out var old)) { Remove(old); tiles.Remove(p); }
+            if (sanctumV02) return;
             if (ranch) return;
             if ((dome || coast) && map.TryTerrain(p, out var domeCell))
             {
@@ -164,6 +174,9 @@ namespace ANIMOL.Puzzle
             }
             if (cell.blocked) Label(root.transform, "#", Vector2.zero, Color.white, 10);
         }
+        public bool HasSunsetSanctumV02 => sanctumV02;
+        public void ConfigureSunsetSanctumV02Background(Camera camera)
+        { if (sanctumV02) sanctumV02.ConfigureBackground(camera); }
         void DrawDevice(DeviceCell d)
         {
             if (ranch && map.theme.starwayRanch.v12Animations &&

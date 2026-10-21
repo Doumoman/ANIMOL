@@ -1,0 +1,63 @@
+{
+  "status": "PASS_OFFLINE",
+  "checks": {
+    "png_size_sha": true,
+    "distinct_animation_frames": true,
+    "alias_endpoint_identity": true,
+    "emitter_fixed_body_outside_iris": true,
+    "door_fixed_native_frame_core": true,
+    "glass_fixed_native_frame_core": true,
+    "mirror_plinth_outside_native_blade_sweep": true,
+    "mirror_pin_core_invariant": true,
+    "linked_gate_open_center_fully_transparent": true,
+    "glass_empty_center_transparent": true,
+    "glass_intact_center_transparent": true,
+    "all_alpha_within_logical_cell": true,
+    "all_one_cell_metadata": true,
+    "same_49_runtime_paths": true,
+    "same_24_clip_keys": true,
+    "emitter_20_logical_ray_anchors_at_cell_center": true,
+    "emitter_native_anchor_perpendicular_offset_zero": true,
+    "emitter_all_phases_fixed_native_iris_anchor": true,
+    "emitter_logical_boundary_outlet_unchanged": true,
+    "all_49_new_decoded_pixels": true,
+    "new_shared_arrow_source_exact": true
+  },
+  "failures": [],
+  "metadataCompatibility": {
+    "width": true,
+    "height": true,
+    "ppu": true,
+    "pivot": true,
+    "logicalRect": true,
+    "footprintCells": true,
+    "heading": true,
+    "family": true
+  },
+  "visualInspection": {
+    "angularNativeSilhouettes": true,
+    "roundHousingsRemoved": true,
+    "mirrorSquarePlinthAndDiamondPin": true,
+    "squareOrDiamondBoltHeads": true,
+    "flatBaseAndHardCelShadows": true,
+    "noV01BitmapFiltering": true,
+    "newNativeArrowHeadingsMatchOutlets": true,
+    "gateOpenCenterShowsHostFloor": true,
+    "glassCenterTrueTransparent": true,
+    "contactAndMotionInspected": "OFFLINE_ONLY",
+    "nativeSourceBackgroundRgbInAlphaZero": "Invisible native alpha0 RGB is not rendered; native transparent alpha is preserved."
+  },
+  "sameSourceBytesAsCommon": {
+    "file": "sources/sanctum_gate_parts_native.png",
+    "sha256": "aa5e1219a09411bf3e4e31758e06bcd3fbfdbe13bbe56157144145d3878532fd"
+  },
+  "runtimePngFiles": 49,
+  "clips": 24,
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualHostBinding": "NOT_RUN",
+  "limitations": [
+    "Source input semantics of mirror rotation are unresolved and must use actual host rules.",
+    "Motion GIF is authored art playback only, not an engine capture."
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "status": "SOURCE_CONTRACT_CHECKED",
+  "scope": "Lexical/source contracts and exact V01-to-V02 rename equivalence, plus current V02 layout/effects/map DTO validation against the canonical catalog. Offline static checks only; no C# or Unity execution.",
+  "files": {
+    "Editor/SunsetSanctumV02ArtReviewSceneBuilder.cs": {
+      "sha256": "8038c418ae1d8ced9b59f39557c08a273ddc27b6852ef83f3b7e4de9eb0a320d",
+      "lexicalDelimiters": "PASS",
+      "sameAsFinalV01AfterVersionRename": true,
+      "finalV01SourceSha256": "1a04cbc49e9cedc150440ff62fe03858f3d35ea5116149233249848949d235e1"
+    },
+    "Runtime/SunsetSanctumV02ArtReviewMarker.cs": {
+      "sha256": "4e265b2559919b43f1568cd6d3d708fc3fbf63726ea945a57828a7c80ba082ad",
+      "lexicalDelimiters": "PASS",
+      "sameAsFinalV01AfterVersionRename": true,
+      "finalV01SourceSha256": "246559449d95375c0821322a110a475b6c2c9acf61a717374a60754c98e1dc0d"
+    },
+    "Runtime/SunsetSanctumV02ArtReviewPlayback.cs": {
+      "sha256": "66eb2a6059acc87ac1747fdadb50573bf3ffec890c0b67ad9ba9e24f697d5228",
+      "lexicalDelimiters": "PASS",
+      "sameAsFinalV01AfterVersionRename": true,
+      "finalV01SourceSha256": "1568d37101eea18284c99a516fa1c01d812b3d0279e59731e678e59813017f91"
+    }
+  },
+  "versionPort": {
+    "equivalentToFinalV01AfterVersionRename": true,
+    "codeFilesCompared": 3,
+    "oldV01SymbolsRemaining": false,
+    "rootCodeModifiedByThisReview": false
+  },
+  "cli": {
+    "fullyQualifiedMethod": "ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02ArtReviewSceneBuilder.BuildFromCommandLine",
+    "zeroArgumentPublicStatic": true,
+    "requiredLayoutFlag": "-sanctumV02ReviewLayout"
+  },
+  "safeSceneScope": "Preflight latest catalog+pin before additive-new scene; loaded same-path review scene rejected; close only newly created scene and restore original active in nested finally.",
+  "strictLatestCatalogPin": true,
+  "reviewOnlyDoubleOptIn": true,
+  "nativeClipFpsPreserved": true,
+  "deferredLifecycle": {
+    "awakeOnlyAssignsTarget": true,
+    "startResolvesAfterConfiguration": true,
+    "updateRequiresApplicationPlayingAndReady": true,
+    "scaledTimePausePreserved": true
+  },
+  "optionalStaticBeam": {
+    "usesSharedRouteFactory": true,
+    "samplePayloadStatus": "PASS_OFFLINE",
+    "optionalFileAbsencePreservesOriginalSceneGeneration": true,
+    "privateSavedMeshAsset": true,
+    "privateSavedMaterialProperties": true,
+    "transientOwnedMeshSeparateFromSavedSnapshot": true,
+    "sourceEffectsSha256": "21143e82278c8c69b2d43483a196de7377e3e5ccded9f7ebd3e3b79e71a42cfc",
+    "cells": 7,
+    "pathLengthCells": 7,
+    "sortingOrder": 5,
+    "cardinalOrderAndIncomingContinuity": true,
+    "perpendicularMirrorTurn": "east->north at [6,8]",
+    "glassTransmitsBeforeMirror": true,
+    "terminalReceiverKey": "review_sensor",
+    "emitterGlassMirrorReceiverWorldCentersMatchNativeScene": true,
+    "staticSlashMirrorEndpoint": true,
+    "intermediateMirrorMotionRetrace": false,
+    "receiverLitAndLinkedGateOpen": true,
+    "worldSegmentsMatchSharedGridCellCenters": true,
+    "gridOriginMatchesMap": true,
+    "sourceFactoryAlgorithmComparedOffline": true,
+    "actualSharedCSharpFactoryExecution": "NOT_RUN"
+  },
+  "spriteOpacity": {
+    "default": 1,
+    "explicitZeroPreserved": true,
+    "finiteRange": [
+      0,
+      1
+    ],
+    "rendererColorAlphaOnly": true,
+    "suppliedRows": 156,
+    "explicitOpacityRows": 156,
+    "observedValues": [
+      0.55,
+      0.7,
+      0.75,
+      0.85,
+      0.88,
+      1
+    ],
+    "allFiniteAndInRange": true
+  },
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnitySceneGeneration": "NOT_RUN",
+  "actualUnitySceneReopen": "NOT_RUN",
+  "actualUnityShaderCompile": "NOT_RUN",
+  "actualUnityPlayMode": "NOT_RUN",
+  "actualProductionMigration": "NOT_RUN",
+  "sourceScenePayloads": [
+    {
+      "file": "review_scene_layout.json",
+      "sha256": "7a5f8b4e97dc37a129a1c69b4326ad36f771dd04d09aa96ec11a7b541655d682",
+      "sameBytesAsCanonicalPackage": true
+    },
+    {
+      "file": "review_scene_effects.json",
+      "sha256": "21143e82278c8c69b2d43483a196de7377e3e5ccded9f7ebd3e3b79e71a42cfc",
+      "sameBytesAsCanonicalPackage": true
+    },
+    {
+      "file": "review_map_layout.json",
+      "sha256": "996d91b0ce066afca604f3a298db5d2b1357d262ecd2ef42a24a2c21ba1d9c0e",
+      "sameBytesAsCanonicalPackage": true
+    }
+  ],
+  "sourceCatalogSha256": "6df7badeac05b62ed58c3f0916f7d9a872c1f6eb8cda11d13e532cbc5b793b56",
+  "layoutPayload": {
+    "status": "PASS_OFFLINE",
+    "staticSpriteRows": 156,
+    "motionRows": 12,
+    "uniqueNodeNames": 168,
+    "everyStaticPartUsesExactCatalogFileKey": true,
+    "allMotionKeysExistInCurrentCatalog": true,
+    "cameraAndClippingRangesValid": true,
+    "singleCameraCoverSky": true,
+    "backgroundLayerRows": 40,
+    "finitePositiveScaleAndPeriods": true,
+    "canonicalDtoBytesIdentical": true,
+    "actualUnityExecuted": false
+  },
+  "safeSceneScopeChecks": {
+    "preflightBeforeAdditiveCreation": true,
+    "onlyNewReviewSceneSavedAndClosed": true,
+    "nestedFinallyRestoresOriginalActiveScene": true,
+    "loadedSamePathReviewSceneRejected": true,
+    "noGlobalSaveAssetsOrSaveOpenScenes": true,
+    "privateGeneratedBeamMeshAndMaterialOnly": true,
+    "productionMapsBuildSettingsIdsAndUserUnsavedScenesUntouchedBySourceDesign": true,
+    "actualUnitySceneMutation": "NOT_RUN"
+  }
+}

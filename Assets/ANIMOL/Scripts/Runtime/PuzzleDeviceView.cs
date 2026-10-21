@@ -4,6 +4,7 @@ using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.DevicePatch01;
+using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -11,6 +12,12 @@ namespace ANIMOL.Puzzle
     public sealed class PuzzleDeviceView : MonoBehaviour
     {
         readonly Dictionary<string, DeviceVisualView> views = new Dictionary<string, DeviceVisualView>();
+        readonly Dictionary<string, SunsetSanctumV02PuzzleBinding> sanctumV02 =
+            new Dictionary<string, SunsetSanctumV02PuzzleBinding>(StringComparer.Ordinal);
+        readonly Dictionary<string, SunsetSanctumV02BeamRenderer> sanctumBeams =
+            new Dictionary<string, SunsetSanctumV02BeamRenderer>(StringComparer.Ordinal);
+        readonly Dictionary<string, string> sanctumBeamSignatures =
+            new Dictionary<string, string>(StringComparer.Ordinal);
         readonly Dictionary<string, Transform> roots = new Dictionary<string, Transform>();
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
@@ -44,6 +51,24 @@ namespace ANIMOL.Puzzle
             }
             foreach (var d in session.Devices)
             {
+                if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(d))
+                {
+                    if (!session.Map.theme || !session.Map.theme.sunsetSanctumV02Catalog || !d.visualPrefab)
+                    { MissingBindings++; Debug.LogError("Sunset Sanctum V02 catalog or prefab is missing: " + d.id, this); continue; }
+                    var instance = Instantiate(d.visualPrefab, transform);
+                    instance.name = d.id;
+                    instance.transform.localPosition = (Vector2)session.States[d.id].cell;
+                    try
+                    {
+                        var binding = new SunsetSanctumV02PuzzleBinding(d, instance,
+                            session.Map.theme.sunsetSanctumV02Catalog);
+                        sanctumV02.Add(d.id, binding);
+                        roots.Add(d.id, instance.transform);
+                    }
+                    catch (Exception error)
+                    { MissingBindings++; Debug.LogError("Sunset Sanctum V02 binding failed: " + error, instance); instance.SetActive(false); }
+                    continue;
+                }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
                 var ferry = root.GetComponent<FerryVisualView>();
@@ -95,7 +120,21 @@ namespace ANIMOL.Puzzle
                     }
                 }
             }
-            if (session.Rules.beamPrefab) { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
+            if (session.Rules.themeId == "letter_observatory" && session.Map.theme &&
+                session.Map.theme.sunsetSanctumV02Catalog)
+            {
+                foreach (var trace in session.BeamTraces)
+                {
+                    var go = new GameObject("V02 light route " + trace.sourceId);
+                    go.transform.SetParent(transform, false);
+                    var renderer = go.AddComponent<SunsetSanctumV02BeamRenderer>();
+                    renderer.Configure(session.Map.theme.sunsetSanctumV02BeamMaterial, "Default", 24);
+                    sanctumBeams.Add(trace.sourceId, renderer);
+                }
+                SyncSanctumBeams();
+            }
+            else if (session.Rules.beamPrefab)
+            { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
             Settle();
         }
         static bool HasV03DeviceArt(PrototypeRole role)
@@ -137,6 +176,11 @@ namespace ANIMOL.Puzzle
         }
         public void Notify(PrototypeEvent e, string actionId)
         {
+            if (sanctumV02.TryGetValue(e.actor ?? "", out var sanctum))
+            {
+                if (!sanctum.Notify(e, session.States[e.actor], session.Cost, windFeedbackDuration)) MissingBindings++;
+                return;
+            }
             if (!views.TryGetValue(e.actor ?? "", out var view)) return;
             var definition = session.Definition(e.actor);
             if (diceVisualMap != null && definition != null && definition.role == PrototypeRole.Dice &&
@@ -205,6 +249,76 @@ namespace ANIMOL.Puzzle
         {
             foreach (var renderer in windRoutes.Values)
                 if (renderer) renderer.SetActionProgress01(progress);
+            foreach (var beam in sanctumBeams.Values)
+                if (beam) beam.SetNormalizedProgress(progress);
+        }
+        static SanctumHeading LightHeading(Vector2Int direction)
+        {
+            if (direction == Vector2Int.right) return SanctumHeading.East;
+            if (direction == Vector2Int.up) return SanctumHeading.North;
+            if (direction == Vector2Int.left) return SanctumHeading.West;
+            if (direction == Vector2Int.down) return SanctumHeading.South;
+            throw new ArgumentException("Authoritative light direction is not cardinal.");
+        }
+        static SanctumCell LightCell(Vector2Int cell) => new SanctumCell(cell.x, cell.y);
+
+        SanctumLightRoute ConvertAuthoritativeTrace(PuzzleDeviceSession.BeamTrace trace)
+        {
+            var cells = new List<SanctumLightCell>(trace.cells.Count);
+            foreach (var segment in trace.cells)
+            {
+                var sensor = session.Devices.FirstOrDefault(d => d.role == PrototypeRole.Optics &&
+                    d.variant == "sensor" && !session.States[d.id].removed &&
+                    session.States[d.id].cell == segment.cell);
+                var kind = sensor != null ? SanctumLightCellKind.Receiver :
+                    segment.incoming != segment.outgoing ? SanctumLightCellKind.Mirror : SanctumLightCellKind.Open;
+                var visit = new SanctumLightVisit(kind, sensor != null ? sensor.id : null, false);
+                cells.Add(new SanctumLightCell(LightCell(segment.cell), LightHeading(segment.incoming),
+                    LightHeading(segment.outgoing), visit));
+            }
+            var stop = trace.cells.Count == 0 ? SanctumLightStop.RangeEnd :
+                session.Supported(trace.cells[trace.cells.Count - 1].cell +
+                    trace.cells[trace.cells.Count - 1].outgoing) ? SanctumLightStop.Opaque : SanctumLightStop.Void;
+            return SanctumLightRoute.FromAuthoritativeTrace(LightCell(trace.emitter),
+                LightHeading(trace.heading), cells, stop);
+        }
+
+        static string BeamSignature(PuzzleDeviceSession.BeamTrace trace)
+        {
+            var value = trace.emitter + ":" + trace.heading;
+            foreach (var cell in trace.cells)
+                value += ";" + cell.cell + ":" + cell.incoming + ":" + cell.outgoing;
+            return value;
+        }
+
+        void SyncSanctumBeams()
+        {
+            var presentSources = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var trace in session.BeamTraces)
+            {
+                presentSources.Add(trace.sourceId);
+                SunsetSanctumV02BeamRenderer renderer;
+                if (!sanctumBeams.TryGetValue(trace.sourceId, out renderer)) continue;
+                string signature = BeamSignature(trace), previous;
+                if (sanctumBeamSignatures.TryGetValue(trace.sourceId, out previous) && previous == signature) continue;
+                var route = ConvertAuthoritativeTrace(trace);
+                renderer.SetRoute(route, transform, new Vector2(-.5f, -.5f), 1f);
+                sanctumBeamSignatures[trace.sourceId] = signature;
+            }
+            foreach (var pair in sanctumBeams)
+            {
+                if (presentSources.Contains(pair.Key)) continue;
+                if (sanctumBeamSignatures.Remove(pair.Key)) pair.Value.HideBeam();
+            }
+        }
+
+        public void CommitSanctumBeamAction()
+        {
+            if (sanctumBeams.Count == 0) return;
+            SyncSanctumBeams();
+            foreach (var pair in sanctumBeams)
+                if (sanctumBeamSignatures.ContainsKey(pair.Key))
+                    pair.Value.PlayCommittedAction(true, session.Cost, windFeedbackDuration);
         }
         void SettleWindRoutes()
         {
@@ -223,11 +337,15 @@ namespace ANIMOL.Puzzle
         }
         void OnDestroy()
         {
+            foreach (var binding in sanctumV02.Values) binding.Dispose();
+            foreach (var beam in sanctumBeams.Values)
+                if (beam) { beam.HideBeam(); beam.ResetActionSequence(); }
             foreach (var route in windRoutes.Values)
                 if (route) { route.HideRoute(); route.ResetActionSequence(); }
         }
         void Update()
         {
+            foreach (var binding in sanctumV02.Values) binding.Update();
             foreach (var id in pendingIdle.Keys.ToArray())
             {
                 var view = views[id];
@@ -241,9 +359,13 @@ namespace ANIMOL.Puzzle
         public void Settle()
         {
             SettleWindRoutes();
+            if (sanctumBeams.Count > 0)
+            { SyncSanctumBeams(); foreach (var beam in sanctumBeams.Values) beam.CompleteAction(); }
             foreach (var d in session.Devices)
             {
                 var s = session.States[d.id];
+                if (sanctumV02.TryGetValue(d.id, out var sanctum))
+                { if (!sanctum.Settle(s)) MissingBindings++; continue; }
                 if (!roots.TryGetValue(d.id, out var root) || !views.TryGetValue(d.id, out var view)) continue;
                 root.localPosition = (Vector2)s.cell;
                 if (s.removed)

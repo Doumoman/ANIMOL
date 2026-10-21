@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "mode": "runtime-only",
+  "status": "PASS_OFFLINE",
+  "scope": "Runtime PNG decode/SHA, catalog/importer/alias/group closure, terrain and scene/layout metadata, source-code API contracts. Full mode also verifies authoring/native provenance files; runtime-only omits only those optional original-file checks. Unity execution and installed binding are not tested.",
+  "skippedChecks": [
+    "External old-pixel baseline byte comparison: original baseline is not installed; no zero-reuse claim is made by this run.",
+    "Optional sources/production PNG existence, decode and byte SHA checks.",
+    "Optional native atlas file existence and byte SHA checks.",
+    "External frozen authoring exports: package-local group metadata and every runtime SHA are checked instead."
+  ],
+  "manifestSha256": "6bb51d4c5f0f032e5ac0a121e645699b7e6b947f6c3f5c90573cc429fd3a0bfe",
+  "catalogSha256": "6df7badeac05b62ed58c3f0916f7d9a872c1f6eb8cda11d13e532cbc5b793b56",
+  "stats": {
+    "runtimePngDecoded": 1024,
+    "runtimeAssets": 1024,
+    "clips": 106,
+    "exactFamilyHeadingStateTuples": 106,
+    "uniqueAnimationFrameFiles": 176,
+    "staticPartKeys": 1024,
+    "exactImporterEntries": 1024,
+    "endpointAliases": 35,
+    "nativeSourcesDeclared": 18,
+    "nativeSourceFilesVerified": 0,
+    "sourceAndProductionPngRefsVerified": 0,
+    "sourceAndProductionPngRefsDeclared": 26,
+    "oldPixelBaselineComparison": "NOT_AVAILABLE",
+    "oldPixelBaselineHashes": 0,
+    "oldPixelRuntimeMatches": null,
+    "groupReports": [
+      {
+        "group": "terrain",
+        "manifestSha256": "7f57c7d79db0af3bd484bff30c46219a6791478589ce0429afbf2bb3e7086f31",
+        "assets": 784,
+        "clips": 0,
+        "comparisonSource": "package-local group manifest"
+      },
+      {
+        "group": "scenery",
+        "manifestSha256": "227125081500b2fe7b8298d60e6fd3ddd19068a8bef47d8ddc0256c8bb3b304e",
+        "assets": 29,
+        "clips": 0,
+        "comparisonSource": "package-local group manifest"
+      },
+      {
+        "group": "common",
+        "manifestSha256": "3cef86561b5d1eac9ad8ce0385bcfbad2ccd4141e94f6e552b510dc4e0bf1762",
+        "assets": 66,
+        "clips": 40,
+        "comparisonSource": "package-local group manifest"
+      },
+      {
+        "group": "movement",
+        "manifestSha256": "a06dafff1a5d6506d83d2f970f5c119f0a90097492e876e6a022874c376902bc",
+        "assets": 96,
+        "clips": 42,
+        "comparisonSource": "package-local group manifest"
+      },
+      {
+        "group": "optics",
+        "manifestSha256": "a6f4caedbb636789e50fc4225b1ae9b2c9203da7c750249896af8442cdfcf4cb",
+        "assets": 49,
+        "clips": 24,
+        "comparisonSource": "package-local group manifest"
+      }
+    ],
+    "sceneLayout": {
+      "backgroundLayersVerified": 40,
+      "reviewFixture": "CHECKED",
+      "staticObjects": 156,
+      "motionObjects": 12,
+      "runtimePngRefs": 120,
+      "tileMasksAndAnchors": 88
+    }
+  },
+  "errors": [],
+  "errorCount": 0,
+  "warnings": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false,
+  "actualLegacyReferencesZeroVerified": false
+}

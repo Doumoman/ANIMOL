@@ -43,7 +43,9 @@ namespace ANIMOL.Puzzle
             Player = CharacterVisual ? CharacterVisual.transform.parent : renderer.transform;
             var cam = Camera.main; if (!cam) { cam = new GameObject("Main Camera").AddComponent<Camera>(); cam.tag = "MainCamera"; }
             FollowCamera = cam.GetComponent<PuzzleFollowCamera>(); if (!FollowCamera) FollowCamera = cam.gameObject.AddComponent<PuzzleFollowCamera>(); FollowCamera.Configure(RuntimeMap, Player);
-            if (RuntimeMap.theme.starwayRanch)
+            if (view.HasSunsetSanctumV02)
+                view.ConfigureSunsetSanctumV02Background(cam);
+            else if (RuntimeMap.theme.starwayRanch)
                 StarwayRanchBackground.Create(presentation, cam, RuntimeMap.theme.starwayRanch);
             else
             {
@@ -69,6 +71,7 @@ namespace ANIMOL.Puzzle
                 foreach (var cue in result.events) if (cue.kind == PrototypeEventKind.Visual) Devices.Notify(cue, "reject:" + (++rejectedVisualSerial));
                 return false;
             }
+            Devices.CommitSanctumBeamAction();
             IsMoving = true; StartCoroutine(Animate(result)); return true;
         }
         IEnumerator Animate(PrototypeAction result)

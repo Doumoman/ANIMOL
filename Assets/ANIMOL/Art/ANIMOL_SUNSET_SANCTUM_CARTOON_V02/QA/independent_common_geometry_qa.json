@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "group": "common",
+  "status": "PASS_OFFLINE",
+  "scope": "Independent decoded RGBA fixed hardware/denial/body/heading motion/slot geometry and source-bound metadata only. Not actual Unity behavior.",
+  "checks": {
+    "common": {
+      "manifestSha256": "3cef86561b5d1eac9ad8ce0385bcfbad2ccd4141e94f6e552b510dc4e0bf1762",
+      "gates": [
+        {
+          "heading": "east",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "north",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "west",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        },
+        {
+          "heading": "south",
+          "outside98pxDenialMarkerExactlyClosed": true,
+          "entireRailStripsRgbaStable": true,
+          "checkedRailStripPixels": 23552,
+          "openExactlyEqualsFixedNativeBase": true,
+          "clearancePixels": 164,
+          "logicalWidthFraction": 0.640625,
+          "actualGameOccupancyVerified": false
+        }
+      ],
+      "conveyors": [
+        {
+          "heading": "east",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.3571128198966719,
+          "motionPngOffsetPixels": [
+            21,
+            0
+          ],
+          "worldTravel": [
+            1,
+            0
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.3031659257479273
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.2263757058752853
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.5432611438183348
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.459735071488646
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "north",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.5207557371140213,
+          "motionPngOffsetPixels": [
+            0,
+            -21
+          ],
+          "worldTravel": [
+            0,
+            1
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.17865403099843807
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.18454133125075092
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.1891370299170972
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 0.18203322119428092
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "west",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.34332572389763305,
+          "motionPngOffsetPixels": [
+            -21,
+            0
+          ],
+          "worldTravel": [
+            -1,
+            0
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.6834900276342666
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.4580454763907245
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.397618046377508
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": -21,
+              "meanRgbaByteDifferenceAfterShift": 1.4718926468821338
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        },
+        {
+          "heading": "south",
+          "outsideNativeBeltExactlyStable": true,
+          "firstPhaseWorldTravelMatchFraction": 0.4085666226120389,
+          "motionPngOffsetPixels": [
+            0,
+            21
+          ],
+          "worldTravel": [
+            0,
+            -1
+          ],
+          "allFourLoopTransitions": [
+            {
+              "transition": [
+                0,
+                1
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.8824642556770395
+            },
+            {
+              "transition": [
+                1,
+                2
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 1.7296422563979335
+            },
+            {
+              "transition": [
+                2,
+                3
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 2.145868376787216
+            },
+            {
+              "transition": [
+                3,
+                0
+              ],
+              "bestPngShiftPixels": 21,
+              "meanRgbaByteDifferenceAfterShift": 2.2324582482278026
+            }
+          ],
+          "exactRgbaMatchIsNotRequiredForSemitransparentNativeCompositing": true
+        }
+      ],
+      "corners": [
+        {
+          "corner": "ne",
+          "centralOpaqueFraction": 0.02015625,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "nw",
+          "centralOpaqueFraction": 0.0258203125,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "se",
+          "centralOpaqueFraction": 0.023984375,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        },
+        {
+          "corner": "sw",
+          "centralOpaqueFraction": 0.0381640625,
+          "entireRailStripsExactlyStable": true,
+          "actualHostReflectionMappingVerified": false
+        }
+      ],
+      "brakes": [
+        {
+          "travelAxis": "horizontal",
+          "stopbarAxis": "vertical",
+          "outerFrameExactlyStable": true,
+          "noTransportArrow": true
+        },
+        {
+          "travelAxis": "vertical",
+          "stopbarAxis": "horizontal",
+          "outerFrameExactlyStable": true,
+          "noTransportArrow": true
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "errorCount": 0,
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

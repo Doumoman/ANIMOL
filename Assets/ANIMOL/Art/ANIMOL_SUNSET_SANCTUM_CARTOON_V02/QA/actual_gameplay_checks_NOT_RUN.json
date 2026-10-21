@@ -1,0 +1,785 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "status": "NOT_RUN",
+  "reason": "Original Unity game project is unavailable; package/CPU preview checks cannot prove installed behavior.",
+  "caseCount": 86,
+  "passedActualUnityCases": 0,
+  "cases": [
+    {
+      "caseId": "SSV01-001",
+      "device": "09 gate",
+      "scenario": "east / allowed",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-002",
+      "device": "09 gate",
+      "scenario": "east / opposite",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-003",
+      "device": "09 gate",
+      "scenario": "east / left_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-004",
+      "device": "09 gate",
+      "scenario": "east / right_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-005",
+      "device": "09 gate",
+      "scenario": "east / blocked output",
+      "expected": "No opening; output cell checked but not registered as gate occupancy; actor and costs unchanged.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-006",
+      "device": "07 conveyor",
+      "scenario": "east / direction and blocker",
+      "expected": "Arrow/deck motion equals actual forced travel; trace stops before actual blocker; no extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-007",
+      "device": "03 jump",
+      "scenario": "east / accepted3cell jump",
+      "expected": "Landing exactly3cells away in unchanged world heading; path feedback matches host; fixed pad remains in source tile.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-008",
+      "device": "16 portal",
+      "scenario": "east / walking",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-009",
+      "device": "16 portal",
+      "scenario": "east / sliding",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-010",
+      "device": "16 portal",
+      "scenario": "east / blocked output",
+      "expected": "Stop before entrance; impossible first walk0cost; already accepted slide retains only prior cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-011",
+      "device": "14 magnet",
+      "scenario": "east / metal vs wood",
+      "expected": "Pull only collinear marked metal toward magnet, stopping before obstacle. Wood does not move.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-012",
+      "device": "09 gate",
+      "scenario": "north / allowed",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-013",
+      "device": "09 gate",
+      "scenario": "north / opposite",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-014",
+      "device": "09 gate",
+      "scenario": "north / left_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-015",
+      "device": "09 gate",
+      "scenario": "north / right_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-016",
+      "device": "09 gate",
+      "scenario": "north / blocked output",
+      "expected": "No opening; output cell checked but not registered as gate occupancy; actor and costs unchanged.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-017",
+      "device": "07 conveyor",
+      "scenario": "north / direction and blocker",
+      "expected": "Arrow/deck motion equals actual forced travel; trace stops before actual blocker; no extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-018",
+      "device": "03 jump",
+      "scenario": "north / accepted3cell jump",
+      "expected": "Landing exactly3cells away in unchanged world heading; path feedback matches host; fixed pad remains in source tile.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-019",
+      "device": "16 portal",
+      "scenario": "north / walking",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-020",
+      "device": "16 portal",
+      "scenario": "north / sliding",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-021",
+      "device": "16 portal",
+      "scenario": "north / blocked output",
+      "expected": "Stop before entrance; impossible first walk0cost; already accepted slide retains only prior cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-022",
+      "device": "14 magnet",
+      "scenario": "north / metal vs wood",
+      "expected": "Pull only collinear marked metal toward magnet, stopping before obstacle. Wood does not move.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-023",
+      "device": "09 gate",
+      "scenario": "west / allowed",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-024",
+      "device": "09 gate",
+      "scenario": "west / opposite",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-025",
+      "device": "09 gate",
+      "scenario": "west / left_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-026",
+      "device": "09 gate",
+      "scenario": "west / right_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-027",
+      "device": "09 gate",
+      "scenario": "west / blocked output",
+      "expected": "No opening; output cell checked but not registered as gate occupancy; actor and costs unchanged.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-028",
+      "device": "07 conveyor",
+      "scenario": "west / direction and blocker",
+      "expected": "Arrow/deck motion equals actual forced travel; trace stops before actual blocker; no extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-029",
+      "device": "03 jump",
+      "scenario": "west / accepted3cell jump",
+      "expected": "Landing exactly3cells away in unchanged world heading; path feedback matches host; fixed pad remains in source tile.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-030",
+      "device": "16 portal",
+      "scenario": "west / walking",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-031",
+      "device": "16 portal",
+      "scenario": "west / sliding",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-032",
+      "device": "16 portal",
+      "scenario": "west / blocked output",
+      "expected": "Stop before entrance; impossible first walk0cost; already accepted slide retains only prior cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-033",
+      "device": "14 magnet",
+      "scenario": "west / metal vs wood",
+      "expected": "Pull only collinear marked metal toward magnet, stopping before obstacle. Wood does not move.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-034",
+      "device": "09 gate",
+      "scenario": "south / allowed",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-035",
+      "device": "09 gate",
+      "scenario": "south / opposite",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-036",
+      "device": "09 gate",
+      "scenario": "south / left_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-037",
+      "device": "09 gate",
+      "scenario": "south / right_side",
+      "expected": "Exactly1occupiedcell; allowed opens only after validated entry+output; other3 stay closed with redX and0movement/cost/turn.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-038",
+      "device": "09 gate",
+      "scenario": "south / blocked output",
+      "expected": "No opening; output cell checked but not registered as gate occupancy; actor and costs unchanged.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-039",
+      "device": "07 conveyor",
+      "scenario": "south / direction and blocker",
+      "expected": "Arrow/deck motion equals actual forced travel; trace stops before actual blocker; no extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-040",
+      "device": "03 jump",
+      "scenario": "south / accepted3cell jump",
+      "expected": "Landing exactly3cells away in unchanged world heading; path feedback matches host; fixed pad remains in source tile.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-041",
+      "device": "16 portal",
+      "scenario": "south / walking",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-042",
+      "device": "16 portal",
+      "scenario": "south / sliding",
+      "expected": "Preserve world heading and move state. Walk finishes1cell beyond pair; slide continues. No extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-043",
+      "device": "16 portal",
+      "scenario": "south / blocked output",
+      "expected": "Stop before entrance; impossible first walk0cost; already accepted slide retains only prior cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-044",
+      "device": "14 magnet",
+      "scenario": "south / metal vs wood",
+      "expected": "Pull only collinear marked metal toward magnet, stopping before obstacle. Wood does not move.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-045",
+      "device": "18 corner",
+      "scenario": "ne / face and clearance",
+      "expected": "Thin L passable channel; actual callback determines accepted90degree reflection; blocked/nonreflecting faces handled by host.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-046",
+      "device": "18 corner",
+      "scenario": "nw / face and clearance",
+      "expected": "Thin L passable channel; actual callback determines accepted90degree reflection; blocked/nonreflecting faces handled by host.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-047",
+      "device": "18 corner",
+      "scenario": "se / face and clearance",
+      "expected": "Thin L passable channel; actual callback determines accepted90degree reflection; blocked/nonreflecting faces handled by host.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-048",
+      "device": "18 corner",
+      "scenario": "sw / face and clearance",
+      "expected": "Thin L passable channel; actual callback determines accepted90degree reflection; blocked/nonreflecting faces handled by host.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-049",
+      "device": "19 brake",
+      "scenario": "horizontal / arrival",
+      "expected": "Perpendicular stopbars; forced chain ends in same cell; no rebound/new cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-050",
+      "device": "19 brake",
+      "scenario": "vertical / arrival",
+      "expected": "Perpendicular stopbars; forced chain ends in same cell; no rebound/new cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-051",
+      "device": "10 optics",
+      "scenario": "Beam straight",
+      "expected": "Emission arrow, world heading, centerline and receiver state agree.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-052",
+      "device": "10 optics",
+      "scenario": "Mirror slash/backslash",
+      "expected": "Both actual reflecting directions and fixed pivot verified; no self-invented rotate input.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-053",
+      "device": "10 optics",
+      "scenario": "Mirror clockwise/counterclockwise motion",
+      "expected": "Native frame sweep pins fixed; actual host state only changes according to authoritative turn event.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-054",
+      "device": "10 optics",
+      "scenario": "Opaque wall,wood,metal,player blocker",
+      "expected": "No beam past first opaque occupied cell; receiver/gate react to same trace.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-055",
+      "device": "10 optics",
+      "scenario": "Intact glass in route",
+      "expected": "Beam continuous through glass while actor/wind collide with it.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-056",
+      "device": "10 optics",
+      "scenario": "Route interruption and restoration",
+      "expected": "Receiver and linked opening ON/OFF from current trace only, no stale glow latch.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-057",
+      "device": "10 optics",
+      "scenario": "Receiver-link symbol",
+      "expected": "Matched glyph visible both ends; actual link ID retained.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-058",
+      "device": "10 optics",
+      "scenario": "Cycle or multiple light source",
+      "expected": "Existing host loop/merge semantics retained; no infinite trace or double trigger.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-059",
+      "device": "14 magnet",
+      "scenario": "Switch OFF",
+      "expected": "No metal motion or pulsing active-field false positive.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-060",
+      "device": "14 magnet",
+      "scenario": "Wall or second crate blocks pull",
+      "expected": "No tunneling, overlap, diagonal pull or extra repeated move.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-061",
+      "device": "14 magnet",
+      "scenario": "Already blocked adjacent crate",
+      "expected": "No displacement; preserve actual accepted switch/action semantics.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-062",
+      "device": "14 magnet",
+      "scenario": "Paused or rejected action",
+      "expected": "No realtime per-frame force and no duplicate action sequence.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-063",
+      "device": "21 glass",
+      "scenario": "Intact collision",
+      "expected": "Body/box/wind blocked, light transmitted; impossible actor input0cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-064",
+      "device": "21 glass",
+      "scenario": "Bomb or statue hit",
+      "expected": "Authoritative break signal drives visual transition, opens path at existing host event.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-065",
+      "device": "21 glass",
+      "scenario": "Crack transition",
+      "expected": "No new2hit/health rule; crack frame never independently changes collision.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-066",
+      "device": "21 glass",
+      "scenario": "Open tile occupied by actor",
+      "expected": "Actor now blocks light while terrain remains walkable.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-067",
+      "device": "21 glass",
+      "scenario": "Broken endpoint and reset",
+      "expected": "No visual glass panel left blocking route; restart uses host state only.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-068",
+      "device": "03 jump",
+      "scenario": "Blocked landing",
+      "expected": "Use actual existing rule; source provides only safe draft, mark BLOCKED_PRECONDITION if no host rule resolved.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-069",
+      "device": "03 jump",
+      "scenario": "Exact activation input",
+      "expected": "Resolve existing host; do not invent a button or implicit activation.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-070",
+      "device": "03 jump",
+      "scenario": "Intermediate devices during jump",
+      "expected": "Resolve actual transit interactions; do not derive contacts from trajectory pixels.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-071",
+      "device": "16 portal",
+      "scenario": "Pair glyph independence",
+      "expected": "At least2pair identities distinguishable by shape, not only hue.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-072",
+      "device": "16 portal",
+      "scenario": "Blocked output preview before entry",
+      "expected": "Visible redX while actor stays before entrance; no vanishing dead end.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-073",
+      "device": "16 portal",
+      "scenario": "Pool/loop latch",
+      "expected": "No repeated teleport from visual frames; actual host guard retained.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-074",
+      "device": "global",
+      "scenario": "Valid vs invalid input",
+      "expected": "0change rejected input advances0turns; accepted automatic chains add0extra cost.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-075",
+      "device": "global",
+      "scenario": "Scene reload/pool reuse",
+      "expected": "Latest catalog,expectedSHA,heading,state rebind correctly; no legacy80PPU fallback.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-076",
+      "device": "global",
+      "scenario": "Grid size and occupancy",
+      "expected": "Visual ground rect matches actual registered integer cells; canvas/alpha padding never collider.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-077",
+      "device": "global",
+      "scenario": "Story-name transition",
+      "expected": "낙일 성소 first; 천구 날조국 only after actual approved story-completion flag.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-078",
+      "device": "global",
+      "scenario": "Frame pause and action feedback",
+      "expected": "Simulation remains authoritative; pause freezes host-controlled feedback and cannot advance state.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-079",
+      "device": "global",
+      "scenario": "Actual renderer pipeline",
+      "expected": "C#/shader import+compile,2D sorting/material compatibility and device hardware render checked.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-080",
+      "device": "global",
+      "scenario": "All legacy references zero",
+      "expected": "Audit actual Scene/Prefab/SO/Animator/Addressables/pools GUID+fileID refs, scoped family only.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-081",
+      "device": "environment",
+      "scenario": "Floor exposed+inner corners",
+      "expected": "All masks close; no spikes, seams or missing hole rims.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-082",
+      "device": "environment",
+      "scenario": "Joined underside2,3,4cells",
+      "expected": "Single joined silhouette with stable finished lower edge; no independent cell boxes.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-083",
+      "device": "environment",
+      "scenario": "Long connected underside",
+      "expected": "Stable interval variation without per-frame jitter or disconnected floating strips.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-084",
+      "device": "environment",
+      "scenario": "Wood/stone bridge H/V/corner/T/cross",
+      "expected": "Same-material connections continuous and fill declared slots.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-085",
+      "device": "environment",
+      "scenario": "Star-cloud ordering and camera response",
+      "expected": "Stars behind clouds, nearly fixed; clouds/near architecture respond more than stars.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "caseId": "SSV01-086",
+      "device": "environment",
+      "scenario": "Sky and theme finishing",
+      "expected": "No large moon/planet/Saturn; dome/props/tiles use matching flat angular style.",
+      "verificationType": "actual_unity",
+      "status": "NOT_RUN",
+      "evidence": null
+    }
+  ],
+  "v02EvidenceStatus": "SOURCE_CONTRACT_UNCHANGED; V02 offline native/art/file/geometry checks COMPLETE, actual Unity NOT_RUN."
+}

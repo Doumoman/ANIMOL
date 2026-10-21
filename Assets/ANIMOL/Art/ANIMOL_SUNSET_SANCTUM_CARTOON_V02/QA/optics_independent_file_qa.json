@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_OFFLINE",
+  "scope": "File SHA,dims,PPU,pivot,clip/alias closure,declared logical geometry and old-pixel reuse only; visual/host state authority requires independent review.",
+  "manifest": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v02/optics_exports/optics_manifest.json",
+  "manifestSha256": "a6f4caedbb636789e50fc4225b1ae9b2c9203da7c750249896af8442cdfcf4cb",
+  "runtimeAssets": 49,
+  "runtimeFamilies": {
+    "light_emitter": 20,
+    "light_receiver": 6,
+    "mirror": 7,
+    "light_gate": 7,
+    "glass_wall": 9
+  },
+  "clipCount": 24,
+  "clips": [
+    {
+      "key": "light_emitter.east.idle",
+      "family": "light_emitter",
+      "heading": "east",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_emitter.east.active",
+      "family": "light_emitter",
+      "heading": "east",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "light_emitter.north.idle",
+      "family": "light_emitter",
+      "heading": "north",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_emitter.north.active",
+      "family": "light_emitter",
+      "heading": "north",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "light_emitter.west.idle",
+      "family": "light_emitter",
+      "heading": "west",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_emitter.west.active",
+      "family": "light_emitter",
+      "heading": "west",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "light_emitter.south.idle",
+      "family": "light_emitter",
+      "heading": "south",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_emitter.south.active",
+      "family": "light_emitter",
+      "heading": "south",
+      "state": "active",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "light_receiver.none.unlit",
+      "family": "light_receiver",
+      "heading": "none",
+      "state": "unlit",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_receiver.none.lit",
+      "family": "light_receiver",
+      "heading": "none",
+      "state": "lit",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_receiver.none.activate",
+      "family": "light_receiver",
+      "heading": "none",
+      "state": "activate",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_receiver.none.deactivate",
+      "family": "light_receiver",
+      "heading": "none",
+      "state": "deactivate",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "mirror.none.slash",
+      "family": "mirror",
+      "heading": "none",
+      "state": "slash",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "mirror.none.backslash",
+      "family": "mirror",
+      "heading": "none",
+      "state": "backslash",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "mirror.none.slash_to_backslash",
+      "family": "mirror",
+      "heading": "none",
+      "state": "slash_to_backslash",
+      "frames": 5,
+      "uniqueDecodedFrames": 5,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "mirror.none.backslash_to_slash",
+      "family": "mirror",
+      "heading": "none",
+      "state": "backslash_to_slash",
+      "frames": 5,
+      "uniqueDecodedFrames": 5,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_gate.none.closed",
+      "family": "light_gate",
+      "heading": "none",
+      "state": "closed",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_gate.none.open",
+      "family": "light_gate",
+      "heading": "none",
+      "state": "open",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_gate.none.opening",
+      "family": "light_gate",
+      "heading": "none",
+      "state": "opening",
+      "frames": 5,
+      "uniqueDecodedFrames": 5,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "light_gate.none.closing",
+      "family": "light_gate",
+      "heading": "none",
+      "state": "closing",
+      "frames": 5,
+      "uniqueDecodedFrames": 5,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "glass_wall.none.intact",
+      "family": "glass_wall",
+      "heading": "none",
+      "state": "intact",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "glass_wall.none.open",
+      "family": "glass_wall",
+      "heading": "none",
+      "state": "open",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "glass_wall.none.cracked_feedback",
+      "family": "glass_wall",
+      "heading": "none",
+      "state": "cracked_feedback",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "glass_wall.none.break",
+      "family": "glass_wall",
+      "heading": "none",
+      "state": "break",
+      "frames": 6,
+      "uniqueDecodedFrames": 6,
+      "fps": 12,
+      "loop": false
+    }
+  ],
+  "endpointAliasesChecked": 13,
+  "nativeSourceReferencesChecked": 5,
+  "alphaInsideLogicalRect": {
+    "inside": 49,
+    "outside": 0
+  },
+  "oldPixelReusedFiles": [],
+  "errorCount": 0,
+  "errors": [],
+  "warnings": [],
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

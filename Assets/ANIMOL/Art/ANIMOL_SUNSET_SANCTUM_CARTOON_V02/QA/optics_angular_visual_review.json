@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "group": "optics",
+  "status": "PASS_OFFLINE_VISUAL",
+  "scope": "Independent native/contact/full-scene style review and separate SHA/RGBA/contract/geometry tests, never an actual Unity run.",
+  "manifestSha256": "a6f4caedbb636789e50fc4225b1ae9b2c9203da7c750249896af8442cdfcf4cb",
+  "nativeSourcesViewed": [
+    "sources/optics_emitter_receiver_angular_native.png",
+    "sources/optics_glass_break_angular_native.png",
+    "sources/optics_linked_door_angular_native.png",
+    "sources/optics_mirror_angular_native.png",
+    "sources/sanctum_gate_parts_native.png"
+  ],
+  "inspectionFilesViewed": [
+    "inspection/optics_all_frames.png"
+  ],
+  "findings": [
+    {
+      "item": "Faceted optics",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Four new optics native atlases and shared gateparts viewed. Lens/iris/window/housing polygonal and barrel prism-like, receiver angular linked glyph and diamond bolts."
+    },
+    {
+      "item": "Mirror and opening",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Square chamfered plinth, straight mirror arms and fixed native diamond pin visible through5 native yaw poses. Stepped linked gate and square glass frame keep clear open centers."
+    },
+    {
+      "item": "Registration exception",
+      "result": "PASS_OFFLINE_VISUAL",
+      "evidence": "Actual native iris is longitudinally offset for full one-cell body. This is disclosed visual-only; logical center160, transverse coordinate, boundary outlet and phases remain invariant. Pixel proof uses declared76px iris rectangle and native blade sweep, not retired V01 circular masks."
+    }
+  ],
+  "errorCount": 0,
+  "errors": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingsVerified": false
+}

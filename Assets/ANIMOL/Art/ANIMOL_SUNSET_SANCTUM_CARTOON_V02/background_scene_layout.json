@@ -1,0 +1,1712 @@
+{
+  "schemaVersion": 1,
+  "version": "V02",
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "theme": "낙일 성소",
+  "postStoryDisplayName": "천구 날조국",
+  "referenceScreenSize": [
+    1080,
+    1920
+  ],
+  "referencePixelsPerWorldUnit": 100,
+  "referenceCamera": {
+    "position": [
+      0,
+      0,
+      -10
+    ],
+    "orthographic": true,
+    "orthographicSize": 9.6,
+    "aspect": 0.5625,
+    "gameplayPlaneZ": 0,
+    "nearClipPlane": 0.1,
+    "farClipMinimumExclusive": 25
+  },
+  "sortingLayer": "Background",
+  "backgroundRoot": {
+    "position": [
+      0,
+      0,
+      0
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "parent": "World root, not camera or gameplay actor"
+  },
+  "skyBase": {
+    "file": "backgrounds/sanctum/sky_base.png",
+    "positionZ": 9,
+    "sortingOrder": -1000,
+    "coverOverscan": 0.08,
+    "nativeSize": [
+      1080,
+      1920
+    ],
+    "cameraMode": "cover",
+    "repeat": false
+  },
+  "motion": {
+    "time": "Visual-only Time.deltaTime, pause with host. No device/force/cost or gameplay transform updates.",
+    "depth": "z is far-to-near9/8/7/6/4/2; explicit sorting layer/order takes priority over Z. Stars behind EVERY cloud.",
+    "cameraResponse": "Reference multipliers are .01stars,.08farislands,.2farclouds,.3sidearches,.45nearclouds. Adapt the host rig formula without inverting relative sensitivity.",
+    "stars": "Zero drift, no twinkle, no spin; nearly screen-fixed.",
+    "wave": "Cloud amplitude*(sin(TAU*t/period+phase)-sin(phase)); independent visual drift only.",
+    "recycle": "No wrap in initial template. If host enables wrapping, wait until entire renderer is outside expanded view and adjust cached anchors; never teleport a visible cloud.",
+    "reducedMotion": "Freeze visual drift and rebase anchors; never modify actual game camera logic.",
+    "safety": "Template positions are illustrative; preserve actual camera safe area and keep board readable on variable maps."
+  },
+  "layers": [
+    {
+      "id": "main_star_0",
+      "file": "backgrounds/sanctum/stars/ivory_four_point.png",
+      "positionWorld": [
+        -4.4,
+        8.0,
+        8
+      ],
+      "localScale": [
+        1.0666666666666667,
+        1.0666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_1",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        0.825,
+        8.575,
+        8
+      ],
+      "localScale": [
+        0.8666666666666667,
+        0.8666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_2",
+      "file": "backgrounds/sanctum/stars/ivory_eight_point.png",
+      "positionWorld": [
+        3.75,
+        5.55,
+        8
+      ],
+      "localScale": [
+        1.4666666666666666,
+        1.4666666666666666,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_3",
+      "file": "backgrounds/sanctum/stars/cyan_long_glint.png",
+      "positionWorld": [
+        -4.125,
+        2.025,
+        8
+      ],
+      "localScale": [
+        1.0,
+        1.0,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_4",
+      "file": "backgrounds/sanctum/stars/gold_five_point.png",
+      "positionWorld": [
+        2.7,
+        -1.5,
+        8
+      ],
+      "localScale": [
+        1.8666666666666667,
+        1.8666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_5",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        2.6,
+        -7.3,
+        8
+      ],
+      "localScale": [
+        1.0666666666666667,
+        1.0666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_6",
+      "file": "backgrounds/sanctum/stars/constellation_three.png",
+      "positionWorld": [
+        -4.25,
+        -6.1,
+        8
+      ],
+      "localScale": [
+        1.0,
+        1.0,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "main_star_7",
+      "file": "backgrounds/sanctum/stars/constellation_four.png",
+      "positionWorld": [
+        1.75,
+        4.766666666666667,
+        8
+      ],
+      "localScale": [
+        1.2666666666666666,
+        1.2666666666666666,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_0",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        -4.183920792309269,
+        -8.624221069654155,
+        8
+      ],
+      "localScale": [
+        0.20881812357880417,
+        0.20881812357880417,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_1",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -4.036202156128927,
+        -7.33022431822424,
+        8
+      ],
+      "localScale": [
+        0.13671860364621297,
+        0.13671860364621297,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_2",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        4.330846402868931,
+        1.5108390677464463,
+        8
+      ],
+      "localScale": [
+        0.15369738045470083,
+        0.15369738045470083,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_3",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -3.7512908222025825,
+        5.981260685903679,
+        8
+      ],
+      "localScale": [
+        0.3151487164801039,
+        0.3151487164801039,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_4",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        3.4307449581692957,
+        5.685964898358826,
+        8
+      ],
+      "localScale": [
+        0.27257087668810426,
+        0.27257087668810426,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_5",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -1.4352466864111728,
+        6.8685287153880745,
+        8
+      ],
+      "localScale": [
+        0.1526243154449371,
+        0.1526243154449371,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_6",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        4.8240163455406355,
+        4.908662095415472,
+        8
+      ],
+      "localScale": [
+        0.20733752021916282,
+        0.20733752021916282,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_7",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -5.0582900307520156,
+        -2.8379768590698284,
+        8
+      ],
+      "localScale": [
+        0.16260833487962817,
+        0.16260833487962817,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_8",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        1.4992286960945103,
+        -1.8852463021774652,
+        8
+      ],
+      "localScale": [
+        0.2820876949061606,
+        0.2820876949061606,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_9",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        4.226159270055641,
+        -8.027793616995377,
+        8
+      ],
+      "localScale": [
+        0.19199892102956942,
+        0.19199892102956942,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_10",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        -4.862894240966498,
+        -0.45435262674373333,
+        8
+      ],
+      "localScale": [
+        0.26784299581546245,
+        0.26784299581546245,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_11",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -4.040002952736657,
+        4.854470122530052,
+        8
+      ],
+      "localScale": [
+        0.2852399531507415,
+        0.2852399531507415,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_12",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        -5.181461118171637,
+        -4.0885026646311395,
+        8
+      ],
+      "localScale": [
+        0.28838525906336715,
+        0.28838525906336715,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_13",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -1.5886010551769312,
+        3.2051242290493693,
+        8
+      ],
+      "localScale": [
+        0.2962701058464989,
+        0.2962701058464989,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_14",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        3.626974787709386,
+        -8.07484918336048,
+        8
+      ],
+      "localScale": [
+        0.21735318024104486,
+        0.21735318024104486,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_15",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        3.960910268825827,
+        6.040461962859052,
+        8
+      ],
+      "localScale": [
+        0.21706342288762984,
+        0.21706342288762984,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_16",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        3.7152215056349096,
+        5.723871192462428,
+        8
+      ],
+      "localScale": [
+        0.17513091927485822,
+        0.17513091927485822,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_17",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        4.8389894263457816,
+        4.149216027682061,
+        8
+      ],
+      "localScale": [
+        0.281203047837826,
+        0.281203047837826,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_18",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        -3.696171511485186,
+        -4.730536424001772,
+        8
+      ],
+      "localScale": [
+        0.2659879377341093,
+        0.2659879377341093,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_19",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -3.834237325437765,
+        -3.5127539205840237,
+        8
+      ],
+      "localScale": [
+        0.28716327905688993,
+        0.28716327905688993,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_20",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        2.7999877108372186,
+        -6.746407844407943,
+        8
+      ],
+      "localScale": [
+        0.3032719273560367,
+        0.3032719273560367,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_21",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -1.2138430890511989,
+        4.116095542847263,
+        8
+      ],
+      "localScale": [
+        0.3048489054731196,
+        0.3048489054731196,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_22",
+      "file": "backgrounds/sanctum/stars/gold_four_point.png",
+      "positionWorld": [
+        -3.730283407970071,
+        -1.0369520735573525,
+        8
+      ],
+      "localScale": [
+        0.16945223758265357,
+        0.16945223758265357,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "small_star_23",
+      "file": "backgrounds/sanctum/stars/ivory_diamond.png",
+      "positionWorld": [
+        -3.392323980990142,
+        8.553133976974506,
+        8
+      ],
+      "localScale": [
+        0.2488611619918576,
+        0.2488611619918576,
+        1
+      ],
+      "sortingOrder": -900,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.55
+      ],
+      "parallaxMultiplier": 0.01,
+      "cameraParallaxResponseReference": 0.01,
+      "nativeAssetPPU": 256,
+      "role": "star"
+    },
+    {
+      "id": "far_library",
+      "file": "backgrounds/sanctum/far_library_island.png",
+      "positionWorld": [
+        2.95,
+        6.363888888888889,
+        7
+      ],
+      "localScale": [
+        1.0444444444444445,
+        1.0444444444444445,
+        1
+      ],
+      "sortingOrder": -850,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.08,
+      "cameraParallaxResponseReference": 0.08,
+      "nativeAssetPPU": 256,
+      "role": "sanctuary_architecture"
+    },
+    {
+      "id": "far_open_dome",
+      "file": "backgrounds/sanctum/far_open_dome_island.png",
+      "positionWorld": [
+        -3.0,
+        -5.4125,
+        7
+      ],
+      "localScale": [
+        1.1,
+        1.1,
+        1
+      ],
+      "sortingOrder": -850,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.08,
+      "cameraParallaxResponseReference": 0.08,
+      "nativeAssetPPU": 256,
+      "role": "sanctuary_architecture"
+    },
+    {
+      "id": "far_cloud_west",
+      "file": "backgrounds/sanctum/clouds/cloud_0.png",
+      "positionWorld": [
+        -3.95,
+        4.007142857142857,
+        6
+      ],
+      "localScale": [
+        1.8571428571428572,
+        1.8571428571428572,
+        1
+      ],
+      "sortingOrder": -800,
+      "driftAmplitude": [
+        0.4,
+        0.08
+      ],
+      "driftPeriodSeconds": [
+        57,
+        73
+      ],
+      "phaseDegrees": 22,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.7
+      ],
+      "parallaxMultiplier": 0.2,
+      "cameraParallaxResponseReference": 0.2,
+      "nativeAssetPPU": 256,
+      "role": "cloud"
+    },
+    {
+      "id": "far_cloud_east",
+      "file": "backgrounds/sanctum/clouds/cloud_1.png",
+      "positionWorld": [
+        4.8,
+        -2.971428571428571,
+        6
+      ],
+      "localScale": [
+        1.8285714285714285,
+        1.8285714285714285,
+        1
+      ],
+      "sortingOrder": -800,
+      "driftAmplitude": [
+        0.5,
+        0.07
+      ],
+      "driftPeriodSeconds": [
+        61,
+        79
+      ],
+      "phaseDegrees": 176,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.75
+      ],
+      "parallaxMultiplier": 0.2,
+      "cameraParallaxResponseReference": 0.2,
+      "nativeAssetPPU": 256,
+      "role": "cloud"
+    },
+    {
+      "id": "arch_frame_west",
+      "file": "backgrounds/sanctum/frame_arch_left.png",
+      "positionWorld": [
+        -4.7,
+        0.5,
+        4
+      ],
+      "localScale": [
+        2.08,
+        2.08,
+        1
+      ],
+      "sortingOrder": -700,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.3,
+      "cameraParallaxResponseReference": 0.3,
+      "nativeAssetPPU": 256,
+      "role": "sanctuary_architecture"
+    },
+    {
+      "id": "arch_frame_east",
+      "file": "backgrounds/sanctum/frame_arch_right.png",
+      "positionWorld": [
+        5.1,
+        0.0,
+        4
+      ],
+      "localScale": [
+        2.08,
+        2.08,
+        1
+      ],
+      "sortingOrder": -700,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        51,
+        67
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "parallaxMultiplier": 0.3,
+      "cameraParallaxResponseReference": 0.3,
+      "nativeAssetPPU": 256,
+      "role": "sanctuary_architecture"
+    },
+    {
+      "id": "near_cloud_west",
+      "file": "backgrounds/sanctum/clouds/cloud_2.png",
+      "positionWorld": [
+        -3.0,
+        -8.971428571428572,
+        2
+      ],
+      "localScale": [
+        1.8285714285714285,
+        1.8285714285714285,
+        1
+      ],
+      "sortingOrder": -600,
+      "driftAmplitude": [
+        0.75,
+        0.1
+      ],
+      "driftPeriodSeconds": [
+        43,
+        61
+      ],
+      "phaseDegrees": 97,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.88
+      ],
+      "parallaxMultiplier": 0.45,
+      "cameraParallaxResponseReference": 0.45,
+      "nativeAssetPPU": 256,
+      "role": "cloud"
+    },
+    {
+      "id": "near_cloud_east",
+      "file": "backgrounds/sanctum/clouds/cloud_3.png",
+      "positionWorld": [
+        4.2,
+        -9.528571428571428,
+        2
+      ],
+      "localScale": [
+        1.7714285714285714,
+        1.7714285714285714,
+        1
+      ],
+      "sortingOrder": -600,
+      "driftAmplitude": [
+        0.85,
+        0.12
+      ],
+      "driftPeriodSeconds": [
+        47,
+        71
+      ],
+      "phaseDegrees": 238,
+      "twinkleAmount": 0,
+      "twinklePeriodSeconds": 7,
+      "wrapToView": false,
+      "guardWorld": [
+        0.5,
+        0.5
+      ],
+      "color": [
+        1,
+        1,
+        1,
+        0.88
+      ],
+      "parallaxMultiplier": 0.45,
+      "cameraParallaxResponseReference": 0.45,
+      "nativeAssetPPU": 256,
+      "role": "cloud"
+    }
+  ],
+  "actualUnityExecuted": false,
+  "actualPrefabBindingsVerified": false,
+  "actualProjectThemeId": null,
+  "storyNameSwitchPolicy": "Use actual campaign completion flag only. Never infer by time or replace project theme IDs."
+}

@@ -1,0 +1,66 @@
+{
+  "status": "SOURCE_BASELINE_INSPECTED",
+  "packageId": "ANIMOL_CLOCK_DOME_V01",
+  "manifestSha256": "a20af3842256c0596cbfff7119b597d21fe4b758452ddadf27bd3106637753cf",
+  "scope": "Clocktower observatory interior environment, modular floor and background architecture; no new puzzle devices or UI",
+  "allFileCount": 213,
+  "pngCount": 199,
+  "csharpCount": 0,
+  "declaredFileReferences": 156,
+  "declaredExistingFileReferences": 156,
+  "declaredMissingFileReferences": [],
+  "pngDimensionsHistogram": {
+    "(400, 560)": 12,
+    "(1680, 1952)": 1,
+    "(640, 480)": 2,
+    "(320, 400)": 5,
+    "(240, 240)": 2,
+    "(160, 80)": 4,
+    "(960, 400)": 1,
+    "(160, 160)": 1,
+    "(80, 240)": 9,
+    "(960, 640)": 1,
+    "(960, 960)": 3,
+    "(80, 80)": 143,
+    "(880, 652)": 1,
+    "(960, 480)": 1,
+    "(960, 800)": 1,
+    "(1280, 1632)": 1,
+    "(3520, 2608)": 1,
+    "(720, 508)": 1,
+    "(960, 1440)": 4,
+    "(800, 1052)": 4,
+    "(640, 240)": 1
+  },
+  "oldPPU": 80,
+  "oldTileSize": 80,
+  "oldOutlineWidthPixels": 1,
+  "oldAllowedPaletteColors": 16,
+  "oldAnimation": {
+    "pendulumFrameCount": 8,
+    "uniformFrameDurationMs": 400,
+    "fps": 2.5,
+    "ambientOnly": true
+  },
+  "gaps": [
+    "Old scope explicitly excludes new puzzle-device art and UI.",
+    "No C# source or strict latest-only animation catalog exists in this old package.",
+    "Old80PPU pixel/16-color/1px-outline output is obsolete for the current256PPU thick-outline flat-cartoon contract.",
+    "Old background baked three repeat layers do not prove requested independent star/cloud ordering or depth response.",
+    "Old per-tile undersides do not prove joined2/3/4-cell continuous body or stable long-span finishing."
+  ],
+  "migrationPolicy": {
+    "reuseOldRuntimePNG": false,
+    "reuseOldPaletteRestriction": false,
+    "actualUnityProjectFound": false,
+    "actualThemeIdVerified": false,
+    "actualDeviceIdsVerified": false,
+    "actualGameplayOccupancyVerified": false
+  },
+  "preserveFromSource": [
+    "Unrestricted map extents; environment is decorative and noncolliding.",
+    "Dome cap fixed-order assembly should never gain an outline at internal cuts.",
+    "Behind-board architectural layering; pivot and attachment stability."
+  ],
+  "v02EvidenceStatus": "SOURCE_CONTRACT_UNCHANGED; V02 offline native/art/file/geometry checks COMPLETE, actual Unity NOT_RUN."
+}

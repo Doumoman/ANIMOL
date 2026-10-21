@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "group": "common",
+  "status": "PASS_OFFLINE_VISUAL",
+  "scope": "Independent visual review of selected new native components and exported contact/scene previews, plus separate file/RGBA/invariant/geometry reports. Not Unity execution.",
+  "manifestSha256": "3cef86561b5d1eac9ad8ce0385bcfbad2ccd4141e94f6e552b510dc4e0bf1762",
+  "nativeSourcesViewed": [
+    "sources/sanctum_conveyor_decks_flat_native.png",
+    "sources/sanctum_corner_brake_flat_native.png",
+    "sources/sanctum_gate_bases_native.png",
+    "sources/sanctum_gate_parts_native.png"
+  ],
+  "inspectionFilesViewed": [
+    "inspection/common_devices_contact_sheet.png",
+    "inspection/oneway_gate_contact_sheet.png"
+  ],
+  "findings": [
+    {
+      "item": "Outer silhouettes and small hardware",
+      "result": "PASS_VISUAL",
+      "evidence": "Native4 and direction/state contact2 viewed. Diamond/square bolt heads, chamfered corners and straight frame/bar/arrow/X edges replace V01 softened fittings."
+    },
+    {
+      "item": "Open L and brake",
+      "result": "PASS_VISUAL",
+      "evidence": "Thin right-angle rails leave a large recognizable lane; small diagonal wedge is internal, not a solid block. Brake pads show transverse chamfered stopbars with no transport arrow."
+    },
+    {
+      "item": "Directions and open/denied state",
+      "result": "PASS_VISUAL_AND_PIXEL",
+      "evidence": "Four headings agree between deck, arrow, printed guide and scroll. Fully-open gate base clear, denied retains closed bar plus sharp X."
+    },
+    {
+      "item": "Native background versus output",
+      "result": "PASS_SCOPE",
+      "evidence": "Source atlas surround is not a runtime sky or production shape. Runtime crops have transparent padding. No smooth-circle primitive observed in native selected component silhouettes."
+    }
+  ],
+  "errorCount": 0,
+  "errors": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingsVerified": false
+}

@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "group": "optics",
+  "status": "PASS_OFFLINE",
+  "scope": "Independent decoded RGBA fixed hardware/denial/body/heading motion/slot geometry and source-bound metadata only. Not actual Unity behavior.",
+  "checks": {
+    "optics": {
+      "manifestSha256": "a6f4caedbb636789e50fc4225b1ae9b2c9203da7c750249896af8442cdfcf4cb",
+      "emitters": [
+        {
+          "heading": "east",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            85,
+            122,
+            161,
+            198
+          ],
+          "fixedVisiblePixels": 27665,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            123.449,
+            160.0
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            288,
+            160
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "north",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            122,
+            168,
+            198,
+            244
+          ],
+          "fixedVisiblePixels": 32346,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            160.0,
+            205.939
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            160,
+            32
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "west",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            161,
+            122,
+            237,
+            198
+          ],
+          "fixedVisiblePixels": 27956,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            198.814,
+            160.0
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            32,
+            160
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        },
+        {
+          "heading": "south",
+          "outsideNative76pxIrisExactlyStable": true,
+          "dynamicNativeIrisRectXYXY": [
+            122,
+            78,
+            198,
+            154
+          ],
+          "fixedVisiblePixels": 28051,
+          "logicalRayAnchor": [
+            160,
+            160
+          ],
+          "nativeIrisVisualAnchor": [
+            160.0,
+            116.134
+          ],
+          "nativeIrisOnLogicalRayCenterline": true,
+          "nativeIrisAnchorFixedAcross4Phases": true,
+          "boundaryOutletAnchor": [
+            160,
+            288
+          ],
+          "approvedVisualRegistrationException": "Native iris may shift only longitudinally within one logical cell; logical ray and gameplay origin remain fixed."
+        }
+      ],
+      "mirror": {
+        "pinPixel": [
+          160,
+          160
+        ],
+        "center10pxDiscExactlyStable": true,
+        "entireNativeDiamondPinExactlyStable": true,
+        "nativePinPixelsChecked": 841,
+        "outsideNativeBladeSweepExactlyStable": true,
+        "fixedVisiblePixels": 21408,
+        "outsideSweepEqualsRegisteredNativePlinth": true,
+        "nativePlinthPixelsChecked": 21408,
+        "nativeBladeSweepFractionOfCanvas": 0.275791015625,
+        "uniqueNativeYawFrames": 5
+      },
+      "light_gate": {
+        "openCenterTransparent": true,
+        "openCentral160OpaqueFraction": 0.1938671875,
+        "nativeGoldOuterGuardExactlyStable": true,
+        "checkedFramePixels": 9370
+      },
+      "glass_wall": {
+        "openCenterTransparent": true,
+        "openCentral160OpaqueFraction": 0.0,
+        "nativeGoldOuterGuardExactlyStable": true,
+        "checkedFramePixels": 7824
+      },
+      "receiverDoorSharedGlyph": "four_point_diamond"
+    }
+  },
+  "errors": [],
+  "errorCount": 0,
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}
