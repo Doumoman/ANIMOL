@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "status": "SOURCE_REVIEW_ONLY_NOT_COMPILED",
+  "file": "/workspace/scratch/b0cb6eab55f7/work/coast_v01/runtime_exports/Runtime/StarSwellCoastV01Logic.cs",
+  "sourceSha256": "0849e1279880ba4b7304fb7336b4258b9bcea1950deaac6d6c5d8a99f6c3a5d1",
+  "observed": [
+    "PreflightBoardedFerry preserves same actor position,wateronecell and land leavesboat.",
+    "FromAuthoritativeBarrelRoute copies contiguoussameheadinghostroute,pusherdestinationoriginalcell.",
+    "SpikeAfterHostMovement has no automaticlowering/reset timer.",
+    "ExpectedBombViewAfterOwnAction preservesfirstpush3 then2,1,detonate;invaliddoesnotignite/tick.",
+    "CopyAuthoritativeBlastCells accepts explicitcells and suppliesno radius/cross/damage."
+  ],
+  "importantCallerContract": "Reference reducers/checks are not a second gameplaycontroller; invoke once peruniqueowncommittedaction,never perframe/tween/automatic substep/otherplayer. Actualhostsavedstate authoritative.",
+  "issuesFound": [],
+  "actualCSharpCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN"
+}

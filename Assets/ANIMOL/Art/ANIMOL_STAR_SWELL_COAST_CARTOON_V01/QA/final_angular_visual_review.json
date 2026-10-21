@@ -1,0 +1,33 @@
+{
+  "status": "PASS_OFFLINE",
+  "groups": [
+    "common",
+    "boat",
+    "hazards",
+    "scenery",
+    "terrain"
+  ],
+  "groupReports": [
+    "common_angular_visual_review.json",
+    "boat_angular_visual_review.json",
+    "hazards_angular_visual_review.json",
+    "scenery_angular_visual_review.json",
+    "terrain_angular_visual_review.json"
+  ],
+  "sceneViewed": [
+    "Inspection/Scene/COAST_FULL_SCENE_PREVIEW.png",
+    "Inspection/Scene/COAST_GRID_FOOTPRINT_REVIEW.png"
+  ],
+  "devicePosterViewed": "work/coast_v01/device_preview_exports/ANIMOL_STAR_SWELL_COAST_DEVICE_REVIEW.png",
+  "observed": [
+    "같은 굵은 외곽선과 각진 큰 면이 배경/장식/지형/8장치에 이어짐",
+    "단일 노을 해와 독립 구름/별,유목/모래/청록 바다가 테마를 구성함",
+    "9×12 scene의 모래/목재2칸/석재2칸과 물 channel이 분리되어 읽힘",
+    "boat/pusher/spike/bomb의 작은 P는 명시된 debug actor 표식이며 새 캐릭터가 아님"
+  ],
+  "limitations": [
+    "실제 원본 Unity 화면 아님; 실제 이동/비용/점유/바인딩 검증은 NOT_RUN",
+    "배경 source에 약한 native 색변화가 있으나 주요 물체는 큰 평면 색과 각진 cel shadow이며 코드 gradient 재도색은 하지 않음"
+  ],
+  "actualUnityExecuted": false
+}

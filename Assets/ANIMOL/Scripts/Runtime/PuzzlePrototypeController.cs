@@ -43,7 +43,9 @@ namespace ANIMOL.Puzzle
             Player = CharacterVisual ? CharacterVisual.transform.parent : renderer.transform;
             var cam = Camera.main; if (!cam) { cam = new GameObject("Main Camera").AddComponent<Camera>(); cam.tag = "MainCamera"; }
             FollowCamera = cam.GetComponent<PuzzleFollowCamera>(); if (!FollowCamera) FollowCamera = cam.gameObject.AddComponent<PuzzleFollowCamera>(); FollowCamera.Configure(RuntimeMap, Player);
-            if (view.HasSunsetSanctumV02)
+            if (view.HasStarSwellCoastV01)
+                view.ConfigureStarSwellCoastV01Background(cam);
+            else if (view.HasSunsetSanctumV02)
                 view.ConfigureSunsetSanctumV02Background(cam);
             else if (RuntimeMap.theme.starwayRanch)
                 StarwayRanchBackground.Create(presentation, cam, RuntimeMap.theme.starwayRanch);

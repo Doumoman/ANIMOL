@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_OFFLINE",
+  "scope": "File SHA,dims,PPU,pivot,clip/alias closure,declared logical geometry and old-pixel reuse only; visual/host state authority requires independent review.",
+  "manifest": "/workspace/scratch/b0cb6eab55f7/work/coast_v01/hazards_exports/hazards_manifest.json",
+  "manifestSha256": "126f9e50f5c20abb84db5fcaea896180e4764a23a7a1f333ab122ef684ee9db8",
+  "runtimeAssets": 80,
+  "runtimeFamilies": {
+    "leave_spike": 8,
+    "rolling_barrel": 24,
+    "three_turn_bomb": 21,
+    "cracked_wall": 8,
+    "host_blast_cell": 1,
+    "barrel_stop_prediction": 1,
+    "blocked_feedback": 1,
+    "barrel_direction_fx": 16
+  },
+  "clipCount": 31,
+  "clips": [
+    {
+      "key": "leave_spike.none.flat",
+      "family": "leave_spike",
+      "heading": "none",
+      "state": "flat",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "leave_spike.none.occupied_armed",
+      "family": "leave_spike",
+      "heading": "none",
+      "state": "occupied_armed",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "leave_spike.none.raised",
+      "family": "leave_spike",
+      "heading": "none",
+      "state": "raised",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "leave_spike.none.departure_rise",
+      "family": "leave_spike",
+      "heading": "none",
+      "state": "departure_rise",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.east.idle",
+      "family": "rolling_barrel",
+      "heading": "east",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.east.roll",
+      "family": "rolling_barrel",
+      "heading": "east",
+      "state": "roll",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "rolling_barrel.east.settle",
+      "family": "rolling_barrel",
+      "heading": "east",
+      "state": "settle",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.north.idle",
+      "family": "rolling_barrel",
+      "heading": "north",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.north.roll",
+      "family": "rolling_barrel",
+      "heading": "north",
+      "state": "roll",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "rolling_barrel.north.settle",
+      "family": "rolling_barrel",
+      "heading": "north",
+      "state": "settle",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.west.idle",
+      "family": "rolling_barrel",
+      "heading": "west",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.west.roll",
+      "family": "rolling_barrel",
+      "heading": "west",
+      "state": "roll",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "rolling_barrel.west.settle",
+      "family": "rolling_barrel",
+      "heading": "west",
+      "state": "settle",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.south.idle",
+      "family": "rolling_barrel",
+      "heading": "south",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "rolling_barrel.south.roll",
+      "family": "rolling_barrel",
+      "heading": "south",
+      "state": "roll",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "rolling_barrel.south.settle",
+      "family": "rolling_barrel",
+      "heading": "south",
+      "state": "settle",
+      "frames": 2,
+      "uniqueDecodedFrames": 2,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "three_turn_bomb.none.count_3",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "count_3",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "three_turn_bomb.none.count_2",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "count_2",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "three_turn_bomb.none.count_1",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "count_1",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "three_turn_bomb.none.inert",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "inert",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "three_turn_bomb.none.ignite",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "ignite",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "three_turn_bomb.none.detonate",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "detonate",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "three_turn_bomb.none.spent",
+      "family": "three_turn_bomb",
+      "heading": "none",
+      "state": "spent",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "cracked_wall.none.intact",
+      "family": "cracked_wall",
+      "heading": "none",
+      "state": "intact",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "cracked_wall.none.crack_feedback",
+      "family": "cracked_wall",
+      "heading": "none",
+      "state": "crack_feedback",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "cracked_wall.none.open",
+      "family": "cracked_wall",
+      "heading": "none",
+      "state": "open",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "cracked_wall.none.break",
+      "family": "cracked_wall",
+      "heading": "none",
+      "state": "break",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "barrel_direction_fx.east.flow",
+      "family": "barrel_direction_fx",
+      "heading": "east",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "barrel_direction_fx.north.flow",
+      "family": "barrel_direction_fx",
+      "heading": "north",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "barrel_direction_fx.west.flow",
+      "family": "barrel_direction_fx",
+      "heading": "west",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "barrel_direction_fx.south.flow",
+      "family": "barrel_direction_fx",
+      "heading": "south",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    }
+  ],
+  "endpointAliasesChecked": 21,
+  "nativeSourceReferencesChecked": 10,
+  "alphaInsideLogicalRect": {
+    "inside": 80,
+    "outside": 0
+  },
+  "priorCoastSeaSanctuaryReusedFiles": [],
+  "priorArtFingerprintEntries": 1273,
+  "priorArtFingerprintFileSha256": "3dffd124b0a5405fe4b9b4c5a54984d922aee3d23421012ce86f7da5691cd84c",
+  "errorCount": 0,
+  "errors": [],
+  "warnings": [],
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

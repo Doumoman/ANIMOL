@@ -5,6 +5,7 @@ using ANIMOL.Art.EchoTheaterV03;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Art.SunsetSanctumV02;
+using ANIMOL.Art.StarSwellCoastV01;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -14,6 +15,8 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, DeviceVisualView> views = new Dictionary<string, DeviceVisualView>();
         readonly Dictionary<string, SunsetSanctumV02PuzzleBinding> sanctumV02 =
             new Dictionary<string, SunsetSanctumV02PuzzleBinding>(StringComparer.Ordinal);
+        readonly Dictionary<string, StarSwellCoastV01PuzzleBinding> coastV01 =
+            new Dictionary<string, StarSwellCoastV01PuzzleBinding>(StringComparer.Ordinal);
         readonly Dictionary<string, SunsetSanctumV02BeamRenderer> sanctumBeams =
             new Dictionary<string, SunsetSanctumV02BeamRenderer>(StringComparer.Ordinal);
         readonly Dictionary<string, string> sanctumBeamSignatures =
@@ -28,6 +31,8 @@ namespace ANIMOL.Puzzle
             new Dictionary<string, WindRoute>(StringComparer.Ordinal);
         PuzzleDeviceSession session;
         float windFeedbackDuration = .16f;
+        bool applicationPaused;
+        bool applicationFocused = true;
         SpriteRenderer player;
         BeamPathView beams;
         EchoTheaterV03DiceVisualMap diceVisualMap;
@@ -51,6 +56,25 @@ namespace ANIMOL.Puzzle
             }
             foreach (var d in session.Devices)
             {
+                if (session.Rules.themeId == "twilight_sea" && StarSwellCoastV01PuzzleBinding.Covers(d))
+                {
+                    if (!session.Map.theme || !session.Map.theme.starSwellCoastV01Catalog)
+                    { MissingBindings++; Debug.LogError("Coast V01 catalog is missing: " + d.id, this); continue; }
+                    if (!d.visualPrefab)
+                    { MissingBindings++; Debug.LogError("Coast V01 prefab is missing: " + d.id, this); continue; }
+                    var instance = Instantiate(d.visualPrefab, transform);
+                    instance.name = d.id + " Coast V01";
+                    instance.transform.localPosition = (Vector2)session.States[d.id].cell;
+                    try
+                    {
+                        coastV01.Add(d.id, new StarSwellCoastV01PuzzleBinding(d, instance,
+                            session.Map.theme.starSwellCoastV01Catalog));
+                        roots.Add(d.id, instance.transform);
+                    }
+                    catch (Exception error)
+                    { MissingBindings++; Debug.LogError("Coast V01 binding failed: " + error, instance); instance.SetActive(false); }
+                    continue;
+                }
                 if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(d))
                 {
                     if (!session.Map.theme || !session.Map.theme.sunsetSanctumV02Catalog || !d.visualPrefab)
@@ -176,6 +200,11 @@ namespace ANIMOL.Puzzle
         }
         public void Notify(PrototypeEvent e, string actionId)
         {
+            if (coastV01.TryGetValue(e.actor ?? "", out var coast))
+            {
+                if (!coast.Notify(e, session.States[e.actor], session.Cost, windFeedbackDuration)) MissingBindings++;
+                return;
+            }
             if (sanctumV02.TryGetValue(e.actor ?? "", out var sanctum))
             {
                 if (!sanctum.Notify(e, session.States[e.actor], session.Cost, windFeedbackDuration)) MissingBindings++;
@@ -247,6 +276,7 @@ namespace ANIMOL.Puzzle
         }
         public void SetWindActionProgress01(float progress)
         {
+            foreach (var binding in coastV01.Values) binding.ApplyProgress(progress);
             foreach (var renderer in windRoutes.Values)
                 if (renderer) renderer.SetActionProgress01(progress);
             foreach (var beam in sanctumBeams.Values)
@@ -337,6 +367,7 @@ namespace ANIMOL.Puzzle
         }
         void OnDestroy()
         {
+            foreach (var binding in coastV01.Values) binding.Dispose();
             foreach (var binding in sanctumV02.Values) binding.Dispose();
             foreach (var beam in sanctumBeams.Values)
                 if (beam) { beam.HideBeam(); beam.ResetActionSequence(); }
@@ -345,6 +376,9 @@ namespace ANIMOL.Puzzle
         }
         void Update()
         {
+            bool coastPaused = applicationPaused || !applicationFocused || Time.timeScale <= 0f;
+            foreach (var binding in coastV01.Values) binding.SetPaused(coastPaused);
+            foreach (var binding in coastV01.Values) binding.Update();
             foreach (var binding in sanctumV02.Values) binding.Update();
             foreach (var id in pendingIdle.Keys.ToArray())
             {
@@ -356,6 +390,8 @@ namespace ANIMOL.Puzzle
                 pendingIdle.Remove(id);
             }
         }
+        void OnApplicationPause(bool paused) { applicationPaused = paused; }
+        void OnApplicationFocus(bool focused) { applicationFocused = focused; }
         public void Settle()
         {
             SettleWindRoutes();
@@ -364,6 +400,8 @@ namespace ANIMOL.Puzzle
             foreach (var d in session.Devices)
             {
                 var s = session.States[d.id];
+                if (coastV01.TryGetValue(d.id, out var coast))
+                { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
                 if (!roots.TryGetValue(d.id, out var root) || !views.TryGetValue(d.id, out var view)) continue;
@@ -383,7 +421,7 @@ namespace ANIMOL.Puzzle
                 if (ferries.TryGetValue(d.id, out ferry)) { if (!ferry.Present(state)) MissingBindings++; }
                 else if (!view.Present(state)) MissingBindings++;
             }
-            player.enabled = string.IsNullOrEmpty(session.BoatId);
+            player.enabled = string.IsNullOrEmpty(session.BoatId) || coastV01.Count > 0;
             if (beams) beams.Present(session.Beams.Select(b => new BeamVisualCell { position = b.cell, shape = BeamShape(b) }).ToArray());
         }
         static string BeamShape(PuzzleDeviceSession.BeamCell b)

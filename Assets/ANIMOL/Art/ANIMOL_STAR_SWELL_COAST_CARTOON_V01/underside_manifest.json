@@ -1,0 +1,1042 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "ppu": 256,
+  "southFacingExposedRunsOnly": true,
+  "materialToSupport": {
+    "A": "sandy_rock",
+    "S": "sandy_rock",
+    "W": "wood"
+  },
+  "spanFiles": {
+    "sandy_rock": {
+      "1": "undersides/sandy_rock/span_01.png",
+      "2": "undersides/sandy_rock/span_02.png",
+      "3": "undersides/sandy_rock/span_03.png",
+      "4": "undersides/sandy_rock/span_04.png"
+    },
+    "wood": {
+      "1": "undersides/wood/span_01.png",
+      "2": "undersides/wood/span_02.png",
+      "3": "undersides/wood/span_03.png",
+      "4": "undersides/wood/span_04.png"
+    }
+  },
+  "planner": "Extract contiguous same-support south-exposed runs. Length1/2/3/4 uses exactly one matching native fused sprite. Longer runs use deterministic2–4-cell chunks; do not use one body per tile.",
+  "logicalRectOrigin": [
+    32,
+    32
+  ],
+  "logicalCellCenterY": 160,
+  "bodyTopPixelY": 276,
+  "canvasHeight": 512,
+  "pivot": [
+    0.5,
+    0.6875
+  ],
+  "sortPolicy": "draw supports before all terrain tops; support alpha never defines occupancy/colliders",
+  "longRunCapPolicy": "Native shallow cap strips remain continuous at chunk joins; broad irregular body groups may have stable gaps below the cap. Internal chunks use no gameplay collision.",
+  "assets": [
+    {
+      "file": "undersides/sandy_rock/span_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "64a12972edc00bc47aced448fe9c45f3529ae45ab8f40c45f7c05c7c059ba604",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        516,
+        47,
+        1020,
+        225
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/sandy_rock/span_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "a6ea302dc99f648b79737f428f2c625cc8fb7a9dc92eee71da1dc6cfc643a19c",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        369,
+        291,
+        1167,
+        475
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/sandy_rock/span_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "3979517261e0d2b2373857c217cf4023d5ff5bc6000a211da9888a10fe9c7c11",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        182,
+        538,
+        1354,
+        738
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/sandy_rock/span_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "05ff06aed7126caf9fd5346a2657cba797e9968408f17da2568f22290c4bf105",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        12,
+        784,
+        1524,
+        979
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "14349bbe278e5ba81faf1846cc60e14c8a893d7b2df7680b763cea3fcfdfb336",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        552,
+        42,
+        985,
+        219
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "0d5bb18abb2bb818dd9fe097834b1be7de579769adc9b5d473d114e09c9731cf",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        333,
+        273,
+        1204,
+        461
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "d0aae92465dc65d557a86c4187cd566daf6221986e3835a79e32cf2aea15240f",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        66,
+        535,
+        1470,
+        714
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/wood/span_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_span_body",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "6293507d5a46248ee76597c11f56c77df25958dfbb7bce5871618d83ce2054e8",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        15,
+        778,
+        1521,
+        961
+      ],
+      "nativeAssembly": "Single matching-length native body, mechanically registered to exact integer-cell span; no color repaint",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true
+    },
+    {
+      "file": "undersides/sandy_rock/cap_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "cce1e4ea3c717993a5952ae3a2a1c293053e0a3cba179844b87236cf5353aeeb",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        516,
+        47,
+        1020,
+        225
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/sandy_rock/span_01.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/sandy_rock/cap_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "ad3423619a7174b9966e8e57f6c92cef62e330b3eed6216af0d4ad2ea3fac990",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        369,
+        291,
+        1167,
+        475
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/sandy_rock/span_02.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/sandy_rock/cap_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "5c3da3c4a36dccde40400af6e75324c6f7d6effa63388dadcb8a21370394ef3a",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        182,
+        538,
+        1354,
+        738
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/sandy_rock/span_03.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/sandy_rock/cap_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "f341c0770f822e457c2d97dc1b54d21fedd8bcf8a6b6b28a712bd588db1e8d9a",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "sandy_rock",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_sandyrock_spans_native.png",
+      "nativeSourceRect": [
+        12,
+        784,
+        1524,
+        979
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/sandy_rock/span_04.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_01.png",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "f8738c1447b0253c606fb931a1d59b3f75adeebb87a7819749f5d18167a9f573",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 1,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        160,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        552,
+        42,
+        985,
+        219
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_01.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_02.png",
+      "width": 576,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "543ec4c30814c7ee3bcf7030162f71c79f402bfec1af7a35dafbd319990824ce",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 2,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        288,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        333,
+        273,
+        1204,
+        461
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        512,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_02.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_03.png",
+      "width": 832,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "797473ce78650bedf284b17c2bbb0a7fcd55ae479a686b6b11df9022883f925f",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 3,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        416,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        66,
+        535,
+        1470,
+        714
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        768,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_03.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    },
+    {
+      "file": "undersides/wood/cap_04.png",
+      "width": 1088,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.6875
+      ],
+      "logicalRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "footprintCells": [
+        4,
+        1
+      ],
+      "kind": "continuous_hole_cap",
+      "family": "terrain_support",
+      "heading": "none",
+      "state": "static",
+      "sha256": "90c2b55b368312a6f02e0761f2c7d3866b8675243aa319e22db8efde3c2081eb",
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "existingGameplayId": null,
+      "material": "wood",
+      "spanCells": 4,
+      "isVisualOnlySupport": true,
+      "groundLogicalCenterPixel": [
+        544,
+        160
+      ],
+      "bodyTopPixelY": 276,
+      "topOverlapPixels": 12,
+      "sourceNative": "sources/coast_wood_spans_native.png",
+      "nativeSourceRect": [
+        15,
+        778,
+        1521,
+        961
+      ],
+      "nativeAssembly": "Upper32px of existing native facade; alpha-only cropping, no replacement RGB",
+      "occupancySource": "actual exposed south-facing walkable run; support adds no occupied cells",
+      "groundFootprintRect": [
+        32,
+        32,
+        1024,
+        256
+      ],
+      "visualOverhangAllowed": true,
+      "sourceBodyFile": "undersides/wood/span_04.png",
+      "bodyClipPixelY": 308,
+      "holeCapOnly": true
+    }
+  ],
+  "clips": [],
+  "actualUnityExecutionVerified": false,
+  "shallowCapFiles": {
+    "sandy_rock": {
+      "1": "undersides/sandy_rock/cap_01.png",
+      "2": "undersides/sandy_rock/cap_02.png",
+      "3": "undersides/sandy_rock/cap_03.png",
+      "4": "undersides/sandy_rock/cap_04.png"
+    },
+    "wood": {
+      "1": "undersides/wood/cap_01.png",
+      "2": "undersides/wood/cap_02.png",
+      "3": "undersides/wood/cap_03.png",
+      "4": "undersides/wood/cap_04.png"
+    }
+  },
+  "holeFacePolicy": "For enclosed or narrow holes choose matching shallowCapFile. Native facade ends20px below logical tile south edge, retaining the hole opening. Outer island silhouettes use full matching-length native body."
+}

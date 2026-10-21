@@ -1,0 +1,618 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "status": "NOT_RUN",
+  "reason": "Original Unity project and authoritative host are absent. Offline art/code checks do not execute these scenarios.",
+  "scenarioCount": 76,
+  "actualPassCount": 0,
+  "checks": [
+    {
+      "id": "COAST-001",
+      "group": "ferry",
+      "scenario": "east boarded ride to freewater",
+      "expected": "Sameactor+boat exactly1cell,oneacceptedaction,body/oar/wakeheading agree.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-002",
+      "group": "ferry",
+      "scenario": "east blockedwater target",
+      "expected": "Neitherboatnoractormoves/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-003",
+      "group": "ferry",
+      "scenario": "east landing to validland",
+      "expected": "Actorland1cell,boatstayslastwatercell,sameactoridentity.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-004",
+      "group": "ferry",
+      "scenario": "east blockedland landing",
+      "expected": "Remainboarded,boat/actor/cost/turnunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-005",
+      "group": "barrel",
+      "scenario": "east multi-cell roll",
+      "expected": "Barrelendsbeforeobstacle,pusheronlyoriginalbarrelcell,noextraauto-chaincost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-006",
+      "group": "barrel",
+      "scenario": "east firststepblocked",
+      "expected": "No barrel/pushermove,notick/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-007",
+      "group": "barrel",
+      "scenario": "east midroute brake/corner",
+      "expected": "Usehostcommittedroute;existingstop/turn,noanimation-createdcellchanges.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-008",
+      "group": "gate",
+      "scenario": "east allowed freeoutput",
+      "expected": "Occupiedlistonecell,exitcheck-only,correctopening>=164px.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-009",
+      "group": "gate",
+      "scenario": "east allowed blockedoutput",
+      "expected": "Closedbar,nomove/cost/turn,openingnotplayed.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-010",
+      "group": "gate",
+      "scenario": "east opposite+bothsideinputs",
+      "expected": "Eachdeniedclosedbar+X,0move/cost/turn.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-011",
+      "group": "conveyor",
+      "scenario": "east chainstop",
+      "expected": "Body/arrows/scrollandactualtravelagree,stopbeforeobstacle,noextracost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-012",
+      "group": "ferry",
+      "scenario": "north boarded ride to freewater",
+      "expected": "Sameactor+boat exactly1cell,oneacceptedaction,body/oar/wakeheading agree.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-013",
+      "group": "ferry",
+      "scenario": "north blockedwater target",
+      "expected": "Neitherboatnoractormoves/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-014",
+      "group": "ferry",
+      "scenario": "north landing to validland",
+      "expected": "Actorland1cell,boatstayslastwatercell,sameactoridentity.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-015",
+      "group": "ferry",
+      "scenario": "north blockedland landing",
+      "expected": "Remainboarded,boat/actor/cost/turnunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-016",
+      "group": "barrel",
+      "scenario": "north multi-cell roll",
+      "expected": "Barrelendsbeforeobstacle,pusheronlyoriginalbarrelcell,noextraauto-chaincost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-017",
+      "group": "barrel",
+      "scenario": "north firststepblocked",
+      "expected": "No barrel/pushermove,notick/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-018",
+      "group": "barrel",
+      "scenario": "north midroute brake/corner",
+      "expected": "Usehostcommittedroute;existingstop/turn,noanimation-createdcellchanges.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-019",
+      "group": "gate",
+      "scenario": "north allowed freeoutput",
+      "expected": "Occupiedlistonecell,exitcheck-only,correctopening>=164px.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-020",
+      "group": "gate",
+      "scenario": "north allowed blockedoutput",
+      "expected": "Closedbar,nomove/cost/turn,openingnotplayed.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-021",
+      "group": "gate",
+      "scenario": "north opposite+bothsideinputs",
+      "expected": "Eachdeniedclosedbar+X,0move/cost/turn.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-022",
+      "group": "conveyor",
+      "scenario": "north chainstop",
+      "expected": "Body/arrows/scrollandactualtravelagree,stopbeforeobstacle,noextracost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-023",
+      "group": "ferry",
+      "scenario": "west boarded ride to freewater",
+      "expected": "Sameactor+boat exactly1cell,oneacceptedaction,body/oar/wakeheading agree.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-024",
+      "group": "ferry",
+      "scenario": "west blockedwater target",
+      "expected": "Neitherboatnoractormoves/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-025",
+      "group": "ferry",
+      "scenario": "west landing to validland",
+      "expected": "Actorland1cell,boatstayslastwatercell,sameactoridentity.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-026",
+      "group": "ferry",
+      "scenario": "west blockedland landing",
+      "expected": "Remainboarded,boat/actor/cost/turnunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-027",
+      "group": "barrel",
+      "scenario": "west multi-cell roll",
+      "expected": "Barrelendsbeforeobstacle,pusheronlyoriginalbarrelcell,noextraauto-chaincost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-028",
+      "group": "barrel",
+      "scenario": "west firststepblocked",
+      "expected": "No barrel/pushermove,notick/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-029",
+      "group": "barrel",
+      "scenario": "west midroute brake/corner",
+      "expected": "Usehostcommittedroute;existingstop/turn,noanimation-createdcellchanges.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-030",
+      "group": "gate",
+      "scenario": "west allowed freeoutput",
+      "expected": "Occupiedlistonecell,exitcheck-only,correctopening>=164px.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-031",
+      "group": "gate",
+      "scenario": "west allowed blockedoutput",
+      "expected": "Closedbar,nomove/cost/turn,openingnotplayed.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-032",
+      "group": "gate",
+      "scenario": "west opposite+bothsideinputs",
+      "expected": "Eachdeniedclosedbar+X,0move/cost/turn.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-033",
+      "group": "conveyor",
+      "scenario": "west chainstop",
+      "expected": "Body/arrows/scrollandactualtravelagree,stopbeforeobstacle,noextracost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-034",
+      "group": "ferry",
+      "scenario": "south boarded ride to freewater",
+      "expected": "Sameactor+boat exactly1cell,oneacceptedaction,body/oar/wakeheading agree.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-035",
+      "group": "ferry",
+      "scenario": "south blockedwater target",
+      "expected": "Neitherboatnoractormoves/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-036",
+      "group": "ferry",
+      "scenario": "south landing to validland",
+      "expected": "Actorland1cell,boatstayslastwatercell,sameactoridentity.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-037",
+      "group": "ferry",
+      "scenario": "south blockedland landing",
+      "expected": "Remainboarded,boat/actor/cost/turnunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-038",
+      "group": "barrel",
+      "scenario": "south multi-cell roll",
+      "expected": "Barrelendsbeforeobstacle,pusheronlyoriginalbarrelcell,noextraauto-chaincost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-039",
+      "group": "barrel",
+      "scenario": "south firststepblocked",
+      "expected": "No barrel/pushermove,notick/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-040",
+      "group": "barrel",
+      "scenario": "south midroute brake/corner",
+      "expected": "Usehostcommittedroute;existingstop/turn,noanimation-createdcellchanges.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-041",
+      "group": "gate",
+      "scenario": "south allowed freeoutput",
+      "expected": "Occupiedlistonecell,exitcheck-only,correctopening>=164px.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-042",
+      "group": "gate",
+      "scenario": "south allowed blockedoutput",
+      "expected": "Closedbar,nomove/cost/turn,openingnotplayed.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-043",
+      "group": "gate",
+      "scenario": "south opposite+bothsideinputs",
+      "expected": "Eachdeniedclosedbar+X,0move/cost/turn.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-044",
+      "group": "conveyor",
+      "scenario": "south chainstop",
+      "expected": "Body/arrows/scrollandactualtravelagree,stopbeforeobstacle,noextracost.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-045",
+      "group": "spike",
+      "scenario": "enter",
+      "expected": "Flat->armed;smalltips,playernotimpaled.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-046",
+      "group": "spike",
+      "scenario": "idle while occupied",
+      "expected": "Armedwarningonly,norisetimer.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-047",
+      "group": "spike",
+      "scenario": "invalid departure",
+      "expected": "Armedunchanged,nologicrise.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-048",
+      "group": "spike",
+      "scenario": "actual departure",
+      "expected": "Riseafterhostdeparture;returnblocked.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-049",
+      "group": "spike",
+      "scenario": "return raised",
+      "expected": "Invalid/cost0/turn0.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-050",
+      "group": "spike",
+      "scenario": "reset/undo",
+      "expected": "Snapactualhostsavedstate;noinventedlowercycle.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-051",
+      "group": "spike",
+      "scenario": "other objects",
+      "expected": "Onlyactualhostsupportedtrigger,noinventedcratearming.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-052",
+      "group": "bomb",
+      "scenario": "first blockedpush",
+      "expected": "Inert;noignite/cost/tick.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-053",
+      "group": "bomb",
+      "scenario": "first successfuldisplacement",
+      "expected": "Ignitedwith3,not2.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-054",
+      "group": "bomb",
+      "scenario": "next ownacceptedaction",
+      "expected": "2.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-055",
+      "group": "bomb",
+      "scenario": "second subsequentownaction",
+      "expected": "1.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-056",
+      "group": "bomb",
+      "scenario": "third subsequentownaction",
+      "expected": "Explodeaftercommit;onlyhostblastcells.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-057",
+      "group": "bomb",
+      "scenario": "invalidowninput",
+      "expected": "Countunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-058",
+      "group": "bomb",
+      "scenario": "otherplayerinput",
+      "expected": "Owncountunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-059",
+      "group": "bomb",
+      "scenario": "automaticchain substeps",
+      "expected": "Noextratick.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-060",
+      "group": "bomb",
+      "scenario": "animation/fusewait",
+      "expected": "Nocountchange/explosionfromtime.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-061",
+      "group": "bomb",
+      "scenario": "duplicate actionsequence",
+      "expected": "Nodoubledecrement.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-062",
+      "group": "bomb",
+      "scenario": "hostblastcells absent",
+      "expected": "Explicitunresolved/blockedprecondition;nodedefaultcross/radius/damage.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-063",
+      "group": "bomb",
+      "scenario": "supplied noncrossblast",
+      "expected": "VisualFXpreciselyhostcells,noextraemptycells.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-064",
+      "group": "bomb",
+      "scenario": "wallbreak",
+      "expected": "Onlyhostbreak,eventopenatcorrectstate,centertransparent,nosecondhit.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-065",
+      "group": "bomb",
+      "scenario": "actor/ordinarydamage",
+      "expected": "Delegateexistinghost;noinventedrule.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-066",
+      "group": "bomb",
+      "scenario": "undo/load/pool",
+      "expected": "Restoreactualsavedcountandart,nostalefuse/tick.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-067",
+      "group": "integration",
+      "scenario": "landA-W-S mixed",
+      "expected": "Allland8neighborscount;waterdoesnot.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-068",
+      "group": "integration",
+      "scenario": "2/3/4joined underside",
+      "expected": "Onecontinuousbody,safeholecaps.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-069",
+      "group": "integration",
+      "scenario": "longspans",
+      "expected": "Stable2-4chunks,no1tailorflicker.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-070",
+      "group": "integration",
+      "scenario": "waterrepeat/zoom/camera",
+      "expected": "Nojoints,gaps/doublerender;foamnotcollider.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-071",
+      "group": "integration",
+      "scenario": "boatunderbridge/shore",
+      "expected": "Boat/wateroutputremainslegible,hostpassabilityunchanged.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-072",
+      "group": "integration",
+      "scenario": "oneSun widecamera",
+      "expected": "Onlyonesun,norepeatedhorizonY.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-073",
+      "group": "integration",
+      "scenario": "depthmotionpause",
+      "expected": "Starsbehindclouds/nearlyfixed;cloudsgreaterresponse,pause/reducedmotion.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-074",
+      "group": "integration",
+      "scenario": "import/build",
+      "expected": "ActualUnityversion/pipeline,PPU256/pivot andgeneratedlatestcatalogvalidated.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-075",
+      "group": "integration",
+      "scenario": "legacybindings/pool/Animator",
+      "expected": "OnlynewCoastlatestbindingsinscope;notdeleteotherthemesorUI.",
+      "result": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "COAST-076",
+      "group": "integration",
+      "scenario": "save/map/IDs",
+      "expected": "ActualIDsandexistingdataunchanged;unknownnotfabricated.",
+      "result": "NOT_RUN",
+      "evidence": null
+    }
+  ]
+}

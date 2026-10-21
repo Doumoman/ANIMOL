@@ -1,0 +1,28 @@
+{
+  "status": "SOURCE_CONTRACT_CHECKED",
+  "source": "work/coast_v01/runtime_exports/Runtime/StarSwellCoastV01OceanField.cs",
+  "sha256": "c46db1b510226aeceb5f078d3cd2f87e67da036c0fab83893198cd66dcdf6c42",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualScenePlay": "NOT_RUN",
+  "findings": [
+    {
+      "id": "OCEAN_NULL_CATALOG_OWNED_VIEW",
+      "severity": "resolved",
+      "status": "RESOLVED_IN_SOURCE",
+      "resolution": "OnEnable clears all owned views before any catalog test; Configure persists attempted bad/null configuration then clears nativeCarrier, preventing resurrection of an older valid carrier.",
+      "sourceObserved": true
+    }
+  ],
+  "preconditions": [
+    "Exact current catalog/pin and dedicated tiles/water/carrier.png",
+    "Orthographic XY camera, identity parent rotation/world scale1; helper intentionally clears for tilted/nonuniform setup",
+    "Carrier256canvas/PPU256/full logical rect/no transparent padding; Sprite.bounds1unit equals full native repeat",
+    "One fixed world horizon, background_integration_policy excludes horizon+sun from camera-lock BackgroundRig",
+    "Explicit valid sorting layer and -880 global ocean underlay; actual host water cell renderer remains separate"
+  ],
+  "guardrails": [
+    "Visual-only no occupancy/collision/current/cost/action timer",
+    "serialized owned pool and current configuration refresh on enable",
+    "no actual compiler or Unity runtime available"
+  ]
+}

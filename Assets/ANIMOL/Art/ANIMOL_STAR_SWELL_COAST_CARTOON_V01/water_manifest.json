@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "themeDisplayName": "별너울 해안",
+  "surfaceCarrierFile": "tiles/water/carrier.png",
+  "surfaceCarrierCanvas": [
+    256,
+    256
+  ],
+  "surfaceCarrierLogicalRect": [
+    0,
+    0,
+    256,
+    256
+  ],
+  "surfaceCarrierPpu": 256,
+  "surfaceCarrierPivot": [
+    0.5,
+    0.5
+  ],
+  "surfaceCarrierPeriodPixels": [
+    256,
+    256
+  ],
+  "waveClipKey": "water_surface.none.ambient_wave",
+  "shoreFiles": {
+    "north": "fx/water/shore/north.png",
+    "east": "fx/water/shore/east.png",
+    "south": "fx/water/shore/south.png",
+    "west": "fx/water/shore/west.png"
+  },
+  "shoreHeadingMeaning": "Water toward neighboring land, not movement or force",
+  "waterIsLandNeighbor": false,
+  "landConnectivityDomain": [
+    "A",
+    "W",
+    "S"
+  ],
+  "waterOccupancySource": "Existing authoritative host water cells only",
+  "sortingOrder": {
+    "carrier": -500,
+    "ambientWave": -490,
+    "shore": -480,
+    "landTop": 0,
+    "boatBody": 20
+  },
+  "maskPolicy": "Clip all foam/shore to host water cells. Draw beneath boat body and all land tops. Never infer water or collision from alpha.",
+  "surfaceFieldPolicy": "Optional camera-sized carrier pool may cover background below land; it does not register occupancy or define ferry-valid cells.",
+  "registerGameplayCellFromThisRecord": false,
+  "deriveColliderFromAlpha": false,
+  "existingGameplayId": null,
+  "assets": [
+    {
+      "file": "tiles/water/carrier.png",
+      "width": 256,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "kind": "water_surface_carrier",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "static",
+      "sha256": "2f6a479da91d7c2efb0798f1d51bb3507b0fb2519d3b82cd4e09402e64be3b96",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        304,
+        154,
+        305,
+        155
+      ],
+      "repeatPixels": [
+        256,
+        256
+      ],
+      "paddingPixels": 0,
+      "visualOverhangAllowed": false,
+      "nativeAssembly": "Single quiet native swatch pixel enlarged uniformly by nearest registration into256-square flat field. No detailed texture is claimed; no RGB constants, painting, recoloring or quantization.",
+      "sortingOrder": -500
+    },
+    {
+      "file": "fx/water/wave/frame_00.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_ambient_wave",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "ambient_wave",
+      "sha256": "f5e9356e653ed255e5b8c04ce5658a80414d6bd15550f1de25ed23bc7818d8dc",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        606,
+        22,
+        931,
+        322
+      ],
+      "nativePoseIndex": 0,
+      "nativeAssembly": "Native slot alpha separation and fixed center registration; no movement arrow",
+      "sortingOrder": -490
+    },
+    {
+      "file": "fx/water/wave/frame_01.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_ambient_wave",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "ambient_wave",
+      "sha256": "a3d6a56a70d2d80bc9b19d285c27db3cedfbee477da1379dc57e95ab870757a3",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        1036,
+        22,
+        1368,
+        322
+      ],
+      "nativePoseIndex": 1,
+      "nativeAssembly": "Native slot alpha separation and fixed center registration; no movement arrow",
+      "sortingOrder": -490
+    },
+    {
+      "file": "fx/water/wave/frame_02.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_ambient_wave",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "ambient_wave",
+      "sha256": "ccf3535808f4a56e5590e3ba323317f85af2f87da7a807f129c0ecc019b8fe57",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        169,
+        354,
+        502,
+        644
+      ],
+      "nativePoseIndex": 2,
+      "nativeAssembly": "Native slot alpha separation and fixed center registration; no movement arrow",
+      "sortingOrder": -490
+    },
+    {
+      "file": "fx/water/wave/frame_03.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_ambient_wave",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "ambient_wave",
+      "sha256": "f4138ee0a364453f75e2ada70d7993cf837286e15de0f92dbc6d2a23279b0a6b",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        606,
+        354,
+        931,
+        644
+      ],
+      "nativePoseIndex": 3,
+      "nativeAssembly": "Native slot alpha separation and fixed center registration; no movement arrow",
+      "sortingOrder": -490
+    },
+    {
+      "file": "fx/water/shore/north.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_shore_feedback",
+      "family": "water_surface",
+      "heading": "north",
+      "state": "shore_contact",
+      "sha256": "e832e6de699a4f03cd70516acade770dcf244103f501403f3a31527cb5d83dd8",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        1036,
+        354,
+        1368,
+        644
+      ],
+      "nativeForegroundRect": [
+        0,
+        0,
+        332,
+        86
+      ],
+      "directionMeaning": "Normal from water cell toward adjacent host land; never a force/current direction",
+      "nativeAssembly": "Independently drawn native cardinal strip, alpha separated and tangent mirrored for exact repeat inside logical cell; no whole-sprite rotation",
+      "sortingOrder": -480
+    },
+    {
+      "file": "fx/water/shore/east.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_shore_feedback",
+      "family": "water_surface",
+      "heading": "east",
+      "state": "shore_contact",
+      "sha256": "f8bdf474c8819610c82bc1c8e0ecacfec3a246d11074714830b81f2e3d4dd8f2",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        1036,
+        682,
+        1368,
+        979
+      ],
+      "nativeForegroundRect": [
+        241,
+        0,
+        332,
+        296
+      ],
+      "directionMeaning": "Normal from water cell toward adjacent host land; never a force/current direction",
+      "nativeAssembly": "Independently drawn native cardinal strip, alpha separated and tangent mirrored for exact repeat inside logical cell; no whole-sprite rotation",
+      "sortingOrder": -480
+    },
+    {
+      "file": "fx/water/shore/south.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_shore_feedback",
+      "family": "water_surface",
+      "heading": "south",
+      "state": "shore_contact",
+      "sha256": "0fff5024f918ae2227cb43215fa7a9371842b7a85d53486c9c1a100e3cba3d8f",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        606,
+        682,
+        931,
+        979
+      ],
+      "nativeForegroundRect": [
+        0,
+        206,
+        325,
+        296
+      ],
+      "directionMeaning": "Normal from water cell toward adjacent host land; never a force/current direction",
+      "nativeAssembly": "Independently drawn native cardinal strip, alpha separated and tangent mirrored for exact repeat inside logical cell; no whole-sprite rotation",
+      "sortingOrder": -480
+    },
+    {
+      "file": "fx/water/shore/west.png",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "kind": "water_shore_feedback",
+      "family": "water_surface",
+      "heading": "west",
+      "state": "shore_contact",
+      "sha256": "5a51dd3f2f4e55139372f8c043a59939f8b79f44ded5e77244b45b2cab0b0cf9",
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "registerGameplayCellFromThisRecord": false,
+      "deriveColliderFromAlpha": false,
+      "isVisualOnly": true,
+      "sourceNative": "sources/coast_water_fx_native.png",
+      "hostWaterCellsRequired": true,
+      "foamIsCurrent": false,
+      "foamCreatesCollision": false,
+      "nativeSourceRect": [
+        169,
+        682,
+        502,
+        979
+      ],
+      "nativeForegroundRect": [
+        0,
+        0,
+        102,
+        296
+      ],
+      "directionMeaning": "Normal from water cell toward adjacent host land; never a force/current direction",
+      "nativeAssembly": "Independently drawn native cardinal strip, alpha separated and tangent mirrored for exact repeat inside logical cell; no whole-sprite rotation",
+      "sortingOrder": -480
+    }
+  ],
+  "clips": [
+    {
+      "key": "water_surface.none.ambient_wave",
+      "family": "water_surface",
+      "heading": "none",
+      "state": "ambient_wave",
+      "frames": [
+        "fx/water/wave/frame_00.png",
+        "fx/water/wave/frame_01.png",
+        "fx/water/wave/frame_02.png",
+        "fx/water/wave/frame_03.png"
+      ],
+      "fps": 12,
+      "loop": true,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "frameOrigin": "Four distinct native crest poses, centered and alpha separated; not a sliding overlay",
+      "triggersGameplay": false,
+      "hostWaterCellsRequired": true
+    }
+  ],
+  "actualUnityExecutionVerified": false
+}

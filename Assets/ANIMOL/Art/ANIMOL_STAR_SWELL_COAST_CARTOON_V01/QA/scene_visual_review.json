@@ -1,0 +1,31 @@
+{
+  "status": "PASS_OFFLINE_VISUAL_REVIEW",
+  "blockers": [],
+  "sourceManifestSha256": "e61f68b2063ba36d9f04574009599d050079b1e4076186a9ec4bfaec1498016f",
+  "sourceLayoutSha256": "688d311ac93c2645c49045e6b37209cad78e73d170e1d34bac6d55d8e0adeb86",
+  "reviewedFullPng": "53729a719da2aec3de92d1fd77859bf96f3d49102cabd51696188064c2a5479e",
+  "reviewedGridPng": "5dbe041e6e27120447c34128301a1e9fd28615036c195c7f14f5149e43567638",
+  "reviewedMotionGif": "320e0462eac0ace960f064408fa072c5465c248b60f32d01bab19222e8bc2701",
+  "motionSamples": [
+    0,
+    12,
+    24,
+    36,
+    48,
+    60,
+    71
+  ],
+  "findings": {
+    "map_land_and_water": "88land/10water, channel and two bridges match masks; no water counted as land",
+    "ground_registration": "1x1 devices and props,2x1 fence/bench/crates align actual grid ground anchors",
+    "support_finish": "outer fused bodies continuous; three internal channel pools use shallow caps, no deep cliff covers channel",
+    "ferry_and_shore": "ferry body fits one water cell; W/E shores now sit inside correct host water cells and remain behind boat",
+    "background": "one fixed angular setting sun and horizon, stars behind visibly stronger-moving clouds; coastal angular palette consistent",
+    "native_fx": "no obvious legacy pixel bitmap, opaque extracted-FX backdrop, moving texture sheet, or arbitrary old placeholder visible",
+    "motion": "gate transitions, spike rise, barrel phases,3/2/1 bomb/detonation, wall opening and ambient native waves visible in replay"
+  },
+  "limitations": [
+    "Offline timed native state replay; ferry does not translate from c3 to c4 in this fixture. This is not proof of authoritative movement or disembarking.",
+    "No original Unity project. Import/C#/shader/NUnit/Prefab bindings/Play Mode/legacy-reference-zero remain NOT_RUN."
+  ]
+}

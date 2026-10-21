@@ -20,6 +20,8 @@ namespace ANIMOL.Puzzle
         public Material sunsetSanctumV02BeamMaterial;
         public TextAsset sunsetSanctumV02BackgroundLayout;
         public TwilightCoastArt twilightCoast;
+        public ANIMOL.Art.StarSwellCoastV01.StarSwellCoastV01VisualCatalog starSwellCoastV01Catalog;
+        public TextAsset starSwellCoastV01BackgroundLayout;
         public TerrainArt[] terrain;
         public Sprite player, bubble, exit, decoration;
         public ANIMOL.Presentation.StarwayCharacterCatalog starwayCharacters;

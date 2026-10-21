@@ -1,0 +1,2073 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "referenceScreenSize": [
+    1080,
+    1920
+  ],
+  "referencePixelsPerWorldUnit": 80,
+  "referenceCamera": {
+    "position": [
+      0,
+      0,
+      -10
+    ],
+    "orthographic": true,
+    "orthographicSize": 12,
+    "aspect": 0.5625,
+    "gameplayPlaneZ": 0
+  },
+  "skyBase": {
+    "file": "backgrounds/coast/sky_base.png",
+    "positionZ": 9,
+    "sortingOrder": -1000,
+    "cameraMode": "cover",
+    "coverCamera": true,
+    "nativeSize": [
+      1080,
+      1920
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ],
+    "ppu": 256,
+    "containsHorizon": false,
+    "containsSun": false
+  },
+  "worldHorizon": {
+    "file": "backgrounds/coast/horizon_plate.png",
+    "worldY": 6.25,
+    "nativeRuntimeY": 517.4298190892077,
+    "nativePivot": [
+      0.5,
+      0.7305053025577043
+    ],
+    "coverCamera": false,
+    "repeat": false,
+    "worldWidth": 22,
+    "cameraPolicy": "Anchor to world horizon; extend width from actual map/camera X bounds without repeating Y or any celestial object."
+  },
+  "settingSun": {
+    "file": "backgrounds/coast/angular_setting_sun.png",
+    "count": 1,
+    "worldHorizonBottomY": 6.25,
+    "repeat": false,
+    "reflectionFile": null
+  },
+  "layers": [
+    {
+      "id": "unique_world_horizon",
+      "file": "backgrounds/coast/horizon_plate.png",
+      "positionWorld": [
+        0,
+        6.25,
+        8.9
+      ],
+      "localScale": [
+        5.214814814814815,
+        5.214814814814815,
+        1
+      ],
+      "sortingOrder": -990,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.7305053025577043
+      ],
+      "parallaxMultiplier": 0,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "horizon",
+      "coverCamera": false
+    },
+    {
+      "id": "one_setting_sun",
+      "file": "backgrounds/coast/angular_setting_sun.png",
+      "positionWorld": [
+        3.6,
+        6.25,
+        8.6
+      ],
+      "localScale": [
+        2.1,
+        2.1,
+        1
+      ],
+      "sortingOrder": -960,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.0625
+      ],
+      "parallaxMultiplier": 0,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "setting_sun",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_0",
+      "file": "backgrounds/coast/stars/ivory_four_point.png",
+      "positionWorld": [
+        -5.8,
+        10.8,
+        8
+      ],
+      "localScale": [
+        0.9333333333333332,
+        0.9333333333333332,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_1",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -2,
+        8.1,
+        8
+      ],
+      "localScale": [
+        0.7999999999999999,
+        0.7999999999999999,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_2",
+      "file": "backgrounds/coast/stars/ivory_eight_point.png",
+      "positionWorld": [
+        1.1,
+        11.4,
+        8
+      ],
+      "localScale": [
+        1.0666666666666667,
+        1.0666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_3",
+      "file": "backgrounds/coast/stars/cyan_long_glint.png",
+      "positionWorld": [
+        6.2,
+        7.3,
+        8
+      ],
+      "localScale": [
+        0.6,
+        0.6,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_4",
+      "file": "backgrounds/coast/stars/gold_five_point.png",
+      "positionWorld": [
+        -0.5,
+        7.4,
+        8
+      ],
+      "localScale": [
+        0.5333333333333333,
+        0.5333333333333333,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_5",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        4.2,
+        11.8,
+        8
+      ],
+      "localScale": [
+        0.3333333333333333,
+        0.3333333333333333,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_6",
+      "file": "backgrounds/coast/stars/constellation_three.png",
+      "positionWorld": [
+        -4.8,
+        7.1,
+        8
+      ],
+      "localScale": [
+        1.0666666666666667,
+        1.0666666666666667,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "main_star_7",
+      "file": "backgrounds/coast/stars/constellation_four.png",
+      "positionWorld": [
+        0.8,
+        9.8,
+        8
+      ],
+      "localScale": [
+        0.9333333333333332,
+        0.9333333333333332,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.8
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_0",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        2.3367402895089207,
+        9.796433334162657,
+        8
+      ],
+      "localScale": [
+        0.22051773326848825,
+        0.22051773326848825,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_1",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -5.869294745834437,
+        11.018050047814135,
+        8
+      ],
+      "localScale": [
+        0.13739296260929088,
+        0.13739296260929088,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_2",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        -6.461965037304071,
+        11.027497730657132,
+        8
+      ],
+      "localScale": [
+        0.12422267244169215,
+        0.12422267244169215,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_3",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -3.9149257874918657,
+        8.442671085861754,
+        8
+      ],
+      "localScale": [
+        0.20027356071251076,
+        0.20027356071251076,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_4",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        2.0496083430882894,
+        7.432994856692012,
+        8
+      ],
+      "localScale": [
+        0.1324579995438188,
+        0.1324579995438188,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_5",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -4.546244221886315,
+        7.479098694641353,
+        8
+      ],
+      "localScale": [
+        0.18536535486676983,
+        0.18536535486676983,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_6",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        -6.433776790977255,
+        7.474579625113277,
+        8
+      ],
+      "localScale": [
+        0.1254575719285332,
+        0.1254575719285332,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_7",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -1.9798421325188427,
+        7.185255426973798,
+        8
+      ],
+      "localScale": [
+        0.21782945728627456,
+        0.21782945728627456,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_8",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        -4.571627036405871,
+        9.187110949503554,
+        8
+      ],
+      "localScale": [
+        0.2287296647908611,
+        0.2287296647908611,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_9",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        0.8177266486911616,
+        9.465180656318061,
+        8
+      ],
+      "localScale": [
+        0.17515303565443877,
+        0.17515303565443877,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_10",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        -5.265521996101668,
+        7.788434441266249,
+        8
+      ],
+      "localScale": [
+        0.18870396828634273,
+        0.18870396828634273,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_11",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -1.0867106957010257,
+        7.344517337763674,
+        8
+      ],
+      "localScale": [
+        0.1675818593411524,
+        0.1675818593411524,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_12",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        3.4489190365867746,
+        7.129057786099843,
+        8
+      ],
+      "localScale": [
+        0.22048540789483131,
+        0.22048540789483131,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_13",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        5.510982400647952,
+        7.939957059718971,
+        8
+      ],
+      "localScale": [
+        0.11438137716941248,
+        0.11438137716941248,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_14",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        -5.56139734520549,
+        7.379508500454204,
+        8
+      ],
+      "localScale": [
+        0.17395828127029067,
+        0.17395828127029067,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_15",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -6.425059562103089,
+        7.275727876635996,
+        8
+      ],
+      "localScale": [
+        0.1359958012592548,
+        0.1359958012592548,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_16",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        6.420584219132321,
+        9.297598573037167,
+        8
+      ],
+      "localScale": [
+        0.1165899297985011,
+        0.1165899297985011,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_17",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        0.4288847232417785,
+        10.694747257966121,
+        8
+      ],
+      "localScale": [
+        0.15541812722015313,
+        0.15541812722015313,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_18",
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "positionWorld": [
+        3.526440825894202,
+        9.865611664500955,
+        8
+      ],
+      "localScale": [
+        0.23880410669116828,
+        0.23880410669116828,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "small_star_19",
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "positionWorld": [
+        -6.430652637259236,
+        9.301342207053303,
+        8
+      ],
+      "localScale": [
+        0.13838858136034718,
+        0.13838858136034718,
+        1
+      ],
+      "sortingOrder": -900,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.01,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.5
+      ],
+      "role": "star",
+      "coverCamera": false
+    },
+    {
+      "id": "far_harbor",
+      "file": "backgrounds/coast/far_harbor_islet.png",
+      "positionWorld": [
+        -4.7,
+        8.5,
+        7
+      ],
+      "localScale": [
+        1.2222222222222223,
+        1.2222222222222223,
+        1
+      ],
+      "sortingOrder": -850,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.08,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "coastal_architecture",
+      "coverCamera": false
+    },
+    {
+      "id": "far_lighthouse",
+      "file": "backgrounds/coast/far_lighthouse_islet.png",
+      "positionWorld": [
+        4.5,
+        9.35,
+        7
+      ],
+      "localScale": [
+        1.125,
+        1.125,
+        1
+      ],
+      "sortingOrder": -850,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.08,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "coastal_architecture",
+      "coverCamera": false
+    },
+    {
+      "id": "far_cloud_west",
+      "file": "backgrounds/coast/clouds/cloud_0.png",
+      "positionWorld": [
+        -6.8,
+        7,
+        6
+      ],
+      "localScale": [
+        2.2857142857142856,
+        2.2857142857142856,
+        1
+      ],
+      "sortingOrder": -800,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.2,
+      "driftAmplitude": [
+        0.5,
+        0.05
+      ],
+      "driftPeriodSeconds": [
+        57,
+        73
+      ],
+      "phaseDegrees": 22,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "role": "cloud",
+      "coverCamera": false
+    },
+    {
+      "id": "far_cloud_east",
+      "file": "backgrounds/coast/clouds/cloud_1.png",
+      "positionWorld": [
+        6.8,
+        3.5,
+        6
+      ],
+      "localScale": [
+        2.0,
+        2.0,
+        1
+      ],
+      "sortingOrder": -800,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.2,
+      "driftAmplitude": [
+        0.6,
+        0.06
+      ],
+      "driftPeriodSeconds": [
+        61,
+        79
+      ],
+      "phaseDegrees": 176,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.85
+      ],
+      "role": "cloud",
+      "coverCamera": false
+    },
+    {
+      "id": "frame_palm_west",
+      "file": "backgrounds/coast/frame_palm_left.png",
+      "positionWorld": [
+        -8.2,
+        11.5,
+        4
+      ],
+      "localScale": [
+        2.6666666666666665,
+        2.6666666666666665,
+        1
+      ],
+      "sortingOrder": -700,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.3,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "coastal_architecture",
+      "coverCamera": false
+    },
+    {
+      "id": "frame_cliff_east",
+      "file": "backgrounds/coast/frame_cliff_right.png",
+      "positionWorld": [
+        8.1,
+        -5.9,
+        4
+      ],
+      "localScale": [
+        2.75,
+        2.75,
+        1
+      ],
+      "sortingOrder": -700,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.3,
+      "driftAmplitude": [
+        0,
+        0
+      ],
+      "driftPeriodSeconds": [
+        53,
+        71
+      ],
+      "phaseDegrees": 0,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "role": "coastal_architecture",
+      "coverCamera": false
+    },
+    {
+      "id": "near_cloud_west",
+      "file": "backgrounds/coast/clouds/cloud_2.png",
+      "positionWorld": [
+        -6.9,
+        -9.8,
+        2
+      ],
+      "localScale": [
+        2.2857142857142856,
+        2.2857142857142856,
+        1
+      ],
+      "sortingOrder": -600,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.45,
+      "driftAmplitude": [
+        0.85,
+        0.1
+      ],
+      "driftPeriodSeconds": [
+        43,
+        61
+      ],
+      "phaseDegrees": 97,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.88
+      ],
+      "role": "cloud",
+      "coverCamera": false
+    },
+    {
+      "id": "near_cloud_east",
+      "file": "backgrounds/coast/clouds/cloud_3.png",
+      "positionWorld": [
+        6.8,
+        -10.8,
+        2
+      ],
+      "localScale": [
+        2.0,
+        2.0,
+        1
+      ],
+      "sortingOrder": -600,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "parallaxMultiplier": 0.45,
+      "driftAmplitude": [
+        0.95,
+        0.12
+      ],
+      "driftPeriodSeconds": [
+        47,
+        71
+      ],
+      "phaseDegrees": 238,
+      "twinkleAmount": 0,
+      "wrapToView": false,
+      "color": [
+        1,
+        1,
+        1,
+        0.88
+      ],
+      "role": "cloud",
+      "coverCamera": false
+    }
+  ],
+  "decor": [
+    {
+      "id": "decor_coast_palm",
+      "file": "props/coast/coast_palm.png",
+      "referenceGridCenterYDown": [
+        0,
+        2
+      ],
+      "positionWorld": [
+        -4,
+        3.125,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": "coast.palm.wind"
+    },
+    {
+      "id": "decor_slate_shell_rocks",
+      "file": "props/coast/slate_shell_rocks.png",
+      "referenceGridCenterYDown": [
+        8,
+        2
+      ],
+      "positionWorld": [
+        4,
+        3.125,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_rope_fence",
+      "file": "props/coast/rope_fence.png",
+      "referenceGridCenterYDown": [
+        1.5,
+        11
+      ],
+      "positionWorld": [
+        -2.5,
+        -5.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_dock_lantern",
+      "file": "props/coast/dock_lantern.png",
+      "referenceGridCenterYDown": [
+        8,
+        7
+      ],
+      "positionWorld": [
+        4,
+        -1.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.3125
+      ],
+      "logicalRect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_driftwood_bench",
+      "file": "props/coast/driftwood_bench.png",
+      "referenceGridCenterYDown": [
+        6.5,
+        11
+      ],
+      "positionWorld": [
+        2.5,
+        -5.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_broken_stone_pillar",
+      "file": "props/coast/broken_stone_pillar.png",
+      "referenceGridCenterYDown": [
+        0,
+        8
+      ],
+      "positionWorld": [
+        -4,
+        -2.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_dock_crates",
+      "file": "props/coast/dock_crates.png",
+      "referenceGridCenterYDown": [
+        1.5,
+        1
+      ],
+      "positionWorld": [
+        -2.5,
+        4.125,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_mooring_post",
+      "file": "props/coast/mooring_post.png",
+      "referenceGridCenterYDown": [
+        8,
+        4
+      ],
+      "positionWorld": [
+        4,
+        1.125,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_folded_net_basket",
+      "file": "props/coast/folded_net_basket.png",
+      "referenceGridCenterYDown": [
+        7,
+        10
+      ],
+      "positionWorld": [
+        3,
+        -4.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_raised_sea_agave",
+      "file": "props/coast/raised_sea_agave.png",
+      "referenceGridCenterYDown": [
+        0,
+        10
+      ],
+      "positionWorld": [
+        -4,
+        -4.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_coral_fan",
+      "file": "props/coast/coral_fan.png",
+      "referenceGridCenterYDown": [
+        8,
+        9
+      ],
+      "positionWorld": [
+        4,
+        -3.875,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    },
+    {
+      "id": "decor_small_lighthouse",
+      "file": "props/coast/small_lighthouse.png",
+      "referenceGridCenterYDown": [
+        0,
+        5
+      ],
+      "positionWorld": [
+        -4,
+        0.125,
+        -0.1
+      ],
+      "localScale": [
+        1,
+        1,
+        1
+      ],
+      "sortingOrder": 35,
+      "nativeAssetPPU": 256,
+      "nativePivot": [
+        0.5,
+        0.2777777777777778
+      ],
+      "logicalRect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "placementPolicy": "Optional reference art layout; root must keep actual gameplay routes/ferry outputs free. Tall art uses ground pivot.",
+      "optionalMotionClip": null
+    }
+  ],
+  "waterFieldContract": {
+    "externalFile": "tiles/water/carrier.png",
+    "owner": "terrain_exports",
+    "worldHorizonY": 6.25,
+    "fillOnlyBelowHorizon": true,
+    "repeatSun": false,
+    "repeatHorizonPlate": false,
+    "oceanCameraFillSortingOrder": -880,
+    "waterCellCarrierSortingOrder": -500,
+    "waveSortingOrder": -490,
+    "shoreSortingOrder": -480,
+    "hostWatercellClipRequired": true,
+    "gameplayOccupancyFromThisFile": false
+  },
+  "motion": {
+    "stars": "zero drift/spin/twinkle; parallax.01 behind all clouds",
+    "clouds": "visual independent drift; nearer response .45 versus far .2",
+    "islets": "camera response .08, framing.3; no independent gameplay motion",
+    "palm": "optional native wind clip, fixed ground and trunk; no new touch/collision rule",
+    "clock": "Visual-only; never drives host movement/action/cost/physics"
+  },
+  "actualUnityExecution": "NOT_RUN",
+  "actualGameplayBindingsVerified": false
+}

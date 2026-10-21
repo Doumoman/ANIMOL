@@ -1,0 +1,3373 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "version": "V01",
+  "themeDisplayName": "별너울 해안",
+  "themeId": null,
+  "assets": [
+    {
+      "file": "backgrounds/coast/sky_base.png",
+      "name": "sky_base",
+      "kind": "background_base",
+      "family": "sky",
+      "heading": "none",
+      "state": "static",
+      "width": 1080,
+      "height": 1920,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_cover_native.png",
+      "sourceNative": "sources/coast_sky_cover_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "a6756e9c27c97ddfcec05d8144b626d5427ec8607be0eb59cac149b094577959",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "coverCameraAllowed": true,
+      "repeat": false,
+      "containsSun": false,
+      "horizonSunBaked": false,
+      "sunBaked": false,
+      "repeatY": false,
+      "containsHorizon": false,
+      "uniformCoverScale": 1.1483253588516746,
+      "resizedNativeSize": [
+        1081,
+        1920
+      ],
+      "nativeCoverCropXY": [
+        0,
+        0
+      ]
+    },
+    {
+      "file": "backgrounds/coast/horizon_plate.png",
+      "name": "horizon_plate",
+      "kind": "background_base",
+      "family": "horizon",
+      "heading": "none",
+      "state": "static",
+      "width": 1080,
+      "height": 1920,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.7305053025577043
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1080,
+        1920
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_horizon_native.png",
+      "sourceNative": "sources/coast_horizon_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "9e6aef458369af7f1d3912e4f9d863f63d5b6118216a85557d1548152a18bfe8",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "coverCameraAllowed": false,
+      "repeat": false,
+      "containsSun": false,
+      "horizonSunBaked": false,
+      "sunBaked": false,
+      "repeatY": false,
+      "containsHorizon": true,
+      "uniformCoverScale": 1.1977542108546475,
+      "resizedNativeSize": [
+        1175,
+        1920
+      ],
+      "nativeCoverCropXY": [
+        47,
+        0
+      ],
+      "horizonNativeY": 432,
+      "horizonRuntimeY": 517.4298190892077,
+      "horizonAnchorWorldY": 6.25,
+      "placementPolicy": "WORLD anchored unique horizon; never camera cover or Y repeat. Extend actual ocean field below world horizon with terrain carrier."
+    },
+    {
+      "file": "backgrounds/coast/far_harbor_islet.png",
+      "name": "far_harbor_islet",
+      "kind": "background_component",
+      "family": "coastal_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 1152,
+      "height": 704,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1152,
+        704
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1152,
+        704
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_architecture_native.png",
+      "sourceNative": "sources/coast_architecture_native.png",
+      "nativeSourceRectXYXY": [
+        57,
+        16,
+        802,
+        482
+      ],
+      "uniformNativeScale": 1.44206008583691,
+      "sha256": "5a7ab10975b733224a9ba672172fc5a14718b84479a13ae107d1b397f1b7c5e6",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        39,
+        16,
+        1074,
+        672
+      ],
+      "placementPolicy": "Outside playable routes; framing palm has authored top crop intended outside camera top/edge. Scene opacity1."
+    },
+    {
+      "file": "backgrounds/coast/far_lighthouse_islet.png",
+      "name": "far_lighthouse_islet",
+      "kind": "background_component",
+      "family": "coastal_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 1024,
+      "height": 704,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        1024,
+        704
+      ],
+      "logical_rect": [
+        0,
+        0,
+        1024,
+        704
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_architecture_native.png",
+      "sourceNative": "sources/coast_architecture_native.png",
+      "nativeSourceRectXYXY": [
+        882,
+        8,
+        1440,
+        484
+      ],
+      "uniformNativeScale": 1.411764705882353,
+      "sha256": "37e7fcb14ad8de789aa1bd8d5e5590a202b7f7ce28d326588a2ed9ac13616a11",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        118,
+        16,
+        788,
+        672
+      ],
+      "placementPolicy": "Outside playable routes; framing palm has authored top crop intended outside camera top/edge. Scene opacity1."
+    },
+    {
+      "file": "backgrounds/coast/frame_palm_left.png",
+      "name": "frame_palm_left",
+      "kind": "background_component",
+      "family": "coastal_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 768,
+      "height": 640,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "logical_rect": [
+        0,
+        0,
+        768,
+        640
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_architecture_native.png",
+      "sourceNative": "sources/coast_architecture_native.png",
+      "nativeSourceRectXYXY": [
+        40,
+        500,
+        674,
+        1011
+      ],
+      "uniformNativeScale": 1.160883280757098,
+      "sha256": "07c83933bf7d5c7e2414c0ef3a0fb9dd00b5ffb95705f8e81dbbe8cb4111da34",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        23,
+        736,
+        593
+      ],
+      "placementPolicy": "Outside playable routes; framing palm has authored top crop intended outside camera top/edge. Scene opacity1."
+    },
+    {
+      "file": "backgrounds/coast/frame_cliff_right.png",
+      "name": "frame_cliff_right",
+      "kind": "background_component",
+      "family": "coastal_architecture",
+      "heading": "none",
+      "state": "static",
+      "width": 512,
+      "height": 768,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "logical_rect": [
+        0,
+        0,
+        512,
+        768
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_architecture_native.png",
+      "sourceNative": "sources/coast_architecture_native.png",
+      "nativeSourceRectXYXY": [
+        1212,
+        500,
+        1498,
+        1010
+      ],
+      "uniformNativeScale": 1.4431372549019608,
+      "sha256": "2ad6a0f343791d1f07cb9e9c4e9183d08f63beb1af40bea153d66a7811fc0bd1",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        49,
+        16,
+        413,
+        736
+      ],
+      "placementPolicy": "Outside playable routes; framing palm has authored top crop intended outside camera top/edge. Scene opacity1."
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_0.png",
+      "name": "cloud_0",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        13,
+        90,
+        309,
+        231
+      ],
+      "uniformNativeScale": 2.49645390070922,
+      "sha256": "48b3eda1e462aa299220ac3289f441cb2f499c2979cc8e9321d9651fbdffe17c",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        78,
+        16,
+        739,
+        352
+      ],
+      "placementPolicy": "Independent jagged ribbon behind gameboard; always in front of stars. Visual drift only."
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_1.png",
+      "name": "cloud_1",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        318,
+        94,
+        623,
+        234
+      ],
+      "uniformNativeScale": 2.5142857142857142,
+      "sha256": "8dbefacfa63a8097413dc2d46ea869fb15bc153670c183fd5910887a6880571f",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        64,
+        16,
+        767,
+        352
+      ],
+      "placementPolicy": "Independent jagged ribbon behind gameboard; always in front of stars. Visual drift only."
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_2.png",
+      "name": "cloud_2",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        631,
+        111,
+        935,
+        234
+      ],
+      "uniformNativeScale": 2.8421052631578947,
+      "sha256": "6ee0b65964d8fd9309513ea601a68e04045487c34e3ac79529dc3878853ab6b6",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        17,
+        864,
+        350
+      ],
+      "placementPolicy": "Independent jagged ribbon behind gameboard; always in front of stars. Visual drift only."
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_3.png",
+      "name": "cloud_3",
+      "kind": "background_component",
+      "family": "cloud",
+      "heading": "none",
+      "state": "static",
+      "width": 896,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "logical_rect": [
+        0,
+        0,
+        896,
+        384
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        944,
+        119,
+        1250,
+        246
+      ],
+      "uniformNativeScale": 2.7716535433070866,
+      "sha256": "a4dd55efccb5666a5b9dba85bf35e9022699eb55bbd4239cc3a727b732fb300a",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        24,
+        16,
+        848,
+        352
+      ],
+      "placementPolicy": "Independent jagged ribbon behind gameboard; always in front of stars. Visual drift only."
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_four_point.png",
+      "name": "ivory_four_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        37,
+        335,
+        281,
+        593
+      ],
+      "uniformNativeScale": 0.6201550387596899,
+      "sha256": "1793ec1eec7b1b295cc9c0e3b31b3e7c506442846172577afc85021e97301f7e",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        20,
+        16,
+        151,
+        160
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "name": "gold_four_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        351,
+        336,
+        587,
+        589
+      ],
+      "uniformNativeScale": 0.6324110671936759,
+      "sha256": "28b992dd8ef800f3e92a724fdb1ae0b6206f71b8a8def1d3828998121d27882f",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        21,
+        16,
+        149,
+        160
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_eight_point.png",
+      "name": "ivory_eight_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        655,
+        336,
+        917,
+        595
+      ],
+      "uniformNativeScale": 0.6106870229007634,
+      "sha256": "042446520029768d1d6aa9e22e5f062bf69c595c204faa76347ef45ce84917b0",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        17,
+        160,
+        158
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/cyan_long_glint.png",
+      "name": "cyan_long_glint",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        971,
+        337,
+        1228,
+        594
+      ],
+      "uniformNativeScale": 0.622568093385214,
+      "sha256": "891777737216f504339a8495c1e8852372bb100aed18d754aaa55030f70db300",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        16,
+        160,
+        160
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/gold_five_point.png",
+      "name": "gold_five_point",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        33,
+        647,
+        285,
+        897
+      ],
+      "uniformNativeScale": 0.6349206349206349,
+      "sha256": "da2ec0813e0c18f30e1ec9b36c705f161089e66287167c1509628f68c0d43aa9",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        16,
+        160,
+        159
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "name": "ivory_diamond",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 192,
+      "height": 192,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "logical_rect": [
+        0,
+        0,
+        192,
+        192
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        410,
+        662,
+        531,
+        892
+      ],
+      "uniformNativeScale": 0.6956521739130435,
+      "sha256": "7dd8b8d9b5dd099c35e09030731ecf362bea3e7248c927c4f315023f4fcff9cf",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        54,
+        16,
+        84,
+        160
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/constellation_three.png",
+      "name": "constellation_three",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 384,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "logical_rect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        638,
+        648,
+        932,
+        902
+      ],
+      "uniformNativeScale": 0.8818897637795275,
+      "sha256": "f1b55959773e03f3417dd7b7dcbedd0ffc8af64601b304e06e15a2beb334c19d",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        62,
+        16,
+        259,
+        224
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/stars/constellation_four.png",
+      "name": "constellation_four",
+      "kind": "background_component",
+      "family": "star",
+      "heading": "none",
+      "state": "static",
+      "width": 384,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "logical_rect": [
+        0,
+        0,
+        384,
+        256
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        949,
+        674,
+        1240,
+        871
+      ],
+      "uniformNativeScale": 1.1370558375634519,
+      "sha256": "6f86007880bfa0736c363aee831b7967fb7f7c03727a12ef976c5c4e4e65091a",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        26,
+        16,
+        331,
+        224
+      ],
+      "placementPolicy": "Near fixed, zero drift/no spin/no twinkle; behind every cloud."
+    },
+    {
+      "file": "backgrounds/coast/angular_setting_sun.png",
+      "name": "angular_setting_sun",
+      "kind": "background_component",
+      "family": "setting_sun",
+      "heading": "none",
+      "state": "static",
+      "width": 512,
+      "height": 256,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.0625
+      ],
+      "logicalRect": [
+        16,
+        16,
+        480,
+        224
+      ],
+      "logical_rect": [
+        16,
+        16,
+        480,
+        224
+      ],
+      "footprintCells": null,
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_sky_parts_native.png",
+      "sourceNative": "sources/coast_sky_parts_native.png",
+      "nativeSourceRectXYXY": [
+        7,
+        1053,
+        310,
+        1172
+      ],
+      "uniformNativeScale": 1.5841584158415842,
+      "sha256": "41d8994e9e7fbf6bc4237a1466206afd24ef5e3847d1cce1b6d70845087af591",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": null,
+      "contentRect": [
+        16,
+        51,
+        480,
+        189
+      ],
+      "sceneInstanceLimit": 1,
+      "repeat": false,
+      "repeatY": false,
+      "containsReflection": false,
+      "horizonBottomAnchorPx": [
+        256,
+        240
+      ],
+      "placementPolicy": "Exactly one half-octagonal setting sun. Native bottom cut aligns world horizon. Never tile or copy."
+    },
+    {
+      "file": "props/coast/slate_shell_rocks.png",
+      "name": "slate_shell_rocks",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        18,
+        82,
+        355,
+        366
+      ],
+      "uniformNativeScale": 0.7359050445103857,
+      "sha256": "bff17b9ed95c7e47da05211eb060a2a30dd7432195dffe09fa3215de4af95126",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        79,
+        248,
+        209
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/rope_fence.png",
+      "name": "rope_fence",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        388,
+        154,
+        830,
+        361
+      ],
+      "uniformNativeScale": 1.1221719457013575,
+      "sha256": "13d191401ed4fa28f8251ef106903101956241263dc6ff65de9390ff46ed2cf5",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "contentRect": [
+        40,
+        184,
+        496,
+        232
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/dock_lantern.png",
+      "name": "dock_lantern",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 512,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3125
+      ],
+      "logicalRect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        856,
+        11,
+        1014,
+        369
+      ],
+      "uniformNativeScale": 1.2960893854748603,
+      "sha256": "997b02d44464b0ce947814b7bb9cf698687e46ded19e379848e7e5aaba7e9c2a",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        224,
+        256,
+        256
+      ],
+      "contentRect": [
+        57,
+        16,
+        205,
+        464
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/driftwood_bench.png",
+      "name": "driftwood_bench",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        1084,
+        143,
+        1430,
+        369
+      ],
+      "uniformNativeScale": 1.4335260115606936,
+      "sha256": "2fdedfe9301a463c376731a7ade5e26df1d293042288e6912bae7cdc7afe45c5",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "contentRect": [
+        40,
+        92,
+        496,
+        324
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/broken_stone_pillar.png",
+      "name": "broken_stone_pillar",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        36,
+        388,
+        295,
+        712
+      ],
+      "uniformNativeScale": 0.9575289575289575,
+      "sha256": "d8b28bdc68da73413d6c92632991ee9fdb0510067da9f68c774d88c6b4b11a8e",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        42,
+        248,
+        310
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/dock_crates.png",
+      "name": "dock_crates",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3571428571428571
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        369,
+        461,
+        818,
+        696
+      ],
+      "uniformNativeScale": 1.1046770601336302,
+      "sha256": "f137887bc37a336257197d4cf997b6bb9130403c4f431862333b02cb1b726627",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "contentRect": [
+        40,
+        156,
+        496,
+        260
+      ],
+      "artSlotCells": [
+        2,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/mooring_post.png",
+      "name": "mooring_post",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.41666666666666663
+      ],
+      "logicalRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        850,
+        411,
+        1079,
+        708
+      ],
+      "uniformNativeScale": 1.0829694323144106,
+      "sha256": "b026b7c64125b19b27805cc604e40f53f3338e8ea2b0e7c2936fd71b01c9279a",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        96,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        30,
+        248,
+        322
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/folded_net_basket.png",
+      "name": "folded_net_basket",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        1128,
+        469,
+        1425,
+        706
+      ],
+      "uniformNativeScale": 0.835016835016835,
+      "sha256": "17945a24f565516261d813c01d163b586c4c9c126036331e8852314ee84b20f8",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        90,
+        248,
+        198
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/raised_sea_agave.png",
+      "name": "raised_sea_agave",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        18,
+        727,
+        372,
+        1065
+      ],
+      "uniformNativeScale": 0.7005649717514124,
+      "sha256": "a9162daade77e8a7869907c3af536abfa2fbd2ce876137f8489942b0c2682974",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        51,
+        248,
+        237
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/coral_fan.png",
+      "name": "coral_fan",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 320,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "logicalRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        419,
+        753,
+        715,
+        1065
+      ],
+      "uniformNativeScale": 0.7948717948717948,
+      "sha256": "4fe45460781cd62ee458e733b96e9a8a647ac737111d693d024a3e551d210d99",
+      "visualOverhangAllowed": false,
+      "groundFootprintRect": [
+        32,
+        32,
+        256,
+        256
+      ],
+      "contentRect": [
+        42,
+        40,
+        235,
+        248
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "props/coast/small_lighthouse.png",
+      "name": "small_lighthouse",
+      "kind": "decorative_prop",
+      "family": "coastal_decor",
+      "heading": "none",
+      "state": "static",
+      "width": 320,
+      "height": 576,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.2777777777777778
+      ],
+      "logicalRect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "logical_rect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_props_native.png",
+      "sourceNative": "sources/coast_props_native.png",
+      "nativeSourceRectXYXY": [
+        787,
+        703,
+        1050,
+        1074
+      ],
+      "uniformNativeScale": 0.9429657794676806,
+      "sha256": "c67e6eba50c564f2da466e0df727e54d4b3284f3455f88ebbe64bcf28a545fe2",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        32,
+        288,
+        256,
+        256
+      ],
+      "contentRect": [
+        36,
+        194,
+        248,
+        350
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "GroundFootprintRect center is pivot; height/alpha is not collision. Preserve actual host occupancy."
+    },
+    {
+      "file": "components/coast_palm/trunk.png",
+      "name": "trunk",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "static",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        1100,
+        473,
+        1496,
+        997
+      ],
+      "uniformNativeScale": 0.6262626262626263,
+      "sha256": "4f00f6a4a5a63a0c891f70102036b1b620232b195f59e43bbc8450207e421871",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "contentRect": [
+        260,
+        536,
+        248,
+        328
+      ],
+      "componentRole": "fixed_trunk",
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "doNotPlaceAsExtraWorldProp": true
+    },
+    {
+      "file": "components/coast_palm/canopy_00.png",
+      "name": "canopy_00",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        28,
+        22,
+        513,
+        442
+      ],
+      "uniformNativeScale": 0.9,
+      "sha256": "9363155d5445db4f926f8f00cfb59e083ea8bf1df8e0c4a66337492b90ec3968",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "componentRole": "moving_canopy",
+      "nativeAttachmentPinPx": [
+        276,
+        424
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "doNotPlaceAsExtraWorldProp": true,
+      "frame": 0
+    },
+    {
+      "file": "animation/coast_palm/wind/frame_00.png",
+      "name": "frame_00",
+      "kind": "animation_frame",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "a3c91b5683505d98c6963e0fba8e0f49bd43d20a5aaf79078537444d9a818ac2",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "frame": 0,
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_00.png"
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "components/coast_palm/canopy_01.png",
+      "name": "canopy_01",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        523,
+        34,
+        998,
+        446
+      ],
+      "uniformNativeScale": 0.9,
+      "sha256": "dca083304d7853d89a176e779baf084beaab34f33bec591117569fff8e5598c7",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "componentRole": "moving_canopy",
+      "nativeAttachmentPinPx": [
+        842,
+        441
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "doNotPlaceAsExtraWorldProp": true,
+      "frame": 1
+    },
+    {
+      "file": "animation/coast_palm/wind/frame_01.png",
+      "name": "frame_01",
+      "kind": "animation_frame",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "e271708d914a5fa16ef6e6992b4b0f6be3f199dbf88bc934fee444f63965c737",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "frame": 1,
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_01.png"
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "components/coast_palm/canopy_02.png",
+      "name": "canopy_02",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        1013,
+        54,
+        1511,
+        451
+      ],
+      "uniformNativeScale": 0.9,
+      "sha256": "bbf4e9117ce9c46c7ff09f5acf2a68949b820520fe84d20389cf8c0482e096e3",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "componentRole": "moving_canopy",
+      "nativeAttachmentPinPx": [
+        1366,
+        444
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "doNotPlaceAsExtraWorldProp": true,
+      "frame": 2
+    },
+    {
+      "file": "animation/coast_palm/wind/frame_02.png",
+      "name": "frame_02",
+      "kind": "animation_frame",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "f72507fa5b667226e94af4198e4a69c4166e2315697bd7434e9ba817cef55c1c",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "frame": 2,
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_02.png"
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "components/coast_palm/canopy_03.png",
+      "name": "canopy_03",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        30,
+        515,
+        535,
+        925
+      ],
+      "uniformNativeScale": 0.9,
+      "sha256": "3647b97e126e4b04b580e34236c4305ff0d24a40d62889cc26fd0368607f5329",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "componentRole": "moving_canopy",
+      "nativeAttachmentPinPx": [
+        219,
+        919
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "doNotPlaceAsExtraWorldProp": true,
+      "frame": 3
+    },
+    {
+      "file": "animation/coast_palm/wind/frame_03.png",
+      "name": "frame_03",
+      "kind": "animation_frame",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "6238d94bb163e791b664e4b33559e1e83beb890a6aff91a2a0234264b6d46785",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "frame": 3,
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_03.png"
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "components/coast_palm/canopy_04.png",
+      "name": "canopy_04",
+      "kind": "decorative_component",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": [
+        556,
+        520,
+        1069,
+        925
+      ],
+      "uniformNativeScale": 0.9,
+      "sha256": "df2ba91089a63f4aca73f95780c4184fd163331aaafb8f318b13e4ea7e1d7658",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "componentRole": "moving_canopy",
+      "nativeAttachmentPinPx": [
+        734,
+        920
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "doNotPlaceAsExtraWorldProp": true,
+      "frame": 4
+    },
+    {
+      "file": "animation/coast_palm/wind/frame_04.png",
+      "name": "frame_04",
+      "kind": "animation_frame",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "4f13305c6aa39e3e08aae6b150a09664218f3dd74ca266526d54e64f5c79af5c",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "frame": 4,
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_04.png"
+      ],
+      "fixedTrunkFile": "components/coast_palm/trunk.png",
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ]
+    },
+    {
+      "file": "props/coast/coast_palm.png",
+      "name": "coast_palm",
+      "kind": "decorative_prop",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "idle",
+      "width": 768,
+      "height": 896,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "logical_rect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "actualGameplayFootprintCells": null,
+      "existingGameplayId": null,
+      "deriveColliderFromAlpha": false,
+      "registerGameplayCellFromThisRecord": false,
+      "actualUnityBindingVerified": false,
+      "source": "sources/coast_palm_native.png",
+      "sourceNative": "sources/coast_palm_native.png",
+      "nativeSourceRectXYXY": null,
+      "uniformNativeScale": 1,
+      "sha256": "a3c91b5683505d98c6963e0fba8e0f49bd43d20a5aaf79078537444d9a818ac2",
+      "visualOverhangAllowed": true,
+      "groundFootprintRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "aliasOf": "animation/coast_palm/wind/frame_00.png",
+      "sourceComponents": [
+        "components/coast_palm/trunk.png",
+        "components/coast_palm/canopy_00.png"
+      ],
+      "artSlotCells": [
+        1,
+        1
+      ],
+      "placementPolicy": "One ground cell, tall/wide leaf overhang. No inferred collision/touch logic."
+    }
+  ],
+  "clips": [
+    {
+      "key": "coast.palm.wind",
+      "family": "coast_palm",
+      "heading": "none",
+      "state": "wind",
+      "frames": [
+        "animation/coast_palm/wind/frame_00.png",
+        "animation/coast_palm/wind/frame_01.png",
+        "animation/coast_palm/wind/frame_02.png",
+        "animation/coast_palm/wind/frame_01.png",
+        "animation/coast_palm/wind/frame_00.png",
+        "animation/coast_palm/wind/frame_03.png",
+        "animation/coast_palm/wind/frame_04.png",
+        "animation/coast_palm/wind/frame_03.png"
+      ],
+      "fps": 12,
+      "loop": true,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.1785714285714286
+      ],
+      "logicalRect": [
+        256,
+        608,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "nativeDistinctPhases": 5,
+      "playbackPolicy": "Native5-pose ping-pong breeze; repeated phase references are intentional reverse motion, no consecutive duplicate. Visual only; no authored collision/touch/gameplay trigger."
+    }
+  ],
+  "sources": [
+    {
+      "file": "sources/coast_sky_cover_native.png",
+      "sha256": "fa20e723842f65df100ed5d7612babd02723ae913f65cf2e81dca9e81a77b7cf",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-4f648c3b-670e-4498-9c8c-b1e3a9c6b37d.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "sky_cover"
+    },
+    {
+      "file": "sources/coast_horizon_native.png",
+      "sha256": "520ff9203399240924f1a9ca7cfa06f7226043358f0a0084ac2fb0a3c28d4d78",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-0490552d-1406-4792-adf6-2fa5fb51166b.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "horizon"
+    },
+    {
+      "file": "sources/coast_architecture_native.png",
+      "sha256": "da810d939f195030b8bd566580cf5da7feaf3d24955e964287a6f1aeb8074e1a",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-cbd3490e-b00e-4fd0-8d9c-50b2bf8ca8c0.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "architecture"
+    },
+    {
+      "file": "sources/coast_sky_parts_native.png",
+      "sha256": "5075694563a7f734754dc4155900da8e32e689363b1ead212d3f60e2b15d1f14",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-b3a48d08-4948-4810-b14a-b39b3b0484bd.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "sky_parts"
+    },
+    {
+      "file": "sources/coast_props_native.png",
+      "sha256": "9a0882852ff416cd1d0132b1a9685d8a976d21ba01dad9cdcc772c89b0972dd8",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-9b79cc81-68c9-43a9-9ce4-115177a18e1b.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "props"
+    },
+    {
+      "file": "sources/coast_palm_native.png",
+      "sha256": "aa5a14011e797da05b1ab4a6a603a3cc9e0961aafcf71d204b088d632454d494",
+      "generatedBy": "built-in image_gen",
+      "imagegenOutputFile": "exec-ce145840-4176-4d65-bb82-b79d28f89bb2.png",
+      "promptFile": "generation_prompts.json",
+      "promptKey": "palm"
+    }
+  ],
+  "nativeAssembly": [
+    {
+      "file": "backgrounds/coast/far_harbor_islet.png",
+      "source": "sources/coast_architecture_native.png",
+      "crop": [
+        57,
+        16,
+        802,
+        482
+      ],
+      "uniformScale": 1.44206008583691,
+      "contentRect": [
+        39,
+        16,
+        1074,
+        672
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/far_lighthouse_islet.png",
+      "source": "sources/coast_architecture_native.png",
+      "crop": [
+        882,
+        8,
+        1440,
+        484
+      ],
+      "uniformScale": 1.411764705882353,
+      "contentRect": [
+        118,
+        16,
+        788,
+        672
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/frame_palm_left.png",
+      "source": "sources/coast_architecture_native.png",
+      "crop": [
+        40,
+        500,
+        674,
+        1011
+      ],
+      "uniformScale": 1.160883280757098,
+      "contentRect": [
+        16,
+        23,
+        736,
+        593
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/frame_cliff_right.png",
+      "source": "sources/coast_architecture_native.png",
+      "crop": [
+        1212,
+        500,
+        1498,
+        1010
+      ],
+      "uniformScale": 1.4431372549019608,
+      "contentRect": [
+        49,
+        16,
+        413,
+        736
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_0.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        13,
+        90,
+        309,
+        231
+      ],
+      "uniformScale": 2.49645390070922,
+      "contentRect": [
+        78,
+        16,
+        739,
+        352
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_1.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        318,
+        94,
+        623,
+        234
+      ],
+      "uniformScale": 2.5142857142857142,
+      "contentRect": [
+        64,
+        16,
+        767,
+        352
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_2.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        631,
+        111,
+        935,
+        234
+      ],
+      "uniformScale": 2.8421052631578947,
+      "contentRect": [
+        16,
+        17,
+        864,
+        350
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/clouds/cloud_3.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        944,
+        119,
+        1250,
+        246
+      ],
+      "uniformScale": 2.7716535433070866,
+      "contentRect": [
+        24,
+        16,
+        848,
+        352
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_four_point.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        37,
+        335,
+        281,
+        593
+      ],
+      "uniformScale": 0.6201550387596899,
+      "contentRect": [
+        20,
+        16,
+        151,
+        160
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/gold_four_point.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        351,
+        336,
+        587,
+        589
+      ],
+      "uniformScale": 0.6324110671936759,
+      "contentRect": [
+        21,
+        16,
+        149,
+        160
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_eight_point.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        655,
+        336,
+        917,
+        595
+      ],
+      "uniformScale": 0.6106870229007634,
+      "contentRect": [
+        16,
+        17,
+        160,
+        158
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/cyan_long_glint.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        971,
+        337,
+        1228,
+        594
+      ],
+      "uniformScale": 0.622568093385214,
+      "contentRect": [
+        16,
+        16,
+        160,
+        160
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/gold_five_point.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        33,
+        647,
+        285,
+        897
+      ],
+      "uniformScale": 0.6349206349206349,
+      "contentRect": [
+        16,
+        16,
+        160,
+        159
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/ivory_diamond.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        410,
+        662,
+        531,
+        892
+      ],
+      "uniformScale": 0.6956521739130435,
+      "contentRect": [
+        54,
+        16,
+        84,
+        160
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/constellation_three.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        638,
+        648,
+        932,
+        902
+      ],
+      "uniformScale": 0.8818897637795275,
+      "contentRect": [
+        62,
+        16,
+        259,
+        224
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/stars/constellation_four.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        949,
+        674,
+        1240,
+        871
+      ],
+      "uniformScale": 1.1370558375634519,
+      "contentRect": [
+        26,
+        16,
+        331,
+        224
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "backgrounds/coast/angular_setting_sun.png",
+      "source": "sources/coast_sky_parts_native.png",
+      "crop": [
+        7,
+        1053,
+        310,
+        1172
+      ],
+      "uniformScale": 1.5841584158415842,
+      "contentRect": [
+        16,
+        51,
+        480,
+        189
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/slate_shell_rocks.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        18,
+        82,
+        355,
+        366
+      ],
+      "uniformScale": 0.7359050445103857,
+      "contentRect": [
+        36,
+        79,
+        248,
+        209
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/rope_fence.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        388,
+        154,
+        830,
+        361
+      ],
+      "uniformScale": 1.1221719457013575,
+      "contentRect": [
+        40,
+        184,
+        496,
+        232
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/dock_lantern.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        856,
+        11,
+        1014,
+        369
+      ],
+      "uniformScale": 1.2960893854748603,
+      "contentRect": [
+        57,
+        16,
+        205,
+        464
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/driftwood_bench.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        1084,
+        143,
+        1430,
+        369
+      ],
+      "uniformScale": 1.4335260115606936,
+      "contentRect": [
+        40,
+        92,
+        496,
+        324
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/broken_stone_pillar.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        36,
+        388,
+        295,
+        712
+      ],
+      "uniformScale": 0.9575289575289575,
+      "contentRect": [
+        36,
+        42,
+        248,
+        310
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/dock_crates.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        369,
+        461,
+        818,
+        696
+      ],
+      "uniformScale": 1.1046770601336302,
+      "contentRect": [
+        40,
+        156,
+        496,
+        260
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/mooring_post.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        850,
+        411,
+        1079,
+        708
+      ],
+      "uniformScale": 1.0829694323144106,
+      "contentRect": [
+        36,
+        30,
+        248,
+        322
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/folded_net_basket.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        1128,
+        469,
+        1425,
+        706
+      ],
+      "uniformScale": 0.835016835016835,
+      "contentRect": [
+        36,
+        90,
+        248,
+        198
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/raised_sea_agave.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        18,
+        727,
+        372,
+        1065
+      ],
+      "uniformScale": 0.7005649717514124,
+      "contentRect": [
+        36,
+        51,
+        248,
+        237
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/coral_fan.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        419,
+        753,
+        715,
+        1065
+      ],
+      "uniformScale": 0.7948717948717948,
+      "contentRect": [
+        42,
+        40,
+        235,
+        248
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "props/coast/small_lighthouse.png",
+      "source": "sources/coast_props_native.png",
+      "crop": [
+        787,
+        703,
+        1050,
+        1074
+      ],
+      "uniformScale": 0.9429657794676806,
+      "contentRect": [
+        36,
+        194,
+        248,
+        350
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "components/coast_palm/trunk.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        1100,
+        473,
+        1496,
+        997
+      ],
+      "uniformScale": 0.6262626262626263,
+      "contentRect": [
+        260,
+        536,
+        248,
+        328
+      ],
+      "rgbRepaint": false,
+      "alphaCleanup": "alpha<4→0; target main component and3px antialias support only"
+    },
+    {
+      "file": "components/coast_palm/canopy_00.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        28,
+        22,
+        513,
+        442
+      ],
+      "uniformScale": 0.9,
+      "offset": [
+        189,
+        207
+      ],
+      "nativeAttachmentPinPx": [
+        276,
+        424
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "rgbRepaint": false
+    },
+    {
+      "file": "components/coast_palm/canopy_01.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        523,
+        34,
+        998,
+        446
+      ],
+      "uniformScale": 0.9,
+      "offset": [
+        125,
+        203
+      ],
+      "nativeAttachmentPinPx": [
+        842,
+        441
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "rgbRepaint": false
+    },
+    {
+      "file": "components/coast_palm/canopy_02.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        1013,
+        54,
+        1511,
+        451
+      ],
+      "uniformScale": 0.9,
+      "offset": [
+        94,
+        218
+      ],
+      "nativeAttachmentPinPx": [
+        1366,
+        444
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "rgbRepaint": false
+    },
+    {
+      "file": "components/coast_palm/canopy_03.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        30,
+        515,
+        535,
+        925
+      ],
+      "uniformScale": 0.9,
+      "offset": [
+        242,
+        206
+      ],
+      "nativeAttachmentPinPx": [
+        219,
+        919
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "rgbRepaint": false
+    },
+    {
+      "file": "components/coast_palm/canopy_04.png",
+      "source": "sources/coast_palm_native.png",
+      "crop": [
+        556,
+        520,
+        1069,
+        925
+      ],
+      "uniformScale": 0.9,
+      "offset": [
+        252,
+        209
+      ],
+      "nativeAttachmentPinPx": [
+        734,
+        920
+      ],
+      "registeredAttachmentPinPx": [
+        412.1818181818182,
+        569.2525252525253
+      ],
+      "rgbRepaint": false
+    }
+  ],
+  "backgroundSceneLayout": "background_scene_layout.json",
+  "layerContract": {
+    "cameraConvention": "Orthographic camera at negativeZ looking+Z; positiveZ farther. Explicit sorting always applies.",
+    "layers": [
+      {
+        "key": "sky",
+        "files": [
+          "backgrounds/coast/sky_base.png"
+        ],
+        "z": 9,
+        "sortingOrder": -1000,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "coverCamera": true
+      },
+      {
+        "key": "world_horizon",
+        "files": [
+          "backgrounds/coast/horizon_plate.png"
+        ],
+        "z": 8.9,
+        "sortingOrder": -990,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "coverCamera": false,
+        "worldHorizonY": 6.25,
+        "repeat": false
+      },
+      {
+        "key": "one_setting_sun",
+        "files": [
+          "backgrounds/coast/angular_setting_sun.png"
+        ],
+        "z": 8.6,
+        "sortingOrder": -960,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "sceneInstanceLimit": 1,
+        "repeat": false
+      },
+      {
+        "key": "stars",
+        "files": [
+          "backgrounds/coast/stars/ivory_four_point.png",
+          "backgrounds/coast/stars/gold_four_point.png",
+          "backgrounds/coast/stars/ivory_eight_point.png",
+          "backgrounds/coast/stars/cyan_long_glint.png",
+          "backgrounds/coast/stars/gold_five_point.png",
+          "backgrounds/coast/stars/ivory_diamond.png",
+          "backgrounds/coast/stars/constellation_three.png",
+          "backgrounds/coast/stars/constellation_four.png"
+        ],
+        "z": 8,
+        "sortingOrder": -900,
+        "cameraParallax": 0.01,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 0.85
+      },
+      {
+        "key": "far_harbor_islets",
+        "files": [
+          "backgrounds/coast/far_harbor_islet.png",
+          "backgrounds/coast/far_lighthouse_islet.png"
+        ],
+        "z": 7,
+        "sortingOrder": -850,
+        "cameraParallax": 0.08,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "far_clouds",
+        "files": [
+          "backgrounds/coast/clouds/cloud_0.png",
+          "backgrounds/coast/clouds/cloud_1.png"
+        ],
+        "z": 6,
+        "sortingOrder": -800,
+        "cameraParallax": 0.2,
+        "visualDriftUnitsPerSecond": 0.025,
+        "opacity": 0.85
+      },
+      {
+        "key": "coastal_frames",
+        "files": [
+          "backgrounds/coast/frame_palm_left.png",
+          "backgrounds/coast/frame_cliff_right.png"
+        ],
+        "z": 4,
+        "sortingOrder": -700,
+        "cameraParallax": 0.3,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "near_clouds",
+        "files": [
+          "backgrounds/coast/clouds/cloud_2.png",
+          "backgrounds/coast/clouds/cloud_3.png"
+        ],
+        "z": 2,
+        "sortingOrder": -600,
+        "cameraParallax": 0.45,
+        "visualDriftUnitsPerSecond": 0.045,
+        "opacity": 0.88
+      }
+    ],
+    "sunCount": 1,
+    "sunNeverRepeated": true,
+    "worldHorizonCount": 1,
+    "horizonIsWorldAnchored": true,
+    "starsBehindEveryCloud": true,
+    "starsNearFixed": true,
+    "noMoonOrPlanet": true,
+    "waterOwner": "terrain_exports",
+    "waterCarrier": "tiles/water/carrier.png",
+    "waterCarrierRepeatOnlyBelowWorldHorizon": true,
+    "waterVisualSort": {
+      "oceanCameraFill": -880,
+      "carrier": -500,
+      "waves": -490,
+      "shore": -480,
+      "land": 0,
+      "boat": 20
+    },
+    "waterClipPolicy": "Root/actual host camera-fill field below fixed worldHorizon; actual watercell region clipping for waves/shore, no new walkable water occupancy. Do not obscure boat/output.",
+    "centralBoardProtection": "Far/islet/framing sprites outside playable routes; no dense particles over devices."
+  },
+  "actualUnityExecution": "NOT_RUN",
+  "actualProjectBindingsVerified": false,
+  "productionPolicy": "Six newly generated native sources. Only alpha cleanup/crop/uniform resize/registration/native composition; no old bitmap reuse, no RGB painting, no code-drawn production geometry."
+}

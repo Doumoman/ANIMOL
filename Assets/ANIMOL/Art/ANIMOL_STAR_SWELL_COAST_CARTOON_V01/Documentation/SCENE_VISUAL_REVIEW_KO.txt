@@ -1,0 +1,14 @@
+별너울 해안 전체 씬 독립 검수: PASS_OFFLINE / 차단 문제0
+
+전체 PNG와 격자 PNG를 직접 확인하고,72프레임6초 GIF의0/12/24/36/48/60/71프레임을 추출해 육안 비교했다. 별도 audit_scene.py로 production script를 실행하지 않고 layout/mask/pivot/실제alpha범위/sourceSHA/under/shore/GIF를 재검사했다.
+
+88개 land와10개 host watercell이 분리돼 있고,2칸 수로/목재·석재 다리 연결이 맞다. 1×1 장치·장식과2×1 울타리/벤치/상자가 logical ground anchor에 맞는다. 외곽 fused 하부는 이어지고 내부 물구멍3개는20px이하 shallow cap으로 마감돼 깊은 벽이 수로를 가리지 않는다.
+
+모래/terracotta/slate/회갈색 목재/teal 바다와 짙은 angular outline이 통일되어 있다. 태양·수평선1회, 별은 구름 뒤에서 거의 고정이고 구름과 가까운 배경이 더 움직인다. 추출된foam에 불투명 사각형 잔재가 보이지 않으며 일방향 문/가시/굴림통/폭탄3·2·1/벽 opening/native wave의 서로 다른 상태가 GIF에 나타난다.
+
+기존 정적 발견2건(land위 shore,장식1종누락)은 water c3W/c4E 배치와 broken pillar 추가로 해결됐다.
+
+이 씬의 ferry는 c3,r4에 고정된 native 상태 replay이며 c4로 실제1칸 이동/하선을 재현하지 않는다. Host의 정확한 이동/턴/충돌 검증으로 간주하지 않는다. 원본 Unity 프로젝트가 없어 import/C#/shader/NUnit/Prefab/Play Mode/legacy references0는 모두 NOT_RUN.
+
+Manifest SHA e61f68b2063ba36d9f04574009599d050079b1e4076186a9ec4bfaec1498016f
+Layout SHA 688d311ac93c2645c49045e6b37209cad78e73d170e1d34bac6d55d8e0adeb86

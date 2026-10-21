@@ -1,0 +1,53 @@
+ANIMOL 별너울 해안 V01 — 실제 Unity 적용 지시
+
+제공된 V01의1097 runtime PNG/105 clips는 새 각진 해안 원화에서 이미 조립된 최종 교체본이다. 이 파일들을 그대로 사용해 최신 catalog를 실제 프로젝트에 설치·접합·바인딩하고 방향/동작/경계를 검증하라. 원화를 다시 생성하라는 지시가 아니다. 성소/구해안 PNG를 재색칠하거나 pixel/80PPU/둥근 규칙으로 되돌리지 마라. 실제로 수행한 항목만 PASS, 미실행은 NOT_RUN, 실제 계약 부재는 BLOCKED_PRECONDITION으로 보고하라. 현재 원본 Unity가 없어 Import/C#/Shader/NUnit/실제 Scene/Prefab/Play Mode/레거시0은 NOT_RUN이다.
+
+1. 실제 계약과 참조를 조사하라
+Unity 버전/pipeline/orthographic camera, 해안 theme key, 장치 enum/ID, 맵/세이브, occupiedCells/방향, 유효 행동 커밋과 비용, 자동 연쇄, 기존 플레이어 identity, Prefab/SO/Scene/Animator/override/Resources/Addressables/스폰/풀을 매핑 표로 남겨라. 제공 JSON의 null ID를 임의 값으로 채우지 마라. 도감 그림이나 Sprite의 alpha/캔버스만으로 실제 점유를 결정하지 마라. 기본 아트 슬롯1칸과 실제 호스트 점유가 다르면 Collider/맵을 그림에 맞춰 바꾸지 말고 차이를 기록하라.
+사용자 변경·다른 테마·캐릭터·UI·공유 자산을 보존하라. 구 TwilightCoast/Sea 참조를 조사하고 해안의 실제 사용 경로만 통제하여 새 자산으로 연결하라. 이름이 old/coast라는 이유로 폴더를 통째 삭제하지 마라.
+
+2. 패키지와 최신 catalog를 설치하라
+분할 ZIP의01_CORE,02_FLOOR,03_BRIDGES를 같은 위치에 모두 풀어 동일 상위 폴더 ANIMOL_STAR_SWELL_COAST_CARTOON_V01로 합친 뒤 Assets 아래 새 경로로 설치한다.03만/01만 따로 설치하지 마라.04_SOURCES는 편집/전체 원화 provenance 검사 때만 추가하는 선택 파일이다. 전체본의27 source PNG와 Inspection/Authoring/production은 인게임 Sprite 후보가 아니다. 같은 새 패키지의 갱신은 .meta를 보존하고, 구 외부 GUID/MonoScript/.meta를 새 타입으로 무차별 치환하지 마라. namespace는 ANIMOL.Art.StarSwellCoastV01이다. 새 타입을 붙이고 직렬화 설정/참조를 매핑한 뒤 기존 중복 시각 컴포넌트를 정리하라.
+Sprite Single/FullRect/PPU256/선언된pivot/Bilinear/Clamp/무압축/noMip/NPOT None으로 임포트한다. 옛 Point/80PPU importer와 자동fitToCell/alpha bounds scale을 중복 적용하지 마라. 기본320canvas의[32,32,256,256]은world1 지면이며 여백·높이·sweep는 점유/Collider가 아니다. native sources/production/components/Inspection/preview는 runtime Sprite 선택에서 제외한다.
+
+현재 Editor 소스에서 확인한 무인자 catalog builder:
+"<UNITY_EDITOR>" -batchmode -quit -projectPath "<UNITY_PROJECT>" -executeMethod ANIMOL.Art.StarSwellCoastV01.StarSwellCoastV01AnimationBuilder.BuildFromCommandLine -coastV01Manifest "Assets/<실제부모>/ANIMOL_STAR_SWELL_COAST_CARTOON_V01/animation_catalog.json" -logFile "<LOG_DIR>/CoastV01_Catalog.log"
+
+선택적 아트 검토 씬(실제 게임 씬 이식/검증과 별개):
+"<UNITY_EDITOR>" -batchmode -quit -projectPath "<UNITY_PROJECT>" -executeMethod ANIMOL.Art.StarSwellCoastV01.StarSwellCoastV01ArtReviewSceneBuilder.BuildFromCommandLine -coastV01ReviewLayout "Assets/<실제부모>/ANIMOL_STAR_SWELL_COAST_CARTOON_V01/review_scene_layout.json" -logFile "<LOG_DIR>/CoastV01_ArtReview.log"
+
+이 진입점 대조는 실제 컴파일 성공이 아니다. 설치한 최종 소스/flag와 맞는지 확인하라. 기존 생산 씬의 미저장 변경을 저장/폐기해 검토 씬 생성을 우회하지 마라. 검토 씬 자동 재생을 실제 게임 컨트롤러로 사용하지 마라.
+animation_catalog.json 실제 SHA와 animation_catalog_sha256.txt를 대조하고 generated catalog/.anim 및 컴포넌트 expectedManifestSha256를 함께 재핀하라. source root/GUID/fileID/PPU/pivot 검증을 끄거나 옛 art fallback으로 실패를 숨기지 마라. 정적 BindExactFile은 정확한 상대 PNG 경로, 움직임은 정확한 family/heading/state clip key를 사용한다.
+유효 행동이 실제로 확정된 단일 경로에서 PlayForCommittedSequence(key,true,단조증가sequence,실제feedbackDuration)를 사용하라. 거절/중복/이전 sequence에 재시작하지 않게 하고 host tween은 ApplyNormalizedProgress, pause는 SetPaused, undo/load/rebind는 SnapToState로 동기화하라. 풀 재사용/새 세션에서만 재생을 정리한 뒤 ResetActionSequence를 한 번 호출한다. 매 프레임 guard를 지우지 마라. Animator/Start/OnEnable/풀/Addressables가 같은 renderer를 옛 Sprite로 덮어쓰지 않게 단일 소유자를 정하라.
+
+3. 육지와 물을 분리해 접합하라
+육지coast_sand(A)/wood_bridge(W)/stone_bridge(S)만 같은 점유 맵의8이웃 N1 NE2 E4 SE8 S16 SW32 W64 NW128로 full256을 고른다. 육지 재질 경계는 연결하고 물은 육지 이웃/보행 점유에서 제외하라. 물 그림을 그리기 위해 새 walkable 종류를 만들지 마라.
+2/3/4칸 노출 하부는 하나의 native 몸체, 긴 구간은 안정된2~4칸 구간으로 분할하라. 끝에1칸 꼬리를 붙이거나 매 프레임 random으로 바꾸지 마라. 내부 구멍은 얕은 cap으로 유지하고 장치/물칸/배/출구를 긴 벽이 덮지 않게 한다. 목재/석재 H/V/코너/T/교차는 실제 육지 타일로 연결한다.
+전용 물 surface carrier와 shore/wave의 실제 pixel/world 반복 주기·PPU·pivot·alpha·sorting을 확인하라. StarSwellCoastV01OceanField는 한 world 수평선 아래의 원경 underlay다. Sprite.bounds 전체 캔버스로 반복하므로 padding 없는 연속 carrier를 써야 한다. 기본 장치320canvas+32px 투명 padding을 넣어 틈이 생기게 하지 마라. 실제 host water-cell renderer/통행 판정은 별도로 유지한다. 포말/잔물결/반사광은 시각용이며 힘·수류·비용·Collider를 만들지 않는다.
+OceanField.Configure에는 최신 catalog/pin/exact carrier 경로/실제 orthographic camera/world horizon/정렬층을 전달한다. world 수평선을 카메라에 매 프레임 고정해 이동시키지 마라. 해당 helper는 기울어진 카메라·비정상 부모rotation/scale에서 시각을 숨기므로 실제 화면비/zoom/부모변환/clip range에서 빈 화면을 검사하라.
+
+4. 공통4종을 연결하라
+무빙워크는 실제 진행 벡터=데크축=인쇄화살표=슬랫 흐름이며 끝/장애물 직전에서 멈춘다. 자동 이동에 비용을 더하지 않는다.
+일방향 문 registry의 occupiedCells는 문1칸뿐이며 gate+heading 출구는 검사만 한다. 반대/두 측면은 닫힌 봉+X로 거절하고 이동/코스트/턴0이다. 허용 방향이어도 막힌 출구는 opening을 재생하지 않는다. 열린 통로>=164px이고 실제 actor 통과 중 문을 닫지 않도록 기존 안전 처리를 유지한다.
+튕김 모서리는 얇은 열린 ㄴ자다. 이름NE/NW나 Sprite rotation으로 반사표를 발명하지 말고 기존45도면→90도변환/막힌출구 처리/자동 연쇄를 연결한다.
+제동판은 진행 축에 수직인 정지선이며 도착한 그 칸에서 강제 이동을 끝낸다. 새 운반/역행/반발/추가 비용을 만들지 않는다.
+
+5. 해안4종을 실제 호스트에 연결하라
+05 이탈 가시: 실제 플레이어 진입 때 flat→occupied armed, 실제 떠난 뒤 rise→raised다. 서 있는 동안/막힌 이탈 시도/시각 타이머로 올리지 마라. raised 복귀는 무효다. 다시 내려가는 조건은 도감 미확정이므로 기존 host reset/undo/load 상태로만 동기화하고 새 turn cycle/시간을 만들지 마라. 상자 등 새 점유 트리거를 추측하지 않는다.
+11 나룻배: 실제 배에 승선한 기존 동일 플레이어와 배가 같은 방향 물1칸을 함께 움직인다. 막힌 물칸은 둘 다 움직이지 않고 육지 하선은 실제 유효 land일 때만 actor가 나가며 배는 마지막 물칸에 남는다. 막힌 육지면 승선 상태 유지다. riderSeat/ground anchor와 native bow/oar/wake4방향을 맞춰라. 새 플레이어 그림/clone actor를 만들지 마라. 논리 이동은 기존 controller 한 곳이 소유하고 actor 시각을 배에 붙이거나 같은 host tween으로 동기화해 두 번 이동하지 않게 한다. boarding/landing 애니메이션 끝에서 논리 탑승/통행/비용을 커밋하지 마라.
+12 구르는 통: host가 확정한 원래 통칸 이후의 연속 경로를 받아 장애물 직전까지 표시한다. pusher 목적지는 원래 통칸 하나이며 통의 최종 칸까지 따라가지 않는다. 첫 목표가 막히면 밀기 전체가 무효/코스트0/턴0이다.4방향 native 굴림/settle과 예상 정지 표시는 실제 host route를 따르며 프레임 완료마다 새 이동을 만들지 마라.
+15 폭탄: 첫 성공한 실제 이동 밀기는3표시다. 그 뒤 자기 플레이어의 accepted action마다2,1,세 번째 후속 행동이 끝날 때 폭발한다. 첫 push에서 즉시2가 되지 않는다. 무효 입력/막힌push/다른 플레이어/자동 연쇄 substep/재생 시간은 점화·tick 근거가 아니다. 원래 host 저장 상태를 동기화하고 unique own committed sequence당1회만 갱신한다.
+폭발의 정확한 범위 수치/모양과 플레이어·일반 물체 피해는 미확정이다. 권위 있는 host가 준 blast cell 목록만 outline/FX로 표시하라. 임의 십자/원반경/피해/연쇄 폭발을 만들지 마라. 목록이나 피해 계약이 없으면 해당 부분만 BLOCKED_PRECONDITION으로 남기고 확정된 나머지 접합을 계속한다. 금 간 벽은 host break 이벤트로 intact/crack/break/open을 표시하고 마지막 중앙alpha0을 유지하라. crack 전환은 새 체력/두 번 타격 규칙이 아니다.
+StarSwellCoastV01Logic의 PreflightBoardedFerry/FromAuthoritativeBarrelRoute/SpikeAfterHostMovement/ExpectedBombViewAfterOwnAction/CopyAuthoritativeBlastCells는 순수 계약 검사용 보조다. 기존 시뮬레이션과 별도 controller로 병행하지 마라. reducer에는 자체 action-sequence 중복방지가 없으므로 unique own committed action당1회라는 caller 계약이 필수다.
+
+6. 노을과 배경을 연결하라
+석양 해는 독립6~8각 sprite 정확1개다. 해가 이미 있는 sky/horizon과 분리형 해를 동시에 표시하지 마라. 해/노을 중심/수평선을 반복하지 않고 특히 horizonY 반복으로 여러 줄 만들지 않는다. background_integration_policy.json의 unique_world_horizon과 one_setting_sun은 일반 BackgroundRig에서 제외하고 world 고정 Transform으로 둔다. BackgroundRig의 cameraMultiplier0은 카메라 기준 고정이므로 world 고정으로 오해하지 마라. 수평선/해를 camera-follow rig로 묶지 마라. 원경 바다는 별도 carrier만 반복한다. 반사광은 별도 시각 요소이며 두 번째 해가 아니다.
+별/구름/원경 섬/프레임 장식은 독립 layer와 worldZ+명시적 sorting으로 배치한다. 별이 모든 구름 뒤에 있고 거의 고정되어야 하며 구름/가까운 섬은 더 민감하게 카메라에 반응한다. 섬/장식은 플레이 경로를 가리지 않게 한다. 태양/별을 빠르게 번쩍이게 하지 않고 pause/reduced motion도 확인하라.
+
+7. 실제 근거를 남겨라
+required_acceptance_checks.json 및 actual_gameplay_checks_NOT_RUN.json의76개 시나리오를 실제 프로젝트에서 실행하라. 파일/프레임/GIF/소스읽기 PASS를 Unity import/compile/Play PASS로 바꾸지 마라.
+결과에는 실제 ID/방향/상태/점유 매핑, 변경 파일, catalog/pin/GUID/fileID, Import/C#/Shader/NUnit/Play 로그, 장치4방향·전환·boarding/landing·barrel/pusher·bomb3/2/1 화면, 물/육지 접합과 카메라 화면을 남겨라. Scene/Prefab/SO/Animator/override/pool/Addressables/SpriteAtlas/캐시의 실제 해안 참조를 최신으로 바꾼 뒤 해당 범위의 미사용 레거시 참조0을 확인한다. 원본 프로젝트가 없거나 미실행인 항목은 NOT_RUN으로 보고하라.
+
+설치 전 파일 검수
+01~03 필수 합본: python QA/verify_coast_package.py --package "<상위경로>/ANIMOL_STAR_SWELL_COAST_CARTOON_V01" --runtime-only --report "coast_runtime_check.json"
+04_SOURCES 포함 전체본: 같은 명령에서 --runtime-only를 빼고 원화/production 존재 및 SHA까지 검사하라. QA/rejected_prior_art_hashes.json은 검수 스크립트와 함께 보존한다. runtime-only는1097PNG/105clips/importer/alias/육지/물/씬 검사를 그대로 유지한다.

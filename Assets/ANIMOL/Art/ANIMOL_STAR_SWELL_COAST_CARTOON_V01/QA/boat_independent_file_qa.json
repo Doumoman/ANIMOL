@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_OFFLINE",
+  "scope": "File SHA,dims,PPU,pivot,clip/alias closure,declared logical geometry and old-pixel reuse only; visual/host state authority requires independent review.",
+  "manifest": "/workspace/scratch/b0cb6eab55f7/work/coast_v01/boat_exports/boat_manifest.json",
+  "manifestSha256": "265e8dc3c43a579e93b9538c3bfd54b4e9a6c808aa48d01ad0dd119dc0df6883",
+  "runtimeAssets": 116,
+  "runtimeFamilies": {
+    "ferry_wake": 16,
+    "ferry_landing": 4,
+    "steerable_ferry": 96
+  },
+  "clipCount": 32,
+  "clips": [
+    {
+      "key": "ferry_wake.east.flow",
+      "family": "ferry_wake",
+      "heading": "east",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "ferry_wake.north.flow",
+      "family": "ferry_wake",
+      "heading": "north",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "ferry_wake.west.flow",
+      "family": "ferry_wake",
+      "heading": "west",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "ferry_wake.south.flow",
+      "family": "ferry_wake",
+      "heading": "south",
+      "state": "flow",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "ferry_landing.east.ready",
+      "family": "ferry_landing",
+      "heading": "east",
+      "state": "ready",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "ferry_landing.north.ready",
+      "family": "ferry_landing",
+      "heading": "north",
+      "state": "ready",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "ferry_landing.west.ready",
+      "family": "ferry_landing",
+      "heading": "west",
+      "state": "ready",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "ferry_landing.south.ready",
+      "family": "ferry_landing",
+      "heading": "south",
+      "state": "ready",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.east.idle",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.east.rowing",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "rowing",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "steerable_ferry.east.arrive",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "arrive",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.east.blocked",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.east.boarding",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "boarding",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.east.disembarking",
+      "family": "steerable_ferry",
+      "heading": "east",
+      "state": "disembarking",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.north.idle",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.north.rowing",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "rowing",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "steerable_ferry.north.arrive",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "arrive",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.north.blocked",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.north.boarding",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "boarding",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.north.disembarking",
+      "family": "steerable_ferry",
+      "heading": "north",
+      "state": "disembarking",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.west.idle",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.west.rowing",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "rowing",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "steerable_ferry.west.arrive",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "arrive",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.west.blocked",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.west.boarding",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "boarding",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.west.disembarking",
+      "family": "steerable_ferry",
+      "heading": "west",
+      "state": "disembarking",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.south.idle",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "idle",
+      "frames": 1,
+      "uniqueDecodedFrames": 1,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.south.rowing",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "rowing",
+      "frames": 3,
+      "uniqueDecodedFrames": 3,
+      "fps": 12,
+      "loop": true
+    },
+    {
+      "key": "steerable_ferry.south.arrive",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "arrive",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.south.blocked",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "blocked",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.south.boarding",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "boarding",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    },
+    {
+      "key": "steerable_ferry.south.disembarking",
+      "family": "steerable_ferry",
+      "heading": "south",
+      "state": "disembarking",
+      "frames": 4,
+      "uniqueDecodedFrames": 4,
+      "fps": 12,
+      "loop": false
+    }
+  ],
+  "endpointAliasesChecked": 20,
+  "nativeSourceReferencesChecked": 3,
+  "alphaInsideLogicalRect": {
+    "inside": 116,
+    "outside": 0
+  },
+  "priorCoastSeaSanctuaryReusedFiles": [],
+  "priorArtFingerprintEntries": 1273,
+  "priorArtFingerprintFileSha256": "3dffd124b0a5405fe4b9b4c5a54984d922aee3d23421012ce86f7da5691cd84c",
+  "errorCount": 0,
+  "errors": [],
+  "warnings": [],
+  "actualUnityCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualProjectBindingVerified": false
+}

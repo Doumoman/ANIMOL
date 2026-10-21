@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "status": "SOURCE_CONTRACT_REVIEWED_NOT_IMPLEMENTED_IN_UNITY",
+  "actualThemeId": null,
+  "actualIdsVerified": false,
+  "sourceEvidence": [
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v01/reference/device_atlas.txt",
+      "sha256": "5a74250f79371ec8a73ff34300be49bd7df51a2ff14248ee0ded893b6749b295",
+      "lineRange": [
+        119,
+        127
+      ],
+      "role": "Accepted input cost1; ineffective blocked0; automatic chains no extra cost; own-player accepted actions instead of elapsed time."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v01/reference/device_atlas.txt",
+      "sha256": "5a74250f79371ec8a73ff34300be49bd7df51a2ff14248ee0ded893b6749b295",
+      "lineRange": [
+        129,
+        231
+      ],
+      "role": "Common devices07/09/18/19."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v01/reference/device_atlas.txt",
+      "sha256": "5a74250f79371ec8a73ff34300be49bd7df51a2ff14248ee0ded893b6749b295",
+      "lineRange": [
+        674,
+        784
+      ],
+      "role": "Coast05/11/12/15 and unresolved reset/blast rules."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v01/reference/device_atlas.txt",
+      "sha256": "5a74250f79371ec8a73ff34300be49bd7df51a2ff14248ee0ded893b6749b295",
+      "lineRange": [
+        807,
+        817
+      ],
+      "role": "Fixed bomb first push3,next own actions2,1,explode; actual displacement required."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/sanctum_v01/reference/device_atlas.txt",
+      "sha256": "5a74250f79371ec8a73ff34300be49bd7df51a2ff14248ee0ded893b6749b295",
+      "lineRange": [
+        832,
+        873
+      ],
+      "role": "Open decisions: automatic-chain priority, spike lowering, bomb range/damage remain unresolved."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/coast_v01/reference/ANIMOL_TWILIGHT_COAST_V02/ANIMOL_TWILIGHT_COAST_V02/README_KO.txt",
+      "sha256": "154183b35dfcd9bc7eec98f830aef8305ba60f68e90ed51978a669c0a9ad4a56",
+      "role": "Original environment scope, no devices,one sun/nonrepeat horizon/repeating sea. Old pixel rules superseded."
+    },
+    {
+      "file": "/workspace/scratch/b0cb6eab55f7/work/coast_v01/ART_AND_RUNTIME_CONTRACT.txt",
+      "sha256": "d7fca91f1feb06958323d9f9e27b7727363d215ace17988a97d2b17ae3f8599f",
+      "role": "Current user angular/native art, common/coast behavior, logical/water/occupancy/export contract."
+    }
+  ],
+  "sourceAtlasRenderedPagesViewed": [
+    24,
+    25,
+    26,
+    27,
+    28
+  ],
+  "sourceArtDoesNotEstablishActualOccupancy": true,
+  "rules": [
+    {
+      "pdfId": "05",
+      "family": "leave_spike",
+      "sourceLines": [
+        674,
+        699
+      ],
+      "fixed": [
+        "Player actually steps on cell:flat->occupied armed with small tips.",
+        "Only actual departure from armed cell raises spikes and blocks return.",
+        "Invalid/blocked attempted departure does not raise."
+      ],
+      "unresolved": [
+        "Lowering/reset condition; do not invent a timer or N-turn cycle."
+      ],
+      "art": [
+        "One-cell base fixed; hidden,occupied warning,rise native phases,raised locked state distinguishable."
+      ],
+      "hostDelegation": "Host saved state/reset/undo is authoritative. Do not infer extra triggers for crates/other actors.",
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "11",
+      "family": "steerable_ferry",
+      "sourceLines": [
+        700,
+        725
+      ],
+      "fixed": [
+        "After actual boarding, same existing actor and boat move together exactly1 water cell per accepted swipe.",
+        "Blocked water target: neither moves.",
+        "Disembark only valid land; actor goes to land and boat stays in last water cell.",
+        "Blocked land: invalid; actor remains boarded."
+      ],
+      "unresolved": [
+        "Any existing host-specific boarding, reservation, actor identity and collision policy must be resolved in actual project."
+      ],
+      "art": [
+        "E/N/W/S independent native headings, bow/oar/wake direction agree.",
+        "Idle,rowing,arrival,blocked,boarding,landing feedback; fixed rider seat/ground anchor.",
+        "Visual slot1x1 unless actual host evidence differs; no invented player sprite."
+      ],
+      "hostDelegation": "Same actor visual follows single authoritative path/tween; no duplicate logical move, clone actor or second action cost.",
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "12",
+      "family": "rolling_barrel",
+      "sourceLines": [
+        726,
+        753
+      ],
+      "fixed": [
+        "One valid push rolls in same direction to cell immediately before obstacle.",
+        "Pusher destination is original barrel cell only, never final barrel destination or full rolling path.",
+        "First target blocked:whole push invalid/no displacement/cost/turn.",
+        "Each intermediate cell shown along host committed route."
+      ],
+      "unresolved": [
+        "Cross-device/terrain priority remains actual host behavior; do not invent water/floating/extra force rules."
+      ],
+      "art": [
+        "Bold6-8-sided faceted barrel, angular hoops/grain; E/N/W/S native roll phases and settle.",
+        "Stop prediction uses supplied host route only."
+      ],
+      "hostDelegation": "Host owns committed route and obstacle stop; animation callbacks never move logical cells.",
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "15",
+      "family": "three_turn_bomb",
+      "sourceLines": [
+        754,
+        784,
+        807,
+        817
+      ],
+      "fixed": [
+        "Successful FIRST actual-displacing push ignites and displays3.",
+        "First push does not immediately change3->2.",
+        "Subsequent own-player accepted actions:2,1,then explosion after the third subsequent action.",
+        "Invalid input/no actual bomb displacement cannot ignite; ineffective input cannot tick.",
+        "Automatic substeps do not add own actions/ticks.",
+        "Existing cracked walls in supplied authoritative blast cells break."
+      ],
+      "unresolved": [
+        "Exact blast numeric range/shape.",
+        "Damage to player/ordinary objects and any chain reaction rules are not specified."
+      ],
+      "art": [
+        "Large native generated3/2/1 glyphs, inert/ignite/countdown/detonate/spent feedback.",
+        "Cracked wall intact/crack/break/open; open centeralpha0.",
+        "Visual blast outline/FX only on explicit supplied host cells."
+      ],
+      "hostDelegation": "No defaultcross/radius/damage or newwall two-hit health. Unique own committed action and existing saved state are authoritative, never elapsed animation/fuse time.",
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "07",
+      "family": "conveyor",
+      "sourceLines": [
+        129,
+        154
+      ],
+      "fixed": [
+        "Enter->same printed direction until end or before obstruction, no additional chain cost."
+      ],
+      "art": [
+        "Body axis,arrows and native scroll all equal actual E/N/W/S travel."
+      ],
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "09",
+      "family": "oneway_gate",
+      "sourceLines": [
+        155,
+        181
+      ],
+      "fixed": [
+        "Exactly1 occupied cell; output is check-only.",
+        "Opposite/both side approaches closed bar+redX,0move/cost/turn.",
+        "Blocked output does not open even in allowed heading."
+      ],
+      "art": [
+        "164px minimum clear passage; fixed rails and open transparent center."
+      ],
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "18",
+      "family": "bounce_corner",
+      "sourceLines": [
+        182,
+        207
+      ],
+      "fixed": [
+        "Existing45degree face redirects forced travel90degrees without new input cost.",
+        "Blocked outgoing path stops before inaccessible corner; use actual host map."
+      ],
+      "art": [
+        "Thin open L,NE/NW/SE/SW,square fasteners; no oversized blocked-looking tips."
+      ],
+      "actualId": null,
+      "actualFootprintVerified": false
+    },
+    {
+      "pdfId": "19",
+      "family": "brake_pad",
+      "sourceLines": [
+        208,
+        231
+      ],
+      "fixed": [
+        "Accepted forced travel stops on this same cell, no rebound/carry/extra cost."
+      ],
+      "art": [
+        "Stopbars perpendicular to actual incoming axis; no transport arrow."
+      ],
+      "actualId": null,
+      "actualFootprintVerified": false
+    }
+  ],
+  "globalUnresolved": [
+    "Automatic-chain priority/termination across device combinations remains host-defined.",
+    "Existing collision, actor identity, map IDs, costs and accepted-action sequence require actual Unity source."
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualShaderCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualPrefabBinding": "NOT_RUN",
+  "actualLegacyReferencesZero": "NOT_RUN"
+}

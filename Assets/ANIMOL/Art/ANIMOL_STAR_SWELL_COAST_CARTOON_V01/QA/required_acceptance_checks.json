@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "status": "OFFLINE_ACCEPTANCE_COMPLETE_ACTUAL_UNITY_NOT_RUN",
+  "sourceContractSha256": "d7fca91f1feb06958323d9f9e27b7727363d215ace17988a97d2b17ae3f8599f",
+  "checks": [
+    {
+      "id": "A01",
+      "scope": "New native art",
+      "acceptance": "NEW imagegen production source(s) for every runtime bitmap; source hashes/decodedRGBA do not match old Coast/Sea or sanctuary sources. Crop/register/composition from new parts only; no old recolor/filter/code-drawn substitute.",
+      "method": "OFFLINE_PROVENANCE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_final_package_qa.json",
+        "QA/hazards_independent_file_qa.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/legacy_baseline_inventory.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A02",
+      "scope": "Angular coastal style",
+      "acceptance": "Thick navy contour,clear straight segments and large chamfers,wedge/triangle/trapezoid/6-8sided functional barrel/bomb/sun. Square/diamond bolts and angular rope. Coastal craft palette, no sanctuary marble/generic machines/round caps/tiny polygon circle approximation.",
+      "method": "OFFLINE_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/final_angular_visual_review.json",
+        "QA/independent_preview_closure_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A03",
+      "scope": "Flat clean material",
+      "acceptance": "Broadbase+onepolygonshadow+smallaccent,2-3tones/material; no sanddots/grain/dither/airbrush/glossy3D/gradient-dominated shading. Same linework across background/props/devices/terrain.",
+      "method": "OFFLINE_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/final_angular_visual_review.json",
+        "QA/terrain_angular_visual_review.json",
+        "QA/hazards_angular_visual_review.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A04",
+      "scope": "Runtime catalog closure",
+      "acceptance": "Every PNG full decode/SHA/dims/PPU256/pivot/logicalRect and exact catalog/import set; unique keys/family-heading-state tuples, no old fallback,aliases exact latest endpoint. Native/proof/preview images never runtime-selectable.",
+      "method": "OFFLINE_FILES",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_final_package_qa.json",
+        "QA/independent_runtime_package_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A05",
+      "scope": "Geometry and directions",
+      "acceptance": "Default320canvas logical[32,32,256,256]/pivot.5,art fills1cell; per-asset whole-cell footprints,groundRect and independent tall/sweep overhang. Padding/alpha does not derive Collider/occupancy;actualIDs/footprints unverified. Native4headings,never whole-upright rotation.",
+      "method": "OFFLINE_METADATA_AND_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_final_package_qa.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/scene_independent_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A06",
+      "scope": "Native motion",
+      "acceptance": "Actual motions>=10fps,prefer12;distinct generated keyposes;stablebody/pin/hinge/ground/rider anchors. Axis/arrow/wake/scroll agree. Playback/pause/undo/pool state snaps never drive gameplay.",
+      "method": "OFFLINE_FRAMES",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_coast_geometry_qa.json",
+        "QA/independent_common_geometry_qa.json",
+        "QA/independent_preview_closure_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A07",
+      "scope": "Land connectivity",
+      "acceptance": "coast_sandA/woodW/stoneS each full256 using N1 NE2 E4 SE8 S16 SW32 W64 NW128;neighbor land across material boundaries;water excluded. 6144 compatible horizontal/vertical world64px overlaps exactRGBA when same padding contract used.",
+      "method": "OFFLINE_SEAMS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_terrain_overlap_qa.json",
+        "QA/terrain_independent_file_qa.json",
+        "QA/independent_final_package_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A08",
+      "scope": "Floating underside",
+      "acceptance": "2/3/4cell native fused jagged sandy rock/wood bodies;longspan stable2-4chunks,no1tail/flicker;shallow holecaps/innercorners keep holes open. Bridges H/V/corner/T/cross are real land cells.",
+      "method": "OFFLINE_VISUAL_AND_LAYOUT",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/terrain_angular_visual_review.json",
+        "QA/scene_independent_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A09",
+      "scope": "Water carrier",
+      "acceptance": "Declared visual-only repeatable native water surface with explicit world/pixel period,PPU/pivot,alpha/layer policy. Repeat/phase seams checked at actual placement. No land registration,newwater walkabletype/current/cost from water/foam alpha.",
+      "method": "OFFLINE_REPEAT_AND_METADATA",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_coast_geometry_qa.json",
+        "QA/ocean_source_review.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A10",
+      "scope": "Shore visibility",
+      "acceptance": "Native shore/foam repeats or localcaps join at outer/innercorners and cross-material shore,remain below boat/output. No deepwall covering water/boat route,water not double-rendered with opaque land carrier.",
+      "method": "OFFLINE_VISUAL_AND_LAYOUT",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/terrain_angular_visual_review.json",
+        "QA/scene_independent_qa.json",
+        "QA/independent_coast_geometry_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A11",
+      "scope": "One sun/nonrepeat horizon",
+      "acceptance": "ExactlyONE independent setting-sun renderer,source sky/horizon has no duplicate baked sun. Long straight6-8sided sun;never tile/repeat sun or horizonY. Reflection distinct and not a second sun object. No moon/Saturn/planets.",
+      "method": "OFFLINE_SCENE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/scenery_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/independent_final_package_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A12",
+      "scope": "Depth and motion",
+      "acceptance": "Independent stars behind EVERY cloud,nearlyfixed/no rapidlymoving twinkle;clouds/near islets more camera-sensitive,explicit sorting+z,sky cover no gaps. Islets/framing/props outside paths.",
+      "method": "OFFLINE_SCENE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/scenery_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/independent_final_package_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A13",
+      "scope": "Common4",
+      "acceptance": "Coastal NEW66art/40clip compatibility when retained;onecell164pxgate/deniedclosedX,conveyor4axis,thinLcenteropen,braketransversebars.",
+      "method": "OFFLINE_FILES_FRAMES_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/common_independent_file_qa.json",
+        "QA/independent_common_geometry_qa.json",
+        "QA/common_angular_visual_review.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A14",
+      "scope": "Departure spike",
+      "acceptance": "Flat/occupied warning/native rising/raised distinct,base fixed. No raising while stood on or on invalid attempted departure;raised returnblocked,lowering remains hostreset/undo-unresolved.",
+      "method": "OFFLINE_FRAMES_AND_HOST_CHECKS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/hazards_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/source_behavior_contract.json"
+      ],
+      "resultScope": "Exported art/native frame/source contract and illustrative offline fixture only; actual host movement/cost/state/binding NOT_RUN.",
+      "actualHostScenarioStatus": "NOT_RUN",
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A15",
+      "scope": "Ferry",
+      "acceptance": "Four native bow/oar/wake headings;1cellartslot and explicit fixedseat. Same existing actor visually follows authoritative boat1watercell;landing leavesboatatlastwatercell;blocked water/land no move. No duplicate actor or doublemove/cost.",
+      "method": "OFFLINE_FRAMES_AND_HOST_CHECKS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/boat_angular_visual_review.json",
+        "QA/boat_independent_file_qa.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/source_behavior_contract.json"
+      ],
+      "resultScope": "Exported art/native frame/source contract and illustrative offline fixture only; actual host movement/cost/state/binding NOT_RUN.",
+      "actualHostScenarioStatus": "NOT_RUN",
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A16",
+      "scope": "Barrel",
+      "acceptance": "Faceted native roll/settle4directions,committed step-by-step host route;marker only host stop. Pusheroriginalbarrelcell distinct from finalbarrel destination;blocked firststep entirepushinvalid.",
+      "method": "OFFLINE_FRAMES_AND_HOST_CHECKS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/hazards_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/independent_preview_closure_qa.json",
+        "QA/source_behavior_contract.json"
+      ],
+      "resultScope": "Exported art/native frame/source contract and illustrative offline fixture only; actual host movement/cost/state/binding NOT_RUN.",
+      "actualHostScenarioStatus": "NOT_RUN",
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A17",
+      "scope": "Bomb",
+      "acceptance": "Native digits3/2/1 readable at1cell;firstactualpush3 then acceptedownactions2,1,detonate,invalid/others/auto-substep nottick. Fuse animation no timer authority.",
+      "method": "OFFLINE_FRAMES_AND_HOST_CHECKS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/hazards_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/independent_preview_closure_qa.json",
+        "QA/source_behavior_contract.json"
+      ],
+      "resultScope": "Exported art/native frame/source contract and illustrative offline fixture only; actual host movement/cost/state/binding NOT_RUN.",
+      "actualHostScenarioStatus": "NOT_RUN",
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A18",
+      "scope": "Blast/wall",
+      "acceptance": "No defaultcross/radius/damage/chainreaction;FX only suppliedhostcells. Nativewall intact/crack/break/open,centeralpha0 atopen,cracknotnewHP. Hostmissingcells unresolved rather than guessed explosion.",
+      "method": "OFFLINE_FRAMES_AND_HOST_CHECKS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/hazards_angular_visual_review.json",
+        "QA/independent_coast_geometry_qa.json",
+        "QA/source_behavior_contract.json"
+      ],
+      "resultScope": "Exported art/native frame/source contract and illustrative offline fixture only; actual host movement/cost/state/binding NOT_RUN.",
+      "actualHostScenarioStatus": "NOT_RUN",
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A19",
+      "scope": "Offline scene",
+      "acceptance": "Currentmain/catalog/PNGpins match,water/landfixture separate,allrefs exact,boat/rider/landing/barrel/spike/bombguides source-correct,no invented actor/ship puzzle. Contact+GIF and worldgrid reviewed.",
+      "method": "OFFLINE_SCENE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "QA/independent_final_package_qa.json",
+        "QA/scene_independent_qa.json",
+        "QA/final_angular_visual_review.json",
+        "QA/independent_preview_closure_qa.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    },
+    {
+      "id": "A20",
+      "scope": "Actual Unity",
+      "acceptance": "Original Unity unavailable: import,C#/shader/NUnit,actualPrefabbindings/Play/legacy0 NOT_RUN. Authoritative IDs/occupancy/maps/save preserved,source-code review not compile success.",
+      "method": "UNITY_NOT_RUN",
+      "result": "NOT_RUN",
+      "evidenceFiles": [
+        "QA/actual_gameplay_checks_NOT_RUN.json",
+        "QA/source_review.json"
+      ],
+      "actualUnityExecution": "NOT_RUN"
+    }
+  ],
+  "actualUnityExecution": "NOT_RUN",
+  "offlinePassedCount": 19,
+  "actualUnityNotRunCount": 1,
+  "actualGameplayScenariosNotRun": 76,
+  "canonicalManifestSha256": "e61f68b2063ba36d9f04574009599d050079b1e4076186a9ec4bfaec1498016f",
+  "runtimePngCount": 1097,
+  "clipCount": 105,
+  "remainingOfflinePendingCount": 0
+}

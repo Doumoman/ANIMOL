@@ -1,0 +1,199 @@
+{
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "reviewStatus": "PASS_SOURCE_REVIEW_WITH_RESOLVED_FINDING",
+  "scope": "Independent read-only review of runtime_exports and review_runtime_exports current C# source. Source strings/lexical evidence are not compiler or behavior execution. Original Unity project/actual actor/Prefab bindings are unavailable.",
+  "sourceFiles": [
+    {
+      "file": "runtime_exports/Editor/StarSwellCoastV01AnimationBuilder.cs",
+      "sha256": "7231e607af09e2f81f178ab7597906544d6352e64d7aeb209b4b4c552c993c1d"
+    },
+    {
+      "file": "runtime_exports/Editor/StarSwellCoastV01JsonSchema.cs",
+      "sha256": "bf0ffb334f3abdc64f96b468a0c1ad75434adbf931a6706df458f0e64345b3df"
+    },
+    {
+      "file": "runtime_exports/Runtime/OneCellGateRules.cs",
+      "sha256": "6facf02780a7389eb308ead3489541ff0d4428c33f8f4b967ca30fc152e9d617"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01AnimatedVisual.cs",
+      "sha256": "4a7c51115cabb57e723eddc5fb7d99067e94de6cb764f4eba509b1c8269af591"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01BackgroundRig.cs",
+      "sha256": "c12946713e61d0608a590488a87fba494cb23e1c353e68a923cbcaf6ec1867b1"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01CameraCover.cs",
+      "sha256": "1249bfb0a38a15b4bc2d696ee599d79481b3118ebb6e672dc2b4743ad35a9aee"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01Logic.cs",
+      "sha256": "0849e1279880ba4b7304fb7336b4258b9bcea1950deaac6d6c5d8a99f6c3a5d1"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01OceanField.cs",
+      "sha256": "c46db1b510226aeceb5f078d3cd2f87e67da036c0fab83893198cd66dcdf6c42"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01StaticVisual.cs",
+      "sha256": "20f827b4e0bb9b9a6d262dccdc2eca95b99fb926f58063606c2f538c72142890"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01TerrainSelector.cs",
+      "sha256": "4c14ed54d133aefd9c086c193891859b702ab058cd0d4ef46f1a2bdb2b7d7aff"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01UndersideSelector.cs",
+      "sha256": "e7f5e0ebeb11b4424260083b3d3e30676ecbd47c626571fbc9355503f2791e86"
+    },
+    {
+      "file": "runtime_exports/Runtime/StarSwellCoastV01VisualCatalog.cs",
+      "sha256": "0265849cf6cdf358f312ff7951f667325c4af7cf79a88f0a20a5bb946dcc2992"
+    },
+    {
+      "file": "runtime_exports/Tests~/StarSwellCoastV01LogicTests.cs",
+      "sha256": "bbd6249413644d6412afd60f2665d11da3dc7ecc9804945c030ac8b137af703c"
+    },
+    {
+      "file": "review_runtime_exports/Editor/StarSwellCoastV01ArtReviewSceneBuilder.cs",
+      "sha256": "cd875bc7eec9391ffc99ee3afb48c577eb1253b0493e4400ab4a509bc7428a54"
+    },
+    {
+      "file": "review_runtime_exports/Runtime/StarSwellCoastV01ArtReviewMarker.cs",
+      "sha256": "fc6dc1907feac0dae1e4efecaf09e78830c1469caa4f0587676ff2b7f398823a"
+    },
+    {
+      "file": "review_runtime_exports/Runtime/StarSwellCoastV01ArtReviewPlayback.cs",
+      "sha256": "14478e91db928b67dcea61c7ca977a27b8364c14279163d755a479292f21760c"
+    }
+  ],
+  "sourceFileCount": 16,
+  "staticSourceEvidence": {
+    "lexical_delimiters_only_not_csharp_parse": true,
+    "current_package_namespace_no_sanctuary_fallback": true,
+    "strict_manifest_pin_and_data_fingerprint": true,
+    "editor_verifies_png_bytes_source_root_guid_sprite_guid_fileid": true,
+    "only_sprite_curve_no_events_or_gameplay_transform": true,
+    "scoped_save_asset_if_dirty_no_global_save": true,
+    "static_initial_legacy_clear_preserves_preawake_explicit_binding": true,
+    "animated_initial_legacy_clear_preserves_preawake_explicit_state": true,
+    "reconfigure_clears_detached_old_renderer_before_new_assignment": true,
+    "ocean_serializes_reconstructible_catalog_camera_parameters_and_owned_renderers": true,
+    "ocean_onenable_always_clear_before_catalog_rebind": true,
+    "ocean_bad_current_config_persisted_before_validation_no_old_resurrection": true,
+    "ocean_world_horizon_independent_from_camera_cover": true,
+    "review_additive_and_saves_only_generated_review_scene": true,
+    "review_opacity_explicit_zero_preserved_missing_defaults_one": true,
+    "json_schema_presence_types_duplicate_guard": true,
+    "ferry_same_actor_cell_one_water_step_land_leaves_boat": true,
+    "barrel_contiguous_host_route_pusher_original": true,
+    "spike_actual_enter_depart_no_autolower": true,
+    "bomb_first_displacing_push_three_only_subsequent_accepted_own_actions": true,
+    "blast_explicit_host_cells_only": true,
+    "ocean_carrier_metadata_unpadded_256_ppu256_oneworldcell": true,
+    "unity_component_script_filenames_match": true
+  },
+  "unityComponentFilenameChecks": [
+    {
+      "file": "StarSwellCoastV01AnimatedVisual.cs",
+      "class": "StarSwellCoastV01AnimatedVisual",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01BackgroundRig.cs",
+      "class": "StarSwellCoastV01BackgroundRig",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01CameraCover.cs",
+      "class": "StarSwellCoastV01CameraCover",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01OceanField.cs",
+      "class": "StarSwellCoastV01OceanField",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01StaticVisual.cs",
+      "class": "StarSwellCoastV01StaticVisual",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01VisualCatalog.cs",
+      "class": "StarSwellCoastV01VisualCatalog",
+      "unityBase": "ScriptableObject",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01ArtReviewMarker.cs",
+      "class": "StarSwellCoastV01ArtReviewMarker",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    },
+    {
+      "file": "StarSwellCoastV01ArtReviewPlayback.cs",
+      "class": "StarSwellCoastV01ArtReviewPlayback",
+      "unityBase": "MonoBehaviour",
+      "fileStemMatches": true
+    }
+  ],
+  "resolvedFindings": [
+    {
+      "id": "COAST-SOURCE-001",
+      "severity": "medium",
+      "state": "RESOLVED_BY_ROOT_SOURCE_REVIEWED",
+      "files": [
+        "Runtime/StarSwellCoastV01StaticVisual.cs",
+        "Runtime/StarSwellCoastV01AnimatedVisual.cs"
+      ],
+      "trigger": "An active component binds renderer A, then Configure is called with null or a different renderer.",
+      "originalRisk": "The old A renderer retained its sprite/enabled state after target reference replacement, leaving detached stale art.",
+      "resolution": "Root now clears and disables the previous target before assignment when renderer changes; Animated restores diagnostic tint before clearing. Both updated source files were reread.",
+      "runtimeReproduction": "NOT_RUN"
+    }
+  ],
+  "openFindings": [],
+  "notExecuted": {
+    "actualCSharpCompile": "NOT_RUN",
+    "actualUnityImport": "NOT_RUN",
+    "actualShaderCompile": "NOT_RUN",
+    "NUnitEditMode": "NOT_RUN",
+    "PlayMode": "NOT_RUN",
+    "SceneSaveReopen": "NOT_RUN",
+    "actualPrefabBindings": "NOT_RUN",
+    "legacyProjectReferenceCountZero": "NOT_RUN",
+    "CSharpSyntaxParser": "NOT_RUN; tree-sitter packages unavailable"
+  },
+  "toolAvailability": {
+    "Unity": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "testSourceOnly": {
+    "file": "runtime_exports/Tests~/StarSwellCoastV01LogicTests.cs",
+    "testMethodsDeclared": 11,
+    "execution": "NOT_RUN"
+  },
+  "manualConclusions": [
+    "No obvious C# type/namespace or Unity component filename mismatch found in the reviewed sources; this does not establish compilation success.",
+    "Catalog runtime checks pin/data fingerprint/name/size/PPU/pivot; original file-byte and real Unity GUID/fileID checks are intentionally Editor/build validation, not a fabricated runtime GUID lookup.",
+    "Initial stale sprite hiding preserves explicit Configure+Bind/Snap calls before deferred Awake; detached-renderer reconfiguration now clears the old renderer.",
+    "Ocean underlay stores attempted current settings, including null/invalid configurations, so disable/enable cannot revive a prior successful catalog. FullRect256 carrier has no art padding and repeats in world space below one world horizon.",
+    "Animation clips and frame player mutate SpriteRenderer artwork only; no Animator Controller, transform curves, action cost, movement events, default blast range or automatic spike/bomb clock is added.",
+    "Ferry, barrel, spike and bomb methods are pure reference contracts. Actual same-actor identity/boarded state, occupied cells, accepted own action uniqueness, tween/turn commits and blast cells remain authoritative host inputs.",
+    "Generated review scene is additive and restores the prior active scene; SaveScene is scoped to that generated review scene and SaveAssetIfDirty to current generated animation/catalog assets. Plain explicit opacity0 is retained, omitted opacity becomes1."
+  ],
+  "limitations": [
+    "No actual Unity project/compiler is installed; source review and string assertions cannot prove import/compilation/runtime lifecycle behavior.",
+    "Actual actor identity/occupancy/cost/undo/save adapters remain unverified host work.",
+    "Final canonical source copying and asset counts are intentionally outside this audit request."
+  ]
+}

@@ -8,6 +8,7 @@ using ANIMOL.Puzzle;
 using ANIMOL.Presentation;
 using ANIMOL.Presentation.Editor;
 using ANIMOL.Art.SunsetSanctumV02;
+using ANIMOL.Art.StarSwellCoastV01;
 namespace ANIMOL.Tests
 {
     public sealed class PuzzleDeviceLogicTests
@@ -78,6 +79,18 @@ namespace ANIMOL.Tests
                     foreach(var e in action.events.Where(e=>e.kind==PrototypeEventKind.Visual))
                     {
                         var definition=session.Definition(e.actor);var view=definition.visualPrefab.GetComponent<DeviceVisualView>();
+                        if (session.Rules.themeId == "twilight_sea" && StarSwellCoastV01PuzzleBinding.Covers(definition))
+                        {
+                            var key = StarSwellCoastV01PuzzleBinding.EventClip(definition, e, session.States[e.actor]);
+                            if (key != null)
+                            {
+                                StarSwellCoastV01VisualCatalog.Clip clip; string error;
+                                Assert.That(map.theme.starSwellCoastV01Catalog.TryGetClip(key,
+                                    StarSwellCoastV01PuzzleBinding.ManifestSha256, out clip, out error), Is.True,
+                                    map.name + " " + e.actor + " " + key + " " + error);
+                            }
+                            continue;
+                        }
                         if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(definition))
                         {
                             var key = SunsetSanctumV02PuzzleBinding.TransitionClip(definition, e, session.States[e.actor]);
@@ -102,6 +115,18 @@ namespace ANIMOL.Tests
             foreach(var d in session.Devices.Where(d=>!session.States[d.id].removed))
             {
                 Assert.That(d.visualPrefab,Is.Not.Null,d.id);var view=d.visualPrefab.GetComponent<DeviceVisualView>();
+                if (session.Rules.themeId == "twilight_sea" && StarSwellCoastV01PuzzleBinding.Covers(d))
+                {
+                    var catalog = session.Map.theme.starSwellCoastV01Catalog;
+                    Assert.That(catalog, Is.Not.Null, d.id);
+                    Assert.That(d.visualPrefab.GetComponent<StarSwellCoastV01AnimatedVisual>(), Is.Not.Null, d.id);
+                    var key = StarSwellCoastV01PuzzleBinding.IdleClip(d, session.States[d.id]);
+                    StarSwellCoastV01VisualCatalog.Clip clip; string error;
+                    Assert.That(catalog.TryGetClip(key, StarSwellCoastV01PuzzleBinding.ManifestSha256,
+                        out clip, out error), Is.True, d.id + " " + key + " " + error);
+                    Assert.That(d.visualPrefab.GetComponentsInChildren<Collider2D>(true), Is.Empty);
+                    continue;
+                }
                 if (session.Rules.themeId == "letter_observatory" && SunsetSanctumV02PuzzleBinding.Covers(d))
                 {
                     var catalog = session.Map.theme.sunsetSanctumV02Catalog;

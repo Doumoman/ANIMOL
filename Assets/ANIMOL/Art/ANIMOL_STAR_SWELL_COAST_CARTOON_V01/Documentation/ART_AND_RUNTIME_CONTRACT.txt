@@ -1,0 +1,46 @@
+ANIMOL 별너울 해안 — 새 각진 카툰 전면 교체 V01
+Package root/id: ANIMOL_STAR_SWELL_COAST_CARTOON_V01
+Runtime namespace/class prefix: ANIMOL.Art.StarSwellCoastV01 / StarSwellCoastV01
+Theme display name: 별너울 해안. Preserve actual existing theme/device/save/map IDs; unknown here.
+
+READ-ONLY SOURCES
+- work/coast_v01/reference/ANIMOL_TWILIGHT_COAST_V02/ANIMOL_TWILIGHT_COAST_V02 : old pixel environment206PNG, no devices; style/16color/80PPU/rounded rules superseded.
+- work/coast_v01/reference/ANIMOL_TWILIGHT_SEA_V01 : earlier raw environment source, reference only.
+- work/sanctum_v01/reference/device_atlas.txt : authoritative device descriptions, especially lines674-784 and fixed details786+.
+- output/ANIMOL_SUNSET_SANCTUM_CARTOON_V02 : latest approved sharp visual construction/runtime pattern. No sanctuary runtime bitmap reuse.
+- work/sanctum_v02/*_exports : reference production scripts/code only, never edit.
+
+ART
+Use built-in imagegen for NEW native production bitmaps. Do not filter/posterize/polygonize old PNGs, repaint RGB, generate code/SVG placeholders, or recolor sanctuary assets. Mechanical crop/alpha separation/registration/uniform resize/composition of NEW native parts permitted. Preserve generated transparency.
+Very thick crisp near-black navy exterior outlines, thinner simpler interior lines. Long straight segments, sharp directional bends, wedges, triangles/trapezoids, large corner cuts. No round caps/soft cylindrical props/puffy clouds/smooth circular housings or tiny16/32-sided circle approximations. Barrel/bomb/sun may retain recognizable functional identity as bold 6-8-sided shapes with long straight edges. Square/diamond hardware; rope represented by angular straight wraps/knots. Cloth/leaves use long polygon masses, not strands or brush texture.
+Flat broad base+one polygon shadow+small accent,2-3tones/material. No grain/dither/sand dots/painterly/airbrush/glossy3D/gradient-dominated shading. Vivid restrained accents. Top-down square gameplay surface+short front, no isometric/long sidewalls.
+Coast theme: warm pale sand/terracotta wet-sand edge, teal/turquoise ocean, driftwood dock planks, slate coastal stone, coral-orange sunset, ivory angular foam, warm brass and rope accents. Props/devices/background share linework/palette. Maritime/coastal craftsmanship, not sanctuary marble or generic industrial machines.
+Sunset sun is allowed here by original coast source: exactly ONE independent angular setting sun; never tile/repeat it. No moon/Saturn/planets. Independent stars nearly fixed BEHIND clouds; clouds and near islets respond more to camera, z+explicit sorting. Far harbor/islets and coastal ornaments outside gameplay routes.
+
+GLOBAL EXPORT
+Each owner writes ONLY work/coast_v01/<group>_exports. Root owns canonical output/runtime/assembly/packaging.
+JSON assets[]: file,width,height,ppu,pivot,logicalRect,footprintCells,sha256,kind,family,heading,state as relevant. clips[]: key,family,heading,state,frames[],fps,loop,ppu,pivot,logicalRect. Provenance references new sources/*.png and production/components/*.png.
+Paths unique relative package root. Default device canvas320x320, logicalRect[32,32,256,256],pivot[.5,.5],PPU256 =>logical1worldcell. Art fills slot. Padding/rotation sweep/visual height is NOT occupancy/collider. actualGameplayFootprintCells/existingGameplayId stay null/unverified, deriveColliderFromAlpha false; registerGameplayCellFromThisRecord false.
+N=+gridY/E=+X. Native independently drawn E/N/W/S poses; don't rotate an entire upright sprite to fake directions. Real motion clips >=10fps (prefer12), distinct native phases, fixed body/hinge/pin/ground anchors. Latest endpoint aliases byte-identical to current frames. No missing key/heading/old-state fallback.
+
+TERRAIN / WATER
+Land materials: coast_sand (legend A), wood_bridge(W), stone_bridge(S). Raw8-neighbor masks N1 NE2 E4 SE8 S16 SW32 W64 NW128; full256 mapping for EACH land material, all declared land floor neighbors count across material transitions. Water is NOT land/walkable occupancy; host maps it separately. Pure visual water cells may be drawn UNDER land and bridge art.
+Land top padding/PPU/pivots compatible with sanctuary V02, but NEW coastal native imagery. Connected2/3/4cell undersides are one fused irregular sandy rock/wood structure; long spans stable2-4chunks/no1tail. Shallow inner-hole caps prevent deep wall filling holes. Exposed land silhouettes have clear chamfers/angular breaks, not an independent square box below each tile. Wood/stone H/V/corner/T/cross are actual playable tiles.
+Add a separately declared water surface carrier suitable for actual water-cell placement, native wrapped/registered repeats and optional native wave/shore feedback clips. Do not add a new walkable terrain type just to render water. Foam does not imply collider, water current, extra movement or new gameplay. Water/shore visual layering must not hide boat/output cells. No invented water occupancy from alpha.
+
+COMMON4 — common_exports
+07 conveyor: E/N/W/S structural axis/printed arrow/flow agree, no extra chain cost.
+09 one-way gate: exactly1occupied cell; exit only check. Wrong/opposite/both sides closed bar+redX,0movement/0cost/0turn. Allowed heading with blocked output does not open. Fixed rails/body; readable open passage >=164px of256; open center transparent. New coastal wood/rope/brass styling, angular ends.
+18 bounce corner: thin open L in NE/NW/SE/SW,45degree face follows existing90degree turn map, no new collision/turn rules.
+19 brake: two incoming axes, stopbars perpendicular, no transport arrow, accepted forced movement stops in that same cell.
+Keep common relative paths/40clip keys from sanctuary V02 when sensible but all66 runtime PNGs NEW coastal art.
+
+COAST4
+05 leave-spike — hazards_exports: flat/unoccupied -> occupied armed warning with visible small tips -> rises ONLY after actual player departure -> raised/blocked. Return into raised cell invalid. Reset/lowering condition SOURCE_UNRESOLVED; host reset/undo only, no invented timer/turn cycle. One-cell visual slot, fixed base, native rising phases and distinct locked state.
+11 steerable ferry — boat_exports: board actual boat, swipe toward water => boat+same player move together EXACTLY1watercell; blocked target water no move. Disembark only valid land, boat remains at last water cell; blocked land invalid. Host controls action/cost, no second cost. Four native headings, bow/oar/wake agree, idle/rowing/arrive/blocked/boarding/landing feedback. Visual boat slot1x1 unless actual host evidence says otherwise; art slot is not invented collision. Rider seat/ground anchor explicit and fixed; don't invent a new player character. Host attaches existing actor VISUAL to boat movement or supplies same tween; logical authority remains single existing controller.
+12 rolling barrel — hazards_exports: valid push rolls barrel in pushed direction to cell BEFORE obstacle. Pusher moves only to barrel ORIGINAL cell, never follows the roll. If FIRST barrel target blocked, entire push invalid/no cost. Four native roll directions/phases/settle, sharp faceted barrel body with angular grain/hoops. Barrel may roll many cells but never teleports ahead by animation callbacks. Actual host committed cell path drives visual progress. Predict marker uses host route only.
+15 three-turn bomb — hazards_exports: first SUCCESSFUL actual displacement ignites and shows3. Subsequent own player's accepted actions show2,1,then explosion AFTER third subsequent action. First push does NOT immediately count3->2. Invalid input/no actual displacement cannot ignite/tick. Automatic chains do not add actions/ticks. Timer/animation/fuse glow never triggers logic. Distinct inert/ignite/3/2/1/detonate/spent feedback and cracked-wall intact/crack/break/open native art. Digits large readable native generated glyphs. Blast range numeric size/shape, actor/ordinary object damage SOURCE_UNRESOLVED: accept authoritative host blast-cell list, no default cross/radius/damage or chain reactions. Native visual-only blast-cell outline/FX may render ONLY supplied host cells. Broken wall center alpha0, no invented2hit wall health.
+
+DELIVERY / VERIFICATION
+Real transparent runtime PNGs, native sources+actual generation prompts, strict latest-only catalog/importer/builder/visual runtime, clips, per-group QA/contact sheets/motion GIFs, whole scene/grid examples, Korean Unity CLI handoff. No concept-only deliverable. Reuse tested runtime patterns/versioned identifiers, no fake compile success.
+Source/PNG/metadata/frame/seam checks PASS_OFFLINE only. Original Unity project absent: actual import/C#/shader/NUnit/Prefab bindings/Play Mode/legacy references0 always NOT_RUN. No fabricated IDs/GUIDs/scene paths. Original pixel restriction and rounded style are discarded by user's latest art direction.
