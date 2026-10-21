@@ -21,7 +21,8 @@ namespace WilliamParadox.Story
         public void Begin(StoryCue[] cues, bool reducedMotion)
         {
             FinishAll();
-            foreach (var cue in cues ?? Array.Empty<StoryCue>()) if (cue != null) jobs.Add(new Job { cue = cue });
+            foreach (var cue in cues ?? Array.Empty<StoryCue>())
+                if (cue != null && cue.type != "shake" && cue.type != "popup") jobs.Add(new Job { cue = cue });
             if (reducedMotion) FinishAll(); else Tick(0);
         }
         public void RestoreSettled(StoryCue[] cues, StorySaveData saved)

@@ -11,6 +11,7 @@ namespace WilliamParadox.Story.Editor
         public const string OutputRoot = "Assets/WilliamParadoxStoryV14";
         public const string ResourcePrefix = "WilliamParadox/V14/";
         public const string StoryResourceId = "WilliamParadox/V14/Story/ranch_story";
+        public const string PresentationResourceId = "WilliamParadox/V14/Story/story_presentation";
         public const string ScenePath = OutputRoot + "/Scenes/RanchStoryPreview.unity";
         public const string PrefabPath = OutputRoot + "/Prefabs/StoryPreviewCanvas.prefab";
         public const string StampPath = OutputRoot + "/Editor/StoryPreviewBuildStamp.asset";

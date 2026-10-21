@@ -38,6 +38,7 @@ namespace WilliamParadox.Story.Editor
         public string sourceRoot;
         public StoryPackage package;
         public StoryImportManifest manifest;
+        public StoryPresentationPackage presentation;
         public TMP_FontAsset font;
         public string fontAssetPath;
         public string fingerprint;
@@ -48,8 +49,9 @@ namespace WilliamParadox.Story.Editor
     /// <summary>Read-only preflight comes before all AssetDatabase mutations.</summary>
     public static class StorySourceImporter
     {
-        public const string BuilderVersion = "14.0.2";
+        public const string BuilderVersion = "14.1.1-layered-v16";
         public const string ManifestSourcePath = "data/import_manifest.json";
+        public const string PresentationSourcePath = "data/story_presentation.json";
         public const string UiGlyphText = "윌리엄의 역설 별길 목장 다음 일시정지 재개 계속 처음부터 등불을 막는다 기록을 덮는다 연출 줄이기 " +
             "이솔의 말을 들었습니다. 등불을 가릴 준비가 되면 버튼을 누르세요. 스토리 대화 미리보기 · 퍼즐 플레이는 연결하지 않습니다. " +
             "다음 버튼을 눌러 계속 일시정지 · 화면 밖에서도 시간이 흐르지 않습니다. 스토리 미리보기 오류 " +
@@ -57,7 +59,7 @@ namespace WilliamParadox.Story.Editor
 
         public static StorySourcePlan Validate(string sourceRoot, string requestedFontAssetPath)
         {
-            if (string.IsNullOrWhiteSpace(sourceRoot)) throw new ArgumentException("data와 art가 들어 있는 v14 소스 폴더를 선택해 주세요.");
+            if (string.IsNullOrWhiteSpace(sourceRoot)) throw new ArgumentException("data와 art가 들어 있는 v16 소스 폴더를 선택해 주세요.");
             var plan = new StorySourcePlan { sourceRoot = Path.GetFullPath(sourceRoot) };
             string manifestFile = StoryImportPaths.ResolveSourceFile(plan.sourceRoot, ManifestSourcePath);
             string manifestJson = File.ReadAllText(manifestFile, Encoding.UTF8);
@@ -68,6 +70,15 @@ namespace WilliamParadox.Story.Editor
             string storyJson = File.ReadAllText(storyFile, Encoding.UTF8);
             plan.package = JsonUtility.FromJson<StoryPackage>(storyJson);
             ValidateStory(plan.package);
+            string presentationFile = StoryImportPaths.ResolveSourceFile(plan.sourceRoot, PresentationSourcePath);
+            plan.presentation = JsonUtility.FromJson<StoryPresentationPackage>(File.ReadAllText(presentationFile, Encoding.UTF8));
+            if (!StoryGraph.TryCreate(plan.package, out var presentationGraph, out var graphErrors))
+                throw new InvalidDataException(string.Join("\n", graphErrors));
+            var presentationErrors = StoryPresentationIndex.Validate(plan.presentation, presentationGraph);
+            foreach (string requiredScene in new[] { "R01", "R05", "R06", "R08", "R10", "R13", "R17" })
+                if (plan.presentation?.scenes == null || !plan.presentation.scenes.Any(s => s != null && s.sceneId == requiredScene))
+                    presentationErrors.Add(requiredScene + ": 요청한 화자 연출용 분리 장면이 없습니다.");
+            if (presentationErrors.Count != 0) throw new InvalidDataException("분리 연출 데이터 오류:\n" + string.Join("\n", presentationErrors));
 
             var byId = new Dictionary<string, StoryImportAsset>(StringComparer.Ordinal);
             var byTarget = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -105,6 +116,11 @@ namespace WilliamParadox.Story.Editor
             {
                 sourcePath = storyFile,
                 assetPath = StoryImportPaths.AssetPathForResource(StoryImportPaths.StoryResourceId, ".json")
+            });
+            plan.files.Add(new StoryImportFile
+            {
+                sourcePath = presentationFile,
+                assetPath = StoryImportPaths.AssetPathForResource(StoryImportPaths.PresentationResourceId, ".json")
             });
 
             string glyphText = CollectVisibleText(plan.package);
@@ -224,7 +240,7 @@ namespace WilliamParadox.Story.Editor
         private static void ValidateSpriteRect(StoryAsset asset, string source)
         {
             StorySpriteRect rect = asset.rect;
-            if (rect == null) return;
+            if (!StorySpriteRect.IsSpecified(rect)) return;
             if (!Finite(rect.x) || !Finite(rect.y) || !Finite(rect.width) || !Finite(rect.height) ||
                 !Finite(rect.pivotX) || !Finite(rect.pivotY) || rect.x < 0 || rect.y < 0 || rect.width < 0 || rect.height < 0 ||
                 rect.pivotX < 0 || rect.pivotX > 1 || rect.pivotY < 0 || rect.pivotY > 1)

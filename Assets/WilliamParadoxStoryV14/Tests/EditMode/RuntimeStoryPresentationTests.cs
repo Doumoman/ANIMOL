@@ -35,12 +35,13 @@ namespace WilliamParadox.Story.Tests
             Assert.That(player.IsPlaying, Is.True);
         }
         [Test]
-        public void FinishingShakeRestoresArtPositionAndNeverMovesDialogue()
+        public void LegacyWholeFrameShakeIsRejectedAndNeverMovesDialogue()
         {
             var dialogue = Child("DialogueRoot"); dialogue.anchoredPosition = new Vector2(13, -400);
             view.artworkRoot.anchoredPosition = new Vector2(5, 8);
             var player = new StoryCuePlayer(view);
             player.Begin(new[] { new StoryCue { type = "shake", duration = 1, amount = 12 } }, false);
+            Assert.That(player.IsPlaying, Is.False);
             player.Tick(0.2f); player.FinishAll();
             Assert.That(view.artworkRoot.anchoredPosition, Is.EqualTo(new Vector2(5, 8)));
             Assert.That(dialogue.anchoredPosition, Is.EqualTo(new Vector2(13, -400)));

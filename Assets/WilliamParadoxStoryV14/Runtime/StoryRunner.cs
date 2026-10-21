@@ -12,7 +12,9 @@ namespace WilliamParadox.Story
     public sealed class StoryRunner : MonoBehaviour
     {
         public TextAsset storyJson;
+        public TextAsset presentationJson;
         public string defaultResourcePath = "WilliamParadox/V14/Story/ranch_story";
+        public string presentationResourcePath = "WilliamParadox/V14/Story/story_presentation";
         public StoryView view;
         public bool restoreOnStart = true;
         public bool reducedMotion;
@@ -24,6 +26,7 @@ namespace WilliamParadox.Story
         private StorySession session;
         private StoryCuePlayer cuePlayer;
         private StoryCreditsPlayer creditsPlayer;
+        private StoryPresentationPlayer presentationPlayer;
         private readonly List<string> errors = new List<string>();
         private bool manualPaused, hasFocus = true, applicationPaused, completedDispatched, listenersBound;
         private bool skipPresentationTick;
@@ -52,6 +55,7 @@ namespace WilliamParadox.Story
         }
         private void OnDestroy()
         {
+            if (presentationPlayer != null) presentationPlayer.Dispose();
             if (view == null || !listenersBound) return;
             if (view.advanceButton != null) view.advanceButton.onClick.RemoveListener(Advance);
             if (view.gateButton != null) view.gateButton.onClick.RemoveListener(ActivateGate);
@@ -68,6 +72,7 @@ namespace WilliamParadox.Story
             try
             {
                 if (cuePlayer != null) cuePlayer.FinishAll();
+                if (presentationPlayer != null) { presentationPlayer.Dispose(); presentationPlayer = null; }
                 var source = storyJson != null ? storyJson : Resources.Load<TextAsset>(defaultResourcePath);
                 if (source == null) throw new InvalidOperationException("Missing story JSON: " + defaultResourcePath);
                 var data = JsonUtility.FromJson<StoryPackage>(source.text);
@@ -80,6 +85,9 @@ namespace WilliamParadox.Story
                 manualPaused = false; applicationPaused = false; hasFocus = Application.isFocused;
                 completedDispatched = false; saveInterval = 0; skipPresentationTick = true;
                 view.Initialize(graph);
+                var presentationSource = presentationJson != null ? presentationJson : Resources.Load<TextAsset>(presentationResourcePath);
+                var presentationData = presentationSource == null ? null : JsonUtility.FromJson<StoryPresentationPackage>(presentationSource.text);
+                presentationPlayer = new StoryPresentationPlayer(view, graph, presentationData);
                 StorySaveData saved = restore ? StorySaveStore.Load(data.packageId) : null;
                 bool restored = saved != null && session.Restore(saved);
                 if (restored)
@@ -105,11 +113,17 @@ namespace WilliamParadox.Story
                 skipPresentationTick = false;
                 bool hadCue = cuePlayer.IsPlaying;
                 cuePlayer.Tick(delta);
+                presentationPlayer.Tick(delta);
                 creditsPlayer.Tick(delta);
                 saveInterval += delta;
                 if ((hadCue && !cuePlayer.IsPlaying) || (creditsPlayer.Active && saveInterval >= 1)) SaveCheckpoint();
             }
             catch (Exception exception) { Fail(exception); }
+        }
+        private void LateUpdate()
+        {
+            // Recompute cover-safe camera bounds after a resize without advancing animation time.
+            if (presentationPlayer != null) presentationPlayer.RefreshLayout();
         }
         private bool AcceptInput()
         {
@@ -121,6 +135,7 @@ namespace WilliamParadox.Story
             if (!AcceptInput()) return;
             try
             {
+                presentationPlayer.FinishAll();
                 if (cuePlayer.IsPlaying) { cuePlayer.FinishAll(); SaveCheckpoint(); return; }
                 if (CurrentNode.kind == "credits") { creditsPlayer.OnAdvance(); SaveCheckpoint(); return; }
                 if (session.Acknowledge()) PresentCurrent();
@@ -132,6 +147,7 @@ namespace WilliamParadox.Story
             if (!AcceptInput() || CurrentNode.kind != "gate") return;
             try
             {
+                presentationPlayer.FinishAll();
                 if (cuePlayer.IsPlaying) { cuePlayer.FinishAll(); SaveCheckpoint(); return; }
                 if (session.ActivateGate()) PresentCurrent();
             }
@@ -154,6 +170,7 @@ namespace WilliamParadox.Story
         {
             reducedMotion = value;
             if (cuePlayer != null && value) cuePlayer.FinishAll();
+            if (presentationPlayer != null && value) presentationPlayer.FinishAll();
             if (creditsPlayer != null) creditsPlayer.SetReducedMotion(value);
             if (view != null && view.reducedMotionToggle != null) view.reducedMotionToggle.SetIsOnWithoutNotify(value);
             SaveCheckpoint();
@@ -167,12 +184,13 @@ namespace WilliamParadox.Story
         {
             if (!Debug.isDebugBuild || session == null) return false;
             if (!session.DebugJump(nodeId)) return false;
-            cuePlayer.FinishAll(); view.ResetPresentation(); completedDispatched = false;
+            cuePlayer.FinishAll(); presentationPlayer.FinishAll(); view.ResetPresentation(); completedDispatched = false;
             PresentCurrent(); return true;
         }
         private void PresentCurrent(StorySaveData saved = null)
         {
             var node = CurrentNode;
+            presentationPlayer.FinishAll();
             bool keepBook = node.kind == "gate" && node.gateId == "PREVIEW_FINAL_CONTINUE";
             creditsPlayer.Stop(keepBook);
             view.PresentNode(node, keepBook);
@@ -182,8 +200,10 @@ namespace WilliamParadox.Story
                 var book = Package.nodes.FirstOrDefault(n => n.kind == "credits" && n.nextId == node.id);
                 if (book != null) { creditsPlayer.Begin(book.credits, reducedMotion, saved); creditsPlayer.Stop(true); }
             }
-            if (saved == null) cuePlayer.Begin(node.cues, reducedMotion);
-            else cuePlayer.RestoreSettled(node.cues, saved);
+            var cues = StoryPresentationIndex.FilterLegacyCues(node.cues, presentationPlayer.HasPresentation);
+            if (saved == null) cuePlayer.Begin(cues, reducedMotion);
+            else cuePlayer.RestoreSettled(cues, saved);
+            presentationPlayer.Present(node, reducedMotion, saved != null);
             SaveCheckpoint(); // In R17 the return cue is committed before the credits node is reachable.
             onNodeChanged.Invoke(node.id);
             if (node.kind == "end" && !completedDispatched)
@@ -203,6 +223,7 @@ namespace WilliamParadox.Story
                 reducedMotion = reducedMotion
             };
             view.Capture(save); creditsPlayer.Capture(save);
+            presentationPlayer.Capture(save);
             StorySaveStore.Save(save); saveInterval = 0;
         }
         private void OnApplicationFocus(bool focus)

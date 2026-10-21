@@ -75,7 +75,9 @@ namespace WilliamParadox.Story.Editor
                 StoryRunner runner = root.AddComponent<StoryRunner>();
                 StoryView view = root.AddComponent<StoryView>();
                 runner.storyJson = storyJson;
+                runner.presentationJson = AssetDatabase.LoadAssetAtPath<TextAsset>(StoryImportPaths.AssetPathForResource(StoryImportPaths.PresentationResourceId, ".json"));
                 runner.defaultResourcePath = StoryImportPaths.StoryResourceId;
+                runner.presentationResourcePath = StoryImportPaths.PresentationResourceId;
                 runner.view = view;
                 runner.restoreOnStart = true;
                 runner.reducedMotion = false;
@@ -121,8 +123,8 @@ namespace WilliamParadox.Story.Editor
             RectTransform fullBleed = Rect("FullBleedBackdrop", canvasObject.transform);
             FillImage(fullBleed, Navy);
             RectTransform viewport = Rect("ArtViewport", canvasObject.transform);
-            viewport.gameObject.AddComponent<StoryArtViewport>();
             viewport.gameObject.AddComponent<RectMask2D>();
+            viewport.gameObject.AddComponent<StoryArtViewport>();
             view.artworkRoot = Rect("ArtworkRoot", viewport);
             view.artworkGroup = view.artworkRoot.gameObject.AddComponent<CanvasGroup>();
             view.artImage = FillImage(Rect("ArtImage", view.artworkRoot), Color.white);
@@ -130,6 +132,17 @@ namespace WilliamParadox.Story.Editor
             StoryCoverImage cover = view.artImage.gameObject.AddComponent<StoryCoverImage>();
             cover.viewport = viewport;
             cover.image = view.artImage;
+            // Separate art layers. Only an Actor_* child is squashed by a speaking cue.
+            view.layeredRoot = Rect("LayeredStage", view.artworkRoot, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
+            StoryLayerStage layeredStage = view.layeredRoot.gameObject.AddComponent<StoryLayerStage>();
+            layeredStage.viewport = view.artworkRoot;
+            layeredStage.logicalSize = new Vector2(1080, 1920);
+            layeredStage.Refresh();
+            view.layeredBackground = FillImage(Rect("LayerBackground", view.layeredRoot), Color.white);
+            StoryCoverImage layerCover = view.layeredBackground.gameObject.AddComponent<StoryCoverImage>();
+            layerCover.viewport = view.layeredRoot; layerCover.image = view.layeredBackground;
+            view.layeredForeground = FillImage(Rect("LayerForeground", view.layeredRoot), Color.white);
+            view.layeredRoot.gameObject.SetActive(false);
             view.dimImage = FillImage(Rect("DimImage", viewport), new Color(0.03f, 0.03f, 0.12f, 0));
 
             view.insetRoot = Rect("InsetRoot", viewport, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));

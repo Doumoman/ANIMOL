@@ -28,6 +28,15 @@ namespace WilliamParadox.Story
     {
         public float x, y, width, height;
         public float pivotX = 0.5f, pivotY = 0.5f;
+
+        // JsonUtility instantiates this nested class even when "rect" is absent
+        // from a story asset. Treat that default instance as an unsliced sprite.
+        public static bool IsSpecified(StorySpriteRect value)
+        {
+            return value != null && (value.x != 0f || value.y != 0f ||
+                value.width != 0f || value.height != 0f ||
+                value.pivotX != 0.5f || value.pivotY != 0.5f);
+        }
     }
 
     [Serializable]

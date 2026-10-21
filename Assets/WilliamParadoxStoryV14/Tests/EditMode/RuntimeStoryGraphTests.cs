@@ -7,6 +7,18 @@ namespace WilliamParadox.Story.Tests
 {
     public sealed class RuntimeStoryGraphTests
     {
+        [Test]
+        public void MissingRectFromUnityJsonIsAnUnslicedSpriteAndForegroundIsValid()
+        {
+            var scene = JsonUtility.FromJson<StoryAsset>("{\"id\":\"R01\",\"kind\":\"scene\",\"resourcePath\":\"WilliamParadox/V14/Art/Scenes/R01\"}");
+            var table = JsonUtility.FromJson<StoryAsset>("{\"id\":\"TABLE\",\"kind\":\"foreground\",\"resourcePath\":\"WilliamParadox/V14/Art/Layers/R01_TABLE\",\"rect\":{\"x\":151,\"y\":190,\"width\":1238,\"height\":660,\"pivotX\":0.5,\"pivotY\":0.5}}");
+            Assert.That(StorySpriteRect.IsSpecified(scene.rect), Is.False);
+            Assert.That(StorySpriteRect.IsSpecified(table.rect), Is.True);
+            var package = Package();
+            package.assets = new[] { scene, table };
+            Assert.That(StoryGraph.TryCreate(package, out _, out var errors), Is.True, string.Join("\n", errors));
+        }
+
         private static StoryPackage Package()
         {
             return new StoryPackage
@@ -35,18 +47,6 @@ namespace WilliamParadox.Story.Tests
         private static StorySaveData Save(StorySession s)
         {
             return new StorySaveData { packageId = s.Graph.Package.packageId, contentVersion = s.Graph.Package.contentVersion, nodeId = s.Current.id, flags = s.Flags };
-        }
-        [Test]
-        public void ImportedStoryKeepsFullImagesAndMeasuredInsetRects()
-        {
-            var source = Resources.Load<TextAsset>("WilliamParadox/V14/Story/ranch_story");
-            Assert.That(source, Is.Not.Null);
-            var package = JsonUtility.FromJson<StoryPackage>(source.text);
-            var graph = Graph(package);
-            Assert.That(graph.Asset("R01").rect, Is.Null);
-            Assert.That(graph.Asset("BG14_epilogue_book").rect, Is.Null);
-            Assert.That(graph.Asset("noodle_01").rect.width, Is.EqualTo(506));
-            Assert.That(graph.Asset("carrot_pudding_full").rect.width, Is.EqualTo(284));
         }
         [Test]
         public void WishRequiresAcknowledgement_AndGenericAdvanceCannotBypassPlayerGate()

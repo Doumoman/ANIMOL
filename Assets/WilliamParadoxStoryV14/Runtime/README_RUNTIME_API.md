@@ -1,4 +1,4 @@
-# 별길 목장 v14 · Story runtime 계약
+# 별길 목장 v16 · Story runtime 계약 (schema14 호환)
 
 Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 폴더는 프로젝트 패키지·입력 설정·폰트·캠페인 저장을 바꾸지 않는다. 이 작업 환경에는 Unity Editor 및 C# 컴파일러가 없으므로 실제 Unity 컴파일, Play Mode, 디바이스 검증을 완료한 상태로 표현하면 안 된다.
 
@@ -10,7 +10,10 @@ Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 �
 | `StoryGraph.cs` | ID·참조·선형 경로·flag 도달성 검증, 순수 진행 모델 |
 | `StoryRunner.cs` | 수동 진행, 입력 debounce, pause/focus, 저장, 미리보기 hook |
 | `StoryView.cs` | 독립 artwork/dialogue/book UI, Resources sprite 캐시 |
-| `StoryCuePlayer.cs` | 전달된 delta만 사용하는 dim/zoom/shake/popup/transition/inset |
+| `StoryCuePlayer.cs` | 전달된 delta만 사용하는 dim/transition/inset. 전체 CG shake/popup 차단 |
+| `StoryPresentationData.cs` | 분리 장면·표정·화자·클로즈업 DTO, 참조/허용 장면 검증과 상태 재구성 |
+| `StoryPresentationPlayer.cs` | 독립 화자 바운스와 cover-safe 카메라. 대사·플래그에는 관여하지 않음 |
+| `StoryLayerStage.cs` | 논리1080×1920 레이어 무대의 균일 cover 배치 |
 | `StoryCreditsPlayer.cs` | 고정된 책 + 본문만 스크롤 / 감소 모션 문단 읽기 |
 | `StoryCoverImage.cs` | 세로 CG의 균일한 cover-fit. 비율을 늘이지 않음 |
 | `StorySafeArea.cs` | UI safe-area anchors를 한 번 적용 |
@@ -21,15 +24,15 @@ Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 �
 
 기본 Runtime asmdef 이름은 `WilliamParadox.Story.Runtime`, 직접 참조는 `Unity.ugui`, `Unity.TextMeshPro`다. 기존 프로젝트에 두 패키지가 있어야 한다. Input System 어셈블리를 직접 참조하지 않는다.
 
-Editor Builder의 루트는 `Assets/WilliamParadoxStoryV14`다. `v14/data/ranch_story.json`을 `Resources/WilliamParadox/V14/Story/ranch_story.json`으로 복사한다. 그림의 Resources 경로는 JSON의 `assets[].resourcePath`와 정확히 같아야 한다. 예: `WilliamParadox/V14/Art/Scenes/R01`. 확장자는 쓰지 않는다. 실제 파일 매핑은 별도 `import_manifest.json`을 사용하며, `StoryPackage`에는 로컬 절대경로를 넣지 않는다.
+Editor Builder의 루트는 `Assets/WilliamParadoxStoryV14`다. `v16/data/ranch_story.json`을 `Resources/WilliamParadox/V14/Story/ranch_story.json`으로, `data/story_presentation.json`을 같은 Story 폴더의 `story_presentation.json`으로 복사한다. 기존 V14 경로는 호환을 위해 유지한다. 그림의 Resources 경로는 JSON의 `assets[].resourcePath`와 정확히 같아야 한다. 예: `WilliamParadox/V14/Art/Scenes/R01`. 확장자는 쓰지 않는다. 실제 파일 매핑은 별도 `import_manifest.json`을 사용하며, `StoryPackage`에는 로컬 절대경로를 넣지 않는다.
 
 일반 CG는 Sprite Single을 먼저 읽고, 없으면 Texture2D에서 FullRect sprite를 만든다. `rect != null`인 패널은 Texture2D에서 그 pixel rect만 Sprite.Create한다. rect의 원점은 **좌측 하단**, width/height는 양수, pivot은 0~1이다. whole texture는 `rect=null`이다. runtime이 atlas 원본 파일을 편집하거나 alpha를 새로 만드는 일은 없다.
 
-이 런타임은 완성된 세로 CG 한 장과 선택적인 comic inset을 표시한다. 분리된 캐릭터 파츠를 자동 조립하거나 skeletal animation을 재생하지 않는다.
+지정한 7개 장면은 독립 배경·인물·선택적 전경을 조립하고, 그 밖의 장면은 완성 세로 CG를 표시한다. 표정·포즈는 준비된 PNG를 교체한다. 골격·손발 조각 애니메이션을 생성하지 않는다. 상세 계약은 `spec/PRESENTATION_RUNTIME.md`를 따른다.
 
 ## UI 결합
 
-참조 Canvas는 1080×1920이다. SafeArea를 중복 적용하지 않는다. `ArtViewport`에는 RectMask2D를 두고, 그 안의 `ArtworkRoot`만 확대·흔들림을 받는다. 긴 화면에서는 `StoryArtViewport`가 원화 영역을 상단 9:16으로 제한해 가장자리의 얼굴과 손을 보존한다. 남은 하단은 남색 바탕이며 대사와 버튼은 독립 루트다. `StoryCoverImage`는 **artImage에 부착**, `viewport`는 ArtViewport, `image`는 artImage로 연결한다. 이 컴포넌트는 source aspect를 유지하고 미세한 넘침만 viewport가 자른다.
+참조 Canvas는 1080×1920이다. SafeArea를 중복 적용하지 않는다. 고정된 `ArtViewport`에는 RectMask2D를 두고, 그 안의 `ArtworkRoot`가 카메라 확대·초점 이동을 받는다. 화자 바운스는 `LayeredStage/Actors/Actor_*` 하나에만 적용한다. 대사와 버튼은 독립 루트다. `StoryCoverImage`는 **artImage에 부착**, `viewport`는 고정 ArtViewport, `image`는 artImage로 연결한다. 이 컴포넌트는 source aspect를 유지하고 미세한 넘침만 viewport가 자른다.
 
 국수 comic inset은 상단 `insetRoot`의 고정 슬롯 안에서 preserveAspect contain으로 표시한다. 권장 슬롯은 논리 880×820, 중앙 기준 y=260이다. 중요한 얼굴·손이 있는 하단 대사 영역을 덮지 않도록 Builder에서 확인한다. 원본 atlas가 가로/세로 어느 비율이든 패널 자체를 늘이지 않는다.
 
@@ -41,6 +44,8 @@ Editor Builder의 루트는 `Assets/WilliamParadoxStoryV14`다. `v14/data/ranch_
 RectTransform artworkRoot;
 CanvasGroup artworkGroup;
 Image artImage, dimImage;
+RectTransform layeredRoot;
+Image layeredBackground, layeredForeground;
 CanvasGroup dialogueGroup;
 TMP_Text speakerText, bodyText, statusText;
 Button advanceButton, gateButton, pauseButton, restartButton, creditsContinueButton;
@@ -63,7 +68,9 @@ Namespace: `WilliamParadox.Story`.
 ```csharp
 // StoryRunner inspector inputs
 public TextAsset storyJson;
+public TextAsset presentationJson;
 public string defaultResourcePath = "WilliamParadox/V14/Story/ranch_story";
+public string presentationResourcePath = "WilliamParadox/V14/Story/story_presentation";
 public StoryView view;
 public bool restoreOnStart = true, reducedMotion;
 
@@ -114,9 +121,9 @@ node kind는 `line`, `cue`, `gate`, `credits`, `end`다. line에는 text가 있�
 | cue | 값과 동작 |
 |---|---|
 | dim | amount 0~1, 검은 overlay alpha |
-| zoom | amount >0, target의 균일 scale |
-| shake | amount ≥0 논리 px, 마지막에 원래 위치로 복원 |
-| popup | scale을 시작값으로 target을 1배까지 확대 |
+| zoom | 이전 사이드카 없는 씬의 호환 경로. v16에서는 `shots[].camera`로 대체 |
+| shake | 그래프 호환용으로 읽을 수 있으나 실행하지 않음 |
+| popup | 그래프 호환용으로 읽을 수 있으나 실행하지 않음 |
 | transition | artworkGroup의 alpha를 0→1로 전환 |
 | inset | assetId 필수, x/y는 중앙 원점 논리 px(+y 위), scale은 insetRoot scale, duration은 fade-in |
 | hideInset | inset fade-out 후 숨김 |
@@ -125,7 +132,7 @@ target은 빈 값/`artwork` 또는 `inset`이다. inset x=y=0은 Builder의 기�
 
 ## 진행 규칙과 R16
 
-대사는 기본으로 즉시 전부 표시한다. 타자 효과를 저장하거나 복원하지 않는다. 효과 재생 중 다음 버튼을 누르면 그 효과만 끝까지 정리하고 멈춘다. 다음 입력에서만 다음 node로 간다. 동일 프레임 입력과 0.15초 이내 중복 입력을 막는다.
+대사는 기본으로 즉시 전부 표시한다. 타자 효과를 저장하거나 복원하지 않는다. 화자 바운스나 새 카메라 효과 중 다음을 누르면 Transform을 정착시키고 다음 노드로 진행한다. 바운스를 위해 추가 입력을 요구하지 않는다. 기존 dim/transition/inset 정지 큐가 재생 중이면 그 큐를 끝내는 입력 규칙은 유지한다. 동일 프레임 입력과 0.15초 이내 중복 입력을 막는다.
 
 일반 line/cue/credits/end의 setFlags는 **진입 시** 적용한다. gate의 setFlags는 **ActivateGate 성공 시**에만 적용한다. requiredFlags를 만족하지 못한 node에는 진입할 수 없다. `Advance()`는 gate와 credits를 통과하지 못한다.
 
@@ -158,6 +165,6 @@ Runtime validator는 asset/node IDs, 참조, 기본 필수 필드, timing의 유
 
 `../Tests/EditMode`에는 NUnit 그래프/게이트/저장/외부 flag 차단 및 cue freeze/분리-root 테스트 소스가 있다. 기본 Builder 복사 대상에는 테스트 폴더가 없다. Unity Test Framework가 있는 프로젝트에 테스트 폴더를 복사한 뒤 Edit Mode에서 실행한다. 테스트 asmdef는 Editor 전용, UNITY_INCLUDE_TESTS 제약과 optional TestAssemblies 참조를 사용한다. 실제 이 환경에서 테스트를 실행한 것으로 기록하지 않는다.
 
-현재 완료한 로컬 확인: ranch_story의 210 node / 28 asset을 독립 Python 경로 검사로 대조했고 누락 참조·순환·미도달 flag는 없었다. C# 파일의 delimiter 및 asmdef JSON도 정적 검사했다. 이 확인은 C# 실행 또는 Unity Play Mode를 대신하지 않는다.
+새 분리 연출 테스트 14개는 허용 장면, 화자만 움직임, delta0 정지, 빠른 다음 입력, 저장 재구성, 감소 모션, 책 전환, 강도0..1, 카메라 경계 노출 방지를 다룬다. C# 파일의 delimiter·문자열과 asmdef JSON은 로컬 정적 검사 대상으로 구분한다. 이 확인과 테스트 소스 제공은 C# 컴파일 또는 Unity 테스트 실행을 대신하지 않는다.
 
 Unity 공식 근거: [Assembly definition file format](https://docs.unity3d.com/kr/6000.0/Manual/assembly-definition-file-format.html), [Adding tests to a package](https://docs.unity3d.com/kr/current/Manual/cus-tests.html).

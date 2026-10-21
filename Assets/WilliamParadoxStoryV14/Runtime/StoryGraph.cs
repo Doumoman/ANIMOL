@@ -34,15 +34,6 @@ namespace WilliamParadox.Story
         {
             var errors = new List<string>();
             if (p == null) { errors.Add("Story JSON is empty or malformed."); return errors; }
-            // JsonUtility materializes an omitted optional rect as a zero-sized object.
-            // Restore the absent value before validating or loading the asset.
-            foreach (var asset in p.assets ?? Array.Empty<StoryAsset>())
-            {
-                var r = asset == null ? null : asset.rect;
-                if (r != null && r.x == 0 && r.y == 0 && r.width == 0 && r.height == 0 &&
-                    r.pivotX == 0.5f && r.pivotY == 0.5f)
-                    asset.rect = null;
-            }
             if (p.schemaVersion != SchemaVersion) errors.Add("schemaVersion must be 14.");
             if (string.IsNullOrWhiteSpace(p.packageId)) errors.Add("packageId is required.");
             if (string.IsNullOrWhiteSpace(p.contentVersion)) errors.Add("contentVersion is required.");
@@ -52,14 +43,14 @@ namespace WilliamParadox.Story
             var nodeIds = new HashSet<string>(StringComparer.Ordinal);
             var assetIds = new HashSet<string>(StringComparer.Ordinal);
             var knownFlags = new HashSet<string>(StringComparer.Ordinal);
-            var assetKinds = new HashSet<string> { "scene", "background", "inset", "actor", "prop", "atlas", "ui" };
+            var assetKinds = new HashSet<string> { "scene", "background", "foreground", "inset", "actor", "prop", "atlas", "ui" };
             foreach (var a in ars)
             {
                 if (a == null) { errors.Add("Null asset."); continue; }
                 if (string.IsNullOrWhiteSpace(a.id) || !assetIds.Add(a.id)) errors.Add("Missing or duplicate asset ID: " + a.id);
                 if (string.IsNullOrWhiteSpace(a.resourcePath) || a.resourcePath.Contains("..") || a.resourcePath.StartsWith("/") || a.resourcePath.Contains("\\") || System.IO.Path.HasExtension(a.resourcePath)) errors.Add(a.id + ": resourcePath must be an extension-free Resources path.");
                 if (!assetKinds.Contains(a.kind ?? "")) errors.Add(a.id + ": unknown asset kind " + a.kind);
-                if (a.rect != null)
+                if (StorySpriteRect.IsSpecified(a.rect))
                 {
                     var r = a.rect;
                     if (!Finite(r.x, r.y, r.width, r.height, r.pivotX, r.pivotY) || r.x < 0 || r.y < 0 || r.width <= 0 || r.height <= 0 || r.pivotX < 0 || r.pivotX > 1 || r.pivotY < 0 || r.pivotY > 1) errors.Add(a.id + ": invalid sprite rect/pivot.");

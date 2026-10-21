@@ -11,6 +11,8 @@ namespace WilliamParadox.Story
         public RectTransform artworkRoot;
         public CanvasGroup artworkGroup;
         public Image artImage, dimImage;
+        public RectTransform layeredRoot;
+        public Image layeredBackground, layeredForeground;
         public CanvasGroup dialogueGroup;
         public TMP_Text speakerText, bodyText, statusText;
         public Button advanceButton, gateButton, pauseButton, restartButton, creditsContinueButton;
@@ -52,6 +54,7 @@ namespace WilliamParadox.Story
             SetDim(0);
             SetInsetVisible(false);
             SetGroup(creditsGroup, false);
+            if (layeredRoot != null) layeredRoot.gameObject.SetActive(false);
         }
 
         public Sprite ResolveSprite(string assetId)
@@ -61,12 +64,13 @@ namespace WilliamParadox.Story
             var asset = graph == null ? null : graph.Asset(assetId);
             if (asset == null) throw new InvalidOperationException("Unknown story asset " + assetId);
             Sprite sprite = null;
-            if (asset.rect == null) sprite = Resources.Load<Sprite>(asset.resourcePath);
+            bool hasRect = StorySpriteRect.IsSpecified(asset.rect);
+            if (!hasRect) sprite = Resources.Load<Sprite>(asset.resourcePath);
             if (sprite == null)
             {
                 var texture = Resources.Load<Texture2D>(asset.resourcePath);
                 if (texture == null) throw new InvalidOperationException("Missing Resources texture: " + asset.resourcePath);
-                var r = asset.rect;
+                var r = hasRect ? asset.rect : null;
                 var rect = r == null ? new Rect(0, 0, texture.width, texture.height) : new Rect(r.x, r.y, r.width, r.height);
                 if (rect.xMax > texture.width || rect.yMax > texture.height) throw new InvalidOperationException(assetId + ": sprite rect is outside the texture.");
                 sprite = Sprite.Create(texture, rect, r == null ? new Vector2(0.5f, 0.5f) : new Vector2(r.pivotX, r.pivotY), 100f, 0, SpriteMeshType.FullRect);
