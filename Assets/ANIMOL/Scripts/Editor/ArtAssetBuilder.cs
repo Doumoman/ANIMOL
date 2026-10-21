@@ -25,7 +25,9 @@ namespace ANIMOL.Presentation.Editor
                assetPath.Contains("/ANIMOL_STARWAY_RANCH_CARTOON_V12/"))return;
             // The full-resolution menu art has its own importer policy. The gameplay
             // sprite manifest must not force these illustrations to Point/32 PPU.
-            if(assetPath.StartsWith(ArtAssetBuilder.Root+"/Sprites/UI/Main/",StringComparison.Ordinal))return;
+            // The menu pattern has a dedicated Repeat texture and Full Rect sprite policy.
+            if(assetPath.StartsWith(ArtAssetBuilder.Root+"/Sprites/UI/Main/",StringComparison.Ordinal) ||
+               assetPath.StartsWith(ArtAssetBuilder.Root+"/Sprites/UI/Pattern/",StringComparison.Ordinal))return;
             var manifest=ArtAssetBuilder.Read();
             var relative=assetPath.Substring(ArtAssetBuilder.Root.Length+1);
             AssetRow row=manifest.assets.FirstOrDefault(a=>a.path==relative);

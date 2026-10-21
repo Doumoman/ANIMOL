@@ -1192,6 +1192,116 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 210, y: 315}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!1 &84428178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 84428179}
+  - component: {fileID: 84428183}
+  - component: {fileID: 84428182}
+  - component: {fileID: 84428181}
+  - component: {fileID: 84428180}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &84428179
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84428178}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 322068439}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24, y: -16}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &84428180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84428178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &84428181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84428178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.12
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &84428182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84428178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &84428183
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84428178}
+  m_CullTransparentMesh: 1
 --- !u!1 &141528687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,6 +1353,116 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &146751318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 146751319}
+  - component: {fileID: 146751323}
+  - component: {fileID: 146751322}
+  - component: {fileID: 146751321}
+  - component: {fileID: 146751320}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &146751319
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146751318}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1191283817}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24, y: -16}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &146751320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146751318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &146751321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146751318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.12
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &146751322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146751318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &146751323
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146751318}
+  m_CullTransparentMesh: 1
 --- !u!1 &205159528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,6 +2212,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 84428179}
   - {fileID: 1478228594}
   - {fileID: 1930489081}
   m_Father: {fileID: 600214134}
@@ -2229,6 +2450,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202a72da7e1ce0e46a06c12d2fe4034a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Menu.MainMenuPressFeedback
+--- !u!1 &325033120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 325033121}
+  - component: {fileID: 325033125}
+  - component: {fileID: 325033124}
+  - component: {fileID: 325033123}
+  - component: {fileID: 325033122}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &325033121
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325033120}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 633602983}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24, y: -16}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &325033122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325033120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &325033123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325033120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.12
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &325033124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325033120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &325033125
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325033120}
+  m_CullTransparentMesh: 1
 --- !u!1 &335045273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,6 +2766,226 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202a72da7e1ce0e46a06c12d2fe4034a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Menu.MainMenuPressFeedback
+--- !u!1 &371453309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 371453310}
+  - component: {fileID: 371453314}
+  - component: {fileID: 371453313}
+  - component: {fileID: 371453312}
+  - component: {fileID: 371453311}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &371453310
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371453309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1008656665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -4, y: -4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &371453311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371453309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &371453312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371453309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.16
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &371453313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371453309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &371453314
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371453309}
+  m_CullTransparentMesh: 1
+--- !u!1 &438227891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 438227892}
+  - component: {fileID: 438227896}
+  - component: {fileID: 438227895}
+  - component: {fileID: 438227894}
+  - component: {fileID: 438227893}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &438227892
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438227891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 702704143}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24, y: -16}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &438227893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438227891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &438227894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438227891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.12
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &438227895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438227891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &438227896
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438227891}
+  m_CullTransparentMesh: 1
 --- !u!1 &457882095
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,6 +4150,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 325033121}
   - {fileID: 612971535}
   - {fileID: 742747015}
   m_Father: {fileID: 335045274}
@@ -3953,6 +4505,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 438227892}
   - {fileID: 2078341375}
   - {fileID: 1146984565}
   m_Father: {fileID: 2036214018}
@@ -4437,6 +4990,116 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742747014}
+  m_CullTransparentMesh: 1
+--- !u!1 &743044635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 743044636}
+  - component: {fileID: 743044640}
+  - component: {fileID: 743044639}
+  - component: {fileID: 743044638}
+  - component: {fileID: 743044637}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &743044636
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743044635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 883591644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -4, y: -4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &743044637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743044635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &743044638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743044635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.18
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &743044639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743044635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &743044640
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743044635}
   m_CullTransparentMesh: 1
 --- !u!115 &757713098
 MonoScript:
@@ -5126,6 +5789,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 743044636}
   - {fileID: 1831891768}
   - {fileID: 1388291804}
   - {fileID: 2096705815}
@@ -5579,6 +6243,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 371453310}
   - {fileID: 1425631336}
   - {fileID: 921294628}
   - {fileID: 2117868973}
@@ -5659,6 +6324,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1806309930}
   - {fileID: 205159529}
   - {fileID: 1729202944}
   - {fileID: 1114714121}
@@ -7311,6 +7977,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 146751319}
   - {fileID: 1059656802}
   - {fileID: 608539134}
   m_Father: {fileID: 803629553}
@@ -10515,6 +11182,116 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783585957}
+  m_CullTransparentMesh: 1
+--- !u!1 &1806309929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806309930}
+  - component: {fileID: 1806309934}
+  - component: {fileID: 1806309933}
+  - component: {fileID: 1806309932}
+  - component: {fileID: 1806309931}
+  m_Layer: 0
+  m_Name: Character Faces And Stars
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1806309930
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309929}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1029515760}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -24, y: -24}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1806309931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815d4770a3a7d314ea9c066979a82c54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::Animol.UI.Pattern.AnimolPatternMotion
+  reducedMotion: 0
+  modalOpen: 0
+--- !u!114 &1806309932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5353d736e703f474f9bf3fe19a4677d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::DiagonalPattern.DiagonalPatternBackground
+  scrollingShader: {fileID: 4800000, guid: dc0dc0d8e45eabc41ba7e532cfce7375, type: 3}
+  patternTexture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  tileSize: {x: 960, y: 960}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  patternTint: {r: 0.6509804, g: 0.43137255, b: 0.28235295, a: 1}
+  patternOpacity: 0.1
+  visualVelocity: {x: 8, y: 8}
+  useUnscaledTime: 1
+  isScrolling: 1
+  initialPhase: {x: 0, y: 0}
+--- !u!114 &1806309933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 2800000, guid: c88ec790f7934404499f066e4fad4269, type: 3}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &1806309934
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806309929}
   m_CullTransparentMesh: 1
 --- !u!1 &1827430302
 GameObject:

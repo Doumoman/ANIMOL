@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Animol.UI.Pattern;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -156,6 +157,7 @@ namespace ANIMOL.Menu
             SelectMode("campaign");
             SelectCampaignTheme(0);
             RefreshBattleGate();
+            SyncPatternMotion();
             initialized = true;
         }
 
@@ -447,6 +449,17 @@ namespace ANIMOL.Menu
             }
             if (reducedMotionToggle && reducedMotionToggle.isOn != value)
                 reducedMotionToggle.SetIsOnWithoutNotify(value);
+            SyncPatternMotion();
+        }
+
+        void SyncPatternMotion()
+        {
+            if (!canvas) return;
+            foreach (var pattern in canvas.GetComponentsInChildren<AnimolPatternMotion>(true))
+            {
+                pattern.SetReducedMotion(reducedMotion);
+                pattern.SetModalOpen(IsModalOpen);
+            }
         }
 
         public void RefreshBattleGate()
@@ -560,9 +573,10 @@ namespace ANIMOL.Menu
             modalBody.text = body;
             settingsControls.SetActive(false);
             modalPanel.SetActive(true);
+            SyncPatternMotion();
             RefreshDiagonalLine();
         }
 
-        public void CloseModal() { modalPanel.SetActive(false); RefreshDiagonalLine(); }
+        public void CloseModal() { modalPanel.SetActive(false); SyncPatternMotion(); RefreshDiagonalLine(); }
     }
 }
