@@ -1,6 +1,6 @@
-# 별길 목장 v16 · Story runtime 계약 (schema14 호환)
+# 별길 목장 v19 · Story runtime 계약 (schema14 호환)
 
-Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 폴더는 프로젝트 패키지·입력 설정·폰트·캠페인 저장을 바꾸지 않는다. 이 작업 환경에는 Unity Editor 및 C# 컴파일러가 없으므로 실제 Unity 컴파일, Play Mode, 디바이스 검증을 완료한 상태로 표현하면 안 된다.
+Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 폴더는 프로젝트 패키지·입력 설정·폰트·캠페인 저장을 바꾸지 않는다. 현재 프로젝트의 컴파일·EditMode·Play 시작 및 기기 검증 범위는 `Validation/WilliamV19/README.md`에 기록한다.
 
 ## 파일 책임
 
@@ -24,7 +24,7 @@ Unity 6 / UGUI / TextMeshPro용 **대화 전용 미리보기** 소스다. 이 �
 
 기본 Runtime asmdef 이름은 `WilliamParadox.Story.Runtime`, 직접 참조는 `Unity.ugui`, `Unity.TextMeshPro`다. 기존 프로젝트에 두 패키지가 있어야 한다. Input System 어셈블리를 직접 참조하지 않는다.
 
-Editor Builder의 루트는 `Assets/WilliamParadoxStoryV14`다. `v16/data/ranch_story.json`을 `Resources/WilliamParadox/V14/Story/ranch_story.json`으로, `data/story_presentation.json`을 같은 Story 폴더의 `story_presentation.json`으로 복사한다. 기존 V14 경로는 호환을 위해 유지한다. 그림의 Resources 경로는 JSON의 `assets[].resourcePath`와 정확히 같아야 한다. 예: `WilliamParadox/V14/Art/Scenes/R01`. 확장자는 쓰지 않는다. 실제 파일 매핑은 별도 `import_manifest.json`을 사용하며, `StoryPackage`에는 로컬 절대경로를 넣지 않는다.
+Editor Builder의 루트는 `Assets/WilliamParadoxStoryV14`다. `v19/data/ranch_story.json`을 `Resources/WilliamParadox/V14/Story/ranch_story.json`으로, `data/story_presentation.json`을 같은 Story 폴더의 `story_presentation.json`으로 복사한다. 기존 V14 경로는 호환을 위해 유지한다. 그림의 Resources 경로는 JSON의 `assets[].resourcePath`와 정확히 같아야 한다. 예: `WilliamParadox/V14/Art/Scenes/R01`. 확장자는 쓰지 않는다. 실제 파일 매핑은 별도 `import_manifest.json`을 사용하며, `StoryPackage`에는 로컬 절대경로를 넣지 않는다.
 
 일반 CG는 Sprite Single을 먼저 읽고, 없으면 Texture2D에서 FullRect sprite를 만든다. `rect != null`인 패널은 Texture2D에서 그 pixel rect만 Sprite.Create한다. rect의 원점은 **좌측 하단**, width/height는 양수, pivot은 0~1이다. whole texture는 `rect=null`이다. runtime이 atlas 원본 파일을 편집하거나 alpha를 새로 만드는 일은 없다.
 
@@ -121,7 +121,7 @@ node kind는 `line`, `cue`, `gate`, `credits`, `end`다. line에는 text가 있�
 | cue | 값과 동작 |
 |---|---|
 | dim | amount 0~1, 검은 overlay alpha |
-| zoom | 이전 사이드카 없는 씬의 호환 경로. v16에서는 `shots[].camera`로 대체 |
+| zoom | 이전 사이드카 없는 씬의 호환 경로. v19에서는 `shots[].camera`로 대체 |
 | shake | 그래프 호환용으로 읽을 수 있으나 실행하지 않음 |
 | popup | 그래프 호환용으로 읽을 수 있으나 실행하지 않음 |
 | transition | artworkGroup의 alpha를 0→1로 전환 |
