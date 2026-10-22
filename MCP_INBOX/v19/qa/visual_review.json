@@ -1,0 +1,466 @@
+{
+  "version": "v19",
+  "reviewType": "Manual source-art cross-review; no raster changes or generated composites",
+  "method": "Inspected original PNGs through local view_image against both user-approved rich-color references and the canonical body anchor. This is a cross-asset artistic review, not automated style certification.",
+  "counts": {
+    "storyCG": 17,
+    "fullBody": 32,
+    "dialogueBust": 12,
+    "overview": 4
+  },
+  "reviewedAssetCount": 65,
+  "references": [
+    {
+      "path": "reference/APPROVED_R03.png",
+      "sha256": "33eb223452ae99c6d8a52efaceb06b90d974eb2033a8b25ff614b44576910bf4"
+    },
+    {
+      "path": "reference/APPROVED_R04.png",
+      "sha256": "c59c508de04cfe4ef930700b4e02fcf2ce13fa43b20ab09aff23e38fe194ea28"
+    },
+    {
+      "path": "art/STYLE_ANCHOR.png",
+      "sha256": "cd4eb73bed763b8a822ce34d4818604900d4a7e9bcf0e19c8c9267591d707c53"
+    }
+  ],
+  "approvedSceneByteChecks": [
+    {
+      "scene": "art/scenes/R03.png",
+      "approvedReference": "reference/APPROVED_R03.png",
+      "byteIdentical": true,
+      "sha256": "33eb223452ae99c6d8a52efaceb06b90d974eb2033a8b25ff614b44576910bf4"
+    },
+    {
+      "scene": "art/scenes/R04.png",
+      "approvedReference": "reference/APPROVED_R04.png",
+      "byteIdentical": true,
+      "sha256": "c59c508de04cfe4ef930700b4e02fcf2ce13fa43b20ab09aff23e38fe194ea28"
+    }
+  ],
+  "reviewCriteria": [
+    "Thick angular navy outer contours and simpler internal lines",
+    "Compact torso with elongated forearms/shins and oversized hands/shoes across standing, seated and foreshortened poses",
+    "Character-specific iris colors, heavy wedge upper lashes and lifted eye corners; expression may widen, lower or close lids",
+    "Rich flat base colors with bounded cel-shadow planes rather than the rejected desaturated/unshaded branch",
+    "Human faces/hands with animal ears, horns and tails; preserved identities, costume cues and scene actions"
+  ],
+  "criticalSceneChecks": [
+    {
+      "scenes": [
+        "R02",
+        "R03",
+        "R07",
+        "R11",
+        "R14",
+        "R15"
+      ],
+      "result": "Isol remains inside a continuous sealed chamber; friends are outside or shown through/reflected in facets. No premature exit or hand contact observed."
+    },
+    {
+      "scenes": [
+        "R09"
+      ],
+      "result": "Hanging forearm is behind the crossing beam front. Only hooked fingertips appear over its upper/front edge; rescue hands remain separate."
+    },
+    {
+      "scenes": [
+        "R16",
+        "R17"
+      ],
+      "result": "R16 alone shows the opened return path. R17 held-hand contact remains linked."
+    }
+  ],
+  "materialFindings": [],
+  "conclusion": "No material style or critical-occlusion defect identified in the 65 reviewed source assets.",
+  "limits": [
+    "Manual visual comparison does not measure an exact head-height ratio for every pose or certify pixel-identical eye geometry. Perspective and emotional lid changes were considered.",
+    "This review covers the 17 CGs, 32 individual body sprites, 12 dialogue busts and 4 overview sheets, not the remaining background/prop/atlas assets. Their structural checks are recorded separately.",
+    "Source-art inspection is not Unity compilation, animation playback, Play Mode, device testing, or a full final-layout review."
+  ],
+  "reviewedAssets": {
+    "storyCG": [
+      {
+        "path": "art/scenes/R01.png",
+        "sha256": "e2cc6f232c676f0f5bafb0efba9c25ebd460ffc1e1731b2ca1a9a612cdcaf4b0"
+      },
+      {
+        "path": "art/scenes/R02.png",
+        "sha256": "a8eae7d61da7f665056342cfe94355e64021ac8f9725f0760a2f86d55fd2404c"
+      },
+      {
+        "path": "art/scenes/R03.png",
+        "sha256": "33eb223452ae99c6d8a52efaceb06b90d974eb2033a8b25ff614b44576910bf4"
+      },
+      {
+        "path": "art/scenes/R04.png",
+        "sha256": "c59c508de04cfe4ef930700b4e02fcf2ce13fa43b20ab09aff23e38fe194ea28"
+      },
+      {
+        "path": "art/scenes/R05.png",
+        "sha256": "fb622cfd5084c9db1e611da3c189a71be138ad7c3bb81849f4629e515e431d72"
+      },
+      {
+        "path": "art/scenes/R06.png",
+        "sha256": "f8266efc0f5acef545cb455f6d0e6db60f6ccf6c0187fd8884431e4af2e6f78a"
+      },
+      {
+        "path": "art/scenes/R07.png",
+        "sha256": "09cd45b44873db770729a60cfd7f2ffd2b782fc352b6ebef00f582f56e1cb54e"
+      },
+      {
+        "path": "art/scenes/R08.png",
+        "sha256": "e6160874983e9a7503f17be40307a1448d9e722bfc057b5de4c30e6797118434"
+      },
+      {
+        "path": "art/scenes/R09.png",
+        "sha256": "8147d8122d5194f42878000048ebe3247e4573cd906773e849523d56bd0e21ef"
+      },
+      {
+        "path": "art/scenes/R10.png",
+        "sha256": "1145b0e9d4fb21c0dbee9c5065531dbadbaa5fd33e01d547196d7fd6e87940dc"
+      },
+      {
+        "path": "art/scenes/R11.png",
+        "sha256": "724190df54637d9b4e46679007c94238c5243960b25fddb62470f11e6936f9d7"
+      },
+      {
+        "path": "art/scenes/R12.png",
+        "sha256": "6d5239853671558982890e56964f64a0935144ffcd016a82136d0d3ccf02f52d"
+      },
+      {
+        "path": "art/scenes/R13.png",
+        "sha256": "2cc7fd3d797329eab384096f1398beaeb058a60ef5bd474eefac409674a9dd68"
+      },
+      {
+        "path": "art/scenes/R14.png",
+        "sha256": "1f2e902ebd6f06a2200b9238d4230b5f2ac4cc39185741f3845fe5b7bb216119"
+      },
+      {
+        "path": "art/scenes/R15.png",
+        "sha256": "52671a6136ea9f624d01a4a1cbfda875fb0e2fd26a9ab2a3a0ab8ca1cf84d247"
+      },
+      {
+        "path": "art/scenes/R16.png",
+        "sha256": "84fb76d581c4a57f1bbe273c959e66458e242806c134e9f7dfd262c5a228c03c"
+      },
+      {
+        "path": "art/scenes/R17.png",
+        "sha256": "08fe1bc8268399093554bd467e8c9f1e4e4d9eeb72c95112b64c9f69a0f08e1f"
+      }
+    ],
+    "fullBody": [
+      {
+        "path": "art/characters/CH01_choa_01.png",
+        "sha256": "1b58ca536fac27f6b4ff9e480386e9f9215f1e52db520cef38bc5c667dd767df"
+      },
+      {
+        "path": "art/characters/CH01_choa_02.png",
+        "sha256": "3733e97033e43f8312ead7dee211fdb15b6aeb02c67d85137da1d2a123bf5b48"
+      },
+      {
+        "path": "art/characters/CH01_choa_03.png",
+        "sha256": "b1e901bf0044d4f7b3bace64e5d779daeed3c866bb6766a24e6a2dc89cdaeae4"
+      },
+      {
+        "path": "art/characters/CH01_choa_04.png",
+        "sha256": "fb252c100091eb8a373afe7d4b1b3db6263577512206c6f39810202c026471e9"
+      },
+      {
+        "path": "art/characters/CH01_choa_05.png",
+        "sha256": "619c45c88458ca5096b99b3a39fb31be7fb8b2e3c060f13d3e3639cc336b2c29"
+      },
+      {
+        "path": "art/characters/CH01_choa_06.png",
+        "sha256": "46ecd8773fed6c420dc9f78713484882dfb2360bca0165d1184515a872287115"
+      },
+      {
+        "path": "art/characters/CH01_choa_07.png",
+        "sha256": "6d6317f0214212e5435d8d97fb57f2512967329d52d578e11c19efd57ddd3bf6"
+      },
+      {
+        "path": "art/characters/CH01_choa_08.png",
+        "sha256": "77dfcfaeeb5c00a017ff347bf8bb1f6bbfe9930eaf93350353bed09d04ad43d8"
+      },
+      {
+        "path": "art/characters/CH02_isol_01.png",
+        "sha256": "53d0f5b6e8fdab3d705568ee783795a1333a99a3903a1fb5f11724d4bc72835d"
+      },
+      {
+        "path": "art/characters/CH02_isol_02.png",
+        "sha256": "9331c8941c38089a03b9b1f69b3f73ccb9b7e63208b7e4b2ba64b46ce9375bc7"
+      },
+      {
+        "path": "art/characters/CH02_isol_03.png",
+        "sha256": "0d72b639031f9c83aa9ee877b0e317e6c3b3e55ac6961f96ae8617ed5ead22e0"
+      },
+      {
+        "path": "art/characters/CH02_isol_04.png",
+        "sha256": "eff81f482f74a9a81694babb243c776016070189737e082ed389bb9a4a1c94ba"
+      },
+      {
+        "path": "art/characters/CH02_isol_05.png",
+        "sha256": "e739ce3cd9d61b5f420570bff4ec8600e173f80f72812c8e0876f5b993b326d6"
+      },
+      {
+        "path": "art/characters/CH02_isol_06.png",
+        "sha256": "d7a6bf312229e6ed9b09820dccc4aa4c977c97fb870ad340ba6f3696a5cdccc3"
+      },
+      {
+        "path": "art/characters/CH02_isol_07.png",
+        "sha256": "77cc0d9af50ce4136fff6ae1609128f98e621c761a65e1fb6c096c32422dcd09"
+      },
+      {
+        "path": "art/characters/CH02_isol_08.png",
+        "sha256": "7e04b2525131c32ebaabbf2c2bc57688426ad14f9bc729a1e7579a2c9abeda1b"
+      },
+      {
+        "path": "art/characters/CH03_tori_01.png",
+        "sha256": "b07e5527de340059748c2db32d2f455f3f2366d25d92aaa235691672dba0a472"
+      },
+      {
+        "path": "art/characters/CH03_tori_02.png",
+        "sha256": "309bff00e197b3e1a67bb9eeeb4068b6f64d3ae4b1693cbaf5d03ebd83616717"
+      },
+      {
+        "path": "art/characters/CH03_tori_03.png",
+        "sha256": "ba30838a9586f4ca42c52f6d22ef12cb6dc02744fa3ab802c088871a7bdf6829"
+      },
+      {
+        "path": "art/characters/CH03_tori_04.png",
+        "sha256": "74b52a9a0e1c86df2c27b79098c11be9ec45cb00908b69153a63f2e3e33f3a92"
+      },
+      {
+        "path": "art/characters/CH03_tori_05.png",
+        "sha256": "d6404de3ce2117a1ad77ece3fde52b80200e1d6db41a8b2ece88a611f68eff63"
+      },
+      {
+        "path": "art/characters/CH03_tori_06.png",
+        "sha256": "4a8d17292169c7af4213800708bd11672c3c639436982a2874b4aa8959612884"
+      },
+      {
+        "path": "art/characters/CH03_tori_07.png",
+        "sha256": "6979099573bca16b6a378754adf51634da4bd486823a9a6dc91fae97f1f33cd5"
+      },
+      {
+        "path": "art/characters/CH03_tori_08.png",
+        "sha256": "577e4c2acbdb2e86180c7f6ca452133024c3767c5b5cf549bf8671398620ca47"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_01.png",
+        "sha256": "01e53bf86d35e80bfb69119f7d606ec8dfd3621297093e72a206df8928b8f422"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_02.png",
+        "sha256": "f82eeca8cdb06b113a23614f01e2e6eb82a40edb5182e38720f841d70526d252"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_03.png",
+        "sha256": "d06a1b76375df6e8050a64c35b034f86e42b809ed8dfeec74fc06e8be0391f8f"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_04.png",
+        "sha256": "3fcf14bf5f79d3660d8becbb7445bcb4937e676bb868b2defb712eeafb89b9b4"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_05.png",
+        "sha256": "28634a1a37fdb6a9540a103270df465a4ffd1d58d8b4e31756cf79d632b3fca8"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_06.png",
+        "sha256": "d07c8f44673f9a8de0c0b60ce77c771a3baedb90bab2ce77916c9cd25a590678"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_07.png",
+        "sha256": "68e7c16fc99db0a97d9f48255577c576a8ff61e5a21638270e41154c9b3de57c"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_08.png",
+        "sha256": "e6737472d22f9f70a106abfae7b3016e0d6339c94bdb137d63443937c0038a1d"
+      }
+    ],
+    "dialogueBust": [
+      {
+        "path": "art/actors/R01_CHO_01.png",
+        "sha256": "f378159368b1fe60a5fab78e288a6c532b610e376272e2b6ae4ca49be906aedb"
+      },
+      {
+        "path": "art/actors/R01_CHO_02.png",
+        "sha256": "133642851f1b12ec4ce9148b1a45aa9de87e84c8c2df79d876a8a46083a1b2d1"
+      },
+      {
+        "path": "art/actors/R01_CHO_03.png",
+        "sha256": "b08337c8895651256f7e14cd501e90fa43f537e3ac29aa02ad9e0d26b0e5f5d7"
+      },
+      {
+        "path": "art/actors/R01_ISO_01.png",
+        "sha256": "a58a45f92c733df77e8c179894f458c6c65ab4ba715b940c092888615fc1451e"
+      },
+      {
+        "path": "art/actors/R01_ISO_02.png",
+        "sha256": "f635bc904bb3af960ee22e1c648624754beaa1f72f7716122ef58ad3560bc099"
+      },
+      {
+        "path": "art/actors/R01_ISO_03.png",
+        "sha256": "1e671c158adcf61c0d18ce812425365266d11d7e0e33b7798478eb44eb2b5d15"
+      },
+      {
+        "path": "art/actors/R01_TOR_01.png",
+        "sha256": "658c26fd4bf28cd6cf7602a87b7f0a5964efbac0ea2243e125049db261fb8013"
+      },
+      {
+        "path": "art/actors/R01_TOR_02.png",
+        "sha256": "d118503cd452aa34ecf67afb2d4ccb4519292d04f4cba3d9e17c76edadc26db3"
+      },
+      {
+        "path": "art/actors/R01_TOR_03.png",
+        "sha256": "2c1f0e36763a6703062e32fa6dc127efb9888db126ce3e693298af5c6c6d5991"
+      },
+      {
+        "path": "art/actors/R01_YEO_01.png",
+        "sha256": "797132361bdd4936f1570f4dd63531c3f467d050c670ce9a284c6aab873fe4fb"
+      },
+      {
+        "path": "art/actors/R01_YEO_02.png",
+        "sha256": "819ebcc9d5a55206817d488b721aab7528b4ae6ef38e125287f159fae703e6ac"
+      },
+      {
+        "path": "art/actors/R01_YEO_03.png",
+        "sha256": "aed9ac1b5a030b13f634c0f2b927c7b1fd145f579e66d77af1567393dd6a9773"
+      }
+    ],
+    "overview": [
+      {
+        "path": "art/characters/CH01_choa_states.png",
+        "sha256": "443a8c614399fc9d9754792b86e8bbf390c0c9e364af5a3583e37280b13e70dd"
+      },
+      {
+        "path": "art/characters/CH02_isol_states.png",
+        "sha256": "619871ed9a686d5d0cbf61d2832c0b11319ffe7d1cadd54741f5d9026d5ee180"
+      },
+      {
+        "path": "art/characters/CH03_tori_states.png",
+        "sha256": "e2d7a5ef7afdb20b634257fc448555aca67dcc0cdfa711b97f834e62af8b9164"
+      },
+      {
+        "path": "art/characters/CH04_yeoul_states.png",
+        "sha256": "421a0dcb87d54e1eaa531c46fd68281445e7021d6b426d5e4c291feb8b043f44"
+      }
+    ]
+  },
+  "additionalLayoutSpotCheck": {
+    "path": "qa/preview/R10_wide.png",
+    "sha256": "348ce81154d038018f1c94facd3444ef058d4bd778eda87bafa57eed5372cf4c",
+    "isolX": 0.35,
+    "result": "The displayed R10 wide Canvas2D preview at isol x=0.35 leaves visible space between the extended hand and the left viewport edge. This is a browser-mock layout spot-check, not Unity evidence."
+  },
+  "latestPatchReview": {
+    "patchId": "actors-hands-20261022",
+    "passed": true,
+    "editedPngs": 16,
+    "dialogueBusts": 12,
+    "sceneIds": [
+      "R02",
+      "R09",
+      "R13"
+    ],
+    "linkedRuntimeSprite": "CH02_isol_04",
+    "otherArtPngsUnchanged": 64,
+    "storyNodesUnchanged": 210,
+    "utterancesUnchanged": 194,
+    "sourceBytesMatchGeneratedOriginals": true,
+    "visibleAlphaCanvasEdgeContacts": [],
+    "r01PoseStates": 12,
+    "canvasPreviewPassed": true,
+    "manualSourceAndCompositeReview": true,
+    "unityExecuted": false,
+    "previewMethod": "Native Canvas2D rendering of supplied presentation data, not a Unity execution capture.",
+    "checks": {
+      "art": "qa/art_validation.json",
+      "data": "qa/delivery_validation.json",
+      "presentation": "qa/presentation_validation.json",
+      "preview": "qa/canvas_preview.json"
+    },
+    "assets": [
+      {
+        "file": "art/characters/CH02_isol_04.png",
+        "sha256": "36c2b16f4867a82bb8f7fa5fc20948a3253c090cf449ff55f7e83df92785b0b6",
+        "review": "Viewed final source hand silhouettes: human hand anatomy with four fingers plus one thumb, respecting hidden digits and original wrist/gesture. Scene composition and clothing retained."
+      },
+      {
+        "file": "art/actors/R01_CHO_01.png",
+        "sha256": "95bc9b81bdef41742bb9bcb3b75bcd242b3679461dafe562f9a004a661a2cfff",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_CHO_02.png",
+        "sha256": "189970b6ee8d62b96d753d898759eb89ca956555b88044bdf713ed4364a87e6c",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_CHO_03.png",
+        "sha256": "9d0d6e708210910614375bd25a03159097ab7d71d0ba8d6bf87b102d1bd7a8fc",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_ISO_01.png",
+        "sha256": "8ae003212ef3ad43fdab14ba0f6b77951c359bd75144cd1334712e269e276427",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_ISO_02.png",
+        "sha256": "3dabb49b747b1e7175d37b9479066f41fc0178d768e371f455a8c8d956556631",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_ISO_03.png",
+        "sha256": "2e7bed7e4a946199df2fbe80b83ad7aae534cfe1538e1d4dd0ce19964d385270",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_TOR_01.png",
+        "sha256": "2e1438be8cb8a410446200e54465779b6d9d39cc7a8ced31a539d013aed9b88e",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_TOR_02.png",
+        "sha256": "de8f7473cd34e5d20e99a9625bde7de8237f5374fd9cf7e6853544228991f59f",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_TOR_03.png",
+        "sha256": "d4db24fe005499b74d99f337e4a53b581fad5408794ccd47051ff7e919af97d3",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_YEO_01.png",
+        "sha256": "d2f35650ff04f0a023877ab7a08145feed00442c1d8bd5768af1cda39fb4d7c5",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_YEO_02.png",
+        "sha256": "e75d03a25b4c0f7d94d25ac25ca22b552d7f45589c79042291a402adda594656",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/actors/R01_YEO_03.png",
+        "sha256": "eb9c24b01ef52c1d5f687df566be131d780fe1f3080782981cb0e574885237ee",
+        "review": "Viewed final source: bright clean face base, more open almond eyes, youthful short lower face, thick angular navy outline and vivid flat/cel colors; distinct original gesture/expression retained."
+      },
+      {
+        "file": "art/scenes/R02.png",
+        "sha256": "c7324690b3bfe8b46159eb29f9aae5ab32c389221ff4a40145d6e41e5e831fb8",
+        "review": "Viewed final source hand silhouettes: human hand anatomy with four fingers plus one thumb, respecting hidden digits and original wrist/gesture. Scene composition and clothing retained. Isol remains inside the closed chamber; all friends remain outside."
+      },
+      {
+        "file": "art/scenes/R09.png",
+        "sha256": "43200d12ffaa59495442a309c2f86aa51707db4e2e5690f35f1440298002130f",
+        "review": "Viewed final source hand silhouettes: human hand anatomy with four fingers plus one thumb, respecting hidden digits and original wrist/gesture. Scene composition and clothing retained. Hanging forearm remains behind the beam; curled gripping fingers sit over the upper edge; rescue hands remain separate."
+      },
+      {
+        "file": "art/scenes/R13.png",
+        "sha256": "585a35bf4c3265222087c9683270b12c08e32f4c05cf606390dcb39948f7208c",
+        "review": "Viewed final source hand silhouettes: human hand anatomy with four fingers plus one thumb, respecting hidden digits and original wrist/gesture. Scene composition and clothing retained."
+      }
+    ]
+  }
+}
