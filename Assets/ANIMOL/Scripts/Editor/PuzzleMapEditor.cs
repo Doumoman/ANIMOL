@@ -18,25 +18,22 @@ namespace ANIMOL.Presentation.Editor
         Layer layer;
         Marker marker;
         TerrainMaterial material;
-        DeviceKind device = DeviceKind.Conveyor;
         PrototypeDevice prototypeBrush;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
         bool useLibrary = true, inspectDevice = true, showConnections = true, linkTargetMode;
         int templateIndex;
         string selectedDeviceId;
         bool showScenario;
-        int direction;
-        Vector2Int portalTarget;
         Sprite decoration;
         Color decorationTint = Color.white;
         bool blocked, erase, stroke;
         int pendingWidth, pendingHeight, undoGroup;
         float cellSize = 42;
-        Vector2 gridScroll, settingsScroll;
+        Vector2 gridScroll, settingsScroll, deviceListScroll;
         Vector2Int lastPaint = new Vector2Int(-999, -999);
-        [MenuItem("ANIMOL/Puzzle/Map Editor")]
-        public static void Open() => GetWindow<PuzzleMapEditor>("Puzzle Map");
-        public static void Edit(PuzzleMap data) { var window = GetWindow<PuzzleMapEditor>("Puzzle Map"); window.Select(data); }
+        [MenuItem("ANIMOL/퍼즐/맵 제작기")]
+        public static void Open() => GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기");
+        public static void Edit(PuzzleMap data) { var window = GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기"); window.Select(data); }
         void OnEnable()
         {
             Undo.undoRedoPerformed += Undone;
@@ -58,26 +55,26 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
             var selected = (PuzzleMap)EditorGUILayout.ObjectField(map, typeof(PuzzleMap), false, GUILayout.Width(250));
             if (selected != map) Select(selected);
-            if (GUILayout.Button("New", EditorStyles.toolbarButton)) Select(null);
-            if (GUILayout.Button("Undo", EditorStyles.toolbarButton)) Undo.PerformUndo();
-            if (GUILayout.Button("Redo", EditorStyles.toolbarButton)) Undo.PerformRedo();
-            if (GUILayout.Button("Save", EditorStyles.toolbarButton)) AssetDatabase.SaveAssets();
+            if (GUILayout.Button("새 맵", EditorStyles.toolbarButton)) Select(null);
+            if (GUILayout.Button("실행 취소", EditorStyles.toolbarButton)) Undo.PerformUndo();
+            if (GUILayout.Button("다시 실행", EditorStyles.toolbarButton)) Undo.PerformRedo();
+            if (GUILayout.Button("저장", EditorStyles.toolbarButton)) AssetDatabase.SaveAssets();
             using (new EditorGUI.DisabledScope(!map || EditorApplication.isPlaying))
-                if (GUILayout.Button("Play Preview", EditorStyles.toolbarButton)) PuzzlePreview.Play(map);
+                if (GUILayout.Button("플레이 미리보기", EditorStyles.toolbarButton)) PuzzlePreview.Play(map);
             EditorGUILayout.EndHorizontal();
             if (!map)
             {
-                EditorGUILayout.HelpBox("Create a playable starter map with its own device scenario, or select an existing map. Left drag paints; right drag erases.", MessageType.Info);
+                EditorGUILayout.HelpBox("기존 맵을 선택하거나 새 맵을 만드세요. 왼쪽 드래그로 배치하고 오른쪽 드래그로 지웁니다.", MessageType.Info);
                 NewMapSettings();
-                if (GUILayout.Button("Create starter map")) Create();
+                if (GUILayout.Button("기본 맵 만들기")) Create();
                 return;
             }
             EditorGUILayout.BeginHorizontal();
-            settingsScroll = EditorGUILayout.BeginScrollView(settingsScroll, GUILayout.Width(280));
+            settingsScroll = EditorGUILayout.BeginScrollView(settingsScroll, GUILayout.Width(320));
             Settings(); EditorGUILayout.EndScrollView();
             EditorGUILayout.BeginVertical();
-            cellSize = EditorGUILayout.Slider("Cell zoom", cellSize, 20, 80);
-            EditorGUILayout.LabelField("Left: paint/select   Right: erase   Terrain: paint or erase any cell");
+            cellSize = EditorGUILayout.Slider("격자 확대", cellSize, 20, 80);
+            EditorGUILayout.LabelField("왼쪽: 배치/선택    오른쪽: 지우기");
             var viewport = GUILayoutUtility.GetRect(100, 100, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             DrawGrid(viewport);
             EditorGUILayout.EndVertical(); EditorGUILayout.EndHorizontal();
@@ -85,47 +82,50 @@ namespace ANIMOL.Presentation.Editor
         }
         void Settings()
         {
-            EditorGUILayout.LabelField("Stage", EditorStyles.boldLabel);
-            pendingWidth = EditorGUILayout.IntField("Width", pendingWidth);
-            pendingHeight = EditorGUILayout.IntField("Height", pendingHeight);
-            if (GUILayout.Button("Apply dimensions (retain cropped data)") && Resize(map, pendingWidth, pendingHeight, true)) { pendingWidth = map.Width; pendingHeight = map.Height; }
+            EditorGUILayout.LabelField("맵 설정", EditorStyles.boldLabel);
+            pendingWidth = EditorGUILayout.IntField("가로 칸 수", pendingWidth);
+            pendingHeight = EditorGUILayout.IntField("세로 칸 수", pendingHeight);
+            if (GUILayout.Button("크기 적용 (잘린 배치 보관)") && Resize(map, pendingWidth, pendingHeight, true)) { pendingWidth = map.Width; pendingHeight = map.Height; }
             var outside = map.OutsideCount(map.Width, map.Height);
-            if (outside > 0) EditorGUILayout.HelpBox(outside + " records outside bounds are retained and inactive. Expand the map to recover them. Start/exit outside prevents preview.", MessageType.Warning);
+            if (outside > 0) EditorGUILayout.HelpBox("맵 밖 배치 " + outside + "개가 비활성 상태로 보관됩니다. 맵을 넓히면 복구됩니다. 시작점·출구가 밖에 있으면 미리보기를 실행할 수 없습니다.", MessageType.Warning);
             var serialized = new SerializedObject(map); serialized.Update();
-            EditorGUILayout.PropertyField(serialized.FindProperty("theme"));
-            EditorGUILayout.PropertyField(serialized.FindProperty("scenario"));
-            EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"));
-            EditorGUILayout.PropertyField(serialized.FindProperty("cameraSettings"), true);
+            EditorGUILayout.PropertyField(serialized.FindProperty("theme"), new GUIContent("테마"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("scenario"), new GUIContent("장치 시나리오"));
+            EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"), new GUIContent("목표 방울 수"));
+            DrawCameraSettings(serialized.FindProperty("cameraSettings"));
             if (serialized.ApplyModifiedProperties()) map.InvalidateIndex();
             if (map.scenario)
             {
-                showScenario = EditorGUILayout.Foldout(showScenario, "Themed devices / water / goals", true);
+                showScenario = EditorGUILayout.Foldout(showScenario, "장치·물·목표 설정", true);
                 if (showScenario)
                 {
                     var scenario = new SerializedObject(map.scenario); scenario.Update();
-                    EditorGUILayout.PropertyField(scenario.FindProperty("title"));
-                    EditorGUILayout.PropertyField(scenario.FindProperty("themeId"));
-                    EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"));
-                    EditorGUILayout.PropertyField(scenario.FindProperty("devices"), true);
-                    EditorGUILayout.PropertyField(scenario.FindProperty("water"), true);
-                    EditorGUILayout.PropertyField(scenario.FindProperty("goals"), true);
-                    EditorGUILayout.PropertyField(scenario.FindProperty("verificationRoute"));
-                    EditorGUILayout.LabelField("Current device policies", EditorStyles.boldLabel);
-                    foreach (var field in new[] { "holdOccupiedBridge", "shutterPhaseAdvancesWhenOccupied", "leapSkipsIntermediate",
-                        "mirrorBumpRotates", "magnetSwitchLatches", "bombHurtsPlayer", "bombDestroysOrdinaryObjects",
-                        "statueStopsAfterBreakingWall" })
-                        EditorGUILayout.PropertyField(scenario.FindProperty(field));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("title"), new GUIContent("시나리오 이름"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("themeId"), new GUIContent("테마 저장 ID"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"), new GUIContent("비용 제한 (0: 무제한)"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("beamPrefab"), new GUIContent("광선 프리팹"));
+                    DrawScenarioDevices(scenario.FindProperty("devices"));
+                    DrawVectorArray(scenario.FindProperty("water"), "물 칸");
+                    DrawGoals(scenario.FindProperty("goals"));
+                    EditorGUILayout.PropertyField(scenario.FindProperty("verificationRoute"), new GUIContent("검수 경로"));
+                    EditorGUILayout.LabelField("장치 판정 설정", EditorStyles.boldLabel);
+                    var policyFields = new[] { "holdOccupiedBridge", "shutterPhaseAdvancesWhenOccupied", "leapSkipsIntermediate",
+                        "mirrorBumpRotates", "magnetSwitchLatches", "bombHurtsPlayer", "bombDestroysOrdinaryObjects", "statueStopsAfterBreakingWall" };
+                    var policyLabels = new[] { "점유된 다리 유지", "점유 중 셔터 위상 진행", "도약 중간 칸 건너뛰기",
+                        "거울 충돌 시 회전", "자석 스위치 켜짐 유지", "폭탄이 플레이어에게 피해", "폭탄이 일반 물체 파괴", "석상이 벽 파괴 칸에서 정지" };
+                    for (var i = 0; i < policyFields.Length; i++)
+                        EditorGUILayout.PropertyField(scenario.FindProperty(policyFields[i]), new GUIContent(policyLabels[i]));
                     scenario.ApplyModifiedProperties();
                 }
             }
             EditorGUILayout.Space();
-            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "Terrain", "Device", "Decor", "Markers", "Water" });
-            erase = EditorGUILayout.Toggle("Erase brush", erase);
+            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "지형", "장치", "장식", "표식", "물" });
+            erase = EditorGUILayout.Toggle("지우개", erase);
             if (layer == Layer.Terrain)
             {
-                material = (TerrainMaterial)EditorGUILayout.EnumPopup("Material", material);
-                blocked = EditorGUILayout.Toggle("Blocked cell", blocked);
-                EditorGUILayout.HelpBox("Left drag paints the chosen terrain, right drag removes it. Erase brush makes left drag remove cells too. Empty cells are impassable; other layers remain saved.", MessageType.Info);
+                material = (TerrainMaterial)EditorGUILayout.IntPopup("지형 재질", (int)material, new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
+                blocked = EditorGUILayout.Toggle("통행 금지 칸", blocked);
+                EditorGUILayout.HelpBox("왼쪽 드래그로 지형을 칠하고 오른쪽 드래그로 지웁니다. 지우개를 켜면 왼쪽 드래그도 지웁니다. 빈 칸은 지나갈 수 없으며 다른 레이어는 보존됩니다.", MessageType.Info);
             }
             if (layer == Layer.Device)
             {
@@ -135,29 +135,104 @@ namespace ANIMOL.Presentation.Editor
                 }
                 else
                 {
-                device = (DeviceKind)EditorGUILayout.EnumPopup("Device", device);
-                direction = EditorGUILayout.Popup("Direction", direction, new[] { "North", "East", "South", "West" });
-                if (device == DeviceKind.Portal) portalTarget = EditorGUILayout.Vector2IntField("Portal destination", portalTarget);
+                    EditorGUILayout.HelpBox("테마별 장치를 배치하려면 먼저 장치 시나리오를 지정하세요.", MessageType.Info);
                 }
             }
             if (layer == Layer.Decoration)
-            { decoration = (Sprite)EditorGUILayout.ObjectField("Sprite", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("Tint", decorationTint); }
-            if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.EnumPopup("Place", marker);
-            if (layer == Layer.Water && !map.scenario) EditorGUILayout.HelpBox("Assign a device scenario to paint water cells.", MessageType.Info);
+            { decoration = (Sprite)EditorGUILayout.ObjectField("장식 그림", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("색상", decorationTint); }
+            if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.IntPopup("배치할 표식", (int)marker, new[] { "시작점", "방울", "출구" }, new[] { 0, 1, 2 });
+            if (layer == Layer.Water && !map.scenario) EditorGUILayout.HelpBox("물 칸을 놓으려면 장치 시나리오를 지정하세요.", MessageType.Info);
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Validation", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
             var errors = map.ValidateMap();
-            if (!map.theme) EditorGUILayout.HelpBox("Assign a puzzle theme.", MessageType.Error);
-            foreach (var error in errors) EditorGUILayout.HelpBox(error, MessageType.Error);
-            if (errors.Count == 0 && map.theme) EditorGUILayout.HelpBox("Ready to play. This validates placements, not puzzle solvability.", MessageType.Info);
+            if (!map.theme) EditorGUILayout.HelpBox("퍼즐 테마를 지정하세요.", MessageType.Error);
+            foreach (var error in errors) EditorGUILayout.HelpBox(TranslateValidation(error), MessageType.Error);
+            if (errors.Count == 0 && map.theme) EditorGUILayout.HelpBox("배치 검사를 통과했습니다. 퍼즐이 실제로 풀리는지는 플레이 미리보기로 확인하세요.", MessageType.Info);
             if (map.scenario && map.scenario.devices.Any(d => map.Contains(d.position) && !d.visualPrefab))
-                EditorGUILayout.HelpBox("Some devices have no visual prefab. Their logic can run, but they will be invisible in preview.", MessageType.Warning);
+                EditorGUILayout.HelpBox("일부 장치에는 그림 프리팹이 없습니다. 논리는 작동해도 미리보기에서는 보이지 않습니다.", MessageType.Warning);
             if (outside > 0)
             {
-                EditorGUILayout.LabelField("Retained coordinates", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("맵 밖에 보관된 좌표", EditorStyles.boldLabel);
                 foreach (var p in map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Where(p => !map.Contains(p)).Distinct().Take(40))
                     EditorGUILayout.LabelField(p.ToString());
             }
+        }
+        static void DrawCameraSettings(SerializedProperty camera)
+        {
+            camera.isExpanded = EditorGUILayout.Foldout(camera.isExpanded, "카메라 설정", true);
+            if (!camera.isExpanded) return;
+            var fields = new[] { "visibleRows", "followSharpness", "topInset", "bottomInset", "farParallax", "midParallax", "nearParallax" };
+            var labels = new[] { "화면에 보이는 세로 칸", "추적 속도", "위쪽 여백", "아래쪽 여백", "먼 배경 시차", "중간 배경 시차", "가까운 배경 시차" };
+            for (var i = 0; i < fields.Length; i++) EditorGUILayout.PropertyField(camera.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+        }
+        static void DrawVectorArray(SerializedProperty array, string label)
+        {
+            array.isExpanded = EditorGUILayout.Foldout(array.isExpanded, label + " (" + array.arraySize + ")", true);
+            if (!array.isExpanded) return;
+            array.arraySize = Mathf.Max(0, EditorGUILayout.IntField("칸 개수", array.arraySize));
+            for (var i = 0; i < array.arraySize; i++)
+                EditorGUILayout.PropertyField(array.GetArrayElementAtIndex(i), new GUIContent("칸 " + (i + 1)));
+        }
+        static void DrawGoals(SerializedProperty goals)
+        {
+            goals.isExpanded = EditorGUILayout.Foldout(goals.isExpanded, "추가 목표 (" + goals.arraySize + ")", true);
+            if (!goals.isExpanded) return;
+            goals.arraySize = Mathf.Max(0, EditorGUILayout.IntField("목표 개수", goals.arraySize));
+            for (var i = 0; i < goals.arraySize; i++)
+            {
+                var goal = goals.GetArrayElementAtIndex(i);
+                goal.isExpanded = EditorGUILayout.Foldout(goal.isExpanded, "목표 " + (i + 1), true);
+                if (!goal.isExpanded) continue;
+                EditorGUILayout.PropertyField(goal.FindPropertyRelative("deviceId"), new GUIContent("장치 ID"));
+                var kind = goal.FindPropertyRelative("kind");
+                kind.enumValueIndex = EditorGUILayout.Popup("조건", kind.enumValueIndex, new[] { "활성화", "제거", "위치", "주사위 윗면", "방문" });
+                EditorGUILayout.PropertyField(goal.FindPropertyRelative("cell"), new GUIContent("목표 칸"));
+                EditorGUILayout.PropertyField(goal.FindPropertyRelative("number"), new GUIContent("목표 숫자"));
+            }
+        }
+        static void DrawScenarioDevices(SerializedProperty devices)
+        {
+            devices.isExpanded = EditorGUILayout.Foldout(devices.isExpanded, "배치된 장치 (" + devices.arraySize + ")", true);
+            if (!devices.isExpanded) return;
+            for (var i = 0; i < devices.arraySize; i++)
+            {
+                var device = devices.GetArrayElementAtIndex(i);
+                device.isExpanded = EditorGUILayout.Foldout(device.isExpanded, "장치 " + (i + 1) + " · " + device.FindPropertyRelative("id").stringValue, true);
+                if (device.isExpanded) DrawDeviceProperties(device);
+            }
+        }
+        static void DrawDeviceProperties(SerializedProperty device)
+        {
+            var role = device.FindPropertyRelative("role");
+            var roles = Enum.GetValues(typeof(PrototypeRole)).Cast<PrototypeRole>().ToArray();
+            role.intValue = EditorGUILayout.IntPopup("장치 종류", role.intValue,
+                roles.Select(value => DeviceName(value)).ToArray(), roles.Select(value => (int)value).ToArray());
+            var fields = new[] { "id", "variant", "group", "artTheme", "visualPrefab", "initialVisual", "position", "direction", "target", "orientation", "number", "active" };
+            var labels = new[] { "장치 ID", "구성 종류", "연결 그룹", "그림 테마 ID", "장치 그림 프리팹", "첫 그림 상태", "배치 좌표", "방향 벡터", "목적지", "회전 값", "숫자", "처음 활성화" };
+            for (var i = 0; i < fields.Length; i++) EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+            DrawVectorArray(device.FindPropertyRelative("cells"), "점유·선로 칸");
+            DrawVectorArray(device.FindPropertyRelative("blastOffsets"), "폭발 상대 좌표");
+        }
+        public static string TranslateValidation(string error)
+        {
+            var exact = new Dictionary<string, string> {
+                { "Start must be on an in-bounds walkable tile.", "시작점은 맵 안의 통행 가능한 지형에 놓아야 합니다." },
+                { "Exit must be on an in-bounds walkable tile.", "출구는 맵 안의 통행 가능한 지형에 놓아야 합니다." },
+                { "Not enough in-bounds walkable bubble placements for the target.", "목표 수만큼 방울을 통행 가능한 칸에 놓으세요." },
+                { "Every prototype device needs an ID.", "모든 장치에 ID가 필요합니다." },
+                { "Prototype device IDs must be unique.", "장치 ID가 중복되었습니다." },
+                { "Goal references missing device.", "추가 목표가 없는 장치를 참조합니다." },
+                { "A required goal device is outside map bounds; expand or reposition it before playing.", "목표 장치가 맵 밖에 있습니다. 맵을 넓히거나 장치를 옮기세요." }
+            };
+            if (exact.TryGetValue(error, out var translated)) return translated;
+            var prefixes = new[] { "Bubble has no walkable terrain: ", "Device has no walkable terrain: ", "Portal destination is outside or blocked: ",
+                "Device direction must be cardinal: ", "Invalid direction: ", "Author explicit bomb footprint offsets: ",
+                "Portal destination outside map: ", "Moving stage needs a rail: " };
+            var replacements = new[] { "방울 칸에 통행 가능한 지형이 없습니다: ", "장치 칸에 통행 가능한 지형이 없습니다: ", "포털 목적지가 맵 밖이거나 막혔습니다: ",
+                "장치 방향은 상하좌우여야 합니다: ", "방향이 올바르지 않습니다: ", "폭탄의 폭발 범위를 지정하세요: ",
+                "포털 목적지가 맵 밖입니다: ", "이동 발판의 선로가 필요합니다: " };
+            for (var i = 0; i < prefixes.Length; i++) if (error.StartsWith(prefixes[i], StringComparison.Ordinal)) return replacements[i] + error.Substring(prefixes[i].Length);
+            return error;
         }
         public sealed class DeviceTemplate
         {
@@ -165,6 +240,65 @@ namespace ANIMOL.Presentation.Editor
             public PrototypeDevice device;
             public string label;
         }
+        public static string ThemeId(PuzzleTheme theme)
+        {
+            if (!theme) return string.Empty;
+            var name = theme.name;
+            if (name == "StarGarden" || name == "starway_Theme" || theme.starwayRanch || theme.skyIsland) return "starway";
+            if (name == "memory_theater_Theme" || theme.memorySkyTheater) return "memory_theater";
+            if (name == "letter_observatory_Theme" || theme.clockDome || theme.sunsetSanctumV02Catalog) return "letter_observatory";
+            if (name == "twilight_sea_Theme" || theme.twilightCoast || theme.starSwellCoastV01Catalog) return "twilight_sea";
+            return string.Empty;
+        }
+        public static DeviceTemplate[] TemplatesForTheme(IEnumerable<DeviceTemplate> templates, string themeId)
+            => string.IsNullOrEmpty(themeId) ? Array.Empty<DeviceTemplate>() : templates.Where(entry =>
+                entry?.source && entry.device != null && entry.source.themeId == themeId &&
+                (string.IsNullOrEmpty(entry.device.artTheme) || entry.device.artTheme == themeId)).ToArray();
+        public static string ThemeName(string id) => id == "starway" ? "별길 목장" : id == "memory_theater" ? "잔영 극장" :
+            id == "letter_observatory" ? "편지 천문대" : id == "twilight_sea" ? "별너울 해안" : "미지정";
+        static string DeviceName(PrototypeRole role)
+        {
+            switch (role)
+            {
+                case PrototypeRole.StarSocket: return "별돌·별 소켓";
+                case PrototypeRole.VineBridge: return "압력판·덩굴 다리";
+                case PrototypeRole.CrescentLeap: return "초승달 도약대";
+                case PrototypeRole.Shutter: return "셔터";
+                case PrototypeRole.DepartureSpikes: return "이탈 가시";
+                case PrototypeRole.MovingStage: return "이동 발판";
+                case PrototypeRole.Conveyor: return "무빙워크";
+                case PrototypeRole.Bookshelf: return "책장·압력판";
+                case PrototypeRole.OneWayGate: return "일방통행 문";
+                case PrototypeRole.Optics: return "광학 장치";
+                case PrototypeRole.Boat: return "배";
+                case PrototypeRole.Barrel: return "통";
+                case PrototypeRole.Domino: return "도미노";
+                case PrototypeRole.Magnet: return "자석·스위치";
+                case PrototypeRole.Bomb: return "폭탄";
+                case PrototypeRole.Portal: return "포털";
+                case PrototypeRole.Statue: return "석상";
+                case PrototypeRole.Bounce: return "반사판";
+                case PrototypeRole.Brake: return "브레이크";
+                case PrototypeRole.Wind: return "바람";
+                case PrototypeRole.Glass: return "유리";
+                case PrototypeRole.Dice: return "주사위·목표";
+                case PrototypeRole.CowardDoll: return "겁쟁이 인형";
+                case PrototypeRole.Chick: return "병아리";
+                case PrototypeRole.Ice: return "얼음";
+                case PrototypeRole.Wall: return "벽";
+                case PrototypeRole.CrackedWall: return "금 간 벽";
+                case PrototypeRole.WoodCrate: return "나무 상자";
+                case PrototypeRole.MetalCrate: return "금속 상자";
+                default: return role.ToString();
+            }
+        }
+        static string VariantName(string variant) => variant == "plate" ? "압력판" : variant == "socket" ? "소켓" :
+            variant == "source" ? "광원" : variant == "mirror" ? "거울" : variant == "sensor" ? "감지기" :
+            variant == "gate" ? "문" : variant == "switch" ? "스위치" : variant == "target" ? "목표" :
+            variant == "field" ? "바람 칸" : variant == "blower" ? "송풍기" : variant == "square" ? "사각형" :
+            variant == "a" ? "A" : variant == "b" ? "B" : variant;
+        static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " + DeviceName(device.role) +
+            (string.IsNullOrEmpty(device.variant) ? "" : " · " + VariantName(device.variant));
         public static DeviceTemplate[] LoadPracticeTemplates()
         {
             const string path = "Assets/ANIMOL/Data/Puzzle/Prototypes";
@@ -179,9 +313,7 @@ namespace ANIMOL.Presentation.Editor
                     return source && source.devices != null
                         ? source.devices.Where(device => device != null).Select(device => new DeviceTemplate {
                             source = source, device = device,
-                            label = Path.GetFileNameWithoutExtension(assetPath).Replace("_Scenario", "") + " / " +
-                                device.role + (string.IsNullOrEmpty(device.variant) ? "" : " / " + device.variant) +
-                                (device.visualPrefab ? "" : " [no art]")
+                            label = DeviceLabel(device) + (device.visualPrefab ? "" : " · 그림 없음")
                         })
                         : Enumerable.Empty<DeviceTemplate>();
                 }).ToArray();
@@ -189,59 +321,79 @@ namespace ANIMOL.Presentation.Editor
         void RefreshLibrary() { library = LoadPracticeTemplates(); templateIndex = 0; Repaint(); }
         void DeviceSettings()
         {
-            inspectDevice = GUILayout.Toggle(inspectDevice, "Select placed device (left click)");
-            showConnections = GUILayout.Toggle(showConnections, "Show logic links and footprints");
-            if (inspectDevice) EditorGUILayout.HelpBox("Click a device to inspect it. Turn selection off to stamp the chosen template. Right drag removes devices.", MessageType.Info);
-            var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "24-device library", "This map" });
+            var themeId = ThemeId(map.theme);
+            EditorGUILayout.LabelField("현재 테마", ThemeName(themeId));
+            if (!string.IsNullOrEmpty(themeId) && map.scenario.themeId != themeId && map.scenario.themeId != map.theme.name)
+                EditorGUILayout.HelpBox("장치 시나리오의 테마 저장 ID가 현재 맵 테마와 다릅니다. 시나리오 설정을 확인하세요.", MessageType.Warning);
+            inspectDevice = GUILayout.Toggle(inspectDevice, "왼쪽 클릭으로 배치된 장치 선택");
+            showConnections = GUILayout.Toggle(showConnections, "연결선과 작동 범위 표시");
+            if (inspectDevice) EditorGUILayout.HelpBox("장치를 누르면 설정을 볼 수 있습니다. 새 장치를 놓으려면 선택 모드를 끄세요. 오른쪽 드래그로 지웁니다.", MessageType.Info);
+            var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치" });
             if (useLibrary != (source == 0)) { useLibrary = source == 0; templateIndex = 0; }
-            var choices = useLibrary ? library.Select(entry => entry.device).ToArray() : map.scenario.devices.ToArray();
-            var labels = useLibrary ? library.Select(entry => entry.label).ToArray() :
-                choices.Select(device => device.id + " / " + device.role).ToArray();
+            var templates = TemplatesForTheme(library, themeId);
+            var choices = useLibrary ? templates.Select(entry => entry.device).ToArray() :
+                map.scenario.devices.Where(entry => !string.IsNullOrEmpty(themeId) &&
+                    (string.IsNullOrEmpty(entry.artTheme) || entry.artTheme == themeId)).ToArray();
             if (choices.Length == 0)
             {
                 prototypeBrush = null;
-                EditorGUILayout.HelpBox("No device templates in this source. Select the practice library or add a device to this map.", MessageType.Info);
+                EditorGUILayout.HelpBox(string.IsNullOrEmpty(themeId) ? "테마를 지정하면 해당 테마의 장치가 표시됩니다." :
+                    "선택한 테마에 맞는 장치가 없습니다. 다른 목록을 선택하거나 이 맵에 장치를 추가하세요.", MessageType.Info);
             }
             else
             {
-                templateIndex = EditorGUILayout.Popup("Stamp template", Mathf.Clamp(templateIndex, 0, choices.Length - 1), labels);
+                EditorGUILayout.LabelField("배치할 장치 선택", EditorStyles.boldLabel);
+                templateIndex = Mathf.Clamp(templateIndex, 0, choices.Length - 1);
+                deviceListScroll = EditorGUILayout.BeginScrollView(deviceListScroll, GUILayout.Height(260));
+                for (var i = 0; i < choices.Length; i++)
+                {
+                    var row = GUILayoutUtility.GetRect(250, 62, GUILayout.ExpandWidth(true));
+                    if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox)) templateIndex = i;
+                    if (i == templateIndex) EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
+                    DrawDeviceThumbnail(new Rect(row.x + 8, row.y + 7, 48, 48), choices[i]);
+                    GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), DeviceLabel(choices[i]), EditorStyles.boldLabel);
+                    GUI.Label(new Rect(row.x + 62, row.y + 34, row.width - 66, 24),
+                        useLibrary ? "방향 " + DirectionGlyph(choices[i].direction) + " · " + (choices[i].visualPrefab ? "그림 있음" : "그림 없음") :
+                            "장치 ID: " + choices[i].id, EditorStyles.miniLabel);
+                }
+                EditorGUILayout.EndScrollView();
                 prototypeBrush = choices[templateIndex];
-                if (useLibrary && GUILayout.Button("Select template asset")) EditorGUIUtility.PingObject(library[templateIndex].source);
+                if (useLibrary && GUILayout.Button("원본 장치 에셋 보기")) EditorGUIUtility.PingObject(templates[templateIndex].source);
             }
-            if (GUILayout.Button("Refresh device library")) RefreshLibrary();
-            EditorGUILayout.HelpBox("Stamp copies the selected practice device with a new ID. Targets and rail cells move with it; group links and goals need review. Right click removes devices at a cell.", MessageType.Info);
+            if (GUILayout.Button("장치 목록 새로고침")) RefreshLibrary();
+            EditorGUILayout.HelpBox("장치를 배치하면 새 ID가 만들어집니다. 연결 그룹과 목표 조건을 확인하세요. 포털 목적지와 선로는 배치한 위치만큼 이동합니다.", MessageType.Info);
             var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
             if (selected < 0) return;
-            EditorGUILayout.LabelField("Selected placed device", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("선택한 장치", EditorStyles.boldLabel);
             var placed = map.scenario.devices[selected];
-            EditorGUILayout.LabelField(placed.id + " / " + placed.role);
-            EditorGUILayout.LabelField("Facing");
+            EditorGUILayout.LabelField(placed.id + " / " + DeviceName(placed.role));
+            EditorGUILayout.LabelField("바라보는 방향");
             EditorGUILayout.BeginHorizontal();
             foreach (var heading in PuzzleAutotile.Cardinal)
                 if (GUILayout.Button(DirectionGlyph(heading), GUILayout.Width(42)) && placed.direction != heading)
                 {
-                    Undo.RecordObject(map.scenario, "Turn puzzle device");
+                    Undo.RecordObject(map.scenario, "장치 방향 변경");
                     placed.direction = heading;
                     EditorUtility.SetDirty(map.scenario);
                 }
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.LabelField("Linked group", string.IsNullOrEmpty(placed.group) ? "None" : placed.group);
+            EditorGUILayout.LabelField("연결 그룹", string.IsNullOrEmpty(placed.group) ? "없음" : placed.group);
             if (!string.IsNullOrEmpty(placed.group))
                 foreach (var peer in map.scenario.devices.Where(device => device != placed && device.group == placed.group))
-                    EditorGUILayout.LabelField("  → " + peer.id + " / " + peer.role + " " + peer.position);
-            if (GUILayout.Button(linkTargetMode ? "Cancel link" : "Connect to device...")) linkTargetMode = !linkTargetMode;
-            if (linkTargetMode) EditorGUILayout.HelpBox("Click the receiving device on the grid. Both devices will share a logic group.", MessageType.Info);
-            if (!string.IsNullOrEmpty(placed.group) && GUILayout.Button("Disconnect selected device"))
+                    EditorGUILayout.LabelField("  → " + peer.id + " / " + DeviceName(peer.role) + " " + peer.position);
+            if (GUILayout.Button(linkTargetMode ? "연결 취소" : "다른 장치와 연결...")) linkTargetMode = !linkTargetMode;
+            if (linkTargetMode) EditorGUILayout.HelpBox("격자에서 연결할 장치를 클릭하세요. 두 장치는 같은 논리 그룹에 속하게 됩니다.", MessageType.Info);
+            if (!string.IsNullOrEmpty(placed.group) && GUILayout.Button("선택한 장치 연결 해제"))
             {
-                Undo.RecordObject(map.scenario, "Disconnect puzzle device");
+                Undo.RecordObject(map.scenario, "장치 연결 해제");
                 placed.group = string.Empty;
                 EditorUtility.SetDirty(map.scenario);
             }
-            if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("Portal destination", placed.target.ToString());
-            if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("Occupied / rail cells", placed.cells.Count.ToString());
-            if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("Blast offsets", (placed.blastOffsets?.Count ?? 0).ToString());
+            if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("포털 목적지", placed.target.ToString());
+            if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("점유·선로 칸", placed.cells.Count.ToString());
+            if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("폭발 범위", (placed.blastOffsets?.Count ?? 0).ToString());
             var serialized = new SerializedObject(map.scenario); serialized.Update();
-            EditorGUILayout.PropertyField(serialized.FindProperty("devices").GetArrayElementAtIndex(selected), true);
+            DrawDeviceProperties(serialized.FindProperty("devices").GetArrayElementAtIndex(selected));
             serialized.ApplyModifiedProperties();
         }
         public static string ConnectDevices(PuzzleScenario scenario, PrototypeDevice source, PrototypeDevice target)
@@ -261,8 +413,8 @@ namespace ANIMOL.Presentation.Editor
         {
             width = Mathf.Clamp(width, 1, 256); height = Mathf.Clamp(height, 1, 256);
             var count = data.OutsideCount(width, height);
-            if (confirm && count > 0 && !EditorUtility.DisplayDialog("Retain cropped placements", count + " records will be outside the new map. They will remain saved but inactive. Expanding recovers them; invalid start/exit must be moved before playing.", "Resize and retain", "Cancel")) return false;
-            Undo.RegisterCompleteObjectUndo(data, "Resize puzzle map"); data.Resize(width, height); EditorUtility.SetDirty(data); return true;
+            if (confirm && count > 0 && !EditorUtility.DisplayDialog("맵 밖 배치 보관", count + "개 배치가 새 맵의 바깥에 남습니다. 데이터는 삭제되지 않으며 맵을 넓히면 복구됩니다. 시작점과 출구가 밖에 있다면 플레이 전에 옮겨야 합니다.", "크기 변경", "취소")) return false;
+            Undo.RegisterCompleteObjectUndo(data, "퍼즐 맵 크기 변경"); data.Resize(width, height); EditorUtility.SetDirty(data); return true;
         }
         void DrawGrid(Rect viewport)
         {
@@ -318,11 +470,14 @@ namespace ANIMOL.Presentation.Editor
                 }
                 foreach (var decor in map.decorations.Where(a => a.position == p)) DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
                 if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
-                var d = map.DeviceAt(p); if (d.kind != DeviceKind.None) GUI.Label(rect, d.kind == DeviceKind.Portal ? "O" : d.kind.ToString().Substring(0, 1) + DirectionGlyph(d.direction));
+                var d = map.DeviceAt(p);
+                if (d.kind != DeviceKind.None)
+                    GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
+                        d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
                 if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) DrawDevice(rect, configured);
-                if (map.bubbles.Contains(p)) GUI.Label(rect, "B", EditorStyles.boldLabel);
-                if (map.start == p) GUI.Label(rect, "S", EditorStyles.boldLabel);
-                if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "E", EditorStyles.boldLabel);
+                if (map.bubbles.Contains(p)) GUI.Label(rect, "방", EditorStyles.boldLabel);
+                if (map.start == p) GUI.Label(rect, "시", EditorStyles.boldLabel);
+                if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
                 if (!map.Contains(p)) GUI.Label(rect, "/");
             }
             if (map.scenario && showConnections) DrawConnections(shownHeight);
@@ -351,7 +506,7 @@ namespace ANIMOL.Presentation.Editor
                             var source = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId);
                             if (source != null && source != clicked)
                             {
-                                Undo.RecordObject(map.scenario, "Connect puzzle devices");
+                                Undo.RecordObject(map.scenario, "퍼즐 장치 연결");
                                 ConnectDevices(map.scenario, source, clicked);
                                 EditorUtility.SetDirty(map.scenario);
                                 linkTargetMode = false;
@@ -361,7 +516,7 @@ namespace ANIMOL.Presentation.Editor
                     }
                     else
                     {
-                        if (!stroke) { Undo.IncrementCurrentGroup(); undoGroup = Undo.GetCurrentGroup(); Undo.RegisterCompleteObjectUndo(map, "Paint puzzle layer"); stroke = true; }
+                        if (!stroke) { Undo.IncrementCurrentGroup(); undoGroup = Undo.GetCurrentGroup(); Undo.RegisterCompleteObjectUndo(map, "퍼즐 맵 배치"); stroke = true; }
                         if (lastPaint != p) { Paint(p, erase || e.button == 1); lastPaint = p; }
                     }
                     e.Use(); Repaint();
@@ -374,20 +529,24 @@ namespace ANIMOL.Presentation.Editor
         {
             var inset = cell.width * .12f;
             var visual = new Rect(cell.x + inset, cell.y + inset, cell.width - inset * 2, cell.height - inset * 2);
-            var prefab = device.visualPrefab;
-            var sprite = DeviceSprite(device);
-            if (sprite) DrawSprite(visual, sprite);
-            else if (prefab)
-            {
-                var preview = AssetPreview.GetAssetPreview(prefab) ?? AssetPreview.GetMiniThumbnail(prefab);
-                if (preview) GUI.DrawTexture(visual, preview, ScaleMode.ScaleToFit, true);
-            }
+            DrawDeviceThumbnail(visual, device);
             var selected = device.id == selectedDeviceId;
             var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
             EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
             GUI.Label(strip, ((int)device.role).ToString("00") + " " + DirectionGlyph(device.direction), EditorStyles.whiteMiniLabel);
             if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
-            if (!prefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "no art", EditorStyles.whiteMiniLabel);
+            if (!device.visualPrefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "그림 없음", EditorStyles.whiteMiniLabel);
+        }
+        static void DrawDeviceThumbnail(Rect rect, PrototypeDevice device)
+        {
+            var sprite = DeviceSprite(device);
+            if (sprite) DrawSprite(rect, sprite);
+            else if (device.visualPrefab)
+            {
+                var preview = AssetPreview.GetAssetPreview(device.visualPrefab) ?? AssetPreview.GetMiniThumbnail(device.visualPrefab);
+                if (preview) GUI.DrawTexture(rect, preview, ScaleMode.ScaleToFit, true);
+            }
+            else GUI.Label(rect, "?", EditorStyles.boldLabel);
         }
         static Sprite DeviceSprite(PrototypeDevice device)
         {
@@ -445,13 +604,15 @@ namespace ANIMOL.Presentation.Editor
             {
                 if (map.scenario)
                 {
-                    Undo.RecordObject(map.scenario, "Paint themed device");
+                    Undo.RecordObject(map.scenario, "테마 장치 배치");
                     if (remove) map.scenario.devices.RemoveAll(d => d.position == p);
-                    else if (prototypeBrush != null && !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
+                    else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&
+                        (string.IsNullOrEmpty(prototypeBrush.artTheme) || ThemeId(map.theme) == prototypeBrush.artTheme) &&
+                        !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
                         selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
                     EditorUtility.SetDirty(map.scenario);
                 }
-                else map.SetDevice(new DeviceCell { position = p, kind = remove ? DeviceKind.None : device, direction = PuzzleAutotile.Cardinal[direction], portalTarget = portalTarget });
+                else if (remove) map.SetDevice(new DeviceCell { position = p, kind = DeviceKind.None });
             }
             if (layer == Layer.Decoration) { map.decorations.RemoveAll(d => d.position == p); if (!remove) map.decorations.Add(new DecorationCell { position = p, sprite = decoration, tint = decorationTint }); }
             if (layer == Layer.Markers)
@@ -461,7 +622,7 @@ namespace ANIMOL.Presentation.Editor
             }
             if (layer == Layer.Water && map.scenario)
             {
-                Undo.RecordObject(map.scenario, "Paint water cell");
+                Undo.RecordObject(map.scenario, "물 칸 배치");
                 if (remove) map.scenario.water.RemoveAll(cell => cell == p);
                 else if (!map.scenario.water.Contains(p)) map.scenario.water.Add(p);
                 EditorUtility.SetDirty(map.scenario);
@@ -491,33 +652,35 @@ namespace ANIMOL.Presentation.Editor
         void EndStroke() { if (stroke) Undo.CollapseUndoOperations(undoGroup); stroke = false; lastPaint = new Vector2Int(-999, -999); }
         void Create()
         {
-            if (!newMapTheme) { EditorUtility.DisplayDialog("Choose a theme", "Assign a theme for the new map.", "OK"); return; }
-            var path = EditorUtility.SaveFilePanelInProject("New playable puzzle map", "PuzzleMap", "asset",
-                "A paired device scenario will be created beside the map.", "Assets/ANIMOL/Data/Puzzle/Maps");
+            if (!newMapTheme) { EditorUtility.DisplayDialog("테마 선택", "새 맵에 사용할 테마를 지정하세요.", "확인"); return; }
+            var path = EditorUtility.SaveFilePanelInProject("새 퍼즐 맵", "PuzzleMap", "asset",
+                "맵 옆에 장치 시나리오도 함께 생성됩니다.", "Assets/ANIMOL/Data/Puzzle/Maps");
             if (path.Length == 0) return;
             try { Select(CreateStarterMap(path, newMapTheme, newMapWidth, newMapHeight)); }
-            catch (Exception error) { EditorUtility.DisplayDialog("Cannot create map", error.Message, "OK"); }
+            catch (Exception error) { EditorUtility.DisplayDialog("맵 생성 실패", error.Message, "확인"); }
         }
         void NewMapSettings()
         {
-            newMapTheme = (PuzzleTheme)EditorGUILayout.ObjectField("Theme", newMapTheme, typeof(PuzzleTheme), false);
-            newMapWidth = EditorGUILayout.IntField("Width", newMapWidth);
-            newMapHeight = EditorGUILayout.IntField("Height", newMapHeight);
-            EditorGUILayout.HelpBox("Starter maps use walkable grass, one bubble, a start and exit, and an empty scenario with the current prototype policy defaults.", MessageType.Info);
+            newMapTheme = (PuzzleTheme)EditorGUILayout.ObjectField("테마", newMapTheme, typeof(PuzzleTheme), false);
+            newMapWidth = EditorGUILayout.IntField("가로 칸 수", newMapWidth);
+            newMapHeight = EditorGUILayout.IntField("세로 칸 수", newMapHeight);
+            EditorGUILayout.HelpBox("기본 맵에는 이동 가능한 풀 지형, 방울 1개, 시작점과 출구, 빈 장치 시나리오가 들어갑니다.", MessageType.Info);
         }
         public static PuzzleMap CreateStarterMap(string path, PuzzleTheme theme, int width, int height)
         {
-            if (!theme) throw new ArgumentException("A puzzle theme is required.");
+            if (!theme) throw new ArgumentException("퍼즐 테마가 필요합니다.");
+            var themeId = ThemeId(theme);
+            if (string.IsNullOrEmpty(themeId)) throw new ArgumentException("지원하는 네 가지 퍼즐 테마 중 하나를 선택하세요.");
             if (string.IsNullOrEmpty(path) || !path.StartsWith("Assets/", StringComparison.Ordinal) ||
                 !path.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
-                throw new ArgumentException("Choose a project asset path ending in .asset.");
+                throw new ArgumentException("프로젝트 안에서 .asset으로 끝나는 저장 경로를 선택하세요.");
             var scenarioPath = path.Substring(0, path.Length - ".asset".Length) + "_Scenario.asset";
             if (AssetDatabase.LoadMainAssetAtPath(path) || AssetDatabase.LoadMainAssetAtPath(scenarioPath))
-                throw new InvalidOperationException("The map or paired scenario path is already in use.");
+                throw new InvalidOperationException("맵 또는 연결된 시나리오의 저장 경로가 이미 사용 중입니다.");
             width = Mathf.Clamp(width, 4, 256); height = Mathf.Clamp(height, 4, 256);
             var scenario = CreateInstance<PuzzleScenario>();
             scenario.title = Path.GetFileNameWithoutExtension(path);
-            scenario.themeId = theme.name;
+            scenario.themeId = themeId;
             var data = CreateInstance<PuzzleMap>();
             data.Resize(width, height);
             data.theme = theme;
@@ -549,12 +712,13 @@ namespace ANIMOL.Presentation.Editor
     {
         public override void OnInspectorGUI()
         {
-            if (GUILayout.Button("Open Puzzle Map Editor")) PuzzleMapEditor.Edit((PuzzleMap)target);
-            EditorGUILayout.HelpBox("Resize in the map editor to review cropped records. Terrain, device, decoration and markers remain independent.", MessageType.Info);
-            DrawDefaultInspector();
+            if (GUILayout.Button("퍼즐 맵 제작기 열기")) PuzzleMapEditor.Edit((PuzzleMap)target);
+            EditorGUILayout.HelpBox("맵 제작기에서 지형, 장치, 장식과 표식을 배치하고 크기를 변경할 수 있습니다.", MessageType.Info);
             var map = (PuzzleMap)target;
+            EditorGUILayout.LabelField("테마", map.theme ? PuzzleMapEditor.ThemeName(PuzzleMapEditor.ThemeId(map.theme)) : "없음");
+            EditorGUILayout.LabelField("크기", map.Width + " × " + map.Height);
             var count = map.OutsideCount(map.Width, map.Height);
-            if (count > 0) EditorGUILayout.HelpBox(count + " out-of-bounds records retained.", MessageType.Warning);
+            if (count > 0) EditorGUILayout.HelpBox("맵 밖 배치 " + count + "개가 보관되어 있습니다.", MessageType.Warning);
         }
     }
 }

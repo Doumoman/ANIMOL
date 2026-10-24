@@ -101,6 +101,7 @@ namespace ANIMOL.Presentation.Tests
                 var created = PuzzleMapEditor.CreateStarterMap(path, theme, 12, 18);
                 Assert.That(created.scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
                 Assert.That(created.theme, Is.SameAs(theme));
+                Assert.That(created.scenario.themeId, Is.EqualTo("starway"));
                 Assert.That(created.terrain.Count, Is.EqualTo(12 * 18));
                 Assert.That(created.ValidateMap(), Is.Empty);
                 Assert.That(new PuzzleDeviceSession(created).Won, Is.False);
@@ -117,6 +118,21 @@ namespace ANIMOL.Presentation.Tests
             var roles = PuzzleMapEditor.LoadPracticeTemplates().Select(entry => entry.device.role).Distinct().ToArray();
             for (var role = 1; role <= 24; role++)
                 Assert.That(roles, Does.Contain((PrototypeRole)role), "Missing device practice template " + role);
+        }
+        [Test] public void DeviceChooserOnlyOffersMatchingThemeArt()
+        {
+            var templates = PuzzleMapEditor.LoadPracticeTemplates();
+            foreach (var id in new[] { "starway", "memory_theater", "letter_observatory", "twilight_sea" })
+            {
+                var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Prototypes/" + id + "_Theme.asset");
+                Assert.That(PuzzleMapEditor.ThemeId(theme), Is.EqualTo(id));
+                var visible = PuzzleMapEditor.TemplatesForTheme(templates, id);
+                Assert.That(visible, Is.Not.Empty, id);
+                Assert.That(visible.All(entry => entry.source.themeId == id && entry.device.artTheme == id), Is.True, id);
+            }
+            Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, ""), Is.Empty);
+            var starGarden = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            Assert.That(PuzzleMapEditor.ThemeId(starGarden), Is.EqualTo("starway"));
         }
         [Test] public void StampingPortalCopiesArtAndOffsetsDestinationWithoutMutatingTemplate()
         {

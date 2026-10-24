@@ -17,11 +17,11 @@ namespace ANIMOL.Presentation.Editor
         public static void Play(PuzzleMap map)
         {
             var errors = map.ValidateMap();
-            if (errors.Count > 0 || !map.theme) { EditorUtility.DisplayDialog("Cannot preview", string.Join("\n", errors) + (!map.theme ? "\nAssign a theme." : ""), "OK"); return; }
+            if (errors.Count > 0 || !map.theme) { EditorUtility.DisplayDialog("미리보기를 실행할 수 없음", string.Join("\n", errors.Select(PuzzleMapEditor.TranslateValidation)) + (!map.theme ? "\n테마를 지정하세요." : ""), "확인"); return; }
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             // Unsaved scenes cannot be restored across a domain reload.
             if (EditorSceneManager.GetSceneManagerSetup().Any(s => string.IsNullOrEmpty(s.path)))
-            { EditorUtility.DisplayDialog("Save scene first", "Save the current scene before opening the isolated puzzle preview.", "OK"); return; }
+            { EditorUtility.DisplayDialog("씬 저장 필요", "퍼즐 미리보기를 열기 전에 현재 씬을 저장하세요.", "확인"); return; }
             var setup = new Setup { scenes = EditorSceneManager.GetSceneManagerSetup().Select(s => new SavedScene { path = s.path, loaded = s.isLoaded, active = s.isActive }).ToArray(), startScene = AssetDatabase.GetAssetPath(EditorSceneManager.playModeStartScene) };
             SessionState.SetString(Key, JsonUtility.ToJson(setup));
             EditorSceneManager.playModeStartScene = null;
