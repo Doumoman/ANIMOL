@@ -21,7 +21,7 @@ namespace ANIMOL.Presentation.Editor
         DeviceKind device = DeviceKind.Conveyor;
         PrototypeDevice prototypeBrush;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
-        bool useLibrary = true, inspectDevice;
+        bool useLibrary = true, inspectDevice = true, showConnections = true, linkTargetMode;
         int templateIndex;
         string selectedDeviceId;
         bool showScenario;
@@ -49,7 +49,7 @@ namespace ANIMOL.Presentation.Editor
         void Undone() { if (map) { map.InvalidateIndex(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = null;
+            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = false;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; newMapWidth = map.Width; newMapHeight = map.Height; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
@@ -77,7 +77,7 @@ namespace ANIMOL.Presentation.Editor
             Settings(); EditorGUILayout.EndScrollView();
             EditorGUILayout.BeginVertical();
             cellSize = EditorGUILayout.Slider("Cell zoom", cellSize, 20, 80);
-            EditorGUILayout.LabelField("Left: paint   Right: erase   Gray hatch: retained outside map");
+            EditorGUILayout.LabelField("Left: paint/select   Right: erase   Terrain: paint or erase any cell");
             var viewport = GUILayoutUtility.GetRect(100, 100, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             DrawGrid(viewport);
             EditorGUILayout.EndVertical(); EditorGUILayout.EndHorizontal();
@@ -122,7 +122,11 @@ namespace ANIMOL.Presentation.Editor
             layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "Terrain", "Device", "Decor", "Markers", "Water" });
             erase = EditorGUILayout.Toggle("Erase brush", erase);
             if (layer == Layer.Terrain)
-            { material = (TerrainMaterial)EditorGUILayout.EnumPopup("Material", material); blocked = EditorGUILayout.Toggle("Blocked cell", blocked); }
+            {
+                material = (TerrainMaterial)EditorGUILayout.EnumPopup("Material", material);
+                blocked = EditorGUILayout.Toggle("Blocked cell", blocked);
+                EditorGUILayout.HelpBox("Left drag paints the chosen terrain, right drag removes it. Erase brush makes left drag remove cells too. Empty cells are impassable; other layers remain saved.", MessageType.Info);
+            }
             if (layer == Layer.Device)
             {
                 if (map.scenario)
@@ -185,7 +189,9 @@ namespace ANIMOL.Presentation.Editor
         void RefreshLibrary() { library = LoadPracticeTemplates(); templateIndex = 0; Repaint(); }
         void DeviceSettings()
         {
-            inspectDevice = GUILayout.Toggle(inspectDevice, "Inspect placed device (left click)");
+            inspectDevice = GUILayout.Toggle(inspectDevice, "Select placed device (left click)");
+            showConnections = GUILayout.Toggle(showConnections, "Show logic links and footprints");
+            if (inspectDevice) EditorGUILayout.HelpBox("Click a device to inspect it. Turn selection off to stamp the chosen template. Right drag removes devices.", MessageType.Info);
             var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "24-device library", "This map" });
             if (useLibrary != (source == 0)) { useLibrary = source == 0; templateIndex = 0; }
             var choices = useLibrary ? library.Select(entry => entry.device).ToArray() : map.scenario.devices.ToArray();
@@ -207,9 +213,49 @@ namespace ANIMOL.Presentation.Editor
             var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
             if (selected < 0) return;
             EditorGUILayout.LabelField("Selected placed device", EditorStyles.boldLabel);
+            var placed = map.scenario.devices[selected];
+            EditorGUILayout.LabelField(placed.id + " / " + placed.role);
+            EditorGUILayout.LabelField("Facing");
+            EditorGUILayout.BeginHorizontal();
+            foreach (var heading in PuzzleAutotile.Cardinal)
+                if (GUILayout.Button(DirectionGlyph(heading), GUILayout.Width(42)) && placed.direction != heading)
+                {
+                    Undo.RecordObject(map.scenario, "Turn puzzle device");
+                    placed.direction = heading;
+                    EditorUtility.SetDirty(map.scenario);
+                }
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.LabelField("Linked group", string.IsNullOrEmpty(placed.group) ? "None" : placed.group);
+            if (!string.IsNullOrEmpty(placed.group))
+                foreach (var peer in map.scenario.devices.Where(device => device != placed && device.group == placed.group))
+                    EditorGUILayout.LabelField("  → " + peer.id + " / " + peer.role + " " + peer.position);
+            if (GUILayout.Button(linkTargetMode ? "Cancel link" : "Connect to device...")) linkTargetMode = !linkTargetMode;
+            if (linkTargetMode) EditorGUILayout.HelpBox("Click the receiving device on the grid. Both devices will share a logic group.", MessageType.Info);
+            if (!string.IsNullOrEmpty(placed.group) && GUILayout.Button("Disconnect selected device"))
+            {
+                Undo.RecordObject(map.scenario, "Disconnect puzzle device");
+                placed.group = string.Empty;
+                EditorUtility.SetDirty(map.scenario);
+            }
+            if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("Portal destination", placed.target.ToString());
+            if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("Occupied / rail cells", placed.cells.Count.ToString());
+            if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("Blast offsets", (placed.blastOffsets?.Count ?? 0).ToString());
             var serialized = new SerializedObject(map.scenario); serialized.Update();
             EditorGUILayout.PropertyField(serialized.FindProperty("devices").GetArrayElementAtIndex(selected), true);
             serialized.ApplyModifiedProperties();
+        }
+        public static string ConnectDevices(PuzzleScenario scenario, PrototypeDevice source, PrototypeDevice target)
+        {
+            if (!scenario || source == null || target == null || source == target ||
+                !scenario.devices.Contains(source) || !scenario.devices.Contains(target))
+                throw new ArgumentException("Choose two distinct devices in the same scenario.");
+            var group = !string.IsNullOrEmpty(source.group) ? source.group :
+                !string.IsNullOrEmpty(target.group) ? target.group : "link_" + Guid.NewGuid().ToString("N").Substring(0, 8);
+            if (!string.IsNullOrEmpty(target.group) && target.group != group)
+                foreach (var member in scenario.devices.Where(device => device.group == target.group)) member.group = group;
+            source.group = group;
+            target.group = group;
+            return group;
         }
         public static bool Resize(PuzzleMap data, int width, int height, bool confirm)
         {
@@ -270,16 +316,28 @@ namespace ANIMOL.Presentation.Editor
                     else EditorGUI.DrawRect(rect, tile.material == TerrainMaterial.Grass ? new Color(.25f, .5f, .38f) : new Color(.5f, .5f, .6f));
                     if (tile.blocked) GUI.Label(rect, "#");
                 }
-                var d = map.DeviceAt(p); if (d.kind != DeviceKind.None) GUI.Label(rect, d.kind == DeviceKind.Portal ? "O" : d.kind.ToString().Substring(0, 1) + DirectionGlyph(d.direction));
-                if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) GUI.Label(rect, ((int)configured.role).ToString("00") + DirectionGlyph(configured.direction));
-                if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
                 foreach (var decor in map.decorations.Where(a => a.position == p)) DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
+                if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
+                var d = map.DeviceAt(p); if (d.kind != DeviceKind.None) GUI.Label(rect, d.kind == DeviceKind.Portal ? "O" : d.kind.ToString().Substring(0, 1) + DirectionGlyph(d.direction));
+                if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) DrawDevice(rect, configured);
                 if (map.bubbles.Contains(p)) GUI.Label(rect, "B", EditorStyles.boldLabel);
                 if (map.start == p) GUI.Label(rect, "S", EditorStyles.boldLabel);
                 if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "E", EditorStyles.boldLabel);
                 if (!map.Contains(p)) GUI.Label(rect, "/");
             }
+            if (map.scenario && showConnections) DrawConnections(shownHeight);
             var e = Event.current;
+            if (pointerInside && e.type == EventType.Repaint)
+            {
+                var hover = new Vector2Int(Mathf.FloorToInt(e.mousePosition.x / cellSize), shownHeight - 1 - Mathf.FloorToInt(e.mousePosition.y / cellSize));
+                if (map.Contains(hover))
+                {
+                    var eraseHover = erase || e.button == 1;
+                    Handles.DrawSolidRectangleWithOutline(new Rect(hover.x * cellSize, (shownHeight - hover.y - 1) * cellSize, cellSize, cellSize),
+                        new Color(eraseHover ? 1f : .2f, eraseHover ? .25f : 1f, .3f, .12f),
+                        eraseHover ? new Color(1f, .3f, .3f) : new Color(.3f, 1f, .5f));
+                }
+            }
             if (pointerInside && (e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && (e.button == 0 || e.button == 1))
             {
                 var p = new Vector2Int(Mathf.FloorToInt(e.mousePosition.x / cellSize), shownHeight - 1 - Mathf.FloorToInt(e.mousePosition.y / cellSize));
@@ -287,7 +345,19 @@ namespace ANIMOL.Presentation.Editor
                 {
                     if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
                     {
-                        selectedDeviceId = map.scenario.devices.FirstOrDefault(device => device.position == p)?.id;
+                        var clicked = map.scenario.devices.FirstOrDefault(device => device.position == p);
+                        if (linkTargetMode && clicked != null)
+                        {
+                            var source = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId);
+                            if (source != null && source != clicked)
+                            {
+                                Undo.RecordObject(map.scenario, "Connect puzzle devices");
+                                ConnectDevices(map.scenario, source, clicked);
+                                EditorUtility.SetDirty(map.scenario);
+                                linkTargetMode = false;
+                            }
+                        }
+                        else if (e.type == EventType.MouseDown) selectedDeviceId = clicked?.id;
                     }
                     else
                     {
@@ -300,6 +370,72 @@ namespace ANIMOL.Presentation.Editor
             GUI.EndScrollView();
         }
         static string DirectionGlyph(Vector2Int d) => d == Vector2Int.up ? "^" : d == Vector2Int.right ? ">" : d == Vector2Int.down ? "v" : "<";
+        void DrawDevice(Rect cell, PrototypeDevice device)
+        {
+            var inset = cell.width * .12f;
+            var visual = new Rect(cell.x + inset, cell.y + inset, cell.width - inset * 2, cell.height - inset * 2);
+            var prefab = device.visualPrefab;
+            var sprite = DeviceSprite(device);
+            if (sprite) DrawSprite(visual, sprite);
+            else if (prefab)
+            {
+                var preview = AssetPreview.GetAssetPreview(prefab) ?? AssetPreview.GetMiniThumbnail(prefab);
+                if (preview) GUI.DrawTexture(visual, preview, ScaleMode.ScaleToFit, true);
+            }
+            var selected = device.id == selectedDeviceId;
+            var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
+            EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
+            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DirectionGlyph(device.direction), EditorStyles.whiteMiniLabel);
+            if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
+            if (!prefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "no art", EditorStyles.whiteMiniLabel);
+        }
+        static Sprite DeviceSprite(PrototypeDevice device)
+        {
+            var prefab = device.visualPrefab;
+            if (!prefab) return null;
+            var view = prefab.GetComponentInChildren<ANIMOL.Presentation.DeviceVisualView>(true);
+            var state = view?.states?.FirstOrDefault(candidate => candidate.name == device.initialVisual) ??
+                view?.states?.FirstOrDefault(candidate => candidate.name == view.initialState);
+            if (state?.sprite) return state.sprite;
+            if (state?.sequence && state.sequence.frames != null && state.sequence.frames.Length > 0 && state.sequence.frames[0])
+                return state.sequence.frames[0];
+            return prefab.GetComponentsInChildren<SpriteRenderer>(true).Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate);
+        }
+        void DrawConnections(int shownHeight)
+        {
+            var devices = map.scenario.devices.Where(device => map.Contains(device.position)).ToArray();
+            Vector3 Center(Vector2Int p) => new Vector3((p.x + .5f) * cellSize, (shownHeight - p.y - .5f) * cellSize);
+            var previous = Handles.color;
+            foreach (var group in devices.Where(device => !string.IsNullOrEmpty(device.group)).GroupBy(device => device.group))
+            {
+                var members = group.ToArray();
+                for (var i = 0; i < members.Length; i++) for (var j = i + 1; j < members.Length; j++)
+                {
+                    Handles.color = members[i].id == selectedDeviceId || members[j].id == selectedDeviceId
+                        ? new Color(.2f, .9f, 1f, .95f) : new Color(.3f, .8f, 1f, .55f);
+                    Handles.DrawAAPolyLine(3, Center(members[i].position), Center(members[j].position));
+                }
+            }
+            foreach (var device in devices)
+            {
+                if (device.role == PrototypeRole.Portal && map.Contains(device.target))
+                {
+                    Handles.color = new Color(1f, .55f, 1f, device.id == selectedDeviceId ? 1f : .55f);
+                    Handles.DrawDottedLine(Center(device.position), Center(device.target), 4);
+                }
+                if (device.id != selectedDeviceId) continue;
+                Handles.color = new Color(1f, .72f, .22f, .95f);
+                foreach (var cell in device.cells ?? Enumerable.Empty<Vector2Int>())
+                    if (map.Contains(cell)) Handles.DrawDottedLine(Center(device.position), Center(cell), 5);
+                if (device.role == PrototypeRole.Bomb)
+                    foreach (var offset in device.blastOffsets ?? Enumerable.Empty<Vector2Int>())
+                        if (map.Contains(device.position + offset))
+                            Handles.DrawSolidRectangleWithOutline(new Rect((device.position.x + offset.x) * cellSize,
+                                (shownHeight - device.position.y - offset.y - 1) * cellSize, cellSize, cellSize),
+                                new Color(1f, .25f, .1f, .16f), new Color(1f, .35f, .1f, .9f));
+            }
+            Handles.color = previous;
+        }
         static void DrawSprite(Rect r, Sprite sprite)
         { if (!sprite) return; var t = sprite.texture; var s = sprite.rect; GUI.DrawTextureWithTexCoords(r, t, new Rect(s.x / t.width, s.y / t.height, s.width / t.width, s.height / t.height)); }
         void Paint(Vector2Int p, bool remove)
@@ -341,7 +477,8 @@ namespace ANIMOL.Presentation.Editor
             var shift = position - template.position;
             var copy = new PrototypeDevice {
                 id = stem + "_" + number, role = template.role, variant = template.variant,
-                group = template.group, artTheme = template.artTheme, visualPrefab = template.visualPrefab,
+                // Practice examples reuse group names. New placements must be linked deliberately.
+                group = string.Empty, artTheme = template.artTheme, visualPrefab = template.visualPrefab,
                 initialVisual = template.initialVisual, position = position, direction = template.direction,
                 target = template.role == PrototypeRole.Portal ? template.target + shift : template.target,
                 orientation = template.orientation, number = template.number, active = template.active,

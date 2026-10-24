@@ -131,12 +131,36 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(copy.position, Is.EqualTo(position));
                 Assert.That(copy.target, Is.EqualTo(originalTarget + position - originalPosition));
                 Assert.That(copy.visualPrefab, Is.SameAs(template.visualPrefab));
+                Assert.That(copy.group, Is.Empty);
                 Assert.That(copy.cells, Is.Not.SameAs(template.cells));
                 Assert.That(copy.blastOffsets, Is.Not.SameAs(template.blastOffsets));
                 Assert.That(PuzzleMapEditor.StampTemplate(scenario, template, position + Vector2Int.right).id,
                     Is.Not.EqualTo(copy.id));
                 Assert.That(template.position, Is.EqualTo(originalPosition));
                 Assert.That(template.target, Is.EqualTo(originalTarget));
+            }
+            finally { Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void EditorLinksOnlyChosenDevicesAndReusesTheirGroup()
+        {
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                var button = new PrototypeDevice { id = "button", role = PrototypeRole.VineBridge };
+                var bridge = new PrototypeDevice { id = "bridge", role = PrototypeRole.VineBridge };
+                var other = new PrototypeDevice { id = "other", role = PrototypeRole.VineBridge };
+                scenario.devices.AddRange(new[] { button, bridge, other });
+                var group = PuzzleMapEditor.ConnectDevices(scenario, button, bridge);
+                Assert.That(group, Is.Not.Empty);
+                Assert.That(button.group, Is.EqualTo(bridge.group));
+                Assert.That(string.IsNullOrEmpty(other.group), Is.True);
+                Assert.That(PuzzleMapEditor.ConnectDevices(scenario, bridge, other), Is.EqualTo(group));
+                Assert.That(other.group, Is.EqualTo(group));
+                var neighbor = new PrototypeDevice { id = "neighbor", group = "existing_group" };
+                var receiver = new PrototypeDevice { id = "receiver", group = "existing_group" };
+                scenario.devices.AddRange(new[] { neighbor, receiver });
+                Assert.That(PuzzleMapEditor.ConnectDevices(scenario, button, receiver), Is.EqualTo(group));
+                Assert.That(neighbor.group, Is.EqualTo(group));
             }
             finally { Object.DestroyImmediate(scenario); }
         }
