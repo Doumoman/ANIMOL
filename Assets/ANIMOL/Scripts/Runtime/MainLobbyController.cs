@@ -97,6 +97,7 @@ namespace ANIMOL.Menu
         public bool IsCampaignOpen => campaignPanel && campaignPanel.activeSelf;
         public bool IsModalOpen => modalPanel && modalPanel.activeSelf;
         public bool MotionRunning => !reducedMotion && !appPaused && focused && !IsCampaignOpen && !IsModalOpen;
+        public Action CampaignContinueOverride { get; set; }
 
         void Awake()
         {
@@ -114,7 +115,11 @@ namespace ANIMOL.Menu
             if (soundButton) soundButton.onClick.AddListener(OpenSettings);
             removeAdsButton.onClick.AddListener(() => OpenModal("광고 제거", "구매와 복원 서비스가 연결되지 않았습니다."));
             campaignBackButton.onClick.AddListener(CloseCampaign);
-            campaignContinueButton.onClick.AddListener(() => OpenModal("스테이지 선택", "정식 캠페인 스테이지 목록이 아직 연결되지 않았습니다."));
+            campaignContinueButton.onClick.AddListener(() =>
+            {
+                if (CampaignContinueOverride != null) CampaignContinueOverride();
+                else OpenModal("스테이지 선택", "정식 캠페인 스테이지 목록이 아직 연결되지 않았습니다.");
+            });
             modalCloseButton.onClick.AddListener(CloseModal);
             reducedMotionToggle.onValueChanged.AddListener(SetReducedMotion);
             for (var i = 0; i < themeButtons.Length; i++)

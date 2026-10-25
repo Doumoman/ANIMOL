@@ -1,0 +1,293 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3b14a1366ced9b47b810a4d1a332aa2, type: 3}
+  m_Name: SanctuaryVisualCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::ANIMOL.SanctuaryStory.SanctuaryVisualCatalog
+  laboratoryBackground: {fileID: 21300000, guid: 2a05804742c1e5a4b9c3c9111fdf4dcb, type: 3}
+  chaosBackground: {fileID: 21300000, guid: 495c203ac9f88be4fa8a8074b291de81, type: 3}
+  backgroundVariants:
+  - id: lab
+    sprite: {fileID: 21300000, guid: 2a05804742c1e5a4b9c3c9111fdf4dcb, type: 3}
+  - id: chaos
+    sprite: {fileID: 21300000, guid: 495c203ac9f88be4fa8a8074b291de81, type: 3}
+  - id: lab_platform
+    sprite: {fileID: 21300000, guid: 62e1a539bb37ee94795a3f6467e258e2, type: 3}
+  - id: chaos_near
+    sprite: {fileID: 21300000, guid: 25b2d032e995ec948bab356a373cd9f5, type: 3}
+  - id: chaos_boundary
+    sprite: {fileID: 21300000, guid: c8b33a8cf3449ad4f92402f9e91b8d4e, type: 3}
+  - id: chaos_crossing
+    sprite: {fileID: 21300000, guid: 1db18aa404b1b5041a3f8a77c01c6e3d, type: 3}
+  - id: lab_records
+    sprite: {fileID: 21300000, guid: f6c29a0e0fa42de4791a83016c9fb96c, type: 3}
+  characters:
+  - characterId: doyun
+    portrait: {fileID: 21300000, guid: bc36954942fc81041a4d16d44bfb08c9, type: 3}
+    idleFrames:
+    - {fileID: 21300000, guid: bc36954942fc81041a4d16d44bfb08c9, type: 3}
+    moveFrames: []
+    jumpFrames: []
+    prepareFrames: []
+    lowerFrames: []
+    boundaryFrames: []
+    expressionVariants:
+    - id: neutral
+      sprite: {fileID: 21300000, guid: bc36954942fc81041a4d16d44bfb08c9, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.52251875
+      contentMinX: 0.06005004
+      contentMinY: 0.009908536
+      contentMaxX: 0.9683069
+      contentMaxY: 0.99009144
+    - id: anxious
+      sprite: {fileID: 21300000, guid: d754f378889e82b42ac3651c8ca95686, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.54345703
+      contentMinX: 0.12597656
+      contentMinY: 0.008463542
+      contentMaxX: 0.9472656
+      contentMaxY: 0.9895833
+    - id: confront
+      sprite: {fileID: 21300000, guid: f174b0cc56b5a474fbcebeb1c5992a91, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5336914
+      contentMinX: 0.048828125
+      contentMinY: 0.008463542
+      contentMaxX: 0.9638672
+      contentMaxY: 0.9921875
+    - id: exhausted
+      sprite: {fileID: 21300000, guid: a9d4c6fb58dba09428bed273151df90b, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.54248047
+      contentMinX: 0.123046875
+      contentMinY: 0.009765625
+      contentMaxX: 0.9716797
+      contentMaxY: 0.984375
+    - id: focus
+      sprite: {fileID: 21300000, guid: ca38de393ab1e0a4bb44113b3283f158, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.52978516
+      contentMinX: 0.15917969
+      contentMinY: 0.009765625
+      contentMaxX: 0.95703125
+      contentMaxY: 0.9921875
+    - id: terror
+      sprite: {fileID: 21300000, guid: c10f2508aa0cb8d4ca1edabdde8c634f, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5185547
+      contentMinX: 0.09765625
+      contentMinY: 0.005859375
+      contentMaxX: 0.9873047
+      contentMaxY: 0.9921875
+    framesPerSecond: 8
+    designHeight: 480
+  - characterId: sein
+    portrait: {fileID: 21300000, guid: 1a0e35b8ad2c8b840a77dda0a8a3fcf3, type: 3}
+    idleFrames:
+    - {fileID: 21300000, guid: 1a0e35b8ad2c8b840a77dda0a8a3fcf3, type: 3}
+    moveFrames: []
+    jumpFrames: []
+    prepareFrames: []
+    lowerFrames: []
+    boundaryFrames: []
+    expressionVariants:
+    - id: neutral
+      sprite: {fileID: 21300000, guid: 1a0e35b8ad2c8b840a77dda0a8a3fcf3, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5361328
+      contentMinX: 0.036132812
+      contentMinY: 0.00390625
+      contentMaxX: 0.96972656
+      contentMaxY: 0.99283856
+    - id: concern
+      sprite: {fileID: 21300000, guid: c15134791abad5040ab135f69ec90f87, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5161133
+      contentMinX: 0.0234375
+      contentMinY: 0.00390625
+      contentMaxX: 0.98046875
+      contentMaxY: 0.99348956
+    - id: inspect
+      sprite: {fileID: 21300000, guid: b9ffd5b4576f24b46b13c3633a89fa0b, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.53222656
+      contentMinX: 0.040039062
+      contentMinY: 0.0026041667
+      contentMaxX: 0.9628906
+      contentMaxY: 0.99609375
+    - id: record
+      sprite: {fileID: 21300000, guid: 943bf8c373249dc4281eb51a50bbbaeb, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.54296875
+      contentMinX: 0.036132812
+      contentMinY: 0.0045572915
+      contentMaxX: 0.9716797
+      contentMaxY: 0.9954427
+    framesPerSecond: 8
+    designHeight: 480
+  - characterId: daon
+    portrait: {fileID: 21300000, guid: 707377ce732d3514c968812f7d446e1f, type: 3}
+    idleFrames:
+    - {fileID: 21300000, guid: 707377ce732d3514c968812f7d446e1f, type: 3}
+    moveFrames: []
+    jumpFrames: []
+    prepareFrames: []
+    lowerFrames: []
+    boundaryFrames: []
+    expressionVariants:
+    - id: neutral
+      sprite: {fileID: 21300000, guid: 707377ce732d3514c968812f7d446e1f, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.48779297
+      contentMinX: 0.06933594
+      contentMinY: 0.0026041667
+      contentMaxX: 0.9316406
+      contentMaxY: 0.9921875
+    - id: resolve
+      sprite: {fileID: 21300000, guid: c7bdaf26a8eae9644a3c55e69a0fb780, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.4897461
+      contentMinX: 0.10839844
+      contentMinY: 0.0032552083
+      contentMaxX: 0.9013672
+      contentMaxY: 0.99609375
+    - id: serious
+      sprite: {fileID: 21300000, guid: 157e585fb1409b744920296bf23f943d, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.50927734
+      contentMinX: 0.08984375
+      contentMinY: 0.0013020834
+      contentMaxX: 0.9394531
+      contentMaxY: 0.99869794
+    - id: tease
+      sprite: {fileID: 21300000, guid: 0f9371def16bc6243bb7bcbae1c2e5fe, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.49804688
+      contentMinX: 0.087890625
+      contentMinY: 0.001953125
+      contentMaxX: 0.9375
+      contentMaxY: 0.9947917
+    framesPerSecond: 8
+    designHeight: 480
+  - characterId: lumi
+    portrait: {fileID: 21300000, guid: ba4110bc9376022479753c4de4480a1c, type: 3}
+    idleFrames:
+    - {fileID: 21300000, guid: ba4110bc9376022479753c4de4480a1c, type: 3}
+    moveFrames: []
+    jumpFrames: []
+    prepareFrames: []
+    lowerFrames: []
+    boundaryFrames: []
+    expressionVariants:
+    - id: neutral
+      sprite: {fileID: 21300000, guid: ba4110bc9376022479753c4de4480a1c, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5629883
+      contentMinX: 0.017578125
+      contentMinY: 0.0032552083
+      contentMaxX: 0.98535156
+      contentMaxY: 0.9967448
+    - id: concern
+      sprite: {fileID: 21300000, guid: f3811863a81519243b5603558c6acbe8, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.54345703
+      contentMinX: 0.026367188
+      contentMinY: 0.005859375
+      contentMaxX: 0.9794922
+      contentMaxY: 0.99609375
+    - id: relief
+      sprite: {fileID: 21300000, guid: 4025d35c19d17d94eb305c9c9e2abca4, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5654297
+      contentMinX: 0.016601562
+      contentMinY: 0.00390625
+      contentMaxX: 0.98535156
+      contentMaxY: 0.9967448
+    - id: support
+      sprite: {fileID: 21300000, guid: 4e18b420c90482e429ed038a98910da2, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.5678711
+      contentMinX: 0.0146484375
+      contentMinY: 0.0032552083
+      contentMaxX: 0.9902344
+      contentMaxY: 0.9967448
+    framesPerSecond: 8
+    designHeight: 480
+  - characterId: watcher
+    portrait: {fileID: 21300000, guid: 924802e87d1958c489271f4d84a29232, type: 3}
+    idleFrames:
+    - {fileID: 21300000, guid: 924802e87d1958c489271f4d84a29232, type: 3}
+    moveFrames: []
+    jumpFrames: []
+    prepareFrames:
+    - {fileID: 21300000, guid: 566a564077d94174f8bccb05062e2b81, type: 3}
+    lowerFrames: []
+    boundaryFrames: []
+    expressionVariants:
+    - id: neutral
+      sprite: {fileID: 21300000, guid: 924802e87d1958c489271f4d84a29232, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.48583984
+      contentMinX: 0.11035156
+      contentMinY: 0.005859375
+      contentMaxX: 0.9560547
+      contentMaxY: 0.9947917
+    - id: prepare
+      sprite: {fileID: 21300000, guid: 566a564077d94174f8bccb05062e2b81, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.48583984
+      contentMinX: 0.11035156
+      contentMinY: 0.005859375
+      contentMaxX: 0.9560547
+      contentMaxY: 0.9947917
+    - id: guide
+      sprite: {fileID: 21300000, guid: 813cb27937546604eaf09cc62ceb1671, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.49609375
+      contentMinX: 0.049804688
+      contentMinY: 0.0065104165
+      contentMaxX: 0.95703125
+      contentMaxY: 0.9954427
+    - id: observe
+      sprite: {fileID: 21300000, guid: 393f23b1245751f4fa7ea2146dae96f5, type: 3}
+      hasContentBounds: 1
+      hasRegistrationX: 1
+      registrationX: 0.4975586
+      contentMinX: 0.12207031
+      contentMinY: 0.008463542
+      contentMaxX: 0.93847656
+      contentMaxY: 0.99609375
+    framesPerSecond: 8
+    designHeight: 480
+  platformContactSound: {fileID: 0}
+  rewindFoldSound: {fileID: 0}

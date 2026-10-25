@@ -1,0 +1,2381 @@
+{
+  "schemaVersion": 1,
+  "chapterId": "sanctuary_story",
+  "initialSceneId": "S01",
+  "displayNameBefore": "낙일 성소",
+  "displayNameAfter": "천조 날조국",
+  "characters": [
+    {
+      "id": "doyun",
+      "displayName": "도윤",
+      "personality": "INTP",
+      "voiceDirection": "원인과 조건을 짧게 묻는다. 감정이 없는 인물이 아니며 두려움도 분석하려 하지만 통제하지 못한다."
+    },
+    {
+      "id": "lumi",
+      "displayName": "루미",
+      "personality": "ESFP",
+      "voiceDirection": "현재의 표정·손·호흡을 먼저 살피고 바로 곁을 지킨다. 분위기 담당으로만 연기하지 않는다."
+    },
+    {
+      "id": "sein",
+      "displayName": "세인",
+      "personality": "ISTJ",
+      "voiceDirection": "절차와 관측 사실을 확인한다. 직접 본 일·들은 설명·모르는 부분을 구분하며 사람보다 절차를 앞세우지 않는다."
+    },
+    {
+      "id": "daon",
+      "displayName": "다온",
+      "personality": "ENTP",
+      "voiceDirection": "다른 해석과 반론으로 질문을 선명하게 한다. 가벼운 농담은 가능하지만 도윤의 불안을 조롱하지 않는다."
+    },
+    {
+      "id": "watcher",
+      "displayName": "파수꾼",
+      "personality": "미지정",
+      "voiceDirection": "처음부터 끝까지 친근한 현대적 존댓말과 같은 음량·속도를 유지한다. 후반의 위화감은 감정의 부재와 연구 목적에서 드러난다. 흰 모자는 올린 흰 후드 위에 쓰며 얼굴은 완전히 가린다."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "S01",
+      "title": "관측 시작 전, 작은 망설임",
+      "nextSceneId": "S02",
+      "loopStage": 0,
+      "artReference": "S01",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S01_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L01",
+            "speaker": "세인",
+            "text": "관측 준비됐어. 네가 올라서면 시작할게.",
+            "delivery": ""
+          },
+          "id": "S01_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L02",
+            "speaker": "도윤",
+            "text": "잠깐. 내가 올라가면 뭘 먼저 기록해?",
+            "delivery": ""
+          },
+          "id": "S01_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L03",
+            "speaker": "세인",
+            "text": "위치 변화랑 네 반응. 기록은 이미 켰어.",
+            "delivery": ""
+          },
+          "id": "S01_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L04",
+            "speaker": "다온",
+            "text": "아무 일도 안 생기면? 그것도 결과지?",
+            "delivery": ""
+          },
+          "id": "S01_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L05",
+            "speaker": "세인",
+            "text": "응. 빈칸으로 두지는 않을 거야.",
+            "delivery": ""
+          },
+          "id": "S01_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L06",
+            "speaker": "도윤",
+            "text": "그럼 변화가 없는지도 내가 말해야겠네.",
+            "delivery": ""
+          },
+          "id": "S01_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L07",
+            "speaker": "다온",
+            "text": "맞아. 별일 없었다는 것도 확인은 해 봐야지.",
+            "delivery": ""
+          },
+          "id": "S01_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L08",
+            "speaker": "루미",
+            "text": "설명은 다 했지? 도윤, 여기 봐. 긴장돼?",
+            "delivery": ""
+          },
+          "id": "S01_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L09",
+            "speaker": "도윤",
+            "text": "아니. 원리를 모르니까 신경 쓰이는 거야.",
+            "delivery": ""
+          },
+          "id": "S01_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L10",
+            "speaker": "루미",
+            "text": "그럼 올라가기 전에 숨 한번만. 같이 기다릴게.",
+            "delivery": ""
+          },
+          "id": "S01_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L11",
+            "speaker": "세인",
+            "text": "아직 시작 안 했어. 준비되면 말해 줘.",
+            "delivery": ""
+          },
+          "id": "S01_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L12",
+            "speaker": "도윤",
+            "text": "응. 잠깐만 생각 정리하고.",
+            "delivery": ""
+          },
+          "id": "S01_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L13",
+            "speaker": "다온",
+            "text": "좋아. 결론은 다녀와서 듣자.",
+            "delivery": ""
+          },
+          "id": "S01_T14"
+        },
+        {
+          "kind": "choice",
+          "choice": {
+            "mode": "normal",
+            "hesitationSeconds": 1.0,
+            "revealSeconds": 0.18,
+            "options": [
+              {
+                "id": "S01_climb_01",
+                "label": "실험대에 오르기",
+                "action": "climb"
+              },
+              {
+                "id": "S01_hesitate_01",
+                "label": "망설이기",
+                "action": "hesitate"
+              }
+            ]
+          },
+          "id": "S01_T15"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "choices_hide",
+            "duration": 0.12,
+            "intensity": "normal",
+            "description": "오르기 확정 입력을 한 번 소비하고 선택 패널을 걷는다. 선택지와 마지막 대사창을 겹치지 않는다. 메뉴 퇴장이 끝난 토큰만 완료한다."
+          },
+          "id": "S01_T16"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S01_L14",
+            "speaker": "도윤",
+            "text": "올라가서 확인해 볼게.",
+            "delivery": "오르기 선택이 확정된 뒤에만 재생"
+          },
+          "id": "S01_T17"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "platform_climb_first",
+            "duration": 0.75,
+            "intensity": "important",
+            "description": "마지막 대사창을 걷은 뒤 중심 이동→발 들기→발판 접촉을 먼저 보인다. 발 접촉 프레임에 발소리 한 번, 그 뒤 혼돈으로 전환한다. 새 공간의 정착은 다음 scene_settle에서 완료한다. S10의 입력은 파수꾼의 이용에 대한 동의가 아니다."
+          },
+          "id": "S01_T18"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "공허의 길의 파수꾼",
+      "nextSceneId": "S03",
+      "loopStage": 0,
+      "artReference": "S02",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S02_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L01",
+            "speaker": "도윤",
+            "text": "세인? 다온? 루미?",
+            "delivery": ""
+          },
+          "id": "S02_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L02",
+            "speaker": "도윤",
+            "text": "소리도 안 들리네. 방금까지 옆에 있었는데.",
+            "delivery": ""
+          },
+          "id": "S02_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L03",
+            "speaker": "파수꾼",
+            "text": "괜찮아요? 갑자기 와서 놀랐죠.",
+            "delivery": ""
+          },
+          "id": "S02_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L04",
+            "speaker": "도윤",
+            "text": "누구세요? 여긴 어디예요?",
+            "delivery": ""
+          },
+          "id": "S02_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L05",
+            "speaker": "파수꾼",
+            "text": "공허의 길이에요. 저는 여기 파수꾼이고요.",
+            "delivery": ""
+          },
+          "id": "S02_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L06",
+            "speaker": "도윤",
+            "text": "저는 도윤이에요. 실험대에 올라갔는데 여기로 왔어요. 돌아갈 수 있어요?",
+            "delivery": ""
+          },
+          "id": "S02_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L07",
+            "speaker": "파수꾼",
+            "text": "나갈 길을 같이 찾아봐요. 다만 그 길을 볼 수 있는 건 도윤 씨뿐이에요.",
+            "delivery": ""
+          },
+          "id": "S02_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L08",
+            "speaker": "도윤",
+            "text": "저요? 여기 처음 오는데요.",
+            "delivery": ""
+          },
+          "id": "S02_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L09",
+            "speaker": "파수꾼",
+            "text": "혼돈을 돌아다니면서 길을 드러내는 능력이 있어요. 타고난 거예요.",
+            "delivery": ""
+          },
+          "id": "S02_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L10",
+            "speaker": "도윤",
+            "text": "어떻게 확인하죠?",
+            "delivery": ""
+          },
+          "id": "S02_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L11",
+            "speaker": "파수꾼",
+            "text": "발밑을 봐요. 도윤 씨가 서 있는 데부터 보이죠? 제가 같이 가 볼게요.",
+            "delivery": ""
+          },
+          "id": "S02_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S02_L12",
+            "speaker": "도윤",
+            "text": "그러네요. 그럼 조금씩 움직여 볼게요.",
+            "delivery": ""
+          },
+          "id": "S02_T13"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "네가 비추는 만큼",
+      "nextSceneId": "S04",
+      "loopStage": 0,
+      "artReference": "S03",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S03_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L01",
+            "speaker": "도윤",
+            "text": "제가 움직일 때만 앞이 보여요.",
+            "delivery": ""
+          },
+          "id": "S03_T02"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "path_reveal",
+            "duration": 0.2,
+            "intensity": "important",
+            "description": "도윤의 중심 이동과 발 전진을 먼저 보이고 발밑의 가까운 길 면부터 드러낸다. 길이 보인 뒤 파수꾼이 관찰한다. 파수꾼에게 독립 광원은 없다."
+          },
+          "id": "S03_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L02",
+            "speaker": "파수꾼",
+            "text": "거기서 잠깐 멈춰 볼래요?",
+            "delivery": ""
+          },
+          "id": "S03_T04"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "path_hold",
+            "duration": 0.12,
+            "intensity": "normal",
+            "description": "도윤이 멈추면 길 노출도 멈춘다. 현재 드러난 면만 유지하고 앞의 새 면은 어둡게 둔다."
+          },
+          "id": "S03_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L03",
+            "speaker": "도윤",
+            "text": "여기서 끊기네요. 저 너머는 아직 안 보이고요.",
+            "delivery": ""
+          },
+          "id": "S03_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L04",
+            "speaker": "파수꾼",
+            "text": "저도 그래요. 도윤 씨가 없으면 이 길을 못 봐요.",
+            "delivery": ""
+          },
+          "id": "S03_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L05",
+            "speaker": "도윤",
+            "text": "파수꾼인데도요?",
+            "delivery": ""
+          },
+          "id": "S03_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L06",
+            "speaker": "파수꾼",
+            "text": "여기 오래 있었다고 다 보이는 건 아니더라고요.",
+            "delivery": ""
+          },
+          "id": "S03_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L07",
+            "speaker": "도윤",
+            "text": "그럼 돌아갈 길도 제가 먼저 찾아야겠네요.",
+            "delivery": ""
+          },
+          "id": "S03_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L08",
+            "speaker": "파수꾼",
+            "text": "네. 도윤 씨가 비춰 줘야 확인할 수 있어요.",
+            "delivery": ""
+          },
+          "id": "S03_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L09",
+            "speaker": "도윤",
+            "text": "나가는 길을 찾는 거죠? 더 안쪽으로만 가는 것 같아서요.",
+            "delivery": ""
+          },
+          "id": "S03_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L10",
+            "speaker": "파수꾼",
+            "text": "조금만 더 볼게요. 저기 길이 꺾이는 모양이 달라서요.",
+            "delivery": ""
+          },
+          "id": "S03_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S03_L11",
+            "speaker": "도윤",
+            "text": "……얼마나 더 걸려요?",
+            "delivery": ""
+          },
+          "id": "S03_T14"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "삶의 마지막과 맞닿은 경계",
+      "nextSceneId": "S05",
+      "loopStage": 0,
+      "artReference": "S04",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S04_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L01",
+            "speaker": "도윤",
+            "text": "저 앞은 제가 가도 안 보여요.",
+            "delivery": ""
+          },
+          "id": "S04_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L02",
+            "speaker": "파수꾼",
+            "text": "경계에 가까워졌네요. 지금은 더 가기 어렵겠어요.",
+            "delivery": ""
+          },
+          "id": "S04_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L03",
+            "speaker": "도윤",
+            "text": "무슨 경계인데요? 넘어가면 어떻게 돼요?",
+            "delivery": ""
+          },
+          "id": "S04_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L04",
+            "speaker": "파수꾼",
+            "text": "혼돈은 삶의 마지막에 닿아 있어요. 삶과 죽음 사이의 경계예요.",
+            "delivery": ""
+          },
+          "id": "S04_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L05",
+            "speaker": "도윤",
+            "text": "삶과 죽음…… 그럼 여기서 사라질 수도 있어요?",
+            "delivery": ""
+          },
+          "id": "S04_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L06",
+            "speaker": "파수꾼",
+            "text": "오래 있을수록 형상이 흐려져요. 지금 손을 한번 봐요.",
+            "delivery": ""
+          },
+          "id": "S04_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L07",
+            "speaker": "도윤",
+            "text": "손끝이 안 보여요. 방금까지 있었는데.",
+            "delivery": ""
+          },
+          "id": "S04_T08"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "boundary_risk",
+            "duration": 0.18,
+            "intensity": "important",
+            "description": "도윤의 시선이 손으로 내려가고 손 바깥 어둠으로 형상이 흐려질 위험을 읽힌다. 다섯 손가락과 실루엣을 누락·분해하지 않는다. 사망 판정이나 실패 UI는 없다."
+          },
+          "id": "S04_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L08",
+            "speaker": "도윤",
+            "text": "잠깐만요. 돌아갈 길은 아직 못 찾았잖아요.",
+            "delivery": ""
+          },
+          "id": "S04_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L09",
+            "speaker": "파수꾼",
+            "text": "일단 돌려놓을게요. 더 흐려지기 전에요.",
+            "delivery": ""
+          },
+          "id": "S04_T11"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "watcher_prepare_rewind",
+            "duration": 0.2,
+            "intensity": "important",
+            "description": "파수꾼의 손을 먼저 들어 되감기 준비를 읽힌다. 아직 배경 접힘과 되감기음은 시작하지 않는다. 말투는 평소와 같다."
+          },
+          "id": "S04_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L10",
+            "speaker": "도윤",
+            "text": "돌려놓는다는 게 무슨 뜻이에요?",
+            "delivery": ""
+          },
+          "id": "S04_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S04_L11",
+            "speaker": "도윤",
+            "text": "아직 대답 못 들었……!",
+            "delivery": ""
+          },
+          "id": "S04_T14"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "rewind_first",
+            "duration": 0.8,
+            "intensity": "important",
+            "description": "준비된 손짓 뒤 단일 각진 배경 접힘과 짧은 되감기음을 같은 프레임에 실행한다. S01과 같은 실험실 구도로 연결한다. 화면 흔들림·섬광·Game Over는 없다."
+          },
+          "id": "S04_T15"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "이유 없는 세 번의 망설임",
+      "nextSceneId": "S06",
+      "loopStage": 1,
+      "artReference": "S05",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S05_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L01",
+            "speaker": "세인",
+            "text": "관측 준비됐어. 네가 올라서면 시작할게.",
+            "delivery": ""
+          },
+          "id": "S05_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L02",
+            "speaker": "도윤",
+            "text": "위치 변화랑 내 반응. 그걸 기록하는 거지?",
+            "delivery": ""
+          },
+          "id": "S05_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L03",
+            "speaker": "세인",
+            "text": "맞아. 그런데 아직 설명 안 했는데.",
+            "delivery": ""
+          },
+          "id": "S05_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L04",
+            "speaker": "도윤",
+            "text": "……왜 알고 있지?",
+            "delivery": ""
+          },
+          "id": "S05_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L05",
+            "speaker": "다온",
+            "text": "들었던 기억은 없고, 내용만 아는 거야?",
+            "delivery": ""
+          },
+          "id": "S05_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L06",
+            "speaker": "도윤",
+            "text": "응. 발판도 익숙한데 가까이 가기가 싫어.",
+            "delivery": ""
+          },
+          "id": "S05_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L07",
+            "speaker": "루미",
+            "text": "손 차갑다. 도윤, 나 좀 봐. 어디 아파?",
+            "delivery": ""
+          },
+          "id": "S05_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L08",
+            "speaker": "도윤",
+            "text": "아픈 건 아니야. 저기만 보면 무서워.",
+            "delivery": ""
+          },
+          "id": "S05_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L09",
+            "speaker": "세인",
+            "text": "뭐가 떠올랐어? 네 말대로 적어 둘게.",
+            "delivery": ""
+          },
+          "id": "S05_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L10",
+            "speaker": "도윤",
+            "text": "아무것도. 무서운 느낌만 먼저 와.",
+            "delivery": ""
+          },
+          "id": "S05_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L11",
+            "speaker": "다온",
+            "text": "그럼 이유는 아직 모르는 걸로 두자. 억지로 맞추지는 말고.",
+            "delivery": ""
+          },
+          "id": "S05_T12"
+        },
+        {
+          "kind": "choice",
+          "choice": {
+            "mode": "normal",
+            "hesitationSeconds": 1.0,
+            "revealSeconds": 0.18,
+            "options": [
+              {
+                "id": "S05_climb_01",
+                "label": "실험대에 오르기",
+                "action": "climb"
+              },
+              {
+                "id": "S05_hesitate_01",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S05_hesitate_02",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S05_hesitate_03",
+                "label": "망설이기",
+                "action": "hesitate"
+              }
+            ]
+          },
+          "id": "S05_T13"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "choices_hide",
+            "duration": 0.12,
+            "intensity": "normal",
+            "description": "오르기 확정 입력을 한 번 소비하고 선택 패널을 걷는다. 선택지와 마지막 대사창을 겹치지 않는다. 메뉴 퇴장이 끝난 토큰만 완료한다."
+          },
+          "id": "S05_T14"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S05_L12",
+            "speaker": "도윤",
+            "text": "응. 이번에는 뭐가 달라지는지 볼게.",
+            "delivery": "오르기 선택이 확정된 뒤에만 재생"
+          },
+          "id": "S05_T15"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "platform_climb_repeat",
+            "duration": 0.5,
+            "intensity": "important",
+            "description": "마지막 대사창을 걷은 뒤 중심 이동→발 들기→발판 접촉을 먼저 보인다. 발 접촉 프레임에 발소리 한 번, 그 뒤 혼돈으로 전환한다. 새 공간의 정착은 다음 scene_settle에서 완료한다. S10의 입력은 파수꾼의 이용에 대한 동의가 아니다."
+          },
+          "id": "S05_T16"
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "title": "처음 보는 길에 남은 흔적",
+      "nextSceneId": "S07",
+      "loopStage": 1,
+      "artReference": "S06",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S06_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L01",
+            "speaker": "도윤",
+            "text": "또 여기…….",
+            "delivery": ""
+          },
+          "id": "S06_T02"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "path_reveal_repeat",
+            "duration": 0.18,
+            "intensity": "important",
+            "description": "S03의 같은 길 꺾임을 남긴다. 도윤이 도착하며 비춘 가까운 면만 보이고 파수꾼이 기다리는 새 구간은 스스로 밝아지지 않는다. 혼돈의 탐구가 이어진 흔적을 보존한다."
+          },
+          "id": "S06_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L02",
+            "speaker": "파수꾼",
+            "text": "아, 왔네요. 이쪽이에요.",
+            "delivery": ""
+          },
+          "id": "S06_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L03",
+            "speaker": "도윤",
+            "text": "왜 벌써 안쪽에 있어요? 전 여길 처음 보는데.",
+            "delivery": ""
+          },
+          "id": "S06_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L04",
+            "speaker": "파수꾼",
+            "text": "그쪽은 이미 봤어요. 오늘은 이 안쪽을 보려고요.",
+            "delivery": ""
+          },
+          "id": "S06_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L05",
+            "speaker": "도윤",
+            "text": "저 없이는 길을 못 본다고 했잖아요.",
+            "delivery": ""
+          },
+          "id": "S06_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L06",
+            "speaker": "파수꾼",
+            "text": "네. 못 보는 거랑, 전에 본 걸 잊는 건 다르니까요.",
+            "delivery": ""
+          },
+          "id": "S06_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L07",
+            "speaker": "도윤",
+            "text": "그럼 전에도 제가 여길 비췄다는 뜻이에요?",
+            "delivery": ""
+          },
+          "id": "S06_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L08",
+            "speaker": "파수꾼",
+            "text": "혹시 기억나는 게 있어요?",
+            "delivery": ""
+          },
+          "id": "S06_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L09",
+            "speaker": "도윤",
+            "text": "분명하진 않아요. 길이 꺾이는 자리는 낯설지 않고요.",
+            "delivery": ""
+          },
+          "id": "S06_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L10",
+            "speaker": "파수꾼",
+            "text": "그럼 천천히 와요. 다음 길도 비춰 주면 좋겠어요.",
+            "delivery": ""
+          },
+          "id": "S06_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L11",
+            "speaker": "도윤",
+            "text": "잠깐만요. 길 말고 먼저 확인할 게 있어요.",
+            "delivery": ""
+          },
+          "id": "S06_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S06_L12",
+            "speaker": "파수꾼",
+            "text": "네. 걸으면서 얘기해도 돼요.",
+            "delivery": ""
+          },
+          "id": "S06_T14"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "rewind_repeat",
+            "duration": 0.5,
+            "intensity": "important",
+            "description": "탐사가 더 이어진 뒤 같은 손짓·단일 접힘·짧은 역행음으로 실험실에 돌아오는 기존 순환을 압축해 보여 준다. S07의 같은 안내와 남아 있는 두려움으로 잇는다. 정상 귀환 기호나 망설임 입력에 의한 새 순환으로 처리하지 않는다."
+          },
+          "id": "S06_T15"
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "망설임이 화면을 채울 때",
+      "nextSceneId": "S08",
+      "loopStage": 2,
+      "artReference": "S07",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S07_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L01",
+            "speaker": "세인",
+            "text": "관측 준비됐어. 네가…… 도윤?",
+            "delivery": ""
+          },
+          "id": "S07_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L02",
+            "speaker": "도윤",
+            "text": "내가 올라서면 시작한다는 거지. 그 말 맞지?",
+            "delivery": ""
+          },
+          "id": "S07_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L03",
+            "speaker": "다온",
+            "text": "이번엔 네가 설명을 끝냈네.",
+            "delivery": ""
+          },
+          "id": "S07_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L04",
+            "speaker": "도윤",
+            "text": "머리로는 아는데 발이 안 움직여.",
+            "delivery": ""
+          },
+          "id": "S07_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L05",
+            "speaker": "루미",
+            "text": "숨 빨라졌어. 잠깐, 나랑 천천히.",
+            "delivery": ""
+          },
+          "id": "S07_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L06",
+            "speaker": "세인",
+            "text": "기억나는 것만 말해 줘. 순서는 나중에 맞추자.",
+            "delivery": ""
+          },
+          "id": "S07_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L07",
+            "speaker": "도윤",
+            "text": "어두운 길이 있었어. 누가 기다리고 있었고.",
+            "delivery": ""
+          },
+          "id": "S07_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L08",
+            "speaker": "다온",
+            "text": "그 사람한테 물어볼 수 있다면, 뭘 먼저 물을래?",
+            "delivery": ""
+          },
+          "id": "S07_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L09",
+            "speaker": "도윤",
+            "text": "돌아오고 싶었는데 왜 또 여기 서 있는지.",
+            "delivery": ""
+          },
+          "id": "S07_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L10",
+            "speaker": "루미",
+            "text": "응. 그 말 잊지 않게 여기서 한번 더 해 줘.",
+            "delivery": ""
+          },
+          "id": "S07_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L11",
+            "speaker": "도윤",
+            "text": "돌아왔는데, 왜 처음으로 돌아왔지?",
+            "delivery": ""
+          },
+          "id": "S07_T12"
+        },
+        {
+          "kind": "choice",
+          "choice": {
+            "mode": "normal",
+            "hesitationSeconds": 1.0,
+            "revealSeconds": 0.18,
+            "options": [
+              {
+                "id": "S07_climb_01",
+                "label": "실험대에 오르기",
+                "action": "climb"
+              },
+              {
+                "id": "S07_hesitate_01",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S07_hesitate_02",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S07_hesitate_03",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S07_hesitate_04",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S07_hesitate_05",
+                "label": "망설이기",
+                "action": "hesitate"
+              },
+              {
+                "id": "S07_hesitate_06",
+                "label": "망설이기",
+                "action": "hesitate"
+              }
+            ]
+          },
+          "id": "S07_T13"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "choices_hide",
+            "duration": 0.12,
+            "intensity": "normal",
+            "description": "오르기 확정 입력을 한 번 소비하고 선택 패널을 걷는다. 선택지와 마지막 대사창을 겹치지 않는다. 메뉴 퇴장이 끝난 토큰만 완료한다."
+          },
+          "id": "S07_T14"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S07_L12",
+            "speaker": "도윤",
+            "text": "이번엔 그걸 물어볼게.",
+            "delivery": "오르기 선택이 확정된 뒤에만 재생"
+          },
+          "id": "S07_T15"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "platform_climb_repeat",
+            "duration": 0.5,
+            "intensity": "important",
+            "description": "마지막 대사창을 걷은 뒤 중심 이동→발 들기→발판 접촉을 먼저 보인다. 발 접촉 프레임에 발소리 한 번, 그 뒤 혼돈으로 전환한다. 새 공간의 정착은 다음 scene_settle에서 완료한다. S10의 입력은 파수꾼의 이용에 대한 동의가 아니다."
+          },
+          "id": "S07_T16"
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "title": "두려움 뒤에서 돌아오는 말",
+      "nextSceneId": "S09",
+      "loopStage": 2,
+      "artReference": "S08",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S08_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L01",
+            "speaker": "파수꾼",
+            "text": "여기가 어떤 곳이냐면, 삶과…….",
+            "delivery": ""
+          },
+          "id": "S08_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L02",
+            "speaker": "도윤",
+            "text": "죽음 사이의 경계. 전에 그렇게 말했어요.",
+            "delivery": ""
+          },
+          "id": "S08_T03"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "recognition_beat",
+            "duration": 0.18,
+            "intensity": "important",
+            "description": "S04의 경계선과 손 방향을 같은 위치에서 읽힌다. 도윤이 먼저 떠올린 말을 확인하는 짧은 호흡이다. 전투 Hit Stop·환영·심박 파티클은 없다."
+          },
+          "id": "S08_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L03",
+            "speaker": "파수꾼",
+            "text": "그 말이 생각났어요?",
+            "delivery": ""
+          },
+          "id": "S08_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L04",
+            "speaker": "도윤",
+            "text": "방금 말하려는 걸 알았어요.",
+            "delivery": ""
+          },
+          "id": "S08_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L05",
+            "speaker": "파수꾼",
+            "text": "다른 것도 기억나요?",
+            "delivery": ""
+          },
+          "id": "S08_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L06",
+            "speaker": "도윤",
+            "text": "처음엔 무서운 것만 남았어요. 이유는 몰랐고요.",
+            "delivery": ""
+          },
+          "id": "S08_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L07",
+            "speaker": "도윤",
+            "text": "지금은 목소리도, 손끝이 안 보이던 것도 떠올라요.",
+            "delivery": ""
+          },
+          "id": "S08_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L08",
+            "speaker": "파수꾼",
+            "text": "돌아간 뒤에도 무서웠다는 거예요?",
+            "delivery": ""
+          },
+          "id": "S08_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L09",
+            "speaker": "도윤",
+            "text": "네. 실험대 앞에서부터요. 여길 보기도 전에.",
+            "delivery": ""
+          },
+          "id": "S08_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L10",
+            "speaker": "도윤",
+            "text": "우리가 만난 거, 처음이 아니죠?",
+            "delivery": ""
+          },
+          "id": "S08_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L11",
+            "speaker": "파수꾼",
+            "text": "맞아요. 도윤 씨가 기억 못 하는 때도 있었어요.",
+            "delivery": ""
+          },
+          "id": "S08_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S08_L12",
+            "speaker": "도윤",
+            "text": "제가 잊을 때마다 당신은 다음 길을 찾고 있었네요.",
+            "delivery": ""
+          },
+          "id": "S08_T14"
+        }
+      ]
+    },
+    {
+      "id": "S09",
+      "title": "다시 돌려놓는 손",
+      "nextSceneId": "S10",
+      "loopStage": 2,
+      "artReference": "S09",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S09_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L01",
+            "speaker": "파수꾼",
+            "text": "또 흐려지네요. 일단 돌려놓을게요.",
+            "delivery": ""
+          },
+          "id": "S09_T02"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "watcher_prepare_rewind",
+            "duration": 0.15,
+            "intensity": "important",
+            "description": "S04와 같은 손짓을 시작한 뒤 도윤이 알아본다. 접힘은 아직 실행하지 않는다. 두 사람의 손이 겹치지 않게 한다."
+          },
+          "id": "S09_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L02",
+            "speaker": "도윤",
+            "text": "그 손짓도 알아요.",
+            "delivery": ""
+          },
+          "id": "S09_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L03",
+            "speaker": "파수꾼",
+            "text": "어떻게 기억나요?",
+            "delivery": ""
+          },
+          "id": "S09_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L04",
+            "speaker": "도윤",
+            "text": "당신이 손을 들고, 정신 차리면 실험대 앞이었어요.",
+            "delivery": ""
+          },
+          "id": "S09_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L05",
+            "speaker": "도윤",
+            "text": "여기서 무슨 일이 있었는지는 전부 잊었고요.",
+            "delivery": ""
+          },
+          "id": "S09_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L06",
+            "speaker": "파수꾼",
+            "text": "원래 돌아가면 기억이 남지 않았어요.",
+            "delivery": ""
+          },
+          "id": "S09_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L07",
+            "speaker": "도윤",
+            "text": "그런데 무서운 건 계속 남았어요.",
+            "delivery": ""
+          },
+          "id": "S09_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L08",
+            "speaker": "도윤",
+            "text": "손이 없어지던 것도, 여기 혼자 남을 것 같던 것도요.",
+            "delivery": ""
+          },
+          "id": "S09_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L09",
+            "speaker": "파수꾼",
+            "text": "그 감정이 돌아간 뒤에도 그대로였어요?",
+            "delivery": ""
+          },
+          "id": "S09_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L10",
+            "speaker": "도윤",
+            "text": "네. 왜 무서운지 생각하다 보니까 여기까지 떠올랐어요.",
+            "delivery": ""
+          },
+          "id": "S09_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L11",
+            "speaker": "도윤",
+            "text": "다시 돌려도, 제가 겪은 일이 없던 일이 되진 않아요.",
+            "delivery": ""
+          },
+          "id": "S09_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S09_L12",
+            "speaker": "파수꾼",
+            "text": "……이번에도 남는지 확인해 봐야겠네요.",
+            "delivery": ""
+          },
+          "id": "S09_T14"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "rewind_repeat",
+            "duration": 0.5,
+            "intensity": "important",
+            "description": "S04와 같은 손짓·단일 접힘·되감기 음형을 짧게 재사용한다. S10에서는 두려움과 반복의 자각이 남아 있다. 실제 되감기는 망설임 입력과 구분한다."
+          },
+          "id": "S09_T15"
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "title": "실험대에 오른다",
+      "nextSceneId": "S11",
+      "loopStage": 3,
+      "artReference": "S10",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S10_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L01",
+            "speaker": "세인",
+            "text": "관측 준비됐어. 네가…….",
+            "delivery": ""
+          },
+          "id": "S10_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L02",
+            "speaker": "도윤",
+            "text": "응. 그다음도 알아. 이번엔 왜 무서운지도.",
+            "delivery": ""
+          },
+          "id": "S10_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L03",
+            "speaker": "루미",
+            "text": "손 떨려. 지금 무슨 생각 하고 있어?",
+            "delivery": ""
+          },
+          "id": "S10_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L04",
+            "speaker": "도윤",
+            "text": "올라가면 만나는 사람이 있어. 돌아오면 그 일을 잊었어.",
+            "delivery": ""
+          },
+          "id": "S10_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L05",
+            "speaker": "세인",
+            "text": "지금 기억하는 건 적어 뒀어. 돌아오면 이어서 말해 줘.",
+            "delivery": ""
+          },
+          "id": "S10_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L06",
+            "speaker": "다온",
+            "text": "이번에 확인할 질문은 정했어?",
+            "delivery": ""
+          },
+          "id": "S10_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L07",
+            "speaker": "도윤",
+            "text": "응. 내가 무서워할 때, 그 사람은 왜 아무렇지도 않았는지.",
+            "delivery": ""
+          },
+          "id": "S10_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L08",
+            "speaker": "루미",
+            "text": "알겠어. 돌아오면 나부터 봐. 여기 있을게.",
+            "delivery": ""
+          },
+          "id": "S10_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L09",
+            "speaker": "도윤",
+            "text": "응. 이번에는 너희한테도 전부 말할게.",
+            "delivery": ""
+          },
+          "id": "S10_T10"
+        },
+        {
+          "kind": "choice",
+          "choice": {
+            "mode": "forced",
+            "hesitationSeconds": 1.0,
+            "revealSeconds": 0.4,
+            "options": [
+              {
+                "id": "S10_climb_01",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_02",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_03",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_04",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_05",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_06",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              },
+              {
+                "id": "S10_climb_07",
+                "label": "실험대에 오른다",
+                "action": "climb"
+              }
+            ]
+          },
+          "id": "S10_T11"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "choices_hide",
+            "duration": 0.12,
+            "intensity": "normal",
+            "description": "오르기 확정 입력을 한 번 소비하고 선택 패널을 걷는다. 선택지와 마지막 대사창을 겹치지 않는다. 메뉴 퇴장이 끝난 토큰만 완료한다."
+          },
+          "id": "S10_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S10_L10",
+            "speaker": "도윤",
+            "text": "……다녀올게.",
+            "delivery": "오르기 선택이 확정된 뒤에만 재생"
+          },
+          "id": "S10_T13"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "platform_climb_repeat",
+            "duration": 0.5,
+            "intensity": "climax",
+            "description": "마지막 대사창을 걷은 뒤 중심 이동→발 들기→발판 접촉을 먼저 보인다. 발 접촉 프레임에 발소리 한 번, 그 뒤 혼돈으로 전환한다. 새 공간의 정착은 다음 scene_settle에서 완료한다. S10의 입력은 파수꾼의 이용에 대한 동의가 아니다."
+          },
+          "id": "S10_T14"
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "title": "당신은 두렵지 않았나요",
+      "nextSceneId": "S12",
+      "loopStage": 3,
+      "artReference": "S11",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S11_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L01",
+            "speaker": "파수꾼",
+            "text": "왔네요. 이번에는 저쪽을 볼까요?",
+            "delivery": ""
+          },
+          "id": "S11_T02"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "doyun_stop",
+            "duration": 0.18,
+            "intensity": "important",
+            "description": "다음 길로 가자는 제안 뒤 도윤의 발이 먼저 멈춘다. 두 사람 사이의 빈 공간을 유지하고 위압적인 줌·음성 필터 없이 질문으로 잇는다."
+          },
+          "id": "S11_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L02",
+            "speaker": "도윤",
+            "text": "그전에 물어볼 게 있어요.",
+            "delivery": ""
+          },
+          "id": "S11_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L03",
+            "speaker": "파수꾼",
+            "text": "네. 가면서 얘기해요.",
+            "delivery": ""
+          },
+          "id": "S11_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L04",
+            "speaker": "도윤",
+            "text": "이번엔 여기서 답을 듣고 싶어요.",
+            "delivery": ""
+          },
+          "id": "S11_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L05",
+            "speaker": "도윤",
+            "text": "삶과 죽음의 경계라고 말할 때, 한 번도 무섭지 않았어요?",
+            "delivery": ""
+          },
+          "id": "S11_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L06",
+            "speaker": "파수꾼",
+            "text": "제가 무서웠는지 궁금한 거예요?",
+            "delivery": ""
+          },
+          "id": "S11_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L07",
+            "speaker": "도윤",
+            "text": "네. 제 손이 안 보일 때도 당신은 다음 길을 보고 있었어요.",
+            "delivery": ""
+          },
+          "id": "S11_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L08",
+            "speaker": "도윤",
+            "text": "저는 무서워서 말도 못 하는데, 당신은 평소랑 똑같았어요.",
+            "delivery": ""
+          },
+          "id": "S11_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L09",
+            "speaker": "파수꾼",
+            "text": "그건 맞아요. 무섭다는 생각은 안 했어요.",
+            "delivery": ""
+          },
+          "id": "S11_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L10",
+            "speaker": "도윤",
+            "text": "처음엔 익숙해서 그런 줄 알았어요.",
+            "delivery": ""
+          },
+          "id": "S11_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L11",
+            "speaker": "도윤",
+            "text": "지금은 저랑 다른 존재라는 생각이 들어요.",
+            "delivery": ""
+          },
+          "id": "S11_T13"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S11_L12",
+            "speaker": "도윤",
+            "text": "당신은 누구예요? 여기서 뭘 알아내려는 거예요?",
+            "delivery": ""
+          },
+          "id": "S11_T14"
+        }
+      ]
+    },
+    {
+      "id": "S12",
+      "title": "호기심의 잔재",
+      "nextSceneId": "S13",
+      "loopStage": 3,
+      "artReference": "S12",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S12_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L01",
+            "speaker": "파수꾼",
+            "text": "말하자면, 호기심만 남은 거예요. 세상 규칙을 바꿀 힘이 있는지 알아보려고요.",
+            "delivery": ""
+          },
+          "id": "S12_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L02",
+            "speaker": "도윤",
+            "text": "호기심만 남았다는 게 무슨 뜻이에요?",
+            "delivery": ""
+          },
+          "id": "S12_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L03",
+            "speaker": "파수꾼",
+            "text": "무섭다거나, 누군가를 걱정하는 쪽은 어딘가에 두고 왔어요.",
+            "delivery": ""
+          },
+          "id": "S12_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L04",
+            "speaker": "파수꾼",
+            "text": "지금은 알아낸 정보를 전달하는 역할에 가까워요.",
+            "delivery": ""
+          },
+          "id": "S12_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L05",
+            "speaker": "도윤",
+            "text": "시간을 되돌리는 것도 그렇게 알아낸 거예요?",
+            "delivery": ""
+          },
+          "id": "S12_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L06",
+            "speaker": "파수꾼",
+            "text": "네. 제가 아는 기술 중엔 아주 일부예요.",
+            "delivery": ""
+          },
+          "id": "S12_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L07",
+            "speaker": "도윤",
+            "text": "제 현실은 돌아가도, 당신이 알아낸 건 그대로 남았고요.",
+            "delivery": ""
+          },
+          "id": "S12_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L08",
+            "speaker": "파수꾼",
+            "text": "맞아요. 도윤 씨 없이는 혼돈을 못 비추니까, 사라지기 전에 돌려놓았어요.",
+            "delivery": ""
+          },
+          "id": "S12_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L09",
+            "speaker": "도윤",
+            "text": "아무것도 모르는 제가 다시 와서 다음 길도 비추게요.",
+            "delivery": ""
+          },
+          "id": "S12_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L10",
+            "speaker": "파수꾼",
+            "text": "네. 그런데 이제는 돌려도 두려움이 남고, 기억까지 돌아오네요.",
+            "delivery": ""
+          },
+          "id": "S12_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L11",
+            "speaker": "도윤",
+            "text": "아직 무서워요. 그래도 이번엔 기억한 채로 돌아갈 거예요.",
+            "delivery": ""
+          },
+          "id": "S12_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L12",
+            "speaker": "파수꾼",
+            "text": "다시 아무것도 모르는 상태로 만들 수는 없겠네요. 더는 돌리지 않을게요.",
+            "delivery": ""
+          },
+          "id": "S12_T13"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "rewind_stop",
+            "duration": 0.35,
+            "intensity": "climax",
+            "description": "더는 돌리지 않겠다는 답 뒤 파수꾼이 손을 내린다. 이번에는 배경 접힘·되감기음이 일어나지 않는다. 도윤과 길을 그대로 유지해 되감기 중지를 인지시킨다."
+          },
+          "id": "S12_T14"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L13",
+            "speaker": "도윤",
+            "text": "지금부터는 제 시간이 계속 가는 거죠?",
+            "delivery": ""
+          },
+          "id": "S12_T15"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L14",
+            "speaker": "파수꾼",
+            "text": "네. 이 반복에 관해 숨긴 얘기는 다 했어요. 그다음은 도윤 씨가 정해요.",
+            "delivery": ""
+          },
+          "id": "S12_T16"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L15",
+            "speaker": "도윤",
+            "text": "돌아가서 친구들에게 말할 거예요. 제가 겪은 일 전부.",
+            "delivery": ""
+          },
+          "id": "S12_T17"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S12_L16",
+            "speaker": "파수꾼",
+            "text": "알겠어요. 그렇게 전해요.",
+            "delivery": ""
+          },
+          "id": "S12_T18"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "return_forward",
+            "duration": 0.35,
+            "intensity": "climax",
+            "description": "도윤이 귀환 방향으로 몸을 돌린 뒤 역행 없는 안정된 전환으로 현실에 돌아간다. 되감기 접힘·역행음·실험 전 첫 문장·선택 메뉴를 재사용하지 않는다. S13 루미의 새 응답으로 잇는다."
+          },
+          "id": "S12_T19"
+        }
+      ]
+    },
+    {
+      "id": "S13",
+      "title": "끝나고 나서의 이야기",
+      "nextSceneId": "S14",
+      "loopStage": 3,
+      "artReference": "S13",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S13_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L01",
+            "speaker": "루미",
+            "text": "도윤, 나 보여? 응, 여기야.",
+            "delivery": ""
+          },
+          "id": "S13_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L02",
+            "speaker": "도윤",
+            "text": "보여. 이번엔 기억도 나.",
+            "delivery": ""
+          },
+          "id": "S13_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L03",
+            "speaker": "세인",
+            "text": "아까 말한 데부터 이어도 돼. 네가 겪은 순서대로 적을게.",
+            "delivery": ""
+          },
+          "id": "S13_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L04",
+            "speaker": "도윤",
+            "text": "실험대에 오르면 혼돈이라는 곳으로 갔어. 거기 파수꾼이 있었고.",
+            "delivery": ""
+          },
+          "id": "S13_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L05",
+            "speaker": "도윤",
+            "text": "내가 움직이면 길이 보였어. 그 사람은 그걸 따라 연구했어.",
+            "delivery": ""
+          },
+          "id": "S13_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L06",
+            "speaker": "다온",
+            "text": "네가 돌아오면 그 연구도 처음으로 돌아간 거야?",
+            "delivery": ""
+          },
+          "id": "S13_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L07",
+            "speaker": "도윤",
+            "text": "아니. 내 현실만 되돌렸어. 그 사람이 알아낸 건 남았고.",
+            "delivery": ""
+          },
+          "id": "S13_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L08",
+            "speaker": "도윤",
+            "text": "나는 그곳의 일을 잊었어. 내가 사라지기 전에 계속 돌려놓은 거야.",
+            "delivery": ""
+          },
+          "id": "S13_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L09",
+            "speaker": "다온",
+            "text": "그런데 이번에는 너한테도 남은 게 있었고.",
+            "delivery": ""
+          },
+          "id": "S13_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L10",
+            "speaker": "도윤",
+            "text": "응. 무서운 느낌. 왜 그런지 생각하다가 기억까지 돌아왔어.",
+            "delivery": ""
+          },
+          "id": "S13_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L11",
+            "speaker": "루미",
+            "text": "지금도 손 떨리네. 여기 앉자. 얘기는 듣고 있어.",
+            "delivery": ""
+          },
+          "id": "S13_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S13_L12",
+            "speaker": "도윤",
+            "text": "나 아직 무서워. 그래도 이번 일은 같이 기억해 줘.",
+            "delivery": ""
+          },
+          "id": "S13_T13"
+        }
+      ]
+    },
+    {
+      "id": "S14",
+      "title": "천조 날조국이라 부르자",
+      "nextSceneId": "",
+      "loopStage": 3,
+      "artReference": "S14",
+      "steps": [
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "scene_settle",
+            "duration": 0.15,
+            "intensity": "normal",
+            "description": "장면 ID와 loopStage에 맞는 인물·배경·카메라 상태를 먼저 복원한다. 같은 Canvas와 안전영역을 유지하고 인물이 정착한 뒤 첫 대사를 연다. 독립 후광·등장 줌·얼굴 공개는 없다."
+          },
+          "id": "S14_T01"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L01",
+            "speaker": "세인",
+            "text": "창조주의 질서를 거스르는 지식이네. 이 기록도 금기로 분류되겠어.",
+            "delivery": ""
+          },
+          "id": "S14_T02"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L02",
+            "speaker": "다온",
+            "text": "그럼 금기라는 이유로, 있었던 일을 없었다고 적어?",
+            "delivery": ""
+          },
+          "id": "S14_T03"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L03",
+            "speaker": "세인",
+            "text": "아니. 기록은 남겨야 해. 네가 겪은 일과 우리가 본 일은 구분하고.",
+            "delivery": ""
+          },
+          "id": "S14_T04"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L04",
+            "speaker": "도윤",
+            "text": "파수꾼의 설명도 따로 적어 줘. 들은 말이지, 전부 확인한 건 아니니까.",
+            "delivery": ""
+          },
+          "id": "S14_T05"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L05",
+            "speaker": "루미",
+            "text": "좋아. 그런데 도윤 이름만 적지는 마. 우리도 같이 들었잖아.",
+            "delivery": ""
+          },
+          "id": "S14_T06"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L06",
+            "speaker": "다온",
+            "text": "이제부터 어떻게 다룰지는 우리 넷이 정하는 거고.",
+            "delivery": ""
+          },
+          "id": "S14_T07"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L07",
+            "speaker": "도윤",
+            "text": "응. 이번에는 나도 그다음에 참여할게.",
+            "delivery": ""
+          },
+          "id": "S14_T08"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L08",
+            "speaker": "루미",
+            "text": "그럼 이름도 정하자. 우리, 이 얘기 없던 걸로 안 할 거잖아.",
+            "delivery": ""
+          },
+          "id": "S14_T09"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L09",
+            "speaker": "다온",
+            "text": "천조 날조국, 어때? 금단의 지식을 좇는 곳.",
+            "delivery": ""
+          },
+          "id": "S14_T10"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L10",
+            "speaker": "세인",
+            "text": "천조 날조국. 이곳을 그렇게 부른 이유도 같이 남길게.",
+            "delivery": ""
+          },
+          "id": "S14_T11"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L11",
+            "speaker": "도윤",
+            "text": "창조주의 질서에 어긋나도, 알아낸 걸 지우지는 않는 곳.",
+            "delivery": ""
+          },
+          "id": "S14_T12"
+        },
+        {
+          "kind": "line",
+          "line": {
+            "id": "S14_L12",
+            "speaker": "루미",
+            "text": "정해졌네. 다음 얘기도 여기서 같이 듣자.",
+            "delivery": ""
+          },
+          "id": "S14_T13"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "naming_title",
+            "duration": 0.22,
+            "intensity": "important",
+            "description": "마지막 대사창이 걷힌 뒤 상단 여백에 천조 날조국을 한 번만 표시한다. 마침음 또는 음악의 해소를 명칭 정착에 맞춘다. 이 큐 자체로 저장·보상·stage_clear를 실행하지 않는다."
+          },
+          "id": "S14_T14"
+        },
+        {
+          "kind": "cue",
+          "cue": {
+            "id": "ending_settle",
+            "duration": 0.6,
+            "intensity": "important",
+            "description": "명칭을 안정시킨 짧은 여운 뒤 재생을 끝낸다. 모든 스텝이 끝났을 때만 completed 체크포인트를 기존 저장 소유자에게 전달한다. 신규 Victory·보상창·옛 상징선 재연결은 없다."
+          },
+          "id": "S14_T15"
+        }
+      ]
+    }
+  ]
+}
