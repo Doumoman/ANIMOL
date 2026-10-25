@@ -70,6 +70,7 @@ namespace WilliamParadox.Story
         public string[] flags;
         public bool completed;
         public bool reducedMotion;
+        public int dialoguePage = 1;
         public float artScale = 1f, dimAlpha;
         public string insetAssetId;
         public bool insetVisible;

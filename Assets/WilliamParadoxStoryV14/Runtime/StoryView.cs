@@ -24,6 +24,7 @@ namespace WilliamParadox.Story
         public RectTransform creditsViewport, creditsContent;
         public TMP_Text creditsText;
         public Toggle reducedMotionToggle;
+        public bool showPreviewStatus = true;
 
         private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
         private readonly List<Sprite> ownedSprites = new List<Sprite>();
@@ -32,6 +33,7 @@ namespace WilliamParadox.Story
         private Vector2 insetHome;
         private string normalStatus;
         private bool insetHomeCaptured;
+        private int dialoguePage = 1;
 
         public string CurrentInsetId { get { return currentInsetId; } }
         public void Initialize(StoryGraph value)
@@ -103,9 +105,15 @@ namespace WilliamParadox.Story
             SetArtwork(n.artId);
             bool book = n.kind == "credits" || keepBook;
             SetGroup(creditsGroup, book);
-            SetGroup(dialogueGroup, !book && n.kind != "end");
+            SetGroup(dialogueGroup, !book && n.kind != "end" && !(n.kind == "cue" && string.IsNullOrEmpty(n.text)));
             if (speakerText != null) speakerText.text = n.speaker ?? "";
-            if (bodyText != null) bodyText.text = n.text ?? "";
+            if (bodyText != null)
+            {
+                bodyText.text = n.text ?? "";
+                bodyText.overflowMode = TextOverflowModes.Page;
+                dialoguePage = 1;
+                bodyText.pageToDisplay = 1;
+            }
             SetButton(advanceButton, n.kind != "gate" && n.kind != "end");
             SetButton(gateButton, n.kind == "gate");
             SetButton(creditsContinueButton, false);
@@ -113,6 +121,22 @@ namespace WilliamParadox.Story
             if (advanceButtonLabel != null) advanceButtonLabel.text = "다음";
             normalStatus = n.kind == "gate" ? (n.gateId == "BLOCK_LAMP" ? "이솔의 말을 들었습니다. 등불을 가릴 준비가 되면 버튼을 누르세요." : n.gateId == "PREVIEW_FINAL_CONTINUE" ? "마지막 기록을 읽었습니다. 준비되면 마무리하세요." : "스토리 대화 미리보기 · 퍼즐 플레이는 연결하지 않습니다.") : n.kind == "cue" ? "다음 버튼을 눌러 계속" : "";
             if (statusText != null) statusText.text = normalStatus;
+            if (!showPreviewStatus)
+            {
+                normalStatus = n.kind == "end" ? "잔영 극장 · 이야기 종료" : "";
+                if (statusText != null) statusText.text = normalStatus;
+            }
+            RefreshStatusVisibility();
+        }
+
+        // A long utterance remains one story node. Paging never replays a speaker cue or writes a plot flag.
+        public bool TryAdvanceDialoguePage()
+        {
+            if (bodyText == null || bodyText.overflowMode != TextOverflowModes.Page) return false;
+            bodyText.ForceMeshUpdate();
+            if (dialoguePage >= Mathf.Max(1, bodyText.textInfo.pageCount)) return false;
+            bodyText.pageToDisplay = ++dialoguePage;
+            return true;
         }
 
         public void SetDim(float alpha)
@@ -135,8 +159,17 @@ namespace WilliamParadox.Story
         public void SetInsetVisible(bool show) { SetGroup(insetGroup, show); }
         public void SetPaused(bool paused)
         {
+            if (advanceButton != null) advanceButton.interactable = !paused;
+            if (gateButton != null) gateButton.interactable = !paused;
+            if (creditsContinueButton != null) creditsContinueButton.interactable = !paused;
             if (pauseButtonLabel != null) pauseButtonLabel.text = paused ? "재개" : "일시정지";
-            if (statusText != null) statusText.text = paused ? "일시정지 · 화면 밖에서도 시간이 흐르지 않습니다." : normalStatus;
+            if (statusText != null) statusText.text = showPreviewStatus && paused ? "일시정지 · 화면 밖에서도 시간이 흐르지 않습니다." : normalStatus;
+            RefreshStatusVisibility();
+        }
+        private void RefreshStatusVisibility()
+        {
+            if (!showPreviewStatus && statusText != null)
+                statusText.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(statusText.text));
         }
         public void ShowError(string message)
         {
@@ -150,12 +183,19 @@ namespace WilliamParadox.Story
         {
             s.artScale = artworkRoot == null ? 1 : artworkRoot.localScale.x;
             s.dimAlpha = DimAlpha;
+            s.dialoguePage = dialoguePage;
             s.insetAssetId = currentInsetId;
             s.insetVisible = insetGroup != null && insetGroup.alpha > 0;
             if (insetRoot != null) { s.insetX = insetRoot.anchoredPosition.x; s.insetY = insetRoot.anchoredPosition.y; s.insetScale = insetRoot.localScale.x; }
         }
         public void RestorePresentation(StorySaveData s)
         {
+            if (bodyText != null)
+            {
+                bodyText.ForceMeshUpdate();
+                dialoguePage = Mathf.Clamp(s.dialoguePage, 1, Mathf.Max(1, bodyText.textInfo.pageCount));
+                bodyText.pageToDisplay = dialoguePage;
+            }
             if (artworkRoot != null) { artworkRoot.localScale = Vector3.one * s.artScale; artworkRoot.anchoredPosition = Vector2.zero; }
             if (artworkGroup != null) artworkGroup.alpha = 1;
             SetDim(s.dimAlpha);

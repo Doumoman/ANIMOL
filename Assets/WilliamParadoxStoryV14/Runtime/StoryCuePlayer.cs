@@ -17,6 +17,7 @@ namespace WilliamParadox.Story
         private readonly StoryView view;
         private readonly List<Job> jobs = new List<Job>();
         public bool IsPlaying { get { return jobs.Count > 0; } }
+        public bool HasPendingSwapArt { get { return jobs.Exists(j => j.cue.type == "swapArt" && j.elapsed < j.cue.delay); } }
         public StoryCuePlayer(StoryView storyView) { view = storyView; }
         public void Begin(StoryCue[] cues, bool reducedMotion)
         {
@@ -59,6 +60,7 @@ namespace WilliamParadox.Story
             j.startPosition = target == null ? Vector2.zero : target.anchoredPosition;
             switch (c.type)
             {
+                case "swapArt": break; // Keep the before state until the authored delay has elapsed.
                 case "dim": j.startValue = view.DimAlpha; break;
                 case "zoom": j.startValue = target == null ? 1 : target.localScale.x; break;
                 case "popup":
@@ -79,6 +81,7 @@ namespace WilliamParadox.Story
             float eased = t * t * (3 - 2 * t);
             switch (c.type)
             {
+                case "swapArt": if (t >= 1) view.SetArtwork(c.assetId); break;
                 case "dim": view.SetDim(Mathf.Lerp(j.startValue, c.amount, eased)); break;
                 case "zoom": if (target != null) target.localScale = Vector3.one * Mathf.Lerp(j.startValue, c.amount, eased); break;
                 case "popup": if (target != null) target.localScale = Vector3.one * Mathf.Lerp(j.startValue, 1, eased); break;

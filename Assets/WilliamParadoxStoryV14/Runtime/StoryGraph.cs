@@ -43,7 +43,7 @@ namespace WilliamParadox.Story
             var nodeIds = new HashSet<string>(StringComparer.Ordinal);
             var assetIds = new HashSet<string>(StringComparer.Ordinal);
             var knownFlags = new HashSet<string>(StringComparer.Ordinal);
-            var assetKinds = new HashSet<string> { "scene", "background", "foreground", "inset", "actor", "prop", "atlas", "ui" };
+            var assetKinds = new HashSet<string> { "scene", "background", "foreground", "inset", "actor", "portrait", "prop", "atlas", "ui" };
             foreach (var a in ars)
             {
                 if (a == null) { errors.Add("Null asset."); continue; }
@@ -65,7 +65,7 @@ namespace WilliamParadox.Story
             }
             if (string.IsNullOrWhiteSpace(p.startNodeId) || !nodeIds.Contains(p.startNodeId)) errors.Add("Unknown startNodeId.");
             var kinds = new HashSet<string> { "line", "cue", "gate", "credits", "end" };
-            var cueKinds = new HashSet<string> { "dim", "zoom", "shake", "popup", "transition", "inset", "hideInset" };
+            var cueKinds = new HashSet<string> { "dim", "zoom", "shake", "popup", "transition", "inset", "hideInset", "swapArt" };
             foreach (var n in ns)
             {
                 if (n == null) continue;
@@ -92,6 +92,7 @@ namespace WilliamParadox.Story
                     if (c.type == "shake" && c.amount < 0) errors.Add(n.id + ": shake amount cannot be negative.");
                     if (c.scale < 0) errors.Add(n.id + ": cue scale cannot be negative.");
                     if (c.type == "inset" && (string.IsNullOrEmpty(c.assetId) || !assetIds.Contains(c.assetId))) errors.Add(n.id + ": inset requires a known assetId.");
+                    if (c.type == "swapArt" && (string.IsNullOrEmpty(c.assetId) || !assetIds.Contains(c.assetId))) errors.Add(n.id + ": swapArt requires a known assetId.");
                     if (!string.IsNullOrEmpty(c.assetId) && !assetIds.Contains(c.assetId)) errors.Add(n.id + ": unknown cue assetId " + c.assetId);
                 }
             }

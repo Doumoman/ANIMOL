@@ -18,6 +18,10 @@ namespace WilliamParadox.Story
         public StoryView view;
         public bool restoreOnStart = true;
         public bool reducedMotion;
+        [Tooltip("Legacy ranch behavior. The theater settles visual effects and advances with one accepted next input.")]
+        public bool finishLegacyCueBeforeAdvancing = true;
+        [Tooltip("Show the opening artwork on the first rendered frame of a standalone story scene.")]
+        public bool settleFirstFrameOnStart;
         [Tooltip("Preview hooks only; do not connect these to live campaign rewards.")]
         public StoryStringEvent onNodeChanged = new StoryStringEvent();
         public UnityEvent onCompleted = new UnityEvent();
@@ -30,8 +34,10 @@ namespace WilliamParadox.Story
         private readonly List<string> errors = new List<string>();
         private bool manualPaused, hasFocus = true, applicationPaused, completedDispatched, listenersBound;
         private bool skipPresentationTick;
+        private StoryAudioFeedback audioFeedback;
         private int lastInputFrame = -1;
         private float lastInputTime = -100, saveInterval;
+        private float inputReadyAt;
         public StoryPackage Package { get { return graph == null ? null : graph.Package; } }
         public StoryNode CurrentNode { get { return session == null ? null : session.Current; } }
         public string CurrentNodeId { get { return CurrentNode == null ? "" : CurrentNode.id; } }
@@ -41,6 +47,16 @@ namespace WilliamParadox.Story
         public bool HasFlag(string flag) { return session != null && session.HasFlag(flag); }
 
         private void Awake() { BindButtons(); }
+        private void OnEnable()
+        {
+            skipPresentationTick = true;
+            inputReadyAt = Time.unscaledTime + 0.15f;
+        }
+        private void OnDisable()
+        {
+            if (audioFeedback != null) audioFeedback.StopFeedback();
+            SaveCheckpoint();
+        }
         private void Start() { StartStory(restoreOnStart); }
         private void BindButtons()
         {
@@ -81,9 +97,12 @@ namespace WilliamParadox.Story
                     errors.AddRange(validation); view.ShowError(string.Join("\n", errors)); return;
                 }
                 graph = validated; session = new StorySession(graph);
+                audioFeedback = GetComponent<StoryAudioFeedback>();
+                if (audioFeedback != null) audioFeedback.ResetSession();
                 cuePlayer = new StoryCuePlayer(view); creditsPlayer = new StoryCreditsPlayer(view);
                 manualPaused = false; applicationPaused = false; hasFocus = Application.isFocused;
                 completedDispatched = false; saveInterval = 0; skipPresentationTick = true;
+                inputReadyAt = Time.unscaledTime + 0.15f;
                 view.Initialize(graph);
                 var presentationSource = presentationJson != null ? presentationJson : Resources.Load<TextAsset>(presentationResourcePath);
                 var presentationData = presentationSource == null ? null : JsonUtility.FromJson<StoryPresentationPackage>(presentationSource.text);
@@ -98,6 +117,11 @@ namespace WilliamParadox.Story
                 else if (saved != null) Debug.LogWarning("Story save is incompatible or invalid; starting at the safe first node.", this);
                 if (view.reducedMotionToggle != null) view.reducedMotionToggle.SetIsOnWithoutNotify(reducedMotion);
                 PresentCurrent(restored ? saved : null);
+                if (!restored && settleFirstFrameOnStart)
+                {
+                    cuePlayer.FinishAll();
+                    SaveCheckpoint();
+                }
                 view.SetPaused(IsPaused);
             }
             catch (Exception exception) { Fail(exception); }
@@ -127,17 +151,26 @@ namespace WilliamParadox.Story
         }
         private bool AcceptInput()
         {
-            if (session == null || IsPaused || errors.Count > 0 || lastInputFrame == Time.frameCount || Time.unscaledTime - lastInputTime < 0.15f) return false;
+            if (!isActiveAndEnabled || session == null || IsPaused || errors.Count > 0 || Time.unscaledTime < inputReadyAt || lastInputFrame == Time.frameCount || Time.unscaledTime - lastInputTime < 0.15f) return false;
             lastInputFrame = Time.frameCount; lastInputTime = Time.unscaledTime; return true;
         }
         public void Advance()
         {
             if (!AcceptInput()) return;
+            // The erasure is a fixed story event: a quick second tap cannot reveal
+            // the AFTER image or move past it before its sound-to-image delay.
+            if (cuePlayer.HasPendingSwapArt) return;
             try
             {
                 presentationPlayer.FinishAll();
-                if (cuePlayer.IsPlaying) { cuePlayer.FinishAll(); SaveCheckpoint(); return; }
+                if (audioFeedback != null) audioFeedback.PlayAdvance();
+                if (cuePlayer.IsPlaying)
+                {
+                    cuePlayer.FinishAll();
+                    if (finishLegacyCueBeforeAdvancing) { SaveCheckpoint(); return; }
+                }
                 if (CurrentNode.kind == "credits") { creditsPlayer.OnAdvance(); SaveCheckpoint(); return; }
+                if (view.TryAdvanceDialoguePage()) { SaveCheckpoint(); return; }
                 if (session.Acknowledge()) PresentCurrent();
             }
             catch (Exception exception) { Fail(exception); }
@@ -162,7 +195,7 @@ namespace WilliamParadox.Story
         public void TogglePause()
         {
             manualPaused = !manualPaused;
-            if (!manualPaused) skipPresentationTick = true;
+            if (!manualPaused) { skipPresentationTick = true; inputReadyAt = Time.unscaledTime + 0.15f; }
             if (view != null) view.SetPaused(IsPaused);
             SaveCheckpoint();
         }
@@ -204,6 +237,7 @@ namespace WilliamParadox.Story
             if (saved == null) cuePlayer.Begin(cues, reducedMotion);
             else cuePlayer.RestoreSettled(cues, saved);
             presentationPlayer.Present(node, reducedMotion, saved != null);
+            if (audioFeedback != null) audioFeedback.PlayNode(node.id, saved != null);
             SaveCheckpoint(); // In R17 the return cue is committed before the credits node is reachable.
             onNodeChanged.Invoke(node.id);
             if (node.kind == "end" && !completedDispatched)
@@ -229,14 +263,14 @@ namespace WilliamParadox.Story
         private void OnApplicationFocus(bool focus)
         {
             hasFocus = focus;
-            if (focus) skipPresentationTick = true;
+            if (focus) { skipPresentationTick = true; inputReadyAt = Time.unscaledTime + 0.15f; }
             if (view != null) view.SetPaused(IsPaused);
             if (!focus) SaveCheckpoint();
         }
         private void OnApplicationPause(bool pause)
         {
             applicationPaused = pause;
-            if (!pause) skipPresentationTick = true;
+            if (!pause) { skipPresentationTick = true; inputReadyAt = Time.unscaledTime + 0.15f; }
             if (view != null) view.SetPaused(IsPaused);
             if (pause) SaveCheckpoint();
         }

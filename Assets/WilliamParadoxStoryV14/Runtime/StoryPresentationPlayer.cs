@@ -53,18 +53,21 @@ namespace WilliamParadox.Story
         private readonly StoryGraph graph;
         private readonly StoryPresentationIndex index;
         private readonly Func<string, Sprite> resolveSprite;
+        private readonly StorySpeakerPortrait speakerPortrait;
         private readonly Dictionary<string, Actor> actors = new Dictionary<string, Actor>(StringComparer.Ordinal);
         private RectTransform actorContainer;
         private StoryLayerStage stage;
         private string layeredSceneId, lastSceneId, lastArtId;
+        private string lastPortraitAssetId, lastPortraitSceneId;
         private Actor bouncing;
         private float bounceElapsed, cameraElapsed;
         private float bounceStrength = 1;
         private bool cameraPlaying, disposed;
         private StoryCameraShot cameraFrom = Wide(), cameraTo = Wide(), cameraCurrent = Wide();
         public bool HasPresentation { get { return index != null; } }
-        public bool IsPlaying { get { return bouncing != null || cameraPlaying; } }
+        public bool IsPlaying { get { return bouncing != null || cameraPlaying || speakerPortrait != null && speakerPortrait.IsPlaying; } }
         public StoryPresentationIndex Index { get { return index; } }
+        public StorySpeakerPortrait SpeakerPortrait { get { return speakerPortrait; } }
         public RectTransform ActorTransform(string actorId) { return actors.TryGetValue(actorId, out var actor) ? actor.root : null; }
         public StoryPresentationPlayer(StoryView storyView, StoryGraph storyGraph, StoryPresentationPackage package, Func<string, Sprite> spriteResolver = null)
         {
@@ -72,6 +75,8 @@ namespace WilliamParadox.Story
             graph = storyGraph ?? throw new ArgumentNullException(nameof(storyGraph));
             resolveSprite = spriteResolver ?? new Func<string, Sprite>(view.ResolveSprite);
             index = package == null ? null : new StoryPresentationIndex(package, graph);
+            speakerPortrait = view.GetComponentInChildren<StorySpeakerPortrait>(true);
+            if (speakerPortrait != null) { speakerPortrait.Attach(view); speakerPortrait.Hide(); }
             if (index != null) EnsureStage();
         }
 
@@ -80,9 +85,20 @@ namespace WilliamParadox.Story
             if (disposed || index == null || node == null) return;
             FinishAll();
             var scene = index.Scene(node.sceneId);
-            // R17's book hold comes before credits. It must already hide every actor and camera crop.
-            bool bookOrEnd = node.kind == "credits" || node.kind == "end" || node.gateId == "PREVIEW_FINAL_CONTINUE" || (scene != null && node.artId != scene.sceneId);
-            bool useLayers = scene != null && !bookOrEnd && (node.kind == "line" || node.kind == "cue");
+            // A scene's alternate CG (for example T16_AFTER) is not a book or an ending.
+            // Keep the pre-credits R17 background hold compatible with the original ranch data.
+            bool legacyBookHold = node.sceneId == "R17" && node.kind == "cue" && scene != null &&
+                node.artId != scene.sceneId && graph.Asset(node.artId)?.kind == "background";
+            bool bookOrEnd = node.kind == "credits" || node.kind == "end" || node.gateId == "PREVIEW_FINAL_CONTINUE" || legacyBookHold;
+            bool alternateArtwork = scene != null && node.artId != scene.sceneId;
+            bool useLayers = scene != null && !bookOrEnd && !alternateArtwork && (node.kind == "line" || node.kind == "cue");
+            // Delivery labels can differ while resolving to the same character card.
+            // Only two non-null portrait assets in the same scene count as one speaker turn.
+            var portraitAsset = node.kind == "line" ? index.Portrait(node.speaker) : null;
+            bool samePortraitSpeaker = lastPortraitSceneId == node.sceneId &&
+                !string.IsNullOrEmpty(lastPortraitAssetId) && portraitAsset != null && lastPortraitAssetId == portraitAsset.assetId;
+            bool portraitTurnChanged = !samePortraitSpeaker;
+            if (node.kind == "line") { lastPortraitSceneId = node.sceneId; lastPortraitAssetId = portraitAsset?.assetId; }
             if (useLayers)
             {
                 ConfigureScene(scene);
@@ -106,10 +122,18 @@ namespace WilliamParadox.Story
             cameraPlaying = different && !restoring && !reducedMotion && cameraTo.duration > 0;
             cameraCurrent = Copy(cameraPlaying ? cameraFrom : cameraTo);
             lastSceneId = node.sceneId; lastArtId = node.artId;
-            if (useLayers && scene.bounceStrength > 0 && !restoring && !reducedMotion && index.ShouldBounce(node))
+            if (speakerPortrait != null)
+            {
+                var portrait = !useLayers && !bookOrEnd && node.kind == "line" && index.AllowsPortrait(node.sceneId) ? portraitAsset : null;
+                if (portrait == null) speakerPortrait.Hide();
+                else if (speakerPortrait.Show(view, resolveSprite(portrait.assetId), portrait.independentLayer) &&
+                    portraitTurnChanged && !restoring && !reducedMotion && index.ShouldBounce(node))
+                    speakerPortrait.BeginBounce(index.BounceStrength(node.sceneId));
+            }
+            if (useLayers && !restoring && !reducedMotion && index.ShouldBounce(node))
             {
                 string speaker = index.SpeakerActor(node);
-                if (!string.IsNullOrEmpty(speaker) && actors.TryGetValue(speaker, out var actor)) { bouncing = actor; bounceElapsed = 0; bounceStrength = scene.bounceStrength; }
+                if (!string.IsNullOrEmpty(speaker) && actors.TryGetValue(speaker, out var actor)) { bouncing = actor; bounceElapsed = 0; bounceStrength = index.BounceStrength(node.sceneId); }
             }
             RefreshLayout();
         }
@@ -141,11 +165,13 @@ namespace WilliamParadox.Story
                 bouncing.root.localRotation = Quaternion.Euler(0, 0, sample.rotation * bounceStrength);
                 if (t >= 1) ResetBounce();
             }
+            if (speakerPortrait != null) speakerPortrait.Tick(step);
             RefreshLayout();
         }
         public void FinishAll()
         {
             ResetBounce();
+            if (speakerPortrait != null) speakerPortrait.FinishAll();
             cameraPlaying = false; cameraCurrent = Copy(cameraTo);
             RefreshLayout();
         }
@@ -171,6 +197,7 @@ namespace WilliamParadox.Story
         {
             if (disposed) return;
             FinishAll(); ClearActors();
+            if (speakerPortrait != null) speakerPortrait.Hide();
             if (actorContainer != null)
             {
                 actorContainer.gameObject.SetActive(false);

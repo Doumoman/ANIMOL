@@ -11,6 +11,22 @@ namespace WilliamParadox.Story
         public float canvasWidth = 1080, canvasHeight = 1920;
         public StoryLayeredScene[] scenes;
         public StoryPresentationShot[] shots;
+        // null preserves the seven-scene ranch policy; an authored empty array disables bounce.
+        public StorySpeakerBounceScene[] speakerBounceScenes;
+        // Portraits are independent UI cards, not a claim that actors were separated from the CG.
+        public StorySpeakerPortraitAsset[] speakerPortraits;
+        // null permits mapped portraits in every scene; [] hides them everywhere.
+        public string[] speakerPortraitScenes;
+    }
+    [Serializable] public sealed class StorySpeakerBounceScene
+    {
+        public string sceneId;
+        public float strength = 1f;
+    }
+    [Serializable] public sealed class StorySpeakerPortraitAsset
+    {
+        public string speaker, assetId;
+        public bool independentLayer;
     }
     [Serializable] public sealed class StoryLayeredScene
     {
@@ -55,6 +71,8 @@ namespace WilliamParadox.Story
         public readonly StoryPresentationPackage Package;
         private readonly Dictionary<string, StoryLayeredScene> scenes;
         private readonly Dictionary<string, StoryPresentationShot> shots;
+        private readonly Dictionary<string, StorySpeakerBounceScene> bounceScenes;
+        private readonly Dictionary<string, StorySpeakerPortraitAsset> portraits;
         public StoryPresentationIndex(StoryPresentationPackage package, StoryGraph graph)
         {
             var errors = Validate(package, graph);
@@ -62,13 +80,33 @@ namespace WilliamParadox.Story
             Package = package;
             scenes = (package.scenes ?? Array.Empty<StoryLayeredScene>()).ToDictionary(x => x.sceneId, StringComparer.Ordinal);
             shots = (package.shots ?? Array.Empty<StoryPresentationShot>()).ToDictionary(x => x.nodeId, StringComparer.Ordinal);
+            bounceScenes = package.speakerBounceScenes == null ? null : package.speakerBounceScenes.ToDictionary(x => x.sceneId, StringComparer.Ordinal);
+            portraits = (package.speakerPortraits ?? Array.Empty<StorySpeakerPortraitAsset>()).ToDictionary(x => x.speaker, StringComparer.Ordinal);
         }
         public static bool AllowsBounce(string sceneId) { return sceneId != null && BounceScenes.Contains(sceneId); }
+        public bool AllowsSpeakerBounce(string sceneId)
+        {
+            return sceneId != null && (bounceScenes == null ? AllowsBounce(sceneId) : bounceScenes.ContainsKey(sceneId));
+        }
+        public float BounceStrength(string sceneId)
+        {
+            if (!AllowsSpeakerBounce(sceneId)) return 0;
+            float authored = bounceScenes == null ? 1f : bounceScenes[sceneId].strength;
+            return authored * (Scene(sceneId)?.bounceStrength ?? 1f);
+        }
+        public StorySpeakerPortraitAsset Portrait(string speaker)
+        {
+            return speaker != null && portraits.TryGetValue(speaker, out var value) ? value : null;
+        }
+        public bool AllowsPortrait(string sceneId)
+        {
+            return sceneId != null && (Package.speakerPortraitScenes == null || Array.IndexOf(Package.speakerPortraitScenes, sceneId) >= 0);
+        }
         public StoryLayeredScene Scene(string sceneId) { return sceneId != null && scenes.TryGetValue(sceneId, out var value) ? value : null; }
         public StoryPresentationShot Shot(string nodeId) { return nodeId != null && shots.TryGetValue(nodeId, out var value) ? value : null; }
         public bool ShouldBounce(StoryNode node)
         {
-            return node != null && node.kind == "line" && AllowsBounce(node.sceneId) && (Shot(node.id) == null || Shot(node.id).bounce);
+            return node != null && node.kind == "line" && BounceStrength(node.sceneId) > 0 && (Shot(node.id) == null || Shot(node.id).bounce);
         }
         public string SpeakerActor(StoryNode node)
         {
@@ -134,12 +172,30 @@ namespace WilliamParadox.Story
             if (!StoryGraph.Finite(p.canvasWidth, p.canvasHeight) || p.canvasWidth != 1080 || p.canvasHeight != 1920) errors.Add("Presentation canvas must be1080x1920.");
             var sceneMap = new Dictionary<string, StoryLayeredScene>(StringComparer.Ordinal);
             var actualScenes = new HashSet<string>(graph.Package.nodes.Select(n => n.sceneId), StringComparer.Ordinal);
+            var authoredBounceScenes = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var config in p.speakerBounceScenes ?? Array.Empty<StorySpeakerBounceScene>())
+            {
+                if (config == null || string.IsNullOrWhiteSpace(config.sceneId) || !actualScenes.Contains(config.sceneId) || !authoredBounceScenes.Add(config.sceneId)) { errors.Add("Unknown or duplicate speaker bounce scene."); continue; }
+                if (!StoryGraph.Finite(config.strength) || config.strength < 0 || config.strength > 1) errors.Add(config.sceneId + ": speaker bounce strength must be0..1.");
+            }
+            var portraitSpeakers = new HashSet<string>(StringComparer.Ordinal);
+            var portraitScenes = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var sceneId in p.speakerPortraitScenes ?? Array.Empty<string>())
+                if (string.IsNullOrWhiteSpace(sceneId) || !actualScenes.Contains(sceneId) || !portraitScenes.Add(sceneId)) errors.Add("Unknown or duplicate speaker portrait scene.");
+            var actualSpeakers = new HashSet<string>(graph.Package.nodes.Where(n => n.kind == "line" && !string.IsNullOrWhiteSpace(n.speaker)).Select(n => n.speaker), StringComparer.Ordinal);
+            foreach (var portrait in p.speakerPortraits ?? Array.Empty<StorySpeakerPortraitAsset>())
+            {
+                if (portrait == null || string.IsNullOrWhiteSpace(portrait.speaker) || !actualSpeakers.Contains(portrait.speaker) || !portraitSpeakers.Add(portrait.speaker)) { errors.Add("Unknown or duplicate portrait speaker."); continue; }
+                var asset = graph.Asset(portrait.assetId);
+                if (asset == null || (asset.kind != "actor" && asset.kind != "portrait")) errors.Add(portrait.speaker + ": portrait asset must have kind actor or portrait.");
+                if (!portrait.independentLayer) errors.Add(portrait.speaker + ": portrait requires an independent UI layer.");
+            }
             foreach (var scene in p.scenes ?? Array.Empty<StoryLayeredScene>())
             {
                 if (scene == null || string.IsNullOrWhiteSpace(scene.sceneId) || !actualScenes.Contains(scene.sceneId) || sceneMap.ContainsKey(scene.sceneId)) { errors.Add("Unknown or duplicate layered scene."); continue; }
                 sceneMap.Add(scene.sceneId, scene);
                 if (!StoryGraph.Finite(scene.bounceStrength) || scene.bounceStrength < 0 || scene.bounceStrength > 1) errors.Add(scene.sceneId + ": bounceStrength must be0..1.");
-                if (!AllowsBounce(scene.sceneId)) errors.Add(scene.sceneId + ": only the seven requested scenes can use separate animated actors.");
+                if (p.speakerBounceScenes == null ? !AllowsBounce(scene.sceneId) : !authoredBounceScenes.Contains(scene.sceneId)) errors.Add(scene.sceneId + (p.speakerBounceScenes == null ? ": only the seven requested scenes can use separate animated actors." : ": layered scene must be listed in speakerBounceScenes."));
                 if (graph.Asset(scene.backgroundArtId) == null) errors.Add(scene.sceneId + ": missing backgroundArtId.");
                 if (!string.IsNullOrEmpty(scene.foregroundArtId) && graph.Asset(scene.foregroundArtId) == null) errors.Add(scene.sceneId + ": unknown foregroundArtId.");
                 if (scene.foreground != null && !ValidPlacement(scene.foreground)) errors.Add(scene.sceneId + ": invalid foreground placement.");

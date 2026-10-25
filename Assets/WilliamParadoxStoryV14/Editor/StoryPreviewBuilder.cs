@@ -107,7 +107,7 @@ namespace WilliamParadox.Story.Editor
             return report;
         }
 
-        private static GameObject CreateCanvas(Transform parent, StoryView view, TMP_FontAsset font)
+        public static GameObject CreateCanvas(Transform parent, StoryView view, TMP_FontAsset font)
         {
             GameObject canvasObject = new GameObject("StoryCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
             canvasObject.transform.SetParent(parent, false);

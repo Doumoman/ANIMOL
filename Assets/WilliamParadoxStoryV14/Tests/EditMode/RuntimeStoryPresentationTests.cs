@@ -35,6 +35,17 @@ namespace WilliamParadox.Story.Tests
             Assert.That(player.IsPlaying, Is.True);
         }
         [Test]
+        public void ErasureSwapRemainsPendingUntilItsAuthoredDelay()
+        {
+            var player = new StoryCuePlayer(view);
+            player.Begin(new[] { new StoryCue { type = "swapArt", assetId = "AFTER", delay = 0.22f } }, false);
+            player.Tick(0.15f);
+            Assert.That(player.HasPendingSwapArt, Is.True);
+            player.Tick(0.08f);
+            Assert.That(player.HasPendingSwapArt, Is.False);
+            Assert.That(player.IsPlaying, Is.False);
+        }
+        [Test]
         public void LegacyWholeFrameShakeIsRejectedAndNeverMovesDialogue()
         {
             var dialogue = Child("DialogueRoot"); dialogue.anchoredPosition = new Vector2(13, -400);
