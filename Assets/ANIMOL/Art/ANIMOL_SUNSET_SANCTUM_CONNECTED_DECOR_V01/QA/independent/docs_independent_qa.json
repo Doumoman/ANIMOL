@@ -1,0 +1,99 @@
+{
+  "status": "PASS_DOC_ALIGNMENT",
+  "checks": [
+    {
+      "check": "Exact namespace/executeMethod in source",
+      "passed": true
+    },
+    {
+      "check": "All documented flags source accepted",
+      "passed": true
+    },
+    {
+      "check": "Exact documented Unicode menu",
+      "passed": true
+    },
+    {
+      "check": "Bind/Publish/Refresh actual signatures",
+      "passed": true
+    },
+    {
+      "check": "Production example optout documented",
+      "passed": true
+    },
+    {
+      "check": "Published pooling invalidation documented",
+      "passed": true
+    },
+    {
+      "check": "Baseline terrain material IDs correct",
+      "passed": true
+    },
+    {
+      "check": "No arbitrary storyID instruction",
+      "passed": true
+    },
+    {
+      "check": "No falsely executed Unity claim",
+      "passed": true
+    },
+    {
+      "check": "No baseline reinstall",
+      "passed": true
+    },
+    {
+      "check": "Current device independence",
+      "passed": true
+    },
+    {
+      "check": "stage_snapshot.json counts exact",
+      "passed": true
+    },
+    {
+      "check": "all26_snapshot.json counts exact",
+      "passed": true
+    },
+    {
+      "check": "All typed root16 fields documented",
+      "passed": true
+    },
+    {
+      "check": "No guessed Unity assets",
+      "passed": true
+    }
+  ],
+  "checkCount": 15,
+  "errors": [],
+  "findings": [
+    {
+      "severity": "minor_doc",
+      "file": "UNITY_CLI_KO.txt",
+      "trigger": "그룹 center formula line",
+      "issue": "Use explicit center=(anchorX+w/2,anchorY+h/2). Current shorthand anchor+w/2,h/2 omits anchorY and can be misread as y=h/2.",
+      "status": "RESOLVED"
+    },
+    {
+      "severity": "minor_doc",
+      "file": "README_KO.txt",
+      "trigger": "audit_package.py dependency line",
+      "issue": "Independent audit_package requires Python/Pillow only, not numpy. Remove unnecessary numpy requirement.",
+      "status": "RESOLVED"
+    }
+  ],
+  "filePins": [
+    {
+      "file": "README_KO.txt",
+      "sha256": "d40755074351c5564894832b8abb8ba5051d1a36f74dffaa34f84413afe26212"
+    },
+    {
+      "file": "UNITY_CLI_KO.txt",
+      "sha256": "1e345a8da9612a1bcdbb803cc9385c4bcc44e41e8a53524d4808519966657371"
+    }
+  ],
+  "scope": "Independent current handoff versus actual method/flag/menu strings, typed data claim counts and baseline naming. Pending final manifest pin replacement; no Unityexecution.",
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityPlay": "NOT_RUN",
+  "resolvedFindingCount": 2,
+  "artManifestSha256": "db4fc32203d547866b9cecf72f17a5919ba261ed872f5b24479eb98b5f5970f8"
+}

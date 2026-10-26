@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/sanctum_connected_v01/networks_b_exports",
+      "manifestSha256": "05e6ec06d22fd5a60b76e85b9c443b546f381edfb37b519332f87d43564f9a96",
+      "runtimePngCount": 48,
+      "semanticNetworkFamilies": [
+        "blue_crystal_planter",
+        "star_banner_partition",
+        "votive_light_channel"
+      ],
+      "sourcePins": {
+        "sources/star_banner_partition_native.png": "d505b2a14d002cf31148fe6f842f5378f6ad27dd332f900cdac5a31507d97cfe",
+        "sources/votive_light_channel_native.png": "e0996c4cbb1a1f19b9f8e72bc6c305c8b8ee3987a302d902cca5655f4a3337cc",
+        "sources/blue_crystal_planter_native.png": "5ed490c9dbdf4c0732789357eeb2a091973ca38740a4a9112eb237fbc93a74d8"
+      },
+      "checks": 354,
+      "errors": [],
+      "joins": [
+        {
+          "family": "blue_crystal_planter",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 80896,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "star_banner_partition",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 82944,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "votive_light_channel",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 56832,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}

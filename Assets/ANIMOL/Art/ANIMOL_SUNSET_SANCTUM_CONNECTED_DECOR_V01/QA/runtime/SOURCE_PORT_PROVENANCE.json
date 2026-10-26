@@ -1,0 +1,162 @@
+{
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CONNECTED_DECOR_V01",
+  "installationRevision": 1,
+  "artManifestSha256": "db4fc32203d547866b9cecf72f17a5919ba261ed872f5b24479eb98b5f5970f8",
+  "implementationBase": "Completed ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01 installation revision2 source package; art is not copied by this source export.",
+  "sourceFileCount": 19,
+  "runtimeFileCount": 10,
+  "editorFileCount": 6,
+  "optionalTestFileCount": 3,
+  "adaptations": [
+    "Exact Sanctum namespace/type/file/package/menu/CLI names and decoration keys.",
+    "Explicit20-group footprint declarations taken from approved Sanctum catalog; no inherited old shape grouping.",
+    "Compiled current art pin enforced by BoardSnapshot, Binding, Catalog.ValidateIntegrity and Editor CatalogBuilder.LoadManifest.",
+    "Manifest Unicode escape parser validates all four literal hex digits before integer conversion.",
+    "Four optional NUnit parser protocol cases added; total51 optional sourcecases.",
+    "Installation revision1 retains complete concrete Binding/Publish/BoardAsset/Prefab/optional scene builder capabilities from the first Sanctum release."
+  ],
+  "verification": {
+    "ownOfflineSourceChecks": 88,
+    "actualCompile": "NOT_RUN",
+    "actualUnityImport": "NOT_RUN",
+    "actualNUnitExecution": "NOT_RUN",
+    "actualGeneratedPrefabSceneExecution": "NOT_RUN",
+    "actualProductionIntegration": "NOT_RUN",
+    "actualPlay": "NOT_RUN"
+  },
+  "sources": [
+    {
+      "file": "Editor/SanctumConnectedDecorV01BoardJson.cs",
+      "sha256": "9b6a8809d91986f3c8e9b427e6a0aa52bee13e68566ee7403b4660b28e6c5f2f",
+      "bytes": 9379,
+      "baseFile": "Editor/TheaterConnectedDecorV01BoardJson.cs",
+      "baseSha256": "8a5d1693cc969315a7cd759f0f6f4892bb21dfcf82c63f59add2cdd10615d432"
+    },
+    {
+      "file": "Editor/SanctumConnectedDecorV01BoardTools.cs",
+      "sha256": "f9b32e5c3417ff5a45f270e7220f3e3215a8e1ada3c89c8535851cd6aed655a4",
+      "bytes": 25992,
+      "baseFile": "Editor/TheaterConnectedDecorV01BoardTools.cs",
+      "baseSha256": "ed795baa08a713327756da78cab20d1214a693d909350d5ecff348805750dff3"
+    },
+    {
+      "file": "Editor/SanctumConnectedDecorV01BoardWindow.cs",
+      "sha256": "e00c7938ce3349579c836f0c1ed9ec7198222b6275479dca629d907e368cff05",
+      "bytes": 10576,
+      "baseFile": "Editor/TheaterConnectedDecorV01BoardWindow.cs",
+      "baseSha256": "6fb89824558ab0506cdf1acc43b1f10b529fb129a1d14d73ccf10176313461a8"
+    },
+    {
+      "file": "Editor/SanctumConnectedDecorV01CatalogBuilder.cs",
+      "sha256": "b912a524f0be5ea5204d29a999757f8d20dc1d97219e6008fd665468677c2c86",
+      "bytes": 19338,
+      "baseFile": "Editor/TheaterConnectedDecorV01CatalogBuilder.cs",
+      "baseSha256": "f97e47ddff048b728effcc71624f23084e8bae46a509519db40c18285e4953de"
+    },
+    {
+      "file": "Editor/SanctumConnectedDecorV01JsonSchema.cs",
+      "sha256": "4c06f3bccbcb27c3a5aee2158cce634e76274cb5883733718966003e59a913c8",
+      "bytes": 7178,
+      "baseFile": "Editor/TheaterConnectedDecorV01JsonSchema.cs",
+      "baseSha256": "482ba4e4d1bdfd8b92a3f93926676829b24e9caf26ad85e575ae77009c2f78e5"
+    },
+    {
+      "file": "Editor/SanctumConnectedDecorV01SpriteImporter.cs",
+      "sha256": "7bacddd5262b5e7d4073bce37510be98a4e3bbf5085e4bf05aa5c4203a96bf95",
+      "bytes": 4634,
+      "baseFile": "Editor/TheaterConnectedDecorV01SpriteImporter.cs",
+      "baseSha256": "d6676a871dc5e057dc2ca40762cf3470f3d5da941a4da4eaf03f5456240378f7"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01AuthoredSnapshotSource.cs",
+      "sha256": "3b9f567771cf3a6ef04ddf1ffd209ad193b5c64f702d6eb3aa7e654c30dc9eb9",
+      "bytes": 1504,
+      "baseFile": "Runtime/TheaterConnectedDecorV01AuthoredSnapshotSource.cs",
+      "baseSha256": "1769b63c048c698959a2b04d4cafd385d16cbebc0e9f6f7ad707bd959af25ac7"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01Binding.cs",
+      "sha256": "bde1ce4c04d762cf0bb71e212cd880267a741d47c053af982ef09207c00f3667",
+      "bytes": 12355,
+      "baseFile": "Runtime/TheaterConnectedDecorV01Binding.cs",
+      "baseSha256": "74c626009d9964ddb43e7a3eabdcaa2c26dd04eb16265b8a844c6ffc8659c14c"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01BoardAsset.cs",
+      "sha256": "f80d07ca6a34808c627476b20d1575a9b1ac6259949885d5dc3adba6fdf1d86f",
+      "bytes": 1064,
+      "baseFile": "Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+      "baseSha256": "e55056e628651104ed57a8c027eae3feda97ebcbb07628a71594cf72a310d3ed"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01BoardSnapshot.cs",
+      "sha256": "615b1a192bf3f7faa6e6cbdd359d5668050f970321baafa660f672711c08c870",
+      "bytes": 7630,
+      "baseFile": "Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+      "baseSha256": "05f53caf179bf902b1c932d622c80d3cfbc17a237e3220c24ac516e6b745072c"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01Catalog.cs",
+      "sha256": "1770eaac8db60d3a29497dbf96919e6c47a42a724a06e12574a0d4797642e975",
+      "bytes": 15383,
+      "baseFile": "Runtime/TheaterConnectedDecorV01Catalog.cs",
+      "baseSha256": "04d872a2df6d33b364fe1f3515c12bd3da3245bfee799958eafa6a2a74e68411"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01Controller.cs",
+      "sha256": "a1eb341dc2c112524d16f0dafc110c94f4c526f89c6c40e94d735db6cad7622d",
+      "bytes": 13015,
+      "baseFile": "Runtime/TheaterConnectedDecorV01Controller.cs",
+      "baseSha256": "3b0861399a4e01230dc36f4407bf69e719a56e5e14ba21842094de891c268131"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01Planner.cs",
+      "sha256": "bf7117317d9e6b55d1ab261bd9930daef7707bb3d9b0a5723919bab2264785a7",
+      "bytes": 19382,
+      "baseFile": "Runtime/TheaterConnectedDecorV01Planner.cs",
+      "baseSha256": "2fee68c4e7b16d7c04a08d6a5b40af77c97ce969cf89dde18177546b35730ab0"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01PublishedSnapshotSource.cs",
+      "sha256": "7ecd1cf14f03071704b1dd2df6029b52b5989e3a81f40352b38ec111a8d6da1b",
+      "bytes": 2065,
+      "baseFile": "Runtime/TheaterConnectedDecorV01PublishedSnapshotSource.cs",
+      "baseSha256": "e071795af31d895ab8edbe03dfa6535f37cea3a8863ba5da2baa621e6c2f93ae"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01Schema.cs",
+      "sha256": "5457d313ba3411c020fb8d01673087fcaa2a18d05037f61a3d6af831fe42c33b",
+      "bytes": 858,
+      "baseFile": "Runtime/TheaterConnectedDecorV01Schema.cs",
+      "baseSha256": "91bedd39dc33c1bbc2dbb4d149cc285dd81e6ca4a8707d0792073f8ab327c1c8"
+    },
+    {
+      "file": "Runtime/SanctumConnectedDecorV01SnapshotSource.cs",
+      "sha256": "718b1c1a1e5039538a886ddba2c4e5a20d5ef8be8edf8d086edfe8b534e36675",
+      "bytes": 1077,
+      "baseFile": "Runtime/TheaterConnectedDecorV01SnapshotSource.cs",
+      "baseSha256": "2823b59521dfa2076d543ca6d94ba29b098d982b883f39e8eaa3928e000a6122"
+    },
+    {
+      "file": "Tests~/SanctumConnectedDecorV01BoardJsonTests.cs",
+      "sha256": "99128506c4c13523b086682dc144afb8ff4eaa38761615f558e63736c04bd8ff",
+      "bytes": 3332,
+      "baseFile": "Tests~/TheaterConnectedDecorV01BoardJsonTests.cs",
+      "baseSha256": "9f1ed5391cf5a5efc5cd55f702a46b30c9830b962ebf268ae736e040a13d9ce3"
+    },
+    {
+      "file": "Tests~/SanctumConnectedDecorV01CompletionTests.cs",
+      "sha256": "665226c2c14976897c930554e22448f12240a10673d5d985dac71607349b5830",
+      "bytes": 18369,
+      "baseFile": "Tests~/TheaterConnectedDecorV01CompletionTests.cs",
+      "baseSha256": "ca882566d8635b8a41a8f0556c4cf6113b72ed16a4cacc7daf7a9ae1cc9b386d"
+    },
+    {
+      "file": "Tests~/SanctumConnectedDecorV01PlannerTests.cs",
+      "sha256": "7650217e100ac34a85fbc8cc1339e387801a3e79cbe3dfd0a4395668d435805e",
+      "bytes": 11942,
+      "baseFile": "Tests~/TheaterConnectedDecorV01PlannerTests.cs",
+      "baseSha256": "3ffc01cd560d002b9c3ff45092d3f1428faa5f2f0bd877746f7596a4741aaff3"
+    }
+  ]
+}

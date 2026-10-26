@@ -1,0 +1,258 @@
+{
+  "status": "BASELINE_READ_OFFLINE",
+  "packageId": "ANIMOL_SUNSET_SANCTUM_CARTOON_V02",
+  "manifestSha256": "6bb51d4c5f0f032e5ac0a121e645699b7e6b947f6c3f5c90573cc429fd3a0bfe",
+  "themeDisplayName": "낙일 성소",
+  "postStoryDisplayName": "천구 날조국",
+  "actualThemeId": null,
+  "themeIdVerifiedInUnityProject": false,
+  "materialMapLegend": {
+    "G": "sanctum_floor",
+    "W": "wood_bridge",
+    "S": "stone_bridge",
+    "0": "void"
+  },
+  "style": {
+    "geometry": "straight segments, sharp directional bends, wedges and facets; no smooth rounded housings",
+    "outline": "thick angular near-black navy",
+    "shading": "flat cel2-3tones per material",
+    "materials": "warm ivory/ochre stone, brass/copper trim, navy/blue glass, small vividcyan accents",
+    "avoid": [
+      "pixel-art restriction",
+      "painterly texture",
+      "grain/dither",
+      "airbrushed skin/material",
+      "giant sky moon",
+      "Saturn/planets"
+    ]
+  },
+  "baselineRuntimePngCount": 1024,
+  "baselineAnimationClipCount": 106,
+  "sceneryAssetCount": 29,
+  "propAssets": [
+    {
+      "file": "props/sanctum/sanctum_column.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "0e0b22fd99b84540e8ef8ad4777e6c4859dda97c2125cb3b532f0eaf825e5749"
+    },
+    {
+      "file": "props/sanctum/broken_column.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "a6868c04b862f9298698bcd2484c0c1d54138680311090133ffb92c5ae37f3a3"
+    },
+    {
+      "file": "props/sanctum/arch_doorway.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        2
+      ],
+      "sha256": "7ba831eb4ec9f2825bd856f270dce9402b0c2aa6088e857f9fe001bb8550f3f8"
+    },
+    {
+      "file": "props/sanctum/library_shelf.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "5492044a62fa02a3053a5aa7a8b00d68ae92df0e5c1484aae4894f7258d737f2"
+    },
+    {
+      "file": "props/sanctum/reading_lectern.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "88780273fa16545eb50a95ab84de536112e5dd5e7203f256a29b21131cb738d1"
+    },
+    {
+      "file": "props/sanctum/sanctum_lantern.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "d50524d9acddc92c6822ee5ad0fa0a3cf4b930b75d9f20ed823491bfeae6c5cd"
+    },
+    {
+      "file": "props/sanctum/armillary_instrument.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "1b880416777e6884bf10aaa9bd20a168dca382c409d78758e3522d82665b429e"
+    },
+    {
+      "file": "props/sanctum/raised_planter.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "e038026ba05ea995ab6859d1938c58e0791bf595e0e2336037f80ff1a4874496"
+    },
+    {
+      "file": "props/sanctum/moss_bud_clump.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "829bb834858ec328f97126a1e40490d96893dad9dd9b0acf4271d5ef5481106f"
+    },
+    {
+      "file": "props/sanctum/raised_copper_foliage.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "6c4c47dcb4bb8738fb2d491a3330a20a390e1544a6bb42d2760dfc6d09a9578c"
+    },
+    {
+      "file": "props/sanctum/books_and_scroll.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "2a13de6e6db9f17e2511df12281930c6ca7a02d624c39cdb306cb5c8528e5fb5"
+    },
+    {
+      "file": "props/sanctum/stone_balustrade.png",
+      "family": "sanctum_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "470e5e77c6d8ecce7da176ecec55a3fac161d8e9a9fb86d90cfb8dd357d79467"
+    }
+  ],
+  "supportMaterialMap": {
+    "G": "masonry",
+    "S": "masonry",
+    "W": "wood"
+  },
+  "supportPlan": "Extract contiguous same-support south-exposed runs. Length1/2/3/4 uses exactly one matching native fused sprite. Longer runs use deterministic2–4-cell chunks; do not use one body per tile.",
+  "layerContract": {
+    "cameraConvention": "Orthographic camera on negative Z looking toward +Z. Confirm actual projection/near-far planes; positive Z in this contract is farther away. Use explicit sorting regardless of Z.",
+    "boardReferenceZ": 0,
+    "layers": [
+      {
+        "key": "sky",
+        "files": [
+          "backgrounds/sanctum/sky_base.png"
+        ],
+        "z": 9,
+        "sortingOrder": -1000,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "stars",
+        "files": [
+          "backgrounds/sanctum/stars/ivory_four_point.png",
+          "backgrounds/sanctum/stars/gold_four_point.png",
+          "backgrounds/sanctum/stars/ivory_eight_point.png",
+          "backgrounds/sanctum/stars/cyan_long_glint.png",
+          "backgrounds/sanctum/stars/gold_five_point.png",
+          "backgrounds/sanctum/stars/ivory_diamond.png",
+          "backgrounds/sanctum/stars/constellation_three.png",
+          "backgrounds/sanctum/stars/constellation_four.png"
+        ],
+        "z": 8,
+        "sortingOrder": -900,
+        "cameraParallax": 0.01,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 0.92
+      },
+      {
+        "key": "far_sanctuary_islands",
+        "files": [
+          "backgrounds/sanctum/far_library_island.png",
+          "backgrounds/sanctum/far_open_dome_island.png"
+        ],
+        "z": 7,
+        "sortingOrder": -850,
+        "cameraParallax": 0.08,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "far_clouds",
+        "files": [
+          "backgrounds/sanctum/clouds/cloud_0.png",
+          "backgrounds/sanctum/clouds/cloud_1.png"
+        ],
+        "z": 6,
+        "sortingOrder": -800,
+        "cameraParallax": 0.2,
+        "visualDriftUnitsPerSecond": 0.025,
+        "opacity": 0.72
+      },
+      {
+        "key": "side_dome_arches",
+        "files": [
+          "backgrounds/sanctum/frame_arch_left.png",
+          "backgrounds/sanctum/frame_arch_right.png"
+        ],
+        "z": 4,
+        "sortingOrder": -700,
+        "cameraParallax": 0.3,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "near_clouds",
+        "files": [
+          "backgrounds/sanctum/clouds/cloud_2.png",
+          "backgrounds/sanctum/clouds/cloud_3.png"
+        ],
+        "z": 2,
+        "sortingOrder": -600,
+        "cameraParallax": 0.45,
+        "visualDriftUnitsPerSecond": 0.045,
+        "opacity": 0.88
+      }
+    ],
+    "starsBehindClouds": true,
+    "starsNearFixed": true,
+    "allCloudsIndependent": true,
+    "moonAndPlanetsAbsent": true,
+    "pausePolicy": "Visual-only background drift; host pause may freeze it. No movement/cost/device logic from background clock.",
+    "centralBoardProtection": "Place distant islands and framing arches outside the board/camera-safe rectangle; cloud drift clips/wraps outside board and cannot obscure devices."
+  },
+  "notes": [
+    "Baseline already includes fused1–4cell south supports; new decoration add-on must not claim first implementation or double-place support sprites.",
+    "Existing baseline device states/animation/direction/physics authority must remain current.",
+    "New props are decoration-only; no inferred collision, theme IDs or story flags.",
+    "Baseline art contains 29 scenery assets spanning sky/clouds/stars/architecture/props; scenery count is not decoration design count."
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityPlay": "NOT_RUN"
+}

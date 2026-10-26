@@ -1,0 +1,13 @@
+낙일 성소 연결 장식 독립 검수 기준
+
+1. 장식 수는 연결 마스크·색상·상태·보조 기둥을 제외한 고유 디자인 수로 계산한다.
+2. 기존 낙일 성소 V02 팔레트(상아/황토/황동·구리/남청·청색 유리/작은 청록 포인트)와 굵은 각진 외곽선, 평면 2–3톤을 확인한다. 사진·픽셀·둥근 부푼 실루엣·그라데이션 중심 표현은 피한다.
+3. 논리 바닥은 PPU256, 1칸=256px. 논리 사각형의 중심으로 Unity 피벗을 계산한다. 패딩은 점유가 아니다.
+4. 2×2·3×2 묶음은 가로 실루엣뿐 아니라 깊이 두 줄을 사용해야 한다. 한 줄 소품을 2줄 캔버스에 얹는 것은 불충분하다.
+5. 연결 마스크 N1/E2/S4/W8의 열린 모든 끝이 논리 경계에 도달하고, 호환 이웃 끝의 RGBA가 일치해야 한다. 네트워크 개별 PNG를 실제 셀 간격으로 합성해 패딩 겹침을 확인한다.
+6. 동일 family+connectionGroup+logicalLayer+heightKey만 연결한다. whole group은 전체 footprint atomic claim 후 renderer 하나만 만든다.
+7. Binding의 실제 Configure/SetLayout 호출, source event 구독·해제, authoritative publish/무효화, pool disable 대응, 부모 transform 검증, explicit Editor Refresh가 필요하다. 선언만 있으면 구현 완료가 아니다.
+8. JSON은 flat typed DTO이며 중복/누락/미지 필드/type 오류를 거부한다. 모든 예시는 isExampleOnly=true, +Y 북쪽/좌하단 앵커이며 전부 고유 디자인을 포함하는 검사 보드가 필요하다.
+9. 새 namespace/package로 분리하고 기존 장치·지형·다른 테마 파일을 되돌려 덮어쓰지 않는다. G/S는 masonry, W는 wood이다. 실제 themeID/storyflag는 추측하지 않는다.
+10. 소스 검사·CPU 이미지 합성은 C# 컴파일/Unity 스크린샷/PlayMode 검증이 아니다. 원 프로젝트 없이 이 항목은 모두 NOT_RUN을 유지한다.
+11. 하나의 통합 ZIP과 한국어 Unity CLI 파일을 낸다. 실제 prefab/.unity/.asset를 실행 없이 위조하지 않고 Editor 생성기를 제공한다.

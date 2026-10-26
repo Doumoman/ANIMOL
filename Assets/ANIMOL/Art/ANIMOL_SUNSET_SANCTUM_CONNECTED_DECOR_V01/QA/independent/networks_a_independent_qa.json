@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/sanctum_connected_v01/networks_a_exports",
+      "manifestSha256": "6ddc06adba657a92c9462f25231d23efbff8f4aa7fec0e528d2250f43b25346a",
+      "runtimePngCount": 50,
+      "semanticNetworkFamilies": [
+        "archive_shelf_run",
+        "brass_lattice_screen",
+        "ivory_star_balustrade"
+      ],
+      "sourcePins": {
+        "sources/ivory_star_balustrade_parts_native.png": "d3b2f5885ca11bd65145f447fc7242704800df6cd759fcac9857b0e89829f930",
+        "sources/brass_lattice_screen_parts_native.png": "a364ceb570e589fc44af2c172c81e8fda0de7b76bea7eece6be9946665f50dbb",
+        "sources/archive_shelf_run_parts_native.png": "3cd7fdab5ad2b2688dd87d42e2105afa272889321dfa9fd72dc0680239254824"
+      },
+      "checks": 368,
+      "errors": [],
+      "joins": [
+        {
+          "family": "archive_shelf_run",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 106496,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "brass_lattice_screen",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 89600,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "ivory_star_balustrade",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 75264,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}
