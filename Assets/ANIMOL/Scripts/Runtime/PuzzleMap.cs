@@ -79,7 +79,9 @@ namespace ANIMOL.Puzzle
         }
         public bool TryTerrain(Vector2Int p, out TerrainCell cell)
         { Index(); cell = default; return Contains(p) && terrainIndex.TryGetValue(p, out cell); }
-        public bool Walkable(Vector2Int p) => TryTerrain(p, out var t) && !t.blocked;
+        public bool DecorationAt(Vector2Int p) => Contains(p) &&
+            decorations.Any(cell => RanchConnectedDecorHost.Occupies(this, cell, p));
+        public bool Walkable(Vector2Int p) => TryTerrain(p, out var t) && !t.blocked && !DecorationAt(p);
         public DeviceCell DeviceAt(Vector2Int p)
         { Index(); return Contains(p) && deviceIndex.TryGetValue(p, out var d) ? d : default; }
         public void SetTerrain(Vector2Int p, TerrainMaterial material, bool blocked = false)

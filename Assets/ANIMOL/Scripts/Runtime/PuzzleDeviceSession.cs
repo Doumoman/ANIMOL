@@ -110,10 +110,10 @@ namespace ANIMOL.Puzzle
         PrototypeDevice At(Vector2Int p, Func<PrototypeDevice, bool> predicate = null, string except = null) =>
             definitions.FirstOrDefault(d => d.id != except && !states[d.id].removed && Footprint(d).Contains(p) && (predicate == null || predicate(d)));
         bool Occupied(Vector2Int p, string except = null) => Cell == p || At(p, Solid, except) != null;
-        public bool Supported(Vector2Int p) => Map.Contains(p) && (Map.Walkable(p) || At(p, d =>
+        public bool Supported(Vector2Int p) => Map.Contains(p) && !Map.DecorationAt(p) && (Map.Walkable(p) || At(p, d =>
             (d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) || d.role == PrototypeRole.MovingStage) != null);
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
-            Map.Contains(p) && (Supported(p) || (water && Rules.water.Contains(p))) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null && At(p, d => d.role == PrototypeRole.Boat, except) == null;
+            Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null && At(p, d => d.role == PrototypeRole.Boat, except) == null;
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
         static GateHeading GateDirection(Vector2Int p)
         {
@@ -230,7 +230,7 @@ namespace ANIMOL.Puzzle
         }
         bool StepPlayer(Vector2Int destination, PrototypeDevice committedWind = null)
         {
-            if (!Map.Contains(destination) || !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
+            if (!Map.Contains(destination) || Map.DecorationAt(destination) || !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
             if (!string.IsNullOrEmpty(BoatId))
             {
                 var boat = Definition(BoatId); var bs = states[BoatId];

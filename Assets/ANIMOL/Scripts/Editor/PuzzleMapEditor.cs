@@ -397,6 +397,8 @@ namespace ANIMOL.Presentation.Editor
         }
         static Sprite ConnectedPreview(PuzzleTheme theme, string sourceId)
         {
+            if (sourceId == "props/windmill_body.png")
+                return theme.starwayRanch.Find("props/windmill.png");
             var mapping = RanchConnectedDecorHost.Mappings.Concat(RanchConnectedDecorHost.DirectCells)
                 .FirstOrDefault(row => row.sourceId == sourceId);
             if (mapping == null) return theme.starwayRanch.Find(sourceId);
@@ -861,7 +863,9 @@ namespace ANIMOL.Presentation.Editor
                         var center = (Vector2)decor.position + new Vector2(
                             source == null ? 0 : (source.width - 1) * .5f,
                             source == null ? 0 : (source.height - 1) * .5f);
-                        DrawWorldSpriteAt(center, decor.sprite ? decor.sprite : map.theme.decoration,
+                        var preview = decor.sprite == map.theme.starwayRanch.Find("props/windmill_body.png")
+                            ? map.theme.starwayRanch.Find("props/windmill.png") : decor.sprite;
+                        DrawWorldSpriteAt(center, preview ? preview : map.theme.decoration,
                             shownHeight, origin, new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
                     }
                     else DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);

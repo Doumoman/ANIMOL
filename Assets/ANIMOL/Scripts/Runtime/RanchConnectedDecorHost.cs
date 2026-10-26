@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace ANIMOL.Puzzle
 {
-    // Maps confirmed V12 prop Sprite identities to V01 visual families. These claims
-    // are decoration-only; PuzzleMap.Walkable and the device authority never read them.
+    // Maps confirmed V12 prop Sprite identities to V01 visual families and footprints.
+    // Visual claims remain separate from the map's gameplay occupancy query.
     public static class RanchConnectedDecorHost
     {
         public sealed class Mapping
@@ -39,7 +39,8 @@ namespace ANIMOL.Puzzle
             new Mapping("props/bench.png", null, null, 2, 1),
             new Mapping("props/ranch_gate.png", null, null, 2, 1),
             new Mapping("props/wheelbarrow.png", null, null, 1, 2),
-            new Mapping("props/crate_pair.png", null, null, 2, 1)
+            new Mapping("props/crate_pair.png", null, null, 2, 1),
+            new Mapping("props/windmill_body.png", null, null, 2, 2)
         };
 
         public static Mapping SourceMapping(PuzzleMap map, Sprite sprite)

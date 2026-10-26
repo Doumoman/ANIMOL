@@ -183,7 +183,7 @@ namespace ANIMOL.Puzzle
             if (!rotorSprite) { Debug.LogError("Missing V12 windmill rotor", this); return; }
             var owner = new GameObject("V12 windmill visual");
             owner.transform.SetParent(objectsRoot, false);
-            owner.transform.localPosition = (Vector2)position;
+            owner.transform.localPosition = (Vector2)position + Vector2.one * .5f;
             var body = new GameObject("Fixed body");
             body.transform.SetParent(owner.transform, false);
             var bodyRenderer = body.AddComponent<SpriteRenderer>();

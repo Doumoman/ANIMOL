@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ANIMOL.Art.RanchConnectedDecorV01;
+using ANIMOL.Art.V12;
 using ANIMOL.Presentation.Editor;
 using ANIMOL.Puzzle;
 using NUnit.Framework;
@@ -104,10 +105,43 @@ public sealed class RanchConnectedDecorHostTests
         Assert.AreEqual(1, plan.GroupCount);
         Assert.AreEqual(3, plan.ClaimCount);
         Assert.AreEqual(3, plan.GetGroup(0).widthCells);
-        for (var x = 2; x <= 4; x++) Assert.IsTrue(map.Walkable(new Vector2Int(x, 4)));
+        for (var x = 2; x <= 4; x++) Assert.IsFalse(map.Walkable(new Vector2Int(x, 4)));
         Assert.IsTrue(PuzzleMapEditor.TryEraseDecoration(map, new Vector2Int(4, 4)));
         Assert.IsEmpty(map.decorations);
         Assert.AreEqual(0, Plan().ClaimCount);
+        for (var x = 2; x <= 4; x++) Assert.IsTrue(map.Walkable(new Vector2Int(x, 4)));
+    }
+
+    [Test]
+    public void WindmillPreviewShowsRotorAndItsFullFootprintBlocksMovement()
+    {
+        var body = Source("windmill_body");
+        var full = Source("windmill");
+        var choice = System.Linq.Enumerable.Single(PuzzleMapEditor.DecorationChoices(theme),
+            item => item.sourceId == "props/windmill_body.png");
+        Assert.AreSame(body, choice.sprite);
+        Assert.AreSame(full, choice.preview);
+        var anchor = new Vector2Int(2, 3);
+        Assert.IsTrue(PuzzleMapEditor.TryPlaceDecoration(map, body, anchor, Color.white,
+            "", 0, 0, out var error), error);
+        for (var y = 3; y <= 4; y++) for (var x = 2; x <= 3; x++)
+            Assert.IsFalse(map.Walkable(new Vector2Int(x, y)));
+        Assert.IsTrue(map.Walkable(new Vector2Int(4, 4)));
+        var host = new GameObject("windmill view test");
+        try
+        {
+            host.AddComponent<PuzzleMapView>().Bind(map);
+            var motion = host.GetComponentInChildren<StarwayRanchV12RotorVisual>();
+            Assert.NotNull(motion);
+            Assert.AreEqual(new Vector3(2.5f, 3.5f), motion.transform.localPosition);
+            Assert.AreSame(body, motion.transform.Find("Fixed body").GetComponent<SpriteRenderer>().sprite);
+            Assert.AreSame(Source("windmill_rotor"),
+                motion.transform.Find("Four blade rotor").GetComponent<SpriteRenderer>().sprite);
+            Assert.IsTrue(PuzzleMapEditor.TryEraseDecoration(map, new Vector2Int(3, 4)));
+            for (var y = 3; y <= 4; y++) for (var x = 2; x <= 3; x++)
+                Assert.IsTrue(map.Walkable(new Vector2Int(x, y)));
+        }
+        finally { Object.DestroyImmediate(host); }
     }
 
     [Test]

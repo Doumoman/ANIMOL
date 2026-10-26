@@ -57,6 +57,21 @@ namespace ANIMOL.Presentation.Tests
             controller.RuntimeMap.Resize(4, 4); Assert.AreEqual(480, controller.RuntimeMap.terrain.Count); yield return null;
             Assert.AreEqual(new Vector2(1.5f, 1.5f), (Vector2)controller.FollowCamera.transform.position);
         }
+        [UnityTest] public IEnumerator DecorationBlocksPlayerAndRemovingItRestoresPassage()
+        {
+            var occupied = new Vector2Int(2, 5);
+            map.decorations.Add(new DecorationCell { position = occupied });
+            controller.Load(map);
+            Assert.IsFalse(controller.RequestMove(Vector2Int.right));
+            Assert.AreEqual(new Vector2Int(1, 5), controller.Session.Cell);
+            Assert.AreEqual(0, controller.Session.Moves);
+            controller.RuntimeMap.decorations.Clear();
+            controller.RuntimeMap.NotifyDecorationsChanged();
+            Assert.IsTrue(controller.RequestMove(Vector2Int.right));
+            yield return WaitIdle();
+            Assert.AreEqual(occupied, controller.Session.Cell);
+            Assert.AreEqual(1, controller.Session.Moves);
+        }
         [UnityTest] public IEnumerator AutomaticCycleStopsAndBufferedInputRemainsUsable()
         {
             map.SetDevice(new DeviceCell { position = new Vector2Int(2, 5), kind = DeviceKind.Conveyor, direction = Vector2Int.right });

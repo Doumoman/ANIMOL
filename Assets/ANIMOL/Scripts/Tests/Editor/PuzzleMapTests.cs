@@ -34,9 +34,31 @@ namespace ANIMOL.Presentation.Tests
             var terrain = map.terrain.ToArray(); var count = map.OutsideCount(3, 3);
             Assert.Greater(count, 0); PuzzleMapEditor.Resize(map, 3, 3, false);
             CollectionAssert.AreEqual(terrain, map.terrain); Assert.AreEqual(1, map.devices.Count); Assert.AreEqual(1, map.decorations.Count); Assert.IsFalse(map.Walkable(p));
-            Undo.PerformUndo(); map.InvalidateIndex(); Assert.AreEqual(5, map.Width); Assert.IsTrue(map.Walkable(p));
+            Undo.PerformUndo(); map.InvalidateIndex(); Assert.AreEqual(5, map.Width); Assert.IsFalse(map.Walkable(p));
             Undo.PerformRedo(); map.InvalidateIndex(); Assert.AreEqual(3, map.Width); Assert.AreEqual(count, map.OutsideCount(3, 3));
-            map.Resize(5, 5); Assert.IsTrue(map.Walkable(p)); Assert.AreEqual(DeviceKind.Ice, map.DeviceAt(p).kind);
+            map.Resize(5, 5); Assert.IsFalse(map.Walkable(p)); Assert.AreEqual(DeviceKind.Ice, map.DeviceAt(p).kind);
+        }
+        [Test] public void DecorationBlocksClassicAndScenarioMovementUntilRemoved()
+        {
+            Fill(); map.start = new Vector2Int(1, 1);
+            var blocked = new Vector2Int(2, 1);
+            map.decorations.Add(new DecorationCell { position = blocked });
+            Assert.IsTrue(map.DecorationAt(blocked));
+            Assert.IsFalse(map.Walkable(blocked));
+            var classic = new PuzzleSession(map);
+            Assert.IsFalse(classic.BeginMove(Vector2Int.right));
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.scenario = scenario;
+                var device = new PuzzleDeviceSession(map);
+                Assert.IsFalse(device.Apply(Vector2Int.right).accepted);
+                map.decorations.Clear();
+                Assert.IsTrue(map.Walkable(blocked));
+                Assert.IsTrue(classic.BeginMove(Vector2Int.right));
+                Assert.IsTrue(device.Apply(Vector2Int.right).accepted);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
         }
         [Test] public void EditorResizeAddsGrassOnlyToNewEmptyCells()
         {
