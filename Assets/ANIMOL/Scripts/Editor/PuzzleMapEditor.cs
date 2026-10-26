@@ -15,6 +15,7 @@ namespace ANIMOL.Presentation.Editor
         [SerializeField] PuzzleMap map;
         [SerializeField] PuzzleTheme newMapTheme;
         [SerializeField] string newMapName = "NewMap";
+        [SerializeField] int newMapWidth = 12, newMapHeight = 18;
         Layer layer;
         Marker marker;
         TerrainMaterial material;
@@ -29,6 +30,8 @@ namespace ANIMOL.Presentation.Editor
         Color decorationTint = Color.white;
         bool blocked, erase, stroke;
         int pendingWidth, pendingHeight, undoGroup;
+        Vector2Int cameraPreviewCell;
+        bool showCameraBounds = true;
         float cellSize = 42;
         Vector2 gridScroll, settingsScroll, deviceListScroll, decorationListScroll;
         Vector2Int lastPaint = new Vector2Int(-999, -999);
@@ -41,14 +44,14 @@ namespace ANIMOL.Presentation.Editor
             EditorApplication.projectChanged += RefreshLibrary;
             RefreshLibrary();
             if (!newMapTheme) newMapTheme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
-            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; }
+            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; }
         }
         void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
         void Undone() { if (map) { map.InvalidateIndex(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
         void Select(PuzzleMap data)
         {
             EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = false; scenarioCreationError = null;
-            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; if (map.theme) newMapTheme = map.theme; }
+            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
         void OnGUI()
@@ -87,6 +90,7 @@ namespace ANIMOL.Presentation.Editor
             pendingWidth = EditorGUILayout.IntField("가로 칸 수", pendingWidth);
             pendingHeight = EditorGUILayout.IntField("세로 칸 수", pendingHeight);
             if (GUILayout.Button("크기 적용 (잘린 배치 보관)") && Resize(map, pendingWidth, pendingHeight, true)) { pendingWidth = map.Width; pendingHeight = map.Height; }
+            EditorGUILayout.HelpBox("가로·세로 칸 수를 바꿔 크기 적용을 누르세요. 넓힌 칸은 풀 지형으로 채워지며, 줄여서 밖으로 나간 배치는 보관됩니다.", MessageType.Info);
             var outside = map.OutsideCount(map.Width, map.Height);
             if (outside > 0) EditorGUILayout.HelpBox("맵 밖 배치 " + outside + "개가 비활성 상태로 보관됩니다. 맵을 넓히면 복구됩니다. 시작점·출구가 밖에 있으면 미리보기를 실행할 수 없습니다.", MessageType.Warning);
             var previousTheme = map.theme;
@@ -94,6 +98,13 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.PropertyField(serialized.FindProperty("theme"), new GUIContent("테마"));
             EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"), new GUIContent("목표 방울 수"));
             DrawCameraSettings(serialized.FindProperty("cameraSettings"));
+            showCameraBounds = EditorGUILayout.Toggle("카메라 테두리 표시", showCameraBounds);
+            if (showCameraBounds)
+            {
+                cameraPreviewCell = EditorGUILayout.Vector2IntField("카메라 초점 칸", cameraPreviewCell);
+                if (GUILayout.Button("시작점으로 초점 이동")) cameraPreviewCell = map.start;
+                EditorGUILayout.LabelField("540×960 화면 기준", EditorStyles.miniLabel);
+            }
             if (serialized.ApplyModifiedProperties()) map.InvalidateIndex();
             if (map.theme != previousTheme)
             {
@@ -589,7 +600,30 @@ namespace ANIMOL.Presentation.Editor
             width = Mathf.Clamp(width, 1, 256); height = Mathf.Clamp(height, 1, 256);
             var count = data.OutsideCount(width, height);
             if (confirm && count > 0 && !EditorUtility.DisplayDialog("맵 밖 배치 보관", count + "개 배치가 새 맵의 바깥에 남습니다. 데이터는 삭제되지 않으며 맵을 넓히면 복구됩니다. 시작점과 출구가 밖에 있다면 플레이 전에 옮겨야 합니다.", "크기 변경", "취소")) return false;
-            Undo.RegisterCompleteObjectUndo(data, "퍼즐 맵 크기 변경"); data.Resize(width, height); EditorUtility.SetDirty(data); return true;
+            Undo.RegisterCompleteObjectUndo(data, "퍼즐 맵 크기 변경");
+            var oldWidth = data.Width; var oldHeight = data.Height;
+            if (width > oldWidth || height > oldHeight)
+            {
+                var occupied = new HashSet<Vector2Int>(data.terrain.Select(tile => tile.position));
+                for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
+                {
+                    if (x < oldWidth && y < oldHeight) continue;
+                    var cell = new Vector2Int(x, y);
+                    if (occupied.Add(cell)) data.terrain.Add(new TerrainCell(cell, TerrainMaterial.Grass));
+                }
+            }
+            data.Resize(width, height); EditorUtility.SetDirty(data); return true;
+        }
+        public static Rect CameraBounds(PuzzleMap data, Vector2 focus)
+        {
+            var settings = data.cameraSettings ?? new PuzzleCameraSettings();
+            var rows = Mathf.Clamp(settings.visibleRows, 5, 25);
+            var aspect = 540f / (960f - Mathf.Clamp(settings.topInset, 0, 150) -
+                Mathf.Clamp(settings.bottomInset, 0, 300));
+            var halfHeight = rows * .5f;
+            var halfWidth = halfHeight * aspect;
+            var center = PuzzleFollowCamera.Clamp(focus, data.Width, data.Height, halfHeight, aspect);
+            return new Rect(center.x - halfWidth, center.y - halfHeight, halfWidth * 2, rows);
         }
         void DrawGrid(Rect viewport)
         {
@@ -602,11 +636,20 @@ namespace ANIMOL.Presentation.Editor
                     : Enumerable.Empty<Vector2Int>()).ToArray();
             var shownWidth = Mathf.Max(map.Width, retained.Max(p => p.x) + 1);
             var shownHeight = Mathf.Max(map.Height, retained.Max(p => p.y) + 1);
-            var content = new Rect(0, 0, (shownWidth + 1) * cellSize, (shownHeight + 1) * cellSize);
+            var cameraBounds = CameraBounds(map, cameraPreviewCell);
+            var leftPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.xMin - .5f)) : 0;
+            var rightPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.xMax - shownWidth + .5f)) : 0;
+            var topPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.yMax - shownHeight + .5f)) : 0;
+            var bottomPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.yMin - .5f)) : 0;
+            var origin = new Vector2(leftPad * cellSize, topPad * cellSize);
+            var content = new Rect(0, 0, (leftPad + shownWidth + rightPad + 1) * cellSize,
+                (topPad + shownHeight + bottomPad + 1) * cellSize);
             var pointerInside = viewport.Contains(Event.current.mousePosition);
             gridScroll = GUI.BeginScrollView(viewport, gridScroll, content);
-            var xMin = Mathf.Max(0, Mathf.FloorToInt(gridScroll.x / cellSize)); var xMax = Mathf.Min(shownWidth, Mathf.CeilToInt((gridScroll.x + viewport.width) / cellSize));
-            var yMin = Mathf.Max(0, Mathf.FloorToInt(gridScroll.y / cellSize)); var yMax = Mathf.Min(shownHeight, Mathf.CeilToInt((gridScroll.y + viewport.height) / cellSize));
+            var xMin = Mathf.Max(0, Mathf.FloorToInt((gridScroll.x - origin.x) / cellSize));
+            var xMax = Mathf.Min(shownWidth, Mathf.CeilToInt((gridScroll.x + viewport.width - origin.x) / cellSize));
+            var yMin = Mathf.Max(0, Mathf.FloorToInt((gridScroll.y - origin.y) / cellSize));
+            var yMax = Mathf.Min(shownHeight, Mathf.CeilToInt((gridScroll.y + viewport.height - origin.y) / cellSize));
             var islandArt = map.theme ? map.theme.skyIsland : null;
             if (islandArt)
             {
@@ -614,7 +657,7 @@ namespace ANIMOL.Presentation.Editor
                 for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
                 {
                     var p = new Vector2Int(x, shownHeight - 1 - row);
-                    EditorGUI.DrawRect(new Rect(x * cellSize, row * cellSize, cellSize, cellSize), map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                    EditorGUI.DrawRect(new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize, cellSize), map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
                 }
                 for (var row = Mathf.Max(0, yMin - 1); row < yMax; row++) for (var x = xMin; x < xMax; x++)
                 {
@@ -622,12 +665,13 @@ namespace ANIMOL.Presentation.Editor
                     if (!SkyIslandAutotile.UsesArt(map, p)) continue;
                     var shape = SkyIslandAutotile.Resolve(map, p);
                     var pair = islandArt.Find(shape.exposure, shape.innerCorners);
-                    DrawSprite(new Rect(x * cellSize, (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
+                    DrawSprite(new Rect(origin.x + x * cellSize, origin.y + (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
                 }
             }
             for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
             {
-                var p = new Vector2Int(x, shownHeight - 1 - row); var rect = new Rect(x * cellSize, row * cellSize, cellSize - 1, cellSize - 1);
+                var p = new Vector2Int(x, shownHeight - 1 - row);
+                var rect = new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize - 1, cellSize - 1);
                 if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
                 if (map.TryTerrain(p, out var tile))
                 {
@@ -664,22 +708,26 @@ namespace ANIMOL.Presentation.Editor
                 if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
                 if (!map.Contains(p)) GUI.Label(rect, "/");
             }
-            if (map.scenario && showConnections) DrawConnections(shownHeight);
+            if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
+            if (showCameraBounds) DrawCameraBounds(cameraBounds, shownHeight, origin);
             var e = Event.current;
             if (pointerInside && e.type == EventType.Repaint)
             {
-                var hover = new Vector2Int(Mathf.FloorToInt(e.mousePosition.x / cellSize), shownHeight - 1 - Mathf.FloorToInt(e.mousePosition.y / cellSize));
+                var hover = new Vector2Int(Mathf.FloorToInt((e.mousePosition.x - origin.x) / cellSize),
+                    shownHeight - 1 - Mathf.FloorToInt((e.mousePosition.y - origin.y) / cellSize));
                 if (map.Contains(hover))
                 {
                     var eraseHover = erase || e.button == 1;
-                    Handles.DrawSolidRectangleWithOutline(new Rect(hover.x * cellSize, (shownHeight - hover.y - 1) * cellSize, cellSize, cellSize),
+                    Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + hover.x * cellSize,
+                        origin.y + (shownHeight - hover.y - 1) * cellSize, cellSize, cellSize),
                         new Color(eraseHover ? 1f : .2f, eraseHover ? .25f : 1f, .3f, .12f),
                         eraseHover ? new Color(1f, .3f, .3f) : new Color(.3f, 1f, .5f));
                 }
             }
             if (pointerInside && (e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && (e.button == 0 || e.button == 1))
             {
-                var p = new Vector2Int(Mathf.FloorToInt(e.mousePosition.x / cellSize), shownHeight - 1 - Mathf.FloorToInt(e.mousePosition.y / cellSize));
+                var p = new Vector2Int(Mathf.FloorToInt((e.mousePosition.x - origin.x) / cellSize),
+                    shownHeight - 1 - Mathf.FloorToInt((e.mousePosition.y - origin.y) / cellSize));
                 if (map.Contains(p))
                 {
                     if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
@@ -749,10 +797,25 @@ namespace ANIMOL.Presentation.Editor
                 return state.sequence.frames[0];
             return prefab.GetComponentsInChildren<SpriteRenderer>(true).Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate);
         }
-        void DrawConnections(int shownHeight)
+        void DrawCameraBounds(Rect world, int shownHeight, Vector2 origin)
+        {
+            var frame = new Rect(origin.x + (world.xMin + .5f) * cellSize,
+                origin.y + (shownHeight - world.yMax - .5f) * cellSize,
+                world.width * cellSize, world.height * cellSize);
+            var color = new Color(.2f, .9f, 1f, .95f);
+            EditorGUI.DrawRect(new Rect(frame.xMin, frame.yMin, frame.width, 3), color);
+            EditorGUI.DrawRect(new Rect(frame.xMin, frame.yMax - 3, frame.width, 3), color);
+            EditorGUI.DrawRect(new Rect(frame.xMin, frame.yMin, 3, frame.height), color);
+            EditorGUI.DrawRect(new Rect(frame.xMax - 3, frame.yMin, 3, frame.height), color);
+            var label = new Rect(frame.xMin + 4, frame.yMin + 4, 110, 18);
+            EditorGUI.DrawRect(label, new Color(.04f, .13f, .2f, .85f));
+            GUI.Label(label, "카메라 화면", EditorStyles.whiteMiniLabel);
+        }
+        void DrawConnections(int shownHeight, Vector2 origin)
         {
             var devices = map.scenario.devices.Where(device => map.Contains(device.position)).ToArray();
-            Vector3 Center(Vector2Int p) => new Vector3((p.x + .5f) * cellSize, (shownHeight - p.y - .5f) * cellSize);
+            Vector3 Center(Vector2Int p) => new Vector3(origin.x + (p.x + .5f) * cellSize,
+                origin.y + (shownHeight - p.y - .5f) * cellSize);
             var previous = Handles.color;
             foreach (var group in devices.Where(device => !string.IsNullOrEmpty(device.group)).GroupBy(device => device.group))
             {
@@ -785,8 +848,8 @@ namespace ANIMOL.Presentation.Editor
                 if (device.role == PrototypeRole.Bomb)
                     foreach (var offset in device.blastOffsets ?? Enumerable.Empty<Vector2Int>())
                         if (map.Contains(device.position + offset))
-                            Handles.DrawSolidRectangleWithOutline(new Rect((device.position.x + offset.x) * cellSize,
-                                (shownHeight - device.position.y - offset.y - 1) * cellSize, cellSize, cellSize),
+                            Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + (device.position.x + offset.x) * cellSize,
+                                origin.y + (shownHeight - device.position.y - offset.y - 1) * cellSize, cellSize, cellSize),
                                 new Color(1f, .25f, .1f, .16f), new Color(1f, .35f, .1f, .9f));
             }
             Handles.color = previous;
@@ -867,13 +930,15 @@ namespace ANIMOL.Presentation.Editor
                 return;
             }
             var path = "Assets/ANIMOL/Data/Puzzle/Maps/" + name + ".asset";
-            try { Select(CreateStarterMap(path, newMapTheme, 12, 18)); }
+            try { Select(CreateStarterMap(path, newMapTheme, newMapWidth, newMapHeight)); }
             catch (InvalidOperationException) { EditorUtility.DisplayDialog("맵 생성 실패", "같은 이름의 맵이 이미 있습니다. 다른 이름을 입력하세요.", "확인"); }
             catch (Exception error) { EditorUtility.DisplayDialog("맵 생성 실패", error.Message, "확인"); }
         }
         void NewMapSettings()
         {
             newMapName = EditorGUILayout.TextField("맵 이름", newMapName);
+            newMapWidth = Mathf.Clamp(EditorGUILayout.IntField("가로 칸 수", newMapWidth), 4, 256);
+            newMapHeight = Mathf.Clamp(EditorGUILayout.IntField("세로 칸 수", newMapHeight), 4, 256);
             var themePaths = new[] { "Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset",
                 "Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater_Theme.asset",
                 "Assets/ANIMOL/Data/Puzzle/Prototypes/letter_observatory_Theme.asset",
@@ -882,7 +947,7 @@ namespace ANIMOL.Presentation.Editor
             var index = Array.IndexOf(themes, newMapTheme);
             index = EditorGUILayout.Popup("테마", Mathf.Max(0, index), new[] { "별길 목장", "잔영 극장", "편지 천문대", "별너울 해안" });
             newMapTheme = themes[index];
-            EditorGUILayout.HelpBox("12×18 기본 맵을 만듭니다. 크기는 생성 후 맵 설정에서 바꿀 수 있습니다. 장치 데이터는 자동으로 준비됩니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("선택한 크기로 풀 지형 맵을 만듭니다. 크기는 생성 후에도 맵 설정에서 바꿀 수 있습니다. 장치 데이터는 자동으로 준비됩니다.", MessageType.Info);
         }
         public static PuzzleMap CreateStarterMap(string path, PuzzleTheme theme, int width, int height)
         {

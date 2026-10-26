@@ -38,6 +38,25 @@ namespace ANIMOL.Presentation.Tests
             Undo.PerformRedo(); map.InvalidateIndex(); Assert.AreEqual(3, map.Width); Assert.AreEqual(count, map.OutsideCount(3, 3));
             map.Resize(5, 5); Assert.IsTrue(map.Walkable(p)); Assert.AreEqual(DeviceKind.Ice, map.DeviceAt(p).kind);
         }
+        [Test] public void EditorResizeAddsGrassOnlyToNewEmptyCells()
+        {
+            Fill();
+            var stored = new Vector2Int(6, 2);
+            map.SetTerrain(stored, TerrainMaterial.Stone, true);
+            var original = map.terrain.ToArray();
+            PuzzleMapEditor.Resize(map, 7, 8, false);
+            Assert.That(map.Width, Is.EqualTo(7));
+            Assert.That(map.Height, Is.EqualTo(8));
+            Assert.That(map.terrain.Count, Is.EqualTo(7 * 8));
+            Assert.That(map.terrain.Take(original.Length), Is.EqualTo(original));
+            Assert.That(map.TryTerrain(stored, out var restored), Is.True);
+            Assert.That(restored.material, Is.EqualTo(TerrainMaterial.Stone));
+            Assert.That(restored.blocked, Is.True);
+            Assert.That(map.Walkable(new Vector2Int(5, 7)), Is.True);
+            Undo.PerformUndo(); map.InvalidateIndex();
+            Assert.That(map.Width, Is.EqualTo(5));
+            Assert.That(map.terrain, Is.EqualTo(original));
+        }
         [Test] public void MaterialBoundaryExposesEachSideWithoutChangingWalkability()
         {
             Fill(); var p = new Vector2Int(2, 2); var before = map.terrain.ToArray();
@@ -58,6 +77,21 @@ namespace ANIMOL.Presentation.Tests
                 Assert.AreEqual(5.5f * aspect - .5f, min.x, .001f); Assert.AreEqual(5, min.y, .001f);
                 Assert.AreEqual(39.5f - 5.5f * aspect, max.x, .001f); Assert.AreEqual(34, max.y, .001f);
             }
+        }
+        [Test] public void CameraPreviewBoundsUseInsetsAndRuntimeClamp()
+        {
+            map.cameraSettings.visibleRows = 11;
+            map.cameraSettings.topInset = 90;
+            map.cameraSettings.bottomInset = 30;
+            var preview = PuzzleMapEditor.CameraBounds(map, new Vector2(50, -20));
+            var aspect = 540f / (960 - 90 - 30);
+            Assert.That(preview.width, Is.EqualTo(11 * aspect).Within(.001f));
+            Assert.That(preview.height, Is.EqualTo(11).Within(.001f));
+            Assert.That(preview.center, Is.EqualTo(new Vector2(2, 2)));
+            map.Resize(40, 30);
+            preview = PuzzleMapEditor.CameraBounds(map, Vector2.zero);
+            Assert.That(preview.xMin, Is.EqualTo(-.5f).Within(.001f));
+            Assert.That(preview.yMin, Is.EqualTo(-.5f).Within(.001f));
         }
         [Test] public void PortalKeepsIncomingDirectionAndSlidingMomentum()
         {
@@ -98,11 +132,13 @@ namespace ANIMOL.Presentation.Tests
             var scenarioPath = path.Substring(0, path.Length - 6) + "_Scenario.asset";
             try
             {
-                var created = PuzzleMapEditor.CreateStarterMap(path, theme, 12, 18);
+                var created = PuzzleMapEditor.CreateStarterMap(path, theme, 9, 7);
                 Assert.That(created.scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
                 Assert.That(created.theme, Is.SameAs(theme));
                 Assert.That(created.scenario.themeId, Is.EqualTo("starway"));
-                Assert.That(created.terrain.Count, Is.EqualTo(12 * 18));
+                Assert.That(created.Width, Is.EqualTo(9));
+                Assert.That(created.Height, Is.EqualTo(7));
+                Assert.That(created.terrain.Count, Is.EqualTo(9 * 7));
                 Assert.That(created.ValidateMap(), Is.Empty);
                 Assert.That(new PuzzleDeviceSession(created).Won, Is.False);
                 Assert.That(AssetDatabase.LoadAssetAtPath<PuzzleMap>(path), Is.SameAs(created));
