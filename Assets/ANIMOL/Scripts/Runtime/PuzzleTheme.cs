@@ -14,6 +14,8 @@ namespace ANIMOL.Puzzle
     {
         public SkyIslandArt skyIsland;
         public StarwayRanchArt starwayRanch;
+        public ANIMOL.Art.RanchConnectedDecorV01.RanchConnectedDecorV01Catalog ranchConnectedDecorV01Catalog;
+        public TextAsset ranchConnectedDecorV01ManifestPin;
         public MemorySkyTheaterArt memorySkyTheater;
         public ClockDomeArt clockDome;
         public ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02VisualCatalog sunsetSanctumV02Catalog;

@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01",
+  "status": "INDEPENDENT_OFFLINE_ART_SOURCE_ACCEPTANCE_COMPLETE",
+  "checks": [
+    {
+      "id": "C01",
+      "acceptance": "Native angular art and same Ranch palette; no old-frame recolor or procedural placeholder",
+      "method": "OFFLINE_VISUAL_AND_PROVENANCE",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_visual_review.json",
+        "independent_exports_qa.json"
+      ]
+    },
+    {
+      "id": "C02",
+      "acceptance": "All declared PNG decoded dimensions/SHA/PPU/pivot/logicalRect exactly match",
+      "method": "OFFLINE_FILES",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_exports_qa.json",
+        "canonical_independent_file_qa.json"
+      ]
+    },
+    {
+      "id": "C03",
+      "acceptance": "One exact asset per mask; explicit N/E/S/W convention; same-family/group/layer adjacency only",
+      "method": "OFFLINE_TOPOLOGY",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_exports_qa.json",
+        "preview_independent_qa.json"
+      ]
+    },
+    {
+      "id": "C04",
+      "acceptance": "Straight/L/T/cross/end/isolated/loop/inner-hole/diagonal-only contacts render correctly",
+      "method": "OFFLINE_LAYOUT",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_visual_review.json",
+        "preview_independent_qa.json"
+      ]
+    },
+    {
+      "id": "C05",
+      "acceptance": "World-space joins continuous without gaps, internal endcaps, dark alpha seams or duplicated posts",
+      "method": "OFFLINE_PIXEL_JOINS",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "independent_exports_qa.json",
+        "independent_scaled_connections.json"
+      ]
+    },
+    {
+      "id": "C06",
+      "acceptance": "Multi-cell native designs2x1/3x1/2x2 fill declared footprint and place once per anchor",
+      "method": "OFFLINE_METADATA_AND_VISUAL",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "groups_independent_qa.json",
+        "preview_independent_qa.json"
+      ]
+    },
+    {
+      "id": "C07",
+      "acceptance": "Logical ground pivot formula and visual overhang are separate; no alpha collider inference",
+      "method": "OFFLINE_GEOMETRY",
+      "result": "PASS_OFFLINE",
+      "evidenceFiles": [
+        "groups_independent_qa.json",
+        "canonical_independent_file_qa.json"
+      ]
+    },
+    {
+      "id": "C08",
+      "acceptance": "Large footprint reservations atomic, bounds-valid and unique; actual host collision untouched",
+      "method": "SOURCE_CONTRACT",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "runtime_source_qa.json",
+        "preview_independent_qa.json"
+      ],
+      "note": "Source reference checks only. Full snapshot/wholegroup validation and separate visual claims are not actual Unity execution."
+    },
+    {
+      "id": "C09",
+      "acceptance": "Deterministic long-span grouping uses full map/world coordinates and stable seed",
+      "method": "OFFLINE_PLANNER",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "runtime_source_qa.json",
+        "preview_independent_qa.json"
+      ],
+      "note": "Connected carriers remain cellbased; deterministic worldseed posts/floweraccents provide continuity without frame random. Fixed whole nativegroups do not implement a new arbitrary2–4span planner."
+    },
+    {
+      "id": "C10",
+      "acceptance": "Remove/move/refresh/clear/reset/pool reuse drops stale connected masks and multi-cell ownership",
+      "method": "SOURCE_AND_OPTIONAL_TESTS",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "runtime_source_qa.json"
+      ],
+      "note": "Code read verifies explicit fullsnapshot replacement/clear/pool guards. Invalid committed snapshot failsclosed by clearing owned visuals; actualinvalid placement must be rejected by host beforecommit."
+    },
+    {
+      "id": "C11",
+      "acceptance": "Latest-only static/animated lookup fails closed, no old prop fallback or double-rendering",
+      "method": "SOURCE_AND_CATALOG",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "runtime_source_qa.json",
+        "canonical_independent_file_qa.json"
+      ]
+    },
+    {
+      "id": "C12",
+      "acceptance": "Preserve functional devices/chicks/terrain/background/actual theme IDs/save/unrelated user files",
+      "method": "SOURCE_AND_HANDOFF",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "runtime_source_qa.json",
+        "handoff_source_alignment_qa.json",
+        "independent_visual_review.json"
+      ]
+    },
+    {
+      "id": "C13",
+      "acceptance": "Integration instructions include actual import/compile/binding/Play as NOT_RUN until real project checks",
+      "method": "DOCUMENTATION",
+      "result": "PASS_OFFLINE_SOURCE_REVIEW",
+      "evidenceFiles": [
+        "actual_decor_scenarios_NOT_RUN.json",
+        "handoff_source_alignment_qa.json"
+      ]
+    }
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "csharpCompile": "NOT_RUN",
+  "actualPrefabBindings": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualLegacyReferencesZero": "NOT_RUN",
+  "releaseChecksOwnedByPackager": [
+    {
+      "id": "C14",
+      "acceptance": "Delivered addon archives CRC/checksums/merge/source closure pass; no art-only concept deliverable",
+      "method": "OFFLINE_ARCHIVE",
+      "result": "SEPARATE_RELEASE_VALIDATION",
+      "evidenceFiles": [],
+      "owner": "Root release packager",
+      "note": "ZIP CRC/checksum/extraction evidence is owned by the final release report,after this independent art/source audit."
+    }
+  ],
+  "offlineChecksComplete": 13,
+  "pendingIndependentArtChecks": 0,
+  "actualHostScenarios": 29,
+  "actualHostPassCount": 0,
+  "scope": "Native files/geometry/joins/CPU resampling/layout/source-read/documentation evidence only. Archive release validation is separate; actual Unity/host execution stays NOT_RUN."
+}

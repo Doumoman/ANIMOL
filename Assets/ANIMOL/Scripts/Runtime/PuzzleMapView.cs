@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.V12;
+using ANIMOL.Art.RanchConnectedDecorV01;
 
 namespace ANIMOL.Puzzle
 {
@@ -28,13 +29,17 @@ namespace ANIMOL.Puzzle
         SunsetSanctumV02MapRenderer sanctumV02;
         TwilightCoastRenderer coast;
         StarSwellCoastV01MapRenderer coastV01;
+        RanchConnectedDecorV01Controller connectedDecor;
+        public RanchConnectedDecorV01Controller ConnectedDecor => connectedDecor;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
             Unbind(); map = data; map.TerrainChanged += RefreshNeighborhood; map.Resized += Rebuild;
+            map.DecorationsChanged += Rebuild;
             Rebuild();
         }
-        void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; }
+        void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; map.DecorationsChanged -= Rebuild; }
+        void OnEnable() { if (map && objectsRoot) Rebuild(); }
         void OnDestroy() => Unbind();
         static void Remove(GameObject go)
         { go.SetActive(false); if (Application.isPlaying) Destroy(go); else DestroyImmediate(go); }
@@ -49,6 +54,7 @@ namespace ANIMOL.Puzzle
         {
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
+            connectedDecor = null;
             bubbleViews.Clear(); classicWind.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.starSwellCoastV01Catalog)
@@ -110,10 +116,35 @@ namespace ANIMOL.Puzzle
             }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
+            if (map.theme && map.theme.starwayRanch && map.theme.ranchConnectedDecorV01Catalog &&
+                map.theme.ranchConnectedDecorV01ManifestPin)
+            {
+                var node = new GameObject("Ranch connected decoration V01");
+                node.transform.SetParent(objectsRoot, false);
+                connectedDecor = node.AddComponent<RanchConnectedDecorV01Controller>();
+                var pin = map.theme.ranchConnectedDecorV01ManifestPin.text.Trim();
+                if (connectedDecor.Configure(map.theme.ranchConnectedDecorV01Catalog, pin, "Default"))
+                {
+                    if (RanchConnectedDecorHost.TryCreatePlan(map, map.theme.ranchConnectedDecorV01Catalog, pin,
+                        map.decorations, out _, out var networks, out var groups, out var error))
+                    {
+                        var origin = objectsRoot.TransformPoint(new Vector3(-.5f, -.5f, 0));
+                        if (!connectedDecor.SetLayout(networks, groups, origin, objectsRoot.lossyScale.x,
+                            claim => RanchConnectedDecorHost.AllowClaim(map, map.decorations, claim)))
+                            Debug.LogError("Ranch decoration layout rejected: " + connectedDecor.LastDiagnostic, this);
+                    }
+                    else Debug.LogError("Ranch decoration plan rejected: " + error, this);
+                }
+            }
+            else if (map.theme && map.theme.starwayRanch && map.decorations.Any(d =>
+                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)))
+                Debug.LogError("Ranch connected decoration catalog or manifest pin is missing.", this);
             foreach (var d in map.decorations) if (map.Contains(d.position))
             {
+                if (!string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)) continue;
                 if (ranch && d.sprite == map.theme.starwayRanch.Find("props/windmill_body.png"))
                     CreateWindmill(d.position);
+                else if (ranch) CreateRanchDecoration(d);
                 else Sprite(objectsRoot, "Decoration",
                     d.sprite ? d.sprite : map.theme.decoration,
                     d.position, 15, Vector2.one * .8f, d.tint);
@@ -132,6 +163,18 @@ namespace ANIMOL.Puzzle
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
+        }
+        void CreateRanchDecoration(DecorationCell cell)
+        {
+            var art = RanchConnectedDecorHost.SourceMapping(map, cell.sprite);
+            var size = new Vector2(art == null ? 1 : art.width, art == null ? 1 : art.height);
+            var node = new GameObject("V12 decoration");
+            node.transform.SetParent(objectsRoot, false);
+            node.transform.localPosition = (Vector2)cell.position + (size - Vector2.one) * .5f;
+            var renderer = node.AddComponent<SpriteRenderer>();
+            renderer.sprite = cell.sprite ? cell.sprite : map.theme.decoration;
+            renderer.color = cell.tint;
+            renderer.sortingOrder = 15;
         }
         void CreateWindmill(Vector2Int position)
         {
@@ -159,7 +202,7 @@ namespace ANIMOL.Puzzle
         public void RefreshNeighborhood(Vector2Int p)
         { if (coastV01) { coastV01.RefreshNeighborhood(p); return; }
             if (sanctumV02) { sanctumV02.RefreshNeighborhood(p); return; }
-            if (ranch) { ranch.Replan(); ranch.Show(visible); return; }
+            if (ranch) { Rebuild(); return; }
             for (var y = -1; y <= 1; y++) for (var x = -1; x <= 1; x++) RefreshCell(p + new Vector2Int(x, y)); }
         public void RefreshCell(Vector2Int p)
         {

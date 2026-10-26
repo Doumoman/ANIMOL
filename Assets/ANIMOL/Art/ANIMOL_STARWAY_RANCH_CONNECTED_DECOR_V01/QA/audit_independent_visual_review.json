@@ -1,0 +1,62 @@
+{
+  "status": "PASS_OFFLINE_VISUAL_REVIEW",
+  "inputFiles": [
+    {
+      "file": "work/ranch_connected_v01/preview_exports/RANCH_CONNECTED_DECOR_PREVIEW.png",
+      "sha256": "25066619abd7cd62810941cbcf9108d5b51ee3ea0ac45c22eea5077cd33abbdc"
+    },
+    {
+      "file": "work/ranch_connected_v01/preview_exports/RANCH_CONNECTED_DECOR_GRID.png",
+      "sha256": "424c44a00018b8c89ad94f8165f4213ee268f5de0926ffba3bde8e8be16df3dd"
+    },
+    {
+      "file": "work/ranch_connected_v01/preview_exports/RANCH_CONNECTED_DECOR_CONNECTIONS.png",
+      "sha256": "6d7070e0f739385131b83a74589d8bc74644c3cfed593fc9c20ec7f06b894846"
+    },
+    {
+      "file": "work/ranch_connected_v01/preview_exports/RANCH_CONNECTED_DECOR_BEFORE_AFTER.png",
+      "sha256": "42f82814a7b5b7d26f04ab4e0c3663513e1bcc1f1d1d0581d0d908c1dac167ef"
+    },
+    {
+      "file": "work/ranch_connected_v01/preview_exports/RANCH_CONNECTED_DECOR_EDIT_REPLAY.gif",
+      "sha256": "78277936e31f3263f8ac2d00dc3f66399741a6af9b10bbbe27dc245e2305ef7c"
+    },
+    {
+      "file": "work/ranch_connected_v01/audit_exports/independent_scaled_connections.png",
+      "sha256": "dddcb0999b45288f7cf6d22a3f581b4fecb7213e7476e601858238223ca9f53f"
+    },
+    {
+      "file": "work/ranch_connected_v01/audit_exports/edit_replay_inspected_frames.png",
+      "sha256": "0e554b6001cb743727e578ac246aae1b49095bb2ce5c5a6aab8a2f6f01c2e6df"
+    }
+  ],
+  "views": [
+    "Final portraitscene",
+    "Gridgroundfootprints2x1/3x1/2x2/3x2",
+    "Connections isolated/straight/L/T/cross/loop/openrim",
+    "Oldalready2x1props vsnewcontinuousrun,artcomparisononly",
+    "Final GIFstates0/2/4/7/9/11 plus12frame decode",
+    "Independent native80px sprite-firstLANCZOS vswholefield"
+  ],
+  "findings": {
+    "connectedFamilyPaletteAndAngularStyleConsistent": true,
+    "largeGroupsAreSingleNativeCompounds": true,
+    "groundRectPivotsAndCanopyOverhangReadable": true,
+    "newConnectedInteriorHasNoPerCellBoxOrRepeatedEndCap": true,
+    "flowersAreSeparateCurrentNativeAccents": true,
+    "nativeOpaqueSupportPreventsBrightInteriorGrid": true,
+    "baseTerrainAndSkyRemainReadOnlyContext": true,
+    "noActorFunctionalDeviceOrChickChanges": true,
+    "oldPropsAlreadyMultiCellNotMisrepresented": true
+  },
+  "limitations": [
+    "Actual Unity/GPU/Prefab/map integration not exercised.",
+    "Small AA/filterouteredge rounding differences are retained in the independent scaled report,not calledzero.",
+    "The editGIF demonstrates static adjacency selection snapshots,not a gameplay animation or actual Unity capture."
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "csharpCompile": "NOT_RUN",
+  "actualPrefabBindings": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualLegacyReferencesZero": "NOT_RUN"
+}

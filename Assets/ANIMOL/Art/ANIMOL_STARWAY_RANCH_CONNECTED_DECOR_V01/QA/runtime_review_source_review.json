@@ -1,0 +1,235 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "packageId": "ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01",
+  "scope": "Independent reading plus lexical/pattern checks of delivered source. No C# compile, Unity import, tests, scene loading, controller execution or host gameplay was run.",
+  "files": [
+    {
+      "file": "Editor/RanchConnectedDecorV01CatalogBuilder.cs",
+      "sha256": "cb28a3662229467259f98d6e343b759f66d9a8f53b064b1ece81770afae750f4",
+      "lines": 231
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV01JsonSchema.cs",
+      "sha256": "8d1c9701d077d9d238b5599e4cf19100fa896612d1ebb87de057d102364fc989",
+      "lines": 121
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV01SpriteImporter.cs",
+      "sha256": "078207467eca6ff5682b2d010c30e26ef7baf6577eba425a2a4f935702ec5996",
+      "lines": 67
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV01Catalog.cs",
+      "sha256": "8988158538ea8b94416fba4f48872ada7b002a056d9df38f0f95fa370f6e795b",
+      "lines": 178
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV01Controller.cs",
+      "sha256": "0a48e674c3090a40dab476d5386a252070e71852687b0b3a077999bfa89871a4",
+      "lines": 191
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV01Planner.cs",
+      "sha256": "842aa463fdfd8ed3b91d972a371e742cd206be155b00acd0b8cfa198196a9bf2",
+      "lines": 234
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV01Schema.cs",
+      "sha256": "cb3d78d6821b21589771fe4dd1e19393ce996b99be64ed7cd7f6cb292cabc3fe",
+      "lines": 26
+    },
+    {
+      "file": "Tests~/RanchConnectedDecorV01PlannerTests.cs",
+      "sha256": "fd3c2121404863d2c7525baaf8ce74fc46176e7c85b33d3b86d49b07f4f99af7",
+      "lines": 125
+    }
+  ],
+  "sourceFilesReviewed": 8,
+  "checks": [
+    {
+      "id": "S01",
+      "description": "All delivered C# delimiters and preprocessor guards are lexically balanced. This is not compilation.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S02",
+      "description": "Runtime and Editor files use the new versioned namespace; optional Tests~ references it.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S03",
+      "description": "Catalog has current package/schema/root GUID/Sprite GUID/fileID/SHA/metadata fingerprint.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/RanchConnectedDecorV01Catalog.cs",
+          "line": 104,
+          "token": "ValidateIntegrity("
+        },
+        {
+          "file": "Runtime/RanchConnectedDecorV01Catalog.cs",
+          "line": 114,
+          "token": "ComputeFingerprint()"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "description": "Builder checks exact current manifest bytes against manifest_sha256.txt before source preflight or imports.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Editor/RanchConnectedDecorV01CatalogBuilder.cs",
+          "line": 46,
+          "token": "LoadManifest("
+        },
+        {
+          "file": "Editor/RanchConnectedDecorV01CatalogBuilder.cs",
+          "line": 132,
+          "token": "Current manifest bytes differ from manifest_sha256.txt."
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "description": "Builder validates actual Sprite/GUID/fileID/source-root identity and saves only the new catalog asset.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S06",
+      "description": "Importer is restricted to exact declared addon PNG paths; missing/unlisted files stay Default and errors have no legacy Sprite fallback.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S07",
+      "description": "Native Single/FullRect/PPU256/custom pivot and no mip/compression/NPOT scaling/automatic physics are explicit.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S08",
+      "description": "JSON schema rejects duplicate fields and missing required dimensions/ground/footprint/family/kind entries.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S09",
+      "description": "Cardinal4 and raw8-neighbor selectors use separate exact bits/paths and full-board same family/group/layer/height matching.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S10",
+      "description": "Every multi-cell footprint member is validated into a local plan, duplicate IDs/claims or rejected cells fail the complete snapshot.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S11",
+      "description": "Groups preserve one anchor and one renderer; no canvas/alpha/footprint fit to1cell.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S12",
+      "description": "Old owned sprites are hidden and cleared before deferred Destroy; empty snapshots replace with an empty owned set.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S13",
+      "description": "Null/new Configure attempts clear prior owned visuals and persist attempted config before validation, so stale art is not restored.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S14",
+      "description": "Inactive pre-Awake Configure+SetLayout is intentionally preserved; mere disabled/re-enabled objects cannot resurrect old layout.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S15",
+      "description": "Periodic posts require straight nodes and both along-line neighbours straight; phase is stable world-coordinate3/4, not frame Random.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S16",
+      "description": "Producer flower family/kind matches controller; accents sorted by exact path and selected by stable hash.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S17",
+      "description": "Controller/Planner never create colliders, change game transforms, poll input or advance gameplay in Update.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S18",
+      "description": "Row-down cell/group helpers and top-left origin adapter are explicit and arithmetically consistent.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S19",
+      "description": "Explicit catalog builds invalidate importer row cache before any PNG reimport, including copies retaining mtime/length.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    }
+  ],
+  "checkCount": 19,
+  "openFindings": [],
+  "resolvedFindings": [],
+  "manualArithmeticExamples": [
+    {
+      "hostTopLeftY": 10,
+      "cellSize": 1,
+      "row": 4,
+      "worldOriginY": 9,
+      "nativeCellCenterY": 5.5
+    },
+    {
+      "hostTopLeftY": 10,
+      "cellSize": 1,
+      "groupTopRow": 4,
+      "heightCells": 2,
+      "convertedBottomLeftY": -5,
+      "nativeGroupCenterY": 5
+    }
+  ],
+  "optionalNUnitSource": {
+    "file": "Tests~/RanchConnectedDecorV01PlannerTests.cs",
+    "testMethods": [
+      "DifferentFamilyGroupLayerOrHeightNeverConnects",
+      "DeletingAndAddingNeighborsRecomputesBothSidesFromWholeBoard",
+      "MeadowKeepsDiagonalBitsSeparateFromCardinalRailBits",
+      "MultiCellGroupsHaveOneAnchorAndReserveEveryMemberWithoutOneCellFit",
+      "OneRejectedGroupMemberRejectsEntireSnapshotAndNoPartialPlanIsReturned",
+      "DuplicateFootprintsOrPlacementIdsAreRejected",
+      "LayeredClaimsStillRequireExplicitHostApproval",
+      "ShortRunsHaveNoExtraPostAndLongPostsStayAwayFromEndsAndJunctions",
+      "StableSelectionsIgnoreHostCollectionOrder",
+      "RowDownGroupUsesBottomRowAndEmptySnapshotCanClearEverything"
+    ],
+    "count": 10,
+    "execution": "NOT_RUN",
+    "reason": "No Unity/dotnet/csc/mcs compiler installed and no actual project/test assembly supplied."
+  },
+  "compilerAvailability": {
+    "Unity": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualSceneBindings": "NOT_RUN"
+}

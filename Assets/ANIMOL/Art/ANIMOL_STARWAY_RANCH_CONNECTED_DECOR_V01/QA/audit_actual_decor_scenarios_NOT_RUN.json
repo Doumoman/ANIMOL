@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "packageId": "ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01",
+  "status": "NOT_RUN",
+  "scenarioCount": 29,
+  "actualPassCount": 0,
+  "reason": "Actual Unity project/Prefab/map/host placement code unavailable. Cases are acceptance scenarios only.",
+  "scenarios": [
+    {
+      "id": "D01",
+      "category": "topology",
+      "scenario": "Single fence cell",
+      "trigger": "Place one fence cell in empty decoration grid.",
+      "expected": "One isolated/native cap state; no neighbor is inferred from grass beneath.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D02",
+      "category": "topology",
+      "scenario": "Two/three/four cells straight",
+      "trigger": "Build same-family runs of length2,3,4 in both axes.",
+      "expected": "Connections meet at exactworld1 spacing; internal endcaps/duplicate posts absent; endpoints closed.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D03",
+      "category": "topology",
+      "scenario": "Four L corners",
+      "trigger": "Author NE/NW/SE/SW corners using actual host row convention.",
+      "expected": "The native corner orientation and adjoining rails/foliage agree in all four cases.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D04",
+      "category": "topology",
+      "scenario": "Four T junctions",
+      "trigger": "Remove one arm from each crossorientation.",
+      "expected": "Only the real three arms connect; no cap or hole at the shared junction.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D05",
+      "category": "topology",
+      "scenario": "Cross junction",
+      "trigger": "Place four cardinal neighbors around central cell.",
+      "expected": "A single shared center and actual four connections; no duplicated center posts.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D06",
+      "category": "topology",
+      "scenario": "Diagonal only",
+      "trigger": "Place diagonal foliage cells with both cardinal intervening cells absent.",
+      "expected": "No guessed cardinal bridge; the declared diagonal/inner-corner rule remains readable.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D07",
+      "category": "topology",
+      "scenario": "One-cell interior hole",
+      "trigger": "Surround one empty cell by a connected area.",
+      "expected": "The inner boundary is closed correctly and the hole remains transparent/open.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D08",
+      "category": "topology",
+      "scenario": "Thin neck and concave notches",
+      "trigger": "Connect large foliageareas through a one-cell corridor with concave notches.",
+      "expected": "No rim through connected neck; no filling of adjacent void with tall edge walls.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D09",
+      "category": "topology",
+      "scenario": "Different groups touch",
+      "trigger": "Touch same-family decorations with distinct explicit connectionGroup.",
+      "expected": "They retain independent endcaps and ownership unless a compatibility rule was declared.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D10",
+      "category": "topology",
+      "scenario": "Different families/layers touch",
+      "trigger": "Touch fence/stone/flowerfamily or place same cell in separate visual layer.",
+      "expected": "No accidental family connection or overwrite across layers; layer policy explicit.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D11",
+      "category": "topology",
+      "scenario": "Chunk seam",
+      "trigger": "Query a run crossing authored chunk borders with complete neighbor context.",
+      "expected": "No false chunk-end caps or posts; same connected result as wholeboard build.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D12",
+      "category": "topology",
+      "scenario": "Camera culling",
+      "trigger": "Pan/zoom so endpoints leave/enter viewport.",
+      "expected": "Mask/variant/footprint stays unchanged; camera crop does not redefine authored neighbors.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D13",
+      "category": "footprint",
+      "scenario": "Two by one group",
+      "trigger": "Place one native2x1 object from an anchor.",
+      "expected": "Exactly one renderer/group, reservation for two cells, correct logicalcenter and fullsize art.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D14",
+      "category": "footprint",
+      "scenario": "Three by one and two by two",
+      "trigger": "Place native3x1 and2x2 objects.",
+      "expected": "All declared groundcells belong to the single anchor; no repeated1cell clones or fitToCell shrink.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D15",
+      "category": "footprint",
+      "scenario": "Vertical group",
+      "trigger": "Place vertical1x2/1x3 if thecatalog declares them.",
+      "expected": "Its native view/groundrect is used; no rotation of an upright structure to fake another view.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D16",
+      "category": "footprint",
+      "scenario": "Partial out-of-map",
+      "trigger": "Attempt placement with one declared groundcell outside the authored allowed area.",
+      "expected": "Placement fails atomically; no halfobject or residual reservation/renderer.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D17",
+      "category": "footprint",
+      "scenario": "Overlapping reservations",
+      "trigger": "Attempt a second large group intersecting an occupied deco-layer cell.",
+      "expected": "The declared overlap policy rejects atomically or explicitly allows independent layers; no stolen cells.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D18",
+      "category": "footprint",
+      "scenario": "Negative coordinates/origin shift",
+      "trigger": "Place around negative hostgridcoordinates and a nonzero worldorigin.",
+      "expected": "Groundcenter/pivot/neighbor/hash arithmetic remains correct; no halfcell drift.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D19",
+      "category": "footprint",
+      "scenario": "Tall canopy overhang",
+      "trigger": "Place talltree/lantern/barn with visiblepixels above its groundrectangle.",
+      "expected": "Groundcells remain declared; canopy/height does not enlarge collision or push unrelated anchors.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D20",
+      "category": "lifecycle",
+      "scenario": "Remove largegroup",
+      "trigger": "Remove through anchor or coveredcell according to declared API.",
+      "expected": "Renderer plus every reservation clears together; neighbors recalculate once.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D21",
+      "category": "lifecycle",
+      "scenario": "Move largegroup",
+      "trigger": "Move a group into a valid destination, then attempt an invalid destination.",
+      "expected": "Host preflight must reject an invalid placement before committing a changed map; no new snapshot is applied, so the prior accepted map remains authoritative. If a malformed/invalid full snapshot is explicitly sent to Controller.SetLayout, it fails closed by hiding/clearing all of this controller owned visuals and returns false; never leaves a partial new group or quietly falls back.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D22",
+      "category": "lifecycle",
+      "scenario": "Erase connected middle",
+      "trigger": "Erase middlecell of a straight fence/foliagechain.",
+      "expected": "Newly exposed endpoints are capped, old connection pieces disappear; no stale pooled sprite.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D23",
+      "category": "lifecycle",
+      "scenario": "Pool reuse",
+      "trigger": "Reuse renderer/group for another family, footprint and mask.",
+      "expected": "Old sprite/scale/tint/pivot/ownedcells are explicitly replaced; newest exactrecord only.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D24",
+      "category": "lifecycle",
+      "scenario": "Missing exact asset",
+      "trigger": "Remove/corrupt the requested native record or select unknown mask/key.",
+      "expected": "The visual fails closed with a clear diagnostic; no oldprop or neighboringmask fallback.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D25",
+      "category": "lifecycle",
+      "scenario": "Rebuild determinism",
+      "trigger": "Rebuild identical board/seed in different insertion orders.",
+      "expected": "Same groupownership, masks, stablevariants and rendererplacement.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D26",
+      "category": "preservation",
+      "scenario": "Existing device occupancy",
+      "trigger": "Place visualdecor nearwind/gate/chickfunctionalcells without changing existing hostdata.",
+      "expected": "Decoration display does not create a second devicecontroller/Collider/input/turncost.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D27",
+      "category": "preservation",
+      "scenario": "Existing save/theme IDs",
+      "trigger": "Load anexistingmap/save and actualRanchthemeprefab.",
+      "expected": "ActualstableIDs and movement/passability policy preserved; onlydeclareddecor references migrate.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D28",
+      "category": "visual",
+      "scenario": "Native art and join zoom",
+      "trigger": "Inspect at100% andactual80px equivalent tile screenshots.",
+      "expected": "Angularlinework/flatshade consistent; no tinyatlas scraps, squarebox repetition or broken endprofiles.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    },
+    {
+      "id": "D29",
+      "category": "unity",
+      "scenario": "Actual import/build/reopen",
+      "trigger": "Run actualprojectimport/C#compile/NUnit/reviewscene build/reopen/Play.",
+      "expected": "Log realresults; offlinePNG/sourcechecks are never upgraded to these results.",
+      "result": "NOT_RUN",
+      "actualProjectEvidence": null
+    }
+  ]
+}

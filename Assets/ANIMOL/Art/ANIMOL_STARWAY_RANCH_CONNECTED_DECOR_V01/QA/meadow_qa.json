@@ -1,0 +1,293 @@
+{
+  "status": "PASS_OFFLINE",
+  "runtimePngs": 260,
+  "carrierMasks": 256,
+  "carrierDecodedRGBAUnique": 256,
+  "compatiblePairs": {
+    "horizontal": 1024,
+    "vertical": 1024
+  },
+  "totalCompatiblePairs": 2048,
+  "unsafeDuplicateAlphaPixels": {
+    "horizontal": 0,
+    "vertical": 0
+  },
+  "safeIdenticalOpaqueOverlapPixels": {
+    "horizontal": 19937280,
+    "vertical": 20151552
+  },
+  "singleFieldReference": {
+    "horizontal": {
+      "maxRGBAChannelDifference": 0,
+      "mismatchingPairs": 0
+    },
+    "vertical": {
+      "maxRGBAChannelDifference": 0,
+      "mismatchingPairs": 0
+    }
+  },
+  "opaqueInteriorPortHoles": {
+    "horizontal": 0,
+    "vertical": 0
+  },
+  "fixtures": [
+    {
+      "label": "2 CELLS / ONE BED",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 2
+    },
+    {
+      "label": "3 CELLS / ONE BED",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 3
+    },
+    {
+      "label": "4 CELLS / ONE BED",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 4
+    },
+    {
+      "label": "L / NATIVE OUTER RIM",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 5
+    },
+    {
+      "label": "T / NO INNER TILE BOXES",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 5
+    },
+    {
+      "label": "HOLE / CLEAR CENTRE",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 8
+    },
+    {
+      "label": "DIAGONAL / SEPARATE TIPS",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 2
+    },
+    {
+      "label": "IRREGULAR / FILLED REGION",
+      "cells": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ],
+      "singleFieldReferenceMaxRGBA": 0,
+      "rendererCount": 9
+    }
+  ],
+  "holeCentreAlpha": 0,
+  "sourceFiles": [
+    {
+      "file": "sources/ranch_meadow_construction_native.png",
+      "sha256": "5df8779ac8a6388da71da9a452fb14c6a0e4c37f0cf1cef8cf2b87287944ecfb"
+    },
+    {
+      "file": "sources/ranch_meadow_corners_flowers_native.png",
+      "sha256": "85e6c96cfee3ae3212e23de8233518743fcead0f3d40fd41a3b990f17bc22eb3"
+    }
+  ],
+  "nativeRGBPainted": false,
+  "nativeOperations": [
+    "native canopy swatch crop/uniform expansion",
+    "native rim crop/uniform resize",
+    "native side connector profile repeat",
+    "native short grass cutout placement",
+    "alpha-only chamfer/notch and partial-fringe nearest-cell ownership",
+    "safe opaque support padding retained to avoid bilinear alpha-cut seams"
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualColliderOrGameMapVerified": false,
+  "bilinearRiskResamplingEvidence": [
+    {
+      "logicalPixelsPerCell": 64,
+      "resampler": "Pillow LANCZOS on each individual RGBA sprite BEFORE composition",
+      "centralCellInteriorRGBRange": 0,
+      "noVisibleInternalAlphaCutGrid": true
+    },
+    {
+      "logicalPixelsPerCell": 80,
+      "resampler": "Pillow LANCZOS on each individual RGBA sprite BEFORE composition",
+      "centralCellInteriorRGBRange": 0,
+      "noVisibleInternalAlphaCutGrid": true
+    },
+    {
+      "logicalPixelsPerCell": 128,
+      "resampler": "Pillow LANCZOS on each individual RGBA sprite BEFORE composition",
+      "centralCellInteriorRGBRange": 0,
+      "noVisibleInternalAlphaCutGrid": true
+    },
+    {
+      "logicalPixelsPerCell": 256,
+      "resampler": "Pillow LANCZOS on each individual RGBA sprite BEFORE composition",
+      "centralCellInteriorRGBRange": 0,
+      "noVisibleInternalAlphaCutGrid": true
+    }
+  ]
+}

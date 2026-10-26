@@ -208,7 +208,10 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(choices.All(choice => choice.sprite && choice.label.Length > 0), Is.True, id);
                 Assert.That(choices.All(choice => {
                     var path = AssetDatabase.GetAssetPath(choice.sprite).Replace('\\', '/');
-                    return id == "starway" ? path.Contains("/StarwayRanch/") && path.Contains("/props/") :
+                    return id == "starway" ?
+                        (path.Contains("/StarwayRanch/") && path.Contains("/props/")) ||
+                        (path.Contains("/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01/decor/connected/") &&
+                            (path.EndsWith("/n00.png") || path.EndsWith("/n000.png"))) :
                         path.Contains("/Props/" + id + "/");
                 }), Is.True, id);
             }
@@ -230,9 +233,10 @@ namespace ANIMOL.Presentation.Tests
             {
                 host.AddComponent<PuzzleMapView>().Bind(map);
                 var rendered = host.GetComponentsInChildren<SpriteRenderer>()
-                    .Single(renderer => renderer.gameObject.name == "Decoration" &&
-                        (Vector2)renderer.transform.localPosition == (Vector2)position);
+                    .Single(renderer => renderer.gameObject.name == "V12 decoration" &&
+                        (Vector2)renderer.transform.localPosition == (Vector2)position + new Vector2(.5f, 0));
                 Assert.That(rendered.sprite, Is.SameAs(bench));
+                Assert.That(rendered.transform.localScale, Is.EqualTo(Vector3.one));
             }
             finally { Object.DestroyImmediate(host); }
         }

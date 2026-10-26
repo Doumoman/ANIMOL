@@ -26,6 +26,11 @@ namespace ANIMOL.Puzzle
         public Vector2Int position;
         public Sprite sprite;
         public Color tint;
+        // Visual decoration ownership only. The source Sprite is the existing art ID;
+        // placementId is independent of the shared connectionGroup.
+        public string placementId, connectionGroup;
+        public string visualFamily;
+        public int logicalLayer, heightKey;
     }
     [Serializable] public class PuzzleCameraSettings
     {
@@ -57,11 +62,13 @@ namespace ANIMOL.Puzzle
         public List<Vector2Int> bubbles = new List<Vector2Int>();
         public event Action<Vector2Int> TerrainChanged;
         public event Action Resized;
+        public event Action DecorationsChanged;
         Dictionary<Vector2Int, TerrainCell> terrainIndex;
         Dictionary<Vector2Int, DeviceCell> deviceIndex;
 
         public bool Contains(Vector2Int p) => p.x >= 0 && p.y >= 0 && p.x < width && p.y < height;
         public void InvalidateIndex() { terrainIndex = null; deviceIndex = null; }
+        public void NotifyDecorationsChanged() { DecorationsChanged?.Invoke(); }
         void Index()
         {
             if (terrainIndex != null) return;
@@ -91,7 +98,15 @@ namespace ANIMOL.Puzzle
         {
             bool Outside(Vector2Int p) => p.x < 0 || p.y < 0 || p.x >= w || p.y >= h;
             return terrain.Count(t => Outside(t.position)) + devices.Count(d => Outside(d.position)) +
-                decorations.Count(d => Outside(d.position)) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
+                decorations.Sum(d => {
+                    var source = RanchConnectedDecorHost.SourceMapping(this, d);
+                    var width = source == null ? 1 : source.width;
+                    var height = source == null ? 1 : source.height;
+                    var count = 0;
+                    for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
+                        if (Outside(d.position + new Vector2Int(x, y))) count++;
+                    return count;
+                }) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
                 (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) +
                     scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
                         d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) +
@@ -113,6 +128,15 @@ namespace ANIMOL.Puzzle
                 if (!Walkable(d.position)) errors.Add("Device has no walkable terrain: " + d.position);
                 if (d.kind == DeviceKind.Portal && !Walkable(d.portalTarget)) errors.Add("Portal destination is outside or blocked: " + d.position);
                 if ((d.kind == DeviceKind.Conveyor || d.kind == DeviceKind.Wind) && !PuzzleSession.IsCardinal(d.direction)) errors.Add("Device direction must be cardinal: " + d.position);
+            }
+            if (theme && theme.starwayRanch && decorations.Any(d =>
+                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(this, d, out _)))
+            {
+                if (!theme.ranchConnectedDecorV01Catalog || !theme.ranchConnectedDecorV01ManifestPin)
+                    errors.Add("Ranch connected decoration catalog or manifest pin is missing.");
+                else if (!RanchConnectedDecorHost.TryCreatePlan(this, theme.ranchConnectedDecorV01Catalog,
+                    theme.ranchConnectedDecorV01ManifestPin.text.Trim(), decorations, out _, out _, out _, out var decorError))
+                    errors.Add("Ranch connected decoration layout is invalid: " + decorError);
             }
             if (scenario) errors.AddRange(scenario.Validate(this));
             return errors;

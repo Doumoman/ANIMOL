@@ -1,0 +1,137 @@
+{
+  "status": "PASS_OFFLINE",
+  "runtimePngFiles": 34,
+  "connectedMasks": 32,
+  "periodicAccents": 2,
+  "newNativeSources": 2,
+  "nativeRgbaRepainted": false,
+  "portPairComparisons": 256,
+  "maxPortRgbaDifference": 0,
+  "allRuntimePngDecoded": true,
+  "checks": [
+    {
+      "family": "cream_fence",
+      "all16Masks": true,
+      "opaquePortBleedPixels": 4,
+      "partialAlphaPaddingPixels": 0,
+      "canonicalPortPairsExactRgba": true,
+      "actualThreeCellSeamsNoGapOrDoubleBlend": true,
+      "straightMasksHaveNoCenterPost": true,
+      "periodicPostDrawnOnceOnly": true,
+      "lanczosMinification": [
+        {
+          "pixelsPerCell": 64,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 2,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 4
+        },
+        {
+          "pixelsPerCell": 64,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 1,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 80,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 80,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 100,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 2
+        },
+        {
+          "pixelsPerCell": 100,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 14
+        }
+      ]
+    },
+    {
+      "family": "meadow_stone_wall",
+      "all16Masks": true,
+      "opaquePortBleedPixels": 4,
+      "partialAlphaPaddingPixels": 0,
+      "canonicalPortPairsExactRgba": true,
+      "actualThreeCellSeamsNoGapOrDoubleBlend": true,
+      "straightMasksHaveNoCenterPost": true,
+      "periodicPostDrawnOnceOnly": true,
+      "lanczosMinification": [
+        {
+          "pixelsPerCell": 64,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 1,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 64,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 1,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 80,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 80,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 3
+        },
+        {
+          "pixelsPerCell": 100,
+          "axis": "h",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 1
+        },
+        {
+          "pixelsPerCell": 100,
+          "axis": "v",
+          "maxOpaqueCoreAlphaDrop": 0,
+          "coreDefinition": "reference alpha>=250 eroded2screenPixels to exclude native AA outline",
+          "maxDropIncludingAntialiasedOuterBoundary": 1
+        }
+      ]
+    }
+  ],
+  "manifestSha256": "ae72ffc395a5d42db828b4b90e02965ec9a9cd8326fef12a36e213f8ea5495c3",
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityPlayMode": "NOT_RUN",
+  "actualGameCollisionChanged": false,
+  "sourcePolicy": "New built-in imagegen native RGBA parts; crop, alpha cleanup/core normalization, uniform component registration, native cross-section extrusion and composition only.",
+  "sources": [
+    {
+      "file": "sources/ranch_cream_fence_parts_native.png",
+      "sha256": "21729518bf93ee2cfee9373ac3c7a17e4e0620177c193754474f04616b7e0d9c"
+    },
+    {
+      "file": "sources/ranch_stone_wall_parts_native.png",
+      "sha256": "9e855c75ef3aade21e82a23822f10b6ae0c3287af55a32dad10776b5144afe90"
+    }
+  ]
+}
