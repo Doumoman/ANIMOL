@@ -1,0 +1,108 @@
+{
+  "status": "PASS_OFFLINE_VISUAL_REVIEW",
+  "scope": "Manual review of generated native sprite contacts and PNG-composited layouts; not actual Unity screenshots.",
+  "reviewedFiles": [
+    {
+      "file": "networks_a_exports/inspection/networks_a_connected_runs.png",
+      "sha256": "3a07881edfb44a98b4324cea5336e596c8b793277984ff3087bdd0f74fa77c99"
+    },
+    {
+      "file": "networks_a_exports/inspection/networks_a_all_masks.png",
+      "sha256": "668a121519890e521fd0fe759d1daa7e1ff35a7afb52eaaf01b0b878fddf0b4d"
+    },
+    {
+      "file": "networks_b_exports/inspection/networks_b_connected_layout.png",
+      "sha256": "a2752319dd2da413a50c0f37e2d735dacdf60c2a76852c6005b42f663dd33a42"
+    },
+    {
+      "file": "networks_b_exports/inspection/networks_b_16mask_contact.png",
+      "sha256": "84e57dddfe0a09731e01c79405b73ffbf4651abee670480fcfaef2f815ea9a03"
+    },
+    {
+      "file": "groups_a_exports/Inspection/groups_a_contact_sheet.png",
+      "sha256": "b29a3cf928fbc680d599ab60a10b1c87c1e4bbffe290460043e50c48defc45f4"
+    },
+    {
+      "file": "groups_b_exports/Inspection/groups_b_contact_sheet.png",
+      "sha256": "17091dd6a106e7fbef44463153340b613f2d37e3ebf8d52d60563cbd36947c79"
+    }
+  ],
+  "findings": [
+    "All six network silhouettes are distinguishable: burgundy aisle barrier, carved rail, shelf, curtain, footlights, ivy planters.",
+    "Native16mask contacts show consistent endpoints,corners,T,cross and both straight axes; composite layouts show continuous joins.",
+    "Twelve whole large props and eight point props are distinct semantic designs, not palette-only variants.",
+    "Near-black navy angular outlines, cream/gold and burgundy/plum/teal flat color blocks are consistent across contacts.",
+    "Large props retain cohesive whole silhouettes and readable long base widths around97% of logical width.",
+    "Animated gameplay bookcase/domino/shutter/device art is not replaced by these decorative props."
+  ],
+  "openArtFindings": [],
+  "actualUnityImport": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "resolvedArtFindings": [
+    {
+      "id": "ART01",
+      "status": "RESOLVED_OFFLINE_ART_REVIEW",
+      "file": "decor/groups/stacked_props_2x2.png",
+      "footprintCells": [
+        2,
+        2
+      ],
+      "logicalRect": [
+        32,
+        32,
+        512,
+        512
+      ],
+      "alphaBBox": [
+        41,
+        224,
+        535,
+        544
+      ],
+      "visibleWidthFill": 0.96484375,
+      "visibleHeightFill": 0.625,
+      "finding": "Final 12-prop footprint sheet shows stacked_props_2x2 occupying roughly one visible row of its declared2x2 slot, leaving most of upper row empty. Metadata/width-only contract passed but prior user requires fullness of declared tile extent.",
+      "recommendedResolution": "Native art edit to a cohesive two-row square pile, without nonuniform scaling; alternative only with coordinated runtime/key/docs/metadata revision to honest2x1.",
+      "metadataHashChecksRemainValid": true,
+      "actualUnity": "NOT_RUN",
+      "resolution": {
+        "method": "Fresh native imagegen square two-depth-row pile on shared stage deck; uniform resizing only, no aspectstretch.",
+        "file": "decor/groups/stacked_props_2x2.png",
+        "sha256": "bbefeba82c4edda322a0d327eecc04f83bf4671c5d0e201e08a564dc69bd3ca3",
+        "sourceFiles": [
+          "sources/stacked_props_2x2_full_footprint_native.png"
+        ],
+        "groundOpaqueBBox": [
+          0,
+          48,
+          512,
+          510
+        ],
+        "logicalGroundWidthFill": 1.0,
+        "logicalGroundHeightFill": 0.90234375,
+        "twoRowOpaqueDensities": [
+          0.6562042236328125,
+          0.958251953125
+        ],
+        "other117RuntimePNGsUnchanged": true,
+        "proof": "Independent comparison with original c2bc7ae canonical manifest before final refresh.",
+        "manualVisualReview": "Revised runtimePNG directly viewed; two separate depth rows fill declaredsquare slot coherently in same angular flat style."
+      }
+    }
+  ],
+  "globalPreviewReviewedFiles": [
+    {
+      "file": "preview_exports/THEATER_CONNECTED_DECOR_PREVIEW.png",
+      "sha256": "25f781d0a10f620cfac1053d0cfb2c72df5813afa13fd6755ed6e255bdeea722"
+    },
+    {
+      "file": "preview_exports/THEATER_CONNECTED_DECOR_CATALOG_26.png",
+      "sha256": "1d873096817c978d974d03388f85e02528755adb164e14b4d4891b303e79e64d"
+    },
+    {
+      "file": "preview_exports/THEATER_CONNECTED_DECOR_FOOTPRINTS.png",
+      "sha256": "c38312654a68bcc873098f70607659765f3e4d372d46628f903d627768c7c27e"
+    }
+  ],
+  "revisedNativeImageInspected": "groups_b_exports/sources/stacked_props_2x2_full_footprint_native.png"
+}

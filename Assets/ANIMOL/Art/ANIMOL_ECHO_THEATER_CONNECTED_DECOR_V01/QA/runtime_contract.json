@@ -1,0 +1,132 @@
+{
+  "packageId": "ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01",
+  "namespace": "ANIMOL.Art.TheaterConnectedDecorV01",
+  "ppu": 256,
+  "networkFamilies": [
+    "velvet_aisle_barrier",
+    "carved_stage_balustrade",
+    "prop_shelf_run",
+    "velvet_curtain_screen",
+    "brass_footlight_strip",
+    "ivy_planter_strip"
+  ],
+  "networkBits": {
+    "N": 1,
+    "E": 2,
+    "S": 4,
+    "W": 8
+  },
+  "networkCanvas": [
+    320,
+    384
+  ],
+  "networkLogicalRect": [
+    32,
+    96,
+    256,
+    256
+  ],
+  "networkPivot": [
+    0.5,
+    0.4166666666666667
+  ],
+  "groupFootprints": {
+    "grand_piano_3x2": [
+      3,
+      2
+    ],
+    "audience_bench_3x1": [
+      3,
+      1
+    ],
+    "ticket_booth_2x2": [
+      2,
+      2
+    ],
+    "costume_rack_3x1": [
+      3,
+      1
+    ],
+    "vanity_dressing_2x1": [
+      2,
+      1
+    ],
+    "phonograph_table_2x1": [
+      2,
+      1
+    ],
+    "scenery_flat_3x1": [
+      3,
+      1
+    ],
+    "stacked_props_2x2": [
+      2,
+      2
+    ],
+    "mask_display_2x1": [
+      2,
+      1
+    ],
+    "puppet_storage_2x2": [
+      2,
+      2
+    ],
+    "backstage_spotlight_duo_2x1": [
+      2,
+      1
+    ],
+    "stage_steps_2x1": [
+      2,
+      1
+    ],
+    "ticket_stand": [
+      1,
+      1
+    ],
+    "folded_chair": [
+      1,
+      1
+    ],
+    "music_stand": [
+      1,
+      1
+    ],
+    "tall_candelabra": [
+      1,
+      1
+    ],
+    "mask_pedestal": [
+      1,
+      1
+    ],
+    "script_pile": [
+      1,
+      1
+    ],
+    "sandbag_stack": [
+      1,
+      1
+    ],
+    "flower_urn": [
+      1,
+      1
+    ]
+  },
+  "requiredSpriteCount": 116,
+  "optionalPeriodicPostMaximum": 2,
+  "groupRecordCount": 20,
+  "catalogRelativePath": "_Generated/TheaterConnectedDecorV01Catalog.asset",
+  "commandLineFlag": "-theaterDecorManifest",
+  "executeMethod": "ANIMOL.Art.TheaterConnectedDecorV01.TheaterConnectedDecorV01CatalogBuilder.BuildFromCommandLine",
+  "controllerApi": [
+    "Configure(catalog, pinnedManifestSha256, actualSortingLayerName)",
+    "SetLayout(networkCells, groupPlacements, worldOrigin, cellSize, hostAllowDecorCell, seed=0, postSpacing=4)",
+    "ClearLayout()"
+  ],
+  "failurePolicy": "Fail closed: rejected Configure/SetLayout clears prior owned visuals. No legacy fallback.",
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN",
+  "actualHostBindings": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN"
+}

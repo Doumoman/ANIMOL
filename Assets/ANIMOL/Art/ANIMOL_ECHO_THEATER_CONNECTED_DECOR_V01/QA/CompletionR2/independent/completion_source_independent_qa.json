@@ -1,0 +1,382 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "scope": "Independent source reading plus lexical/pattern/hash checks. Concrete caller/data/import/scene workflow exists in source; no C# compilation, JsonUtility execution, Unity import, asset generation, Play Mode or production host wiring executed.",
+  "files": [
+    {
+      "file": "Editor/TheaterConnectedDecorV01BoardJson.cs",
+      "sha256": "8a5d1693cc969315a7cd759f0f6f4892bb21dfcf82c63f59add2cdd10615d432",
+      "lines": 168
+    },
+    {
+      "file": "Editor/TheaterConnectedDecorV01BoardTools.cs",
+      "sha256": "ed795baa08a713327756da78cab20d1214a693d909350d5ecff348805750dff3",
+      "lines": 354
+    },
+    {
+      "file": "Editor/TheaterConnectedDecorV01BoardWindow.cs",
+      "sha256": "6fb89824558ab0506cdf1acc43b1f10b529fb129a1d14d73ccf10176313461a8",
+      "lines": 159
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01AuthoredSnapshotSource.cs",
+      "sha256": "1769b63c048c698959a2b04d4cafd385d16cbebc0e9f6f7ad707bd959af25ac7",
+      "lines": 30
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+      "sha256": "74c626009d9964ddb43e7a3eabdcaa2c26dd04eb16265b8a844c6ffc8659c14c",
+      "lines": 182
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+      "sha256": "e55056e628651104ed57a8c027eae3feda97ebcbb07628a71594cf72a310d3ed",
+      "lines": 25
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+      "sha256": "05f53caf179bf902b1c932d622c80d3cfbc17a237e3220c24ac516e6b745072c",
+      "lines": 121
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01PublishedSnapshotSource.cs",
+      "sha256": "e071795af31d895ab8edbe03dfa6535f37cea3a8863ba5da2baa621e6c2f93ae",
+      "lines": 33
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01SnapshotSource.cs",
+      "sha256": "2823b59521dfa2076d543ca6d94ba29b098d982b883f39e8eaa3928e000a6122",
+      "lines": 26
+    },
+    {
+      "file": "Tests~/TheaterConnectedDecorV01BoardJsonTests.cs",
+      "sha256": "9f1ed5391cf5a5efc5cd55f702a46b30c9830b962ebf268ae736e040a13d9ce3",
+      "lines": 34
+    },
+    {
+      "file": "Tests~/TheaterConnectedDecorV01CompletionTests.cs",
+      "sha256": "ca882566d8635b8a41a8f0556c4cf6113b72ed16a4cacc7daf7a9ae1cc9b386d",
+      "lines": 262
+    }
+  ],
+  "sourceFiles": 11,
+  "checks": [
+    {
+      "id": "C01",
+      "description": "Original8 core C# bytes are unchanged.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C02",
+      "description": "Original118 runtime PNGs and exact art manifest pin are unchanged; prior108 art-filtering evidence is reused.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C03",
+      "description": "Nine new non-test sources and two optional-test sources are lexically balanced. This is not compilation.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C04",
+      "description": "All new runtime/editor types stay in the existing package namespace; optional tests import it.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C05",
+      "description": "Binding is the previously missing concrete Controller.Configure + SetLayout caller.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+          "line": 126,
+          "token": "controller.Configure("
+        },
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+          "line": 128,
+          "token": "controller.SetLayout("
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "description": "Snapshot is a flat typed DTO with explicit nullable required arrays, exact art pin/whole-board/nonnegative revision and finite origin/cell size.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C07",
+      "description": "All three mutable row arrays and every row are independently copied; no shallow array clone is used.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C08",
+      "description": "Approval closure captures an immutable private plane-aware whitelist; duplicates and missing cells fail via existing whole-group Planner.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C09",
+      "description": "Snapshot validation also rejects rendered world coordinate overflow before BoardAsset creation.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C10",
+      "description": "BoardAsset validates a private defensive copy before commit and returns a validated defensive copy.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C11",
+      "description": "Authoritative source publishes/captures defensive copies, rejects examples, invalidates rejected publishes and notifies listeners.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C12",
+      "description": "Published source invalidates on pool disable; an old board cannot silently resurrect on source enable.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/TheaterConnectedDecorV01PublishedSnapshotSource.cs",
+          "line": 12,
+          "token": "protected override void OnDisable()"
+        }
+      ]
+    },
+    {
+      "id": "C13",
+      "description": "Authored source stores an explicit BoardAsset and notifies only on explicit assign/board change or source availability.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C14",
+      "description": "Source lifecycle raises availability events; one throwing listener cannot suppress the remaining listeners.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C15",
+      "description": "Binding executes after default Controller callbacks, subscribes/captures fresh on enable, unsubscribes and clears on disable/destroy.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C16",
+      "description": "Binding source switch unsubscribes prior source and clears owned visuals before replacing config.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C17",
+      "description": "Binding requires its own enabled Controller, current catalog/pin/existing Sorting Layer and fresh validated source; examples require explicit opt-in.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C18",
+      "description": "Idempotence is keyed by actual data/config/plan, full hierarchy matrix and previous active state, after hierarchy validation.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+          "line": 122,
+          "token": "lastAppliedControllerActive == controller.isActiveAndEnabled"
+        }
+      ]
+    },
+    {
+      "id": "C19",
+      "description": "Changed invalid hierarchy fails closed, including finite ancestor transforms/identity rotation/positive XY and representable uniform world scale.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C20",
+      "description": "Even serialized controller ref null/foreign changes clear the same-GameObject owned Controller and never a foreign one.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+          "line": 146,
+          "token": "var ownedController = GetComponent<"
+        }
+      ]
+    },
+    {
+      "id": "C21",
+      "description": "RefreshReport is defensive; reentrant capture is bounded and failure clears owned visuals with a diagnostic.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C22",
+      "description": "No new runtime polling, input, colliders, rigidbodies, random/timer generation or ExecuteAlways is introduced.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C23",
+      "description": "Strict flat parser rejects unknown/missing/duplicate keys, wrong types, Int32/Int64 overflow, malformed Unicode and nonfinite floats before typed decode.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C24",
+      "description": "Both input JSON/claims/pins and all26 inventory plus every output ownership are preflighted before catalog/board writes.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C25",
+      "description": "Generated BoardAsset validates defensive data before CreateAsset and SaveAssetIfDirty.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C26",
+      "description": "Outputs are package _Generated-only, typed, labelled with exact package-root GUID; unrelated/unimported/dirty existing outputs fail.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C27",
+      "description": "Currently loaded target output scenes and open output Prefab Stage are rejected before all writes.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 58,
+          "token": "PrefabStageUtility.GetCurrentPrefabStage()"
+        }
+      ]
+    },
+    {
+      "id": "C28",
+      "description": "Actual example contains Controller/AuthoredSource/Binding/BoardAsset refs; activates then explicitly refreshes and checks enabled visible renderers before saving prefab.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 165,
+          "token": "binding.Bind("
+        },
+        {
+          "file": "Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 168,
+          "token": "Require(binding.RefreshNow("
+        }
+      ]
+    },
+    {
+      "id": "C29",
+      "description": "Scene creation is additive and isolated; finally restores prior active handle and closes only the new inspection scene, without saving/reopening user scenes.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C30",
+      "description": "Camera/light helpers are only invoked inside opt-in isolated scene output, with no camera tags or render-pipeline asset changes.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C31",
+      "description": "Inspector refresh/clear targets only loaded nonpersistent binding; global Undo is explicit opt-in and returns without refresh when authoring fingerprint is unchanged.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "C32",
+      "description": "CLI requires actual manifest/stage/all26/sorting layer flags and scene generation is explicit, with actual generated GUID reporting.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    }
+  ],
+  "checkCount": 32,
+  "concreteControllerCallSites": [
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+      "line": 126,
+      "call": "if (!controller.Configure(catalog, expectedManifestSha256, sortingLayerName))"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+      "line": 128,
+      "call": "if (!controller.SetLayout(snapshot.networkCells, snapshot.groupPlacements,"
+    }
+  ],
+  "originalCore8Unchanged": true,
+  "originalRuntime118PNGUnchanged": true,
+  "artManifestSha256": "8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069",
+  "oldArtFiltering108Cases": "REUSED_UNCHANGED_EVIDENCE_NOT_RERUN",
+  "openFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "R2L01",
+      "finding": "Published data survived provider disable/pool reuse.",
+      "resolution": "Published OnDisable invalidates and signals; explicit inactive host publish can provide fresh data.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2L02",
+      "finding": "Idempotence cache ignored changed hierarchy/invalid scale.",
+      "resolution": "Hierarchy validation before cache and full world-matrix stamp force reapply or fail closed.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2L03",
+      "finding": "Inactive Bind followed by active edit-mode Refresh could cache-hit while renderers stayed disabled.",
+      "resolution": "Last applied Controller active state is part of cache; Builder asserts all renderers enabled.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2L04",
+      "finding": "Inspector controller reference null/foreign change could strand prior own visuals.",
+      "resolution": "ClearVisuals resolves required own same-GameObject Controller with GetComponent and never clears foreign component.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2E01",
+      "finding": "Unicode escape parser accepted internal whitespace via HexNumber.",
+      "resolution": "AllowHexSpecifier-only four-character parse; independent strict JSON review retained.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2E02",
+      "finding": "Global unrelated Undo could refresh/dirty locked inspected scene.",
+      "resolution": "Explicit target opt-in plus full authoring-state fingerprint comparison before queue.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "R2E03",
+      "finding": "Rebuild could overwrite an owned output currently open/unsaved in Scene or Prefab Stage.",
+      "resolution": "Loaded output scene, current output Prefab Stage and dirty output assets rejected in preflight.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    }
+  ],
+  "optionalNUnitSource": {
+    "newRuntimeTestMethods": 19,
+    "newEditorTestCaseAttributes": 12,
+    "execution": "NOT_RUN"
+  },
+  "compilerAvailability": {
+    "Unity": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "actualCSharpCompile": "NOT_RUN",
+  "actualCSharpParser": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualGeneratedAssets": "NOT_RUN",
+  "actualPrefabScenePlay": "NOT_RUN",
+  "actualProductionHostBindings": "NOT_RUN",
+  "actualLegacyRefZero": "NOT_RUN"
+}

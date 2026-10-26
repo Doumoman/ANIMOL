@@ -1,0 +1,298 @@
+{
+  "status": "PASS_INDEPENDENT_ORACLE_CORPUS",
+  "scope": "Independent stdlib/Decimal expectations only. Does not execute or prove C# parser behavior. Cases suitable for actual Unity Editor tests later.",
+  "caseCount": 36,
+  "cases": [
+    {
+      "id": "valid_one_network",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": true,
+      "oracleAccepted": true,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "valid_explicit_empty",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[],\"groupPlacements\":[],\"allowedDecorCells\":[]}",
+      "expectedStrictShapeAccepted": true,
+      "oracleAccepted": true,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "valid_BOM",
+      "json": "﻿{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": true,
+      "oracleAccepted": true,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "valid_Int64_9007199254740993",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":9007199254740993,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": true,
+      "oracleAccepted": true,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "valid_Int64_9223372036854775807",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":9223372036854775807,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": true,
+      "oracleAccepted": true,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "missing_root_array",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "null_root_array",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":null}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "unknown_root",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}],\"extra\":1}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "wrong_bool_number",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":1,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "quoted_number",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":\"1\",\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "jagged_allowed",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[[0,0]]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "null_network_row",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[null],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "missing_network_x",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "unknown_network_field",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\",\"extra\":true}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "network_float_integer",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":1.5,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int32_overflow",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":2147483648,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int32_underflow",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":-2147483649,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int64_overflow",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":9223372036854775808,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int64_underflow",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":-9223372036854775809,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int_exponent",
+      "json": "{\"schemaVersion\":1e0,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "int_fraction_zero",
+      "json": "{\"schemaVersion\":1.0,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "float_overflow",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":1e309,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "duplicate_root",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}],\"originX\":1}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "duplicate_escaped_key",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}],\"origin\\u0058\":1}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "malformed_unicode_whitespace",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"origin\\u 058\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "malformed_unicode_hex",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"origin\\uG058\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "bad_string_escape",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review\\qcase\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "literal_control_in_string",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review\ncase\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "trailing_comment",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}/*x*/",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "trailing_data",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}{}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "trailing_comma",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}],}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "root_array",
+      "json": "[]",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "root_null",
+      "json": "null",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "invalid_leading_zero",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":01,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":0,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "non_JSON_NaN",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":NaN,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    },
+    {
+      "id": "non_JSON_Infinity",
+      "json": "{\"schemaVersion\":1,\"packageId\":\"ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\",\"sourceManifestSha256\":\"8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069\",\"boardId\":\"review_case\",\"revision\":0,\"isWholeBoard\":true,\"isExampleOnly\":true,\"originX\":Infinity,\"originY\":0,\"originZ\":0,\"cellSize\":1,\"seed\":0,\"postSpacing\":4,\"networkCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0,\"sortingOrder\":0,\"worldZ\":0,\"family\":\"velvet_aisle_barrier\",\"connectionGroup\":\"band\"}],\"groupPlacements\":[],\"allowedDecorCells\":[{\"x\":0,\"y\":0,\"logicalLayer\":0,\"heightKey\":0}]}",
+      "expectedStrictShapeAccepted": false,
+      "oracleAccepted": false,
+      "oracleResult": "PASS",
+      "actualDeliveredCSharpExecution": "NOT_RUN"
+    }
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualCSharpExecution": "NOT_RUN"
+}

@@ -102,8 +102,9 @@ namespace ANIMOL.Puzzle
             return terrain.Count(t => Outside(t.position)) + devices.Count(d => Outside(d.position)) +
                 decorations.Sum(d => {
                     var source = RanchConnectedDecorHost.SourceMapping(this, d);
-                    var width = source == null ? 1 : source.width;
-                    var height = source == null ? 1 : source.height;
+                    var theater = TheaterConnectedDecorHost.TryMap(this, d, out var theaterSource) ? theaterSource : null;
+                    var width = theater != null ? theater.width : source == null ? 1 : source.width;
+                    var height = theater != null ? theater.height : source == null ? 1 : source.height;
                     var count = 0;
                     for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
                         if (Outside(d.position + new Vector2Int(x, y))) count++;
@@ -140,6 +141,11 @@ namespace ANIMOL.Puzzle
                     theme.ranchConnectedDecorV01ManifestPin.text.Trim(), decorations, out _, out _, out _, out var decorError))
                     errors.Add("Ranch connected decoration layout is invalid: " + decorError);
             }
+            if (TheaterConnectedDecorHost.IsTheater(this) && decorations.Any(d =>
+                TheaterConnectedDecorHost.IsDeclaredKey(d.visualFamily) || TheaterConnectedDecorHost.TryMap(this, d, out _)) &&
+                !TheaterConnectedDecorHost.TryCreateSnapshot(this, decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out var theaterError))
+                errors.Add("Theater connected decoration layout is invalid: " + theaterError);
             if (scenario) errors.AddRange(scenario.Validate(this));
             return errors;
         }

@@ -1,0 +1,96 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "checks": [
+    {
+      "name": "namespace and type prefix",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "ANIMOL.Art.TheaterConnectedDecorV01 and TheaterConnectedDecorV01Controller agree."
+    },
+    {
+      "name": "catalog builder",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "BuildFromCommandLine flag -theaterDecorManifest and _Generated/TheaterConnectedDecorV01Catalog.asset agree."
+    },
+    {
+      "name": "Configure and SetLayout",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Configure(catalog,pin,actualSortingLayerName), SetLayout(networks,groups,origin,cellSize,hostPureQuery,seed=0,postSpacing=4) agree."
+    },
+    {
+      "name": "network/group records",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "All public record field names, bottom-left group anchors,20 exact keys and family==key agree."
+    },
+    {
+      "name": "adjacency masks",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "N1/E2/S4/W8 and same family/group/layer/height agree."
+    },
+    {
+      "name": "registration",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "PPU256,320x384,logicalRect[32,96,256,256],pivot[.5,160/384] agree."
+    },
+    {
+      "name": "row-down origin",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Cell(col,-row),group(left,-top-h+1),world origin topLeft.y-cellSize agree."
+    },
+    {
+      "name": "host callback and snapshot",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Required pure eligibility query and complete board snapshot; no new collision/turn authority agree."
+    },
+    {
+      "name": "lifecycle and errors",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Invalid SetLayout clears owned prior visuals; OnDisable invalidates; inactive Configure+SetLayout may show on activation."
+    },
+    {
+      "name": "source/Unity distinction",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Actual compile/import/TestRunner/Play/host binding NOT_RUN and PNG/GIF composite examples acknowledged."
+    },
+    {
+      "name": "nonuniform parent wording",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Resolved. CLI explicitly supports positive nonuniform XY parent compensation and requires all ancestor localRotation identity / XY localScale positive."
+    },
+    {
+      "name": "source folder spelling",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Resolved. Both documents use sources/ and Inspection/ matching delivered directories."
+    },
+    {
+      "name": "optional periodic helper availability",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Resolved. CLI selects periodic_post only if declared; optional absence is skipped."
+    },
+    {
+      "name": "clear API name",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Resolved. CLI names the actual public ClearLayout() API."
+    }
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualHostBindings": "NOT_RUN",
+  "reviewedFiles": [
+    {
+      "file": "UNITY_CLI_KO.txt",
+      "sha256": "c7a911b8d7a9548554c1e618a515a4a3124691a2247a351aeecaf42bedb4cc51",
+      "bytes": 13228
+    },
+    {
+      "file": "README_KO.txt",
+      "sha256": "1fa8c4c4bac13b019a54bb61270256ce512088658b5eb5b5093c836866fc2346",
+      "bytes": 5954
+    }
+  ],
+  "openMaterialFindings": 0,
+  "checksCount": 14,
+  "resolvedFindings": 4,
+  "runtimeSourceReviewSha256": "828a09d748c042017d5e4b6ab979e1bbab5ad2dd49d675349c9b62986eb93ba9"
+}

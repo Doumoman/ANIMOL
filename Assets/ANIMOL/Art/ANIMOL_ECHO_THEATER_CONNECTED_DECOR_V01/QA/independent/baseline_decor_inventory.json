@@ -1,0 +1,147 @@
+{
+  "status": "READ_OFFLINE",
+  "propsManifestSha256": "84f94daea238693409f470963d733fe4b79fdaeb124a704dfe5e67224e1edfc2",
+  "propAssetCount": 14,
+  "multiCellPropAssetCount": 6,
+  "stateVariantWarning": "footlights_on/dim/off are three state assets of one semantic prop, not three decoration kinds.",
+  "props": [
+    {
+      "id": "curtain_wing_left",
+      "file": "props/curtain_wing_left.png",
+      "footprintCells": [
+        1,
+        2
+      ],
+      "sha256": "b3525889980f10bf68c5c4256ac83a1ff9ba34767e543e430ca94b852f34dc2f"
+    },
+    {
+      "id": "curtain_wing_right",
+      "file": "props/curtain_wing_right.png",
+      "footprintCells": [
+        1,
+        2
+      ],
+      "sha256": "116372a39622b95b997c8e0f2837309758f872fb9707d1d01c41e961a6aa9048"
+    },
+    {
+      "id": "organ",
+      "file": "props/organ.png",
+      "footprintCells": [
+        2,
+        2
+      ],
+      "sha256": "faf9ffc7f570737392133257d70e437f954b984c118072369d039e7e12fd91fc"
+    },
+    {
+      "id": "scenery_flat",
+      "file": "props/scenery_flat.png",
+      "footprintCells": [
+        2,
+        2
+      ],
+      "sha256": "6e00feb87b3a2253acbfe438903b519bffbceb9c2f01c1d453d76cb0b57932fe"
+    },
+    {
+      "id": "seat_pair",
+      "file": "props/seat_pair.png",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "c63636af8996d639519690e6a61bb1eba030d66ef5af41a8f63dbc5df26e5f06"
+    },
+    {
+      "id": "curtain_lintel_repeat",
+      "file": "props/curtain_lintel_repeat.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "2005dd491be79326d2753a99d6a27ef028beb100e41578ce4d226541c1577e04"
+    },
+    {
+      "id": "footlights_on",
+      "file": "props/footlights_on.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "3777e1344db37e3a6f8d77ee7e27336d2e847befb52c458357758a968a0608d4"
+    },
+    {
+      "id": "footlights_dim",
+      "file": "props/footlights_dim.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "8f06e4b044d33241b3003e144e29d72160b59f4fd1d8ecca328754f5b4f0ffd9"
+    },
+    {
+      "id": "footlights_off",
+      "file": "props/footlights_off.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "5c8e030fd3cbf43211b281a04e659f76b0f3612ae97bcf8a004298469c3ddfd2"
+    },
+    {
+      "id": "mask_stand",
+      "file": "props/mask_stand.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "ec01fe1d39596883c073ae97ff3ace50e3f5c564a62d14bdc3a4dee657d9ed09"
+    },
+    {
+      "id": "book_stack",
+      "file": "props/book_stack.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "5fc9f877c3f0ed1bcf34daa0ec3e3f1389ffe560b03b7336a7a70333ce33eb48"
+    },
+    {
+      "id": "rope_pulley",
+      "file": "props/rope_pulley.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "3926c007e4d5b2844488c813abb4a59c1f4c9cbcb90eed320d471064c109b6e1"
+    },
+    {
+      "id": "costume_trunk",
+      "file": "props/costume_trunk.png",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "d23119eb16e07fc8fd90cde8dcf4b6fa7316f5a6e625306e8fc42294023c2125"
+    },
+    {
+      "id": "spotlight_stand",
+      "file": "props/spotlight_stand.png",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "40a495f4253d83426f28c23c3b966e748193dfd40b070f92f0795d520060147c"
+    }
+  ],
+  "materialCodes": {
+    "G": "stage_floor",
+    "W": "wood_catwalk",
+    "S": "velvet_carpet"
+  },
+  "existingBridgeDecorationRules": "Rails only between W catwalk and void. G/S are existing stage occupancy, never bank end caps. Shared vertices have one post. Extra long-run posts every 4 cells.",
+  "notes": [
+    "Old V03 already has six multi-cell prop assets; do not claim all old art was one tile.",
+    "New add-on is decorative. Actual host generation fit-to-cell/pivot/adjacency problems need project inspection.",
+    "Existing bridge rail/post selection owns catwalk boundaries; do not duplicate new decoration rails on its placements.",
+    "Theater S is velvet_carpet, not Ranch stone_bridge. Preserve S-to-G support normalization from V03."
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "status": "SOURCE_REVIEW_COMPLETE_ACTUAL_CSHARP_EXECUTION_NOT_RUN",
+  "scope": "Checklist only; no parser execution or C# compilation claimed.",
+  "requiredFields": {
+    "root": [
+      "schemaVersion",
+      "packageId",
+      "sourceManifestSha256",
+      "boardId",
+      "revision",
+      "isWholeBoard",
+      "isExampleOnly",
+      "originX",
+      "originY",
+      "originZ",
+      "cellSize",
+      "seed",
+      "postSpacing",
+      "networkCells",
+      "groupPlacements",
+      "allowedDecorCells"
+    ],
+    "networkCell": [
+      "x",
+      "y",
+      "logicalLayer",
+      "heightKey",
+      "sortingOrder",
+      "worldZ",
+      "family",
+      "connectionGroup"
+    ],
+    "groupPlacement": [
+      "placementId",
+      "groupKey",
+      "anchorX",
+      "anchorY",
+      "logicalLayer",
+      "heightKey",
+      "sortingOrder",
+      "worldZ"
+    ],
+    "allowedCell": [
+      "x",
+      "y",
+      "logicalLayer",
+      "heightKey"
+    ]
+  },
+  "checks": [
+    {
+      "id": "J01",
+      "requirement": "Exact root object/required fields; root array/null/scalar rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J02",
+      "requirement": "Missing any required root field rejected rather than silently defaulted.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J03",
+      "requirement": "Unknown root field and case-collision alias rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J04",
+      "requirement": "Duplicate root field rejected, including escaped-key equivalent.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J05",
+      "requirement": "Explicit empty arrays accepted; null/missing required arrays rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J06",
+      "requirement": "Jagged allowed cells, null row and scalar row rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J07",
+      "requirement": "Every row requires exactly its specified keys and matching scalar types.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J08",
+      "requirement": "Duplicate/unknown fields rejected in all three row types.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J09",
+      "requirement": "Int fields require integer tokens in signed32 range; fractional/exponent/overflow rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J10",
+      "requirement": "Revision uses signed64 range; >2^53 values do not pass through double rounding.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J11",
+      "requirement": "Float fields are JSON numbers and finite after invariant-culture parse; exponent overflow rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J12",
+      "requirement": "Positive cellSize and postSpacing3or4 enforced by semantic validation.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J13",
+      "requirement": "PackageId/current art pin/wholeboard flag validated before persisted BoardAsset mutation.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J14",
+      "requirement": "Recognized JSON escapes and four-hex Unicode escapes decoded; bad escape/literal control char rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J15",
+      "requirement": "Escaped property names normalize before duplicate/key matching.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J16",
+      "requirement": "Trailing data/comments/extra commas/malformed number rejected; optional leading BOM behavior explicit.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J17",
+      "requirement": "Depth bounded; malformed object/array separators rejected.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J18",
+      "requirement": "Unknown family/group key and duplicate group IDs/claims rejected by existingPlanner validation.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J19",
+      "requirement": "Missing one group footprint allowedcell rejects entire board; no partial authoring asset save.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    },
+    {
+      "id": "J20",
+      "requirement": "Strict importer validated result has defensive copies; failed import does not replace valid owned BoardAsset.",
+      "execution": "NOT_RUN",
+      "sourceReview": "PASS_SOURCE_REVIEW_ONLY"
+    }
+  ],
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "sourceReviewReport": "strict_json_source_review.json"
+}

@@ -1,0 +1,247 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "scope": "Independent reading and lexical/pattern checks only. No C# compilation, Unity import, NUnit, controller execution, scene loading or host gameplay was run.",
+  "sourceFilesReviewed": 8,
+  "files": [
+    {
+      "file": "Editor/TheaterConnectedDecorV01CatalogBuilder.cs",
+      "sha256": "f97e47ddff048b728effcc71624f23084e8bae46a509519db40c18285e4953de",
+      "lines": 252
+    },
+    {
+      "file": "Editor/TheaterConnectedDecorV01JsonSchema.cs",
+      "sha256": "482ba4e4d1bdfd8b92a3f93926676829b24e9caf26ad85e575ae77009c2f78e5",
+      "lines": 128
+    },
+    {
+      "file": "Editor/TheaterConnectedDecorV01SpriteImporter.cs",
+      "sha256": "d6676a871dc5e057dc2ca40762cf3470f3d5da941a4da4eaf03f5456240378f7",
+      "lines": 67
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Catalog.cs",
+      "sha256": "04d872a2df6d33b364fe1f3515c12bd3da3245bfee799958eafa6a2a74e68411",
+      "lines": 212
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Controller.cs",
+      "sha256": "3b0861399a4e01230dc36f4407bf69e719a56e5e14ba21842094de891c268131",
+      "lines": 197
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Planner.cs",
+      "sha256": "2fee68c4e7b16d7c04a08d6a5b40af77c97ce969cf89dde18177546b35730ab0",
+      "lines": 259
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Schema.cs",
+      "sha256": "91bedd39dc33c1bbc2dbb4d149cc285dd81e6ca4a8707d0792073f8ab327c1c8",
+      "lines": 26
+    },
+    {
+      "file": "Tests~/TheaterConnectedDecorV01PlannerTests.cs",
+      "sha256": "3ffc01cd560d002b9c3ff45092d3f1428faa5f2f0bd877746f7596a4741aaff3",
+      "lines": 203
+    }
+  ],
+  "checks": [
+    {
+      "id": "S01",
+      "description": "Eight C# source files have balanced delimiters and preprocessor guards. This is lexical review only.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S02",
+      "description": "New isolated namespace and prefix are present, with no Ranch namespace/identifier leaking into code.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S03",
+      "description": "Catalog enforces exact current package/root GUID/Sprite GUID/fileID/manifest pin and metadata fingerprint.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Catalog.cs",
+          "line": 104,
+          "token": "ValidateIntegrity("
+        },
+        {
+          "file": "Runtime/TheaterConnectedDecorV01Catalog.cs",
+          "line": 115,
+          "token": "ComputeFingerprint()"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "description": "Builder checks exact manifest byte SHA before PNG import and preflights every declared native PNG.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "Editor/TheaterConnectedDecorV01CatalogBuilder.cs",
+          "line": 46,
+          "token": "LoadManifest("
+        },
+        {
+          "file": "Editor/TheaterConnectedDecorV01CatalogBuilder.cs",
+          "line": 132,
+          "token": "Current manifest bytes differ from manifest_sha256.txt."
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "description": "Builder validates actual imported Sprite/GUID/fileID and only saves its own generated catalog.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S06",
+      "description": "Importer restricts new add-on root and current exact manifest paths; unknown/source/inspection PNGs remain Default with no old art fallback.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S07",
+      "description": "Native Single/FullRect/PPU/custom ground pivot/uncompressed/no mip/no NPOT/no physics shape are explicit.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S08",
+      "description": "Schema rejects duplicate JSON fields and requires assets/group ground metadata.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S09",
+      "description": "Six exact cardinal4 network families use N1/E2/S4/W8 and no diagonal meadow selector remains.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S10",
+      "description": "Neighbor connection identity includes exact family + connectionGroup + logical layer + integer height plane.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S11",
+      "description": "All group cells are validated atomically; duplicate placement IDs, overlapping claims or host rejection invalidate the whole snapshot.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S12",
+      "description": "Exactly12 large +8 point group keys and declared dimensions are separate from sprite canvas size.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S13",
+      "description": "Groups keep one logical center and renderer; uniform world cell scale never alpha-fits or canvas-fits one tile.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S14",
+      "description": "Old owned sprites are hidden/cleared before deferred Destroy; replaced and empty snapshots cannot double-render.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S15",
+      "description": "Null/invalid new config persists attempted values and clears old owned art, rather than restoring old config.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S16",
+      "description": "Inactive pre-Awake configuration survives first enable; ordinary disable resets explicit layout so stale pooled art is not resurrected.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S17",
+      "description": "Optional posts are first2 families only and require long straight runs with straight neighbors on both sides; stable coordinate phase, no frame Random.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S18",
+      "description": "No collider/rigidbody/input/update/turn authority is added by Planner or Controller.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S19",
+      "description": "Row-down cell/group bottom-left helpers and top-left board-origin adapter are explicit and consistent.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S20",
+      "description": "Explicit catalog build invalidates importer row cache before reimports, including copies retaining timestamps/length.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S21",
+      "description": "Large/point group key is bound to art semantic family in both source preflight and loaded catalog.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "S22",
+      "description": "JSON integer fields reject fractional/exponent literals before JsonUtility can coerce to int.",
+      "result": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    }
+  ],
+  "checkCount": 22,
+  "openFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "R01",
+      "finding": "Group semantic family was not bound to group key.",
+      "resolution": "Both current manifest builder and current catalog validate exact family/key correspondence.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    }
+  ],
+  "optionalNUnitSource": {
+    "file": "Tests~/TheaterConnectedDecorV01PlannerTests.cs",
+    "testMethods": [
+      "SixDistinctFamiliesProduceNinetySixExactCardinalVariantPaths",
+      "AllSixFamiliesSelectEveryMaskWithNorthAtPositiveY",
+      "DifferentFamilyGroupLayerOrHeightNeverConnects",
+      "DiagonalContactDoesNotInventACardinalConnection",
+      "AddingAndDeletingNeighborsRecomputesBothSidesFromWholeBoard",
+      "ThereAreTwelveWholeLargePropsAndEightPointProps",
+      "MultiCellPropIsOneSelectionAndClaimsEveryFootprintMember",
+      "PointPropUsesSameExplicitPlacementApiWithOneClaim",
+      "OneRejectedPropMemberRejectsEntireReplacementPlan",
+      "DuplicateFootprintsAndPlacementIdsAreRejected",
+      "LayeredClaimsStillRequireExplicitHostApproval",
+      "OptionalPostAbsenceNeverRequestsUndeclaredPostArt",
+      "PostsOnlyAppearInLongStraightRunsForTheFirstTwoFamilies",
+      "StableSelectionsIgnoreHostCollectionOrder",
+      "WrongFamilyMaskOrFootprintIsRejectedInsteadOfFallback",
+      "RowDownGroupsUseTheirBottomRowAndAnEmptySnapshotCanClearEverything"
+    ],
+    "count": 16,
+    "execution": "NOT_RUN"
+  },
+  "compilerAvailability": {
+    "Unity": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualNUnit": "NOT_RUN",
+  "actualPlayMode": "NOT_RUN",
+  "actualHostBindings": "NOT_RUN"
+}

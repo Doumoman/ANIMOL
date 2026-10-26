@@ -1,0 +1,107 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "checksCount": 15,
+  "checks": [
+    {
+      "name": "art and original APIs preserved",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Docs preserve26kinds/118PNG/fixedmanifest; newcodeadditive only."
+    },
+    {
+      "name": "real invocation chain",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Snapshot→Source→Binding.RefreshNow→Controller.Configure/SetLayout names align with actual calls."
+    },
+    {
+      "name": "flat snapshot contract",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "All16fields, typed allowed-cell objects, whole-board flag and required arrays align."
+    },
+    {
+      "name": "production initialization order",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "CLI publishes authoritative snapshot before Bind so first capture has real data."
+    },
+    {
+      "name": "Bind signature and example mode",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Controller-first Bind signature and optional allowExampleSource=false agree; source also independently rejects example publication."
+    },
+    {
+      "name": "same-GameObject ownership",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Own required Controller only; source can be another provider component without foreign visual clearing."
+    },
+    {
+      "name": "deep copies and approved whole footprint",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Publication/capture copies all mutable arrays+rows; actual snapshot whitelist remains a pure claim query."
+    },
+    {
+      "name": "commit-event scope",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Actual host commit/load/undo/restart publishes; invalid input does not introduce authority changes or Update polling."
+    },
+    {
+      "name": "published pool freshness",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "PublishedSource.OnDisable invalidates authority; fresh publication required before re-use."
+    },
+    {
+      "name": "authored static role",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "AuthoredSource is explicit BoardAsset source, not generic actual-map adapter; static data intentionally persists."
+    },
+    {
+      "name": "explicit Editor refresh",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Generated inactive construction followed by explicit active Refresh does not rely on edit-mode OnEnable. Updated build prerequisites match BoardTools: leave any open Prefab Stage, close loaded target inspection scenes before scene rebuild, and save dirty owned generated outputs before replacement. Existing user scenes are not saved/closed by the builder."
+    },
+    {
+      "name": "transform-aware idempotence",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Hierarchy validated before cache; world matrix/active state/config/plan identity included."
+    },
+    {
+      "name": "clear and failure policy",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "ClearVisuals resolves own required Controller even after serialized ref edits; errors do not restore old art."
+    },
+    {
+      "name": "actual execution boundary",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Source generator and composed PNG distinct from actual compile/import/Prefab/scenePlay/host binding, all currentlyNOTRUN."
+    },
+    {
+      "name": "unqualified source-disable checklist",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "detail": "Resolved: section8 explicitly names PublishedSource; AuthoredSource static BoardAsset persistence remains distinguished."
+    }
+  ],
+  "openMaterialFindings": 0,
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN",
+  "actualGeneratedPrefab": "NOT_RUN",
+  "actualGeneratedScenePlay": "NOT_RUN",
+  "actualHostBindings": "NOT_RUN",
+  "reviewedDocs": [
+    {
+      "file": "COMPLETION_R2_KO.txt",
+      "bytes": 5520,
+      "sha256": "f064eb777fdc7184e7774a6eff93add4e3d6a7d9daac0e93ace0ec63d1e1dd03"
+    },
+    {
+      "file": "README_KO.txt",
+      "bytes": 6638,
+      "sha256": "7ba167e38c1b365b5e67a297657cc183dedd4d1d71a7da53c08278a2bb92383c"
+    },
+    {
+      "file": "UNITY_CLI_KO.txt",
+      "bytes": 12108,
+      "sha256": "50abf0a5a695e12d5342747bf4c2781c3b5da947f6a680621daaa8dfffd23f2d"
+    }
+  ],
+  "resolvedFindings": 1,
+  "runtimeSourceFrozenSha256": "fb7349b19c3c659a49b6282d7ab5a0dd61e304637ac135007fe502885ed966f4"
+}

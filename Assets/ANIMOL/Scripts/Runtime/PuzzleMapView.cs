@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.RanchConnectedDecorV01;
+using ANIMOL.Art.TheaterConnectedDecorV01;
 
 namespace ANIMOL.Puzzle
 {
@@ -30,15 +31,29 @@ namespace ANIMOL.Puzzle
         TwilightCoastRenderer coast;
         StarSwellCoastV01MapRenderer coastV01;
         RanchConnectedDecorV01Controller connectedDecor;
+        TheaterConnectedDecorV01Controller theaterConnectedDecor;
+        TheaterConnectedDecorV01PublishedSnapshotSource theaterDecorSource;
+        TheaterConnectedDecorV01Binding theaterDecorBinding;
+        long theaterDecorRevision;
+        readonly List<GameObject> theaterLegacyDecorationViews = new List<GameObject>();
         public RanchConnectedDecorV01Controller ConnectedDecor => connectedDecor;
+        public TheaterConnectedDecorV01Controller TheaterConnectedDecor => theaterConnectedDecor;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
-            Unbind(); map = data; map.TerrainChanged += RefreshNeighborhood; map.Resized += Rebuild;
-            map.DecorationsChanged += Rebuild;
+            Unbind(); map = data; theaterDecorRevision = 0;
+            map.TerrainChanged += RefreshNeighborhood; map.Resized += Rebuild;
+            map.DecorationsChanged += DecorationsUpdated;
             Rebuild();
         }
-        void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; map.DecorationsChanged -= Rebuild; }
+        void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; map.DecorationsChanged -= DecorationsUpdated; }
+        void DecorationsUpdated()
+        {
+            theaterDecorRevision++;
+            if (theaterDecorSource && TheaterConnectedDecorHost.IsTheater(map))
+            { RefreshLegacyTheaterDecor(); PublishTheaterDecor(); }
+            else Rebuild();
+        }
         void OnEnable() { if (map && objectsRoot) Rebuild(); }
         void OnDestroy() => Unbind();
         static void Remove(GameObject go)
@@ -55,6 +70,8 @@ namespace ANIMOL.Puzzle
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
             connectedDecor = null;
+            theaterConnectedDecor = null; theaterDecorSource = null; theaterDecorBinding = null;
+            theaterLegacyDecorationViews.Clear();
             bubbleViews.Clear(); classicWind.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.starSwellCoastV01Catalog)
@@ -139,9 +156,28 @@ namespace ANIMOL.Puzzle
             else if (map.theme && map.theme.starwayRanch && map.decorations.Any(d =>
                 !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)))
                 Debug.LogError("Ranch connected decoration catalog or manifest pin is missing.", this);
-            foreach (var d in map.decorations) if (map.Contains(d.position))
+            if (TheaterConnectedDecorHost.IsTheater(map) && map.theme.theaterConnectedDecorV01Catalog &&
+                map.theme.theaterConnectedDecorV01ManifestPin)
+            {
+                var node = new GameObject("Theater connected decoration V01");
+                node.SetActive(false); node.transform.SetParent(objectsRoot, false);
+                theaterConnectedDecor = node.AddComponent<TheaterConnectedDecorV01Controller>();
+                theaterDecorSource = node.AddComponent<TheaterConnectedDecorV01PublishedSnapshotSource>();
+                theaterDecorBinding = node.AddComponent<TheaterConnectedDecorV01Binding>();
+                PublishTheaterDecor();
+                var pin = map.theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+                if (!theaterDecorBinding.Bind(theaterConnectedDecor, map.theme.theaterConnectedDecorV01Catalog,
+                    pin, "Default", theaterDecorSource, out var error))
+                    Debug.LogError("Theater decoration binding rejected: " + error, this);
+                node.SetActive(true);
+            }
+            else if (TheaterConnectedDecorHost.IsTheater(map) && map.decorations.Any(d =>
+                TheaterConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
+                Debug.LogError("Theater connected decoration catalog or manifest pin is missing.", this);
+            foreach (var d in map.decorations) if (map.Contains(d.position) && !TheaterConnectedDecorHost.IsTheater(map))
             {
                 if (!string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)) continue;
+                if (TheaterConnectedDecorHost.TryMap(map, d, out _)) continue;
                 if (ranch && d.sprite == map.theme.starwayRanch.Find("props/windmill_body.png"))
                     CreateWindmill(d.position);
                 else if (ranch) CreateRanchDecoration(d);
@@ -149,6 +185,7 @@ namespace ANIMOL.Puzzle
                     d.sprite ? d.sprite : map.theme.decoration,
                     d.position, 15, Vector2.one * .8f, d.tint);
             }
+            if (TheaterConnectedDecorHost.IsTheater(map)) RefreshLegacyTheaterDecor();
             if (map.scenario)
             {
                 var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
@@ -163,6 +200,31 @@ namespace ANIMOL.Puzzle
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
+        }
+        void RefreshLegacyTheaterDecor()
+        {
+            foreach (var visual in theaterLegacyDecorationViews) if (visual) Remove(visual);
+            theaterLegacyDecorationViews.Clear();
+            foreach (var d in map.decorations)
+            {
+                if (!map.Contains(d.position) || !string.IsNullOrEmpty(d.visualFamily) ||
+                    TheaterConnectedDecorHost.TryMap(map, d, out _)) continue;
+                theaterLegacyDecorationViews.Add(Sprite(objectsRoot, "Decoration",
+                    d.sprite ? d.sprite : map.theme.decoration,
+                    d.position, 15, Vector2.one * .8f, d.tint).gameObject);
+            }
+        }
+        void PublishTheaterDecor()
+        {
+            if (!theaterDecorSource || !map) return;
+            var origin = objectsRoot.TransformPoint(new Vector3(-.5f, -.5f, 0));
+            if (!TheaterConnectedDecorHost.TryCreateSnapshot(map, map.decorations, origin,
+                objectsRoot.lossyScale.x, theaterDecorRevision, out var snapshot, out var error) ||
+                !theaterDecorSource.PublishSnapshot(snapshot, out error))
+            {
+                theaterDecorSource.InvalidateSnapshot(error);
+                Debug.LogError("Theater decoration snapshot rejected: " + error, this);
+            }
         }
         void CreateRanchDecoration(DecorationCell cell)
         {

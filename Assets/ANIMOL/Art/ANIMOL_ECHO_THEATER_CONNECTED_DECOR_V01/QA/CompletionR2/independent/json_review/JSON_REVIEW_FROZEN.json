@@ -1,0 +1,63 @@
+{
+  "status": "STRICT_JSON_SOURCE_REVIEW_FINAL_FROZEN",
+  "sourceCheckCount": 20,
+  "openFindingCount": 0,
+  "resolvedFindingCount": 1,
+  "reviewedSourceFiles": [
+    {
+      "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+      "sha256": "8a5d1693cc969315a7cd759f0f6f4892bb21dfcf82c63f59add2cdd10615d432",
+      "lines": 168
+    },
+    {
+      "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardTools.cs",
+      "sha256": "ed795baa08a713327756da78cab20d1214a693d909350d5ecff348805750dff3",
+      "lines": 354
+    },
+    {
+      "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+      "sha256": "05f53caf179bf902b1c932d622c80d3cfbc17a237e3220c24ac516e6b745072c",
+      "lines": 121
+    },
+    {
+      "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+      "sha256": "e55056e628651104ed57a8c027eae3feda97ebcbb07628a71594cf72a310d3ed",
+      "lines": 25
+    },
+    {
+      "file": "editor_exports/Tests~/TheaterConnectedDecorV01BoardJsonTests.cs",
+      "sha256": "9f1ed5391cf5a5efc5cd55f702a46b30c9830b962ebf268ae736e040a13d9ce3",
+      "lines": 34
+    }
+  ],
+  "files": [
+    {
+      "file": "check_board_json_shape.py",
+      "sha256": "192ba0e84ff9be0e4fe9f2548f513b173689280ac5402321561cb3a352dda381"
+    },
+    {
+      "file": "review_json_source.py",
+      "sha256": "b6c4edf3800efc21bf324866c0af2bcdffb86edeb01c4f9c3782dcff83ff3d48"
+    },
+    {
+      "file": "strict_json_negative_corpus.json",
+      "sha256": "27aef0fe3b5a20446488af9582b76e78a9f7f8d6024ee5d39786123c7abc37c1"
+    },
+    {
+      "file": "strict_json_review_checklist.json",
+      "sha256": "8764933c4cd31e405e70bcb42773d81047f6ebd76bd19d9fbbb3ca868c19346d"
+    },
+    {
+      "file": "strict_json_source_review.json",
+      "sha256": "1ae2c22a295d22251c38a2137827e69a7e7a0b17e94d6f239439db86f6ed0439"
+    }
+  ],
+  "finalEditorEntryGuard": "Rejects any open PrefabStage before parsing/build writes; target output comparisons case-insensitive. Source reviewed only.",
+  "independentPythonOracleCases": 36,
+  "independentExampleJSONShapePass": 2,
+  "optionalNUnitCases": 12,
+  "actualCSharpCompile": "NOT_RUN",
+  "actualCSharpParserExecution": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN"
+}

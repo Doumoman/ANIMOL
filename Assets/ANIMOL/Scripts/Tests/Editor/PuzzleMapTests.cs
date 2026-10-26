@@ -234,8 +234,10 @@ namespace ANIMOL.Presentation.Tests
                         (path.Contains("/StarwayRanch/") && path.Contains("/props/")) ||
                         (path.Contains("/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01/decor/connected/") &&
                             (path.EndsWith("/n00.png") || path.EndsWith("/n000.png"))) :
+                        id == "memory_theater" ? path.Contains("/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/decor/") :
                         path.Contains("/Props/" + id + "/");
                 }), Is.True, id);
+                if (id == "memory_theater") Assert.That(choices.Length, Is.EqualTo(26));
             }
             var ranch = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             var ranchChoices = PuzzleMapEditor.DecorationChoices(ranch);

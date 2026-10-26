@@ -17,6 +17,8 @@ namespace ANIMOL.Puzzle
         public ANIMOL.Art.RanchConnectedDecorV01.RanchConnectedDecorV01Catalog ranchConnectedDecorV01Catalog;
         public TextAsset ranchConnectedDecorV01ManifestPin;
         public MemorySkyTheaterArt memorySkyTheater;
+        public ANIMOL.Art.TheaterConnectedDecorV01.TheaterConnectedDecorV01Catalog theaterConnectedDecorV01Catalog;
+        public TextAsset theaterConnectedDecorV01ManifestPin;
         public ClockDomeArt clockDome;
         public ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02VisualCatalog sunsetSanctumV02Catalog;
         public Material sunsetSanctumV02BeamMaterial;

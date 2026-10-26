@@ -1,0 +1,50 @@
+{
+  "id": "ART01",
+  "status": "RESOLVED_OFFLINE_ART_REVIEW",
+  "file": "decor/groups/stacked_props_2x2.png",
+  "footprintCells": [
+    2,
+    2
+  ],
+  "logicalRect": [
+    32,
+    32,
+    512,
+    512
+  ],
+  "alphaBBox": [
+    41,
+    224,
+    535,
+    544
+  ],
+  "visibleWidthFill": 0.96484375,
+  "visibleHeightFill": 0.625,
+  "finding": "Final 12-prop footprint sheet shows stacked_props_2x2 occupying roughly one visible row of its declared2x2 slot, leaving most of upper row empty. Metadata/width-only contract passed but prior user requires fullness of declared tile extent.",
+  "recommendedResolution": "Native art edit to a cohesive two-row square pile, without nonuniform scaling; alternative only with coordinated runtime/key/docs/metadata revision to honest2x1.",
+  "metadataHashChecksRemainValid": true,
+  "actualUnity": "NOT_RUN",
+  "resolution": {
+    "method": "Fresh native imagegen square two-depth-row pile on shared stage deck; uniform resizing only, no aspectstretch.",
+    "file": "decor/groups/stacked_props_2x2.png",
+    "sha256": "bbefeba82c4edda322a0d327eecc04f83bf4671c5d0e201e08a564dc69bd3ca3",
+    "sourceFiles": [
+      "sources/stacked_props_2x2_full_footprint_native.png"
+    ],
+    "groundOpaqueBBox": [
+      0,
+      48,
+      512,
+      510
+    ],
+    "logicalGroundWidthFill": 1.0,
+    "logicalGroundHeightFill": 0.90234375,
+    "twoRowOpaqueDensities": [
+      0.6562042236328125,
+      0.958251953125
+    ],
+    "other117RuntimePNGsUnchanged": true,
+    "proof": "Independent comparison with original c2bc7ae canonical manifest before final refresh.",
+    "manualVisualReview": "Revised runtimePNG directly viewed; two separate depth rows fill declaredsquare slot coherently in same angular flat style."
+  }
+}

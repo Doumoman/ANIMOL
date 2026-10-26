@@ -1,0 +1,200 @@
+{
+  "status": "PASS_SOURCE_AND_DTO_REVIEW_ONLY",
+  "checksCount": 24,
+  "checks": [
+    {
+      "name": "six additive runtime files lexically balanced",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Comments/literals/delimiters checked only; no C# parser/compiler."
+    },
+    {
+      "name": "flat DTO and current identity/pin",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "No nested arrays/Dictionary/interface fields in serialized DTO."
+    },
+    {
+      "name": "required arrays are explicit",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Null/missing required arrays fail; explicit empty arrays can clear."
+    },
+    {
+      "name": "full plan and exact plane whitelist validation",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Existing planner validates every footprint; approval callback captures its own HashSet."
+    },
+    {
+      "name": "defensive copies include all mutable rows",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Outer arrays and each network/group/allowed record are cloned; strings are immutable."
+    },
+    {
+      "name": "finite input and derived renderer positions",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "NaN/infinite inputs and derived float-coordinate overflow fail before publication."
+    },
+    {
+      "name": "asset stores and returns validated copies",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Invalid asset edit is not committed; getter returns independent validated data."
+    },
+    {
+      "name": "published invalid input/example invalidates old state",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "No last-valid authority fallback after an invalid publish."
+    },
+    {
+      "name": "published pool disable requires fresh publication",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Fresh explicit publication while inactive remains possible after the disable invalidation."
+    },
+    {
+      "name": "source events cover lifetime and pure captures",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Availability changes reach bindings; one subscriber exception does not prevent others."
+    },
+    {
+      "name": "authored state and example role stay explicit",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Static authored assets do not masquerade as fresh dynamic game state."
+    },
+    {
+      "name": "concrete Configure and SetLayout calls exist",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "The new Binding calls both existing APIs; it is not only an unused public wrapper."
+    },
+    {
+      "name": "controller ownership and explicit construction",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Binding resolves its own required Controller even after an Inspector field edit; foreign visuals are never cleared."
+    },
+    {
+      "name": "actual source subscription and cross-source unsubscribe",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Active binding observes the current provider only; inactive/destroyed binding detaches."
+    },
+    {
+      "name": "inactive construction and disabled source policy",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Enabled inactive root can be authored; disabled source or inactive source under an active binding fails."
+    },
+    {
+      "name": "example data requires explicit opt-in",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Published production source also independently rejects example payloads."
+    },
+    {
+      "name": "execution order and failed layout clearing",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Binding runs after default-order Controller; rejects current input without old visual fallback."
+    },
+    {
+      "name": "idempotence validates hierarchy before cache",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Cache includes world transform and active state; inactive-to-active Editor refresh really applies."
+    },
+    {
+      "name": "transform and configuration changes force reapply",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Changed parent/configuration/externally replaced plan cannot reuse a stale binding cache."
+    },
+    {
+      "name": "no polling/game authority introduced",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Event-driven decoration visuals only; no timer/input/turn/collision generation."
+    },
+    {
+      "name": "nineteen meaningful optional source tests",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "NOT_RUN. Five asset-backed tests require a real generated catalog; absence explicitly Ignore."
+    },
+    {
+      "name": "existing art identity retained",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Source files are additive; original118PNG/art manifest were not written by this owner."
+    },
+    {
+      "name": "eight original C# files unchanged",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "Original planner/controller/catalog/importer APIs retained byte-for-byte."
+    },
+    {
+      "name": "flat stage and all26 examples have complete approved claims",
+      "status": "PASS_SOURCE_OR_DTO_REVIEW_ONLY",
+      "detail": "DTO validation is offline Python inspection, not JsonUtility or Unity execution."
+    }
+  ],
+  "exampleChecks": [
+    {
+      "file": "stage_snapshot.json",
+      "status": "PASS_DTO_REVIEW_ONLY",
+      "networks": 48,
+      "groups": 16,
+      "uniqueFamilies": 21,
+      "claims": 88,
+      "approvedCells": 138,
+      "sha256": "91657a43b4f1370916dc07e0cb74e733ae530ef2c7ed1bdea1705fb46fd8a5ff"
+    },
+    {
+      "file": "all26_snapshot.json",
+      "status": "PASS_DTO_REVIEW_ONLY",
+      "networks": 78,
+      "groups": 20,
+      "uniqueFamilies": 26,
+      "claims": 123,
+      "approvedCells": 1920,
+      "sha256": "fcc8599469e7cfe7ee0d09a6a459dbf51da2d2c53338ae1ea8d8477767a2fc94"
+    }
+  ],
+  "optionalNUnitSourceTests": 19,
+  "actualNUnitExecution": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualGeneratedPrefab": "NOT_RUN",
+  "actualGeneratedScenePlay": "NOT_RUN",
+  "actualHostBindings": "NOT_RUN",
+  "toolchain": {
+    "Unity": null,
+    "unity-editor": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "limits": "Read/lexical/DTO-contract inspection only. No C# parser, compiler, Unity runtime or original game project was available.",
+  "files": [
+    {
+      "file": "Runtime/TheaterConnectedDecorV01AuthoredSnapshotSource.cs",
+      "bytes": 1504,
+      "sha256": "1769b63c048c698959a2b04d4cafd385d16cbebc0e9f6f7ad707bd959af25ac7"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01Binding.cs",
+      "bytes": 12355,
+      "sha256": "74c626009d9964ddb43e7a3eabdcaa2c26dd04eb16265b8a844c6ffc8659c14c"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+      "bytes": 1064,
+      "sha256": "e55056e628651104ed57a8c027eae3feda97ebcbb07628a71594cf72a310d3ed"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+      "bytes": 7630,
+      "sha256": "05f53caf179bf902b1c932d622c80d3cfbc17a237e3220c24ac516e6b745072c"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01PublishedSnapshotSource.cs",
+      "bytes": 2065,
+      "sha256": "e071795af31d895ab8edbe03dfa6535f37cea3a8863ba5da2baa621e6c2f93ae"
+    },
+    {
+      "file": "Runtime/TheaterConnectedDecorV01SnapshotSource.cs",
+      "bytes": 1077,
+      "sha256": "2823b59521dfa2076d543ca6d94ba29b098d982b883f39e8eaa3928e000a6122"
+    },
+    {
+      "file": "Tests~/TheaterConnectedDecorV01CompletionTests.cs",
+      "bytes": 18359,
+      "sha256": "ca882566d8635b8a41a8f0556c4cf6113b72ed16a4cacc7daf7a9ae1cc9b386d"
+    }
+  ]
+}

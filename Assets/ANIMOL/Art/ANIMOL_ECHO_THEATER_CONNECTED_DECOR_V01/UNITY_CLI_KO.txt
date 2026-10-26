@@ -1,0 +1,118 @@
+ANIMOL 잔영 극장 연결 장식 V01 — 배치 연결 보완 R2 Unity 적용 명령
+
+목표
+이번에는 제공된 소스가 실제로 장식을 표시하는 경로까지 연결하라. 이 패키지의 기존26종/118PNG,
+manifest.json과 art pin8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069를 보존한다.
+낙일 성소나 다른 테마로 넘어가지 않는다. 장식 모델·입력·턴·코스트·Collider·게임 규칙을 변경하지 않는다.
+현재 원 프로젝트에서 실제 실행을 확인해야 하며, 동봉된 오프라인 검수와 PNG를 실행 증거로 쓰지 말라.
+
+1. 설치와 실제 프로젝트 조사
+Assets 아래 패키지 루트 ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01 이름을 유지한다.
+이전 묶음과 같은 폴더에 병합하고 기존 .meta 및 실제 Unity가 만든 _Generated 자산의 GUID를 유지한다.
+같은 C# 클래스를 포함한 두 폴더가 함께 컴파일되지 않게 한다. 원 극장 V03 전체를 다시 설치하지 않는다.
+README_KO.txt,COMPLETION_R2_KO.txt,manifest/pin,sprite_import_settings,Runtime/Editor의 신규 소스,
+Examples/stage_snapshot.json,Examples/all26_snapshot.json,QA/CompletionR2 자료를 읽는다.
+현재 극장 테마 ID,장식 데이터 모델,맵 생성/편집/로드/undo/redo/재시작/풀 재사용 이벤트와 Sorting Layer를
+실제 소스로 확인한다. memory_theater 같은 추측 ID나 임의의 프로젝트 필드/이벤트를 만들지 말라.
+
+2. 정확한 카탈로그와 실제 작동 예시를 생성
+기존 CatalogBuilder는 카탈로그를 만들고, 새 BoardTools는 typed JSON을 엄격하게 검사해
+BoardAsset → AuthoredSnapshotSource → Binding → Controller를 연결한 실제 Prefab을 만든다.
+검사 씬 생성은 명시적 옵션이다. 아래는 Bash 형식이며 PowerShell에서는 실행 파일 앞에 &를 붙인다.
+
+"<UNITY_EDITOR_PATH>" -batchmode -projectPath "<PROJECT_PATH>" -executeMethod ANIMOL.Art.TheaterConnectedDecorV01.TheaterConnectedDecorV01BoardTools.BuildExamplesFromCommandLine -theaterDecorManifest "Assets/<설치경로>/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/manifest.json" -theaterDecorStageSnapshot "Assets/<설치경로>/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/Examples/stage_snapshot.json" -theaterDecorAllSnapshot "Assets/<설치경로>/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/Examples/all26_snapshot.json" -theaterDecorSortingLayer "<실제 기존 Sorting Layer>" -theaterDecorCreateScenes true -quit -logFile "<PROJECT_PATH>/Logs/theater-connected-decor-r2-build.log"
+
+Editor 메뉴 Tools/ANIMOL/Theater Connected Decor V01/Build example boards…도 같은 입력을 받는다.
+소스의 실제 출력 경로를 확인하고 _Generated/InspectionBoards/Stage 및 All26의 BoardAsset/Prefab,
+옵션으로 생성한 .unity와 보고서를 제출한다. Scene 생성 옵션이 false이면 씬은 만들지 않는다.
+생성 전 열려 있는 Prefab Stage를 저장하고 닫는다. 생성 대상 검사 씬이 이미 열려 있거나
+소유한 출력 자산에 저장하지 않은 수정이 있으면 먼저 저장·닫기 상태를 정리한 뒤 재실행한다.
+기존 생산 씬이나 사용자의 저장하지 않은 씬을 변경하지 말라. 카메라/선택 조명은 새 검사 씬 안에만 둔다.
+출력 소유 표식이 다른 기존 파일을 덮어쓰지 말라. 실제 Unity API가 만든 GUID/fileID만 사용한다.
+생성기는 명시적 RefreshNow와 CurrentPlan/렌더러 수를 검사한다. 그 코드가 있다는 사실과 실제 생성 성공을
+구분하고, enabled/active/실제 Sprite 준비 여부까지 확인한 임포트/컴파일/생성 로그를 남긴다. 실패 로그를 숨기고 완료로 보고하지 말라.
+
+3. 두 검사 보드에서 실제 표시 확인
+Stage: 기존 예시의48연결칸/16묶음/88점유/21종. All26:78연결칸/20묶음/123점유/26종.
+All26에는 기존 Stage에 없던 folded_chair,mask_pedestal,sandbag_stack,script_pile,
+stacked_props_2x2가 포함된다. Catalog의 마스크/보조 기둥은 새로운 장식 종류로 세지 않는다.
+두 JSON은 schemaVersion1의16개 필드를 가지며 허용 셀은 평평한 객체 배열이다.
+오래된 example_layout.json은 합성 예시 자료이고 새 strict importer의 입력이 아니다.
+두 typed 보드는 isExampleOnly=true이다. 실제 게임 저장 상태로 가져오지 말라.
+검사 씬을 열어 Play하여 Source 캡처 → Binding.RefreshNow → Controller.Configure/SetLayout의
+실제 호출과 Renderer/Sprite/GUID/PPU/pivot을 확인한다. 실제 스크린샷과 로그를 남긴다.
+
+4. 실제 게임의 확정 데이터에 PublishedSnapshotSource 연결
+같은 장식 전용 GameObject의 Controller와 Binding을 사용한다. Binding이 다른 오브젝트의
+Controller나 Renderer를 정리하게 하지 말라. 실제 모델 공급자는 PublishedSnapshotSource를 사용한다.
+호스트가 실제 장식 데이터와 허용 셀에서 스냅샷을 만들어 PublishSnapshot(snapshot,out error)로
+먼저 전달한 뒤 Binding.Bind(controller,catalog,pin,actualSortingLayer,source,out error)를 호출한다.
+프로덕션에서는 마지막 allowExampleSource 인수를 생략하거나 false로 한다. true로 검사 데이터를 통과시키지 않는다.
+
+BoardSnapshot 필드
+schemaVersion=1, packageId=ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01, sourceManifestSha256=현재pin,
+boardId=실제 보드의 식별값, revision=호스트의 데이터 리비전, isWholeBoard=true,isExampleOnly=false,
+originX/Y/Z=셀(0,0)의 왼쪽 아래 월드 원점, cellSize=실제 셀 월드 크기, seed,postSpacing=3또는4,
+networkCells,groupPlacements,allowedDecorCells의 명시적 배열.
+networkCells는 x,y,logicalLayer,heightKey,sortingOrder,worldZ,family,connectionGroup.
+groupPlacements는 placementId,groupKey,anchorX,anchorY,logicalLayer,heightKey,sortingOrder,worldZ.
+allowedDecorCells는 x,y,logicalLayer,heightKey. 배열 null과 누락은 거절한다. 의도적인 빈 보드는 빈 배열로 전달한다.
+
+실제 타입/필드에서 위 형식으로 변환하는 얇은 어댑터를 작성하고 소스 위치를 제출한다. 이 어댑터에
+표시용 예시의1920허용 셀을 복사하거나 요청한 칸을 스스로 승인하는 코드, return true를 넣지 말라.
+호스트의 현재 장식 허용 공간을 순수 조회한 결과를 스냅샷으로 만든다. 게임 점유를 이 조회 안에서
+예약/변경하지 않는다. 모든 multi-cell 칸이 허용돼야 그룹당1개만 생성한다.
+스냅샷은 카메라/청크 일부가 아닌 전체 장식 보드다. Source와 Binding은 외부 배열 변경이 새지 않도록
+복사하므로 실제 모델이 바뀐 후에는 새 스냅샷을 다시 Publish해야 한다.
+
+5. 변경·로드·Undo·풀의 실제 이벤트 연결
+맵 로드/생성 완료, 확정 편집,undo/redo,재시작,씬 재진입,풀 재사용 후 최신 스냅샷을 Publish한다.
+Binding은 Source.Changed를 구독하고 자동으로 최신 상태를 캡처해 실제 Controller를 갱신한다.
+별도의 Start/Update 폴링, 매 프레임 랜덤, 애니메이션 종료에 의한 턴 진행을 추가하지 말라.
+무효 입력이나 취소된 편집은 권위 모델이 바뀌지 않았으므로 새 Publish/비용을 발생시키지 않는다.
+PublishedSource가 비활성화되면 옛 권위 데이터는 무효화된다. 풀에서 꺼낸 뒤 반드시 현재 보드 상태를
+새로 Publish한다. 예전 그림이 자동 복구된다는 가정으로 두지 말라. AuthoredSource는 명시적으로
+지정한 정적 BoardAsset을 사용하는 경로이며 권위 모델을 자동으로 읽는 범용 어댑터가 아니다.
+실패 시 Binding은 자기 소유 그림만 지우고 진단을 남긴다. 누락/틀린pin을 옛 PNG로 대체하지 않는다.
+기존 Animator/코루틴이 같은 Renderer를 다시 쓰지 않도록 그림 쓰기 책임을 한 곳으로 이관한다.
+
+6. 좌표·크기·연결 규칙 보존
+월드+Y=N,4이웃 N1 E2 S4 W8이다. 같은 family/connectionGroup/logicalLayer/heightKey만 연결한다.
+연결된 띠 전체가 connectionGroup을 공유하고, 큰 그룹/한 칸 소품은 각 placementId가 고유하다.
+행이 아래로 늘어나면 FromRowDownCell(col,row)=(col,-row),
+FromRowDownGroupBottomLeft(left,top,h)=(left,-top-h+1),
+RowDownTopLeftToWorldOrigin(boardTopLeft,cellSize)를 사용한다.
+그룹 anchor는 왼쪽 아래, 지면 중심은 anchor+(w/2,h/2)이다. PNG pivot은 logicalRect 중심이다.
+PPU256/개별 캔버스/pivot/전체 점유를 유지하고 alpha bounds나 PNG 전체를 한 칸에 fit하지 말라.
+부모 양수 X/Y 배율은 축별 상쇄해 균일한 월드 셀 크기를 유지하고, 회전/반전/비정상 변환은 진단한다.
+부모가 이동/스케일 변경된 뒤에도 같은 스냅샷이라고 잘못 건너뛰지 않고 Refresh가 검증하게 한다.
+보조 기둥은 선언된 첫2계열의 긴 직선에서만 월드 고정 간격으로 선택된다. 끝/모서리/갈림길 옆에 덧붙이지 않는다.
+기존 W다리 난간/공유 꼭짓점 기둥 owner와 새 객석 장식 owner를 중복시키지 않는다.
+G=stage_floor,W=wood_catwalk,S=velvet_carpet이며 S의 지지대는 G로 정규화한다.
+
+7. 기존 장치와 최신 아트/레거시 이관 범위
+장식 curtain screen/prop shelf/puppet storage는 작동 교대 셔터/회전 책장/겁쟁이 인형이 아니다.
+책장 H2×1↔V1×2 중간 회전, 도미노의 순차 넘어짐, 기존 공통 문/바람/무빙워크/제동판 등
+최신 동작/애니메이션/점유를 이번 정적 장식으로 덮지 않는다. 실제 게임의 새 기능이나 충돌을 만들지 않는다.
+기존14소품 중6개가 이미 multi-cell이었다. 실제 old GUID/fileID/논리 점유/사용처와 새26키를 대응한다.
+organ2×2→piano3×2,seat_pair2×1→bench3×1,scenery2×2→new3×1처럼 크기가 달라지면
+새 점유 전체의 허용 여부를 확인하고 실제 배치를 수정한다. 임의 축소나 경로 차단을 하지 않는다.
+기존 footlight on/dim/off가 기능 상태이면 정적 strip으로 덮지 않는다. 미확인 자동 매핑을 하지 않는다.
+씬/Prefab/SO/문자열 로딩/Resources/Addressables/원격/SpriteAtlas/Animator/캐시/풀을 조사하고
+극장 장식의 접근 가능한 옛 참조만 최신 카탈로그로 이관한다. 실제 참조0를 증명한 해당 옛 시각물만
+dry-run 목록 후 정리하고 다른 테마/장치/타일/배경의 공유 자산과 .meta는 일괄 삭제하지 않는다.
+
+8. 실제 결과 검증과 제출
+- import/compile 오류0,Missing Script/Sprite0,실제 Catalog/BoardAsset/Prefab/Scene GUID/fileID 일치.
+- Stage/All26 생성 성공과 두 씬의 실제 Play,6계열 접합·20소품 점유·그룹당 Renderer1개 확인.
+- 실제 캠페인·대전·에디터·로드·undo/redo·재시작·풀에서 최신 모델→Publish→Binding→Controller 호출 증거.
+- 원본 배열을 Publish 후 수정해도 기존 캡처가 바뀌지 않음; 한 칸 거절/중복/누락/잘못된pin이 전체 거절됨.
+- PublishedSource 비활성/풀반납후 옛 상태가 복구되지 않으며 freshPublish로만 다시 표시됨.
+- 반복동일갱신/부모이동·스케일/회전거절/소스교체/구독해제/빠른변경/씬재진입 확인.
+- 프로덕션 Source의 exampleOnly거절, 실제 호스트 미연결을 검사 씬 생성 성공으로 숨기지 않음.
+- 기존 책장·도미노·공통/극장 장치·게임 경로·코스트·다른 테마 회귀 없음.
+선택 NUnit 소스는 Tests~에 있다. 실제 TestRunner로 실행하고 미실행을 PASS로 표시하지 말라.
+
+ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01_PROJECT_APPLY_RESULT.md에 실제 변경 파일/씬/Prefab,
+호스트 타입/이벤트 바인딩표,26종 매핑/예외,GUID/fileID/SHA표,생성/컴파일/TestRunner/Play로그,
+실제 화면/갱신 영상,미확인 항목을 제출한다. 이 환경의 합성 PNG와 소스 검수는 Unity 실행 증거가 아니다.

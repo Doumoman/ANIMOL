@@ -1,0 +1,113 @@
+{
+  "status": "INDEPENDENT_COMPLETION_SOURCE_DATA_CANONICAL_AUDIT_COMPLETE",
+  "installationRevision": 2,
+  "openFindingCount": 0,
+  "resolvedFindingCount": 7,
+  "originalCore8Unchanged": true,
+  "originalRuntime118PNGUnchanged": true,
+  "artManifestSha256": "8781ade4a02f32a7a528f76e49e2664f800fbf0dc2e5e0b07a40c967a651e069",
+  "producerExports": {
+    "runtime_exports": {
+      "frozenFile": "runtime_exports/EXPORT_FROZEN.json",
+      "sha256": "7cfbf3720eb9df29890f4cfa45878b623b34a1f5340ab57abe72bf5e3568c0aa",
+      "fileCount": 12
+    },
+    "editor_exports": {
+      "frozenFile": "editor_exports/EXPORT_FROZEN.json",
+      "sha256": "dcc6cb4e9bc9d726f4c7e8c148400f09b40bb89f34e27a83fe69f4c1224086f5",
+      "fileCount": 7
+    }
+  },
+  "independentSourceChecks": 32,
+  "strictJSONSourceChecks": 20,
+  "strictJSONOracleCases": 36,
+  "newOptionalNUnitSourceCases": 31,
+  "actualControllerCallSites": 2,
+  "stageSnapshotSha256": "91657a43b4f1370916dc07e0cb74e733ae530ef2c7ed1bdea1705fb46fd8a5ff",
+  "all26SnapshotSha256": "fcc8599469e7cfe7ee0d09a6a459dbf51da2d2c53338ae1ea8d8477767a2fc94",
+  "all26PreviewFrozenSha256": "9b112cc06a4cac8adf441330865cdccc7711937f05768d32742828d64b6439e1",
+  "strictJSONFrozenSha256": "bb9193c04f1ae71d6a9f303b1ba428fb2eff19bba553e42d479567fc69ddb78c",
+  "files": [
+    {
+      "file": "all26_preview_independent_qa.json",
+      "sha256": "891061f8bfec7e57876333e7f07c0826355a312302602ba9626ca7bb6e47dd27"
+    },
+    {
+      "file": "audit_all26_preview.py",
+      "sha256": "dcbd9687616d8f839d2a5a586110a578bf4d9178bcbf2c27d736765fae2a10ba"
+    },
+    {
+      "file": "audit_canonical_completion.py",
+      "sha256": "edfc36ba93c31866266b35b7de7976572f959b5375c2434271752cbfc921ebed"
+    },
+    {
+      "file": "audit_examples.py",
+      "sha256": "832ed0a4a8e2b207fe4771592324f5bc71fb746a49961210b3daca5e17dadf97"
+    },
+    {
+      "file": "before_completion_baseline.json",
+      "sha256": "786d2861de65b5f7d207f59dc5612ecb3b7bbd1fce98e6135a3faf895896b1bf"
+    },
+    {
+      "file": "canonical_completion_independent_qa.json",
+      "sha256": "aee0dfc19ef50fc139f97cdb41b575114e22857dceda5a307de8147a166d6d14"
+    },
+    {
+      "file": "completion_source_independent_qa.json",
+      "sha256": "ab16a77ddf7d368eab3bed79350828c1585b30777da392f11b1d1a15c893ca8b"
+    },
+    {
+      "file": "docs_independent_qa.json",
+      "sha256": "a421c61180827044f9aa253b308fbc619f7d377e52d111683638d9a00e0bca61"
+    },
+    {
+      "file": "examples_independent_qa.json",
+      "sha256": "49db4a8dbca182158e16cf2ac47c7a47439e0a4ed82f89e9334a6f29145497c9"
+    },
+    {
+      "file": "json_review/JSON_REVIEW_FROZEN.json",
+      "sha256": "bb9193c04f1ae71d6a9f303b1ba428fb2eff19bba553e42d479567fc69ddb78c"
+    },
+    {
+      "file": "json_review/check_board_json_shape.py",
+      "sha256": "192ba0e84ff9be0e4fe9f2548f513b173689280ac5402321561cb3a352dda381"
+    },
+    {
+      "file": "json_review/review_json_source.py",
+      "sha256": "b6c4edf3800efc21bf324866c0af2bcdffb86edeb01c4f9c3782dcff83ff3d48"
+    },
+    {
+      "file": "json_review/strict_json_negative_corpus.json",
+      "sha256": "27aef0fe3b5a20446488af9582b76e78a9f7f8d6024ee5d39786123c7abc37c1"
+    },
+    {
+      "file": "json_review/strict_json_review_checklist.json",
+      "sha256": "8764933c4cd31e405e70bcb42773d81047f6ebd76bd19d9fbbb3ca868c19346d"
+    },
+    {
+      "file": "json_review/strict_json_source_review.json",
+      "sha256": "1ae2c22a295d22251c38a2137827e69a7e7a0b17e94d6f239439db86f6ed0439"
+    },
+    {
+      "file": "review_completion_source.py",
+      "sha256": "578484c4a7c7120d54f8dd2846dde1187a99eeb5a061d02e213d65842af74f7b"
+    }
+  ],
+  "canonicalByteAndWiringAudit": "PASS_CANONICAL_OFFLINE",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualCSharpParserExecution": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualGeneratedPrefabScene": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN",
+  "actualScenePlay": "NOT_RUN",
+  "actualProductionHostBindings": "NOT_RUN",
+  "actualLegacyZero": "NOT_RUN",
+  "canonicalCheckCount": 495,
+  "canonicalPackageChecksumsVerifiedAtAudit": 340,
+  "canonicalSourcePrimaryCSharpCount": 19,
+  "remainingDeliveryChecks": [
+    "Root-owned final ZIP CRC and extraction check after final QA refresh"
+  ],
+  "actualProjectSpecificAdapter": "REQUIRES_ORIGINAL_PROJECT_HOST_IMPLEMENTATION",
+  "oldArtFiltering108Cases": "REUSED_UNCHANGED_EVIDENCE_NOT_RERUN"
+}

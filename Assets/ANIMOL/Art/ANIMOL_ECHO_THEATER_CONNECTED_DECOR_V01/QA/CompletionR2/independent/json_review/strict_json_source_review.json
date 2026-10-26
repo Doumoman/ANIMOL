@@ -1,0 +1,289 @@
+{
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "scope": "Independent manual reading and source-contract checks of strictJSON/DTO/asset/importer chain. Python stdlib/Decimal oracle validates data and case expectations; it does not execute delivered C#.",
+  "sources": [
+    {
+      "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+      "sha256": "8a5d1693cc969315a7cd759f0f6f4892bb21dfcf82c63f59add2cdd10615d432",
+      "lines": 168
+    },
+    {
+      "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardTools.cs",
+      "sha256": "ed795baa08a713327756da78cab20d1214a693d909350d5ecff348805750dff3",
+      "lines": 354
+    },
+    {
+      "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+      "sha256": "05f53caf179bf902b1c932d622c80d3cfbc17a237e3220c24ac516e6b745072c",
+      "lines": 121
+    },
+    {
+      "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+      "sha256": "e55056e628651104ed57a8c027eae3feda97ebcbb07628a71594cf72a310d3ed",
+      "lines": 25
+    },
+    {
+      "file": "editor_exports/Tests~/TheaterConnectedDecorV01BoardJsonTests.cs",
+      "sha256": "9f1ed5391cf5a5efc5cd55f702a46b30c9830b962ebf268ae736e040a13d9ce3",
+      "lines": 34
+    }
+  ],
+  "checkCount": 20,
+  "checks": [
+    {
+      "id": "J01",
+      "requirement": "Root and rows must be objects with exact expected key sets.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 59,
+          "token": "private static void Fields("
+        }
+      ]
+    },
+    {
+      "id": "J02",
+      "requirement": "All16root fields are explicit required typed fields before JsonUtility.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 36,
+          "token": "Fields(root,"
+        }
+      ]
+    },
+    {
+      "id": "J03",
+      "requirement": "Network8/group8/allowed4 row fields are explicit, including zero-valued coordinates.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 41,
+          "token": "foreach (Node row in root.fields[\"networkCells\"].items)"
+        }
+      ]
+    },
+    {
+      "id": "J04",
+      "requirement": "Unknown/missing/case-alias field names fail via exact count plus ordinal key lookup.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "J05",
+      "requirement": "Escaped keys normalize before duplicate-key lookup; duplicate values cannot overwrite an earlier field.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 118,
+          "token": "Duplicate board JSON key:"
+        }
+      ]
+    },
+    {
+      "id": "J06",
+      "requirement": "Arrays are explicitly typed; null/missing arrays and jagged/null/scalar rows fail, while empty arrays remain legal.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "J07",
+      "requirement": "Int32 coordinates/metadata use raw literal Int32.TryParse with exact signed range and invariant culture.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 69,
+          "token": "private static void Int32("
+        }
+      ]
+    },
+    {
+      "id": "J08",
+      "requirement": "Int64 revision uses raw literal long.TryParse rather than parsing through double.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 77,
+          "token": "private static void Int64("
+        }
+      ]
+    },
+    {
+      "id": "J09",
+      "requirement": "JSON number grammar rejects leading zero, plus sign, malformed fractional/exponent tokens and non-JSON NaN/Infinity.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "J10",
+      "requirement": "Float fields must parse invariantly to finite values within float32 maximum range before JsonUtility.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 85,
+          "token": "private static void Float("
+        }
+      ]
+    },
+    {
+      "id": "J11",
+      "requirement": "Semantic validation checks exactpackage/art pin/wholeboard/nonnegative revision/positive finitecellSize/postSpacing3or4.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+          "line": 41,
+          "token": "public bool TryValidate("
+        }
+      ]
+    },
+    {
+      "id": "J12",
+      "requirement": "Literal control characters, invalid escapes, short/non-hex Unicode escapes fail; Unicode Hex parsing excludes whitespace.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 156,
+          "token": "NumberStyles.AllowHexSpecifier"
+        }
+      ]
+    },
+    {
+      "id": "J13",
+      "requirement": "Parser bounds JSON size/depth, accepts optional initial BOM and rejects trailing data.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "J14",
+      "requirement": "Parse invokes snapshot semantic validation after strictshape and before returning typed data.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardJson.cs",
+          "line": 28,
+          "token": "snapshot.TryValidate(out error)"
+        }
+      ]
+    },
+    {
+      "id": "J15",
+      "requirement": "Semantic group/family/duplicate/full-footprint checks delegate to the existing purePlanner and exact whitelist.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardSnapshot.cs",
+          "line": 54,
+          "token": "TheaterConnectedDecorV01Planner.CreatePlan("
+        }
+      ]
+    },
+    {
+      "id": "J16",
+      "requirement": "Approved-cell predicate captures private value keys, so caller record mutation cannot grant new cells.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    },
+    {
+      "id": "J17",
+      "requirement": "Both example JSON inputs parse/validate/current-pin-check before catalog build or any board asset writes.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 63,
+          "token": "var stage = ReadExample("
+        },
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 64,
+          "token": "var all = ReadExample("
+        }
+      ]
+    },
+    {
+      "id": "J18",
+      "requirement": "BoardAsset setter defensively copies and validates before statecommit; getter validates private copy.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "runtime_exports/Runtime/TheaterConnectedDecorV01BoardAsset.cs",
+          "line": 9,
+          "token": "public bool TrySetSnapshot("
+        }
+      ]
+    },
+    {
+      "id": "J19",
+      "requirement": "Editor save commits only validated typed snapshot and current ownedoutput path; invalid snapshot does not create/save BoardAsset.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": [
+        {
+          "file": "editor_exports/Editor/TheaterConnectedDecorV01BoardTools.cs",
+          "line": 137,
+          "token": "private static TheaterConnectedDecorV01BoardAsset SaveBoard("
+        }
+      ]
+    },
+    {
+      "id": "J20",
+      "requirement": "OptionalEditor NUnit sources cover actual JsonUtilityInt64 roundtrip, malformed Unicode whitespace and exact numeric failures.",
+      "status": "PASS_SOURCE_REVIEW_ONLY",
+      "evidence": []
+    }
+  ],
+  "openFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "JSON01",
+      "finding": "NumberStyles.HexNumber accepted leading/trailing whitespace insidefourchar Unicodeescape.",
+      "resolution": "Uses NumberStyles.AllowHexSpecifier with existing exactfourchar guard; malformedUnicodewhitespace negative case added.",
+      "status": "RESOLVED_SOURCE_REVIEW_ONLY"
+    }
+  ],
+  "negativeCorpus": {
+    "caseCount": 36,
+    "status": "PASS_INDEPENDENT_ORACLE_CORPUS",
+    "execution": "Independent Python oracle only; C# NOT_RUN"
+  },
+  "examples": [
+    {
+      "file": "examples_exports/Examples/stage_snapshot.json",
+      "sha256": "91657a43b4f1370916dc07e0cb74e733ae530ef2c7ed1bdea1705fb46fd8a5ff",
+      "status": "PASS_INDEPENDENT_PYTHON_SHAPE_ORACLE",
+      "networkCells": 48,
+      "groupPlacements": 16,
+      "allowedCells": 138,
+      "actualCSharpExecution": "NOT_RUN"
+    },
+    {
+      "file": "examples_exports/Examples/all26_snapshot.json",
+      "sha256": "fcc8599469e7cfe7ee0d09a6a459dbf51da2d2c53338ae1ea8d8477767a2fc94",
+      "status": "PASS_INDEPENDENT_PYTHON_SHAPE_ORACLE",
+      "networkCells": 78,
+      "groupPlacements": 20,
+      "allowedCells": 1920,
+      "actualCSharpExecution": "NOT_RUN"
+    }
+  ],
+  "optionalNUnitCases": 12,
+  "optionalNUnitExecution": "NOT_RUN",
+  "compilerAvailability": {
+    "Unity": null,
+    "dotnet": null,
+    "csc": null,
+    "mcs": null
+  },
+  "actualCSharpCompile": "NOT_RUN",
+  "actualCSharpParserExecution": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN"
+}
