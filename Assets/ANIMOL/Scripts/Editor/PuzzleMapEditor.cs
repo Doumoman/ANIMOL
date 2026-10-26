@@ -14,15 +14,16 @@ namespace ANIMOL.Presentation.Editor
         enum Marker { Start, Bubble, Exit }
         [SerializeField] PuzzleMap map;
         [SerializeField] PuzzleTheme newMapTheme;
-        [SerializeField] int newMapWidth = 12, newMapHeight = 18;
+        [SerializeField] string newMapName = "NewMap";
         Layer layer;
         Marker marker;
         TerrainMaterial material;
         PrototypeDevice prototypeBrush;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
-        bool useLibrary = true, inspectDevice = true, showConnections = true, linkTargetMode;
+        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, scenarioCreationQueued;
         int templateIndex;
         string selectedDeviceId;
+        string scenarioCreationError;
         bool showScenario;
         Sprite decoration;
         Color decorationTint = Color.white;
@@ -46,8 +47,8 @@ namespace ANIMOL.Presentation.Editor
         void Undone() { if (map) { map.InvalidateIndex(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = false;
-            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; newMapWidth = map.Width; newMapHeight = map.Height; if (map.theme) newMapTheme = map.theme; }
+            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = false; scenarioCreationError = null;
+            if (map) { pendingWidth = map.Width; pendingHeight = map.Height; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
         void OnGUI()
@@ -88,20 +89,29 @@ namespace ANIMOL.Presentation.Editor
             if (GUILayout.Button("크기 적용 (잘린 배치 보관)") && Resize(map, pendingWidth, pendingHeight, true)) { pendingWidth = map.Width; pendingHeight = map.Height; }
             var outside = map.OutsideCount(map.Width, map.Height);
             if (outside > 0) EditorGUILayout.HelpBox("맵 밖 배치 " + outside + "개가 비활성 상태로 보관됩니다. 맵을 넓히면 복구됩니다. 시작점·출구가 밖에 있으면 미리보기를 실행할 수 없습니다.", MessageType.Warning);
+            var previousTheme = map.theme;
             var serialized = new SerializedObject(map); serialized.Update();
             EditorGUILayout.PropertyField(serialized.FindProperty("theme"), new GUIContent("테마"));
-            EditorGUILayout.PropertyField(serialized.FindProperty("scenario"), new GUIContent("장치 시나리오"));
             EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"), new GUIContent("목표 방울 수"));
             DrawCameraSettings(serialized.FindProperty("cameraSettings"));
             if (serialized.ApplyModifiedProperties()) map.InvalidateIndex();
+            if (map.theme != previousTheme)
+            {
+                scenarioCreationError = null;
+                var themeId = ThemeId(map.theme);
+                if (map.scenario && !string.IsNullOrEmpty(themeId) && map.scenario.themeId != themeId)
+                {
+                    Undo.RecordObject(map.scenario, "맵 테마 변경");
+                    map.scenario.themeId = themeId;
+                    EditorUtility.SetDirty(map.scenario);
+                }
+            }
             if (map.scenario)
             {
                 showScenario = EditorGUILayout.Foldout(showScenario, "장치·물·목표 설정", true);
                 if (showScenario)
                 {
                     var scenario = new SerializedObject(map.scenario); scenario.Update();
-                    EditorGUILayout.PropertyField(scenario.FindProperty("title"), new GUIContent("시나리오 이름"));
-                    EditorGUILayout.PropertyField(scenario.FindProperty("themeId"), new GUIContent("테마 저장 ID"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"), new GUIContent("비용 제한 (0: 무제한)"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("beamPrefab"), new GUIContent("광선 프리팹"));
                     DrawScenarioDevices(scenario.FindProperty("devices"));
@@ -135,13 +145,22 @@ namespace ANIMOL.Presentation.Editor
                 }
                 else
                 {
-                    EditorGUILayout.HelpBox("테마별 장치를 배치하려면 먼저 장치 시나리오를 지정하세요.", MessageType.Info);
+                    QueueScenarioCreation();
+                    EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
+                        "장치를 배치하려면 테마를 선택하세요." : "장치 데이터를 자동으로 준비하는 중입니다."),
+                        scenarioCreationError == null ? MessageType.Info : MessageType.Error);
                 }
             }
             if (layer == Layer.Decoration)
             { decoration = (Sprite)EditorGUILayout.ObjectField("장식 그림", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("색상", decorationTint); }
             if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.IntPopup("배치할 표식", (int)marker, new[] { "시작점", "방울", "출구" }, new[] { 0, 1, 2 });
-            if (layer == Layer.Water && !map.scenario) EditorGUILayout.HelpBox("물 칸을 놓으려면 장치 시나리오를 지정하세요.", MessageType.Info);
+            if (layer == Layer.Water && !map.scenario)
+            {
+                QueueScenarioCreation();
+                EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
+                    "물 칸을 배치하려면 테마를 선택하세요." : "물 칸 데이터를 자동으로 준비하는 중입니다."),
+                    scenarioCreationError == null ? MessageType.Info : MessageType.Error);
+            }
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
             var errors = map.ValidateMap();
@@ -249,6 +268,45 @@ namespace ANIMOL.Presentation.Editor
             if (name == "letter_observatory_Theme" || theme.clockDome || theme.sunsetSanctumV02Catalog) return "letter_observatory";
             if (name == "twilight_sea_Theme" || theme.twilightCoast || theme.starSwellCoastV01Catalog) return "twilight_sea";
             return string.Empty;
+        }
+        public static PuzzleScenario EnsureScenario(PuzzleMap data)
+        {
+            if (!data) throw new ArgumentException("맵을 먼저 선택하세요.");
+            if (data.scenario) return data.scenario;
+            var themeId = ThemeId(data.theme);
+            if (string.IsNullOrEmpty(themeId)) throw new ArgumentException("지원되는 테마를 먼저 선택하세요.");
+            var mapPath = AssetDatabase.GetAssetPath(data);
+            if (string.IsNullOrEmpty(mapPath)) throw new ArgumentException("맵을 에셋으로 저장한 뒤 장치를 배치하세요.");
+            var scenarioPath = Path.ChangeExtension(mapPath, null) + "_Scenario.asset";
+            var scenario = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath);
+            if (!scenario)
+            {
+                if (AssetDatabase.LoadMainAssetAtPath(scenarioPath))
+                    scenarioPath = AssetDatabase.GenerateUniqueAssetPath(scenarioPath);
+                scenario = CreateInstance<PuzzleScenario>();
+                scenario.title = data.name;
+                scenario.themeId = themeId;
+                AssetDatabase.CreateAsset(scenario, scenarioPath);
+            }
+            data.scenario = scenario;
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssetIfDirty(data);
+            return scenario;
+        }
+        void QueueScenarioCreation()
+        {
+            if (scenarioCreationQueued || scenarioCreationError != null || !map || map.scenario ||
+                string.IsNullOrEmpty(ThemeId(map.theme))) return;
+            scenarioCreationQueued = true;
+            var target = map;
+            EditorApplication.delayCall += () =>
+            {
+                scenarioCreationQueued = false;
+                if (!this || !target || map != target || target.scenario) return;
+                try { EnsureScenario(target); }
+                catch (Exception error) { scenarioCreationError = error.Message; Debug.LogException(error); }
+                Repaint();
+            };
         }
         public static DeviceTemplate[] TemplatesForTheme(IEnumerable<DeviceTemplate> templates, string themeId)
             => string.IsNullOrEmpty(themeId) ? Array.Empty<DeviceTemplate>() : templates.Where(entry =>
@@ -653,18 +711,30 @@ namespace ANIMOL.Presentation.Editor
         void Create()
         {
             if (!newMapTheme) { EditorUtility.DisplayDialog("테마 선택", "새 맵에 사용할 테마를 지정하세요.", "확인"); return; }
-            var path = EditorUtility.SaveFilePanelInProject("새 퍼즐 맵", "PuzzleMap", "asset",
-                "맵 옆에 장치 시나리오도 함께 생성됩니다.", "Assets/ANIMOL/Data/Puzzle/Maps");
-            if (path.Length == 0) return;
-            try { Select(CreateStarterMap(path, newMapTheme, newMapWidth, newMapHeight)); }
+            var name = newMapName?.Trim();
+            if (string.IsNullOrEmpty(name) || name == "." || name == ".." || name.EndsWith(".", StringComparison.Ordinal) ||
+                name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+            {
+                EditorUtility.DisplayDialog("맵 이름 확인", "파일 이름으로 사용할 수 있는 맵 이름을 입력하세요.", "확인");
+                return;
+            }
+            var path = "Assets/ANIMOL/Data/Puzzle/Maps/" + name + ".asset";
+            try { Select(CreateStarterMap(path, newMapTheme, 12, 18)); }
+            catch (InvalidOperationException) { EditorUtility.DisplayDialog("맵 생성 실패", "같은 이름의 맵이 이미 있습니다. 다른 이름을 입력하세요.", "확인"); }
             catch (Exception error) { EditorUtility.DisplayDialog("맵 생성 실패", error.Message, "확인"); }
         }
         void NewMapSettings()
         {
-            newMapTheme = (PuzzleTheme)EditorGUILayout.ObjectField("테마", newMapTheme, typeof(PuzzleTheme), false);
-            newMapWidth = EditorGUILayout.IntField("가로 칸 수", newMapWidth);
-            newMapHeight = EditorGUILayout.IntField("세로 칸 수", newMapHeight);
-            EditorGUILayout.HelpBox("기본 맵에는 이동 가능한 풀 지형, 방울 1개, 시작점과 출구, 빈 장치 시나리오가 들어갑니다.", MessageType.Info);
+            newMapName = EditorGUILayout.TextField("맵 이름", newMapName);
+            var themePaths = new[] { "Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset",
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater_Theme.asset",
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/letter_observatory_Theme.asset",
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/twilight_sea_Theme.asset" };
+            var themes = themePaths.Select(AssetDatabase.LoadAssetAtPath<PuzzleTheme>).ToArray();
+            var index = Array.IndexOf(themes, newMapTheme);
+            index = EditorGUILayout.Popup("테마", Mathf.Max(0, index), new[] { "별길 목장", "잔영 극장", "편지 천문대", "별너울 해안" });
+            newMapTheme = themes[index];
+            EditorGUILayout.HelpBox("12×18 기본 맵을 만듭니다. 크기는 생성 후 맵 설정에서 바꿀 수 있습니다. 장치 데이터는 자동으로 준비됩니다.", MessageType.Info);
         }
         public static PuzzleMap CreateStarterMap(string path, PuzzleTheme theme, int width, int height)
         {

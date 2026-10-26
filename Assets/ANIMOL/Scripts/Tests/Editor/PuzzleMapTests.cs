@@ -113,6 +113,33 @@ namespace ANIMOL.Presentation.Tests
                 AssetDatabase.DeleteAsset(scenarioPath);
             }
         }
+        [Test] public void ExistingMapGetsPairedScenarioBeforePlacingADevice()
+        {
+            var path = "Assets/ANIMOL/Data/Puzzle/Maps/__ExistingMapTest_" + System.Guid.NewGuid().ToString("N") + ".asset";
+            var scenarioPath = path.Substring(0, path.Length - 6) + "_Scenario.asset";
+            var existing = ScriptableObject.CreateInstance<PuzzleMap>();
+            existing.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            try
+            {
+                AssetDatabase.CreateAsset(existing, path);
+                var scenario = PuzzleMapEditor.EnsureScenario(existing);
+                Assert.That(scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
+                Assert.That(existing.scenario, Is.SameAs(scenario));
+                Assert.That(scenario.themeId, Is.EqualTo("starway"));
+                Assert.That(scenario.title, Is.EqualTo(existing.name));
+                Assert.That(PuzzleMapEditor.EnsureScenario(existing), Is.SameAs(scenario));
+                Assert.That(scenario.devices, Is.Empty);
+                var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry => entry.device.artTheme == "starway").device;
+                Assert.That(PuzzleMapEditor.StampTemplate(scenario, template, Vector2Int.one), Is.Not.Null);
+                Assert.That(scenario.devices, Has.Count.EqualTo(1));
+            }
+            finally
+            {
+                AssetDatabase.DeleteAsset(path);
+                AssetDatabase.DeleteAsset(scenarioPath);
+                if (existing) Object.DestroyImmediate(existing);
+            }
+        }
         [Test] public void PracticeLibrarySuppliesAllTwentyFourDeviceRoles()
         {
             var roles = PuzzleMapEditor.LoadPracticeTemplates().Select(entry => entry.device.role).Distinct().ToArray();
