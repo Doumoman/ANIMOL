@@ -224,43 +224,49 @@ namespace ANIMOL.Presentation.Tests
         {
             foreach (var id in new[] { "starway", "memory_theater", "letter_observatory", "twilight_sea" })
             {
-                var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Prototypes/" + id + "_Theme.asset");
+                var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                    "Assets/ANIMOL/Data/Puzzle/Prototypes/" + id + "_Theme.asset");
                 var choices = PuzzleMapEditor.DecorationChoices(theme);
                 Assert.That(choices, Is.Not.Empty, id);
                 Assert.That(choices.All(choice => choice.sprite && choice.label.Length > 0), Is.True, id);
                 Assert.That(choices.All(choice => {
                     var path = AssetDatabase.GetAssetPath(choice.sprite).Replace('\\', '/');
                     return id == "starway" ?
-                        (path.Contains("/StarwayRanch/") && path.Contains("/props/")) ||
-                        (path.Contains("/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01/decor/connected/") &&
-                            (path.EndsWith("/n00.png") || path.EndsWith("/n000.png"))) :
+                        path.Contains("/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02/decor/") ||
+                        path.EndsWith("/props/windmill_body.png") :
                         id == "memory_theater" ? path.Contains("/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/decor/") :
-                        path.Contains("/Props/" + id + "/");
+                        id == "letter_observatory" ? path.Contains("/ANIMOL_SUNSET_SANCTUM_CONNECTED_DECOR_V01/decor/") :
+                        path.Contains("/ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01/decor/");
                 }), Is.True, id);
+                if (id == "starway") Assert.That(choices.Count(choice => choice.sourceId.StartsWith("ranch:")), Is.EqualTo(26));
                 if (id == "memory_theater") Assert.That(choices.Length, Is.EqualTo(26));
             }
-            var ranch = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var ranch = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                "Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             var ranchChoices = PuzzleMapEditor.DecorationChoices(ranch);
-            Assert.That(ranchChoices.Length, Is.GreaterThan(1));
-            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("벤치"));
-            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("장식용 풍차"));
+            Assert.That(ranchChoices.Count(choice => choice.sourceId.StartsWith("ranch:")), Is.EqualTo(26));
+            Assert.That(ranchChoices.Any(choice => choice.sourceId == "ranch:orchard_bench_3x1"), Is.True);
+            Assert.That(ranchChoices.Any(choice => choice.sourceId == "props/windmill_body.png"), Is.True);
         }
         [Test] public void RanchMapRendersTheSelectedDecorationSprite()
         {
-            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                "Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             Fill();
-            var bench = PuzzleMapEditor.DecorationChoices(map.theme).Single(choice => choice.label == "벤치").sprite;
-            var position = new Vector2Int(2, 2);
-            map.decorations.Add(new DecorationCell { position = position, sprite = bench, tint = Color.white });
+            var bench = PuzzleMapEditor.DecorationChoices(map.theme)
+                .Single(choice => choice.sourceId == "ranch:orchard_bench_3x1").sprite;
+            Assert.IsTrue(PuzzleMapEditor.TryPlaceDecoration(map, bench, new Vector2Int(1, 2),
+                Color.white, "", 0, 0, out var error), error);
             var host = new GameObject("Decoration test");
             try
             {
-                host.AddComponent<PuzzleMapView>().Bind(map);
-                var rendered = host.GetComponentsInChildren<SpriteRenderer>()
-                    .Single(renderer => renderer.gameObject.name == "V12 decoration" &&
-                        (Vector2)renderer.transform.localPosition == (Vector2)position + new Vector2(.5f, 0));
+                var view = host.AddComponent<PuzzleMapView>(); view.Bind(map);
+                var controller = view.ConnectedDecor;
+                Assert.NotNull(controller);
+                Assert.AreEqual(1, controller.OwnedVisualCount);
+                var rendered = controller.GetComponentInChildren<SpriteRenderer>();
                 Assert.That(rendered.sprite, Is.SameAs(bench));
-                Assert.That(rendered.transform.localScale, Is.EqualTo(Vector3.one));
+                Assert.That(rendered.transform.position, Is.EqualTo(new Vector3(2, 2)));
             }
             finally { Object.DestroyImmediate(host); }
         }

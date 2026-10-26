@@ -1,0 +1,48 @@
+{
+  "status": "PASS_REFERENCE_HELPER_VALIDATION",
+  "scope": "New independent geometry auditor sanitycheck on immutable known V01 reference only; NOT a V02 art acceptance.",
+  "checks": [
+    {
+      "check": "Meadow RAW256 complete exact D3 paths",
+      "passed": true
+    },
+    {
+      "check": "Meadow exact4 optional flower overlays",
+      "passed": true
+    },
+    {
+      "check": "Meadow all256 raw masks genuinelydistinct",
+      "passed": true
+    },
+    {
+      "check": "Meadow2048 physicallyconsistent8neighbor pairs",
+      "passed": true
+    },
+    {
+      "check": "Meadow2048 pairs safe paddedRGBA ownership",
+      "passed": true
+    },
+    {
+      "check": "Meadow2048 joined interior ports opaque",
+      "passed": true
+    },
+    {
+      "check": "Meadow ring hole192square remains clear",
+      "passed": true
+    },
+    {
+      "check": "Meadow isolated diagonal pair safe native tips",
+      "passed": true
+    }
+  ],
+  "joins": {
+    "family": "raised_flower_meadow",
+    "compatiblePairs": 2048,
+    "unsafeOverlapPixels": 0,
+    "sharedVisiblePixels": 40088832,
+    "opaqueInteriorPortHoles": 0,
+    "examples": [],
+    "note": "Raw8-neighbor consistency constraints; duplicatevisible support is safe only equalRGB+alpha255. Partial fringe requires singleowner; no global fullstrip equality claim."
+  },
+  "actualUnityPlay": "NOT_RUN"
+}

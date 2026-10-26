@@ -1,0 +1,87 @@
+ANIMOL 별길 목장 연결 장식 V02 — 완전한 호출·배치·생성 코드
+
+범위
+namespace ANIMOL.Art.RanchConnectedDecorV02, packageId ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02.
+19 C# 파일(10 Runtime/6 Editor/3 선택 Test 소스), 설치 revision1. V01의 세 연결 계열/네 다칸 키와
+논리 크기를 보존하면서 26종/362PNG로 확장한다. 실제 Unity/C# 컴파일, TestRunner, 실제 Prefab/씬 생성,
+원 게임의 어댑터 연결/Play Mode/레거시 참조0은 이 환경에서 실행하지 않았으며 모두 NOT_RUN이다.
+Tools/는 내부 제작 체크이며 배포하지 않아도 된다. 실제 프로젝트에서는 Runtime/Editor와 최신 manifest를 사용한다.
+
+현재 원화·카탈로그
+manifest.json의 정확한 SHA와 manifest_sha256.txt, BoardSnapshot.ArtManifestSha256 컴파일 상수를 함께 맞춘다.
+CatalogBuilder.LoadManifest와 Runtime Catalog.ValidateIntegrity 양쪽 모두 해당 최신 고정 핀을 요구한다.
+옛 V01 폴더를 fallback으로 검색하지 않는다. V02 안의 362개 정확한 경로만 선택 가능하다.
+동일한 새 패키지 갱신 시 해당 .meta/GUID를 보존하고, V01의 .meta를 새 V02 경로에 통째 복제하지 않는다.
+
+하이브리드 연결 계약
+모든 Ranch V02 연결/꽃 그림은 320×320, PPU256, 위쪽 원점 지면 [32,32,256,256],
+Unity 아래쪽 원점 정규화 pivot [0.5,0.5]이다. 다른 테마의 320×384 등록을 쓰지 않는다.
+cream_fence,meadow_stone_wall,orchard_trellis,herb_planter_strip,ranch_lantern_strip은
+N1/E2/S4/W8의16마스크와 n00..n15 경로를 사용한다.
+raised_flower_meadow만 N1/NE2/E4/SE8/S16/SW32/W64/NW128의 raw256마스크와 n000..n255를 사용한다.
+대각 비트가 독립적이므로 16상태나47상태로 정규화하지 않는다. 안쪽 구멍과 대각 접촉 변경 시 전체 보드를 새로 전달한다.
+연결 대상은 family+connectionGroup+logicalLayer+heightKey가 모두 같은 셀이다. 풀 바닥 재질 자체는 연결 근거가 아니다.
+Planner.MaskCount/NetworkKind/NetworkFile/EightNeighborMask가 이를 구분한다. NetworkSelection.neighborMask는
+해당 계열의 원시 마스크이고 usesEightNeighbors로 해석을 구분할 수 있다. mask4에255를 넣는 인터페이스가 아니다.
+
+꽃과 보조 기둥
+각 network selection의 accentHash는 원 Ranch V01과 같은 StableHash(seed,x,y,logicalLayer,heightKey,connectionGroup)이다.
+meadow의 hash%5==0인 셀에서만 (hash/5)%4로 네 꽃 중 하나를 고른다. MeadowAccentIndex는0부터3,
+MeadowAccentFile은 decor/accents/meadow/flowers_01.png..04.png를 반환한다.
+selection.flowerAccentFile은 선택이 없으면 null이다. Controller는 기존 meadow셀 중심에 sortingOrder+1로 겹친다.
+이 꽃은 추가 점유/그룹/게임플레이 셀을 만들지 않으며 로드/Undo/풀에서 동일 좌표·seed·연결그룹이면 유지된다.
+cream_fence/meadow_stone_wall의 periodic_post만 긴 직선의 두 즉시 이웃도 직선일 때 3/4셀의 월드 고정 위상으로 고른다.
+다른 세 cardinal 계열과 meadow에는 보조 기둥을 생성하지 않는다. Runtime 카탈로그는 꽃4장/보조기둥2장을 모두 요구한다.
+
+실제 모델 연결
+전용 GameObject에 Controller와 Binding을 함께 둔다. 실제 권위 모델은 PublishedSnapshotSource로 전체 확정 스냅샷을
+PublishSnapshot(snapshot,out error)한 뒤 Binding.Bind(controller,catalog,currentPin,actualSortingLayer,source,out error)를 호출한다.
+실제 모델용 allowExampleSource는 생략/false다. Source.Changed→Binding.RefreshNow→실제 Configure/SetLayout 호출이 포함되어 있다.
+BoardSnapshot16필드: schemaVersion=1,packageId,sourceManifestSha256,boardId,revision,isWholeBoard=true,
+isExampleOnly=false,originX,originY,originZ,cellSize,seed,postSpacing,networkCells,groupPlacements,allowedDecorCells.
+networkCells8필드: x,y,logicalLayer,heightKey,sortingOrder,worldZ,family,connectionGroup.
+groupPlacements8필드: placementId,groupKey,anchorX,anchorY,logicalLayer,heightKey,sortingOrder,worldZ.
+allowedDecorCells4필드: x,y,logicalLayer,heightKey. 배열 누락/null은 거절, 의도적인 빈 보드는 명시적 빈 배열을 준다.
+호스트의 실제 장식 허용 공간을 순수 조회한 결과를 제공한다. 예시 허용 사각형을 생산 보드에 복사하거나 return true로 승인하지 않는다.
+현재 전체 보드의 네트워크 셀과 그룹을 보내며, 카메라/청크에 보이는 일부만 보내지 않는다. 모든 다칸 footprint가 승인돼야
+그룹당1개를 만든다. 동일 평면의 중복/잘못된 크기/한 칸 거절은 전체 대체 계획을 거절한다. 꽃은 승인된 기존 셀에서만 겹친다.
+
+갱신·좌표·수명
+확정 편집/로드/Undo/Redo/재시작/씬 재진입/풀 재사용 뒤 최신 전체 스냅샷을 Publish한다. 원본 배열 변경만으로 갱신하지 않는다.
+Snapshot/BoardAsset/Source가 복사해 외부 배열 변경이 캡처에 새지 않게 한다. PublishedSource가 비활성화되면 권위 데이터가 무효화된다.
+풀에서 다시 활성화한 뒤에는 현재 보드를 freshPublish해야 한다. AuthoredSnapshotSource는 지정된 정적 BoardAsset 전용이다.
+Binding은 실제 같은 GameObject Controller만 정리하고 실패하면 자기 소유 그림을 지운다. 다른 Renderer나 게임 데이터를 지우지 않는다.
+월드+Y=N,그룹 anchor=왼쪽 아래, center=(anchorX+w/2,anchorY+h/2). 행이 아래로 증가하는 호스트는
+FromRowDownCell(col,row),FromRowDownGroupBottomLeft(left,top,h),Controller.RowDownTopLeftToWorldOrigin을 사용한다.
+worldOrigin은 셀(0,0)의 왼쪽 아래다. PNG/alpha bounds를 한 칸으로 fit하지 않으며 개별 PPU/pivot/지면 크기를 유지한다.
+부모 양수 X/Y 배율을 상쇄해 균일 월드 셀 크기를 유지하고 회전/반전/비정상 변환은 거절한다. 계층 변환/활성 상태를 캐시에 포함해
+같은 스냅샷이라도 부모나 활성 상태가 바뀐 뒤에는 필요한 재표시를 한다. 별도 Start/Update 생성기/매 프레임 랜덤은 없다.
+
+검사 자산의 실제 생성
+Menu: Tools/ANIMOL/Ranch Connected Decor V02/Build example boards…
+Batch: ANIMOL.Art.RanchConnectedDecorV02.RanchConnectedDecorV02BoardTools.BuildExamplesFromCommandLine
+필수 flags: -ranchDecorManifest,-ranchDecorStageSnapshot,-ranchDecorAllSnapshot,-ranchDecorSortingLayer
+선택 flag: -ranchDecorCreateScenes true (기본false)
+정확한 typed16필드 JSON만 받으며 unknown/누락/null/중복/잘못된 타입/숫자/유니코드 이스케이프를 거절한다.
+_Generated의 현재 Catalog와 _Generated/InspectionBoards/{Stage,All26}의 BoardAsset/Prefab을 실제 UnityAPI로 만든다.
+true일 때만 선택 검사 .unity를 만든다. 생성기는 Catalog→BoardAsset→AuthoredSource→Binding→Controller를 실제로 연결하고,
+명시적으로 RefreshNow한 뒤 CurrentPlan/활성 SpriteRenderer/실제 Sprite를 확인한다. Stage/All26의 셀/점유 수는 입력 Snapshot에 따른다.
+검사 입력은 isExampleOnly=true이며 실제 게임 저장 데이터가 아니다. 열린 PrefabStage/생성대상 검사 씬/소유 출력의 미저장 변경은
+쓰기 전 거절한다. 기존 생산 씬/카메라/조명/BuildSettings와 무관한 파일을 수정하지 않는다. 생성된 실제 GUID/fileID만 기록한다.
+선택 URP2D 조명은 실제 타입/설정이 있을 때 새 검사 씬 안에만 reflection으로 생성하며 생산 조명/설정은 변경하지 않는다.
+
+기존 별길 목장과의 관계
+V12 전체 팩을 재설치하지 않는다. G=grass,W=wood_bridge,S=stone_bridge이며 S는 독립 석재 하부를 유지한다.
+기존 W/S 경계 난간/공유 꼭짓점 기둥과 이번 장식 울타리를 같은 위치에 중복 생성하지 않는다. 독립 입체잔디와 기본 바닥을 구분한다.
+실제 최신 1칸 문/거절봉과X/고정힌지, 바람 범위/꺾임, 바람개비 몸체+로터, 별모양 돌/홈, 누름판/덩굴다리/공통 장치를 유지한다.
+병아리4방향idle/walk/눈 광채와 visual자식 .62배율1회 적용을 보존한다. 새 닭장은 정적 빈 장식이고 새 추종/스폰/규칙을 만들지 않는다.
+새 소품이 기존 Actor/장치 Renderer를 덮지 않도록 실제 프로젝트의 타입/ID/이벤트를 조사해 얇은 어댑터를 작성한다.
+V01 장식 GUID/카탈로그/풀/Animator/Resources/Addressables/문자열 로딩/캐시의 도달 가능한 참조를 V02로 검토 이관한다.
+실제 참조0가 확인된 해당 미사용 V01 시각물만 정리하고 다른 테마·UI·공용 자산·.meta를 일괄 삭제하지 않는다.
+별은 모든 구름 뒤에서 거의 고정, 구름/가까운 섬의 깊이 반응을 유지하며 달/행성/새 해를 추가하지 않는다.
+
+선택 Test 소스와 실행 경계
+Tests~에는55개 선택 NUnit sourcecase가 있다. raw256 대각/전체 마스크/D3,꽃의 원래 density/variant/no-claim/안정성,
+카디널5계열/20그룹/전체점유/거절/로드/풀/계층/strictJSON 등에 대한 실제 TestRunner 실행용 소스다.
+폴더가 생산 어셈블리에 자동 포함되지 않으므로 프로젝트의 실제 테스트 어셈블리에 넣어 실행하라.
+Tools/verify_sources.py의 정적 소스 정합성100항목 통과는 C# 컴파일이나 이55개 실행을 의미하지 않는다.

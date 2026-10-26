@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.V12;
-using ANIMOL.Art.RanchConnectedDecorV01;
+using ANIMOL.Art.RanchConnectedDecorV02;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
@@ -32,7 +32,11 @@ namespace ANIMOL.Puzzle
         SunsetSanctumV02MapRenderer sanctumV02;
         TwilightCoastRenderer coast;
         StarSwellCoastV01MapRenderer coastV01;
-        RanchConnectedDecorV01Controller connectedDecor;
+        RanchConnectedDecorV02Controller connectedDecor;
+        RanchConnectedDecorV02PublishedSnapshotSource ranchDecorSource;
+        RanchConnectedDecorV02Binding ranchDecorBinding;
+        long ranchDecorRevision;
+        readonly List<GameObject> ranchLegacyDecorationViews = new List<GameObject>();
         TheaterConnectedDecorV01Controller theaterConnectedDecor;
         TheaterConnectedDecorV01PublishedSnapshotSource theaterDecorSource;
         TheaterConnectedDecorV01Binding theaterDecorBinding;
@@ -48,14 +52,14 @@ namespace ANIMOL.Puzzle
         CoastConnectedDecorV01Binding coastDecorBinding;
         long coastDecorRevision;
         readonly List<GameObject> coastLegacyDecorationViews = new List<GameObject>();
-        public RanchConnectedDecorV01Controller ConnectedDecor => connectedDecor;
+        public RanchConnectedDecorV02Controller ConnectedDecor => connectedDecor;
         public TheaterConnectedDecorV01Controller TheaterConnectedDecor => theaterConnectedDecor;
         public SanctumConnectedDecorV01Controller SanctumConnectedDecor => sanctumConnectedDecor;
         public CoastConnectedDecorV01Controller CoastConnectedDecor => coastConnectedDecor;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
-            Unbind(); map = data; theaterDecorRevision = 0; sanctumDecorRevision = 0; coastDecorRevision = 0;
+            Unbind(); map = data; ranchDecorRevision = 0; theaterDecorRevision = 0; sanctumDecorRevision = 0; coastDecorRevision = 0;
             map.TerrainChanged += RefreshNeighborhood; map.Resized += Rebuild;
             map.DecorationsChanged += DecorationsUpdated;
             Rebuild();
@@ -63,10 +67,13 @@ namespace ANIMOL.Puzzle
         void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; map.DecorationsChanged -= DecorationsUpdated; }
         void DecorationsUpdated()
         {
+            ranchDecorRevision++;
             theaterDecorRevision++;
             sanctumDecorRevision++;
             coastDecorRevision++;
-            if (theaterDecorSource && TheaterConnectedDecorHost.IsTheater(map))
+            if (ranchDecorSource && RanchConnectedDecorV02Host.IsRanch(map))
+            { RefreshLegacyRanchDecor(); PublishRanchDecor(); }
+            else if (theaterDecorSource && TheaterConnectedDecorHost.IsTheater(map))
             { RefreshLegacyTheaterDecor(); PublishTheaterDecor(); }
             else if (sanctumDecorSource && SanctumConnectedDecorHost.IsSanctum(map))
             { RefreshLegacySanctumDecor(); PublishSanctumDecor(); }
@@ -89,7 +96,8 @@ namespace ANIMOL.Puzzle
         {
             foreach (var go in tiles.Values) Remove(go); tiles.Clear();
             if (objectsRoot) Remove(objectsRoot.gameObject);
-            connectedDecor = null;
+            connectedDecor = null; ranchDecorSource = null; ranchDecorBinding = null;
+            ranchLegacyDecorationViews.Clear();
             theaterConnectedDecor = null; theaterDecorSource = null; theaterDecorBinding = null;
             theaterLegacyDecorationViews.Clear();
             sanctumConnectedDecor = null; sanctumDecorSource = null; sanctumDecorBinding = null;
@@ -157,28 +165,23 @@ namespace ANIMOL.Puzzle
             }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
-            if (map.theme && map.theme.starwayRanch && map.theme.ranchConnectedDecorV01Catalog &&
-                map.theme.ranchConnectedDecorV01ManifestPin)
+            if (map.theme && map.theme.starwayRanch && map.theme.ranchConnectedDecorV02Catalog &&
+                map.theme.ranchConnectedDecorV02ManifestPin)
             {
-                var node = new GameObject("Ranch connected decoration V01");
-                node.transform.SetParent(objectsRoot, false);
-                connectedDecor = node.AddComponent<RanchConnectedDecorV01Controller>();
-                var pin = map.theme.ranchConnectedDecorV01ManifestPin.text.Trim();
-                if (connectedDecor.Configure(map.theme.ranchConnectedDecorV01Catalog, pin, "Default"))
-                {
-                    if (RanchConnectedDecorHost.TryCreatePlan(map, map.theme.ranchConnectedDecorV01Catalog, pin,
-                        map.decorations, out _, out var networks, out var groups, out var error))
-                    {
-                        var origin = objectsRoot.TransformPoint(new Vector3(-.5f, -.5f, 0));
-                        if (!connectedDecor.SetLayout(networks, groups, origin, objectsRoot.lossyScale.x,
-                            claim => RanchConnectedDecorHost.AllowClaim(map, map.decorations, claim)))
-                            Debug.LogError("Ranch decoration layout rejected: " + connectedDecor.LastDiagnostic, this);
-                    }
-                    else Debug.LogError("Ranch decoration plan rejected: " + error, this);
-                }
+                var node = new GameObject("Ranch connected decoration V02");
+                node.SetActive(false); node.transform.SetParent(objectsRoot, false);
+                connectedDecor = node.AddComponent<RanchConnectedDecorV02Controller>();
+                ranchDecorSource = node.AddComponent<RanchConnectedDecorV02PublishedSnapshotSource>();
+                ranchDecorBinding = node.AddComponent<RanchConnectedDecorV02Binding>();
+                PublishRanchDecor();
+                var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+                if (!ranchDecorBinding.Bind(connectedDecor, map.theme.ranchConnectedDecorV02Catalog,
+                    pin, "Default", ranchDecorSource, out var error))
+                    Debug.LogError("Ranch decoration binding rejected: " + error, this);
+                node.SetActive(true);
             }
             else if (map.theme && map.theme.starwayRanch && map.decorations.Any(d =>
-                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)))
+                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, d, out _)))
                 Debug.LogError("Ranch connected decoration catalog or manifest pin is missing.", this);
             if (TheaterConnectedDecorHost.IsTheater(map) && map.theme.theaterConnectedDecorV01Catalog &&
                 map.theme.theaterConnectedDecorV01ManifestPin)
@@ -238,16 +241,15 @@ namespace ANIMOL.Puzzle
                 !TheaterConnectedDecorHost.IsTheater(map) && !SanctumConnectedDecorHost.IsSanctum(map) &&
                 !CoastConnectedDecorHost.IsCoast(map))
             {
-                if (!string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)) continue;
+                if (!string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, d, out _)) continue;
                 if (TheaterConnectedDecorHost.TryMap(map, d, out _)) continue;
-                if (ranch && d.sprite == map.theme.starwayRanch.Find("props/windmill_body.png"))
-                    CreateWindmill(d.position);
-                else if (ranch) CreateRanchDecoration(d);
+                if (ranch) continue;
                 else Sprite(objectsRoot, "Decoration",
                     d.sprite ? d.sprite : map.theme.decoration,
                     d.position, 15, Vector2.one * .8f, d.tint);
             }
             if (TheaterConnectedDecorHost.IsTheater(map)) RefreshLegacyTheaterDecor();
+            if (RanchConnectedDecorV02Host.IsRanch(map)) RefreshLegacyRanchDecor();
             if (SanctumConnectedDecorHost.IsSanctum(map)) RefreshLegacySanctumDecor();
             if (CoastConnectedDecorHost.IsCoast(map)) RefreshLegacyCoastDecor();
             if (map.scenario)
@@ -342,9 +344,35 @@ namespace ANIMOL.Puzzle
                 Debug.LogError("Coast decoration snapshot rejected: " + error, this);
             }
         }
-        void CreateRanchDecoration(DecorationCell cell)
+        void RefreshLegacyRanchDecor()
         {
-            var art = RanchConnectedDecorHost.SourceMapping(map, cell.sprite);
+            foreach (var visual in ranchLegacyDecorationViews) if (visual) Remove(visual);
+            ranchLegacyDecorationViews.Clear();
+            if (!objectsRoot || !RanchConnectedDecorV02Host.IsRanch(map)) return;
+            foreach (var cell in map.decorations)
+            {
+                if (!map.Contains(cell.position) || !string.IsNullOrEmpty(cell.visualFamily) ||
+                    RanchConnectedDecorV02Host.TryMap(map, cell, out _)) continue;
+                var visual = cell.sprite == map.theme.starwayRanch.Find("props/windmill_body.png")
+                    ? CreateWindmill(cell.position) : CreateRanchDecoration(cell);
+                if (visual) ranchLegacyDecorationViews.Add(visual);
+            }
+        }
+        void PublishRanchDecor()
+        {
+            if (!ranchDecorSource || !map) return;
+            var origin = objectsRoot.TransformPoint(new Vector3(-.5f, -.5f, 0));
+            if (!RanchConnectedDecorV02Host.TryCreateSnapshot(map, map.decorations, origin,
+                objectsRoot.lossyScale.x, ranchDecorRevision, out var snapshot, out var error) ||
+                !ranchDecorSource.PublishSnapshot(snapshot, out error))
+            {
+                ranchDecorSource.InvalidateSnapshot(error);
+                Debug.LogError("Ranch decoration snapshot rejected: " + error, this);
+            }
+        }
+        GameObject CreateRanchDecoration(DecorationCell cell)
+        {
+            var art = RanchConnectedDecorV02Host.SourceMapping(map, cell.sprite);
             var size = new Vector2(art == null ? 1 : art.width, art == null ? 1 : art.height);
             var node = new GameObject("V12 decoration");
             node.transform.SetParent(objectsRoot, false);
@@ -353,12 +381,13 @@ namespace ANIMOL.Puzzle
             renderer.sprite = cell.sprite ? cell.sprite : map.theme.decoration;
             renderer.color = cell.tint;
             renderer.sortingOrder = 15;
+            return node;
         }
-        void CreateWindmill(Vector2Int position)
+        GameObject CreateWindmill(Vector2Int position)
         {
             var art = map.theme.starwayRanch;
             var rotorSprite = art.Find("props/windmill_rotor.png");
-            if (!rotorSprite) { Debug.LogError("Missing V12 windmill rotor", this); return; }
+            if (!rotorSprite) { Debug.LogError("Missing V12 windmill rotor", this); return null; }
             var owner = new GameObject("V12 windmill visual");
             owner.transform.SetParent(objectsRoot, false);
             // The V12 pivot is the centre of its native 2x2 logical ground.
@@ -369,17 +398,18 @@ namespace ANIMOL.Puzzle
             var bodyRenderer = body.AddComponent<SpriteRenderer>();
             bodyRenderer.sprite = art.Find("props/windmill_body.png");
             bodyRenderer.sortingLayerName = "Default";
-            bodyRenderer.sortingOrder = RanchConnectedDecorHost.ForegroundSortingOrder;
+            bodyRenderer.sortingOrder = RanchConnectedDecorV02Host.ForegroundSortingOrder;
             var rotor = new GameObject("Four blade rotor");
             rotor.transform.SetParent(owner.transform, false);
             rotor.transform.localPosition = new Vector3(0, .703125f, 0);
             var rotorRenderer = rotor.AddComponent<SpriteRenderer>();
             rotorRenderer.sprite = rotorSprite;
             rotorRenderer.sortingLayerName = "Default";
-            rotorRenderer.sortingOrder = RanchConnectedDecorHost.ForegroundSortingOrder + 1;
+            rotorRenderer.sortingOrder = RanchConnectedDecorV02Host.ForegroundSortingOrder + 1;
             var motion = owner.AddComponent<StarwayRanchV12RotorVisual>();
             motion.Configure(rotor.transform, 18f);
             motion.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
+            return owner;
         }
         public void RefreshNeighborhood(Vector2Int p)
         { if (coastV01) {

@@ -5,7 +5,7 @@ using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
 using ANIMOL.Art.StarSwellCoastV01;
 using ANIMOL.Art.SunsetSanctumV02;
-using ANIMOL.Art.RanchConnectedDecorV01;
+using ANIMOL.Art.RanchConnectedDecorV02;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
@@ -356,26 +356,25 @@ namespace ANIMOL.Presentation.Editor
             switch (ThemeId(theme))
             {
                 case "starway":
-                    if (!theme.starwayRanch) return Array.Empty<DecorationChoice>();
-                    files = new[] { "clover_tuft", "clover_flowers", "clover_tree", "yellow_flowers", "bench",
-                        "birdhouse", "direction_sign", "fence_horizontal", "fence_picket_horizontal", "fence_vertical", "stone_wall", "hay_bale",
-                        "hay_pair", "ranch_barn", "lantern_post", "milk_cans", "slate_rocks", "water_trough",
-                        "wheelbarrow", "windmill_body" };
-                    labels = new[] { "네잎클로버", "클로버 꽃", "클로버 나무", "노란 꽃", "벤치",
-                        "새집", "방향 표지판", "가로 울타리", "가로 말뚝 울타리", "세로 울타리", "낮은 돌담", "건초 더미",
-                        "건초 묶음", "목장 헛간", "등불", "우유통", "바위", "물통", "손수레", "장식용 풍차" };
-                    var legacyChoices = files.Select((file, i) => new DecorationChoice {
-                        label = labels[i], sourceId = "props/" + file + ".png",
-                        sprite = theme.starwayRanch.Find("props/" + file + ".png"),
-                        preview = ConnectedPreview(theme, "props/" + file + ".png")
-                    });
-                    var directLabels = new[] { "연결 울타리 한 칸", "연결 돌담 한 칸", "연결 화단 한 칸" };
-                    var directChoices = RanchConnectedDecorHost.DirectCells.Select((entry, i) => {
-                        var sprite = ConnectedPreview(theme, entry.sourceId);
-                        return new DecorationChoice { label = directLabels[i], sourceId = entry.sourceId,
-                            sprite = sprite, preview = sprite };
-                    });
-                    return legacyChoices.Concat(directChoices).Where(choice => choice.sprite).ToArray();
+                    if (!theme.starwayRanch || !theme.ranchConnectedDecorV02Catalog ||
+                        !theme.ranchConnectedDecorV02ManifestPin) return Array.Empty<DecorationChoice>();
+                    var ranchCatalog = theme.ranchConnectedDecorV02Catalog;
+                    var ranchPin = theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+                    var ranchChoices = new List<DecorationChoice>();
+                    foreach (var family in RanchConnectedDecorV02Planner.NetworkFamilies)
+                        if (ranchCatalog.TryGetExact(RanchConnectedDecorV02Planner.NetworkFile(family, 0),
+                            ranchPin, out var art, out _))
+                            ranchChoices.Add(new DecorationChoice { label = family.Replace('_', ' '),
+                                sourceId = "ranch:" + family, sprite = art.Sprite, preview = art.Sprite });
+                    foreach (var key in RanchConnectedDecorV02Planner.GroupKeys)
+                        if (ranchCatalog.TryGetGroup(key, ranchPin, out _, out var art, out _))
+                            ranchChoices.Add(new DecorationChoice { label = key.Replace('_', ' '),
+                                sourceId = "ranch:" + key, sprite = art.Sprite, preview = art.Sprite });
+                    var windmill = theme.starwayRanch.Find("props/windmill_body.png");
+                    if (windmill) ranchChoices.Add(new DecorationChoice { label = "Windmill (functional visual)",
+                        sourceId = "props/windmill_body.png", sprite = windmill,
+                        preview = theme.starwayRanch.Find("props/windmill.png") });
+                    return ranchChoices.ToArray();
                 case "memory_theater":
                     if (!theme.theaterConnectedDecorV01Catalog || !theme.theaterConnectedDecorV01ManifestPin)
                         return Array.Empty<DecorationChoice>();
@@ -439,21 +438,6 @@ namespace ANIMOL.Presentation.Editor
                 return new DecorationChoice { label = labels[i], sprite = sprite, preview = sprite };
             }).Where(choice => choice.sprite).ToArray();
         }
-        static Sprite ConnectedPreview(PuzzleTheme theme, string sourceId)
-        {
-            if (sourceId == "props/windmill_body.png")
-                return theme.starwayRanch.Find("props/windmill.png");
-            var mapping = RanchConnectedDecorHost.Mappings.Concat(RanchConnectedDecorHost.DirectCells)
-                .FirstOrDefault(row => row.sourceId == sourceId);
-            if (mapping == null) return theme.starwayRanch.Find(sourceId);
-            var catalog = theme.ranchConnectedDecorV01Catalog;
-            var pin = theme.ranchConnectedDecorV01ManifestPin;
-            if (!catalog || !pin) return null;
-            if (mapping.IsGroup)
-                return catalog.TryGetGroup(mapping.groupKey, pin.text.Trim(), out _, out var art, out _) ? art.Sprite : null;
-            var file = RanchConnectedDecorV01Planner.NetworkFile(mapping.family, 0);
-            return catalog.TryGetExact(file, pin.text.Trim(), out var record, out _) ? record.Sprite : null;
-        }
         void DecorationSettings()
         {
             var choices = DecorationChoices(map.theme);
@@ -472,9 +456,8 @@ namespace ANIMOL.Presentation.Editor
                 if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
                 {
                     decoration = choice.sprite;
-                    var mapped = RanchConnectedDecorHost.Mappings.Concat(RanchConnectedDecorHost.DirectCells)
-                        .FirstOrDefault(entry => entry.sourceId == choice.sourceId);
-                    if (mapped != null && !mapped.IsGroup) decorationConnectionGroup = mapped.family;
+                    var mapped = RanchConnectedDecorV02Host.SourceMapping(map, choice.sprite);
+                    if (mapped != null && mapped.family != null) decorationConnectionGroup = mapped.family;
                     var theater = TheaterConnectedDecorHost.SourceMapping(map.theme, choice.sprite);
                     if (theater != null && theater.network) decorationConnectionGroup = theater.key;
                     var sanctum = SanctumConnectedDecorHost.SourceMapping(map.theme, choice.sprite);
@@ -488,13 +471,13 @@ namespace ANIMOL.Presentation.Editor
                 GUI.Label(new Rect(row.x + 64, row.y + 16, row.width - 68, 28), choice.label, EditorStyles.boldLabel);
             }
             EditorGUILayout.EndScrollView();
-            var selectedMapping = RanchConnectedDecorHost.SourceMapping(map, decoration);
+            var selectedMapping = RanchConnectedDecorV02Host.SourceMapping(map, decoration);
             var selectedTheaterMapping = TheaterConnectedDecorHost.SourceMapping(map.theme, decoration);
             var selectedSanctumMapping = SanctumConnectedDecorHost.SourceMapping(map.theme, decoration);
             var selectedCoastMapping = CoastConnectedDecorHost.SourceMapping(map.theme, decoration);
             if (selectedMapping != null || selectedTheaterMapping != null || selectedSanctumMapping != null || selectedCoastMapping != null)
             {
-                if (selectedMapping != null && (!map.theme.ranchConnectedDecorV01Catalog || !map.theme.ranchConnectedDecorV01ManifestPin))
+                if (selectedMapping != null && (!map.theme.ranchConnectedDecorV02Catalog || !map.theme.ranchConnectedDecorV02ManifestPin))
                     EditorGUILayout.HelpBox("새 목장 장식 catalog와 manifest pin이 연결되지 않았습니다.", MessageType.Error);
                 var width = selectedTheaterMapping != null ? selectedTheaterMapping.width :
                     selectedSanctumMapping != null ? selectedSanctumMapping.width :
@@ -507,7 +490,7 @@ namespace ANIMOL.Presentation.Editor
                     EditorGUILayout.LabelField("그림 지면", selectedMapping.width + " × " + selectedMapping.height + "칸");
                 if (selectedTheaterMapping != null ? selectedTheaterMapping.network :
                     selectedSanctumMapping != null ? selectedSanctumMapping.network :
-                    selectedCoastMapping != null ? selectedCoastMapping.network : !selectedMapping.IsGroup)
+                    selectedCoastMapping != null ? selectedCoastMapping.network : selectedMapping.IsVisual && !selectedMapping.IsGroup)
                     decorationConnectionGroup = EditorGUILayout.TextField("연결 그룹", decorationConnectionGroup);
                 decorationLogicalLayer = EditorGUILayout.IntField("논리 장식 층", decorationLogicalLayer);
                 decorationHeightKey = EditorGUILayout.IntField("정수 높이", decorationHeightKey);
@@ -519,13 +502,13 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawSelectedDecoration()
         {
-            var index = map.decorations.FindIndex(cell => RanchConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
+            var index = map.decorations.FindIndex(cell => RanchConnectedDecorV02Host.Occupies(map, cell, selectedDecorationCell) ||
                 TheaterConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
                 SanctumConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
                 CoastConnectedDecorHost.Occupies(map, cell, selectedDecorationCell));
             if (index < 0) return;
             var current = map.decorations[index];
-            var ranch = RanchConnectedDecorHost.TryMap(map, current, out var mapping);
+            var ranch = RanchConnectedDecorV02Host.TryMap(map, current, out var mapping);
             var theater = TheaterConnectedDecorHost.TryMap(map, current, out var theaterMapping);
             var sanctum = SanctumConnectedDecorHost.TryMap(map, current, out var sanctumMapping);
             var coast = CoastConnectedDecorHost.TryMap(map, current, out var coastMapping);
@@ -552,11 +535,9 @@ namespace ANIMOL.Presentation.Editor
             else if (coast)
                 valid = CoastConnectedDecorHost.TryCreateSnapshot(map, candidate,
                     new Vector3(-.5f, -.5f), 1, 0, out _, out error);
-            else if (!theme.ranchConnectedDecorV01Catalog || !theme.ranchConnectedDecorV01ManifestPin)
-            { error = "새 장식 catalog 또는 manifest pin이 없습니다."; valid = false; }
             else
-                valid = RanchConnectedDecorHost.TryCreatePlan(map, theme.ranchConnectedDecorV01Catalog,
-                    theme.ranchConnectedDecorV01ManifestPin.text.Trim(), candidate, out _, out _, out _, out error);
+                valid = RanchConnectedDecorV02Host.TryCreateSnapshot(map, candidate,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out error);
             if (!valid) { decorationError = error; return; }
             Undo.RecordObject(map, theater ? "극장 장식 연결 변경" : sanctum ? "성소 장식 연결 변경" :
                 coast ? "해안 장식 연결 변경" : "목장 장식 연결 변경");
@@ -947,7 +928,7 @@ namespace ANIMOL.Presentation.Editor
                 }
                 foreach (var decor in map.decorations.Where(a => a.position == p))
                 {
-                    if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                    if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, decor, out _)) continue;
                     if (TheaterConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (SanctumConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (CoastConnectedDecorHost.TryMap(map, decor, out _)) continue;
@@ -1151,7 +1132,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawRanchDecorationPreview(DecorationCell decor, int shownHeight, Vector2 origin, Rect visible)
         {
-            var source = RanchConnectedDecorHost.SourceMapping(map, decor.sprite);
+            var source = RanchConnectedDecorV02Host.SourceMapping(map, decor.sprite);
             var center = (Vector2)decor.position + new Vector2(
                 source == null ? 0 : (source.width - 1) * .5f,
                 source == null ? 0 : (source.height - 1) * .5f);
@@ -1167,7 +1148,7 @@ namespace ANIMOL.Presentation.Editor
             foreach (var decor in map.decorations)
             {
                 if (!map.Contains(decor.position) || !string.IsNullOrEmpty(decor.visualFamily) ||
-                    RanchConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                    RanchConnectedDecorV02Host.TryMap(map, decor, out _)) continue;
                 var row = shownHeight - 1 - decor.position.y;
                 if (decor.position.x >= xMin && decor.position.x < xMax && row >= yMin && row < yMax) continue;
                 DrawRanchDecorationPreview(decor, shownHeight, origin, visible);
@@ -1200,19 +1181,23 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
         {
-            if (!map.theme || !map.theme.starwayRanch || !map.theme.ranchConnectedDecorV01Catalog ||
-                !map.theme.ranchConnectedDecorV01ManifestPin) return;
-            var catalog = map.theme.ranchConnectedDecorV01Catalog;
-            var pin = map.theme.ranchConnectedDecorV01ManifestPin.text.Trim();
-            if (!RanchConnectedDecorHost.TryCreatePlan(map, catalog, pin, map.decorations,
-                out var plan, out _, out _, out _)) return;
-            var accents = new List<RanchConnectedDecorV01Catalog.SpriteRecord>();
-            for (var i = 0; i < catalog.SpriteCount; i++)
+            if (!RanchConnectedDecorV02Host.IsRanch(map) || !map.theme.ranchConnectedDecorV02Catalog ||
+                !map.theme.ranchConnectedDecorV02ManifestPin) return;
+            var catalog = map.theme.ranchConnectedDecorV02Catalog;
+            var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+            if (!RanchConnectedDecorV02Host.TryCreateSnapshot(map, map.decorations,
+                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
+            RanchDecorPlan plan;
+            try
             {
-                var record = catalog.GetSpriteAt(i);
-                if (record.Family == RanchConnectedDecorV01Planner.Meadow && record.Kind == "meadow_flower_accent") accents.Add(record);
+                plan = RanchConnectedDecorV02Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                    key => {
+                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var reason))
+                            throw new InvalidOperationException(reason);
+                        return new RanchDecorGroupSize(group.WidthCells, group.HeightCells);
+                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing);
             }
-            accents.Sort((a, b) => string.CompareOrdinal(a.File, b.File));
+            catch (Exception) { return; }
             for (var i = 0; i < plan.NetworkCount; i++)
             {
                 var row = plan.GetNetwork(i);
@@ -1222,10 +1207,9 @@ namespace ANIMOL.Presentation.Editor
                 if (!string.IsNullOrEmpty(row.periodicPostFile) &&
                     catalog.TryGetExact(row.periodicPostFile, pin, out var post, out _))
                     DrawWorldSpriteAt(position, post.Sprite, shownHeight, origin, visible);
-                if (row.family == RanchConnectedDecorV01Planner.Meadow && accents.Count > 0 &&
-                    RanchConnectedDecorV01Planner.AddMeadowAccent(row.accentHash))
-                    DrawWorldSpriteAt(position, accents[(int)((row.accentHash / 5u) % (uint)accents.Count)].Sprite,
-                        shownHeight, origin, visible);
+                if (!string.IsNullOrEmpty(row.flowerAccentFile) &&
+                    catalog.TryGetExact(row.flowerAccentFile, pin, out var flower, out _))
+                    DrawWorldSpriteAt(position, flower.Sprite, shownHeight, origin, visible);
             }
             for (var i = 0; i < plan.GroupCount; i++)
             {
@@ -1458,7 +1442,7 @@ namespace ANIMOL.Presentation.Editor
         public static bool TryEraseDecoration(PuzzleMap target, Vector2Int p)
         {
             var index = target.decorations.FindIndex(cell =>
-                RanchConnectedDecorHost.Occupies(target, cell, p) || TheaterConnectedDecorHost.Occupies(target, cell, p) ||
+                RanchConnectedDecorV02Host.Occupies(target, cell, p) || TheaterConnectedDecorHost.Occupies(target, cell, p) ||
                 SanctumConnectedDecorHost.Occupies(target, cell, p) || CoastConnectedDecorHost.Occupies(target, cell, p));
             if (index < 0) return false;
             target.decorations.RemoveAt(index);
@@ -1475,7 +1459,7 @@ namespace ANIMOL.Presentation.Editor
             { error = "기존 V02 장식은 새 V01 지면 크기와 배치 위치를 검토한 뒤 이관해야 합니다."; return false; }
             if (CoastConnectedDecorHost.IsCoast(target) && CoastConnectedDecorHost.IsLegacyCoastProp(target.theme, sprite))
             { error = "기존 해안 장식은 새 지면 크기와 배치 위치를 검토한 뒤 이관해야 합니다."; return false; }
-            var source = RanchConnectedDecorHost.SourceMapping(target, sprite);
+            var source = RanchConnectedDecorV02Host.SourceMapping(target, sprite);
             var theaterSource = TheaterConnectedDecorHost.IsTheater(target)
                 ? TheaterConnectedDecorHost.SourceMapping(target.theme, sprite) : null;
             var sanctumSource = SanctumConnectedDecorHost.IsSanctum(target)
@@ -1490,10 +1474,12 @@ namespace ANIMOL.Presentation.Editor
             {
                 var p = anchor + new Vector2Int(x, y);
                 if (!target.Contains(p)) { error = "장식의 전체 지면이 맵 안에 들어와야 합니다."; return false; }
-                if (target.decorations.Any(cell => RanchConnectedDecorHost.Occupies(target, cell, p) ||
+                if (target.decorations.Any(cell => RanchConnectedDecorV02Host.Occupies(target, cell, p) ||
                     TheaterConnectedDecorHost.Occupies(target, cell, p) || SanctumConnectedDecorHost.Occupies(target, cell, p) ||
                     CoastConnectedDecorHost.Occupies(target, cell, p)))
                 { error = "장식의 지면이 다른 장식과 겹칩니다. 먼저 기존 장식을 지우세요."; return false; }
+                if (source != null && source.IsVisual && !RanchConnectedDecorV02Host.AllowDecorCell(target, target.decorations, p))
+                { error = "All Ranch decoration ground cells must be allowed."; return false; }
                 if (theaterSource != null && !TheaterConnectedDecorHost.AllowDecorCell(target, target.decorations, p))
                 { error = "극장 장식은 기존 다리 난간이나 장식이 소유한 칸에 배치할 수 없습니다."; return false; }
                 if (sanctumSource != null && !SanctumConnectedDecorHost.AllowDecorCell(target, target.decorations, p))
@@ -1506,7 +1492,7 @@ namespace ANIMOL.Presentation.Editor
                 tint = mapped || theaterSource != null || sanctumSource != null || coastSource != null ? Color.white : tint, placementId = Guid.NewGuid().ToString("N"),
                 visualFamily = theaterSource != null ? theaterSource.key : sanctumSource != null ? sanctumSource.key :
                     coastSource != null ? coastSource.key :
-                    mapped && source.sourceId.StartsWith("ranch:", StringComparison.Ordinal) ? source.family : null,
+                    mapped ? source.Key : null,
                 connectionGroup = theaterSource != null && theaterSource.network ?
                     (string.IsNullOrWhiteSpace(connectionGroup) ? theaterSource.key : connectionGroup.Trim()) :
                     sanctumSource != null && sanctumSource.network ?
@@ -1519,11 +1505,11 @@ namespace ANIMOL.Presentation.Editor
             if (mapped)
             {
                 var theme = target.theme;
-                if (!theme.ranchConnectedDecorV01Catalog || !theme.ranchConnectedDecorV01ManifestPin)
+                if (!theme.ranchConnectedDecorV02Catalog || !theme.ranchConnectedDecorV02ManifestPin)
                 { error = "새 목장 장식 catalog 또는 manifest pin이 없습니다."; return false; }
                 var candidate = new List<DecorationCell>(target.decorations) { cellToAdd };
-                if (!RanchConnectedDecorHost.TryCreatePlan(target, theme.ranchConnectedDecorV01Catalog,
-                    theme.ranchConnectedDecorV01ManifestPin.text.Trim(), candidate, out _, out _, out _, out error)) return false;
+                if (!RanchConnectedDecorV02Host.TryCreateSnapshot(target, candidate,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out error)) return false;
             }
             if (theaterSource != null)
             {

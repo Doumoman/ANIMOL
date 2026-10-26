@@ -80,7 +80,7 @@ namespace ANIMOL.Puzzle
         public bool TryTerrain(Vector2Int p, out TerrainCell cell)
         { Index(); cell = default; return Contains(p) && terrainIndex.TryGetValue(p, out cell); }
         public bool DecorationAt(Vector2Int p) => Contains(p) &&
-            decorations.Any(cell => RanchConnectedDecorHost.Occupies(this, cell, p));
+            decorations.Any(cell => RanchConnectedDecorV02Host.Occupies(this, cell, p));
         public bool Walkable(Vector2Int p) => TryTerrain(p, out var t) && !t.blocked && !DecorationAt(p);
         public DeviceCell DeviceAt(Vector2Int p)
         { Index(); return Contains(p) && deviceIndex.TryGetValue(p, out var d) ? d : default; }
@@ -101,7 +101,7 @@ namespace ANIMOL.Puzzle
             bool Outside(Vector2Int p) => p.x < 0 || p.y < 0 || p.x >= w || p.y >= h;
             return terrain.Count(t => Outside(t.position)) + devices.Count(d => Outside(d.position)) +
                 decorations.Sum(d => {
-                    var source = RanchConnectedDecorHost.SourceMapping(this, d);
+                    var source = RanchConnectedDecorV02Host.SourceMapping(this, d);
                     var theater = TheaterConnectedDecorHost.TryMap(this, d, out var theaterSource) ? theaterSource : null;
                     var sanctum = SanctumConnectedDecorHost.TryMap(this, d, out var sanctumSource) ? sanctumSource : null;
                     var coast = CoastConnectedDecorHost.TryMap(this, d, out var coastSource) ? coastSource : null;
@@ -135,12 +135,10 @@ namespace ANIMOL.Puzzle
                 if ((d.kind == DeviceKind.Conveyor || d.kind == DeviceKind.Wind) && !PuzzleSession.IsCardinal(d.direction)) errors.Add("Device direction must be cardinal: " + d.position);
             }
             if (theme && theme.starwayRanch && decorations.Any(d =>
-                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(this, d, out _)))
+                !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorV02Host.TryMap(this, d, out _)))
             {
-                if (!theme.ranchConnectedDecorV01Catalog || !theme.ranchConnectedDecorV01ManifestPin)
-                    errors.Add("Ranch connected decoration catalog or manifest pin is missing.");
-                else if (!RanchConnectedDecorHost.TryCreatePlan(this, theme.ranchConnectedDecorV01Catalog,
-                    theme.ranchConnectedDecorV01ManifestPin.text.Trim(), decorations, out _, out _, out _, out var decorError))
+                if (!RanchConnectedDecorV02Host.TryCreateSnapshot(this, decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out var decorError))
                     errors.Add("Ranch connected decoration layout is invalid: " + decorError);
             }
             if (TheaterConnectedDecorHost.IsTheater(this) && decorations.Any(d =>

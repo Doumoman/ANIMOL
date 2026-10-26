@@ -1,0 +1,45 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/ranch_connected_v02/networks_a_exports",
+      "manifestSha256": "899a2f55f1277fabd4dd4484fe45e811e50dce9e96f3aea9e6aa59855f74aaf9",
+      "runtimePngCount": 294,
+      "semanticNetworkFamilies": [
+        "cream_fence",
+        "meadow_stone_wall"
+      ],
+      "sourcePins": {
+        "sources/ranch_v02_meadow_flowers_native.png": "fe6d14e25674374dec65fc8f51c342e809594d2d430e3bff592db30b823c74f7",
+        "sources/ranch_v02_cream_fence_parts_native.png": "a486b9f8eac935152cf4a8a60cbcc57c95d00cac11242eb53328012a8308f7ac",
+        "sources/ranch_v02_stone_wall_parts_native.png": "ca799be6fa3447323f2fb86997aa5fbc16ebc14ce6724dc244681ca60c4edbd1",
+        "sources/ranch_v02_meadow_construction_native.png": "8f722a152931ec4e549eb762a40f4666c5cf9711227e85abffb2f88dbc3f8709"
+      },
+      "checks": 2072,
+      "errors": [],
+      "joins": [
+        {
+          "family": "cream_fence",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 68608,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "meadow_stone_wall",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 72704,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}

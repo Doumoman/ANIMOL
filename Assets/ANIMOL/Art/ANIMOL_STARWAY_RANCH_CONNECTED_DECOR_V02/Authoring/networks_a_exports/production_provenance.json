@@ -1,0 +1,166 @@
+{
+  "packageId": "ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02",
+  "mode": "built-in imagegen",
+  "freshNativeImageCount": 4,
+  "nativeRGBRepainted": false,
+  "pipeline": [
+    "New native component sheets generated from explicit Ranch V02 prompts",
+    "Preserve original RGBA source bytes",
+    "Crop isolated components; alpha only body support cleanup and nearopaque normalization",
+    "Uniformly resize component body; crop or extrude native crosssections along carrier tangent",
+    "Compose mask-owned native parts; retain identical opaque support overlap; unique nearest-world-cell owner for partial-AA fringe",
+    "Native meadow one-pixel interior swatch uniformly expanded unchanged; no RGB painting/recolor",
+    "Export all cardinal16 pairs and all raw256 eight-neighbor meadow masks plus4 optional seeded native flower cutouts"
+  ],
+  "registration": {
+    "canvas": [
+      320,
+      320
+    ],
+    "logicalRect": [
+      32,
+      32,
+      256,
+      256
+    ],
+    "ppu": 256,
+    "pivot": [
+      0.5,
+      0.5
+    ]
+  },
+  "railsSources": [
+    {
+      "file": "sources/ranch_v02_cream_fence_parts_native.png",
+      "crops": {
+        "h": [
+          70,
+          160,
+          1150,
+          405
+        ],
+        "v": [
+          1215,
+          0,
+          1435,
+          510
+        ],
+        "post": [
+          325,
+          465,
+          595,
+          1008
+        ],
+        "joint": [
+          870,
+          640,
+          1125,
+          900
+        ]
+      }
+    },
+    {
+      "file": "sources/ranch_v02_stone_wall_parts_native.png",
+      "crops": {
+        "h": [
+          100,
+          155,
+          1055,
+          440
+        ],
+        "v": [
+          1140,
+          10,
+          1395,
+          565
+        ],
+        "post": [
+          345,
+          505,
+          690,
+          1000
+        ],
+        "joint": [
+          900,
+          660,
+          1190,
+          940
+        ]
+      }
+    }
+  ],
+  "meadowSource": {
+    "file": "sources/ranch_v02_meadow_construction_native.png",
+    "nativeInteriorPixel": [
+      780,
+      220,
+      781,
+      221
+    ],
+    "northRibbon": [
+      24,
+      268,
+      1516,
+      422
+    ],
+    "southRibbon": [
+      24,
+      438,
+      1516,
+      588
+    ],
+    "northUniformHeight58": true,
+    "southUniformHeight60": true,
+    "westNativeCrossSection": [
+      65,
+      830,
+      190,
+      831
+    ],
+    "eastNativeCrossSection": [
+      1340,
+      830,
+      1488,
+      831
+    ],
+    "nativeTuft": [
+      580,
+      710,
+      915,
+      970
+    ]
+  },
+  "flowerSource": {
+    "file": "sources/ranch_v02_meadow_flowers_native.png",
+    "sourceCrops": [
+      [
+        0,
+        305,
+        418,
+        705
+      ],
+      [
+        418,
+        330,
+        784,
+        710
+      ],
+      [
+        785,
+        305,
+        1167,
+        710
+      ],
+      [
+        1167,
+        380,
+        1536,
+        710
+      ]
+    ],
+    "optionalNoNewClaim": true
+  },
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityPlay": "NOT_RUN"
+}

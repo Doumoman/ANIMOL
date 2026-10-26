@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/ranch_connected_v02/networks_b_exports",
+      "manifestSha256": "cceb7287bd67f563091827db35f915a518759ef541f8e0e4c9489523c9dc8a85",
+      "runtimePngCount": 48,
+      "semanticNetworkFamilies": [
+        "herb_planter_strip",
+        "orchard_trellis",
+        "ranch_lantern_strip"
+      ],
+      "sourcePins": {
+        "sources/orchard_trellis_native.png": "bc552b0314c8921854cce3a09750e6d579471a7c392e86df98d3f9027c47353a",
+        "sources/herb_planter_strip_native.png": "3fca09368019f8e807ac45d941024119cb994a278b3868dacfcf98dbfac831c8",
+        "sources/ranch_lantern_strip_native.png": "e06e33408548d4d298d76aa998cf1039656610852fc9e388b1eeec13f63261df"
+      },
+      "checks": 354,
+      "errors": [],
+      "joins": [
+        {
+          "family": "herb_planter_strip",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 78848,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "orchard_trellis",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 76288,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "ranch_lantern_strip",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 75776,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}

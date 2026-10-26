@@ -1,0 +1,435 @@
+{
+  "status": "PASS_SOURCE_REVIEW",
+  "sourceRoot": "/workspace/scratch/b0cb6eab55f7/work/ranch_connected_v02/runtime_exports",
+  "checkCount": 47,
+  "checks": [
+    {
+      "check": "All19 primary sources present",
+      "passed": true,
+      "sourceEvidence": "10Runtime+6Editor+3Tests~ files"
+    },
+    {
+      "check": "All semantic names match approved contract",
+      "passed": true,
+      "sourceEvidence": "Planner known families+GroupKeys"
+    },
+    {
+      "check": "Connection domain uses family/group/layer/height",
+      "passed": true,
+      "sourceEvidence": "Planner same predicate"
+    },
+    {
+      "check": "Whole footprint approved atomically",
+      "passed": true,
+      "sourceEvidence": "Planner throws before returned plan on denied footprint"
+    },
+    {
+      "check": "Unique group instance identity",
+      "passed": true,
+      "sourceEvidence": "Planner placementID uniqueness"
+    },
+    {
+      "check": "Guarded deterministic optional posts",
+      "passed": true,
+      "sourceEvidence": "Longstraight only with straight along-line neighbors"
+    },
+    {
+      "check": "Explicit row-down cell and whole-bottom-left conversion",
+      "passed": true,
+      "sourceEvidence": "Planner conversion helpers"
+    },
+    {
+      "check": "DTO rejects missing arrays",
+      "passed": true,
+      "sourceEvidence": "BoardSnapshot TryValidate"
+    },
+    {
+      "check": "Immutable captured eligibility whitelist",
+      "passed": true,
+      "sourceEvidence": "BoardSnapshot query captures new set"
+    },
+    {
+      "check": "DTO deepcopies all three arrays",
+      "passed": true,
+      "sourceEvidence": "No shared row references"
+    },
+    {
+      "check": "Published source clones before storing/capture",
+      "passed": true,
+      "sourceEvidence": "Published defensive data ownership"
+    },
+    {
+      "check": "Published rejects inspection data",
+      "passed": true,
+      "sourceEvidence": "Production source"
+    },
+    {
+      "check": "Published invalidates ondisable",
+      "passed": true,
+      "sourceEvidence": "Pool reuse fresh authority"
+    },
+    {
+      "check": "Binding concrete configure and apply",
+      "passed": true,
+      "sourceEvidence": "Actual call sites"
+    },
+    {
+      "check": "Binding event lifecycle",
+      "passed": true,
+      "sourceEvidence": "Subscribe/capture/clear"
+    },
+    {
+      "check": "Hierarchy validated before idempotence cache",
+      "passed": true,
+      "sourceEvidence": "Parent matrix+visibility stamped"
+    },
+    {
+      "check": "Failure clears own required Controller",
+      "passed": true,
+      "sourceEvidence": "Inspector foreign/null reference safe"
+    },
+    {
+      "check": "Example explicitly opt-in binding",
+      "passed": true,
+      "sourceEvidence": "Example data cannot silently act as production snapshot"
+    },
+    {
+      "check": "Reentrant event refresh bounded",
+      "passed": true,
+      "sourceEvidence": "No unbounded refresh loop"
+    },
+    {
+      "check": "Strict JSON validates before JsonUtility",
+      "passed": true,
+      "sourceEvidence": "BoardJson ordered structure checks (manual source review)"
+    },
+    {
+      "check": "Exact unicode digits in both parsers",
+      "passed": true,
+      "sourceEvidence": "No HexNumber whitespace acceptance"
+    },
+    {
+      "check": "Board builder calls catalog builder and validates current catalog",
+      "passed": true,
+      "sourceEvidence": "Actual Editor import path"
+    },
+    {
+      "check": "Board builder concrete source/binding setup",
+      "passed": true,
+      "sourceEvidence": "Generated components genuinely connect"
+    },
+    {
+      "check": "Explicit refresh before prefab save",
+      "passed": true,
+      "sourceEvidence": "Editmode not reliant on OnEnable"
+    },
+    {
+      "check": "Renderer visibility asserted before save",
+      "passed": true,
+      "sourceEvidence": "Enabled current Sprite check"
+    },
+    {
+      "check": "Builder blocks open stage before mutation",
+      "passed": true,
+      "sourceEvidence": "No stage mutation"
+    },
+    {
+      "check": "Builder checks actual SortingLayer",
+      "passed": true,
+      "sourceEvidence": "No guessed sortinglayer"
+    },
+    {
+      "check": "Builder isolates additive scene and restores active",
+      "passed": true,
+      "sourceEvidence": "No production scene save/close"
+    },
+    {
+      "check": "Scoped output ownership labels",
+      "passed": true,
+      "sourceEvidence": "Do not overwrite unrelated assets"
+    },
+    {
+      "check": "Optional URP reflection avoids harddependency",
+      "passed": true,
+      "sourceEvidence": "Only isolated inspection light"
+    },
+    {
+      "check": "No autonomous polling",
+      "passed": true,
+      "sourceEvidence": "Whole snapshot event driven"
+    },
+    {
+      "check": "No gameplay collider/input creation",
+      "passed": true,
+      "sourceEvidence": "Visual decoration scope"
+    },
+    {
+      "check": "Root importer validates exact manifest file hash",
+      "passed": true,
+      "sourceEvidence": "Exact current files"
+    },
+    {
+      "check": "Catalog rejects alternate art revisions even without Binding",
+      "passed": true,
+      "sourceEvidence": "Catalog runtime compiled art pin"
+    },
+    {
+      "check": "Importer rejects alternate art manifest pin",
+      "passed": true,
+      "sourceEvidence": "Importer compiled art pin"
+    },
+    {
+      "check": "All20 exactdeclaredfootprints independently extracted",
+      "passed": true,
+      "sourceEvidence": "Planner switch actual integer sizes, not names alone"
+    },
+    {
+      "check": "Raw8bits retain directdiagonal bits",
+      "passed": true,
+      "sourceEvidence": "EightNeighborMask no47canonical gating"
+    },
+    {
+      "check": "Meadow256 cardinal16 exactmaskcount",
+      "passed": true,
+      "sourceEvidence": "MaskCount family-specific"
+    },
+    {
+      "check": "MeadowD3 cardinalD2 filenames",
+      "passed": true,
+      "sourceEvidence": "Exact oldrelative paths"
+    },
+    {
+      "check": "Actualplanner dispatches raw8onlymeadow",
+      "passed": true,
+      "sourceEvidence": "CreatePlan live mask selection"
+    },
+    {
+      "check": "Seededflowerdensity andvariant unchanged",
+      "passed": true,
+      "sourceEvidence": "Oneoptional accent at existingcell"
+    },
+    {
+      "check": "Accentselection only for meadow",
+      "passed": true,
+      "sourceEvidence": "Immutable selection contains explicitflowerfile"
+    },
+    {
+      "check": "Worldxy enterstablehash",
+      "passed": true,
+      "sourceEvidence": "Reload/Undo/permutation stable"
+    },
+    {
+      "check": "Flowersarependingvisuals notnewclaims",
+      "passed": true,
+      "sourceEvidence": "Controller accent at existingmeadowcell, plannerclaims containnetwork/group loops only"
+    },
+    {
+      "check": "Catalogexact362 currentart",
+      "passed": true,
+      "sourceEvidence": "No118-onlycatalog downgrade"
+    },
+    {
+      "check": "Catalogandimporter validateall4flowers",
+      "passed": true,
+      "sourceEvidence": "Current exactfouroverlay allowlist"
+    },
+    {
+      "check": "AllRanch320square register preserved",
+      "passed": true,
+      "sourceEvidence": "Logicalrect32,32+256; noCoast320x384 inherited"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "file": "Runtime/RanchConnectedDecorV02AuthoredSnapshotSource.cs",
+      "sha256": "8bb771762cba5fb99b2b14de4cbfadfc03b1446a30788d4828d49d57a71b8213"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02Binding.cs",
+      "sha256": "60aeac7f229ee928363ff614fa23cc26f6cbca77681bc1b580ede61413884664"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02BoardAsset.cs",
+      "sha256": "dc6ed98117d8fd02549058a8a3eed205139816c3755482fd115b86926527d77d"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02BoardSnapshot.cs",
+      "sha256": "4428c3ed752d56ee80dd4c62a24c21bfa4a07606d638cfa448cf1195b41dd6cf"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02Catalog.cs",
+      "sha256": "a7440870917f263f5c11013e19d93bb1e887a35048a84b3ded02a424661d4fb8"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02Controller.cs",
+      "sha256": "99c1cc4b389eb63f75269e9d7466d9c184436b2a4aa01bac9c1fec8df84e4960"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02Planner.cs",
+      "sha256": "1b0a07b42f28cbee789ba26b035fb048c9fe3729822141bbe4ef9c1dea71f12e"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02PublishedSnapshotSource.cs",
+      "sha256": "e354d7242ad2296171865da01b0e03b3cb800b754b24b50b98310e3acc4494d0"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02Schema.cs",
+      "sha256": "0258aa6719443c6ea52145dddf34c18deaf20783b478b177379cf9abdf769e57"
+    },
+    {
+      "file": "Runtime/RanchConnectedDecorV02SnapshotSource.cs",
+      "sha256": "4ec808d2c02ad3bd37abc048193d56f8cf6e872083ced841c28840a3d7a2d95f"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02BoardJson.cs",
+      "sha256": "4d3453642304170d3d6fa6f445e9dacca84965a95ba893f8175625e5b58e64a0"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02BoardTools.cs",
+      "sha256": "156d29daa35a04f03637bac1e061efda307c4173a2826d740410e98e34e6db6e"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02BoardWindow.cs",
+      "sha256": "0ffeaef120877fbbeb7e07849df07afd40c19fd670afc8426d8b683a4768f83f"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02CatalogBuilder.cs",
+      "sha256": "d5ac4ef310bbeb55bc931ef712d6b1c3cae3d67aa318f7d0e817093247e79b01"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02JsonSchema.cs",
+      "sha256": "7472dfac0918cbbfc96760061702d83319141e79f155fbe570804bd72c76d701"
+    },
+    {
+      "file": "Editor/RanchConnectedDecorV02SpriteImporter.cs",
+      "sha256": "8ef5032ed8f3661b60ab79abee19dc035d90df842e64316bd4f07ef492fc2971"
+    },
+    {
+      "file": "Tests~/RanchConnectedDecorV02BoardJsonTests.cs",
+      "sha256": "d2e665c1981702e1460bc064fb3632700b0f3c74839f80650ee63b3ab99ec28f"
+    },
+    {
+      "file": "Tests~/RanchConnectedDecorV02CompletionTests.cs",
+      "sha256": "a2d16d4c351a2efed3ddf6d2a424700aaaebe0fe659d7f720cf401d4c77880eb"
+    },
+    {
+      "file": "Tests~/RanchConnectedDecorV02PlannerTests.cs",
+      "sha256": "9afb65e4ad8a7529b27fae766629ed2c1abcbdbad444ba3fff14001d3757a38b"
+    }
+  ],
+  "scope": "Independent static review: source evidence for lifecycle/authority/JSON/builder contracts. It does not execute C# or validate Unity API availability.",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityImport": "NOT_RUN",
+  "actualTestRunner": "NOT_RUN",
+  "actualUnityPlay": "NOT_RUN",
+  "artManifestSha256": "770e8085e6cd8c6804c062742f44888ab0fd395282bee413366888ea2d32e38c",
+  "finalPinAlignment": {
+    "status": "PASS_FINAL_PIN_ONLY_SUBSTITUTION",
+    "changedFiles": [
+      "Runtime/RanchConnectedDecorV02BoardSnapshot.cs"
+    ],
+    "other18PrimarySourceHashesUnchanged": true,
+    "placeholderSubstitutionRestoresOriginalReviewedBytes": true,
+    "unresolvedPlaceholder": false
+  },
+  "canonicalSourceAlignment": {
+    "status": "PASS_19_EXACT_BYTES",
+    "files": [
+      {
+        "file": "Runtime/RanchConnectedDecorV02AuthoredSnapshotSource.cs",
+        "expectedSha256": "8bb771762cba5fb99b2b14de4cbfadfc03b1446a30788d4828d49d57a71b8213",
+        "actualSha256": "8bb771762cba5fb99b2b14de4cbfadfc03b1446a30788d4828d49d57a71b8213"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02Binding.cs",
+        "expectedSha256": "60aeac7f229ee928363ff614fa23cc26f6cbca77681bc1b580ede61413884664",
+        "actualSha256": "60aeac7f229ee928363ff614fa23cc26f6cbca77681bc1b580ede61413884664"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02BoardAsset.cs",
+        "expectedSha256": "dc6ed98117d8fd02549058a8a3eed205139816c3755482fd115b86926527d77d",
+        "actualSha256": "dc6ed98117d8fd02549058a8a3eed205139816c3755482fd115b86926527d77d"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02BoardSnapshot.cs",
+        "expectedSha256": "4428c3ed752d56ee80dd4c62a24c21bfa4a07606d638cfa448cf1195b41dd6cf",
+        "actualSha256": "4428c3ed752d56ee80dd4c62a24c21bfa4a07606d638cfa448cf1195b41dd6cf"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02Catalog.cs",
+        "expectedSha256": "a7440870917f263f5c11013e19d93bb1e887a35048a84b3ded02a424661d4fb8",
+        "actualSha256": "a7440870917f263f5c11013e19d93bb1e887a35048a84b3ded02a424661d4fb8"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02Controller.cs",
+        "expectedSha256": "99c1cc4b389eb63f75269e9d7466d9c184436b2a4aa01bac9c1fec8df84e4960",
+        "actualSha256": "99c1cc4b389eb63f75269e9d7466d9c184436b2a4aa01bac9c1fec8df84e4960"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02Planner.cs",
+        "expectedSha256": "1b0a07b42f28cbee789ba26b035fb048c9fe3729822141bbe4ef9c1dea71f12e",
+        "actualSha256": "1b0a07b42f28cbee789ba26b035fb048c9fe3729822141bbe4ef9c1dea71f12e"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02PublishedSnapshotSource.cs",
+        "expectedSha256": "e354d7242ad2296171865da01b0e03b3cb800b754b24b50b98310e3acc4494d0",
+        "actualSha256": "e354d7242ad2296171865da01b0e03b3cb800b754b24b50b98310e3acc4494d0"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02Schema.cs",
+        "expectedSha256": "0258aa6719443c6ea52145dddf34c18deaf20783b478b177379cf9abdf769e57",
+        "actualSha256": "0258aa6719443c6ea52145dddf34c18deaf20783b478b177379cf9abdf769e57"
+      },
+      {
+        "file": "Runtime/RanchConnectedDecorV02SnapshotSource.cs",
+        "expectedSha256": "4ec808d2c02ad3bd37abc048193d56f8cf6e872083ced841c28840a3d7a2d95f",
+        "actualSha256": "4ec808d2c02ad3bd37abc048193d56f8cf6e872083ced841c28840a3d7a2d95f"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02BoardJson.cs",
+        "expectedSha256": "4d3453642304170d3d6fa6f445e9dacca84965a95ba893f8175625e5b58e64a0",
+        "actualSha256": "4d3453642304170d3d6fa6f445e9dacca84965a95ba893f8175625e5b58e64a0"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02BoardTools.cs",
+        "expectedSha256": "156d29daa35a04f03637bac1e061efda307c4173a2826d740410e98e34e6db6e",
+        "actualSha256": "156d29daa35a04f03637bac1e061efda307c4173a2826d740410e98e34e6db6e"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02BoardWindow.cs",
+        "expectedSha256": "0ffeaef120877fbbeb7e07849df07afd40c19fd670afc8426d8b683a4768f83f",
+        "actualSha256": "0ffeaef120877fbbeb7e07849df07afd40c19fd670afc8426d8b683a4768f83f"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02CatalogBuilder.cs",
+        "expectedSha256": "d5ac4ef310bbeb55bc931ef712d6b1c3cae3d67aa318f7d0e817093247e79b01",
+        "actualSha256": "d5ac4ef310bbeb55bc931ef712d6b1c3cae3d67aa318f7d0e817093247e79b01"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02JsonSchema.cs",
+        "expectedSha256": "7472dfac0918cbbfc96760061702d83319141e79f155fbe570804bd72c76d701",
+        "actualSha256": "7472dfac0918cbbfc96760061702d83319141e79f155fbe570804bd72c76d701"
+      },
+      {
+        "file": "Editor/RanchConnectedDecorV02SpriteImporter.cs",
+        "expectedSha256": "8ef5032ed8f3661b60ab79abee19dc035d90df842e64316bd4f07ef492fc2971",
+        "actualSha256": "8ef5032ed8f3661b60ab79abee19dc035d90df842e64316bd4f07ef492fc2971"
+      },
+      {
+        "file": "Tests~/RanchConnectedDecorV02BoardJsonTests.cs",
+        "expectedSha256": "d2e665c1981702e1460bc064fb3632700b0f3c74839f80650ee63b3ab99ec28f",
+        "actualSha256": "d2e665c1981702e1460bc064fb3632700b0f3c74839f80650ee63b3ab99ec28f"
+      },
+      {
+        "file": "Tests~/RanchConnectedDecorV02CompletionTests.cs",
+        "expectedSha256": "a2d16d4c351a2efed3ddf6d2a424700aaaebe0fe659d7f720cf401d4c77880eb",
+        "actualSha256": "a2d16d4c351a2efed3ddf6d2a424700aaaebe0fe659d7f720cf401d4c77880eb"
+      },
+      {
+        "file": "Tests~/RanchConnectedDecorV02PlannerTests.cs",
+        "expectedSha256": "9afb65e4ad8a7529b27fae766629ed2c1abcbdbad444ba3fff14001d3757a38b",
+        "actualSha256": "9afb65e4ad8a7529b27fae766629ed2c1abcbdbad444ba3fff14001d3757a38b"
+      }
+    ]
+  }
+}
