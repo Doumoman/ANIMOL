@@ -133,5 +133,3 @@ namespace ANIMOL.Presentation.Tests
         }
     }
 }
-
-\n

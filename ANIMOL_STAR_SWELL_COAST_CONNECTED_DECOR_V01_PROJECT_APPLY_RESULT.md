@@ -86,15 +86,31 @@
 | 검사 화면 | **PASS** — [Stage](Docs/QA/CoastConnectedDecorV01/stage_play.png), [All26](Docs/QA/CoastConnectedDecorV01/all26_play.png) 실제 Play 캡처 |
 | 실제 화면 갱신 영상·그리드 확대 캡처 | **NOT_RUN** — 정지 화면과 호출·TestRunner 근거까지만 기록했다. |
 
-## 배포 ZIP 제한과 오프라인 검사
+## ZIP 복구와 이번 추가 검증 (2026-10-27)
 
-제공 `MCP_INBOX/ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01.zip`은 중앙 디렉터리/끝 기록이 끊긴 파일이다. 순차 복구로 **CRC가 맞는 322개 항목**을 확보했고, 이 안에 런타임 PNG 118개, manifest, pin, Runtime/Editor, Examples가 모두 있다. 이 정확한 바이트만 설치했다. PNG를 다시 만들거나 해시 검사를 끄지 않았다.
+첫 적용 때 전달된 ZIP은 끝부분이 잘려 51,153,744바이트였고 322개 항목만 CRC 검증 후 추출할 수 있었다. 당시 [오프라인 검사](Docs/QA/CoastConnectedDecorV01/pristine_offline_audit.json)의 **FAIL_OFFLINE**은 당시 손상본의 실제 결과다. 이 기록은 삭제하지 않는다.
 
-복구 불가 8개는 `sources/harbor_lantern_channel_native.png`, `sources/harbor_market_stall_3x2_draft_native.png`, `sources/harbor_market_stall_3x2_native.png`, `sources/net_drying_rack_3x1_native.png`, `sources/raised_dune_grass_native.png`, `sources/rope_dock_fence_parts_native.png`, `sources/shell_display_2x1_native.png`, `sprite_import_settings.json`이다. 재첨부본을 받으면 같은 폴더에 누락 파일만 병합하고 기존 .meta/생성 GUID를 유지해야 한다.
+이번에 받은 동일 파일명 ZIP은 **62,639,527바이트, SHA-256 `085058cb2642fa281a5e6a2550ea7731176988822d440ab40dc01321a892f400`**으로 사용자 제공 정상 값과 일치했다. Assets 밖의 `Temp/CoastRepairedZipExtraction`에 안전한 경로만 추출했다. ZIP 330개 항목은 중복/누락 없이 전체 CRC를 통과했고, `package_checksums_sha256.txt`의 329개 해시도 전부 일치했다. PNG 199개 디코딩/JSON 81개 파싱 후 제공 독립 검사기를 그 추출본에서 실행해 **PASS_OFFLINE, 2,269개 검사, 오류 0, 경고 0**을 얻었다. [이번 원본 패키지 검사 보고서](Docs/QA/CoastConnectedDecorV01/COAST_REPAIRED_PACKAGE_QA.json)는 패키지 밖에 보관했다.
 
-제공 독립 검사기를 복구 직후 수정 전 바이트에 실행했다. **FAIL_OFFLINE**: 런타임 PNG 118개·26종·typed 예시 검사는 통과했지만, 위 선택 원화·설정 파일의 존재/체크섬은 실패했다. [원본 복구본 검사 결과](Docs/QA/CoastConnectedDecorV01/pristine_offline_audit.json). 설치 후 소스 패치와 Unity 생성 .meta/_Generated 자산은 배포 원본의 패키지 체크섬과 달라지는 것이 정상이다. 이 오프라인 결과를 Unity 실행 PASS로 바꾸어 기록하지 않았다.
+기존 설치 위치의 `packageId=ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01`, manifest SHA-256 `e97145e09c089d39307f1cad34190ac1350eaaab4f2cfc1266bebfa668897767`, 런타임 PNG 118개 바이트 일치를 확인했다. 기존 330개 배포 파일과 대조하면 의도적으로 프로젝트에 맞게 고친 C# 3개(`BoardTools`, `Binding`, `SnapshotSource`)만 달랐다. 이 파일은 덮어쓰지 않았다. 이전에 없던 아래 8개만 정확한 원본 바이트로 보충했다. 기존 설치 폴더와 기존 `.meta`/생성 자산은 유지했다.
+
+| 이번에 보충한 경로 | 결과 |
+|---|---|
+| `sources/harbor_lantern_channel_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/harbor_market_stall_3x2_draft_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/harbor_market_stall_3x2_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/net_drying_rack_3x1_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/raised_dune_grass_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/rope_dock_fence_parts_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sources/shell_display_2x1_native.png` | 원본 SHA 일치, Unity 신규 `.meta` |
+| `sprite_import_settings.json` | 원본 SHA 일치, Unity 신규 `.meta` |
+
+Unity에서 보충 8개를 실제 임포트했고 sources PNG 7개는 Sprite로 등록되지 않았다. 기존 Catalog GUID `e91329ae1a93b994d9a6b5f330989280`, Stage Scene GUID `7fe0aa2e0705c324f8b24a019f98dfa2`, All26 Scene GUID `cb51cd9dbaf113444ada577abe181903`이 그대로다. [이번 임포트 감사](Docs/QA/CoastConnectedDecorV01/repair_unity_import_audit.json).
+
+이번 Refresh 후 첫 재컴파일에서 앞선 커밋의 두 C# 파일 끝에 잘못 남은 문자 때문에 CS1056/CS0116이 드러났다. 두 파일의 끝 문자만 바로잡고 재컴파일했다. **최종 컴파일 PASS**, 오류 0이며 [이번 컴파일 상태](Docs/QA/CoastConnectedDecorV01/repair_compile_status.json)에 남겼다. 이 문자 수정은 이번 복구 커밋에 포함한다.
+
+이번 실행의 독립 결과는 **EditMode 55/55**, **PlayMode 3/3** 통과다. 이전 실행 로그를 재사용하지 않았다. [이번 EditMode](Docs/QA/CoastConnectedDecorV01/repair_editmode_test_status.json), [이번 PlayMode](Docs/QA/CoastConnectedDecorV01/repair_playmode_test_status.json). 실제 `twilight_sea` Play에서 허용 육지 (1,1)에 임시 등불을 넣어 Renderer 1개와 Cost 0을 다시 확인했고 맵 자산은 변경하지 않았다. [이번 호출 결과](Docs/QA/CoastConnectedDecorV01/repair_live_play_audit.json), [이번 화면](Docs/QA/CoastConnectedDecorV01/repair_prototype_live.png).
 
 ### 남은 확인
 
-- **BLOCKED_PRECONDITION:** 손상되지 않은 ZIP 없이는 선택 원화 7개와 `sprite_import_settings.json`의 전체 배포 해시 검사를 PASS로 만들 수 없다.
-- **NOT_RUN:** 실제 장시간 수동 플레이의 모든 나룻배 탑승/하선·폭탄 카운트 경로, 영상 촬영, 원격/Addressables 자산의 별도 도달 가능성 감사. 해당 장치 소스/자산은 이번 작업에서 수정하지 않았고 위 관련 자동 테스트 범위만 확인했다.
+- **NOT_RUN:** 이번 복구 턴에서 장시간 수동 플레이의 모든 나룻배 탑승/하선·폭탄 카운트 경로, 변경 영상, 원격/Addressables 자산의 별도 도달 가능성 감사. 해당 장치 소스/자산은 이번에 수정하지 않았다.

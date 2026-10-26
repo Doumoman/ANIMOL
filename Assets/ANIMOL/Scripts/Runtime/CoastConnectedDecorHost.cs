@@ -170,5 +170,3 @@ namespace ANIMOL.Puzzle
         }
     }
 }
-
-\n
