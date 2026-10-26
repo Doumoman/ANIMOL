@@ -58,10 +58,13 @@ namespace ANIMOL.Presentation.Tests
             try
             {
                 var session = new PuzzleDeviceSession(map);
+                session.Apply(Vector2Int.up);
+                var interaction = session.Apply(Vector2Int.up);
+                Assert.That(interaction.accepted, Is.True);
                 var action = session.Apply(Vector2Int.right);
                 Assert.That(action.accepted, Is.True);
-                Assert.That(session.Cost, Is.EqualTo(1));
-                var cue = action.events.First(e => e.eventName == "valid_action_wind_resolved" && e.actor == "blower");
+                Assert.That(session.Cost, Is.EqualTo(3));
+                var cue = interaction.events.First(e => e.eventName == "valid_action_wind_resolved" && e.actor == "blower");
                 Assert.That(cue.cells.Count, Is.GreaterThan(0));
                 Assert.That(cue.windRoute, Is.Not.Null);
                 var view = visualRoot.AddComponent<PuzzleDeviceView>();

@@ -118,6 +118,14 @@ namespace ANIMOL.Puzzle
                     d.sprite ? d.sprite : map.theme.decoration,
                     d.position, 15, Vector2.one * .8f, d.tint);
             }
+            if (map.scenario)
+            {
+                var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
+                foreach (var chick in map.scenario.devices.Where(d => d.role == PrototypeRole.Chick &&
+                    map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target)))
+                    if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
+                        Vector2.one * .8f, Color.white);
+            }
             var possibleBubbles = map.bubbles.Concat(map.scenario ? map.scenario.devices.Where(d =>
                 d.role == PrototypeRole.StarSocket && d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble)
                 .Select(d => d.socketBubbleCell) : Enumerable.Empty<Vector2Int>());

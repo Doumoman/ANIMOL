@@ -74,11 +74,13 @@ namespace ANIMOL.Tests
                 host.Load(map);
                 var visual = host.Devices.Actor("blower").GetComponentInChildren<AnimolWindRouteRenderer>();
                 Assert.That(visual, Is.Not.Null);
-                Assert.That(visual.HasVisibleRange, Is.True);
+                Assert.That(visual.HasVisibleRange, Is.False);
                 Assert.That(host.Devices.MissingBindings, Is.Zero);
-                Assert.That(host.RequestMove(Vector2Int.right), Is.True);
-                Assert.That(host.Session.Cost, Is.EqualTo(1));
-                Assert.That(host.Session.Cell, Is.EqualTo(new Vector2Int(4, 2)));
+                Assert.That(host.RequestMove(Vector2Int.up), Is.True);
+                yield return new WaitForSeconds(.5f);
+                Assert.That(host.RequestMove(Vector2Int.up), Is.True);
+                Assert.That(host.Session.Cost, Is.EqualTo(2));
+                Assert.That(host.Session.Cell, Is.EqualTo(new Vector2Int(1, 3)));
                 Assert.That(host.Session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 4)));
                 yield return new WaitForSeconds(.5f);
                 Assert.That(visual.HasVisibleRange, Is.True);

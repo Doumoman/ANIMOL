@@ -94,7 +94,8 @@ namespace ANIMOL.Puzzle
                 decorations.Count(d => Outside(d.position)) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
                 (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) +
                     scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
-                        d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) : 0);
+                        d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) +
+                    scenario.devices.Count(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && Outside(d.target)) : 0);
         }
         public List<string> ValidateMap()
         {

@@ -65,7 +65,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.Bookshelf:
                     D(m,r,"plate",2,2,"plate").group="shelf";D(m,r,"shelf",4,3).group="shelf";route="ESEEEEEN";
                     Goal(m,"plate",PrototypeGoalKind.Visited,P(2,2));break;
-                case PrototypeRole.OneWayGate: D(m,r,"gate",3,2);break;
+                case PrototypeRole.OneWayGate: D(m,r,"gate",3,2);route="EEEEE";break;
                 case PrototypeRole.Optics:
                     D(m,r,"source",1,4,"source");D(m,r,"mirror",4,4,"mirror").orientation=1;
                     D(m,r,"sensor",4,5,"sensor").group="light";D(m,r,"lightgate",5,2,"gate").group="light";
@@ -98,7 +98,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.Dice:
                     D(m,r,"die",2,2);D(m,r,"target",3,2,"target").number=4;route="ESEEEEEN";Goal(m,"target",PrototypeGoalKind.Active);break;
                 case PrototypeRole.CowardDoll: D(m,r,"doll",3,2);route="ESEEEEEN";break;
-                case PrototypeRole.Chick: D(m,r,"chick",1,3);Goal(m,"chick",PrototypeGoalKind.Position,P(5,2));break;
+                case PrototypeRole.Chick: D(m,r,"chick",1,3).target=P(5,2);Goal(m,"chick",PrototypeGoalKind.Position,P(5,2));break;
             }
             m.scenario.verificationRoute=route; return m;
         }
@@ -142,7 +142,8 @@ namespace ANIMOL.Presentation.Editor
                 foreach(var d in room.scenario.devices)
                 {
                     d.id=i+"_"+d.id;d.group=i+"_"+d.group;d.artTheme=theme;d.position+=offset;
-                    if(d.role==PrototypeRole.Portal)d.target+=offset;d.cells=d.cells.Select(p=>p+offset).ToList();m.scenario.devices.Add(d);
+                    if(d.role==PrototypeRole.Portal || d.role==PrototypeRole.Chick && d.target!=Vector2Int.zero)d.target+=offset;
+                    d.cells=d.cells.Select(p=>p+offset).ToList();m.scenario.devices.Add(d);
                 }
                 foreach(var p in room.scenario.water)m.scenario.water.Add(p+offset);
                 foreach(var g in room.scenario.goals){g.deviceId=i+"_"+g.deviceId;g.cell+=offset;m.scenario.goals.Add(g);}

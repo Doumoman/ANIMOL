@@ -24,7 +24,7 @@ namespace ANIMOL.Presentation.Editor
         TerrainMaterial material;
         PrototypeDevice prototypeBrush;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
-        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, scenarioCreationQueued;
+        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, nestTargetMode, scenarioCreationQueued;
         int templateIndex;
         string selectedDeviceId;
         string scenarioCreationError;
@@ -53,7 +53,7 @@ namespace ANIMOL.Presentation.Editor
         void Undone() { if (map) { map.InvalidateIndex(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = false; scenarioCreationError = null;
+            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = nestTargetMode = false; scenarioCreationError = null;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
@@ -328,7 +328,8 @@ namespace ANIMOL.Presentation.Editor
         public static DeviceTemplate[] TemplatesForTheme(IEnumerable<DeviceTemplate> templates, string themeId)
             => string.IsNullOrEmpty(themeId) ? Array.Empty<DeviceTemplate>() : templates.Where(entry =>
                 entry?.source && entry.device != null && entry.source.themeId == themeId &&
-                (string.IsNullOrEmpty(entry.device.artTheme) || entry.device.artTheme == themeId)).ToArray();
+                (string.IsNullOrEmpty(entry.device.artTheme) || entry.device.artTheme == themeId) &&
+                !(entry.device.role == PrototypeRole.Wind && entry.device.variant == "field")).ToArray();
         public static string ThemeName(string id) => id == "starway" ? "별길 목장" : id == "memory_theater" ? "잔영 극장" :
             id == "letter_observatory" ? "편지 천문대" : id == "twilight_sea" ? "별너울 해안" : "미지정";
         public sealed class DecorationChoice
@@ -351,7 +352,7 @@ namespace ANIMOL.Presentation.Editor
                         "wheelbarrow", "windmill_body" };
                     labels = new[] { "네잎클로버", "클로버 꽃", "클로버 나무", "노란 꽃", "벤치",
                         "새집", "방향 표지판", "가로 울타리", "세로 울타리", "건초 더미",
-                        "건초 묶음", "등불", "우유통", "바위", "물통", "손수레", "풍차" };
+                        "건초 묶음", "등불", "우유통", "바위", "물통", "손수레", "장식용 풍차" };
                     return files.Select((file, i) => new DecorationChoice {
                         label = labels[i], sprite = theme.starwayRanch.Find("props/" + file + ".png")
                     }).Where(choice => choice.sprite).ToArray();
@@ -423,7 +424,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.Statue: return "석상";
                 case PrototypeRole.Bounce: return "반사판";
                 case PrototypeRole.Brake: return "브레이크";
-                case PrototypeRole.Wind: return "바람";
+                case PrototypeRole.Wind: return "바람개비·바람";
                 case PrototypeRole.Glass: return "유리";
                 case PrototypeRole.Dice: return "주사위·목표";
                 case PrototypeRole.CowardDoll: return "겁쟁이 인형";
@@ -439,7 +440,7 @@ namespace ANIMOL.Presentation.Editor
         static string VariantName(string variant) => variant == "plate" ? "압력판" : variant == "socket" ? "소켓" :
             variant == "source" ? "광원" : variant == "mirror" ? "거울" : variant == "sensor" ? "감지기" :
             variant == "gate" ? "문" : variant == "switch" ? "스위치" : variant == "target" ? "목표" :
-            variant == "field" ? "바람 칸" : variant == "blower" ? "송풍기" : variant == "square" ? "사각형" :
+            variant == "field" ? "기존 바람 칸" : variant == "blower" ? "밀어서 켜기" : variant == "square" ? "사각형" :
             variant == "a" ? "A" : variant == "b" ? "B" : variant;
         static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " + DeviceName(device.role) +
             (string.IsNullOrEmpty(device.variant) ? "" : " · " + VariantName(device.variant));
@@ -477,7 +478,8 @@ namespace ANIMOL.Presentation.Editor
             var templates = TemplatesForTheme(library, themeId);
             var choices = useLibrary ? templates.Select(entry => entry.device).ToArray() :
                 map.scenario.devices.Where(entry => !string.IsNullOrEmpty(themeId) &&
-                    (string.IsNullOrEmpty(entry.artTheme) || entry.artTheme == themeId)).ToArray();
+                    (string.IsNullOrEmpty(entry.artTheme) || entry.artTheme == themeId) &&
+                    !(entry.role == PrototypeRole.Wind && entry.variant == "field")).ToArray();
             if (choices.Length == 0)
             {
                 prototypeBrush = null;
@@ -534,6 +536,15 @@ namespace ANIMOL.Presentation.Editor
                 EditorUtility.SetDirty(map.scenario);
             }
             if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("포털 목적지", placed.target.ToString());
+            if (placed.role == PrototypeRole.Chick)
+            {
+                EditorGUILayout.LabelField("둥지 위치", placed.target == Vector2Int.zero ? "미설정" : placed.target.ToString());
+                if (GUILayout.Button(nestTargetMode ? "둥지 위치 선택 취소" : "격자에서 둥지 위치 선택"))
+                { nestTargetMode = !nestTargetMode; if (nestTargetMode) { inspectDevice = true; linkTargetMode = false; } }
+                if (nestTargetMode) EditorGUILayout.HelpBox("통행 가능한 칸을 클릭하면 병아리의 둥지가 됩니다.", MessageType.Info);
+            }
+            if (placed.role == PrototypeRole.Wind && placed.variant == "blower")
+                EditorGUILayout.HelpBox("플레이 중 풍차를 밀 때 바람이 꺼짐 → 3칸 → 6칸 → 9칸 → 꺼짐 순서로 바뀝니다.", MessageType.Info);
             if (placed.role == PrototypeRole.StarSocket && placed.variant == "socket") DrawSocketRewardSettings(placed);
             if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("점유·선로 칸", placed.cells.Count.ToString());
             if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("폭발 범위", (placed.blastOffsets?.Count ?? 0).ToString());
@@ -766,6 +777,12 @@ namespace ANIMOL.Presentation.Editor
                     if (tile.blocked) GUI.Label(rect, "#");
                 }
                 foreach (var decor in map.decorations.Where(a => a.position == p)) DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
+                if (map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && d.target == p))
+                {
+                    var nestSprite = map.theme && map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : null;
+                    if (nestSprite) DrawSprite(rect, nestSprite);
+                    else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
+                }
                 if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
                 var d = map.DeviceAt(p);
                 if (d.kind != DeviceKind.None)
@@ -805,7 +822,18 @@ namespace ANIMOL.Presentation.Editor
                     if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
                     {
                         var clicked = map.scenario.devices.FirstOrDefault(device => device.position == p);
-                        if (linkTargetMode && clicked != null)
+                        var selectedChick = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId && device.role == PrototypeRole.Chick);
+                        if (nestTargetMode && selectedChick != null && e.type == EventType.MouseDown)
+                        {
+                            if (map.Walkable(p))
+                            {
+                                Undo.RecordObject(map.scenario, "병아리 둥지 위치 변경");
+                                selectedChick.target = p;
+                                EditorUtility.SetDirty(map.scenario);
+                                nestTargetMode = false;
+                            }
+                        }
+                        else if (linkTargetMode && clicked != null)
                         {
                             var source = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId);
                             if (source != null && source != clicked)
@@ -1039,7 +1067,8 @@ namespace ANIMOL.Presentation.Editor
                 // Practice examples reuse group names. New placements must be linked deliberately.
                 group = string.Empty, artTheme = template.artTheme, visualPrefab = template.visualPrefab,
                 initialVisual = template.initialVisual, position = position, direction = template.direction,
-                target = template.role == PrototypeRole.Portal ? template.target + shift : template.target,
+                target = template.role == PrototypeRole.Portal ? template.target + shift :
+                    template.role == PrototypeRole.Chick ? Vector2Int.zero : template.target,
                 orientation = template.orientation, number = template.number, active = template.active,
                 socketReward = template.socketReward, socketBridgeId = template.socketBridgeId,
                 socketBubbleCell = template.socketBubbleCell + shift,

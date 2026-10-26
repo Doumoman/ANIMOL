@@ -68,6 +68,8 @@ namespace ANIMOL.Puzzle
                 if (d.role == PrototypeRole.Bomb && d.blastOffsets.Count == 0) errors.Add("Author explicit bomb footprint offsets: " + d.id);
                 if (d.role == PrototypeRole.Portal && !map.Contains(d.target)) errors.Add("Portal destination outside map: " + d.id);
                 if (d.role == PrototypeRole.MovingStage && d.cells.Count < 2) errors.Add("Moving stage needs a rail: " + d.id);
+                if (d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && !map.Walkable(d.target))
+                    errors.Add("Chick nest needs walkable terrain: " + d.id);
                 if (d.role == PrototypeRole.StarSocket && d.variant == "socket")
                 {
                     if (d.socketReward == StarSocketReward.RevealBridge && !devices.Any(target =>

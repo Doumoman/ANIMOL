@@ -192,6 +192,7 @@ namespace ANIMOL.Presentation.Tests
                 var visible = PuzzleMapEditor.TemplatesForTheme(templates, id);
                 Assert.That(visible, Is.Not.Empty, id);
                 Assert.That(visible.All(entry => entry.source.themeId == id && entry.device.artTheme == id), Is.True, id);
+                Assert.That(visible.Any(entry => entry.device.role == PrototypeRole.Wind && entry.device.variant == "field"), Is.False);
             }
             Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, ""), Is.Empty);
             var starGarden = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
@@ -215,7 +216,7 @@ namespace ANIMOL.Presentation.Tests
             var ranchChoices = PuzzleMapEditor.DecorationChoices(ranch);
             Assert.That(ranchChoices.Length, Is.GreaterThan(1));
             Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("벤치"));
-            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("풍차"));
+            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("장식용 풍차"));
         }
         [Test] public void RanchMapRendersTheSelectedDecorationSprite()
         {
@@ -279,6 +280,18 @@ namespace ANIMOL.Presentation.Tests
                     Is.Not.EqualTo(copy.id));
                 Assert.That(template.position, Is.EqualTo(originalPosition));
                 Assert.That(template.target, Is.EqualTo(originalTarget));
+            }
+            finally { Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void StampingChickLeavesNestForMapAuthorToChoose()
+        {
+            var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry => entry.device.role == PrototypeRole.Chick).device;
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                Assert.That(template.target, Is.Not.EqualTo(Vector2Int.zero));
+                Assert.That(PuzzleMapEditor.StampTemplate(scenario, template, new Vector2Int(3, 3)).target,
+                    Is.EqualTo(Vector2Int.zero));
             }
             finally { Object.DestroyImmediate(scenario); }
         }

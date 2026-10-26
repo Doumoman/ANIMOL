@@ -29,6 +29,12 @@ namespace ANIMOL.Tests
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
                 Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
         }
+        [TestCase("memory_theater")][TestCase("letter_observatory")][TestCase("twilight_sea")]
+        public void UpdatedGateRoutesClearInOtherCombinedStages(string name)
+        {
+            Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
+        }
         [Test] public void StarSocketRevealsConfiguredBridgeOnlyAfterMatchingStoneIsSeated()
         {
             var map = Clone(1);
@@ -266,7 +272,8 @@ namespace ANIMOL.Tests
             var session=new PuzzleDeviceSession(Room(10));Assert.That(session.Beams.Any(b=>b.cell==new Vector2Int(2,4)),Is.True);
             session=new PuzzleDeviceSession(Room(21));session.Apply(Vector2Int.right);Assert.That(session.Apply(Vector2Int.right).accepted,Is.False);
             var map=Clone(20);map.scenario.devices.First(d=>d.id=="metal").role=PrototypeRole.Glass;
-            session=new PuzzleDeviceSession(map);Assert.That(session.WindCells.ContainsKey(new Vector2Int(5,4)),Is.False);
+            session=new PuzzleDeviceSession(map);session.Apply(Vector2Int.up);session.Apply(Vector2Int.up);
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(5,4)),Is.False);
         }
         [Test] public void RejectedInputShowsExistingDeviceCueWithoutAdvancingPuzzle()
         {
@@ -310,12 +317,65 @@ namespace ANIMOL.Tests
             var map=Clone(20);
             map.scenario.devices.Add(new PrototypeDevice{id="wood",role=PrototypeRole.WoodCrate,position=new Vector2Int(2,4)});
             var session=new PuzzleDeviceSession(map);
-            Assert.That(session.WindCells.ContainsKey(new Vector2Int(2,4)),Is.True);
-            session.Apply(Vector2Int.right);
+            Assert.That(session.WindRouteFor("blower"),Is.Null);
+            Assert.That(session.Apply(Vector2Int.up).accepted,Is.True,"approach blower");
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(1,3)));
+            Assert.That(session.Apply(Vector2Int.up).accepted,Is.True,"push blower");
+            Assert.That(session.States["blower"].phase,Is.EqualTo(1));
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(2,4)),Is.True,"wind route at 2,4");
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
             Assert.That(session.States["metal"].cell,Is.EqualTo(new Vector2Int(4,4)));
-            session.Apply(Vector2Int.right);
+            session.Apply(Vector2Int.up);
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
+        }
+        [Test] public void BlowerPushCyclesThreeSixNineCellsThenOffWithoutMovingPlayer()
+        {
+            var map=Clone(20);map.Resize(14,7);
+            for(var x=8;x<=12;x++)map.SetTerrain(new Vector2Int(x,4),TerrainMaterial.Grass);
+            map.scenario.devices.First(d=>d.id=="metal").position=new Vector2Int(12,4);
+            var session=new PuzzleDeviceSession(map);
+            session.Apply(Vector2Int.up);
+            for(var phase=1;phase<=4;phase++)
+            {
+                var action=session.Apply(Vector2Int.up);
+                Assert.That(action.accepted,Is.True);
+                Assert.That(session.Cell,Is.EqualTo(new Vector2Int(1,3)));
+                Assert.That(session.States["blower"].cell,Is.EqualTo(new Vector2Int(1,4)));
+                Assert.That(session.States["blower"].phase,Is.EqualTo(phase%4));
+                Assert.That(session.WindRouteFor("blower")?.cells.Count ?? 0,Is.EqualTo(phase==4?0:phase*3));
+                Assert.That(action.events.Any(e=>e.actor=="blower"&&e.eventName=="valid_action_wind_resolved"),Is.True);
+            }
+            Assert.That(session.WindRouteFor("blower"),Is.Null);
+            Assert.That(session.WindCells.Keys.Any(p=>p.y==4),Is.False);
+        }
+        [Test] public void OneWayGateCrossesInOneActionAndRejectsABlockedOutlet()
+        {
+            var map=Clone(9);var session=new PuzzleDeviceSession(map);
+            session.Apply(Vector2Int.right);
+            var action=session.Apply(Vector2Int.right);
+            Assert.That(action.accepted,Is.True);
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(4,2)));
+            Assert.That(session.Cost,Is.EqualTo(2));
+            Assert.That(action.events.Count(e=>e.actor=="player"&&e.kind==PrototypeEventKind.Move),Is.EqualTo(2));
+            Assert.That(session.Apply(Vector2Int.left).accepted,Is.False);
+            map.scenario.devices.Add(new PrototypeDevice{id="outlet_wall",role=PrototypeRole.Wall,position=new Vector2Int(4,2)});
+            session=new PuzzleDeviceSession(map);session.Apply(Vector2Int.right);
+            Assert.That(session.Apply(Vector2Int.right).accepted,Is.False);
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(2,2)));
+            Assert.That(session.Cost,Is.EqualTo(1));
+        }
+        [Test] public void ChickEntersNearbyNestAndStopsFollowing()
+        {
+            var map=Clone(24);var chick=map.scenario.devices.Single(d=>d.id=="chick");
+            chick.target=new Vector2Int(2,3);
+            var session=new PuzzleDeviceSession(map);
+            var action=session.Apply(Vector2Int.right);
+            Assert.That(action.accepted,Is.True);
+            Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
+            Assert.That(session.States["chick"].active,Is.True);
+            Assert.That(action.events.Any(e=>e.actor=="chick"&&e.kind==PrototypeEventKind.Move&&e.to==chick.target),Is.True);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
         }
         [Test] public void MagnetCannotPullMetalThroughWoodAndDoesNotMoveWood()
         {

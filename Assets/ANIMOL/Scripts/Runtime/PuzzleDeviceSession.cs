@@ -151,10 +151,19 @@ namespace ANIMOL.Puzzle
         {
             Direction = direction; forced = sliding = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
+            var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
             if (mirror != null && Rules.mirrorBumpRotates)
             {
                 var s = states[mirror.id]; s.phase = 1 - s.phase;
                 Visual(mirror, s.phase == 0 ? "mirror_backslash_cw" : "mirror_slash_cw", "existing_mirror_rotation_committed");
+            }
+            else if (blower != null)
+            {
+                var state = states[blower.id];
+                state.phase = (state.phase + 1) % 4;
+                state.active = state.phase != 0;
+                TraceWind();
+                WindVisual(blower, direction);
             }
             else
             {
@@ -204,6 +213,12 @@ namespace ANIMOL.Puzzle
         bool Landing(Vector2Int p, Vector2Int direction, bool water = false) => Free(p, null, water) && GateAllows(p - direction, p, direction);
         bool EntryAllowed(Vector2Int p)
         {
+            var gate = At(p, d => d.role == PrototypeRole.OneWayGate);
+            if (gate != null)
+            {
+                var outlet = states[gate.id].cell + states[gate.id].direction;
+                if (!Free(outlet) || !GateAllows(states[gate.id].cell, outlet, states[gate.id].direction) || !EntryAllowed(outlet)) return false;
+            }
             var portal = At(p, d => d.role == PrototypeRole.Portal);
             if (portal != null && (!Free(portal.target, null, false, true) || !Landing(portal.target + Direction, Direction)))
             { Visual(portal, "a_reject", "existing_portal_destination_next_cell_blocked"); return false; }
@@ -282,10 +297,15 @@ namespace ANIMOL.Puzzle
                     if (exit != null) Visual(exit, (exit.variant == "b" ? "b" : "a") + "_exit_" + Dir(Direction), "existing_portal_exit_committed");
                     arrivedFromPortal = true;
                     if (!StepPlayer(Cell + Direction)) return;
-                    if (!sliding) return;
+                    if (!sliding && At(Cell, d => d.role == PrototypeRole.OneWayGate) == null) return;
                     continue;
                 }
                 arrivedFromPortal = false;
+                if (At(Cell, d => d.role == PrototypeRole.OneWayGate) != null)
+                {
+                    if (!StepPlayer(Cell + Direction)) return;
+                    continue;
+                }
                 var leap = At(Cell, d => d.role == PrototypeRole.CrescentLeap);
                 if (leap != null)
                 {
@@ -401,13 +421,32 @@ namespace ANIMOL.Puzzle
         {
             foreach (var chick in definitions.Where(d => d.role == PrototypeRole.Chick && !states[d.id].removed))
             {
-                var s = states[chick.id]; s.trail.Add(previous);
+                var s = states[chick.id];
+                if (s.active) continue;
+                if (EnterNest(chick)) continue;
+                s.trail.Add(previous);
                 if (s.trail.Count <= Mathf.Clamp(chick.number, 1, 8)) continue;
                 var target = s.trail[0]; s.trail.RemoveAt(0);
                 if ((target - s.cell).sqrMagnitude != 1 || !Free(target, chick.id)) continue;
                 var from = s.cell; s.direction = target - from; s.cell = target; Move(chick.id, from, target);
                 Visual(chick, "walk_" + Dir(s.direction), "existing_recorded_path_following");
+                if (s.cell == chick.target) EnterNest(chick);
             }
+        }
+        bool EnterNest(PrototypeDevice chick)
+        {
+            var s = states[chick.id];
+            if (chick.target == Vector2Int.zero || !Map.Walkable(chick.target)) return false;
+            if (s.cell == chick.target) { s.active = true; s.trail.Clear(); return true; }
+            if ((chick.target - s.cell).sqrMagnitude != 1 || !Free(chick.target, chick.id)) return false;
+            var from = s.cell;
+            s.direction = chick.target - from;
+            s.cell = chick.target;
+            s.active = true;
+            s.trail.Clear();
+            Move(chick.id, from, s.cell);
+            Visual(chick, "walk_" + Dir(s.direction), "existing_recorded_path_following");
+            return true;
         }
         void RefreshLinks(bool animate)
         {
@@ -598,11 +637,10 @@ namespace ANIMOL.Puzzle
             foreach (var d in definitions.Where(d => d.role == PrototypeRole.Wind && !states[d.id].removed))
             {
                 var s = states[d.id]; if (d.variant != "blower") { WindCells[s.cell] = s.direction; windOwners[s.cell] = d.id; continue; }
-                // The existing blower had no authored range field: it ran until board/blocker.
-                // The board cell count is a finite upper bound; a repeated cell stops earlier.
+                if (s.phase == 0) continue;
                 var route = AnimolWindRoute.Trace(new WindBoard(this, d.id),
                     new WindGridCell(s.cell.x, s.cell.y), WindHeadingFor(s.direction),
-                    Map.Width * Map.Height);
+                    s.phase * 3);
                 windRoutes.Add(d.id, route);
                 foreach (var segment in route.cells)
                 {
