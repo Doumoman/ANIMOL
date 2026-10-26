@@ -24,6 +24,7 @@ namespace ANIMOL.Puzzle
             Arrive(Cell);
         }
         public bool IsCollected(Vector2Int p) => collected.Contains(p);
+        public bool IsBubbleVisible(Vector2Int p) => Map.bubbles.Contains(p);
         public bool BeginMove(Vector2Int direction)
         {
             if (Won || !IsCardinal(direction) || !Map.Walkable(Cell + direction)) return false;

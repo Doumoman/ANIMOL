@@ -71,6 +71,9 @@ namespace ANIMOL.Puzzle
             windRoutes.Clear(); foreach (var p in other.windRoutes) windRoutes.Add(p.Key, p.Value);
         }
         public bool IsCollected(Vector2Int p) => collected.Contains(p);
+        public bool IsBubbleVisible(Vector2Int p) => Map.bubbles.Contains(p) || definitions.Any(d =>
+            d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
+            d.socketReward == StarSocketReward.RevealBubble && d.socketBubbleCell == p && states[d.id].active);
         public PrototypeDevice Definition(string id) => definitions.FirstOrDefault(d => d.id == id);
         public IEnumerable<Vector2Int> Footprint(PrototypeDevice d)
         {
@@ -177,7 +180,7 @@ namespace ANIMOL.Puzzle
                 eventName = "actual_one_cell_die_roll", group = group,
                 diceBefore = (int[])before.Clone(), diceAfter = (int[])after.Clone(), rollHeading = direction });
         }
-        void Collect() { visited.Add(Cell); if (Map.bubbles.Contains(Cell)) collected.Add(Cell); }
+        void Collect() { visited.Add(Cell); if (IsBubbleVisible(Cell)) collected.Add(Cell); }
         void RejectedCue(Vector2Int destination)
         {
             var gate = At(destination, d => d.role == PrototypeRole.OneWayGate) ?? At(Cell, d => d.role == PrototypeRole.OneWayGate);
@@ -418,7 +421,8 @@ namespace ANIMOL.Puzzle
                     var ls = states[linked.id];
                     if (linked.role == PrototypeRole.VineBridge)
                     {
-                        var enabled = value || (Rules.holdOccupiedBridge && ls.active && Footprint(linked).Any(p => Occupied(p, linked.id)));
+                        var enabled = value || SocketEnablesBridge(linked.id) ||
+                            (Rules.holdOccupiedBridge && ls.active && Footprint(linked).Any(p => Occupied(p, linked.id)));
                         if (ls.active != enabled && animate) Visual(linked, (enabled ? "bridge_extend_" : "bridge_retract_") + Dir(linked.direction), enabled ? "existing_bridge_enabled" : "existing_bridge_disabled");
                         ls.active = enabled;
                     }
@@ -430,6 +434,13 @@ namespace ANIMOL.Puzzle
                     }
                 }
             }
+            foreach (var bridge in definitions.Where(d => d.role == PrototypeRole.VineBridge && d.variant != "plate" && SocketEnablesBridge(d.id)))
+            {
+                var state = states[bridge.id];
+                if (state.active) continue;
+                state.active = true;
+                if (animate) Visual(bridge, "bridge_extend_" + Dir(bridge.direction), "star_socket_bridge_revealed");
+            }
             foreach (var target in definitions.Where(d => d.role == PrototypeRole.Dice && d.variant == "target"))
             {
                 var s = states[target.id]; var die = At(s.cell, d => d.role == PrototypeRole.Dice && d.variant != "target");
@@ -438,6 +449,9 @@ namespace ANIMOL.Puzzle
                 s.active = value;
             }
         }
+        bool SocketEnablesBridge(string bridgeId) => definitions.Any(d =>
+            d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
+            d.socketReward == StarSocketReward.RevealBridge && d.socketBridgeId == bridgeId && states[d.id].active);
         void EndTurn()
         {
             foreach (var d in definitions.Where(d => !states[d.id].removed))

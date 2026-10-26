@@ -115,10 +115,13 @@ namespace ANIMOL.Puzzle
                 if (ranch && d.sprite == map.theme.starwayRanch.Find("props/windmill_body.png"))
                     CreateWindmill(d.position);
                 else Sprite(objectsRoot, "Decoration",
-                    ranch ? map.theme.starwayRanch.Find("props/clover_tuft.png") : d.sprite ? d.sprite : map.theme.decoration,
+                    d.sprite ? d.sprite : map.theme.decoration,
                     d.position, 15, Vector2.one * .8f, d.tint);
             }
-            foreach (var p in map.bubbles) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
+            var possibleBubbles = map.bubbles.Concat(map.scenario ? map.scenario.devices.Where(d =>
+                d.role == PrototypeRole.StarSocket && d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble)
+                .Select(d => d.socketBubbleCell) : Enumerable.Empty<Vector2Int>());
+            foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
         }
@@ -255,7 +258,7 @@ namespace ANIMOL.Puzzle
         }
         public void Present(IPuzzleBoardState session)
         {
-            foreach (var entry in bubbleViews) entry.Value.SetActive(!session.IsCollected(entry.Key));
+            foreach (var entry in bubbleViews) entry.Value.SetActive(session.IsBubbleVisible(entry.Key) && !session.IsCollected(entry.Key));
         }
         void LateUpdate() { if (map) SyncViewport(false); }
         void SyncViewport(bool force)

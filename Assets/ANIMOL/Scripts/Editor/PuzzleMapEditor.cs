@@ -30,7 +30,7 @@ namespace ANIMOL.Presentation.Editor
         bool blocked, erase, stroke;
         int pendingWidth, pendingHeight, undoGroup;
         float cellSize = 42;
-        Vector2 gridScroll, settingsScroll, deviceListScroll;
+        Vector2 gridScroll, settingsScroll, deviceListScroll, decorationListScroll;
         Vector2Int lastPaint = new Vector2Int(-999, -999);
         [MenuItem("ANIMOL/퍼즐/맵 제작기")]
         public static void Open() => GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기");
@@ -151,8 +151,7 @@ namespace ANIMOL.Presentation.Editor
                         scenarioCreationError == null ? MessageType.Info : MessageType.Error);
                 }
             }
-            if (layer == Layer.Decoration)
-            { decoration = (Sprite)EditorGUILayout.ObjectField("장식 그림", decoration, typeof(Sprite), false); decorationTint = EditorGUILayout.ColorField("색상", decorationTint); }
+            if (layer == Layer.Decoration) DecorationSettings();
             if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.IntPopup("배치할 표식", (int)marker, new[] { "시작점", "방울", "출구" }, new[] { 0, 1, 2 });
             if (layer == Layer.Water && !map.scenario)
             {
@@ -246,10 +245,14 @@ namespace ANIMOL.Presentation.Editor
             if (exact.TryGetValue(error, out var translated)) return translated;
             var prefixes = new[] { "Bubble has no walkable terrain: ", "Device has no walkable terrain: ", "Portal destination is outside or blocked: ",
                 "Device direction must be cardinal: ", "Invalid direction: ", "Author explicit bomb footprint offsets: ",
-                "Portal destination outside map: ", "Moving stage needs a rail: " };
+                "Portal destination outside map: ", "Moving stage needs a rail: ",
+                "Socket bridge target is missing or outside map: ", "Socket bubble needs walkable terrain: ",
+                "Socket bubble is already visible: " };
             var replacements = new[] { "방울 칸에 통행 가능한 지형이 없습니다: ", "장치 칸에 통행 가능한 지형이 없습니다: ", "포털 목적지가 맵 밖이거나 막혔습니다: ",
                 "장치 방향은 상하좌우여야 합니다: ", "방향이 올바르지 않습니다: ", "폭탄의 폭발 범위를 지정하세요: ",
-                "포털 목적지가 맵 밖입니다: ", "이동 발판의 선로가 필요합니다: " };
+                "포털 목적지가 맵 밖입니다: ", "이동 발판의 선로가 필요합니다: ",
+                "소켓이 펼칠 덩굴 다리를 선택하세요: ", "소켓 방울 칸에 통행 가능한 지형이 필요합니다: ",
+                "소켓 방울이 이미 일반 방울로 배치되어 있습니다: " };
             for (var i = 0; i < prefixes.Length; i++) if (error.StartsWith(prefixes[i], StringComparison.Ordinal)) return replacements[i] + error.Substring(prefixes[i].Length);
             return error;
         }
@@ -314,6 +317,75 @@ namespace ANIMOL.Presentation.Editor
                 (string.IsNullOrEmpty(entry.device.artTheme) || entry.device.artTheme == themeId)).ToArray();
         public static string ThemeName(string id) => id == "starway" ? "별길 목장" : id == "memory_theater" ? "잔영 극장" :
             id == "letter_observatory" ? "편지 천문대" : id == "twilight_sea" ? "별너울 해안" : "미지정";
+        public sealed class DecorationChoice
+        {
+            public string label;
+            public Sprite sprite;
+        }
+        public static DecorationChoice[] DecorationChoices(PuzzleTheme theme)
+        {
+            if (!theme) return Array.Empty<DecorationChoice>();
+            string[] files, labels;
+            string root;
+            switch (ThemeId(theme))
+            {
+                case "starway":
+                    if (!theme.starwayRanch) return Array.Empty<DecorationChoice>();
+                    files = new[] { "clover_tuft", "clover_flowers", "clover_tree", "yellow_flowers", "bench",
+                        "birdhouse", "direction_sign", "fence_horizontal", "fence_vertical", "hay_bale",
+                        "hay_pair", "lantern_post", "milk_cans", "slate_rocks", "water_trough",
+                        "wheelbarrow", "windmill_body" };
+                    labels = new[] { "네잎클로버", "클로버 꽃", "클로버 나무", "노란 꽃", "벤치",
+                        "새집", "방향 표지판", "가로 울타리", "세로 울타리", "건초 더미",
+                        "건초 묶음", "등불", "우유통", "바위", "물통", "손수레", "풍차" };
+                    return files.Select((file, i) => new DecorationChoice {
+                        label = labels[i], sprite = theme.starwayRanch.Find("props/" + file + ".png")
+                    }).Where(choice => choice.sprite).ToArray();
+                case "memory_theater":
+                    root = "Assets/ANIMOL/Sprites/Props/memory_theater/SkyTheater/";
+                    files = new[] { "organ_160x160.png", "seat_pair_160x80.png", "footlights_80x80.png" };
+                    labels = new[] { "오르간", "객석", "각광" };
+                    break;
+                case "letter_observatory":
+                    root = "Assets/ANIMOL/Sprites/Props/letter_observatory/ClockDome/";
+                    files = new[] { "telescope_160x160.png", "clock_240x240.png" };
+                    labels = new[] { "망원경", "시계" };
+                    break;
+                case "twilight_sea":
+                    root = "Assets/ANIMOL/Sprites/Props/twilight_sea/TwilightCoast/";
+                    files = new[] { "palm_160x160.png", "rocks_160x80.png", "rope_fence_160x80.png" };
+                    labels = new[] { "야자수", "바위", "밧줄 울타리" };
+                    break;
+                default: return Array.Empty<DecorationChoice>();
+            }
+            return files.Select((file, i) => new DecorationChoice {
+                label = labels[i], sprite = AssetDatabase.LoadAssetAtPath<Sprite>(root + file)
+            }).Where(choice => choice.sprite).ToArray();
+        }
+        void DecorationSettings()
+        {
+            var choices = DecorationChoices(map.theme);
+            if (choices.Length == 0)
+            {
+                decoration = null;
+                EditorGUILayout.HelpBox("이 테마에 배치할 장식 그림이 없습니다. 테마를 확인하세요.", MessageType.Info);
+                return;
+            }
+            if (!choices.Any(choice => choice.sprite == decoration)) decoration = choices[0].sprite;
+            EditorGUILayout.LabelField("배치할 장식 선택", EditorStyles.boldLabel);
+            decorationListScroll = EditorGUILayout.BeginScrollView(decorationListScroll, GUILayout.Height(240));
+            foreach (var choice in choices)
+            {
+                var row = GUILayoutUtility.GetRect(250, 58, GUILayout.ExpandWidth(true));
+                if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox)) decoration = choice.sprite;
+                if (decoration == choice.sprite)
+                    EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
+                DrawSprite(new Rect(row.x + 8, row.y + 5, 48, 48), choice.sprite);
+                GUI.Label(new Rect(row.x + 64, row.y + 16, row.width - 68, 28), choice.label, EditorStyles.boldLabel);
+            }
+            EditorGUILayout.EndScrollView();
+            decorationTint = EditorGUILayout.ColorField("색상", decorationTint);
+        }
         static string DeviceName(PrototypeRole role)
         {
             switch (role)
@@ -448,11 +520,56 @@ namespace ANIMOL.Presentation.Editor
                 EditorUtility.SetDirty(map.scenario);
             }
             if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("포털 목적지", placed.target.ToString());
+            if (placed.role == PrototypeRole.StarSocket && placed.variant == "socket") DrawSocketRewardSettings(placed);
             if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("점유·선로 칸", placed.cells.Count.ToString());
             if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("폭발 범위", (placed.blastOffsets?.Count ?? 0).ToString());
             var serialized = new SerializedObject(map.scenario); serialized.Update();
             DrawDeviceProperties(serialized.FindProperty("devices").GetArrayElementAtIndex(selected));
             serialized.ApplyModifiedProperties();
+        }
+        void DrawSocketRewardSettings(PrototypeDevice socket)
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("별돌 소켓 작동", EditorStyles.boldLabel);
+            var reward = (StarSocketReward)EditorGUILayout.Popup("별돌이 들어오면", (int)socket.socketReward,
+                new[] { "소켓만 켜기", "덩굴 다리 펼치기", "방울 나타내기" });
+            if (reward != socket.socketReward)
+            {
+                Undo.RecordObject(map.scenario, "별돌 소켓 작동 변경");
+                socket.socketReward = reward;
+                if (reward == StarSocketReward.RevealBubble) socket.socketBubbleCell = socket.position;
+                EditorUtility.SetDirty(map.scenario);
+            }
+            if (reward == StarSocketReward.RevealBridge)
+            {
+                var bridges = map.scenario.devices.Where(device => device.role == PrototypeRole.VineBridge &&
+                    device.variant != "plate" && device != socket).ToArray();
+                if (bridges.Length == 0)
+                    EditorGUILayout.HelpBox("먼저 맵에 덩굴 다리를 배치하세요.", MessageType.Info);
+                else
+                {
+                    var index = Array.FindIndex(bridges, bridge => bridge.id == socket.socketBridgeId);
+                    index = EditorGUILayout.Popup("펼칠 덩굴 다리", Mathf.Max(0, index),
+                        bridges.Select(bridge => bridge.id + " " + bridge.position).ToArray());
+                    if (socket.socketBridgeId != bridges[index].id)
+                    {
+                        Undo.RecordObject(map.scenario, "소켓 덩굴 다리 선택");
+                        socket.socketBridgeId = bridges[index].id;
+                        EditorUtility.SetDirty(map.scenario);
+                    }
+                }
+            }
+            if (reward == StarSocketReward.RevealBubble)
+            {
+                var cell = EditorGUILayout.Vector2IntField("방울이 나타날 칸", socket.socketBubbleCell);
+                if (cell != socket.socketBubbleCell)
+                {
+                    Undo.RecordObject(map.scenario, "소켓 방울 위치 변경");
+                    socket.socketBubbleCell = cell;
+                    EditorUtility.SetDirty(map.scenario);
+                }
+                EditorGUILayout.HelpBox("방울은 별돌이 들어간 뒤에만 보이고 수집됩니다. 승리 조건에 포함하려면 목표 방울 수를 확인하세요.", MessageType.Info);
+            }
         }
         public static string ConnectDevices(PuzzleScenario scenario, PrototypeDevice source, PrototypeDevice target)
         {
@@ -476,7 +593,13 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawGrid(Rect viewport)
         {
-            var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Concat(map.scenario ? map.scenario.devices.Select(d => d.position).Concat(map.scenario.water).Concat(map.scenario.devices.SelectMany(d => d.cells)) : Enumerable.Empty<Vector2Int>()).ToArray();
+            var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position))
+                .Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit })
+                .Concat(map.scenario ? map.scenario.devices.Select(d => d.position).Concat(map.scenario.water)
+                    .Concat(map.scenario.devices.SelectMany(d => d.cells))
+                    .Concat(map.scenario.devices.Where(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
+                        d.socketReward == StarSocketReward.RevealBubble).Select(d => d.socketBubbleCell))
+                    : Enumerable.Empty<Vector2Int>()).ToArray();
             var shownWidth = Mathf.Max(map.Width, retained.Max(p => p.x) + 1);
             var shownHeight = Mathf.Max(map.Height, retained.Max(p => p.y) + 1);
             var content = new Rect(0, 0, (shownWidth + 1) * cellSize, (shownHeight + 1) * cellSize);
@@ -534,6 +657,9 @@ namespace ANIMOL.Presentation.Editor
                         d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
                 if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) DrawDevice(rect, configured);
                 if (map.bubbles.Contains(p)) GUI.Label(rect, "방", EditorStyles.boldLabel);
+                else if (map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.StarSocket &&
+                    d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble && d.socketBubbleCell == p))
+                    GUI.Label(rect, "방+", EditorStyles.boldLabel);
                 if (map.start == p) GUI.Label(rect, "시", EditorStyles.boldLabel);
                 if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
                 if (!map.Contains(p)) GUI.Label(rect, "/");
@@ -598,6 +724,11 @@ namespace ANIMOL.Presentation.Editor
         static void DrawDeviceThumbnail(Rect rect, PrototypeDevice device)
         {
             var sprite = DeviceSprite(device);
+            if (device.role == PrototypeRole.StarSocket && device.variant != "socket")
+            {
+                var inset = rect.width * .12f;
+                rect = new Rect(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
+            }
             if (sprite) DrawSprite(rect, sprite);
             else if (device.visualPrefab)
             {
@@ -642,6 +773,13 @@ namespace ANIMOL.Presentation.Editor
                 }
                 if (device.id != selectedDeviceId) continue;
                 Handles.color = new Color(1f, .72f, .22f, .95f);
+                if (device.role == PrototypeRole.StarSocket && device.variant == "socket")
+                {
+                    var rewardCell = device.socketReward == StarSocketReward.RevealBubble ? device.socketBubbleCell :
+                        devices.FirstOrDefault(d => d.id == device.socketBridgeId)?.position ?? device.position;
+                    if (device.socketReward != StarSocketReward.None && map.Contains(rewardCell))
+                        Handles.DrawDottedLine(Center(device.position), Center(rewardCell), 5);
+                }
                 foreach (var cell in device.cells ?? Enumerable.Empty<Vector2Int>())
                     if (map.Contains(cell)) Handles.DrawDottedLine(Center(device.position), Center(cell), 5);
                 if (device.role == PrototypeRole.Bomb)
@@ -672,7 +810,15 @@ namespace ANIMOL.Presentation.Editor
                 }
                 else if (remove) map.SetDevice(new DeviceCell { position = p, kind = DeviceKind.None });
             }
-            if (layer == Layer.Decoration) { map.decorations.RemoveAll(d => d.position == p); if (!remove) map.decorations.Add(new DecorationCell { position = p, sprite = decoration, tint = decorationTint }); }
+            if (layer == Layer.Decoration)
+            {
+                if (remove) map.decorations.RemoveAll(d => d.position == p);
+                else if (decoration)
+                {
+                    map.decorations.RemoveAll(d => d.position == p);
+                    map.decorations.Add(new DecorationCell { position = p, sprite = decoration, tint = decorationTint });
+                }
+            }
             if (layer == Layer.Markers)
             {
                 if (marker == Marker.Bubble) { map.bubbles.RemoveAll(b => b == p); if (!remove) map.bubbles.Add(p); }
@@ -701,6 +847,8 @@ namespace ANIMOL.Presentation.Editor
                 initialVisual = template.initialVisual, position = position, direction = template.direction,
                 target = template.role == PrototypeRole.Portal ? template.target + shift : template.target,
                 orientation = template.orientation, number = template.number, active = template.active,
+                socketReward = template.socketReward, socketBridgeId = template.socketBridgeId,
+                socketBubbleCell = template.socketBubbleCell + shift,
                 cells = (template.cells ?? new List<Vector2Int>()).Select(cell => cell + shift).ToList(),
                 blastOffsets = (template.blastOffsets ?? new List<Vector2Int>()).ToList()
             };

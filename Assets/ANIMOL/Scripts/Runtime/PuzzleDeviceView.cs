@@ -22,6 +22,7 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, string> sanctumBeamSignatures =
             new Dictionary<string, string>(StringComparer.Ordinal);
         readonly Dictionary<string, Transform> roots = new Dictionary<string, Transform>();
+        readonly Dictionary<string, SeatedStarVisual> seatedStars = new Dictionary<string, SeatedStarVisual>();
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
         readonly HashSet<string> pendingRemoval = new HashSet<string>();
@@ -118,6 +119,18 @@ namespace ANIMOL.Puzzle
                             {
                                 MissingBindings++;
                                 Debug.LogError("Starway Ranch V12 catalog is missing; refusing legacy device art.", root);
+                            }
+                        }
+                        if (d.role == PrototypeRole.StarSocket && view.visual)
+                        {
+                            if (d.variant != "socket") view.visual.transform.localScale *= .78f;
+                            else if (view.IsV12Active && session.Map.theme && session.Map.theme.starwayRanch)
+                            {
+                                var ranch = session.Map.theme.starwayRanch;
+                                var empty = ranch.Find("devices/star_socket/empty.png");
+                                var stone = ranch.Find("devices/star_stone/idle.png");
+                                if (empty && stone) seatedStars.Add(d.id, new SeatedStarVisual(view.visual, empty, stone));
+                                else { MissingBindings++; Debug.LogError("Star socket composition sprites are missing.", root); }
                             }
                         }
                     }
@@ -414,6 +427,7 @@ namespace ANIMOL.Puzzle
                     continue;
                 }
                 root.gameObject.SetActive(true);
+                if (seatedStars.TryGetValue(d.id, out var seated)) seated.Present(s.active);
                 var state = Idle(d, s);
                 if (ferries.TryGetValue(d.id, out var ferry)) ferry.passenger.enabled = session.BoatId == d.id;
                 if (PlayingTransition(view)) { pendingIdle[d.id] = state; continue; }
@@ -460,6 +474,37 @@ namespace ANIMOL.Puzzle
                     if (d.variant == "gate") return "light_gate_horizontal_" + (s.active ? "open" : "closed");
                     return "source_" + dir + "_on";
                 default: return d.initialVisual ?? "static";
+            }
+        }
+        sealed class SeatedStarVisual
+        {
+            readonly SpriteRenderer original;
+            readonly SpriteRenderer baseVisual;
+            readonly SpriteRenderer stoneVisual;
+            public SeatedStarVisual(SpriteRenderer source, Sprite empty, Sprite stone)
+            {
+                original = source;
+                baseVisual = Add("Socket base", empty, source, 0, 1f);
+                stoneVisual = Add("Smaller seated stone", stone, source, 1, .56f);
+                original.enabled = false;
+            }
+            static SpriteRenderer Add(string name, Sprite sprite, SpriteRenderer source, int orderOffset, float scale)
+            {
+                var child = new GameObject(name);
+                child.transform.SetParent(source.transform, false);
+                child.transform.localScale = Vector3.one * scale;
+                var visual = child.AddComponent<SpriteRenderer>();
+                visual.sprite = sprite;
+                visual.color = source.color;
+                visual.sortingLayerID = source.sortingLayerID;
+                visual.sortingOrder = source.sortingOrder + orderOffset;
+                return visual;
+            }
+            public void Present(bool active)
+            {
+                original.enabled = false;
+                baseVisual.enabled = true;
+                stoneVisual.enabled = active;
             }
         }
     }

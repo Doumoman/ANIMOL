@@ -92,14 +92,20 @@ namespace ANIMOL.Puzzle
             bool Outside(Vector2Int p) => p.x < 0 || p.y < 0 || p.x >= w || p.y >= h;
             return terrain.Count(t => Outside(t.position)) + devices.Count(d => Outside(d.position)) +
                 decorations.Count(d => Outside(d.position)) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
-                (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) : 0);
+                (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) +
+                    scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
+                        d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) : 0);
         }
         public List<string> ValidateMap()
         {
             var errors = new List<string>();
             if (!Walkable(start)) errors.Add("Start must be on an in-bounds walkable tile.");
             if (!Walkable(exit)) errors.Add("Exit must be on an in-bounds walkable tile.");
-            if (targetBubbles < 0 || bubbles.Distinct().Count(Walkable) < targetBubbles) errors.Add("Not enough in-bounds walkable bubble placements for the target.");
+            var possibleBubbles = bubbles.Concat(scenario ? scenario.devices.Where(d =>
+                d.role == PrototypeRole.StarSocket && d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble && Contains(d.position))
+                .Select(d => d.socketBubbleCell) : Enumerable.Empty<Vector2Int>());
+            if (targetBubbles < 0 || possibleBubbles.Distinct().Count(Walkable) < targetBubbles)
+                errors.Add("Not enough in-bounds walkable bubble placements for the target.");
             foreach (var p in bubbles.Where(Contains)) if (!Walkable(p)) errors.Add("Bubble has no walkable terrain: " + p);
             foreach (var d in devices.Where(d => Contains(d.position)))
             {

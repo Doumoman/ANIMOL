@@ -15,6 +15,7 @@ namespace ANIMOL.Puzzle
         Statue = 17, Bounce = 18, Brake = 19, Wind = 20, Glass = 21, Dice = 22,
         CowardDoll = 23, Chick = 24, Ice = 25, Wall = 100, CrackedWall = 101, WoodCrate = 102, MetalCrate = 103
     }
+    public enum StarSocketReward { None, RevealBridge, RevealBubble }
     [Serializable] public sealed class PrototypeDevice
     {
         public string id, variant, group, artTheme;
@@ -24,6 +25,9 @@ namespace ANIMOL.Puzzle
         public Vector2Int position, direction = Vector2Int.right, target;
         public int orientation, number = 1;
         public bool active;
+        public StarSocketReward socketReward;
+        public string socketBridgeId;
+        public Vector2Int socketBubbleCell;
         public List<Vector2Int> cells = new List<Vector2Int>();
         public List<Vector2Int> blastOffsets = new List<Vector2Int>();
     }
@@ -64,6 +68,17 @@ namespace ANIMOL.Puzzle
                 if (d.role == PrototypeRole.Bomb && d.blastOffsets.Count == 0) errors.Add("Author explicit bomb footprint offsets: " + d.id);
                 if (d.role == PrototypeRole.Portal && !map.Contains(d.target)) errors.Add("Portal destination outside map: " + d.id);
                 if (d.role == PrototypeRole.MovingStage && d.cells.Count < 2) errors.Add("Moving stage needs a rail: " + d.id);
+                if (d.role == PrototypeRole.StarSocket && d.variant == "socket")
+                {
+                    if (d.socketReward == StarSocketReward.RevealBridge && !devices.Any(target =>
+                        target.id == d.socketBridgeId && target.role == PrototypeRole.VineBridge &&
+                        target.variant != "plate" && map.Contains(target.position)))
+                        errors.Add("Socket bridge target is missing or outside map: " + d.id);
+                    if (d.socketReward == StarSocketReward.RevealBubble && !map.Walkable(d.socketBubbleCell))
+                        errors.Add("Socket bubble needs walkable terrain: " + d.id);
+                    if (d.socketReward == StarSocketReward.RevealBubble && map.bubbles.Contains(d.socketBubbleCell))
+                        errors.Add("Socket bubble is already visible: " + d.id);
+                }
             }
             if (goals.Any(g => g.kind != PrototypeGoalKind.Visited && !devices.Any(d => d.id == g.deviceId))) errors.Add("Goal references missing device.");
             if (goals.Any(g => g.kind != PrototypeGoalKind.Visited && devices.Any(d => d.id == g.deviceId && !map.Contains(d.position)))) errors.Add("A required goal device is outside map bounds; expand or reposition it before playing.");
@@ -74,6 +89,7 @@ namespace ANIMOL.Puzzle
     {
         int Collected { get; }
         bool IsCollected(Vector2Int p);
+        bool IsBubbleVisible(Vector2Int p);
     }
     [Serializable] public sealed class PrototypeDeviceState
     {

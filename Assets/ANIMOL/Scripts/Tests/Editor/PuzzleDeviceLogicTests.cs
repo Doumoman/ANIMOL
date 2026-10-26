@@ -29,6 +29,56 @@ namespace ANIMOL.Tests
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
                 Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
         }
+        [Test] public void StarSocketRevealsConfiguredBridgeOnlyAfterMatchingStoneIsSeated()
+        {
+            var map = Clone(1);
+            var socket = map.scenario.devices.Single(d => d.variant == "socket");
+            socket.socketReward = StarSocketReward.RevealBridge;
+            socket.socketBridgeId = "reward_bridge";
+            var bridge = new PrototypeDevice { id = "reward_bridge", role = PrototypeRole.VineBridge,
+                position = new Vector2Int(5, 3), direction = Vector2Int.right };
+            map.scenario.devices.Add(bridge);
+            map.RemoveTerrain(bridge.position);
+            Assert.That(map.ValidateMap(), Is.Empty);
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Supported(bridge.position), Is.False);
+            Assert.That(session.Apply(Vector2Int.left).accepted, Is.False);
+            Assert.That(session.States[bridge.id].active, Is.False);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.States[bridge.id].active, Is.False);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.States[socket.id].active, Is.True);
+            Assert.That(session.States[bridge.id].active, Is.True);
+            Assert.That(session.Supported(bridge.position), Is.True);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.States[bridge.id].active, Is.True);
+        }
+        [Test] public void StarSocketBubbleIsHiddenUntilSeatedAndCollectsOnArrival()
+        {
+            var map = Clone(1);
+            var socket = map.scenario.devices.Single(d => d.variant == "socket");
+            var reward = new Vector2Int(6, 3);
+            socket.socketReward = StarSocketReward.RevealBubble;
+            socket.socketBubbleCell = reward;
+            map.targetBubbles = 2;
+            Assert.That(map.ValidateMap(), Is.Empty);
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.IsBubbleVisible(reward), Is.False);
+            Assert.That(session.Collected, Is.Zero);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.IsBubbleVisible(reward), Is.False);
+            session.Apply(Vector2Int.right);
+            Assert.That(session.IsBubbleVisible(reward), Is.True);
+            Assert.That(session.Collected, Is.Zero);
+            session.Apply(Vector2Int.right);
+            session.Apply(Vector2Int.right);
+            session.Apply(Vector2Int.right);
+            session.Apply(Vector2Int.up);
+            Assert.That(session.Cell, Is.EqualTo(reward));
+            Assert.That(session.Collected, Is.EqualTo(1));
+            Assert.That(session.IsCollected(reward), Is.True);
+            Assert.That(map.bubbles.Contains(reward), Is.False);
+        }
         [Test] public void SunsetSanctumV02KeepsOneCellFootprintsAndOneMotifForItsActualPortalPair()
         {
             foreach(var map in AssetDatabase.FindAssets("t:PuzzleMap",new[]{PuzzlePrototypeBuilder.Root})

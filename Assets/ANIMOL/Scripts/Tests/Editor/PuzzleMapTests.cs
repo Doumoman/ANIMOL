@@ -161,6 +161,44 @@ namespace ANIMOL.Presentation.Tests
             var starGarden = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             Assert.That(PuzzleMapEditor.ThemeId(starGarden), Is.EqualTo("starway"));
         }
+        [Test] public void DecorationPaletteShowsOnlyCuratedThemeProps()
+        {
+            foreach (var id in new[] { "starway", "memory_theater", "letter_observatory", "twilight_sea" })
+            {
+                var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Prototypes/" + id + "_Theme.asset");
+                var choices = PuzzleMapEditor.DecorationChoices(theme);
+                Assert.That(choices, Is.Not.Empty, id);
+                Assert.That(choices.All(choice => choice.sprite && choice.label.Length > 0), Is.True, id);
+                Assert.That(choices.All(choice => {
+                    var path = AssetDatabase.GetAssetPath(choice.sprite).Replace('\\', '/');
+                    return id == "starway" ? path.Contains("/StarwayRanch/") && path.Contains("/props/") :
+                        path.Contains("/Props/" + id + "/");
+                }), Is.True, id);
+            }
+            var ranch = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var ranchChoices = PuzzleMapEditor.DecorationChoices(ranch);
+            Assert.That(ranchChoices.Length, Is.GreaterThan(1));
+            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("벤치"));
+            Assert.That(ranchChoices.Select(choice => choice.label), Does.Contain("풍차"));
+        }
+        [Test] public void RanchMapRendersTheSelectedDecorationSprite()
+        {
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            Fill();
+            var bench = PuzzleMapEditor.DecorationChoices(map.theme).Single(choice => choice.label == "벤치").sprite;
+            var position = new Vector2Int(2, 2);
+            map.decorations.Add(new DecorationCell { position = position, sprite = bench, tint = Color.white });
+            var host = new GameObject("Decoration test");
+            try
+            {
+                host.AddComponent<PuzzleMapView>().Bind(map);
+                var rendered = host.GetComponentsInChildren<SpriteRenderer>()
+                    .Single(renderer => renderer.gameObject.name == "Decoration" &&
+                        (Vector2)renderer.transform.localPosition == (Vector2)position);
+                Assert.That(rendered.sprite, Is.SameAs(bench));
+            }
+            finally { Object.DestroyImmediate(host); }
+        }
         [Test] public void StampingPortalCopiesArtAndOffsetsDestinationWithoutMutatingTemplate()
         {
             var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry => entry.device.role == PrototypeRole.Portal).device;

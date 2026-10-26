@@ -215,6 +215,18 @@ namespace ANIMOL.Presentation.Tests
                 Is.EqualTo("id01_star_stone_push"));
             Assert.That(stoneView.visual.sprite, Is.SameAs(
                 art.Find("animations/linked/star_stone/none/push/frame_00.png")));
+            Assert.That(stoneView.visual.transform.localScale.x, Is.EqualTo(.78f).Within(.0001f));
+            var socket = puzzle.Session.Devices.First(d => d.role == PrototypeRole.StarSocket && d.variant == "socket");
+            var socketView = puzzle.Devices.Actor(socket.id).GetComponent<DeviceVisualView>();
+            var socketBase = socketView.visual.transform.Find("Socket base");
+            var seatedStone = socketView.visual.transform.Find("Smaller seated stone");
+            Assert.That(socketBase, Is.Not.Null);
+            Assert.That(seatedStone, Is.Not.Null);
+            Assert.That(socketView.visual.enabled, Is.False);
+            Assert.That(socketBase.GetComponent<SpriteRenderer>().sprite, Is.SameAs(art.Find("devices/star_socket/empty.png")));
+            Assert.That(seatedStone.localScale.x, Is.EqualTo(.56f).Within(.0001f));
+            Assert.That(seatedStone.GetComponent<SpriteRenderer>().enabled,
+                Is.EqualTo(puzzle.Session.States[socket.id].active));
             Assert.That(puzzle.Devices.MissingBindings, Is.Zero);
             var chick = puzzle.Session.Devices.First(d => d.role == PrototypeRole.Chick);
             var chickRoot = puzzle.Devices.Actor(chick.id);
