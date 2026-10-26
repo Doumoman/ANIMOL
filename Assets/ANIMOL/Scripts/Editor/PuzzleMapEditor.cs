@@ -8,6 +8,7 @@ using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.RanchConnectedDecorV01;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
+using ANIMOL.Art.CoastConnectedDecorV01;
 using ANIMOL.Puzzle;
 using UnityEditor;
 using UnityEngine;
@@ -416,10 +417,21 @@ namespace ANIMOL.Presentation.Editor
                                 sourceId = "sanctum:" + key, sprite = art.Sprite, preview = art.Sprite });
                     return sanctumChoices.ToArray();
                 case "twilight_sea":
-                    root = "Assets/ANIMOL/Sprites/Props/twilight_sea/TwilightCoast/";
-                    files = new[] { "palm_160x160.png", "rocks_160x80.png", "rope_fence_160x80.png" };
-                    labels = new[] { "야자수", "바위", "밧줄 울타리" };
-                    break;
+                    if (!theme.coastConnectedDecorV01Catalog || !theme.coastConnectedDecorV01ManifestPin)
+                        return Array.Empty<DecorationChoice>();
+                    var coastCatalog = theme.coastConnectedDecorV01Catalog;
+                    var coastPin = theme.coastConnectedDecorV01ManifestPin.text.Trim();
+                    var coastChoices = new List<DecorationChoice>();
+                    foreach (var family in CoastConnectedDecorV01Planner.NetworkFamilies)
+                        if (coastCatalog.TryGetExact(CoastConnectedDecorV01Planner.NetworkFile(family, 0),
+                            coastPin, out var art, out _))
+                            coastChoices.Add(new DecorationChoice { label = family.Replace('_', ' '),
+                                sourceId = "coast:" + family, sprite = art.Sprite, preview = art.Sprite });
+                    foreach (var key in CoastConnectedDecorV01Planner.GroupKeys)
+                        if (coastCatalog.TryGetGroup(key, coastPin, out _, out var art, out _))
+                            coastChoices.Add(new DecorationChoice { label = key.Replace('_', ' '),
+                                sourceId = "coast:" + key, sprite = art.Sprite, preview = art.Sprite });
+                    return coastChoices.ToArray();
                 default: return Array.Empty<DecorationChoice>();
             }
             return files.Select((file, i) => {
@@ -467,6 +479,8 @@ namespace ANIMOL.Presentation.Editor
                     if (theater != null && theater.network) decorationConnectionGroup = theater.key;
                     var sanctum = SanctumConnectedDecorHost.SourceMapping(map.theme, choice.sprite);
                     if (sanctum != null && sanctum.network) decorationConnectionGroup = sanctum.key;
+                    var coast = CoastConnectedDecorHost.SourceMapping(map.theme, choice.sprite);
+                    if (coast != null && coast.network) decorationConnectionGroup = coast.key;
                 }
                 if (decoration == choice.sprite)
                     EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
@@ -477,19 +491,23 @@ namespace ANIMOL.Presentation.Editor
             var selectedMapping = RanchConnectedDecorHost.SourceMapping(map, decoration);
             var selectedTheaterMapping = TheaterConnectedDecorHost.SourceMapping(map.theme, decoration);
             var selectedSanctumMapping = SanctumConnectedDecorHost.SourceMapping(map.theme, decoration);
-            if (selectedMapping != null || selectedTheaterMapping != null || selectedSanctumMapping != null)
+            var selectedCoastMapping = CoastConnectedDecorHost.SourceMapping(map.theme, decoration);
+            if (selectedMapping != null || selectedTheaterMapping != null || selectedSanctumMapping != null || selectedCoastMapping != null)
             {
                 if (selectedMapping != null && (!map.theme.ranchConnectedDecorV01Catalog || !map.theme.ranchConnectedDecorV01ManifestPin))
                     EditorGUILayout.HelpBox("새 목장 장식 catalog와 manifest pin이 연결되지 않았습니다.", MessageType.Error);
                 var width = selectedTheaterMapping != null ? selectedTheaterMapping.width :
-                    selectedSanctumMapping != null ? selectedSanctumMapping.width : selectedMapping.occupiedWidth;
+                    selectedSanctumMapping != null ? selectedSanctumMapping.width :
+                    selectedCoastMapping != null ? selectedCoastMapping.width : selectedMapping.occupiedWidth;
                 var height = selectedTheaterMapping != null ? selectedTheaterMapping.height :
-                    selectedSanctumMapping != null ? selectedSanctumMapping.height : selectedMapping.occupiedHeight;
+                    selectedSanctumMapping != null ? selectedSanctumMapping.height :
+                    selectedCoastMapping != null ? selectedCoastMapping.height : selectedMapping.occupiedHeight;
                 EditorGUILayout.LabelField("통행 점유", width + " × " + height + "칸");
                 if (selectedMapping != null && (selectedMapping.width != width || selectedMapping.height != height))
                     EditorGUILayout.LabelField("그림 지면", selectedMapping.width + " × " + selectedMapping.height + "칸");
                 if (selectedTheaterMapping != null ? selectedTheaterMapping.network :
-                    selectedSanctumMapping != null ? selectedSanctumMapping.network : !selectedMapping.IsGroup)
+                    selectedSanctumMapping != null ? selectedSanctumMapping.network :
+                    selectedCoastMapping != null ? selectedCoastMapping.network : !selectedMapping.IsGroup)
                     decorationConnectionGroup = EditorGUILayout.TextField("연결 그룹", decorationConnectionGroup);
                 decorationLogicalLayer = EditorGUILayout.IntField("논리 장식 층", decorationLogicalLayer);
                 decorationHeightKey = EditorGUILayout.IntField("정수 높이", decorationHeightKey);
@@ -503,19 +521,21 @@ namespace ANIMOL.Presentation.Editor
         {
             var index = map.decorations.FindIndex(cell => RanchConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
                 TheaterConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
-                SanctumConnectedDecorHost.Occupies(map, cell, selectedDecorationCell));
+                SanctumConnectedDecorHost.Occupies(map, cell, selectedDecorationCell) ||
+                CoastConnectedDecorHost.Occupies(map, cell, selectedDecorationCell));
             if (index < 0) return;
             var current = map.decorations[index];
             var ranch = RanchConnectedDecorHost.TryMap(map, current, out var mapping);
             var theater = TheaterConnectedDecorHost.TryMap(map, current, out var theaterMapping);
             var sanctum = SanctumConnectedDecorHost.TryMap(map, current, out var sanctumMapping);
-            if (!ranch && !theater && !sanctum) return;
-            EditorGUILayout.LabelField("선택 장식", (theater ? theaterMapping.key : sanctum ? sanctumMapping.key : mapping.sourceId) + " @ " + current.position);
+            var coast = CoastConnectedDecorHost.TryMap(map, current, out var coastMapping);
+            if (!ranch && !theater && !sanctum && !coast) return;
+            EditorGUILayout.LabelField("선택 장식", (theater ? theaterMapping.key : sanctum ? sanctumMapping.key : coast ? coastMapping.key : mapping.sourceId) + " @ " + current.position);
             EditorGUILayout.LabelField("배치 ID", string.IsNullOrEmpty(current.placementId) ? "기존 장식" : current.placementId);
             var next = current;
-            if (theater ? theaterMapping.network : sanctum ? sanctumMapping.network : !mapping.IsGroup)
+            if (theater ? theaterMapping.network : sanctum ? sanctumMapping.network : coast ? coastMapping.network : !mapping.IsGroup)
                 next.connectionGroup = EditorGUILayout.TextField("연결 그룹", string.IsNullOrEmpty(current.connectionGroup) ?
-                    (theater ? theaterMapping.key : sanctum ? sanctumMapping.key : mapping.family) : current.connectionGroup);
+                    (theater ? theaterMapping.key : sanctum ? sanctumMapping.key : coast ? coastMapping.key : mapping.family) : current.connectionGroup);
             next.logicalLayer = EditorGUILayout.IntField("논리 장식 층", current.logicalLayer);
             next.heightKey = EditorGUILayout.IntField("정수 높이", current.heightKey);
             if (next.connectionGroup == current.connectionGroup && next.logicalLayer == current.logicalLayer && next.heightKey == current.heightKey) return;
@@ -529,13 +549,17 @@ namespace ANIMOL.Presentation.Editor
             else if (sanctum)
                 valid = SanctumConnectedDecorHost.TryCreateSnapshot(map, candidate,
                     new Vector3(-.5f, -.5f), 1, 0, out _, out error);
+            else if (coast)
+                valid = CoastConnectedDecorHost.TryCreateSnapshot(map, candidate,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out error);
             else if (!theme.ranchConnectedDecorV01Catalog || !theme.ranchConnectedDecorV01ManifestPin)
             { error = "새 장식 catalog 또는 manifest pin이 없습니다."; valid = false; }
             else
                 valid = RanchConnectedDecorHost.TryCreatePlan(map, theme.ranchConnectedDecorV01Catalog,
                     theme.ranchConnectedDecorV01ManifestPin.text.Trim(), candidate, out _, out _, out _, out error);
             if (!valid) { decorationError = error; return; }
-            Undo.RecordObject(map, theater ? "극장 장식 연결 변경" : sanctum ? "성소 장식 연결 변경" : "목장 장식 연결 변경");
+            Undo.RecordObject(map, theater ? "극장 장식 연결 변경" : sanctum ? "성소 장식 연결 변경" :
+                coast ? "해안 장식 연결 변경" : "목장 장식 연결 변경");
             map.decorations[index] = next; map.NotifyDecorationsChanged(); EditorUtility.SetDirty(map);
             decorationError = null;
         }
@@ -926,6 +950,7 @@ namespace ANIMOL.Presentation.Editor
                     if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (TheaterConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (SanctumConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                    if (CoastConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (map.theme && map.theme.starwayRanch)
                         DrawRanchDecorationPreview(decor, shownHeight, origin,
                             new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
@@ -958,6 +983,7 @@ namespace ANIMOL.Presentation.Editor
                 DrawConnectedDecorPreview(shownHeight, origin, visible);
                 DrawTheaterConnectedDecorPreview(shownHeight, origin, visible);
                 DrawSanctumConnectedDecorPreview(shownHeight, origin, visible);
+                DrawCoastConnectedDecorPreview(shownHeight, origin, visible);
                 DrawDeviceDirectionBadges(xMin, xMax, yMin, yMax, shownHeight, origin);
             }
             if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
@@ -1283,6 +1309,43 @@ namespace ANIMOL.Presentation.Editor
                         art.Sprite, shownHeight, origin, visible);
             }
         }
+        void DrawCoastConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
+        {
+            if (!CoastConnectedDecorHost.IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog ||
+                !map.theme.coastConnectedDecorV01ManifestPin) return;
+            var catalog = map.theme.coastConnectedDecorV01Catalog;
+            if (!CoastConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
+                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
+            var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
+            CoastDecorPlan plan;
+            try
+            {
+                plan = CoastConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                    key => {
+                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
+                            throw new InvalidOperationException(error);
+                        return new CoastDecorGroupSize(group.WidthCells, group.HeightCells);
+                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
+                    CoastConnectedDecorV01Planner.SupportsPeriodicPost);
+            }
+            catch (Exception) { return; }
+            for (var i = 0; i < plan.NetworkCount; i++)
+            {
+                var row = plan.GetNetwork(i);
+                if (catalog.TryGetExact(row.file, pin, out var art, out _))
+                    DrawWorldSpriteAt(new Vector2(row.x, row.y), art.Sprite, shownHeight, origin, visible);
+                if (!string.IsNullOrEmpty(row.periodicPostFile) &&
+                    catalog.TryGetExact(row.periodicPostFile, pin, out var post, out _))
+                    DrawWorldSpriteAt(new Vector2(row.x, row.y), post.Sprite, shownHeight, origin, visible);
+            }
+            for (var i = 0; i < plan.GroupCount; i++)
+            {
+                var row = plan.GetGroup(i);
+                if (catalog.TryGetGroup(row.groupKey, pin, out _, out var art, out _))
+                    DrawWorldSpriteAt(new Vector2((float)row.CenterX - .5f, (float)row.CenterY - .5f),
+                        art.Sprite, shownHeight, origin, visible);
+            }
+        }
         static void DrawSprite(Rect r, Sprite sprite)
         { if (!sprite) return; var t = sprite.texture; var s = sprite.rect; GUI.DrawTextureWithTexCoords(r, t, new Rect(s.x / t.width, s.y / t.height, s.width / t.width, s.height / t.height)); }
         static void DrawSpriteFitted(Rect bounds, Sprite sprite)
@@ -1388,6 +1451,7 @@ namespace ANIMOL.Presentation.Editor
                 if (remove) map.scenario.water.RemoveAll(cell => cell == p);
                 else if (!map.scenario.water.Contains(p)) map.scenario.water.Add(p);
                 EditorUtility.SetDirty(map.scenario);
+                map.NotifyDecorationsChanged();
             }
             EditorUtility.SetDirty(map); map.InvalidateIndex();
         }
@@ -1395,7 +1459,7 @@ namespace ANIMOL.Presentation.Editor
         {
             var index = target.decorations.FindIndex(cell =>
                 RanchConnectedDecorHost.Occupies(target, cell, p) || TheaterConnectedDecorHost.Occupies(target, cell, p) ||
-                SanctumConnectedDecorHost.Occupies(target, cell, p));
+                SanctumConnectedDecorHost.Occupies(target, cell, p) || CoastConnectedDecorHost.Occupies(target, cell, p));
             if (index < 0) return false;
             target.decorations.RemoveAt(index);
             target.NotifyDecorationsChanged();
@@ -1409,36 +1473,46 @@ namespace ANIMOL.Presentation.Editor
             if (SanctumConnectedDecorHost.IsSanctum(target) &&
                 SanctumConnectedDecorHost.IsLegacySanctumProp(target.theme, sprite))
             { error = "기존 V02 장식은 새 V01 지면 크기와 배치 위치를 검토한 뒤 이관해야 합니다."; return false; }
+            if (CoastConnectedDecorHost.IsCoast(target) && CoastConnectedDecorHost.IsLegacyCoastProp(target.theme, sprite))
+            { error = "기존 해안 장식은 새 지면 크기와 배치 위치를 검토한 뒤 이관해야 합니다."; return false; }
             var source = RanchConnectedDecorHost.SourceMapping(target, sprite);
             var theaterSource = TheaterConnectedDecorHost.IsTheater(target)
                 ? TheaterConnectedDecorHost.SourceMapping(target.theme, sprite) : null;
             var sanctumSource = SanctumConnectedDecorHost.IsSanctum(target)
                 ? SanctumConnectedDecorHost.SourceMapping(target.theme, sprite) : null;
+            var coastSource = CoastConnectedDecorHost.IsCoast(target)
+                ? CoastConnectedDecorHost.SourceMapping(target.theme, sprite) : null;
             var width = theaterSource != null ? theaterSource.width :
-                sanctumSource != null ? sanctumSource.width : source == null ? 1 : source.occupiedWidth;
+                sanctumSource != null ? sanctumSource.width : coastSource != null ? coastSource.width : source == null ? 1 : source.occupiedWidth;
             var height = theaterSource != null ? theaterSource.height :
-                sanctumSource != null ? sanctumSource.height : source == null ? 1 : source.occupiedHeight;
+                sanctumSource != null ? sanctumSource.height : coastSource != null ? coastSource.height : source == null ? 1 : source.occupiedHeight;
             for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
             {
                 var p = anchor + new Vector2Int(x, y);
                 if (!target.Contains(p)) { error = "장식의 전체 지면이 맵 안에 들어와야 합니다."; return false; }
                 if (target.decorations.Any(cell => RanchConnectedDecorHost.Occupies(target, cell, p) ||
-                    TheaterConnectedDecorHost.Occupies(target, cell, p) || SanctumConnectedDecorHost.Occupies(target, cell, p)))
+                    TheaterConnectedDecorHost.Occupies(target, cell, p) || SanctumConnectedDecorHost.Occupies(target, cell, p) ||
+                    CoastConnectedDecorHost.Occupies(target, cell, p)))
                 { error = "장식의 지면이 다른 장식과 겹칩니다. 먼저 기존 장식을 지우세요."; return false; }
                 if (theaterSource != null && !TheaterConnectedDecorHost.AllowDecorCell(target, target.decorations, p))
                 { error = "극장 장식은 기존 다리 난간이나 장식이 소유한 칸에 배치할 수 없습니다."; return false; }
                 if (sanctumSource != null && !SanctumConnectedDecorHost.AllowDecorCell(target, target.decorations, p))
                 { error = "성소 장식은 기존 다리 난간이나 장식이 소유한 칸에 배치할 수 없습니다."; return false; }
+                if (coastSource != null && !CoastConnectedDecorHost.AllowDecorCell(target, target.decorations, p))
+                { error = "해안 장식은 물칸, 다리 난간, 다른 장식이 소유한 칸에 배치할 수 없습니다."; return false; }
             }
             var mapped = source != null && (source.family != null || source.groupKey != null);
             var cellToAdd = new DecorationCell { position = anchor, sprite = sprite,
-                tint = mapped || theaterSource != null || sanctumSource != null ? Color.white : tint, placementId = Guid.NewGuid().ToString("N"),
+                tint = mapped || theaterSource != null || sanctumSource != null || coastSource != null ? Color.white : tint, placementId = Guid.NewGuid().ToString("N"),
                 visualFamily = theaterSource != null ? theaterSource.key : sanctumSource != null ? sanctumSource.key :
+                    coastSource != null ? coastSource.key :
                     mapped && source.sourceId.StartsWith("ranch:", StringComparison.Ordinal) ? source.family : null,
                 connectionGroup = theaterSource != null && theaterSource.network ?
                     (string.IsNullOrWhiteSpace(connectionGroup) ? theaterSource.key : connectionGroup.Trim()) :
                     sanctumSource != null && sanctumSource.network ?
                         (string.IsNullOrWhiteSpace(connectionGroup) ? sanctumSource.key : connectionGroup.Trim()) :
+                    coastSource != null && coastSource.network ?
+                        (string.IsNullOrWhiteSpace(connectionGroup) ? coastSource.key : connectionGroup.Trim()) :
                     mapped && !source.IsGroup ?
                         (string.IsNullOrWhiteSpace(connectionGroup) ? source.family : connectionGroup.Trim()) : null,
                 logicalLayer = logicalLayer, heightKey = heightKey };
@@ -1461,6 +1535,12 @@ namespace ANIMOL.Presentation.Editor
             {
                 var candidate = new List<DecorationCell>(target.decorations) { cellToAdd };
                 if (!SanctumConnectedDecorHost.TryCreateSnapshot(target, candidate,
+                    new Vector3(-.5f, -.5f), 1, 0, out _, out error)) return false;
+            }
+            if (coastSource != null)
+            {
+                var candidate = new List<DecorationCell>(target.decorations) { cellToAdd };
+                if (!CoastConnectedDecorHost.TryCreateSnapshot(target, candidate,
                     new Vector3(-.5f, -.5f), 1, 0, out _, out error)) return false;
             }
             target.decorations.Add(cellToAdd);

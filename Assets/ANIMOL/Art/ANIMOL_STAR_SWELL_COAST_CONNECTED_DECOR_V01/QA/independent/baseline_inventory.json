@@ -1,0 +1,324 @@
+{
+  "status": "BASELINE_READ_OFFLINE",
+  "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+  "manifestSha256": "e61f68b2063ba36d9f04574009599d050079b1e4076186a9ec4bfaec1498016f",
+  "themeDisplayName": "별너울 해안",
+  "actualThemeId": null,
+  "themeIdVerifiedInUnityProject": false,
+  "materialMapLegend": {
+    "A": "coast_sand",
+    "W": "wood_bridge",
+    "S": "stone_bridge",
+    "0": "void"
+  },
+  "waterIsLand": false,
+  "style": {
+    "geometry": "straight segments, sharp directional bends, wedges and facets; no smooth rounded housings",
+    "outline": "thick angular near-black navy",
+    "shading": "flat cel2-3tones per material",
+    "materials": "pale sand, terracotta coastal lip, driftwood, slate stone, teal water, coral sunset, ivory foam, brass and angular rope",
+    "avoid": [
+      "pixel-art restriction",
+      "painterly texture",
+      "grain/dither",
+      "airbrushed skin/material",
+      "moon",
+      "Saturn/planets"
+    ]
+  },
+  "baselineRuntimePngCount": 1097,
+  "baselineAnimationClipCount": 105,
+  "baselineEndpointAliases": 49,
+  "sceneryAssetCount": 42,
+  "propAssets": [
+    {
+      "file": "props/coast/slate_shell_rocks.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "bff17b9ed95c7e47da05211eb060a2a30dd7432195dffe09fa3215de4af95126"
+    },
+    {
+      "file": "props/coast/rope_fence.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "13d191401ed4fa28f8251ef106903101956241263dc6ff65de9390ff46ed2cf5"
+    },
+    {
+      "file": "props/coast/dock_lantern.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "997b02d44464b0ce947814b7bb9cf698687e46ded19e379848e7e5aaba7e9c2a"
+    },
+    {
+      "file": "props/coast/driftwood_bench.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "2fdedfe9301a463c376731a7ade5e26df1d293042288e6912bae7cdc7afe45c5"
+    },
+    {
+      "file": "props/coast/broken_stone_pillar.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "d8b28bdc68da73413d6c92632991ee9fdb0510067da9f68c774d88c6b4b11a8e"
+    },
+    {
+      "file": "props/coast/dock_crates.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "f137887bc37a336257197d4cf997b6bb9130403c4f431862333b02cb1b726627"
+    },
+    {
+      "file": "props/coast/mooring_post.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "b026b7c64125b19b27805cc604e40f53f3338e8ea2b0e7c2936fd71b01c9279a"
+    },
+    {
+      "file": "props/coast/folded_net_basket.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "17945a24f565516261d813c01d163b586c4c9c126036331e8852314ee84b20f8"
+    },
+    {
+      "file": "props/coast/raised_sea_agave.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "a9162daade77e8a7869907c3af536abfa2fbd2ce876137f8489942b0c2682974"
+    },
+    {
+      "file": "props/coast/coral_fan.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "4fe45460781cd62ee458e733b96e9a8a647ac737111d693d024a3e551d210d99"
+    },
+    {
+      "file": "props/coast/small_lighthouse.png",
+      "family": "coastal_decor",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "c67e6eba50c564f2da466e0df727e54d4b3284f3455f88ebbe64bcf28a545fe2"
+    },
+    {
+      "file": "props/coast/coast_palm.png",
+      "family": "coast_palm",
+      "kind": "decorative_prop",
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "a3c91b5683505d98c6963e0fba8e0f49bd43d20a5aaf79078537444d9a818ac2"
+    }
+  ],
+  "alreadyMultiCellProps": 3,
+  "supportMaterialMap": {
+    "A": "sandy_rock",
+    "S": "sandy_rock",
+    "W": "wood"
+  },
+  "supportPlan": "Extract contiguous same-support south-exposed runs. Length1/2/3/4 uses exactly one matching native fused sprite. Longer runs use deterministic2–4-cell chunks; do not use one body per tile.",
+  "holeFacePolicy": "For enclosed or narrow holes choose matching shallowCapFile. Native facade ends20px below logical tile south edge, retaining the hole opening. Outer island silhouettes use full matching-length native body.",
+  "layerContract": {
+    "cameraConvention": "Orthographic camera at negativeZ looking+Z; positiveZ farther. Explicit sorting always applies.",
+    "layers": [
+      {
+        "key": "sky",
+        "files": [
+          "backgrounds/coast/sky_base.png"
+        ],
+        "z": 9,
+        "sortingOrder": -1000,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "coverCamera": true
+      },
+      {
+        "key": "world_horizon",
+        "files": [
+          "backgrounds/coast/horizon_plate.png"
+        ],
+        "z": 8.9,
+        "sortingOrder": -990,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "coverCamera": false,
+        "worldHorizonY": 6.25,
+        "repeat": false
+      },
+      {
+        "key": "one_setting_sun",
+        "files": [
+          "backgrounds/coast/angular_setting_sun.png"
+        ],
+        "z": 8.6,
+        "sortingOrder": -960,
+        "cameraParallax": 0,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1,
+        "sceneInstanceLimit": 1,
+        "repeat": false
+      },
+      {
+        "key": "stars",
+        "files": [
+          "backgrounds/coast/stars/ivory_four_point.png",
+          "backgrounds/coast/stars/gold_four_point.png",
+          "backgrounds/coast/stars/ivory_eight_point.png",
+          "backgrounds/coast/stars/cyan_long_glint.png",
+          "backgrounds/coast/stars/gold_five_point.png",
+          "backgrounds/coast/stars/ivory_diamond.png",
+          "backgrounds/coast/stars/constellation_three.png",
+          "backgrounds/coast/stars/constellation_four.png"
+        ],
+        "z": 8,
+        "sortingOrder": -900,
+        "cameraParallax": 0.01,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 0.85
+      },
+      {
+        "key": "far_harbor_islets",
+        "files": [
+          "backgrounds/coast/far_harbor_islet.png",
+          "backgrounds/coast/far_lighthouse_islet.png"
+        ],
+        "z": 7,
+        "sortingOrder": -850,
+        "cameraParallax": 0.08,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "far_clouds",
+        "files": [
+          "backgrounds/coast/clouds/cloud_0.png",
+          "backgrounds/coast/clouds/cloud_1.png"
+        ],
+        "z": 6,
+        "sortingOrder": -800,
+        "cameraParallax": 0.2,
+        "visualDriftUnitsPerSecond": 0.025,
+        "opacity": 0.85
+      },
+      {
+        "key": "coastal_frames",
+        "files": [
+          "backgrounds/coast/frame_palm_left.png",
+          "backgrounds/coast/frame_cliff_right.png"
+        ],
+        "z": 4,
+        "sortingOrder": -700,
+        "cameraParallax": 0.3,
+        "visualDriftUnitsPerSecond": 0,
+        "opacity": 1
+      },
+      {
+        "key": "near_clouds",
+        "files": [
+          "backgrounds/coast/clouds/cloud_2.png",
+          "backgrounds/coast/clouds/cloud_3.png"
+        ],
+        "z": 2,
+        "sortingOrder": -600,
+        "cameraParallax": 0.45,
+        "visualDriftUnitsPerSecond": 0.045,
+        "opacity": 0.88
+      }
+    ],
+    "sunCount": 1,
+    "sunNeverRepeated": true,
+    "worldHorizonCount": 1,
+    "horizonIsWorldAnchored": true,
+    "starsBehindEveryCloud": true,
+    "starsNearFixed": true,
+    "noMoonOrPlanet": true,
+    "waterOwner": "terrain_exports",
+    "waterCarrier": "tiles/water/carrier.png",
+    "waterCarrierRepeatOnlyBelowWorldHorizon": true,
+    "waterVisualSort": {
+      "oceanCameraFill": -880,
+      "carrier": -500,
+      "waves": -490,
+      "shore": -480,
+      "land": 0,
+      "boat": 20
+    },
+    "waterClipPolicy": "Root/actual host camera-fill field below fixed worldHorizon; actual watercell region clipping for waves/shore, no new walkable water occupancy. Do not obscure boat/output.",
+    "centralBoardProtection": "Far/islet/framing sprites outside playable routes; no dense particles over devices."
+  },
+  "backgroundIntegrationPolicy": {
+    "schemaVersion": 1,
+    "packageId": "ANIMOL_STAR_SWELL_COAST_CARTOON_V01",
+    "oneWorldHorizonY": 6.25,
+    "uniqueSunRenderers": 1,
+    "fixedWorldAnchors": [
+      "backgrounds/coast/horizon_plate.png",
+      "backgrounds/coast/angular_setting_sun.png"
+    ],
+    "excludeFromBackgroundRig": [
+      "unique_world_horizon",
+      "one_setting_sun"
+    ],
+    "skyOnlyCameraCover": "backgrounds/coast/sky_base.png",
+    "globalOceanUnderlayOrder": -880,
+    "starsOrder": -900,
+    "cloudsDrawAfterStars": true,
+    "actualHostWaterCellsAreSeparateFromGlobalUnderlay": true,
+    "noGameplayChanges": true,
+    "actualUnityExecuted": false
+  },
+  "notes": [
+    "Baseline already includes fused1–4cell south supports and shallow internal-hole caps; additive decor must not double-place supports.",
+    "A=coast_sand,W=wood_bridge,S=stone_bridge; water is not walkable land.",
+    "Exactly one angular setting sun and one fixed world horizon; exclude both from BackgroundRig. cameraMultiplier0 does not itself mean fixed world.",
+    "Existing animated palm rig, boat/water/barrel/bomb/spike and shared device motion authority remain current.",
+    "Do not count background/clouds/frames/palm animation frames as unique decoration designs."
+  ],
+  "actualUnityImport": "NOT_RUN",
+  "actualCSharpCompile": "NOT_RUN",
+  "actualUnityPlay": "NOT_RUN"
+}

@@ -1,0 +1,13 @@
+별너울 해안 연결 장식 독립 검수 기준
+
+26종은 연결6/다칸12/한칸8의 의미상 종류 수이며 마스크·상태·보조기둥 수가 아니다.
+원화는 nativeimagegen과 프롬프트/출처가 있어야 하며 타테마 재색칠은 금지.
+굵은 남색 선/명확한 직선·쐐기·각면/넓은 평면셀음영을 유지한다. 밧줄도 각진 꺾임, 부표·조개·산호도 다각형으로 재설계한다.
+PPU256/groundcenterpivot/4이웃maskN1E2S4W8/wholegroupanchorbottomleft를 보존한다.
+모든마스크의호환포트/투명여백겹침을 독립검사한다.
+2줄깊이 장식은각행을실제로채운다. 가로90%이상,깊이85%이상,각행35%이상opaque가 기준이다.
+동일family+connectionGroup+logicalLayer+heightKey만 연결한다. 전체보드의모든칸호스트승인/중복거절/1placement=1renderer를 확인한다.
+사례생성기 실제Bind/Refresh/Prefab저장 경로와프로덕션Publish→Changed→Controller구독경로를 확인한다. 예시성공을실제게임연동으로보지않는다.
+기존A/W/S지형·물칸·나룻배·통·폭탄·가시·야자수움직임과공유다리난간/연속하부를덮지않는다.
+해/수평선은정확히하나의world고정이며구름뒤거의고정별의sorting을유지한다.
+PNG합성/파일검수/C#소스검수는UnityImport/컴파일/NUnit/Play증거가아니다. 실제실행전까지NOT_RUN으로명시한다.

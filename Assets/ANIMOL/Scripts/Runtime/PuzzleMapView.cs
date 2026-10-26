@@ -5,6 +5,7 @@ using ANIMOL.Art.V12;
 using ANIMOL.Art.RanchConnectedDecorV01;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
+using ANIMOL.Art.CoastConnectedDecorV01;
 
 namespace ANIMOL.Puzzle
 {
@@ -42,13 +43,19 @@ namespace ANIMOL.Puzzle
         SanctumConnectedDecorV01Binding sanctumDecorBinding;
         long sanctumDecorRevision;
         readonly List<GameObject> sanctumLegacyDecorationViews = new List<GameObject>();
+        CoastConnectedDecorV01Controller coastConnectedDecor;
+        CoastConnectedDecorV01PublishedSnapshotSource coastDecorSource;
+        CoastConnectedDecorV01Binding coastDecorBinding;
+        long coastDecorRevision;
+        readonly List<GameObject> coastLegacyDecorationViews = new List<GameObject>();
         public RanchConnectedDecorV01Controller ConnectedDecor => connectedDecor;
         public TheaterConnectedDecorV01Controller TheaterConnectedDecor => theaterConnectedDecor;
         public SanctumConnectedDecorV01Controller SanctumConnectedDecor => sanctumConnectedDecor;
+        public CoastConnectedDecorV01Controller CoastConnectedDecor => coastConnectedDecor;
         public int RefreshedCells { get; private set; }
         public void Bind(PuzzleMap data)
         {
-            Unbind(); map = data; theaterDecorRevision = 0; sanctumDecorRevision = 0;
+            Unbind(); map = data; theaterDecorRevision = 0; sanctumDecorRevision = 0; coastDecorRevision = 0;
             map.TerrainChanged += RefreshNeighborhood; map.Resized += Rebuild;
             map.DecorationsChanged += DecorationsUpdated;
             Rebuild();
@@ -58,10 +65,13 @@ namespace ANIMOL.Puzzle
         {
             theaterDecorRevision++;
             sanctumDecorRevision++;
+            coastDecorRevision++;
             if (theaterDecorSource && TheaterConnectedDecorHost.IsTheater(map))
             { RefreshLegacyTheaterDecor(); PublishTheaterDecor(); }
             else if (sanctumDecorSource && SanctumConnectedDecorHost.IsSanctum(map))
             { RefreshLegacySanctumDecor(); PublishSanctumDecor(); }
+            else if (coastDecorSource && CoastConnectedDecorHost.IsCoast(map))
+            { RefreshLegacyCoastDecor(); PublishCoastDecor(); }
             else Rebuild();
         }
         void OnEnable() { if (map && objectsRoot) Rebuild(); }
@@ -84,6 +94,8 @@ namespace ANIMOL.Puzzle
             theaterLegacyDecorationViews.Clear();
             sanctumConnectedDecor = null; sanctumDecorSource = null; sanctumDecorBinding = null;
             sanctumLegacyDecorationViews.Clear();
+            coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
+            coastLegacyDecorationViews.Clear();
             bubbleViews.Clear(); classicWind.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.starSwellCoastV01Catalog)
@@ -204,8 +216,27 @@ namespace ANIMOL.Puzzle
             else if (SanctumConnectedDecorHost.IsSanctum(map) && map.decorations.Any(d =>
                 SanctumConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
                 Debug.LogError("Sanctum connected decoration catalog or manifest pin is missing.", this);
+            if (CoastConnectedDecorHost.IsCoast(map) && map.theme.coastConnectedDecorV01Catalog &&
+                map.theme.coastConnectedDecorV01ManifestPin)
+            {
+                var node = new GameObject("Coast connected decoration V01");
+                node.SetActive(false); node.transform.SetParent(objectsRoot, false);
+                coastConnectedDecor = node.AddComponent<CoastConnectedDecorV01Controller>();
+                coastDecorSource = node.AddComponent<CoastConnectedDecorV01PublishedSnapshotSource>();
+                coastDecorBinding = node.AddComponent<CoastConnectedDecorV01Binding>();
+                PublishCoastDecor();
+                var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
+                if (!coastDecorBinding.Bind(coastConnectedDecor, map.theme.coastConnectedDecorV01Catalog,
+                    pin, "Default", coastDecorSource, out var error))
+                    Debug.LogError("Coast decoration binding rejected: " + error, this);
+                node.SetActive(true);
+            }
+            else if (CoastConnectedDecorHost.IsCoast(map) && map.decorations.Any(d =>
+                CoastConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
+                Debug.LogError("Coast connected decoration catalog or manifest pin is missing.", this);
             foreach (var d in map.decorations) if (map.Contains(d.position) &&
-                !TheaterConnectedDecorHost.IsTheater(map) && !SanctumConnectedDecorHost.IsSanctum(map))
+                !TheaterConnectedDecorHost.IsTheater(map) && !SanctumConnectedDecorHost.IsSanctum(map) &&
+                !CoastConnectedDecorHost.IsCoast(map))
             {
                 if (!string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorHost.TryMap(map, d, out _)) continue;
                 if (TheaterConnectedDecorHost.TryMap(map, d, out _)) continue;
@@ -218,6 +249,7 @@ namespace ANIMOL.Puzzle
             }
             if (TheaterConnectedDecorHost.IsTheater(map)) RefreshLegacyTheaterDecor();
             if (SanctumConnectedDecorHost.IsSanctum(map)) RefreshLegacySanctumDecor();
+            if (CoastConnectedDecorHost.IsCoast(map)) RefreshLegacyCoastDecor();
             if (map.scenario)
             {
                 var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
@@ -284,6 +316,32 @@ namespace ANIMOL.Puzzle
                 Debug.LogError("Sanctum decoration snapshot rejected: " + error, this);
             }
         }
+        void RefreshLegacyCoastDecor()
+        {
+            foreach (var visual in coastLegacyDecorationViews) if (visual) Remove(visual);
+            coastLegacyDecorationViews.Clear();
+            foreach (var d in map.decorations)
+            {
+                if (!map.Contains(d.position) || CoastConnectedDecorHost.IsDeclaredKey(d.visualFamily) ||
+                    CoastConnectedDecorHost.TryMap(map, d, out _) ||
+                    CoastConnectedDecorHost.IsLegacyCoastProp(map.theme, d.sprite)) continue;
+                coastLegacyDecorationViews.Add(Sprite(objectsRoot, "Decoration",
+                    d.sprite ? d.sprite : map.theme.decoration,
+                    d.position, 15, Vector2.one * .8f, d.tint).gameObject);
+            }
+        }
+        void PublishCoastDecor()
+        {
+            if (!coastDecorSource || !map) return;
+            var origin = objectsRoot.TransformPoint(new Vector3(-.5f, -.5f, 0));
+            if (!CoastConnectedDecorHost.TryCreateSnapshot(map, map.decorations, origin,
+                objectsRoot.lossyScale.x, coastDecorRevision, out var snapshot, out var error) ||
+                !coastDecorSource.PublishSnapshot(snapshot, out error))
+            {
+                coastDecorSource.InvalidateSnapshot(error);
+                Debug.LogError("Coast decoration snapshot rejected: " + error, this);
+            }
+        }
         void CreateRanchDecoration(DecorationCell cell)
         {
             var art = RanchConnectedDecorHost.SourceMapping(map, cell.sprite);
@@ -324,7 +382,11 @@ namespace ANIMOL.Puzzle
             motion.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);
         }
         public void RefreshNeighborhood(Vector2Int p)
-        { if (coastV01) { coastV01.RefreshNeighborhood(p); return; }
+        { if (coastV01) {
+                coastV01.RefreshNeighborhood(p);
+                if (coastDecorSource) { coastDecorRevision++; PublishCoastDecor(); }
+                return;
+            }
             if (sanctumV02) {
                 sanctumV02.RefreshNeighborhood(p);
                 if (sanctumDecorSource) { sanctumDecorRevision++; PublishSanctumDecor(); }

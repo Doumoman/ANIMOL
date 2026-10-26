@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/coast_connected_v01/networks_a_exports",
+      "manifestSha256": "b87b871325efa08b0325f133ae7e01155a5f0535bd665b1b99fc4479a63cc361",
+      "runtimePngCount": 50,
+      "semanticNetworkFamilies": [
+        "driftwood_palisade",
+        "fishing_net_screen",
+        "rope_dock_fence"
+      ],
+      "sourcePins": {
+        "sources/rope_dock_fence_parts_native.png": "256690e9ffae5e05106b148f0dc4e96d463a30e62a7501b0c386810c4f22a358",
+        "sources/driftwood_palisade_parts_native.png": "c4f37e762c9e8936110638212e59bbf6c8dd9ac9464e5896e53343d079a21339",
+        "sources/fishing_net_screen_parts_native.png": "465dcac11a2287e8836d1b9f58293b74ba92f63013918f0370e8d5ec5f228a65"
+      },
+      "checks": 368,
+      "errors": [],
+      "joins": [
+        {
+          "family": "driftwood_palisade",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 107008,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "fishing_net_screen",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 112128,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "rope_dock_fence",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 75776,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}

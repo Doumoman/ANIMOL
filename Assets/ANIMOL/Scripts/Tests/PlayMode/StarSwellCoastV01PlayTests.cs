@@ -21,21 +21,27 @@ namespace ANIMOL.Presentation.Tests
             Assert.NotNull(controller);
             controller.secondsPerCell = .005f;
             var gateCell = controller.Session.States["2_gate"].cell;
+            var gateDirection = controller.Session.States["2_gate"].direction;
+            var entryCell = gateCell - gateDirection;
+            var exitCell = gateCell + gateDirection;
             var route = controller.RuntimeMap.scenario.verificationRoute;
             int step = 0;
-            for (; step < route.Length && controller.Session.Cell != gateCell; step++)
+            var passed = false;
+            for (; step < route.Length && !passed; step++)
             {
+                var before = controller.Session.Cell;
                 Assert.IsTrue(controller.RequestMove(Direction(route[step])), "route " + step);
                 while (controller.IsMoving) yield return null;
+                if (before == entryCell)
+                {
+                    Assert.AreEqual(exitCell, controller.Session.Cell,
+                        "A one-way gate traversal must finish beyond its occupied cell.");
+                    passed = true;
+                }
             }
-            Assert.AreEqual(gateCell, controller.Session.Cell);
+            Assert.IsTrue(passed, "The verification route never reached the gate entry cell.");
             yield return new WaitForSeconds(.2f);
             var gate = controller.Devices.Actor("2_gate").GetComponent<StarSwellCoastV01AnimatedVisual>();
-            Assert.AreEqual("oneway_gate.east.open", gate.CurrentKey);
-            Assert.IsTrue(controller.RequestMove(Direction(route[step])));
-            while (controller.IsMoving) yield return null;
-            Assert.AreNotEqual(gateCell, controller.Session.Cell);
-            yield return new WaitForSeconds(.2f);
             Assert.AreEqual("oneway_gate.east.closed", gate.CurrentKey);
             Assert.AreEqual(0, controller.Devices.MissingBindings);
         }

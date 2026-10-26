@@ -23,6 +23,8 @@ namespace ANIMOL.Puzzle
         public ANIMOL.Art.SunsetSanctumV02.SunsetSanctumV02VisualCatalog sunsetSanctumV02Catalog;
         public ANIMOL.Art.SanctumConnectedDecorV01.SanctumConnectedDecorV01Catalog sanctumConnectedDecorV01Catalog;
         public TextAsset sanctumConnectedDecorV01ManifestPin;
+        public ANIMOL.Art.CoastConnectedDecorV01.CoastConnectedDecorV01Catalog coastConnectedDecorV01Catalog;
+        public TextAsset coastConnectedDecorV01ManifestPin;
         public Material sunsetSanctumV02BeamMaterial;
         public TextAsset sunsetSanctumV02BackgroundLayout;
         public TwilightCoastArt twilightCoast;

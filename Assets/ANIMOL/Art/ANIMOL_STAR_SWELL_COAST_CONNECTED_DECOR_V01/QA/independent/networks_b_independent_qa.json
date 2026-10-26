@@ -1,0 +1,53 @@
+{
+  "status": "PASS_OFFLINE",
+  "scope": "Direct-export independent byte/alpha/register/native SHA and full128paired-native-port/overlap audit per family; not Unity.",
+  "reports": [
+    {
+      "status": "PASS_OFFLINE",
+      "exportRoot": "/workspace/scratch/b0cb6eab55f7/work/coast_connected_v01/networks_b_exports",
+      "manifestSha256": "2b32cf94afe38b94e93f08eb6fbdd78afb3dcd78a24ca97273da81e1e11d21a3",
+      "runtimePngCount": 48,
+      "semanticNetworkFamilies": [
+        "coral_rock_border",
+        "harbor_lantern_channel",
+        "raised_dune_grass"
+      ],
+      "sourcePins": {
+        "sources/raised_dune_grass_native.png": "3a94dc9eef30b2bb0d8552fcae74f13096501656520951016d9b9bea70c5b693",
+        "sources/harbor_lantern_channel_native.png": "c602e8d2e927ffe600e5e9c6998b26a9b7c4d5d6cebb092f1d32d8df8b371d82",
+        "sources/coral_rock_border_native.png": "1dfb9580f959c51002fc9483d6d57bcc660d2ac0899c2f144517975676069c16"
+      },
+      "checks": 354,
+      "errors": [],
+      "joins": [
+        {
+          "family": "coral_rock_border",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 66048,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "harbor_lantern_channel",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 76288,
+          "unsafeOverlapPixels": 0
+        },
+        {
+          "family": "raised_dune_grass",
+          "compatiblePairs": 128,
+          "openPortFailures": [],
+          "differentProfiles": [],
+          "sharedPixels": 76800,
+          "unsafeOverlapPixels": 0
+        }
+      ],
+      "actualUnityImport": "NOT_RUN",
+      "actualGPUFilter": "NOT_RUN",
+      "actualUnityPlay": "NOT_RUN"
+    }
+  ]
+}
