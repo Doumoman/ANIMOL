@@ -245,18 +245,22 @@ namespace ANIMOL.Puzzle
             if (!rotorSprite) { Debug.LogError("Missing V12 windmill rotor", this); return; }
             var owner = new GameObject("V12 windmill visual");
             owner.transform.SetParent(objectsRoot, false);
-            owner.transform.localPosition = (Vector2)position + Vector2.one * .5f;
+            // The V12 pivot is the centre of its native 2x2 logical ground.
+            // The rear row may be walked through, but the art remains full size.
+            owner.transform.localPosition = (Vector2)position + Vector2.one;
             var body = new GameObject("Fixed body");
             body.transform.SetParent(owner.transform, false);
             var bodyRenderer = body.AddComponent<SpriteRenderer>();
             bodyRenderer.sprite = art.Find("props/windmill_body.png");
-            bodyRenderer.sortingOrder = 15;
+            bodyRenderer.sortingLayerName = "Default";
+            bodyRenderer.sortingOrder = RanchConnectedDecorHost.ForegroundSortingOrder;
             var rotor = new GameObject("Four blade rotor");
             rotor.transform.SetParent(owner.transform, false);
             rotor.transform.localPosition = new Vector3(0, .703125f, 0);
             var rotorRenderer = rotor.AddComponent<SpriteRenderer>();
             rotorRenderer.sprite = rotorSprite;
-            rotorRenderer.sortingOrder = 16;
+            rotorRenderer.sortingLayerName = "Default";
+            rotorRenderer.sortingOrder = RanchConnectedDecorHost.ForegroundSortingOrder + 1;
             var motion = owner.AddComponent<StarwayRanchV12RotorVisual>();
             motion.Configure(rotor.transform, 18f);
             motion.SetReducedMotion(StarwayRanchMotionSettings.ReducedMotion);

@@ -103,8 +103,8 @@ namespace ANIMOL.Puzzle
                 decorations.Sum(d => {
                     var source = RanchConnectedDecorHost.SourceMapping(this, d);
                     var theater = TheaterConnectedDecorHost.TryMap(this, d, out var theaterSource) ? theaterSource : null;
-                    var width = theater != null ? theater.width : source == null ? 1 : source.width;
-                    var height = theater != null ? theater.height : source == null ? 1 : source.height;
+                    var width = theater != null ? theater.width : source == null ? 1 : source.occupiedWidth;
+                    var height = theater != null ? theater.height : source == null ? 1 : source.occupiedHeight;
                     var count = 0;
                     for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
                         if (Outside(d.position + new Vector2Int(x, y))) count++;

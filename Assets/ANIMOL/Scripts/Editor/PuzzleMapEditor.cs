@@ -456,7 +456,7 @@ namespace ANIMOL.Presentation.Editor
                 }
                 if (decoration == choice.sprite)
                     EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
-                DrawSprite(new Rect(row.x + 8, row.y + 5, 48, 48), choice.preview);
+                DrawSpriteFitted(new Rect(row.x + 8, row.y + 5, 48, 48), choice.preview);
                 GUI.Label(new Rect(row.x + 64, row.y + 16, row.width - 68, 28), choice.label, EditorStyles.boldLabel);
             }
             EditorGUILayout.EndScrollView();
@@ -466,9 +466,11 @@ namespace ANIMOL.Presentation.Editor
             {
                 if (selectedMapping != null && (!map.theme.ranchConnectedDecorV01Catalog || !map.theme.ranchConnectedDecorV01ManifestPin))
                     EditorGUILayout.HelpBox("새 목장 장식 catalog와 manifest pin이 연결되지 않았습니다.", MessageType.Error);
-                var width = selectedTheaterMapping != null ? selectedTheaterMapping.width : selectedMapping.width;
-                var height = selectedTheaterMapping != null ? selectedTheaterMapping.height : selectedMapping.height;
-                EditorGUILayout.LabelField("지면 크기", width + " × " + height + "칸");
+                var width = selectedTheaterMapping != null ? selectedTheaterMapping.width : selectedMapping.occupiedWidth;
+                var height = selectedTheaterMapping != null ? selectedTheaterMapping.height : selectedMapping.occupiedHeight;
+                EditorGUILayout.LabelField("통행 점유", width + " × " + height + "칸");
+                if (selectedMapping != null && (selectedMapping.width != width || selectedMapping.height != height))
+                    EditorGUILayout.LabelField("그림 지면", selectedMapping.width + " × " + selectedMapping.height + "칸");
                 if (selectedTheaterMapping != null ? selectedTheaterMapping.network : !selectedMapping.IsGroup)
                     decorationConnectionGroup = EditorGUILayout.TextField("연결 그룹", decorationConnectionGroup);
                 decorationLogicalLayer = EditorGUILayout.IntField("논리 장식 층", decorationLogicalLayer);
@@ -629,7 +631,8 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.LabelField("바라보는 방향");
             EditorGUILayout.BeginHorizontal();
             foreach (var heading in PuzzleAutotile.Cardinal)
-                if (GUILayout.Button(DirectionGlyph(heading), GUILayout.Width(42)) && placed.direction != heading)
+                if (GUILayout.Toggle(placed.direction == heading, DirectionName(heading),
+                    EditorStyles.miniButton, GUILayout.Width(58)) && placed.direction != heading)
                 {
                     Undo.RecordObject(map.scenario, "장치 방향 변경");
                     placed.direction = heading;
@@ -810,9 +813,14 @@ namespace ANIMOL.Presentation.Editor
             var shownWidth = Mathf.Max(map.Width, retained.Max(p => p.x) + 1);
             var shownHeight = Mathf.Max(map.Height, retained.Max(p => p.y) + 1);
             var cameraBounds = CameraBounds(map, cameraPreviewCell);
-            var leftPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.xMin - .5f)) : 0;
+            // Native Ranch sprites can extend beyond their anchor and the map's top edge.
+            // Give the scroll content room to show that art instead of clipping its roof/rotor.
+            var ranchOverhang = map.theme && map.theme.starwayRanch && map.decorations.Any(d => map.Contains(d.position));
+            var leftPad = Mathf.Max(ranchOverhang ? 1 : 0,
+                showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.xMin - .5f)) : 0);
             var rightPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.xMax - shownWidth + .5f)) : 0;
-            var topPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.yMax - shownHeight + .5f)) : 0;
+            var topPad = Mathf.Max(ranchOverhang ? 2 : 0,
+                showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.yMax - shownHeight + .5f)) : 0);
             var bottomPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.yMin - .5f)) : 0;
             var origin = new Vector2(leftPad * cellSize, topPad * cellSize);
             var content = new Rect(0, 0, (leftPad + shownWidth + rightPad + 1) * cellSize,
@@ -894,17 +902,9 @@ namespace ANIMOL.Presentation.Editor
                     if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (TheaterConnectedDecorHost.TryMap(map, decor, out _)) continue;
                     if (map.theme && map.theme.starwayRanch)
-                    {
-                        var source = RanchConnectedDecorHost.SourceMapping(map, decor.sprite);
-                        var center = (Vector2)decor.position + new Vector2(
-                            source == null ? 0 : (source.width - 1) * .5f,
-                            source == null ? 0 : (source.height - 1) * .5f);
-                        var preview = decor.sprite == map.theme.starwayRanch.Find("props/windmill_body.png")
-                            ? map.theme.starwayRanch.Find("props/windmill.png") : decor.sprite;
-                        DrawWorldSpriteAt(center, preview ? preview : map.theme.decoration,
-                            shownHeight, origin, new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
-                    }
-                    else DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
+                        DrawRanchDecorationPreview(decor, shownHeight, origin,
+                            new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
+                    else DrawSpriteFitted(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
                 }
                 if (map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && d.target == p))
                 {
@@ -929,8 +929,10 @@ namespace ANIMOL.Presentation.Editor
             if (Event.current.type == EventType.Repaint)
             {
                 var visible = new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height);
+                DrawOffscreenRanchDecorationPreviews(xMin, xMax, yMin, yMax, shownHeight, origin, visible);
                 DrawConnectedDecorPreview(shownHeight, origin, visible);
                 DrawTheaterConnectedDecorPreview(shownHeight, origin, visible);
+                DrawDeviceDirectionBadges(xMin, xMax, yMin, yMax, shownHeight, origin);
             }
             if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
             if (showCameraBounds) DrawCameraBounds(cameraBounds, shownHeight, origin);
@@ -995,7 +997,9 @@ namespace ANIMOL.Presentation.Editor
             }
             GUI.EndScrollView();
         }
-        static string DirectionGlyph(Vector2Int d) => d == Vector2Int.up ? "^" : d == Vector2Int.right ? ">" : d == Vector2Int.down ? "v" : "<";
+        static string DirectionGlyph(Vector2Int d) => d == Vector2Int.up ? "^" : d == Vector2Int.right ? ">" : d == Vector2Int.down ? "v" : d == Vector2Int.left ? "<" : "?";
+        static string DirectionName(Vector2Int d) => d == Vector2Int.up ? "북 N" : d == Vector2Int.right ? "동 E" :
+            d == Vector2Int.down ? "남 S" : d == Vector2Int.left ? "서 W" : "방향 없음";
         void DrawDevice(Rect cell, PrototypeDevice device)
         {
             var inset = cell.width * .12f;
@@ -1004,7 +1008,7 @@ namespace ANIMOL.Presentation.Editor
             var selected = device.id == selectedDeviceId;
             var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
             EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
-            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DirectionGlyph(device.direction), EditorStyles.whiteMiniLabel);
+            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DirectionName(device.direction), EditorStyles.whiteMiniLabel);
             if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
             if (!device.visualPrefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "그림 없음", EditorStyles.whiteMiniLabel);
         }
@@ -1016,7 +1020,7 @@ namespace ANIMOL.Presentation.Editor
                 var inset = rect.width * .12f;
                 rect = new Rect(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
             }
-            if (sprite) DrawSprite(rect, sprite);
+            if (sprite) DrawSpriteFitted(rect, sprite);
             else if (device.visualPrefab)
             {
                 var preview = AssetPreview.GetAssetPreview(device.visualPrefab) ?? AssetPreview.GetMiniThumbnail(device.visualPrefab);
@@ -1090,6 +1094,55 @@ namespace ANIMOL.Presentation.Editor
                             Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + (device.position.x + offset.x) * cellSize,
                                 origin.y + (shownHeight - device.position.y - offset.y - 1) * cellSize, cellSize, cellSize),
                                 new Color(1f, .25f, .1f, .16f), new Color(1f, .35f, .1f, .9f));
+            }
+            Handles.color = previous;
+        }
+        void DrawRanchDecorationPreview(DecorationCell decor, int shownHeight, Vector2 origin, Rect visible)
+        {
+            var source = RanchConnectedDecorHost.SourceMapping(map, decor.sprite);
+            var center = (Vector2)decor.position + new Vector2(
+                source == null ? 0 : (source.width - 1) * .5f,
+                source == null ? 0 : (source.height - 1) * .5f);
+            var preview = decor.sprite == map.theme.starwayRanch.Find("props/windmill_body.png")
+                ? map.theme.starwayRanch.Find("props/windmill.png") : decor.sprite;
+            DrawWorldSpriteAt(center, preview ? preview : map.theme.decoration,
+                shownHeight, origin, visible);
+        }
+        void DrawOffscreenRanchDecorationPreviews(int xMin, int xMax, int yMin, int yMax,
+            int shownHeight, Vector2 origin, Rect visible)
+        {
+            if (!map.theme || !map.theme.starwayRanch) return;
+            foreach (var decor in map.decorations)
+            {
+                if (!map.Contains(decor.position) || !string.IsNullOrEmpty(decor.visualFamily) ||
+                    RanchConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                var row = shownHeight - 1 - decor.position.y;
+                if (decor.position.x >= xMin && decor.position.x < xMax && row >= yMin && row < yMax) continue;
+                DrawRanchDecorationPreview(decor, shownHeight, origin, visible);
+            }
+        }
+        void DrawDeviceDirectionBadges(int xMin, int xMax, int yMin, int yMax,
+            int shownHeight, Vector2 origin)
+        {
+            if (!map.scenario) return;
+            var previous = Handles.color;
+            foreach (var device in map.scenario.devices)
+            {
+                var p = device.position;
+                var row = shownHeight - 1 - p.y;
+                if (p.x < xMin || p.x >= xMax || row < yMin || row >= yMax ||
+                    !PuzzleSession.IsCardinal(device.direction)) continue;
+                var size = Mathf.Clamp(cellSize * .34f, 12f, 22f);
+                var box = new Rect(origin.x + (p.x + 1) * cellSize - size - 2,
+                    origin.y + row * cellSize + 2, size, size);
+                EditorGUI.DrawRect(box, new Color(.02f, .08f, .14f, .94f));
+                var vector = new Vector2(device.direction.x, -device.direction.y);
+                var normal = new Vector2(-vector.y, vector.x);
+                var tip = box.center + vector * (size * .32f);
+                Handles.color = device.id == selectedDeviceId ? new Color(.2f, 1f, .9f) : Color.white;
+                Handles.DrawAAPolyLine(3f, box.center - vector * (size * .25f), tip);
+                Handles.DrawAAPolyLine(3f, tip - vector * (size * .18f) + normal * (size * .16f),
+                    tip, tip - vector * (size * .18f) - normal * (size * .16f));
             }
             Handles.color = previous;
         }
@@ -1169,6 +1222,16 @@ namespace ANIMOL.Presentation.Editor
         }
         static void DrawSprite(Rect r, Sprite sprite)
         { if (!sprite) return; var t = sprite.texture; var s = sprite.rect; GUI.DrawTextureWithTexCoords(r, t, new Rect(s.x / t.width, s.y / t.height, s.width / t.width, s.height / t.height)); }
+        static void DrawSpriteFitted(Rect bounds, Sprite sprite)
+        {
+            if (!sprite) return;
+            var rect = sprite.rect;
+            var scale = Mathf.Min(bounds.width / rect.width, bounds.height / rect.height);
+            var width = rect.width * scale;
+            var height = rect.height * scale;
+            DrawSprite(new Rect(bounds.center.x - width * .5f, bounds.center.y - height * .5f,
+                width, height), sprite);
+        }
         void DrawWorldSprite(Rect cell, Sprite sprite)
         { DrawWorldSprite(cell.center, sprite); }
         void DrawWorldSpriteAt(Vector2 position, Sprite sprite, int shownHeight, Vector2 origin, Rect visible)
@@ -1282,8 +1345,8 @@ namespace ANIMOL.Presentation.Editor
             var source = RanchConnectedDecorHost.SourceMapping(target, sprite);
             var theaterSource = TheaterConnectedDecorHost.IsTheater(target)
                 ? TheaterConnectedDecorHost.SourceMapping(target.theme, sprite) : null;
-            var width = theaterSource != null ? theaterSource.width : source == null ? 1 : source.width;
-            var height = theaterSource != null ? theaterSource.height : source == null ? 1 : source.height;
+            var width = theaterSource != null ? theaterSource.width : source == null ? 1 : source.occupiedWidth;
+            var height = theaterSource != null ? theaterSource.height : source == null ? 1 : source.occupiedHeight;
             for (var y = 0; y < height; y++) for (var x = 0; x < width; x++)
             {
                 var p = anchor + new Vector2Int(x, y);

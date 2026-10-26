@@ -348,6 +348,38 @@ namespace ANIMOL.Tests
             Assert.That(session.WindRouteFor("blower"),Is.Null);
             Assert.That(session.WindCells.Keys.Any(p=>p.y==4),Is.False);
         }
+        [TestCase(1, 4)][TestCase(2, 7)][TestCase(3, 10)]
+        public void ActiveBlowerCarriesPlayerToLastWindCellInOneAction(int phase, int destinationX)
+        {
+            var map=Clone(20);map.Resize(14,7);
+            for(var x=8;x<=12;x++)map.SetTerrain(new Vector2Int(x,4),TerrainMaterial.Grass);
+            map.scenario.devices.First(d=>d.id=="metal").position=new Vector2Int(12,4);
+            map.scenario.devices.First(d=>d.id=="blower").orientation=phase;
+            map.start=new Vector2Int(2,3);
+            var session=new PuzzleDeviceSession(map);
+            var action=session.Apply(Vector2Int.up);
+            Assert.That(action.accepted,Is.True);
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(destinationX,4)));
+            Assert.That(session.Cost,Is.EqualTo(1));
+            Assert.That(action.events.Count(e=>e.actor=="player"&&e.kind==PrototypeEventKind.Move),
+                Is.EqualTo(destinationX-1));
+        }
+        [TestCase(2)][TestCase(3)]
+        public void BrakeStopsPlayerOnItsWindCell(int brakeX)
+        {
+            var map=Clone(20);
+            map.scenario.devices.First(d=>d.id=="metal").position=new Vector2Int(7,4);
+            map.scenario.devices.First(d=>d.id=="blower").orientation=1;
+            map.scenario.devices.Add(new PrototypeDevice{id="wind_brake",role=PrototypeRole.Brake,
+                position=new Vector2Int(brakeX,4),direction=Vector2Int.right});
+            map.start=new Vector2Int(2,3);
+            var session=new PuzzleDeviceSession(map);
+            var action=session.Apply(Vector2Int.up);
+            Assert.That(action.accepted,Is.True);
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(brakeX,4)));
+            Assert.That(session.Cost,Is.EqualTo(1));
+            Assert.That(action.events.Any(e=>e.actor=="wind_brake"&&e.eventName=="forced_motion_stopped"),Is.True);
+        }
         [Test] public void OneWayGateCrossesInOneActionAndRejectsABlockedOutlet()
         {
             var map=Clone(9);var session=new PuzzleDeviceSession(map);

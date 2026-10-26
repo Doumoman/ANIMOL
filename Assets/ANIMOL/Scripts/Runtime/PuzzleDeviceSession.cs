@@ -283,7 +283,8 @@ namespace ANIMOL.Puzzle
         }
         void Automatic()
         {
-            var seen = new HashSet<string>(); var arrivedFromPortal = false; var windUsed = false;
+            var seen = new HashSet<string>(); var arrivedFromPortal = false;
+            var windCued = new HashSet<string>(StringComparer.Ordinal);
             for (int limit = 0; limit < Map.Width * Map.Height * 8; limit++)
             {
                 if (!seen.Add(Cell + ":" + Direction + ":" + forced + ":" + sliding + ":" + arrivedFromPortal)) return;
@@ -317,7 +318,10 @@ namespace ANIMOL.Puzzle
                     Visual(leap, "land_" + Dir(Direction), "existing_leap_landed"); return;
                 }
                 var brake = At(Cell, d => d.role == PrototypeRole.Brake);
-                if (brake != null && forced) { Visual(brake, "brake_" + (brake.variant == "vertical" ? "vertical" : "horizontal"), "forced_motion_stopped"); return; }
+                var onBlowerWind = windOwners.TryGetValue(Cell, out var activeWindOwner) &&
+                    Definition(activeWindOwner)?.variant == "blower";
+                if (brake != null && (forced || onBlowerWind))
+                { Visual(brake, "brake_" + (brake.variant == "vertical" ? "vertical" : "horizontal"), "forced_motion_stopped"); return; }
                 var conveyor = At(Cell, d => d.role == PrototypeRole.Conveyor);
                 var wind = WindCells.TryGetValue(Cell, out var windDirection);
                 PrototypeDevice windSource = null;
@@ -328,8 +332,10 @@ namespace ANIMOL.Puzzle
                     windSource = windOwners.TryGetValue(Cell, out var owner) ? Definition(owner) : null;
                     if (windSource != null && windSource.variant == "blower")
                     {
-                        if (windUsed) return;
-                        windUsed = true;
+                        var route = WindRouteFor(windSource.id);
+                        var next = Cell + Direction;
+                        if (route == null || !route.TryGetForce(new WindGridCell(next.x, next.y), out _)) return;
+                        if (!windCued.Add(windSource.id)) windSource = null;
                     }
                 }
                 else if (At(Cell, d => d.role == PrototypeRole.Ice) != null) { forced = sliding = true; }

@@ -113,7 +113,7 @@ public sealed class RanchConnectedDecorHostTests
     }
 
     [Test]
-    public void WindmillPreviewShowsRotorAndItsFullFootprintBlocksMovement()
+    public void WindmillKeepsFullArtButBlocksOnlyTwoFrontCells()
     {
         var body = Source("windmill_body");
         var full = Source("windmill");
@@ -124,8 +124,11 @@ public sealed class RanchConnectedDecorHostTests
         var anchor = new Vector2Int(2, 3);
         Assert.IsTrue(PuzzleMapEditor.TryPlaceDecoration(map, body, anchor, Color.white,
             "", 0, 0, out var error), error);
-        for (var y = 3; y <= 4; y++) for (var x = 2; x <= 3; x++)
-            Assert.IsFalse(map.Walkable(new Vector2Int(x, y)));
+        for (var x = 2; x <= 3; x++)
+        {
+            Assert.IsFalse(map.Walkable(new Vector2Int(x, 3)));
+            Assert.IsTrue(map.Walkable(new Vector2Int(x, 4)));
+        }
         Assert.IsTrue(map.Walkable(new Vector2Int(4, 4)));
         var host = new GameObject("windmill view test");
         try
@@ -133,11 +136,13 @@ public sealed class RanchConnectedDecorHostTests
             host.AddComponent<PuzzleMapView>().Bind(map);
             var motion = host.GetComponentInChildren<StarwayRanchV12RotorVisual>();
             Assert.NotNull(motion);
-            Assert.AreEqual(new Vector3(2.5f, 3.5f), motion.transform.localPosition);
-            Assert.AreSame(body, motion.transform.Find("Fixed body").GetComponent<SpriteRenderer>().sprite);
+            Assert.AreEqual(new Vector3(3f, 4f), motion.transform.localPosition);
+            var renderer = motion.transform.Find("Fixed body").GetComponent<SpriteRenderer>();
+            Assert.AreSame(body, renderer.sprite);
+            Assert.Greater(renderer.sortingOrder, 40);
             Assert.AreSame(Source("windmill_rotor"),
                 motion.transform.Find("Four blade rotor").GetComponent<SpriteRenderer>().sprite);
-            Assert.IsTrue(PuzzleMapEditor.TryEraseDecoration(map, new Vector2Int(3, 4)));
+            Assert.IsTrue(PuzzleMapEditor.TryEraseDecoration(map, new Vector2Int(3, 3)));
             for (var y = 3; y <= 4; y++) for (var x = 2; x <= 3; x++)
                 Assert.IsTrue(map.Walkable(new Vector2Int(x, y)));
         }
@@ -149,6 +154,11 @@ public sealed class RanchConnectedDecorHostTests
     {
         Assert.IsTrue(PuzzleMapEditor.TryPlaceDecoration(map, Source("ranch_barn"),
             new Vector2Int(2, 3), Color.white, "", 0, 0, out var error), error);
+        for (var x = 2; x <= 4; x++)
+        {
+            Assert.IsFalse(map.Walkable(new Vector2Int(x, 3)));
+            Assert.IsTrue(map.Walkable(new Vector2Int(x, 4)));
+        }
         var node = new GameObject("connected decor host test");
         try
         {
@@ -163,6 +173,7 @@ public sealed class RanchConnectedDecorHostTests
             Assert.AreEqual(1, controller.OwnedVisualCount);
             Assert.AreEqual(1, node.GetComponentsInChildren<SpriteRenderer>().Length);
             Assert.AreEqual(new Vector3(3, 3.5f), node.GetComponentInChildren<SpriteRenderer>().transform.position);
+            Assert.Greater(node.GetComponentInChildren<SpriteRenderer>().sortingOrder, 40);
             // A bad submitted snapshot is fail-closed; a host-rejected edit leaves the old layout untouched.
             LogAssert.Expect(LogType.Error, new Regex("Decoration snapshot rejected atomically"));
             Assert.IsFalse(controller.SetLayout(new List<RanchDecorNetworkCell>(),

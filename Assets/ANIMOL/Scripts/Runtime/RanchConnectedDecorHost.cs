@@ -12,11 +12,19 @@ namespace ANIMOL.Puzzle
         public sealed class Mapping
         {
             public readonly string sourceId, family, groupKey;
-            public readonly int width, height;
+            public readonly int width, height, occupiedWidth, occupiedHeight;
             public bool IsGroup => groupKey != null;
-            public Mapping(string sourceId, string family, string groupKey, int width, int height)
-            { this.sourceId = sourceId; this.family = family; this.groupKey = groupKey; this.width = width; this.height = height; }
+            public Mapping(string sourceId, string family, string groupKey, int width, int height,
+                int occupiedWidth = 0, int occupiedHeight = 0)
+            {
+                this.sourceId = sourceId; this.family = family; this.groupKey = groupKey;
+                this.width = width; this.height = height;
+                this.occupiedWidth = occupiedWidth > 0 ? occupiedWidth : width;
+                this.occupiedHeight = occupiedHeight > 0 ? occupiedHeight : height;
+            }
         }
+
+        public const int ForegroundSortingOrder = 41;
 
         public static readonly Mapping[] Mappings = {
             new Mapping("props/fence_horizontal.png", RanchConnectedDecorV01Planner.CreamFence, null, 2, 1),
@@ -27,7 +35,7 @@ namespace ANIMOL.Puzzle
             new Mapping("props/clover_flowers.png", RanchConnectedDecorV01Planner.Meadow, null, 1, 1),
             new Mapping("props/hay_pair.png", null, "hay_store_2x1", 2, 1),
             new Mapping("props/clover_tree.png", null, "tree_flower_corner_2x2", 2, 2),
-            new Mapping("props/ranch_barn.png", null, "barnyard_3x2", 3, 2),
+            new Mapping("props/ranch_barn.png", null, "barnyard_3x2", 3, 2, 3, 1),
             new Mapping("props/water_trough.png", null, "feeding_corner_3x1", 3, 1)
         };
         public static readonly Mapping[] DirectCells = {
@@ -40,7 +48,7 @@ namespace ANIMOL.Puzzle
             new Mapping("props/ranch_gate.png", null, null, 2, 1),
             new Mapping("props/wheelbarrow.png", null, null, 1, 2),
             new Mapping("props/crate_pair.png", null, null, 2, 1),
-            new Mapping("props/windmill_body.png", null, null, 2, 2)
+            new Mapping("props/windmill_body.png", null, null, 2, 2, 2, 1)
         };
 
         public static Mapping SourceMapping(PuzzleMap map, Sprite sprite)
@@ -90,13 +98,22 @@ namespace ANIMOL.Puzzle
         {
             var mapping = SourceMapping(map, cell);
             if (mapping == null) return cell.position == position;
-            return position.x >= cell.position.x && position.x < cell.position.x + mapping.width &&
-                position.y >= cell.position.y && position.y < cell.position.y + mapping.height;
+            return position.x >= cell.position.x && position.x < cell.position.x + mapping.occupiedWidth &&
+                position.y >= cell.position.y && position.y < cell.position.y + mapping.occupiedHeight;
         }
 
         public static bool AllowClaim(PuzzleMap map, IList<DecorationCell> decorations, RanchDecorClaim claim)
         {
             var p = new Vector2Int(claim.cell.x, claim.cell.y);
+            // The barn's second visual row is roof/courtyard overhang. Its native
+            // 3x2 Sprite still renders, while only the front 3x1 row blocks travel.
+            if (claim.isGroup && claim.family == "barnyard_3x2")
+                foreach (var cell in decorations)
+                    if (SourceMapping(map, cell)?.groupKey == claim.family &&
+                        cell.logicalLayer == claim.logicalLayer && cell.heightKey == claim.heightKey &&
+                        p.y == cell.position.y + 1 &&
+                        p.x >= cell.position.x && p.x < cell.position.x + 3)
+                        return true;
             if (!map.Contains(p)) return false;
             // The old decoration brush allowed every in-bounds cell. Only the
             // exposed Stone/Sand edges owned by V12 bridge_decor are reserved here.
@@ -127,7 +144,8 @@ namespace ANIMOL.Puzzle
                 {
                     var id = string.IsNullOrEmpty(cell.placementId) ? "legacy:" + index : cell.placementId;
                     groups.Add(new RanchDecorGroupPlacement(id, mapping.groupKey, cell.position.x, cell.position.y,
-                        cell.logicalLayer, cell.heightKey, 15));
+                        cell.logicalLayer, cell.heightKey,
+                        mapping.groupKey == "barnyard_3x2" ? ForegroundSortingOrder : 15));
                 }
                 else
                 {
