@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ANIMOL.Art.EchoTheaterV03;
+using ANIMOL.Art.StarSwellCoastV01;
+using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Puzzle;
 using UnityEditor;
 using UnityEngine;
@@ -625,6 +628,52 @@ namespace ANIMOL.Presentation.Editor
             var center = PuzzleFollowCamera.Clamp(focus, data.Width, data.Height, halfHeight, aspect);
             return new Rect(center.x - halfWidth, center.y - halfHeight, halfWidth * 2, rows);
         }
+        public static string[] TheaterTerrainRows(PuzzleMap data)
+        {
+            var occupancy = new bool[data.Width, data.Height];
+            for (var y = 0; y < data.Height; y++) for (var x = 0; x < data.Width; x++)
+                occupancy[x, y] = data.TryTerrain(new Vector2Int(x, data.Height - 1 - y), out _);
+            var layout = data.theme.memorySkyTheater.defaultLayout;
+            var deck = layout ? new HashSet<Vector2Int>(layout.visualDeck) : new HashSet<Vector2Int>();
+            var carpet = layout ? new HashSet<Vector2Int>(layout.velvet) : new HashSet<Vector2Int>();
+            return EchoTheaterV03MaterialSelector.BuildVisualMaterialRows(occupancy,
+                (x, y) => deck.Contains(new Vector2Int(x, data.Height - 1 - y)),
+                (x, y) => carpet.Contains(new Vector2Int(x, data.Height - 1 - y)));
+        }
+        public static Sprite TerrainPreviewSprite(PuzzleMap data, Vector2Int p, string[] theaterRows = null)
+        {
+            if (!data.theme || !data.TryTerrain(p, out var tile)) return null;
+            var theme = data.theme;
+            if (theme.memorySkyTheater && theme.memorySkyTheater.v02)
+            {
+                var rows = theaterRows ?? TheaterTerrainRows(data);
+                return theme.memorySkyTheater.v02.Find(EchoTheaterV03MaterialSelector.GetTopSpritePath(
+                    rows, p.x, data.Height - 1 - p.y));
+            }
+            if (theme.sunsetSanctumV02Catalog)
+            {
+                var material = tile.material == TerrainMaterial.Stone ? SunsetSanctumV02TerrainSelector.Material.StoneBridge :
+                    tile.material == TerrainMaterial.Sand ? SunsetSanctumV02TerrainSelector.Material.WoodBridge :
+                    SunsetSanctumV02TerrainSelector.Material.SanctumFloor;
+                var mask = SunsetSanctumV02TerrainSelector.NeighborMask(
+                    (x, y) => data.TryTerrain(new Vector2Int(x, y), out _), p.x, p.y);
+                var file = SunsetSanctumV02TerrainSelector.File(material, mask);
+                return theme.sunsetSanctumV02Catalog.TryGetPart(file, SunsetSanctumV02PuzzleBinding.ManifestSha256,
+                    out var part, out _) ? part.Frame.Sprite : null;
+            }
+            if (theme.starSwellCoastV01Catalog)
+            {
+                var material = tile.material == TerrainMaterial.Stone ? StarSwellCoastV01TerrainSelector.Material.StoneBridge :
+                    tile.material == TerrainMaterial.Sand ? StarSwellCoastV01TerrainSelector.Material.WoodBridge :
+                    StarSwellCoastV01TerrainSelector.Material.CoastSand;
+                var mask = StarSwellCoastV01TerrainSelector.NeighborMask(
+                    (x, y) => data.TryTerrain(new Vector2Int(x, y), out _), p.x, p.y);
+                var file = StarSwellCoastV01TerrainSelector.File(material, mask);
+                return theme.starSwellCoastV01Catalog.TryGetPart(file, StarSwellCoastV01PuzzleBinding.ManifestSha256,
+                    out var part, out _) ? part.Frame.Sprite : null;
+            }
+            return null;
+        }
         void DrawGrid(Rect viewport)
         {
             var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position))
@@ -651,6 +700,10 @@ namespace ANIMOL.Presentation.Editor
             var yMin = Mathf.Max(0, Mathf.FloorToInt((gridScroll.y - origin.y) / cellSize));
             var yMax = Mathf.Min(shownHeight, Mathf.CeilToInt((gridScroll.y + viewport.height - origin.y) / cellSize));
             var islandArt = map.theme ? map.theme.skyIsland : null;
+            var latestTerrain = map.theme && (map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02 ||
+                map.theme.sunsetSanctumV02Catalog || map.theme.starSwellCoastV01Catalog);
+            var theaterRows = latestTerrain && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02
+                ? TheaterTerrainRows(map) : null;
             if (islandArt)
             {
                 // Paint every base first, then the entire underside before any grass.
@@ -668,6 +721,9 @@ namespace ANIMOL.Presentation.Editor
                     DrawSprite(new Rect(origin.x + x * cellSize, origin.y + (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
                 }
             }
+            if (latestTerrain && Event.current.type == EventType.Repaint)
+                DrawThemedUndersides(theaterRows, shownHeight, origin,
+                    new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
             for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
             {
                 var p = new Vector2Int(x, shownHeight - 1 - row);
@@ -675,22 +731,38 @@ namespace ANIMOL.Presentation.Editor
                 if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
                 if (map.TryTerrain(p, out var tile))
                 {
-                    var shape = PuzzleAutotile.Resolve(map, p); var art = map.theme ? map.theme.Art(tile.material) : null;
-                    if (islandArt && SkyIslandAutotile.UsesArt(map, p))
+                    if (latestTerrain)
                     {
-                        var islandShape = SkyIslandAutotile.Resolve(map, p);
-                        DrawSprite(new Rect(rect.x, rect.y, cellSize, cellSize), islandArt.Find(islandShape.exposure, islandShape.innerCorners).grass);
-                    }
-                    else if (art != null && art.outer.Length == 16)
-                    {
-                        for (var i = 0; i < 4; i++)
+                        var sprite = TerrainPreviewSprite(map, p, theaterRows);
+                        if (sprite)
                         {
-                            var source = (shape.innerCorners & (1 << i)) != 0 && i < art.inner.Length ? art.inner[i] : art.outer[shape.exposure];
-                            var offset = PuzzleTerrainSprites.Offset(i);
-                            DrawSprite(new Rect(rect.x + (offset.x + .25f) * rect.width, rect.y + (.25f - offset.y) * rect.height, rect.width * .5f, rect.height * .5f), PuzzleTerrainSprites.Quadrant(source, i));
+                            var previousColor = GUI.color;
+                            GUI.color = tile.blocked ? new Color(.42f, .45f, .55f) : Color.white;
+                            DrawWorldSprite(rect, sprite);
+                            GUI.color = previousColor;
                         }
+                        else GUI.Label(rect, "그림 없음", EditorStyles.whiteMiniLabel);
                     }
-                    else EditorGUI.DrawRect(rect, tile.material == TerrainMaterial.Grass ? new Color(.25f, .5f, .38f) : new Color(.5f, .5f, .6f));
+                    else
+                    {
+                        var shape = PuzzleAutotile.Resolve(map, p);
+                        var art = map.theme ? map.theme.Art(tile.material) : null;
+                        if (islandArt && SkyIslandAutotile.UsesArt(map, p))
+                        {
+                            var islandShape = SkyIslandAutotile.Resolve(map, p);
+                            DrawSprite(new Rect(rect.x, rect.y, cellSize, cellSize), islandArt.Find(islandShape.exposure, islandShape.innerCorners).grass);
+                        }
+                        else if (art != null && art.outer.Length == 16)
+                        {
+                            for (var i = 0; i < 4; i++)
+                            {
+                                var source = (shape.innerCorners & (1 << i)) != 0 && i < art.inner.Length ? art.inner[i] : art.outer[shape.exposure];
+                                var offset = PuzzleTerrainSprites.Offset(i);
+                                DrawSprite(new Rect(rect.x + (offset.x + .25f) * rect.width, rect.y + (.25f - offset.y) * rect.height, rect.width * .5f, rect.height * .5f), PuzzleTerrainSprites.Quadrant(source, i));
+                            }
+                        }
+                        else EditorGUI.DrawRect(rect, tile.material == TerrainMaterial.Grass ? new Color(.25f, .5f, .38f) : new Color(.5f, .5f, .6f));
+                    }
                     if (tile.blocked) GUI.Label(rect, "#");
                 }
                 foreach (var decor in map.decorations.Where(a => a.position == p)) DrawSprite(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
@@ -856,6 +928,65 @@ namespace ANIMOL.Presentation.Editor
         }
         static void DrawSprite(Rect r, Sprite sprite)
         { if (!sprite) return; var t = sprite.texture; var s = sprite.rect; GUI.DrawTextureWithTexCoords(r, t, new Rect(s.x / t.width, s.y / t.height, s.width / t.width, s.height / t.height)); }
+        void DrawWorldSprite(Rect cell, Sprite sprite)
+        { DrawWorldSprite(cell.center, sprite); }
+        void DrawWorldSpriteAt(Vector2 position, Sprite sprite, int shownHeight, Vector2 origin, Rect visible)
+        {
+            if (!sprite) return;
+            var pivot = new Vector2(origin.x + (position.x + .5f) * cellSize,
+                origin.y + (shownHeight - position.y - .5f) * cellSize);
+            var rect = WorldSpriteRect(pivot, sprite);
+            if (rect.Overlaps(visible)) DrawSprite(rect, sprite);
+        }
+        void DrawWorldSprite(Vector2 screenPivot, Sprite sprite)
+        {
+            if (!sprite) return;
+            DrawSprite(WorldSpriteRect(screenPivot, sprite), sprite);
+        }
+        Rect WorldSpriteRect(Vector2 screenPivot, Sprite sprite)
+        {
+            var pixelsToGrid = cellSize / sprite.pixelsPerUnit;
+            var rect = sprite.rect;
+            return new Rect(screenPivot.x - sprite.pivot.x * pixelsToGrid,
+                screenPivot.y - (rect.height - sprite.pivot.y) * pixelsToGrid,
+                rect.width * pixelsToGrid, rect.height * pixelsToGrid);
+        }
+        void DrawThemedUndersides(string[] theaterRows, int shownHeight, Vector2 origin, Rect visible)
+        {
+            var theme = map.theme;
+            if (theaterRows != null)
+            {
+                foreach (var finish in EchoTheaterV03MaterialSelector.GetBottomFinishes(theaterRows))
+                    DrawWorldSpriteAt(new Vector2(finish.CenterCellX, map.Height - 1 - finish.CenterCellY),
+                        theme.memorySkyTheater.v02.Find(finish.File), shownHeight, origin, visible);
+                return;
+            }
+            if (theme.sunsetSanctumV02Catalog)
+            {
+                char MaterialAt(int x, int y) => map.TryTerrain(new Vector2Int(x, y), out var tile) ?
+                    tile.material == TerrainMaterial.Stone ? 'S' : tile.material == TerrainMaterial.Sand ? 'W' : 'G' : '0';
+                foreach (var run in SunsetSanctumV02UndersideSelector.SelectRuns(MaterialAt, 0, 0,
+                    map.Width - 1, map.Height - 1))
+                    foreach (var placement in SunsetSanctumV02UndersideSelector.Plan(run, 0))
+                        if (theme.sunsetSanctumV02Catalog.TryGetPart(placement.file,
+                            SunsetSanctumV02PuzzleBinding.ManifestSha256, out var part, out _))
+                            DrawWorldSpriteAt(new Vector2(placement.logicalCenterX - .5f, placement.logicalCenterY - .5f),
+                                part.Frame.Sprite, shownHeight, origin, visible);
+                return;
+            }
+            if (theme.starSwellCoastV01Catalog)
+            {
+                char MaterialAt(int x, int y) => map.TryTerrain(new Vector2Int(x, y), out var tile) ?
+                    tile.material == TerrainMaterial.Stone ? 'S' : tile.material == TerrainMaterial.Sand ? 'W' : 'A' : '0';
+                foreach (var run in StarSwellCoastV01UndersideSelector.SelectRuns(MaterialAt, 0, 0,
+                    map.Width - 1, map.Height - 1))
+                    foreach (var placement in StarSwellCoastV01UndersideSelector.Plan(run, 0))
+                        if (theme.starSwellCoastV01Catalog.TryGetPart(placement.file,
+                            StarSwellCoastV01PuzzleBinding.ManifestSha256, out var part, out _))
+                            DrawWorldSpriteAt(new Vector2(placement.logicalCenterX - .5f, placement.logicalCenterY - .5f),
+                                part.Frame.Sprite, shownHeight, origin, visible);
+            }
+        }
         void Paint(Vector2Int p, bool remove)
         {
             if (layer == Layer.Terrain) { if (remove) map.RemoveTerrain(p); else map.SetTerrain(p, material, blocked); }

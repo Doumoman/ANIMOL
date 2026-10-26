@@ -235,6 +235,30 @@ namespace ANIMOL.Presentation.Tests
             }
             finally { Object.DestroyImmediate(host); }
         }
+        [TestCase("memory_theater")]
+        [TestCase("letter_observatory")]
+        [TestCase("twilight_sea")]
+        public void EditorTerrainPreviewMatchesTheCurrentRuntimeTile(string themeId)
+        {
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/" + themeId + "_Theme.asset");
+            Fill();
+            var cell = new Vector2Int(2, 2);
+            map.SetTerrain(cell, TerrainMaterial.Stone);
+            var preview = PuzzleMapEditor.TerrainPreviewSprite(map, cell);
+            Assert.That(preview, Is.Not.Null, themeId);
+            var host = new GameObject("Current theme tile test");
+            try
+            {
+                host.AddComponent<PuzzleMapView>().Bind(map);
+                var name = themeId == "memory_theater" ? "Floor 2,2" :
+                    themeId == "letter_observatory" ? "V02 terrain " + cell : "Coast V01 land " + cell;
+                var runtime = host.GetComponentsInChildren<SpriteRenderer>()
+                    .First(renderer => renderer.name.StartsWith(name));
+                Assert.That(preview, Is.SameAs(runtime.sprite), themeId);
+            }
+            finally { Object.DestroyImmediate(host); }
+        }
         [Test] public void StampingPortalCopiesArtAndOffsetsDestinationWithoutMutatingTemplate()
         {
             var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry => entry.device.role == PrototypeRole.Portal).device;
