@@ -47,29 +47,58 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(controller.IsMoving, Is.False);
         }
 
-        [UnityTest] public IEnumerator PondUsesTwoCellVisualAndCrossingRestoresOnUndo()
+        [UnityTest] public IEnumerator PondUsesOnePairVisualAndCrossingRestoresOnUndo()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sluice", position = map.start, instanceId = "pond" });
             controller.Load(map); yield return null;
-            var pair = controller.GetComponentInChildren<RanchPondPairVisualR2>();
+            var pair = controller.GetComponentInChildren<RanchPondSluiceVisualR3>();
             Assert.That(pair, Is.Not.Null);
-            Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Length, Is.EqualTo(2));
+            Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Length, Is.EqualTo(1));
             Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
-                Is.EquivalentTo(new[] { "pond_cell/dry", "pond_cell/wet" }));
+                Is.EquivalentTo(new[] { "pond_pair/horizontal/east_wet" }));
             Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
             yield return new WaitForSeconds(.1f);
             Assert.That(controller.IsMoving, Is.True);
             Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
-                Is.EquivalentTo(new[] { "pond_cell/fill", "pond_cell/drain" }));
+                Is.EquivalentTo(new[] { "pond_pair/horizontal/water_west" }));
             yield return WaitIdle();
             Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 2)));
             Assert.That(controller.Session.Cost, Is.EqualTo(1));
             Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
-                Is.EquivalentTo(new[] { "pond_cell/wet", "pond_cell/dry" }));
+                Is.EquivalentTo(new[] { "pond_pair/horizontal/west_wet" }));
             Assert.That(controller.UndoLast(), Is.True);
             Assert.That(controller.Session.Cell, Is.EqualTo(map.start));
             Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
-                Is.EquivalentTo(new[] { "pond_cell/dry", "pond_cell/wet" }));
+                Is.EquivalentTo(new[] { "pond_pair/horizontal/east_wet" }));
+        }
+
+        [UnityTest] public IEnumerator VerticalPondTransfersWaterSouthWhilePlayerTravelsNorth()
+        {
+            map.start = new Vector2Int(2, 2);
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sluice", position = map.start,
+                direction = Vector2Int.up, instanceId = "vertical_pond" });
+            controller.Load(map); yield return null;
+            var pair = controller.GetComponentInChildren<RanchPondSluiceVisualR3>();
+            var visual = pair.GetComponentInChildren<RanchDeviceVisualV13>();
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
+            Assert.That(pair.transform.localPosition, Is.EqualTo(new Vector3(2, 2.5f, 0)));
+            Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+            yield return new WaitForSeconds(.2f);
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/water_south"));
+            Assert.That(controller.Player.position.y, Is.GreaterThan(2f).And.LessThan(3f));
+            Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 3)));
+            Assert.That(controller.Session.RanchWet(new Vector2Int(2, 2)), Is.True);
+            yield return WaitIdle();
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/south_wet"));
+            Assert.That(controller.RequestMove(Vector2Int.down), Is.True);
+            yield return WaitIdle();
+            Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(controller.Session.Cost, Is.EqualTo(2));
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
+            Assert.That(controller.UndoLast(), Is.True);
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/south_wet"));
+            controller.ResetStage();
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
         }
 
         [UnityTest] public IEnumerator SheepAndGrassDisappearThenUndoRestoresVisuals()
@@ -115,6 +144,60 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(controller.Session.RanchPonds["qa_pond"], Is.False);
             Assert.That(controller.Session.RanchSheep.ContainsKey("qa_sheep"), Is.True);
             Assert.That(controller.Session.RanchGrassPresent(new Vector2Int(5, 2)), Is.True);
+        }
+
+        [UnityTest] public IEnumerator SavedVerticalQaMapCrossesBothWaysAndResetsWaterPhase()
+        {
+            var qa = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/StarwayRanchVerticalQA.asset");
+            Assert.That(qa, Is.Not.Null);
+            Assert.That(qa.ValidateMap(), Is.Empty);
+            controller.Load(qa); yield return null;
+            var pair = controller.GetComponentInChildren<RanchPondSluiceVisualR3>();
+            var visual = pair.GetComponentInChildren<RanchDeviceVisualV13>();
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
+            Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+            yield return WaitIdle();
+            Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 3)));
+            Assert.That(controller.Session.RanchWet(new Vector2Int(2, 2)), Is.True);
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/south_wet"));
+            Assert.That(controller.RequestMove(Vector2Int.down), Is.True);
+            yield return WaitIdle();
+            Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
+            Assert.That(controller.Session.Cost, Is.EqualTo(2));
+            controller.ResetStage();
+            Assert.That(controller.Session.Cost, Is.Zero);
+            Assert.That(visual.CurrentKey, Is.EqualTo("pond_pair/vertical/north_wet"));
+        }
+
+        [UnityTest] public IEnumerator VerticalPondReenableRestoreAndReloadUseTheCommittedPhase()
+        {
+            var qa = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/StarwayRanchVerticalQA.asset");
+            controller.Load(qa); yield return null;
+            Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+            yield return WaitIdle();
+            var saved = controller.Session.Copy();
+            var view = controller.GetComponentInChildren<PuzzleMapView>();
+            view.gameObject.SetActive(false);
+            view.gameObject.SetActive(true);
+            yield return null;
+            Assert.That(controller.GetComponentInChildren<RanchPondSluiceVisualR3>()
+                .GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("pond_pair/vertical/south_wet"));
+            controller.ResetStage();
+            Assert.That(controller.GetComponentInChildren<RanchPondSluiceVisualR3>()
+                .GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("pond_pair/vertical/north_wet"));
+            controller.RestoreSnapshot(saved);
+            Assert.That(controller.GetComponentInChildren<RanchPondSluiceVisualR3>()
+                .GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("pond_pair/vertical/south_wet"));
+            controller.Load(qa); yield return null;
+            Assert.That(controller.GetComponentInChildren<RanchPondSluiceVisualR3>()
+                .GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("pond_pair/vertical/north_wet"));
         }
 
         [UnityTest] public IEnumerator SheepSortingUsesGroundContactAboveAndBelowThePlayer()

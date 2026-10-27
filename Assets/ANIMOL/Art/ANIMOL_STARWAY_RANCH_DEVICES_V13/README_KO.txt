@@ -1,17 +1,16 @@
-ANIMOL 별길 목장 장치 V13 R2 / installationRevision 2
+ANIMOL 별길 목장 장치 V13 R3 / installationRevision 3
 
-수문을 댐/레버에서 구덩이·물웅덩이 교환형으로 바꾸고, 양의 직접 밀기/섭취/소멸 규칙을 수정했다.
-실사용 PNG 277개 / 애니메이션 정의 150개.
-기존 PNG 경로 267개를 유지하며, 그 중 수문 6개가 새 그림이다. 구덩이 셀 6개와 양 퍼프 4개를 추가했다.
-새 원화와 프롬프트는 Authoring~에, 최신 규칙과 적용 명령은 DEVICE_RULES_KO.txt / UNITY_APPLY_CLI_KO.txt에 있다.
+물웅덩이와 구덩이 사이에 낮은 연결 수로와 작은 개폐 수문을 추가했다.
+가로 2×1 / 세로 1×2, 네 방향 물 흐름을 별도 스프라이트로 제공한다.
+물이 흐르는 방향은 행동 전 물칸→마른 칸, 플레이어 방향은 그 반대다.
+열림→이동하는 물결→수위 이전→닫힘의 12프레임, 12fps(1초)이며 게임 판정은 애니메이션과 분리된다.
 
-수문: 마른 칸→짝 물칸으로 입력하면 출발 칸은 물, 도착 칸은 마른 구덩이가 되며 플레이어가 도착 칸으로 이동한다.
-양: 플레이어 제자리, 양만 한 칸 이동. 풀에 도착하면 풀과 양을 모두 제거한다. 바람에도 같은 섭취 규칙을 적용한다.
-직접 입력 코스트/턴 1회, 바람 연쇄 추가 0, 막힌 무변화 입력 0.
+Sprite 325개 / 애니메이션 정의 158개. 기존 277 PNG 경로를 유지하고 6개 가로 수문 그림만 교체했다.
+양 밀기/풀과 양 제거/바람의 R2 규칙과 아트는 유지한다.
+1×1 320×320, 2×1 576×320, 1×2 320×576, PPU256, Pivot(.5,.5).
 
-이번에는 Runtime/Rules에 순수 참조 판정 코드도 포함했다.
-원 프로젝트의 장치 등록, 실제 맵·엔티티·행동 회계·Undo로 연결하는 어댑터는 실제 프로젝트에서 작성해야 한다.
-Tests~/RulesR2에 Unity EditMode 검사 원본을 제공하며 이 환경에서는 실행하지 않았다.
-Preview의 이미지/GIF는 스프라이트와 P 표시의 도식적 플레이어를 조립한 오프라인 예시다. Unity 실행 화면이 아니다.
-
-실제 Unity Import / C# Compile / NUnit / Host Binding / PlayMode: NOT_RUN.
+최신 규칙: DEVICE_RULES_KO.txt. 적용 명령: UNITY_APPLY_CLI_KO.txt.
+게임 참조 판정: Runtime/Rules. 새 표현 연결: Runtime/RanchPondSluiceVisualR3.cs.
+R2의 분리 셀 렌더러는 호환용이다. 이번 수로는 R3 합성 렌더러 하나로 표시한다.
+실제 프로젝트의 맵/엔티티/입력/Undo 연결과 Unity 컴파일·NUnit·플레이 검증은 NOT_RUN이다.
+원화/최종 프롬프트: Authoring~/native 및 Authoring~/generation_prompts_r3.json.

@@ -1,65 +1,84 @@
-ANIMOL 별길 목장 장치 V13 R2 적용 명령문
+ANIMOL 별길 목장 장치 V13 R3 적용 명령문
 
-현재 Unity 프로젝트의 AGENTS.md와 기존 행동/맵/장치 코드부터 읽고, 아래 변경을 실제 프로젝트에 적용하라.
-최신 요구는 DEVICE_RULES_KO.txt다. 이전 레버식 수문과 '양 밀면 플레이어도 전진' 처리를 이번 두 장치에 사용하지 마라.
+현재 Unity 프로젝트의 AGENTS.md와 기존 입력/이동/맵/장치/Undo/수문 표현 코드를 읽고 아래 수정본을 적용하라.
+이번 범위는 수로 피드백 개선, 물웅덩이→구덩이 물 이동, 가로·세로 배치 지원이다. 양의 R2 수정도 유지하라.
+최신 규칙은 DEVICE_RULES_KO.txt / UPDATE_R3_RULES_KO.txt다.
 
-1. 패키지 갱신
-- 기존 ANIMOL_STARWAY_RANCH_DEVICES_V13 폴더에 이 개정본을 반영하고 .meta/GUID를 보존한다.
-- Runtime/Editor/animation_catalog.json/catalog_sha256.txt를 함께 갱신한다.
-- Runtime/Rules의 독립 순수 규칙 어셈블리도 포함한다.
-- 실사용 Sprite 277개, 애니메이션 정의 150개. 기존 스프라이트 경로 267개를 유지했다.
-- 1×1 PNG 320×320, 2×1 PNG 576×320, PPU 256, 중앙 Pivot, FullRect, Bilinear, 무압축, Mipmap Off.
-- Tools > ANIMOL > Ranch Devices V13 > Build catalog, clips and inspection prefab에서 현재 animation_catalog.json을 선택한다.
-- 생성된 최신 RanchDevicesV13Catalog.asset과 InspectionOnly_AllClips.prefab을 확인한다.
-- 옛 InspectionOnly_All137Clips.prefab은 최신 검사 보드가 아니다. 다른 에셋을 지우지 말고 참조를 새 검사 보드로 바꾼다.
+1. 패키지 교체와 카탈로그 재생성
+- 기존 Assets 내 ANIMOL_STARWAY_RANCH_DEVICES_V13 폴더에 이번 파일을 병합하고 기존 .meta/GUID를 보존한다.
+- 새 폴더를 다른 위치에 하나 더 설치해 같은 클래스/장치가 중복되지 않도록 기존 설치 위치부터 찾는다.
+- animation_catalog.json, catalog_sha256.txt, Runtime, Editor, 새 Sprites/pond_transfer, 기존 가로 수문 6개를 함께 갱신한다.
+- Sprite 325개 / 클립 정의 158개, installationRevision 3이다. 최신 Pin과 카탈로그를 혼용하지 않는다.
+- PPU256, 중앙 Pivot(.5,.5), FullRect, Bilinear, 무압축, Mipmap Off다.
+- 1×1 PNG320×320, 가로2×1 PNG576×320, 세로1×2 PNG320×576을 그대로 가져온다.
+- 기존 V13 빌더는 footprint 기반으로 1×2도 수용한다. 이미지 크기를 576×320으로 강제하지 않는다.
+- Tools > ANIMOL > Ranch Devices V13 > Build catalog, clips and inspection prefab에서 이번 animation_catalog.json을 선택한다.
+- _GeneratedV13/RanchDevicesV13Catalog.asset과 InspectionOnly_AllClips.prefab을 재생성한다.
+- 무관한 다른 에셋을 삭제하지 않는다. 옛 InspectionOnly_All137Clips.prefab을 최신 검사 보드로 사용하지 않는다.
 
-선택적 CLI 형식:
+선택적 빌더 실행:
 "<Unity Editor>" -batchmode -quit -projectPath "<project>" -executeMethod ANIMOL.Editor.RanchDevicesV13.RanchDevicesV13Builder.BuildFromCommandLine -ranchDeviceCatalog "Assets/<existing path>/ANIMOL_STARWAY_RANCH_DEVICES_V13/animation_catalog.json" -logFile "<log>"
 
-2. 새 수문 등록/판정
-- 기본은 수평 2×1의 두 이웃 칸 A/B. 딱 한 칸이 물칸이다. 둘의 원래 좌표를 저장한다.
-- 마른 짝 칸에 선 플레이어가 다른 짝 물칸으로 입력할 때만 교환 이동을 시도한다.
-- 원 프로젝트의 일반 물칸 진입 거절보다 먼저 이 특수한 짝 교환 조건을 검사한다.
-- RanchDeviceRulesR2.TryCrossPond를 참조해 A 물/마름 전환 + B 반대 전환 + 플레이어 도착 이동을 하나의 트랜잭션으로 확정한다.
-- 출발 플레이어를 침수 장애물로 세지 않는다. 목적지는 같은 동작에서 마른 바닥이 되므로 물칸이라는 이유만으로 거절하지 않는다.
-- 조건 불일치 NotApplicable은 기존 일반 이동 판정으로 돌린다. 실제 물칸 진입을 무조건 허용하는 fallback을 만들지 않는다.
-- 도착 점유 검사와 추가 침수 객체 정책 검사를 마친 뒤에만 전체 변경을 적용한다.
-- 병아리 등 추가 객체의 정책 미지정은 floodPolicyHolds/진단으로 표시한다. 플레이어만 건너가는 기본 동작은 구현한다.
-- 레버, 댐, 손잡이 일반 밀기, 외부 A/B 수로 일괄 토글이라는 옛 해석을 제거한다.
+2. 수문 배치 데이터 — 가로/세로
+- 인스턴스별 두 셀 A/B 좌표와 wetA를 저장한다. 두 셀은 상하 또는 좌우로 정확히 한 칸 이웃해야 한다.
+- A/B의 순서를 새로 강제하거나 저장된 물 위상을 좌표 정렬만으로 뒤집지 않는다.
+- 가로는 점유2×1, 세로는 점유1×2다. 연결 수로는 두 칸 안에 포함되고 별도 세 번째 칸을 차지하지 않는다.
+- 커널 좌표는 +Y=북이다. 프로젝트가 배열 행 +1=아래를 사용하면 어댑터에서 북/남 부호를 변환한다.
+- 기존 배치 도구가 수평만 허용한다면 두 인접 셀 또는 horizontal/vertical 선택을 지원하도록 확장한다.
+- 수평 검사로 dy==0만 통과시키던 호스트 코드를 찾아 상하 인접도 허용한다. 대각선과 두 칸 간격은 거절한다.
+- 수문/양의 공식 정의 ID는 기존 프로젝트 정의를 사용하며 패키지에서 새 번호를 임의로 붙이지 않는다.
 
-3. 새 양 판정
-- 양 바로 뒤에서 입력하면 플레이어는 제자리, 양만 입력 방향으로 한 칸 움직인다.
-- 기존 공용 PushHandler가 플레이어를 양 이전 칸으로 이동시키면 이 장치에서는 그 후속 이동을 억제한다.
-- 도착이 바닥이면 양 위치만 갱신한다. 키 큰 풀이면 그 풀을 바닥으로 변경하고 양 엔티티도 제거한다.
-- 이번 적용값은 양과 풀이 모두 사라지는 것이다. 먹고도 양이 남는 이전 로직을 사용하지 않는다.
-- TryPushSheep/TryWindSheep의 실제 경로와 SheepAteAndRemoved/SheepWindAteAndRemoved 결과를 기존 엔티티/타일 시스템에 연결한다.
-- 바람은 호스트가 계산한 실제 0/3/6/9 범위/금속 차단 결과를 전달한다. 물/벽/다른 차단체 직전에서 멈춘다.
-- 바람 중 처음 만난 풀도 먹고 사라지며, 다음 풀을 계속 소비하지 않는다.
+3. 이동 판정과 물 방향
+- 플레이어가 짝의 마른 칸에서 짝 물칸으로 입력할 때 TryCrossPond를 일반 물칸 거절보다 먼저 검사한다.
+- 기본 교환은 출발 칸 물참 + 도착 칸 물빠짐 + 플레이어 도착 이동의 원자적 성공이다.
+- 목적지 점유/추가 침수 객체 정책을 먼저 확인한다. 실패는 상태/코스트/턴/물 흐름 효과 모두 0이다.
+- 출발 플레이어는 떠나는 객체이므로 침수 차단으로 세지 않는다. 도착 칸은 같은 교환으로 말라지므로 기존 물 차단만으로 거절하지 않는다.
+- result.actualRoute는 플레이어 [행동 전 Dry, 행동 전 Wet]다.
+- 새 result.waterRoute는 물 [행동 전 Wet, 행동 전 Dry]다. 물 이동에는 actualRoute를 그대로 사용하지 않는다.
+- 수평 예: 서쪽마름·동쪽물 → 플레이어동쪽 / 물서쪽.
+- 수직 예: 남쪽마름·북쪽물 → 플레이어북쪽 / 물남쪽.
+- 반대 초기 위상은 반대로 작동한다. 위로 이동하는 물도 퍼즐의 동일한 교환 규칙으로 허용한다.
+- NotApplicable은 기존 일반 판정으로 보낸다. 외부 바닥에서 물칸으로 들어가는 입력을 무조건 교환으로 처리하지 않는다.
+- 원 프로젝트의 권한 있는 상태/Undo/회계에서 한 번만 확정한다. 참조 BoardR2를 별도 실시간 보드로 운영하지 않는다.
+- 코스트 1/장치 턴 1을 입력 회계 또는 커널 delta 중 한 경로로만 적용한다. 애니메이션에서는 과금하지 않는다.
 
-4. 행동 회계와 저장/복구
-- 입력 전 스냅샷으로 판정하고 성공한 한 수의 코스트/턴을 기존 권한 시스템에서 딱 한 번만 반영한다.
-- 커널 result.costDelta/turnDelta와 기존 입력 이벤트를 둘 다 과금하지 않는다.
-- 바람 자동 단계는 추가 코스트/턴 0이다. 실패/거절은 상태 변경과 과금 모두 0이다.
-- 양의 원래 좌표/존재 여부, 풀 상태, 물자리 쌍 위상, 플레이어 좌표를 같은 Undo/Reset/저장 단위에 넣는다.
-- 제공 BoardR2는 연결용 참조 DTO다. 실제 맵을 두 개 운영하거나 렌더링에서 별도 판정을 만들지 않는다.
-- 순수 커널은 성공 시 복사 상태를 반환하는 작은 보드 참조 구현이다. 기존 프로젝트가 delta/command 기반이면 동일 변경만 기존 트랜잭션으로 이식한다.
+4. 새 수로 표현 연결
+- 기본 표현은 Runtime/RanchPondSluiceVisualR3.cs와 전용 자식 RanchDeviceVisualV13 하나다.
+- 자식 렌더러는 쌍의 월드 중심에 둔다. X/Y 스케일을 동일하게 적용하고 회전은 0이다. 논리 루트/콜라이더를 애니메이션으로 이동하지 않는다.
+- Configure(catalog, dedicatedChild, pairSnapshot, out error)로 구성한다. RulesR2 어셈블리와 새 RanchPondPresentationR3.cs도 함께 포함한다.
+- 정지 상태는 SetResolvedState(authoritativePairSnapshot)로 표시한다.
+- 교환 성공 후 PlayCommittedTransfer(beforePairSnapshot, afterPairSnapshot, committedResult, out error)를 호출한다.
+- before는 변경 전 별도 스냅샷이어야 한다. after와 같은 변형된 객체를 넘기지 않는다. pair.Copy() 등을 사용한다.
+- 표현기는 물 경로/플레이어 경로가 반대인지, 실제 성공 이벤트인지 검사한다. 실패 이벤트로 물을 흘리지 않는다.
+- 현재 물칸→마른 칸 방향은 RanchPondPresentationR3.TryCue(before, ...)가 좌표로 결정한다. A가 언제나 서쪽/남쪽이라고 가정하지 않는다.
+- 가로 클립: pond_pair/horizontal/west_wet, east_wet, water_west, water_east.
+- 세로 클립: pond_pair/vertical/north_wet, south_wet, water_north, water_south.
+- 물 수문 클립은 열림→수로 흐름→수위 이전→닫힘, 12프레임/12fps다. 마지막 그림을 새 정지 키로 바꾼다.
+- 같은 1초 구간에 플레이어 전용 시각 자식을 result.actualRoute로 반대 방향 이동시킨다. 기존 연출 속도 체계에 맞추되 물/플레이어의 방향은 유지한다.
+- 기존 RanchCommittedMotionV13을 쓰면 실제 경로의 월드 중심과 1칸당 1초를 전달하고, 게임플레이 루트를 먼저 확정된 목적지에 둔다.
+- 렌더러 하나에 2칸 합성 그림을 표시한다. R2 RanchPondPairVisualR2의 두 셀 렌더러와 기존 물 오버레이는 해당 인스턴스에서 비활성화해 중복 표시를 막는다.
+- R2의 셀별 표현은 호환용이다. 이번 수로 피드백을 사용하려면 R3 합성 표현으로 연결해야 한다.
+- 옛 pond_pair/cross_a_to_b 등 키는 수평 호환 별칭이다. 그 이름은 플레이어 이동이며 물은 반대다. 새 연결은 축/물 방향이 명시된 R3 키를 사용한다.
+- 세로 그림을 회전한 가로 그림으로 대체하지 않는다. 오프라인 미리보기의 화살표/P 문자를 런타임 장치에 추가하지 않는다.
+- OnDisable/Undo/Reset/Load/오브젝트 풀 복귀에서는 Clear로 연출을 취소하고, 다시 켤 때 권한 있는 현재 물 위상을 SetResolvedState로 적용한다.
+- 빠른 재입력/연쇄의 연출 대기는 기존 호스트 방식을 따른다. 클립 완료에서 다음 장치 턴을 자동 발생시키지 않는다.
 
-5. 아트/애니메이션 연결
-- 수문은 pond_pair/a_dry_b_wet, a_wet_b_dry, cross_a_to_b, cross_b_to_a를 사용한다.
-- 셀별 렌더링은 pond_cell/dry, wet, fill, drain과 RanchPondPairVisualR2를 쓴다. 기존 2×1 합성 렌더링과 동시에 그리지 않는다.
-- 기존 sluice/horizontal 키는 경로 호환 별칭이며 그림은 새 구덩이/물웅덩이로 바뀌었다. 키 이름 때문에 댐 로직을 다시 적용하지 않는다.
-- 물과 플레이어 이동은 같은 확정 결과를 표현한다. 마지막 프레임에서 타일/물/코스트를 커밋하지 않는다.
-- 양 경로 재생 뒤 sheep/<direction>/eat_and_disappear를 재생하고 반드시 시각을 Clear한다.
-- RanchSheepConsumptionVisualR2는 임시 VFX 오브젝트에 사용한다. 게임 양은 논리적으로 이미 제거된 상태다.
-- 풀의 eaten 프레임도 임시 효과로만 재생하고 끝나면 숨긴다. Collider나 풀 차단을 애니메이션 끝까지 남기지 않는다.
-- 로드/Undo/풀 재사용 때 물자리 위상과 양 존재 여부로 표시를 재설정하고 진행 중 임시 효과를 취소한다.
+5. 양과 나머지 장치 유지
+- 직접 양 밀기는 플레이어 제자리, 양만 한 칸 이동한다. 기존 공용 PushHandler의 플레이어 전진을 이 장치에서 억제한다.
+- 풀에 닿으면 그 풀과 양을 모두 제거하고 바닥을 남긴다. 양은 바람 영향을 받고 처음 만난 풀에서 먹고 사라진다.
+- 유효한 직접 입력 1회 비용, 바람 자동 연쇄 추가0, 실패0 규칙을 유지한다.
+- 참조 TryPushSheep/TryWindSheep와 RanchSheepConsumptionVisualR2를 기존 실제 맵/엔티티에 연결한 상태를 유지한다.
+- 먹기/풀/털 효과는 논리 제거 후 임시 시각으로만 재생하고 끝나면 숨긴다. Collider를 남기지 않는다.
+- 병아리 등 추가 침수 객체는 floodPolicyHolds 진단을 유지한다. 동행/재추종 및 바람·컨베이어·제동판 순서의 미확정 사항을 임의 확정하지 않는다.
 
-6. 실제 검증
-- 에디터 컴파일 후 빌더를 실행하고 277 Sprite/150 .anim을 확인한다.
-- Unity Test Framework가 설치된 프로젝트에서 Tests~/RulesR2 내용을 Editor 전용 테스트 폴더로 복사해 제공 검사를 실행한다.
-- 기본 건너가기, 역방향 복귀, 출발 플레이어 예외, 목적지 차단, 양 밀기 시 플레이어 정지, 풀/양 동시 제거,
-  바람 끝 이동, 첫 풀에서 소멸, 직접 밀기+바람 연쇄 한 번 과금, Undo/Reset을 실제 맵에서도 확인한다.
-- 캐릭터 앞뒤 가림과 구덩이 접지는 실제 카메라 배율로 확인한다.
-- 실제 장치 ID/배치 에디터 등록과 호스트 연결 경로, 수행한 검사 및 미실행 검사를 결과로 남긴다.
+6. 실제 프로젝트 검증과 결과 보고
+- C# 컴파일 후 빌더 실행, Sprite325개/클립158개/최신 Pin을 확인한다.
+- Unity Test Framework가 준비된 프로젝트에서 Tests~/RulesR2의 두 .cs와 테스트 asmdef를 실제 Editor 테스트 폴더로 복사한다.
+- 제공 총31개 검사 케이스를 실행한다. 새 검사는 양축/네 방향/A·B 역순/실제 물 경로·플레이어 경로/차단 시 효과 없음까지 확인한다.
+- 실제 맵에 수평2×1과 수직1×2를 놓고 각각 양방향 이동, 물의 실제 출발지와 도착지, 플레이어 반대 이동을 확인한다.
+- 수문 열림과 흐르는 물줄기가 설명 화살표 없이도 보이는지, 원래 웅덩이가 비고 빈 구덩이에 물이 차는지 실제 게임 배율로 확인한다.
+- 차단된 목적지에서 아무것도 바뀌지 않는지, 출발 플레이어가 교환을 막지 않는지, Undo/Reset/Load/풀 재사용 후 물 위상이 맞는지 확인한다.
+- 수평/수직 중간 및 끝 프레임에서 콜라이더/플레이어 앞뒤 가림/수로 접지를 확인한다.
+- 변경 경로, 등록된 장치 정의, 실제 테스트 결과와 미실행 항목을 보고한다.
 
-제공본은 파일/카탈로그/압축 검수를 수행했지만, 원 Unity 프로젝트가 없어 실제 C# 컴파일/NUnit/호스트 연결/플레이는 NOT_RUN이다.
+제공본의 파일/카탈로그/압축 검수와 실제 Unity 검증을 구분하라. 이 전달 환경에는 원 프로젝트가 없어 Unity 컴파일/NUnit/호스트 연결/플레이는 NOT_RUN이다.

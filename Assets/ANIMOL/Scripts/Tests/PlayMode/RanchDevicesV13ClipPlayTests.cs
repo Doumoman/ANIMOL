@@ -25,8 +25,11 @@ namespace ANIMOL.Presentation.Tests
                 keys.Add("chick/" + direction + "/walk");
                 keys.Add("chick/" + direction + "/sit");
             }
-            keys.AddRange(new[] { "nest/arrive", "nest/settled", "pond_pair/a_dry_b_wet",
-                "pond_pair/cross_a_to_b", "pond_pair/a_wet_b_dry", "pond_pair/cross_b_to_a",
+            keys.AddRange(new[] { "nest/arrive", "nest/settled",
+                "pond_pair/horizontal/west_wet", "pond_pair/horizontal/east_wet",
+                "pond_pair/horizontal/water_west", "pond_pair/horizontal/water_east",
+                "pond_pair/vertical/north_wet", "pond_pair/vertical/south_wet",
+                "pond_pair/vertical/water_north", "pond_pair/vertical/water_south",
                 "pond_cell/dry", "pond_cell/wet", "pond_cell/fill", "pond_cell/drain",
                 "tall_grass/idle", "tall_grass/eaten",
                 "windmill/east/off", "windmill/east/3",
@@ -45,9 +48,12 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(renderer.sprite, Is.SameAs(clip.frames[0]), key);
                     if (key.StartsWith("pond_pair/"))
                     {
-                        Assert.That(renderer.sprite.texture.width, Is.EqualTo(576));
-                        Assert.That(renderer.sprite.texture.height, Is.EqualTo(320));
+                        bool vertical = key.StartsWith("pond_pair/vertical/");
+                        Assert.That(renderer.sprite.texture.width, Is.EqualTo(vertical ? 320 : 576));
+                        Assert.That(renderer.sprite.texture.height, Is.EqualTo(vertical ? 576 : 320));
                         Assert.That(go.transform.localScale, Is.EqualTo(Vector3.one));
+                        if (key.Contains("/water_"))
+                        { Assert.That(clip.frames.Length, Is.EqualTo(12)); Assert.That(clip.fps, Is.EqualTo(12)); }
                     }
                     yield return new WaitForSeconds(1f / clip.fps + .025f);
                     bool advanced = renderer.sprite != clip.frames[0];

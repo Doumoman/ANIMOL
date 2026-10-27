@@ -68,6 +68,8 @@ namespace ANIMOL.Gameplay.RanchDevicesR2
         public bool changed, automatic, ateGrass, removedSheep;
         public int costDelta, turnDelta;
         public RanchCellR2[] actualRoute = new RanchCellR2[0];
+        // R3: water always travels from PRE-ACTION wet cell to PRE-ACTION dry cell.
+        public RanchCellR2[] waterRoute = new RanchCellR2[0];
     }
 
     public static class RanchDeviceRulesR2
@@ -156,6 +158,7 @@ namespace ANIMOL.Gameplay.RanchDevicesR2
             next = source.Copy(); next.ponds[index].wetA = !next.ponds[index].wetA; next.player = destination;
             next.costSpent++; next.deviceTurns++;
             result = Applied(source.ponds[index].instanceId, RanchRuleEventR2.PondCrossed, new[] { source.player, destination }, false, false);
+            result.waterRoute = new[] { source.ponds[index].Wet, source.ponds[index].Dry };
             return true;
         }
 

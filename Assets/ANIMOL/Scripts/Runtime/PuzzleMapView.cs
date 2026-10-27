@@ -4,6 +4,7 @@ using UnityEngine;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.RanchConnectedDecorV02;
 using ANIMOL.Art.RanchDevicesV13;
+using ANIMOL.Gameplay.RanchDevicesR2;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
@@ -25,7 +26,8 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<Vector2Int, ClassicWindVisual> classicWind = new Dictionary<Vector2Int, ClassicWindVisual>();
         readonly Dictionary<string, Transform> ranchActors = new Dictionary<string, Transform>(System.StringComparer.Ordinal);
         readonly Dictionary<string, RanchDeviceVisualV13> ranchSheepVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
-        readonly Dictionary<string, RanchPondPairVisualR2> ranchPondVisuals = new Dictionary<string, RanchPondPairVisualR2>(System.StringComparer.Ordinal);
+        readonly Dictionary<string, RanchPondSluiceVisualR3> ranchPondVisuals = new Dictionary<string, RanchPondSluiceVisualR3>(System.StringComparer.Ordinal);
+        readonly Dictionary<string, RanchV13ArtPlacement> ranchPondLayouts = new Dictionary<string, RanchV13ArtPlacement>(System.StringComparer.Ordinal);
         readonly Dictionary<Vector2Int, RanchDeviceVisualV13> ranchGrassVisuals = new Dictionary<Vector2Int, RanchDeviceVisualV13>();
         readonly List<GameObject> ranchEffects = new List<GameObject>();
         Transform objectsRoot;
@@ -111,7 +113,7 @@ namespace ANIMOL.Puzzle
             coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
             coastLegacyDecorationViews.Clear();
             bubbleViews.Clear(); classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
-            ranchPondVisuals.Clear(); ranchGrassVisuals.Clear(); ranchEffects.Clear();
+            ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchGrassVisuals.Clear(); ranchEffects.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.starSwellCoastV01Catalog)
             {
@@ -270,18 +272,19 @@ namespace ANIMOL.Puzzle
                     foreach (var art in map.scenario.ranchV13Art)
                     {
                         if (art == null || !map.Contains(art.position)) continue;
-                        var root = new GameObject("Ranch R2 " + art.family + " " + art.Id);
+                        var root = new GameObject("Ranch " + art.family + " " + art.Id);
                         root.transform.SetParent(objectsRoot, false);
-                        root.transform.localPosition = (Vector2)art.position;
+                        root.transform.localPosition = art.family == "sluice"
+                            ? ((Vector2)art.position + (Vector2)art.PondB) * .5f : (Vector2)art.position;
                         var catalog = map.theme.starwayRanch.v13Devices;
                         if (art.family == "sluice")
                         {
-                            var a = RanchCellVisual(root.transform, "Cell A", Vector2Int.zero, 28, catalog);
-                            var b = RanchCellVisual(root.transform, "Cell B", Vector2Int.right, 28, catalog);
-                            var pair = root.AddComponent<RanchPondPairVisualR2>();
-                            if (!pair.Configure(catalog, a, b, out var error) || !pair.SetResolvedState(art.rightState))
-                                Debug.LogError("R2 pond visual failed: " + error, root);
+                            var visual = RanchCellVisual(root.transform, "Pair visual", Vector2Int.zero, 28, catalog);
+                            var pair = root.AddComponent<RanchPondSluiceVisualR3>();
+                            if (!pair.Configure(catalog, visual, art.PondPair(art.rightState), out var error))
+                                Debug.LogError("R3 pond visual failed: " + error, root);
                             ranchPondVisuals[art.Id] = pair;
+                            ranchPondLayouts[art.Id] = art;
                         }
                         else if (art.family == "sheep" || art.family == "tall_grass")
                         {
@@ -587,7 +590,8 @@ namespace ANIMOL.Puzzle
                 if (visible) grass.Value.SetState("tall_grass/idle", true);
             }
             foreach (var pond in ranchPondVisuals)
-                if (devices.RanchPonds.TryGetValue(pond.Key, out var wetA)) pond.Value.SetResolvedState(wetA);
+                if (devices.RanchPonds.TryGetValue(pond.Key, out var wetA))
+                    pond.Value.SetResolvedState(ranchPondLayouts[pond.Key].PondPair(wetA));
         }
         static RanchDeviceVisualV13 RanchCellVisual(Transform parent, string name, Vector2Int offset,
             int sorting, RanchDevicesV13Catalog catalog)
@@ -612,15 +616,18 @@ namespace ANIMOL.Puzzle
             if ((cue.eventName == "SheepPushed" || cue.eventName == "SheepWindMoved") &&
                 ranchSheepVisuals.TryGetValue(cue.actor, out var sheep))
             { sheep.SetState(cue.state, true); return 0; }
-            if (cue.eventName == "PondCrossed" && currentSession is PuzzleDeviceSession resolved &&
+            if (cue.eventName == "PondCrossed" &&
                 ranchPondVisuals.TryGetValue(cue.actor, out var pair))
             {
-                var wetA = resolved.RanchPonds[cue.actor];
-                if (!pair.PlayCommittedCrossing(!wetA)) return 0;
+                if (!pair.PlayCommittedTransfer(cue.pondBefore, cue.pondAfter, cue.ranchResult, out var error))
+                {
+                    Debug.LogError("R3 pond transfer rejected: " + error, pair);
+                    if (cue.pondAfter != null) pair.SetResolvedState(cue.pondAfter);
+                    return 0;
+                }
+                if (!RanchPondPresentationR3.TryCue(cue.pondBefore, out var transfer, out error)) return 0;
                 var pondCatalog = map.theme.starwayRanch.v13Devices;
-                if (!pondCatalog.TryClip("pond_cell/fill", out var fill) ||
-                    !pondCatalog.TryClip("pond_cell/drain", out var drain)) return 0;
-                return Mathf.Max(fill.frames.Length / fill.fps, drain.frames.Length / drain.fps);
+                return pondCatalog.TryClip(transfer.transferKey, out var clip) ? clip.frames.Length / clip.fps : 0;
             }
             if (cue.eventName != "SheepAteAndRemoved" && cue.eventName != "SheepWindAteAndRemoved") return 0;
             if (!map || !map.theme || !map.theme.starwayRanch || !map.theme.starwayRanch.v13Devices) return 0;
@@ -649,6 +656,7 @@ namespace ANIMOL.Puzzle
         {
             foreach (var root in ranchEffects) if (root) Remove(root);
             ranchEffects.Clear();
+            foreach (var pair in ranchPondVisuals.Values) if (pair) pair.Clear();
         }
         void LateUpdate()
         {

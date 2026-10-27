@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.DevicePatch01;
+using ANIMOL.Gameplay.RanchDevicesR2;
 
 namespace ANIMOL.Puzzle
 {
@@ -22,18 +23,33 @@ namespace ANIMOL.Puzzle
         public string family;
         public string instanceId;
         public Vector2Int position, direction = Vector2Int.right;
-        // Serialized V13 field retained for existing maps. In R2 true means A is wet.
+        // Explicit B coordinate for newly authored pairs. Legacy R2 maps derive B from direction.
+        public bool hasPondB;
+        public Vector2Int pondB;
+        // Serialized V13 field retained for existing maps. True means A is wet.
         public bool rightState;
+        public Vector2Int PondB => hasPondB ? pondB : position + direction;
+        public Vector2Int PondDirection => PondB - position;
         public string Id => string.IsNullOrEmpty(instanceId) ? family + "@" + position.x + "," + position.y : instanceId;
+        public RanchPondPairR2 PondPair(bool wetA) => new RanchPondPairR2 { instanceId = Id,
+            a = new RanchCellR2(position.x, position.y),
+            b = new RanchCellR2(PondB.x, PondB.y), wetA = wetA };
         public IEnumerable<Vector2Int> Footprint()
         {
             yield return position;
-            if (family == "sluice") yield return position + Vector2Int.right;
+            if (family == "sluice") yield return PondB;
         }
-        public string ClipKey => family == "sluice" ? "pond_pair/" + (rightState ? "a_wet_b_dry" : "a_dry_b_wet") :
-            family == "sheep" ? "sheep/" + (direction == Vector2Int.up ? "north" :
-                direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east") + "/idle" :
-            family == "tall_grass" ? "tall_grass/idle" : null;
+        public string ClipKey
+        {
+            get
+            {
+                if (family == "sluice") return RanchPondPresentationR3.TryCue(PondPair(rightState), out var cue, out _)
+                    ? cue.startKey : null;
+                if (family == "sheep") return "sheep/" + (direction == Vector2Int.up ? "north" :
+                    direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east") + "/idle";
+                return family == "tall_grass" ? "tall_grass/idle" : null;
+            }
+        }
     }
     [Serializable] public sealed class PrototypeDevice
     {
@@ -90,9 +106,11 @@ namespace ANIMOL.Puzzle
                     errors.Add("Ranch V13 art requires the Starway theme and catalog.");
                 if (art.family == "sheep" && !PuzzleSession.IsCardinal(art.direction))
                     errors.Add("Sheep art direction must be cardinal: " + art.position);
+                if (art.family == "sluice" && !PuzzleSession.IsCardinal(art.PondDirection))
+                    errors.Add("Pond pair cells must be cardinal neighbors: " + art.position);
                 if (art.family == "sheep" && art.position == map.start ||
                     art.family == "tall_grass" && art.position == map.start ||
-                    art.family == "sluice" && (art.rightState ? art.position : art.position + Vector2Int.right) == map.start)
+                    art.family == "sluice" && (art.rightState ? art.position : art.PondB) == map.start)
                     errors.Add("Player cannot start on a sheep, tall grass or wet pond cell.");
                 foreach (var p in art.Footprint())
                 {
@@ -162,6 +180,8 @@ namespace ANIMOL.Puzzle
         public int group;
         public List<Vector2Int> cells;
         [NonSerialized] public WindRoute windRoute;
+        [NonSerialized] public RanchPondPairR2 pondBefore, pondAfter;
+        [NonSerialized] public RanchRuleResultR2 ranchResult;
     }
     public sealed class PrototypeAction
     {

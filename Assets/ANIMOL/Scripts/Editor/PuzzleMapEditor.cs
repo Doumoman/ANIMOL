@@ -38,6 +38,7 @@ namespace ANIMOL.Presentation.Editor
         TerrainMaterial material;
         PrototypeDevice prototypeBrush;
         string ranchArtBrush, ranchArtError;
+        [SerializeField] Vector2Int ranchPondBrushDirection = Vector2Int.right;
         RanchV13ArtPlacement selectedRanchArt;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
         readonly Dictionary<string, Sprite> legacyDeviceSprites = new Dictionary<string, Sprite>();
@@ -784,11 +785,11 @@ namespace ANIMOL.Presentation.Editor
         void DrawRanchArtPlacementSettings()
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("V13 R2 별양 · 수문 · 키 큰 풀", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("V13 R3 별양 · 수문 · 키 큰 풀", EditorStyles.boldLabel);
             foreach (var family in new[] { "sheep", "sluice", "tall_grass" })
             {
                 var key = family == "sheep" ? "sheep/east/idle" :
-                    family == "sluice" ? "pond_pair/a_dry_b_wet" : "tall_grass/idle";
+                    family == "sluice" ? "pond_pair/horizontal/east_wet" : "tall_grass/idle";
                 var row = GUILayoutUtility.GetRect(250, 58, GUILayout.ExpandWidth(true));
                 if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
                 { ranchArtBrush = family; prototypeBrush = null; selectedDeviceId = null; inspectDevice = false; }
@@ -798,10 +799,16 @@ namespace ANIMOL.Presentation.Editor
                     DrawSpriteFitted(new Rect(row.x + 8, row.y + 5, 48, 48), sprite);
                 else GUI.Label(new Rect(row.x + 8, row.y + 5, 48, 48), "그림 없음", EditorStyles.whiteMiniLabel);
                 GUI.Label(new Rect(row.x + 62, row.y + 7, row.width - 66, 22),
-                    family == "sheep" ? "별양 (1칸)" : family == "sluice" ? "수문 A/B (가로 2칸)" : "키 큰 풀 (1칸)", EditorStyles.boldLabel);
+                    family == "sheep" ? "별양 (1칸)" : family == "sluice" ? "수문 A/B (가로/세로 2칸)" : "키 큰 풀 (1칸)", EditorStyles.boldLabel);
                 GUI.Label(new Rect(row.x + 62, row.y + 29, row.width - 66, 23), key, EditorStyles.miniLabel);
             }
-            EditorGUILayout.HelpBox("양은 한 칸만 밀리고 플레이어는 제자리입니다. 수문은 마른 칸에서 짝 물칸으로만 교환 이동합니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("A는 선택한 칸, B는 지정한 방향의 이웃 칸입니다. 플레이어가 마른 칸에서 물칸으로 이동하면 물은 반대 방향으로 흐릅니다.", MessageType.Info);
+            EditorGUILayout.LabelField("수문 B 칸 방향 (A 기준)");
+            EditorGUILayout.BeginHorizontal();
+            foreach (var heading in PuzzleAutotile.Cardinal)
+                if (GUILayout.Toggle(ranchPondBrushDirection == heading, DirectionName(heading),
+                    EditorStyles.miniButton, GUILayout.Width(58))) ranchPondBrushDirection = heading;
+            EditorGUILayout.EndHorizontal();
             if (!string.IsNullOrEmpty(ranchArtError)) EditorGUILayout.HelpBox(ranchArtError, MessageType.Warning);
             if (selectedRanchArt == null || !map.scenario.ranchV13Art.Contains(selectedRanchArt)) return;
             EditorGUILayout.LabelField("선택한 배치", selectedRanchArt.family + " @ " + selectedRanchArt.position);
@@ -820,23 +827,65 @@ namespace ANIMOL.Presentation.Editor
             }
             else if (selectedRanchArt.family == "sluice")
             {
+                EditorGUILayout.BeginHorizontal();
+                foreach (var heading in PuzzleAutotile.Cardinal)
+                    if (GUILayout.Toggle(selectedRanchArt.PondDirection == heading, DirectionName(heading),
+                        EditorStyles.miniButton, GUILayout.Width(58)) && selectedRanchArt.PondDirection != heading)
+                    {
+                        var oldDirection = selectedRanchArt.direction;
+                        var oldB = selectedRanchArt.pondB;
+                        var oldHasB = selectedRanchArt.hasPondB;
+                        selectedRanchArt.direction = heading;
+                        selectedRanchArt.pondB = selectedRanchArt.position + heading;
+                        selectedRanchArt.hasPondB = true;
+                        var errors = map.ValidateMap().ToList();
+                        selectedRanchArt.direction = oldDirection;
+                        selectedRanchArt.pondB = oldB;
+                        selectedRanchArt.hasPondB = oldHasB;
+                        if (errors.Count == 0)
+                        {
+                            Undo.RecordObject(map.scenario, "Change pond B cell direction");
+                            selectedRanchArt.direction = heading;
+                            selectedRanchArt.pondB = selectedRanchArt.position + heading;
+                            selectedRanchArt.hasPondB = true;
+                            EditorUtility.SetDirty(map.scenario);
+                            ranchArtError = null;
+                        }
+                        else ranchArtError = string.Join("; ", errors.Take(2));
+                    }
+                EditorGUILayout.EndHorizontal();
                 var right = EditorGUILayout.Toggle("A 물 / B 마름", selectedRanchArt.rightState);
                 if (right != selectedRanchArt.rightState)
                 {
-                    Undo.RecordObject(map.scenario, "수문 그림 상태 변경");
-                    selectedRanchArt.rightState = right;
-                    EditorUtility.SetDirty(map.scenario);
+                    if ((right ? selectedRanchArt.position : selectedRanchArt.PondB) == map.start)
+                        ranchArtError = "시작 칸은 마른 수문 칸이어야 합니다.";
+                    else
+                    {
+                        Undo.RecordObject(map.scenario, "수문 물 위상 변경");
+                        selectedRanchArt.rightState = right;
+                        EditorUtility.SetDirty(map.scenario);
+                        ranchArtError = null;
+                    }
                 }
             }
         }
 
         public static bool TryPlaceRanchArt(PuzzleMap target, string family, Vector2Int anchor, out string error)
+            => TryPlaceRanchArt(target, family, anchor, Vector2Int.right, out error);
+
+        public static bool TryPlaceRanchArt(PuzzleMap target, string family, Vector2Int anchor,
+            Vector2Int pondDirection, out string error)
         {
             error = null;
             if (!target || !target.scenario || !target.theme || !target.theme.starwayRanch ||
                 !target.theme.starwayRanch.v13Devices || (family != "sheep" && family != "sluice" && family != "tall_grass"))
             { error = "V13 목장 테마·카탈로그와 별양/수문/키 큰 풀 종류가 필요합니다."; return false; }
-            var art = new RanchV13ArtPlacement { family = family, position = anchor, instanceId = Guid.NewGuid().ToString("N") };
+            if (family == "sluice" && !PuzzleSession.IsCardinal(pondDirection))
+            { error = "Pond B cell must be adjacent to A."; return false; }
+            var art = new RanchV13ArtPlacement { family = family, position = anchor,
+                direction = family == "sluice" ? pondDirection : Vector2Int.right,
+                hasPondB = family == "sluice", pondB = anchor + pondDirection,
+                instanceId = Guid.NewGuid().ToString("N") };
             if (!RanchDevicesV13EditorPreview.TryClip(target.theme, art.ClipKey, out _))
             { error = "V13 R2 그림을 카탈로그에서 찾지 못했습니다."; return false; }
             foreach (var cell in art.Footprint())
@@ -848,7 +897,7 @@ namespace ANIMOL.Presentation.Editor
                 { error = "다른 장치나 V13 배치와 점유 칸이 겹칩니다."; return false; }
             }
             if ((family == "sheep" || family == "tall_grass") && anchor == target.start ||
-                family == "sluice" && anchor + Vector2Int.right == target.start)
+                family == "sluice" && anchor + pondDirection == target.start)
             { error = "시작 칸에 양·풀·물칸을 놓을 수 없습니다."; return false; }
             target.scenario.ranchV13Art.Add(art);
             return true;
@@ -1179,14 +1228,18 @@ namespace ANIMOL.Presentation.Editor
                     foreach (var art in map.scenario.ranchV13Art)
                     {
                         if (art == null || !map.Contains(art.position)) continue;
-                        var center = new Vector2(art.position.x + (art.family == "sluice" ? .5f : 0f), art.position.y);
+                        var center = art.family == "sluice"
+                            ? ((Vector2)art.position + (Vector2)art.PondB) * .5f : (Vector2)art.position;
                         if (!NearVisibleWorld(center, shownHeight, origin, visible, 3f)) continue;
                         if (RanchDevicesV13EditorPreview.TryClip(map.theme, art.ClipKey, out var sprite))
                             DrawWorldSpriteAt(center, sprite, shownHeight, origin, visible);
                         if (art == selectedRanchArt)
-                            Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + art.position.x * cellSize,
-                                origin.y + (shownHeight - art.position.y - 1) * cellSize,
-                                cellSize * (art.family == "sluice" ? 2 : 1), cellSize),
+                            Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + Mathf.Min(art.position.x,
+                                art.family == "sluice" ? art.PondB.x : art.position.x) * cellSize,
+                                origin.y + (shownHeight - Mathf.Max(art.position.y,
+                                    art.family == "sluice" ? art.PondB.y : art.position.y) - 1) * cellSize,
+                                cellSize * (art.family == "sluice" && art.PondDirection.x != 0 ? 2 : 1),
+                                cellSize * (art.family == "sluice" && art.PondDirection.y != 0 ? 2 : 1)),
                                 Color.clear, new Color(.2f, .8f, 1f));
                     }
                 DrawOffscreenRanchDecorationPreviews(xMin, xMax, yMin, yMax, shownHeight, origin, visible);
@@ -1727,7 +1780,7 @@ namespace ANIMOL.Presentation.Editor
                     }
                     else if (ranchArtBrush != null)
                     {
-                        if (!TryPlaceRanchArt(map, ranchArtBrush, p, out ranchArtError)) return;
+                        if (!TryPlaceRanchArt(map, ranchArtBrush, p, ranchPondBrushDirection, out ranchArtError)) return;
                         selectedRanchArt = map.scenario.ranchV13Art[map.scenario.ranchV13Art.Count - 1];
                     }
                     else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&

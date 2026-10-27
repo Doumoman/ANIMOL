@@ -55,6 +55,51 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(session.Cost, Is.Zero);
         }
 
+        [TestCase(1, 2, 2, 2, false)]
+        [TestCase(2, 2, 1, 2, false)]
+        [TestCase(2, 2, 2, 3, false)]
+        [TestCase(2, 3, 2, 2, false)]
+        [TestCase(1, 2, 2, 2, true)]
+        [TestCase(2, 2, 1, 2, true)]
+        [TestCase(2, 2, 2, 3, true)]
+        [TestCase(2, 3, 2, 2, true)]
+        public void PondHostKeepsWaterOppositePlayerForBothAxesAndEitherLabelOrder(
+            int ax, int ay, int bx, int by, bool wetA)
+        {
+            var a = new Vector2Int(ax, ay); var b = new Vector2Int(bx, by);
+            var dry = wetA ? b : a; var wet = wetA ? a : b;
+            map.start = dry;
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sluice",
+                position = a, direction = b - a, rightState = wetA, instanceId = "pond" });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(wet - dry);
+            Assert.That(action.accepted, Is.True, action.reason);
+            var cue = action.events.Single(e => e.eventName == "PondCrossed");
+            Assert.That(cue.pondBefore.Wet, Is.EqualTo(new ANIMOL.Gameplay.RanchDevicesR2.RanchCellR2(wet.x, wet.y)));
+            Assert.That(cue.pondAfter.Wet, Is.EqualTo(new ANIMOL.Gameplay.RanchDevicesR2.RanchCellR2(dry.x, dry.y)));
+            Assert.That(cue.ranchResult.actualRoute.Select(p => new Vector2Int(p.x, p.y)), Is.EqualTo(new[] { dry, wet }));
+            Assert.That(cue.ranchResult.waterRoute.Select(p => new Vector2Int(p.x, p.y)), Is.EqualTo(new[] { wet, dry }));
+            Assert.That(session.Cell, Is.EqualTo(wet));
+            Assert.That(session.RanchWet(dry), Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.Cell, Is.EqualTo(dry));
+            Assert.That(session.RanchWet(wet), Is.True);
+            Assert.That(session.Cost, Is.Zero);
+        }
+
+        [Test] public void ExplicitBCellIsAuthoritativeOverLegacyDirection()
+        {
+            map.start = new Vector2Int(2, 2);
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sluice", instanceId = "pond",
+                position = map.start, direction = Vector2Int.right,
+                hasPondB = true, pondB = new Vector2Int(2, 3) });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(2, 3)));
+            Assert.That(session.RanchWet(map.start), Is.True);
+        }
+
         [Test] public void SheepPushKeepsPlayerStillAndConsumesBothSheepAndGrass()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });

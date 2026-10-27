@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RanchDevicesV13Catalog
   m_EditorClassIdentifier: ANIMOL.Art.RanchDevicesV13::ANIMOL.Art.RanchDevicesV13.RanchDevicesV13Catalog
   packageId: ANIMOL_STARWAY_RANCH_DEVICES_V13
-  sourceSha256: e7e712d4597486aedcee9b9dcf575d5d8c06eb70cd6e98e3828ef3aa88a16e18
+  sourceSha256: 5c82bb2c11ae11911f59291bd23c6421810a50a140a62e3084cac030b63db933
   sprites:
   - key: sheep/south/f00
     sprite: {fileID: 21300000, guid: 9186463d0f3ab0a40b8a7038c6e37164, type: 3}
@@ -526,27 +526,27 @@ MonoBehaviour:
   - key: sluice/horizontal/f00
     sprite: {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: sluice/horizontal/f01
     sprite: {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: sluice/horizontal/f02
     sprite: {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: sluice/horizontal/f03
     sprite: {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: sluice/horizontal/f04
     sprite: {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: sluice/horizontal/f05
     sprite: {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
     footprint: {x: 2, y: 1}
-    role: pond_pair
+    role: pond_sluice_pair
   - key: wood_crate/f00
     sprite: {fileID: 21300000, guid: c143508a92912334ea078ba0cb99df54, type: 3}
     footprint: {x: 1, y: 1}
@@ -1123,6 +1123,198 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
     footprint: {x: 1, y: 1}
     role: consumption_effect
+  - key: pond_transfer/horizontal/east/f00
+    sprite: {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f01
+    sprite: {fileID: 21300000, guid: 3b3c26609047e68499d1db5a66924f34, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f02
+    sprite: {fileID: 21300000, guid: 5088b3198a0050845a9ec306fd47451e, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f03
+    sprite: {fileID: 21300000, guid: 6ad78fa5cb9dd3b489c6b4b86ca539ff, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f04
+    sprite: {fileID: 21300000, guid: 27cfcf0e4816347498ce4f266681e44c, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f05
+    sprite: {fileID: 21300000, guid: fe16be22e1b68fb458ac971718bea0f3, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f06
+    sprite: {fileID: 21300000, guid: 4452448f8cd518442912e3c152334082, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f07
+    sprite: {fileID: 21300000, guid: 5fdee05a4eba3704cbea8dd64273eaa2, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f08
+    sprite: {fileID: 21300000, guid: a9623c767d8079246aaf5310d265515f, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f09
+    sprite: {fileID: 21300000, guid: a26f6d005abdb0243906231b8020fc6d, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f10
+    sprite: {fileID: 21300000, guid: 41de8d0262d877b43bdd1aca9aa1fad8, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/east/f11
+    sprite: {fileID: 21300000, guid: 3405b786ae37bf148b659290dfe386ee, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f00
+    sprite: {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f01
+    sprite: {fileID: 21300000, guid: 80ed21c112f641842a2a51451c42869f, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f02
+    sprite: {fileID: 21300000, guid: c905d854c2e9b444881c761e1a4ebb2a, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f03
+    sprite: {fileID: 21300000, guid: 6b94a77cbf8685946bbcea7d7bd8f2a1, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f04
+    sprite: {fileID: 21300000, guid: 36c221680ddc00a4797ea3cec8d3e58b, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f05
+    sprite: {fileID: 21300000, guid: 3710775263484ab418be52e00c0d2b1a, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f06
+    sprite: {fileID: 21300000, guid: c6cb13a2b6b370344ad999773f439e7b, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f07
+    sprite: {fileID: 21300000, guid: 6dae0cc3c619ec6489cc4059d9df297d, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f08
+    sprite: {fileID: 21300000, guid: 068491dd7225f1c41a2f6da56f6dd7cd, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f09
+    sprite: {fileID: 21300000, guid: 6e40f8e0ae77e584a9ecdf8291999c1a, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f10
+    sprite: {fileID: 21300000, guid: 61fbd0ab61ace4c4185e264d4b50f079, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/horizontal/west/f11
+    sprite: {fileID: 21300000, guid: fc952faeee5f3a04887f59609928e6cf, type: 3}
+    footprint: {x: 2, y: 1}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f00
+    sprite: {fileID: 21300000, guid: 3000a38f59ceacf47b3cc141a6ab75d9, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f01
+    sprite: {fileID: 21300000, guid: 4391fa76543d32f48b56eb96ce30eac0, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f02
+    sprite: {fileID: 21300000, guid: f857fd4f910697d4e8dfb73a80664891, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f03
+    sprite: {fileID: 21300000, guid: 4e638ee0fb25a8847b7242b27cc8ca00, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f04
+    sprite: {fileID: 21300000, guid: 0293ed28efe5d8b4aab7f0198b024d83, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f05
+    sprite: {fileID: 21300000, guid: 68402eaba22f585439ae9cd2c7792c97, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f06
+    sprite: {fileID: 21300000, guid: e67faca3108916a46b50c62dc4454e8a, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f07
+    sprite: {fileID: 21300000, guid: ef62f9701c4fbdc499fafa83a6315def, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f08
+    sprite: {fileID: 21300000, guid: 72a993ce85bd2ca4682966bf4063b9a0, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f09
+    sprite: {fileID: 21300000, guid: c242df7a1f58e234eb3ee7b3a3a603b2, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f10
+    sprite: {fileID: 21300000, guid: e93de2049f2e7d740bf33db84a61fdb1, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/north/f11
+    sprite: {fileID: 21300000, guid: 6264f23772246084c8a74d6e8fc44630, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f00
+    sprite: {fileID: 21300000, guid: 7a17673a6fe189d4dbbce8a4fb6af5f9, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f01
+    sprite: {fileID: 21300000, guid: 3ed6129b0c9ab2d43b087e5fbd6eedb0, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f02
+    sprite: {fileID: 21300000, guid: cffd4fd4d91f4714a8055ea64b305bd2, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f03
+    sprite: {fileID: 21300000, guid: 98616ac4f91178d48ba5c2e23b9dbff0, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f04
+    sprite: {fileID: 21300000, guid: 1bc968929a4482f4db16ff1e65012d21, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f05
+    sprite: {fileID: 21300000, guid: 7a0b45bb3c726d34fa7a8b8b76e4a542, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f06
+    sprite: {fileID: 21300000, guid: 54b355b15666d2a40ab4e2242f742088, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f07
+    sprite: {fileID: 21300000, guid: 20f721f3ce0d0b34980bd2304f97ed26, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f08
+    sprite: {fileID: 21300000, guid: 07f54f8882dc8aa4d965983e6ccdaa8c, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f09
+    sprite: {fileID: 21300000, guid: f30ba1e5fc808a4488f7fd8e2f6072bf, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f10
+    sprite: {fileID: 21300000, guid: 82d0d64c0c367dd498fc0c389256f695, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
+  - key: pond_transfer/vertical/south/f11
+    sprite: {fileID: 21300000, guid: bc1ebc9145add8142bb602052f88acd6, type: 3}
+    footprint: {x: 1, y: 2}
+    role: pond_sluice_pair
   clips:
   - key: sheep/south/idle
     frames:
@@ -1722,32 +1914,44 @@ MonoBehaviour:
     loop: 0
   - key: sluice/horizontal/left
     frames:
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
     fps: 12
     loop: 0
   - key: sluice/horizontal/to_right
     frames:
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
-    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
-    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
-    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
-    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
+    - {fileID: 21300000, guid: 80ed21c112f641842a2a51451c42869f, type: 3}
+    - {fileID: 21300000, guid: c905d854c2e9b444881c761e1a4ebb2a, type: 3}
+    - {fileID: 21300000, guid: 6b94a77cbf8685946bbcea7d7bd8f2a1, type: 3}
+    - {fileID: 21300000, guid: 36c221680ddc00a4797ea3cec8d3e58b, type: 3}
+    - {fileID: 21300000, guid: 3710775263484ab418be52e00c0d2b1a, type: 3}
+    - {fileID: 21300000, guid: c6cb13a2b6b370344ad999773f439e7b, type: 3}
+    - {fileID: 21300000, guid: 6dae0cc3c619ec6489cc4059d9df297d, type: 3}
+    - {fileID: 21300000, guid: 068491dd7225f1c41a2f6da56f6dd7cd, type: 3}
+    - {fileID: 21300000, guid: 6e40f8e0ae77e584a9ecdf8291999c1a, type: 3}
+    - {fileID: 21300000, guid: 61fbd0ab61ace4c4185e264d4b50f079, type: 3}
+    - {fileID: 21300000, guid: fc952faeee5f3a04887f59609928e6cf, type: 3}
     fps: 12
     loop: 0
   - key: sluice/horizontal/right
     frames:
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
     fps: 12
     loop: 0
   - key: sluice/horizontal/to_left
     frames:
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
-    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
-    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
-    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
-    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
+    - {fileID: 21300000, guid: 3b3c26609047e68499d1db5a66924f34, type: 3}
+    - {fileID: 21300000, guid: 5088b3198a0050845a9ec306fd47451e, type: 3}
+    - {fileID: 21300000, guid: 6ad78fa5cb9dd3b489c6b4b86ca539ff, type: 3}
+    - {fileID: 21300000, guid: 27cfcf0e4816347498ce4f266681e44c, type: 3}
+    - {fileID: 21300000, guid: fe16be22e1b68fb458ac971718bea0f3, type: 3}
+    - {fileID: 21300000, guid: 4452448f8cd518442912e3c152334082, type: 3}
+    - {fileID: 21300000, guid: 5fdee05a4eba3704cbea8dd64273eaa2, type: 3}
+    - {fileID: 21300000, guid: a9623c767d8079246aaf5310d265515f, type: 3}
+    - {fileID: 21300000, guid: a26f6d005abdb0243906231b8020fc6d, type: 3}
+    - {fileID: 21300000, guid: 41de8d0262d877b43bdd1aca9aa1fad8, type: 3}
+    - {fileID: 21300000, guid: 3405b786ae37bf148b659290dfe386ee, type: 3}
     fps: 12
     loop: 0
   - key: wood_crate/idle
@@ -2045,32 +2249,44 @@ MonoBehaviour:
     loop: 0
   - key: pond_pair/a_dry_b_wet
     frames:
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
     fps: 12
     loop: 0
   - key: pond_pair/a_wet_b_dry
     frames:
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
     fps: 12
     loop: 0
   - key: pond_pair/cross_a_to_b
     frames:
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
-    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
-    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
-    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
-    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
+    - {fileID: 21300000, guid: 80ed21c112f641842a2a51451c42869f, type: 3}
+    - {fileID: 21300000, guid: c905d854c2e9b444881c761e1a4ebb2a, type: 3}
+    - {fileID: 21300000, guid: 6b94a77cbf8685946bbcea7d7bd8f2a1, type: 3}
+    - {fileID: 21300000, guid: 36c221680ddc00a4797ea3cec8d3e58b, type: 3}
+    - {fileID: 21300000, guid: 3710775263484ab418be52e00c0d2b1a, type: 3}
+    - {fileID: 21300000, guid: c6cb13a2b6b370344ad999773f439e7b, type: 3}
+    - {fileID: 21300000, guid: 6dae0cc3c619ec6489cc4059d9df297d, type: 3}
+    - {fileID: 21300000, guid: 068491dd7225f1c41a2f6da56f6dd7cd, type: 3}
+    - {fileID: 21300000, guid: 6e40f8e0ae77e584a9ecdf8291999c1a, type: 3}
+    - {fileID: 21300000, guid: 61fbd0ab61ace4c4185e264d4b50f079, type: 3}
+    - {fileID: 21300000, guid: fc952faeee5f3a04887f59609928e6cf, type: 3}
     fps: 12
     loop: 0
   - key: pond_pair/cross_b_to_a
     frames:
-    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
-    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
-    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
-    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
-    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
-    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
+    - {fileID: 21300000, guid: 3b3c26609047e68499d1db5a66924f34, type: 3}
+    - {fileID: 21300000, guid: 5088b3198a0050845a9ec306fd47451e, type: 3}
+    - {fileID: 21300000, guid: 6ad78fa5cb9dd3b489c6b4b86ca539ff, type: 3}
+    - {fileID: 21300000, guid: 27cfcf0e4816347498ce4f266681e44c, type: 3}
+    - {fileID: 21300000, guid: fe16be22e1b68fb458ac971718bea0f3, type: 3}
+    - {fileID: 21300000, guid: 4452448f8cd518442912e3c152334082, type: 3}
+    - {fileID: 21300000, guid: 5fdee05a4eba3704cbea8dd64273eaa2, type: 3}
+    - {fileID: 21300000, guid: a9623c767d8079246aaf5310d265515f, type: 3}
+    - {fileID: 21300000, guid: a26f6d005abdb0243906231b8020fc6d, type: 3}
+    - {fileID: 21300000, guid: 41de8d0262d877b43bdd1aca9aa1fad8, type: 3}
+    - {fileID: 21300000, guid: 3405b786ae37bf148b659290dfe386ee, type: 3}
     fps: 12
     loop: 0
   - key: sheep_puff/disappear
@@ -2131,5 +2347,89 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
     - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
     - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/horizontal/west_wet
+    frames:
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/horizontal/water_west
+    frames:
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
+    - {fileID: 21300000, guid: 80ed21c112f641842a2a51451c42869f, type: 3}
+    - {fileID: 21300000, guid: c905d854c2e9b444881c761e1a4ebb2a, type: 3}
+    - {fileID: 21300000, guid: 6b94a77cbf8685946bbcea7d7bd8f2a1, type: 3}
+    - {fileID: 21300000, guid: 36c221680ddc00a4797ea3cec8d3e58b, type: 3}
+    - {fileID: 21300000, guid: 3710775263484ab418be52e00c0d2b1a, type: 3}
+    - {fileID: 21300000, guid: c6cb13a2b6b370344ad999773f439e7b, type: 3}
+    - {fileID: 21300000, guid: 6dae0cc3c619ec6489cc4059d9df297d, type: 3}
+    - {fileID: 21300000, guid: 068491dd7225f1c41a2f6da56f6dd7cd, type: 3}
+    - {fileID: 21300000, guid: 6e40f8e0ae77e584a9ecdf8291999c1a, type: 3}
+    - {fileID: 21300000, guid: 61fbd0ab61ace4c4185e264d4b50f079, type: 3}
+    - {fileID: 21300000, guid: fc952faeee5f3a04887f59609928e6cf, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/horizontal/east_wet
+    frames:
+    - {fileID: 21300000, guid: 5959c016c82fcf342b733494b3e6d4e7, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/horizontal/water_east
+    frames:
+    - {fileID: 21300000, guid: a815153184a11564ca155929756679f6, type: 3}
+    - {fileID: 21300000, guid: 3b3c26609047e68499d1db5a66924f34, type: 3}
+    - {fileID: 21300000, guid: 5088b3198a0050845a9ec306fd47451e, type: 3}
+    - {fileID: 21300000, guid: 6ad78fa5cb9dd3b489c6b4b86ca539ff, type: 3}
+    - {fileID: 21300000, guid: 27cfcf0e4816347498ce4f266681e44c, type: 3}
+    - {fileID: 21300000, guid: fe16be22e1b68fb458ac971718bea0f3, type: 3}
+    - {fileID: 21300000, guid: 4452448f8cd518442912e3c152334082, type: 3}
+    - {fileID: 21300000, guid: 5fdee05a4eba3704cbea8dd64273eaa2, type: 3}
+    - {fileID: 21300000, guid: a9623c767d8079246aaf5310d265515f, type: 3}
+    - {fileID: 21300000, guid: a26f6d005abdb0243906231b8020fc6d, type: 3}
+    - {fileID: 21300000, guid: 41de8d0262d877b43bdd1aca9aa1fad8, type: 3}
+    - {fileID: 21300000, guid: 3405b786ae37bf148b659290dfe386ee, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/vertical/south_wet
+    frames:
+    - {fileID: 21300000, guid: 3000a38f59ceacf47b3cc141a6ab75d9, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/vertical/water_south
+    frames:
+    - {fileID: 21300000, guid: 7a17673a6fe189d4dbbce8a4fb6af5f9, type: 3}
+    - {fileID: 21300000, guid: 3ed6129b0c9ab2d43b087e5fbd6eedb0, type: 3}
+    - {fileID: 21300000, guid: cffd4fd4d91f4714a8055ea64b305bd2, type: 3}
+    - {fileID: 21300000, guid: 98616ac4f91178d48ba5c2e23b9dbff0, type: 3}
+    - {fileID: 21300000, guid: 1bc968929a4482f4db16ff1e65012d21, type: 3}
+    - {fileID: 21300000, guid: 7a0b45bb3c726d34fa7a8b8b76e4a542, type: 3}
+    - {fileID: 21300000, guid: 54b355b15666d2a40ab4e2242f742088, type: 3}
+    - {fileID: 21300000, guid: 20f721f3ce0d0b34980bd2304f97ed26, type: 3}
+    - {fileID: 21300000, guid: 07f54f8882dc8aa4d965983e6ccdaa8c, type: 3}
+    - {fileID: 21300000, guid: f30ba1e5fc808a4488f7fd8e2f6072bf, type: 3}
+    - {fileID: 21300000, guid: 82d0d64c0c367dd498fc0c389256f695, type: 3}
+    - {fileID: 21300000, guid: bc1ebc9145add8142bb602052f88acd6, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/vertical/north_wet
+    frames:
+    - {fileID: 21300000, guid: 7a17673a6fe189d4dbbce8a4fb6af5f9, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/vertical/water_north
+    frames:
+    - {fileID: 21300000, guid: 3000a38f59ceacf47b3cc141a6ab75d9, type: 3}
+    - {fileID: 21300000, guid: 4391fa76543d32f48b56eb96ce30eac0, type: 3}
+    - {fileID: 21300000, guid: f857fd4f910697d4e8dfb73a80664891, type: 3}
+    - {fileID: 21300000, guid: 4e638ee0fb25a8847b7242b27cc8ca00, type: 3}
+    - {fileID: 21300000, guid: 0293ed28efe5d8b4aab7f0198b024d83, type: 3}
+    - {fileID: 21300000, guid: 68402eaba22f585439ae9cd2c7792c97, type: 3}
+    - {fileID: 21300000, guid: e67faca3108916a46b50c62dc4454e8a, type: 3}
+    - {fileID: 21300000, guid: ef62f9701c4fbdc499fafa83a6315def, type: 3}
+    - {fileID: 21300000, guid: 72a993ce85bd2ca4682966bf4063b9a0, type: 3}
+    - {fileID: 21300000, guid: c242df7a1f58e234eb3ee7b3a3a603b2, type: 3}
+    - {fileID: 21300000, guid: e93de2049f2e7d740bf33db84a61fdb1, type: 3}
+    - {fileID: 21300000, guid: 6264f23772246084c8a74d6e8fc44630, type: 3}
     fps: 12
     loop: 0

@@ -69,7 +69,7 @@ namespace ANIMOL.Puzzle
             {
                 if (art.family == "sheep") { ranchSheep.Add(art.Id, art.position); ranchSheepDirections.Add(art.Id, art.direction); }
                 if (art.family == "sluice")
-                { ranchPonds.Add(art.Id, art.rightState); ranchPondCells.Add(art.position, art); ranchPondCells.Add(art.position + Vector2Int.right, art); }
+                { ranchPonds.Add(art.Id, art.rightState); ranchPondCells.Add(art.position, art); ranchPondCells.Add(art.PondB, art); }
                 if (art.family == "tall_grass") ranchGrassPositions.Add(art.position);
             }
             Cell = map.start;
@@ -247,7 +247,7 @@ namespace ANIMOL.Puzzle
             if (extra != null) relevant.UnionWith(extra);
             relevant.UnionWith(ranchSheep.Values);
             foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
-            { relevant.Add(art.position); relevant.Add(art.position + Vector2Int.right); }
+            { relevant.Add(art.position); relevant.Add(art.PondB); }
             foreach (var p in relevant)
             {
                 if (!Map.Contains(p)) continue;
@@ -255,8 +255,7 @@ namespace ANIMOL.Puzzle
                     ? RanchGroundR2.Wall : RanchGrassPresent(p) ? RanchGroundR2.TallGrass : RanchGroundR2.Floor);
             }
             foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
-                board.ponds.Add(new RanchPondPairR2 { instanceId = art.Id, a = RanchCell(art.position),
-                    b = RanchCell(art.position + Vector2Int.right), wetA = ranchPonds[art.Id] });
+                board.ponds.Add(art.PondPair(ranchPonds[art.Id]));
             foreach (var sheep in ranchSheep) board.sheep.Add(sheep.Key, RanchCell(sheep.Value));
             foreach (var device in definitions.Where(d => !states[d.id].removed && (Solid(d) || d.role == PrototypeRole.Boat)))
                 foreach (var p in Footprint(device))
@@ -286,8 +285,8 @@ namespace ANIMOL.Puzzle
                 accepted = true; return true;
             }
             if (!ranchPondCells.TryGetValue(Cell, out var pond) ||
-                (ranchPonds[pond.Id] ? pond.position + Vector2Int.right : pond.position) != Cell ||
-                (ranchPonds[pond.Id] ? pond.position : pond.position + Vector2Int.right) != destination) return false;
+                (ranchPonds[pond.Id] ? pond.PondB : pond.position) != Cell ||
+                (ranchPonds[pond.Id] ? pond.position : pond.PondB) != destination) return false;
             if (!GateAllows(Cell, destination, direction) || !EntryAllowed(destination))
             { rejection = "Pond crossing blocked by entry rule."; return true; }
             var snapshot = RanchSnapshot();
@@ -297,12 +296,13 @@ namespace ANIMOL.Puzzle
                 rejection = crossing.code + ": " + crossing.diagnostic; return true;
             }
             var previous = Cell;
-            var wasWetA = ranchPonds[pond.Id];
-            ranchPonds[pond.Id] = !wasWetA;
+            var beforePair = snapshot.ponds.Single(p => p.instanceId == pond.Id).Copy();
+            var afterPair = crossed.ponds.Single(p => p.instanceId == pond.Id).Copy();
+            ranchPonds[pond.Id] = afterPair.wetA;
             Leave(previous); Cell = destination; Move("player", previous, destination);
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = pond.Id,
-                state = wasWetA ? "pond_pair/cross_b_to_a" : "pond_pair/cross_a_to_b",
-                eventName = "PondCrossed", from = previous, to = destination, group = group });
+                eventName = "PondCrossed", from = previous, to = destination, group = group,
+                pondBefore = beforePair, pondAfter = afterPair, ranchResult = crossing });
             Collect(); Enter(); Follow(previous); RefreshLinks(true); TraceWind(); Automatic();
             accepted = true; return true;
         }

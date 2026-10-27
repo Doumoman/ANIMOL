@@ -155,6 +155,17 @@ namespace ANIMOL.Puzzle
                     continue;
                 }
                 if (e.actor == "player" && CharacterVisual) CharacterVisual.SetMotion(e.to - e.from, "move");
+                var pondCue = e.actor == "player" ? result.events.Find(p =>
+                    p.kind == PrototypeEventKind.Visual && p.eventName == "PondCrossed" &&
+                    p.from == e.from && p.to == e.to && !consumed.Contains(p)) : null;
+                var moveSeconds = secondsPerCell;
+                if (pondCue != null)
+                {
+                    consumed.Add(pondCue);
+                    moveSeconds = view.PlayRanchCue(pondCue);
+                    if (moveSeconds <= 0f) moveSeconds = secondsPerCell;
+                    Devices.Notify(pondCue, Session.Cost + ":" + pondCue.group);
+                }
                 if (view.RanchActor(e.actor))
                 {
                     var wind = result.events.Exists(cue => cue.kind == PrototypeEventKind.Visual &&
@@ -179,7 +190,7 @@ namespace ANIMOL.Puzzle
                 else
                 {
                     var from = actor.position; var passengerFrom = passenger ? passenger.position : Vector3.zero; var elapsed = 0f;
-                    while (elapsed < secondsPerCell) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / secondsPerCell); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)e.to, progress); Devices.SetWindActionProgress01(progress); yield return null; }
+                    while (elapsed < moveSeconds) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / moveSeconds); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)e.to, progress); Devices.SetWindActionProgress01(progress); yield return null; }
                     actor.position = (Vector2)e.to;
                     if (passenger) passenger.position = (Vector2)e.to;
                 }

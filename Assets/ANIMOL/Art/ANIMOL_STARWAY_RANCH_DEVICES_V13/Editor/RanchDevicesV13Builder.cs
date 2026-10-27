@@ -83,7 +83,10 @@ namespace ANIMOL.Editor.RanchDevicesV13
             var stage = PrefabStageUtility.GetCurrentPrefabStage();
             if (stage != null && stage.assetPath == prefabPath) throw new InvalidOperationException("Close the target inspection prefab stage before rebuild.");
             var oldPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (oldPrefab != null && (oldPrefab.name != "RanchDevicesV13_InspectionOnly" || EditorUtility.IsDirty(oldPrefab))) throw new InvalidOperationException("Foreign/dirty inspection prefab.");
+            if (oldPrefab != null && ((oldPrefab.name != "RanchDevicesV13_InspectionOnly" &&
+                oldPrefab.name != "InspectionOnly_AllClips") || EditorUtility.IsDirty(oldPrefab) ||
+                oldPrefab.GetComponentsInChildren<RanchDeviceVisualV13>(true).Length == 0))
+                throw new InvalidOperationException("Foreign/dirty inspection prefab.");
             foreach (var c in data.clips)
             {
                 if (c == null || string.IsNullOrEmpty(c.key) || c.frames == null || c.frames.Length == 0 || c.fps < 1 || c.fps > 60 || float.IsNaN(c.fps) || float.IsInfinity(c.fps) || c.frames.Any(k => !source.ContainsKey(k))) throw new InvalidOperationException("Invalid clip record.");

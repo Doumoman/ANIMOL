@@ -265,7 +265,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", new Vector2Int(1, 2), out var error), Is.True, error);
                 Assert.That(scenario.ranchV13Art.Single().Footprint().ToArray(),
                     Is.EqualTo(new[] { new Vector2Int(1, 2), new Vector2Int(2, 2) }));
-                Assert.That(scenario.ranchV13Art.Single().ClipKey, Is.EqualTo("pond_pair/a_dry_b_wet"));
+                Assert.That(scenario.ranchV13Art.Single().ClipKey, Is.EqualTo("pond_pair/horizontal/east_wet"));
                 Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(2, 2), out _), Is.False);
                 Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(4, 1), out error), Is.True, error);
                 Assert.That(scenario.ranchV13Art[1].ClipKey, Is.EqualTo("sheep/east/idle"));
@@ -273,6 +273,27 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(PuzzleMapEditor.TryEraseRanchArt(map, new Vector2Int(2, 2)), Is.True);
                 Assert.That(scenario.ranchV13Art.Single().family, Is.EqualTo("sheep"));
                 Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", new Vector2Int(4, 2), out _), Is.False);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void PondEditorAcceptsVerticalAndPreservesStoredAOrder()
+        {
+            Fill();
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                scenario.themeId = "starway"; map.scenario = scenario;
+                var a = new Vector2Int(3, 3);
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", a, Vector2Int.down, out var error), Is.True, error);
+                var pond = scenario.ranchV13Art.Single();
+                Assert.That(pond.position, Is.EqualTo(a));
+                Assert.That(pond.hasPondB, Is.True);
+                Assert.That(pond.pondB, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(pond.direction, Is.EqualTo(Vector2Int.down));
+                Assert.That(pond.PondPair(false).b.y, Is.EqualTo(2));
+                Assert.That(pond.ClipKey, Is.EqualTo("pond_pair/vertical/south_wet"));
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", a, new Vector2Int(1, 1), out _), Is.False);
             }
             finally { map.scenario = null; Object.DestroyImmediate(scenario); }
         }
@@ -309,15 +330,15 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(4, 1), out error), Is.True, error);
                 host.AddComponent<PuzzleMapView>().Bind(map);
                 var art = host.GetComponentsInChildren<ANIMOL.Art.RanchDevicesV13.RanchDeviceVisualV13>();
-                Assert.That(art.Length, Is.EqualTo(3));
-                var pond = host.GetComponentInChildren<ANIMOL.Art.RanchDevicesV13.RanchPondPairVisualR2>();
+                Assert.That(art.Length, Is.EqualTo(2));
+                var pond = host.GetComponentInChildren<ANIMOL.Art.RanchDevicesV13.RanchPondSluiceVisualR3>();
                 Assert.That(pond, Is.Not.Null);
-                Assert.That(pond.transform.localPosition, Is.EqualTo(new Vector3(1, 2, 0)));
+                Assert.That(pond.transform.localPosition, Is.EqualTo(new Vector3(1.5f, 2, 0)));
                 Assert.That(pond.transform.localScale, Is.EqualTo(Vector3.one));
                 Assert.That(pond.GetComponentsInChildren<ANIMOL.Art.RanchDevicesV13.RanchDeviceVisualV13>()
-                    .Select(view => view.CurrentKey), Is.EquivalentTo(new[] { "pond_cell/dry", "pond_cell/wet" }));
+                    .Select(view => view.CurrentKey), Is.EquivalentTo(new[] { "pond_pair/horizontal/east_wet" }));
                 Assert.That(pond.GetComponentsInChildren<SpriteRenderer>().All(renderer =>
-                    renderer.sprite.pixelsPerUnit == 256 && renderer.sprite.rect.size == new Vector2(320, 320)), Is.True);
+                    renderer.sprite.pixelsPerUnit == 256 && renderer.sprite.rect.size == new Vector2(576, 320)), Is.True);
             }
             finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
