@@ -112,7 +112,9 @@ namespace ANIMOL.Puzzle
                         if (Outside(d.position + new Vector2Int(x, y))) count++;
                     return count;
                 }) + bubbles.Count(Outside) + (Outside(start) ? 1 : 0) + (Outside(exit) ? 1 : 0) +
-                (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) + scenario.devices.Sum(d => d.cells.Count(Outside)) +
+                (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) +
+                    scenario.ranchV13Art.Where(d => d != null).Sum(d => d.Footprint().Count(Outside)) +
+                    scenario.devices.Sum(d => d.cells.Count(Outside)) +
                     scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
                         d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) +
                     scenario.devices.Count(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && Outside(d.target)) : 0);

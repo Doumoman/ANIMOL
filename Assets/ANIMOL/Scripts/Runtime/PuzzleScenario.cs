@@ -16,6 +16,22 @@ namespace ANIMOL.Puzzle
         CowardDoll = 23, Chick = 24, Ice = 25, Wall = 100, CrackedWall = 101, WoodCrate = 102, MetalCrate = 103
     }
     public enum StarSocketReward { None, RevealBridge, RevealBubble }
+    // Art layout for V13 families that have no official gameplay device ID yet.
+    // These records are not included in PuzzleDeviceSession.devices.
+    [Serializable] public sealed class RanchV13ArtPlacement
+    {
+        public string family;
+        public Vector2Int position, direction = Vector2Int.right;
+        public bool rightState;
+        public IEnumerable<Vector2Int> Footprint()
+        {
+            yield return position;
+            if (family == "sluice") yield return position + Vector2Int.right;
+        }
+        public string ClipKey => family == "sluice" ? "sluice/horizontal/" + (rightState ? "right" : "left") :
+            family == "sheep" ? "sheep/" + (direction == Vector2Int.up ? "north" :
+                direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east") + "/idle" : null;
+    }
     [Serializable] public sealed class PrototypeDevice
     {
         public string id, variant, group, artTheme;
@@ -46,6 +62,7 @@ namespace ANIMOL.Puzzle
         [Tooltip("Review/verification route, never used by gameplay.")] public string verificationRoute;
         public GameObject beamPrefab;
         public List<PrototypeDevice> devices = new List<PrototypeDevice>();
+        public List<RanchV13ArtPlacement> ranchV13Art = new List<RanchV13ArtPlacement>();
         public List<Vector2Int> water = new List<Vector2Int>();
         public List<PrototypeGoal> goals = new List<PrototypeGoal>();
         [Tooltip("0 = unlimited. Valid actions cost 1, invalid input and auto movement cost 0.")] public int costLimit;
@@ -60,6 +77,24 @@ namespace ANIMOL.Puzzle
         public List<string> Validate(PuzzleMap map)
         {
             var errors = new List<string>();
+            var ranchFootprints = new HashSet<Vector2Int>();
+            foreach (var art in ranchV13Art)
+            {
+                if (art == null || (art.family != "sheep" && art.family != "sluice"))
+                { errors.Add("Unknown Ranch V13 art placement."); continue; }
+                if (themeId != "starway" || !map.theme || !map.theme.starwayRanch ||
+                    !map.theme.starwayRanch.v13Devices)
+                    errors.Add("Ranch V13 art requires the Starway theme and catalog.");
+                if (art.family == "sheep" && !PuzzleSession.IsCardinal(art.direction))
+                    errors.Add("Sheep art direction must be cardinal: " + art.position);
+                foreach (var p in art.Footprint())
+                {
+                    if (!map.Contains(p) || !map.Walkable(p))
+                        errors.Add("Ranch V13 art needs walkable terrain: " + p);
+                    if (!ranchFootprints.Add(p)) errors.Add("Ranch V13 art footprints overlap: " + p);
+                    if (devices.Any(d => d.position == p)) errors.Add("Ranch V13 art overlaps a gameplay device: " + p);
+                }
+            }
             if (devices.Any(d => string.IsNullOrEmpty(d.id))) errors.Add("Every prototype device needs an ID.");
             if (devices.GroupBy(d => d.id).Any(g => g.Count() > 1)) errors.Add("Prototype device IDs must be unique.");
             foreach (var d in devices.Where(d => map.Contains(d.position)))

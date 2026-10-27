@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.RanchConnectedDecorV02;
+using ANIMOL.Art.RanchDevicesV13;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
@@ -259,6 +260,24 @@ namespace ANIMOL.Puzzle
                     map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target)))
                     if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
                         Vector2.one * .8f, Color.white);
+                if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
+                    foreach (var art in map.scenario.ranchV13Art)
+                    {
+                        if (art == null || !map.Contains(art.position)) continue;
+                        var key = art.ClipKey;
+                        if (string.IsNullOrEmpty(key)) continue;
+                        var root = new GameObject("V13 art only " + art.family);
+                        root.transform.SetParent(objectsRoot, false);
+                        root.transform.localPosition = new Vector3(art.position.x + (art.family == "sluice" ? .5f : 0f),
+                            art.position.y, 0);
+                        var visual = new GameObject("Visual");
+                        visual.transform.SetParent(root.transform, false);
+                        var renderer = visual.AddComponent<SpriteRenderer>();
+                        renderer.sortingOrder = 28;
+                        var view = visual.AddComponent<RanchDeviceVisualV13>();
+                        if (!view.Configure(map.theme.starwayRanch.v13Devices, out var error) || !view.SetState(key))
+                        { Debug.LogError("V13 art placement failed: " + (error ?? key), root); Remove(root); }
+                    }
             }
             var possibleBubbles = map.bubbles.Concat(map.scenario ? map.scenario.devices.Where(d =>
                 d.role == PrototypeRole.StarSocket && d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble)

@@ -17,6 +17,16 @@ namespace ANIMOL.Presentation.Editor
 {
     public sealed class PuzzleMapEditor : EditorWindow
     {
+        static readonly string[] waterEdgeKeys = { "water/bank/edge_n", "water/bank/edge_e",
+            "water/bank/edge_s", "water/bank/edge_w" };
+        static readonly string[] waterOuterKeys = { "water/bank/outer_ne", "water/bank/outer_se",
+            "water/bank/outer_sw", "water/bank/outer_nw" };
+        static readonly string[] waterInnerKeys = { "water/bank/inner_ne", "water/bank/inner_se",
+            "water/bank/inner_sw", "water/bank/inner_nw" };
+        static readonly int[] waterEdgeBits = { 1, 4, 16, 64 };
+        static readonly int[] waterDiagonalBits = { 2, 8, 32, 128 };
+        static readonly string[] v13GalleryNames = { "둥지", "키 큰 풀", "수로" };
+        static readonly string[] v13GalleryKeys = { "nest/idle", "tall_grass/idle", "water/wet" };
         enum Layer { Terrain, Device, Decoration, Markers, Water }
         enum Marker { Start, Bubble, Exit }
         [SerializeField] PuzzleMap map;
@@ -27,8 +37,12 @@ namespace ANIMOL.Presentation.Editor
         Marker marker;
         TerrainMaterial material;
         PrototypeDevice prototypeBrush;
+        string ranchArtBrush, ranchArtError;
+        RanchV13ArtPlacement selectedRanchArt;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
+        readonly Dictionary<string, Sprite> legacyDeviceSprites = new Dictionary<string, Sprite>();
         bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, nestTargetMode, scenarioCreationQueued;
+        bool showV13Art = true;
         int templateIndex;
         string selectedDeviceId;
         string scenarioCreationError;
@@ -75,10 +89,11 @@ namespace ANIMOL.Presentation.Editor
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; }
         }
         void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
-        void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; Repaint(); }
+        void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = nestTargetMode = false; scenarioCreationError = decorationError = null;
+            EndStroke(); map = data; selectedDeviceId = null; selectedRanchArt = null; ranchArtBrush = ranchArtError = null;
+            linkTargetMode = nestTargetMode = false; scenarioCreationError = decorationError = null;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
@@ -155,7 +170,8 @@ namespace ANIMOL.Presentation.Editor
                     EditorGUILayout.PropertyField(scenario.FindProperty("costLimit"), new GUIContent("비용 제한 (0: 무제한)"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("beamPrefab"), new GUIContent("광선 프리팹"));
                     DrawScenarioDevices(scenario.FindProperty("devices"));
-                    DrawVectorArray(scenario.FindProperty("water"), "물 칸");
+                    DrawVectorArray(scenario.FindProperty("water"), ThemeId(map.theme) == "starway" ?
+                        "고정 물 칸 (A/B 전환 아님)" : "물 칸");
                     DrawGoals(scenario.FindProperty("goals"));
                     EditorGUILayout.PropertyField(scenario.FindProperty("verificationRoute"), new GUIContent("검수 경로"));
                     EditorGUILayout.LabelField("장치 판정 설정", EditorStyles.boldLabel);
@@ -200,6 +216,8 @@ namespace ANIMOL.Presentation.Editor
                     "물 칸을 배치하려면 테마를 선택하세요." : "물 칸 데이터를 자동으로 준비하는 중입니다."),
                     scenarioCreationError == null ? MessageType.Info : MessageType.Error);
             }
+            if (layer == Layer.Water && ThemeId(map.theme) == "starway" && map.scenario)
+                EditorGUILayout.HelpBox("V13 수로 그림으로 표시됩니다. 현재 물 칸은 고정 데이터이며 수문 A/B 전환 판정은 아직 연결되지 않았습니다.", MessageType.Info);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
             RefreshValidation();
@@ -370,7 +388,8 @@ namespace ANIMOL.Presentation.Editor
             => string.IsNullOrEmpty(themeId) ? Array.Empty<DeviceTemplate>() : templates.Where(entry =>
                 entry?.source && entry.device != null && entry.source.themeId == themeId &&
                 (string.IsNullOrEmpty(entry.device.artTheme) || entry.device.artTheme == themeId) &&
-                !(entry.device.role == PrototypeRole.Wind && entry.device.variant == "field")).ToArray();
+                !(entry.device.role == PrototypeRole.Wind && entry.device.variant == "field") &&
+                !(themeId == "starway" && entry.device.role == PrototypeRole.VineBridge)).ToArray();
         public static string ThemeName(string id) => id == "starway" ? "별길 목장" : id == "memory_theater" ? "잔영 극장" :
             id == "letter_observatory" ? "편지 천문대" : id == "twilight_sea" ? "별너울 해안" : "미지정";
         public sealed class DecorationChoice
@@ -647,6 +666,7 @@ namespace ANIMOL.Presentation.Editor
         void RefreshLibrary()
         {
             library = LoadPracticeTemplates(); templateIndex = 0;
+            legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache();
             previewCacheValid = false; cachedDecorationChoices = null; cachedValidationErrors = null;
             Repaint();
         }
@@ -680,7 +700,8 @@ namespace ANIMOL.Presentation.Editor
                 for (var i = 0; i < choices.Length; i++)
                 {
                     var row = GUILayoutUtility.GetRect(250, 62, GUILayout.ExpandWidth(true));
-                    if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox)) templateIndex = i;
+                    if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
+                    { templateIndex = i; ranchArtBrush = null; selectedRanchArt = null; }
                     if (row.yMax < deviceListScroll.y || row.yMin > deviceListScroll.y + 260) continue;
                     if (i == templateIndex) EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
                     DrawDeviceThumbnail(new Rect(row.x + 8, row.y + 7, 48, 48), choices[i]);
@@ -690,11 +711,16 @@ namespace ANIMOL.Presentation.Editor
                             "장치 ID: " + choices[i].id, EditorStyles.miniLabel);
                 }
                 EditorGUILayout.EndScrollView();
-                prototypeBrush = choices[templateIndex];
+                prototypeBrush = ranchArtBrush == null ? choices[templateIndex] : null;
                 if (useLibrary && GUILayout.Button("원본 장치 에셋 보기")) EditorGUIUtility.PingObject(templates[templateIndex].source);
             }
             if (GUILayout.Button("장치 목록 새로고침")) RefreshLibrary();
             EditorGUILayout.HelpBox("장치를 배치하면 새 ID가 만들어집니다. 연결 그룹과 목표 조건을 확인하세요. 포털 목적지와 선로는 배치한 위치만큼 이동합니다.", MessageType.Info);
+            if (themeId == "starway")
+            {
+                DrawRanchArtPlacementSettings();
+                DrawV13ArtGallery();
+            }
             var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
             if (selected < 0) return;
             EditorGUILayout.LabelField("선택한 장치", EditorStyles.boldLabel);
@@ -740,12 +766,114 @@ namespace ANIMOL.Presentation.Editor
             DrawDeviceProperties(serialized.FindProperty("devices").GetArrayElementAtIndex(selected));
             serialized.ApplyModifiedProperties();
         }
+        void DrawV13ArtGallery()
+        {
+            showV13Art = EditorGUILayout.Foldout(showV13Art, "V13 신규 장치 아트", true);
+            if (!showV13Art) return;
+            EditorGUILayout.HelpBox("아래 그림은 패키지에 포함되지만 현재 맵의 장치 판정에는 아직 연결되지 않았습니다. 미리보기만 가능합니다.", MessageType.Info);
+            for (var i = 0; i < v13GalleryKeys.Length; i++)
+            {
+                var row = GUILayoutUtility.GetRect(250, 58, GUILayout.ExpandWidth(true));
+                if (RanchDevicesV13EditorPreview.TryClip(map.theme, v13GalleryKeys[i], out var sprite))
+                    DrawSpriteFitted(new Rect(row.x + 5, row.y + 5, 48, 48), sprite);
+                else GUI.Label(new Rect(row.x + 5, row.y + 5, 48, 48), "그림 없음", EditorStyles.whiteMiniLabel);
+                GUI.Label(new Rect(row.x + 62, row.y + 7, row.width - 66, 22), v13GalleryNames[i], EditorStyles.boldLabel);
+                GUI.Label(new Rect(row.x + 62, row.y + 29, row.width - 66, 23), v13GalleryKeys[i], EditorStyles.miniLabel);
+            }
+        }
+        void DrawRanchArtPlacementSettings()
+        {
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("V13 별양 · 수문 배치", EditorStyles.boldLabel);
+            foreach (var family in new[] { "sheep", "sluice" })
+            {
+                var key = family == "sheep" ? "sheep/east/idle" : "sluice/horizontal/left";
+                var row = GUILayoutUtility.GetRect(250, 58, GUILayout.ExpandWidth(true));
+                if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
+                { ranchArtBrush = family; prototypeBrush = null; selectedDeviceId = null; inspectDevice = false; }
+                if (ranchArtBrush == family)
+                    EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
+                if (RanchDevicesV13EditorPreview.TryClip(map.theme, key, out var sprite))
+                    DrawSpriteFitted(new Rect(row.x + 8, row.y + 5, 48, 48), sprite);
+                else GUI.Label(new Rect(row.x + 8, row.y + 5, 48, 48), "그림 없음", EditorStyles.whiteMiniLabel);
+                GUI.Label(new Rect(row.x + 62, row.y + 7, row.width - 66, 22),
+                    family == "sheep" ? "별양 (1칸)" : "수문 (가로 2칸)", EditorStyles.boldLabel);
+                GUI.Label(new Rect(row.x + 62, row.y + 29, row.width - 66, 23), key, EditorStyles.miniLabel);
+            }
+            EditorGUILayout.HelpBox("선택 후 격자에 배치합니다. 현재는 맵에 저장되는 V13 그림 배치이며 양 밀기·풀 먹기·수문 A/B 전환 게임 판정은 아직 연결되지 않았습니다.", MessageType.Warning);
+            if (!string.IsNullOrEmpty(ranchArtError)) EditorGUILayout.HelpBox(ranchArtError, MessageType.Warning);
+            if (selectedRanchArt == null || !map.scenario.ranchV13Art.Contains(selectedRanchArt)) return;
+            EditorGUILayout.LabelField("선택한 배치", selectedRanchArt.family + " @ " + selectedRanchArt.position);
+            if (selectedRanchArt.family == "sheep")
+            {
+                EditorGUILayout.BeginHorizontal();
+                foreach (var heading in PuzzleAutotile.Cardinal)
+                    if (GUILayout.Toggle(selectedRanchArt.direction == heading, DirectionName(heading),
+                        EditorStyles.miniButton, GUILayout.Width(58)) && selectedRanchArt.direction != heading)
+                    {
+                        Undo.RecordObject(map.scenario, "별양 방향 변경");
+                        selectedRanchArt.direction = heading;
+                        EditorUtility.SetDirty(map.scenario);
+                    }
+                EditorGUILayout.EndHorizontal();
+            }
+            else
+            {
+                var right = EditorGUILayout.Toggle("수문 오른쪽 그림", selectedRanchArt.rightState);
+                if (right != selectedRanchArt.rightState)
+                {
+                    Undo.RecordObject(map.scenario, "수문 그림 상태 변경");
+                    selectedRanchArt.rightState = right;
+                    EditorUtility.SetDirty(map.scenario);
+                }
+            }
+        }
+
+        public static bool TryPlaceRanchArt(PuzzleMap target, string family, Vector2Int anchor, out string error)
+        {
+            error = null;
+            if (!target || !target.scenario || !target.theme || !target.theme.starwayRanch ||
+                !target.theme.starwayRanch.v13Devices || (family != "sheep" && family != "sluice"))
+            { error = "V13 목장 테마·카탈로그와 별양/수문 종류가 필요합니다."; return false; }
+            var art = new RanchV13ArtPlacement { family = family, position = anchor };
+            if (!RanchDevicesV13EditorPreview.TryClip(target.theme, art.ClipKey, out _))
+            { error = "V13 별양/수문 그림을 카탈로그에서 찾지 못했습니다."; return false; }
+            foreach (var cell in art.Footprint())
+            {
+                if (!target.Contains(cell) || !target.Walkable(cell))
+                { error = "전체 점유 칸에 통행 가능한 지형이 필요합니다."; return false; }
+                if (target.scenario.devices.Any(device => device.position == cell) ||
+                    target.scenario.ranchV13Art.Any(existing => existing != null && existing.Footprint().Contains(cell)))
+                { error = "다른 장치나 V13 배치와 점유 칸이 겹칩니다."; return false; }
+            }
+            target.scenario.ranchV13Art.Add(art);
+            return true;
+        }
+
+        public static bool TryEraseRanchArt(PuzzleMap target, Vector2Int cell)
+        {
+            if (!target || !target.scenario) return false;
+            var index = target.scenario.ranchV13Art.FindIndex(art => art != null && art.Footprint().Contains(cell));
+            if (index < 0) return false;
+            target.scenario.ranchV13Art.RemoveAt(index);
+            return true;
+        }
         void DrawSocketRewardSettings(PrototypeDevice socket)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("별돌 소켓 작동", EditorStyles.boldLabel);
-            var reward = (StarSocketReward)EditorGUILayout.Popup("별돌이 들어오면", (int)socket.socketReward,
-                new[] { "소켓만 켜기", "덩굴 다리 펼치기", "방울 나타내기" });
+            var v13Ranch = map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices;
+            StarSocketReward reward;
+            if (v13Ranch && socket.socketReward != StarSocketReward.RevealBridge)
+            {
+                var choice = EditorGUILayout.Popup("별돌이 들어오면",
+                    socket.socketReward == StarSocketReward.RevealBubble ? 1 : 0,
+                    new[] { "소켓만 켜기", "방울 나타내기" });
+                reward = choice == 1 ? StarSocketReward.RevealBubble : StarSocketReward.None;
+            }
+            else
+                reward = (StarSocketReward)EditorGUILayout.Popup("별돌이 들어오면", (int)socket.socketReward,
+                    new[] { "소켓만 켜기", "기존 덩굴 다리 펼치기", "방울 나타내기" });
             if (reward != socket.socketReward)
             {
                 Undo.RecordObject(map.scenario, "별돌 소켓 작동 변경");
@@ -755,6 +883,7 @@ namespace ANIMOL.Presentation.Editor
             }
             if (reward == StarSocketReward.RevealBridge)
             {
+                if (v13Ranch) EditorGUILayout.HelpBox("이 연결은 기존 맵 데이터 보존용입니다. V13 장치 목록에는 덩굴 다리를 새로 추가하지 않습니다.", MessageType.Info);
                 var bridges = map.scenario.devices.Where(device => device.role == PrototypeRole.VineBridge &&
                     device.variant != "plate" && device != socket).ToArray();
                 if (bridges.Length == 0)
@@ -1010,11 +1139,25 @@ namespace ANIMOL.Presentation.Editor
                     }
                     if (nestCells != null && nestCells.Contains(p))
                     {
-                        var nestSprite = map.theme && map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : null;
-                        if (nestSprite) DrawSprite(rect, nestSprite);
-                        else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
+                        if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
+                        {
+                            if (RanchDevicesV13EditorPreview.TryClip(map.theme, "nest/idle", out var nest))
+                                DrawWorldSprite(rect.center, nest);
+                            else GUI.Label(rect, "V13 둥지 없음", EditorStyles.whiteMiniLabel);
+                        }
+                        else
+                        {
+                            var nestSprite = map.theme && map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : null;
+                            if (nestSprite) DrawSprite(rect, nestSprite);
+                            else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
+                        }
                     }
-                    if (waterCells != null && waterCells.Contains(p)) GUI.Label(rect, "~");
+                    if (waterCells != null && waterCells.Contains(p))
+                    {
+                        if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
+                            DrawV13WaterPreview(rect, p, waterCells);
+                        else GUI.Label(rect, "~");
+                    }
                     var d = map.DeviceAt(p);
                     if (d.kind != DeviceKind.None)
                         GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
@@ -1028,6 +1171,19 @@ namespace ANIMOL.Presentation.Editor
                     if (!map.Contains(p)) GUI.Label(rect, "/");
                 }
                 var visible = new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height);
+                if (map.scenario && map.theme && map.theme.starwayRanch)
+                    foreach (var art in map.scenario.ranchV13Art)
+                    {
+                        if (art == null || !map.Contains(art.position)) continue;
+                        if (RanchDevicesV13EditorPreview.TryClip(map.theme, art.ClipKey, out var sprite))
+                            DrawWorldSpriteAt(new Vector2(art.position.x + (art.family == "sluice" ? .5f : 0f),
+                                art.position.y), sprite, shownHeight, origin, visible);
+                        if (art == selectedRanchArt)
+                            Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + art.position.x * cellSize,
+                                origin.y + (shownHeight - art.position.y - 1) * cellSize,
+                                cellSize * (art.family == "sluice" ? 2 : 1), cellSize),
+                                Color.clear, new Color(.2f, .8f, 1f));
+                    }
                 DrawOffscreenRanchDecorationPreviews(xMin, xMax, yMin, yMax, shownHeight, origin, visible);
                 RefreshPreviewCache();
                 DrawConnectedDecorPreview(shownHeight, origin, visible);
@@ -1088,7 +1244,11 @@ namespace ANIMOL.Presentation.Editor
                                 linkTargetMode = false;
                             }
                         }
-                        else if (e.type == EventType.MouseDown) selectedDeviceId = clicked?.id;
+                        else if (e.type == EventType.MouseDown)
+                        {
+                            selectedDeviceId = clicked?.id;
+                            selectedRanchArt = map.scenario.ranchV13Art.FirstOrDefault(art => art != null && art.Footprint().Contains(p));
+                        }
                     }
                     else
                     {
@@ -1101,13 +1261,44 @@ namespace ANIMOL.Presentation.Editor
             GUI.EndScrollView();
         }
         static string DirectionGlyph(Vector2Int d) => d == Vector2Int.up ? "^" : d == Vector2Int.right ? ">" : d == Vector2Int.down ? "v" : d == Vector2Int.left ? "<" : "?";
+        void DrawV13WaterPreview(Rect cell, Vector2Int position, ISet<Vector2Int> sameState)
+        {
+            if (!RanchDevicesV13EditorPreview.TryClip(map.theme, "water/wet", out var water))
+            { GUI.Label(cell, "V13 수로 없음", EditorStyles.whiteMiniLabel); return; }
+            DrawWorldSprite(cell.center, water);
+            var mask = RanchDevicesV13EditorPreview.WaterNeighborMask(sameState, position);
+            for (var i = 0; i < 4; i++)
+                if ((mask & waterEdgeBits[i]) == 0) DrawV13WaterPart(cell, waterEdgeKeys[i]);
+            for (var i = 0; i < 4; i++)
+            {
+                var a = (mask & waterEdgeBits[i]) != 0;
+                var b = (mask & waterEdgeBits[(i + 1) % 4]) != 0;
+                if (!a && !b) DrawV13WaterPart(cell, waterOuterKeys[i]);
+                else if (a && b && (mask & waterDiagonalBits[i]) == 0)
+                    DrawV13WaterPart(cell, waterInnerKeys[i]);
+            }
+        }
+        void DrawV13WaterPart(Rect cell, string key)
+        {
+            if (RanchDevicesV13EditorPreview.TryPart(map.theme, key, out var sprite))
+                DrawWorldSprite(cell.center, sprite);
+        }
         static string DirectionName(Vector2Int d) => d == Vector2Int.up ? "북 N" : d == Vector2Int.right ? "동 E" :
             d == Vector2Int.down ? "남 S" : d == Vector2Int.left ? "서 W" : "방향 없음";
         void DrawDevice(Rect cell, PrototypeDevice device)
         {
-            var inset = cell.width * .12f;
-            var visual = new Rect(cell.x + inset, cell.y + inset, cell.width - inset * 2, cell.height - inset * 2);
-            DrawDeviceThumbnail(visual, device);
+            if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
+            {
+                if (RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var v13Sprite, out _))
+                    DrawWorldSprite(cell.center, v13Sprite);
+                else GUI.Label(cell, "V13 그림 없음", EditorStyles.whiteMiniLabel);
+            }
+            else
+            {
+                var inset = cell.width * .12f;
+                var visual = new Rect(cell.x + inset, cell.y + inset, cell.width - inset * 2, cell.height - inset * 2);
+                DrawDeviceThumbnail(visual, device);
+            }
             var selected = device.id == selectedDeviceId;
             var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
             EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
@@ -1115,9 +1306,15 @@ namespace ANIMOL.Presentation.Editor
             if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
             if (!device.visualPrefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "그림 없음", EditorStyles.whiteMiniLabel);
         }
-        static void DrawDeviceThumbnail(Rect rect, PrototypeDevice device)
+        void DrawDeviceThumbnail(Rect rect, PrototypeDevice device)
         {
             var sprite = DeviceSprite(device);
+            if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
+            {
+                if (sprite) DrawSpriteFitted(rect, sprite);
+                else GUI.Label(rect, "V13 그림 없음", EditorStyles.whiteMiniLabel);
+                return;
+            }
             if (device.role == PrototypeRole.StarSocket && device.variant != "socket")
             {
                 var inset = rect.width * .12f;
@@ -1131,18 +1328,24 @@ namespace ANIMOL.Presentation.Editor
             }
             else GUI.Label(rect, "?", EditorStyles.boldLabel);
         }
-        static Sprite DeviceSprite(PrototypeDevice device)
+        Sprite DeviceSprite(PrototypeDevice device)
         {
+            if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
+                return RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var current, out _) ? current : null;
             var prefab = device.visualPrefab;
             if (!prefab) return null;
+            var cacheKey = prefab.GetInstanceID() + ":" + device.initialVisual;
+            if (legacyDeviceSprites.TryGetValue(cacheKey, out var cached)) return cached;
             var view = prefab.GetComponentInChildren<ANIMOL.Presentation.DeviceVisualView>(true);
             var state = view?.states?.FirstOrDefault(candidate => candidate.name == device.initialVisual) ??
                 view?.states?.FirstOrDefault(candidate => candidate.name == view.initialState);
-            if (state?.sprite) return state.sprite;
+            if (state?.sprite) return CacheLegacyDeviceSprite(cacheKey, state.sprite);
             if (state?.sequence && state.sequence.frames != null && state.sequence.frames.Length > 0 && state.sequence.frames[0])
-                return state.sequence.frames[0];
-            return prefab.GetComponentsInChildren<SpriteRenderer>(true).Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate);
+                return CacheLegacyDeviceSprite(cacheKey, state.sequence.frames[0]);
+            return CacheLegacyDeviceSprite(cacheKey, prefab.GetComponentsInChildren<SpriteRenderer>(true)
+                .Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate));
         }
+        Sprite CacheLegacyDeviceSprite(string key, Sprite sprite) { legacyDeviceSprites[key] = sprite; return sprite; }
         void DrawCameraBounds(Rect world, int shownHeight, Vector2 origin)
         {
             var frame = new Rect(origin.x + (world.xMin + .5f) * cellSize,
@@ -1500,9 +1703,19 @@ namespace ANIMOL.Presentation.Editor
                 if (map.scenario)
                 {
                     Undo.RecordObject(map.scenario, "테마 장치 배치");
-                    if (remove) map.scenario.devices.RemoveAll(d => d.position == p);
+                    if (remove)
+                    {
+                        if (!TryEraseRanchArt(map, p)) map.scenario.devices.RemoveAll(d => d.position == p);
+                        if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
+                    }
+                    else if (ranchArtBrush != null)
+                    {
+                        if (!TryPlaceRanchArt(map, ranchArtBrush, p, out ranchArtError)) return;
+                        selectedRanchArt = map.scenario.ranchV13Art[map.scenario.ranchV13Art.Count - 1];
+                    }
                     else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&
                         (string.IsNullOrEmpty(prototypeBrush.artTheme) || ThemeId(map.theme) == prototypeBrush.artTheme) &&
+                        !map.scenario.ranchV13Art.Any(art => art != null && art.Footprint().Contains(p)) &&
                         !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
                         selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
                     EditorUtility.SetDirty(map.scenario);

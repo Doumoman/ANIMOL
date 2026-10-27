@@ -219,6 +219,104 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, ""), Is.Empty);
             var starGarden = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             Assert.That(PuzzleMapEditor.ThemeId(starGarden), Is.EqualTo("starway"));
+            Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, "starway")
+                .Any(entry => entry.device.role == PrototypeRole.VineBridge), Is.False);
+        }
+        [Test] public void StarwayMapEditorPreviewUsesV13SpritesForExistingDevices()
+        {
+            var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var devices = new[]
+            {
+                new PrototypeDevice { role = PrototypeRole.StarSocket, number = 2, direction = Vector2Int.right },
+                new PrototypeDevice { role = PrototypeRole.Chick, direction = Vector2Int.up },
+                new PrototypeDevice { role = PrototypeRole.Conveyor, direction = Vector2Int.left },
+                new PrototypeDevice { role = PrototypeRole.Wind, variant = "blower", direction = Vector2Int.down, orientation = 2 }
+            };
+            var keys = new[] { "star/diamond/stone", "chick/north/idle", "conveyor/west/idle", "windmill/south/6" };
+            for (var i = 0; i < devices.Length; i++)
+            {
+                Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[i], out var sprite, out var key), Is.True);
+                Assert.That(key, Is.EqualTo(keys[i]));
+                Assert.That(AssetDatabase.GetAssetPath(sprite).Replace('\\', '/'),
+                    Does.StartWith("Assets/ANIMOL/Art/ANIMOL_STARWAY_RANCH_DEVICES_V13/Sprites/"));
+            }
+            devices[0].variant = "socket";
+            Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[0], out _, out var socketKey), Is.True);
+            Assert.That(socketKey, Is.EqualTo("star/diamond/empty"));
+            Assert.That(RanchDevicesV13EditorPreview.TryClip(theme, "nest/idle", out var nest), Is.True);
+            Assert.That(nest, Is.Not.Null);
+        }
+        [Test] public void RanchWaterPreviewUsesEightNeighborMaskOrder()
+        {
+            var cell = new Vector2Int(5, 5);
+            var connected = new System.Collections.Generic.HashSet<Vector2Int>
+            { cell + Vector2Int.up, cell + Vector2Int.right, cell + new Vector2Int(-1, -1) };
+            Assert.That(RanchDevicesV13EditorPreview.WaterNeighborMask(connected, cell), Is.EqualTo(1 | 4 | 32));
+        }
+        [Test] public void SheepAndSluiceArtCanBePlacedWithoutInventingGameplayIds()
+        {
+            Fill();
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                scenario.themeId = "starway";
+                map.scenario = scenario;
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", new Vector2Int(1, 2), out var error), Is.True, error);
+                Assert.That(scenario.ranchV13Art.Single().Footprint().ToArray(),
+                    Is.EqualTo(new[] { new Vector2Int(1, 2), new Vector2Int(2, 2) }));
+                Assert.That(scenario.ranchV13Art.Single().ClipKey, Is.EqualTo("sluice/horizontal/left"));
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(2, 2), out _), Is.False);
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(4, 1), out error), Is.True, error);
+                Assert.That(scenario.ranchV13Art[1].ClipKey, Is.EqualTo("sheep/east/idle"));
+                Assert.That(scenario.devices, Is.Empty);
+                Assert.That(PuzzleMapEditor.TryEraseRanchArt(map, new Vector2Int(2, 2)), Is.True);
+                Assert.That(scenario.ranchV13Art.Single().family, Is.EqualTo("sheep"));
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", new Vector2Int(4, 2), out _), Is.False);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void OneWayGateKeepsTheExistingV12VisualBinding()
+        {
+            var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device09_OneWayGate_Scenario.asset");
+            var gate = scenario.devices.Single(device => device.role == PrototypeRole.OneWayGate);
+            Assert.That(RanchDevicesV13PuzzleBinding.Covers(gate), Is.False);
+            Assert.That(RanchDevicesV13EditorPreview.Covers(theme, gate), Is.False);
+            var root = Object.Instantiate(gate.visualPrefab);
+            try
+            {
+                var view = root.GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                Assert.That(view, Is.Not.Null);
+                Assert.That(view.ActivateV12(theme.starwayRanch.v12Animations,
+                    theme.starwayRanch.v12ManifestSha256), Is.True);
+                Assert.That(view.IsV12Active, Is.True);
+            }
+            finally { Object.DestroyImmediate(root); }
+        }
+        [Test] public void RanchArtPlacementsRenderAtTheirLogicalCenters()
+        {
+            Fill();
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var host = new GameObject("V13 art layout test");
+            try
+            {
+                scenario.themeId = "starway";
+                map.scenario = scenario;
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sluice", new Vector2Int(1, 2), out var error), Is.True, error);
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(4, 1), out error), Is.True, error);
+                host.AddComponent<PuzzleMapView>().Bind(map);
+                var art = host.GetComponentsInChildren<ANIMOL.Art.RanchDevicesV13.RanchDeviceVisualV13>();
+                Assert.That(art.Length, Is.EqualTo(2));
+                var sluice = art.Single(view => view.transform.parent.name == "V13 art only sluice");
+                Assert.That(sluice.transform.parent.localPosition, Is.EqualTo(new Vector3(1.5f, 2, 0)));
+                Assert.That(sluice.transform.parent.localScale, Is.EqualTo(Vector3.one));
+                Assert.That(sluice.GetComponent<SpriteRenderer>().sprite.pixelsPerUnit, Is.EqualTo(256));
+                Assert.That(sluice.GetComponent<SpriteRenderer>().sprite.rect.size, Is.EqualTo(new Vector2(576, 320)));
+            }
+            finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
         [Test] public void DecorationPaletteShowsOnlyCuratedThemeProps()
         {

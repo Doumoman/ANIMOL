@@ -40,7 +40,6 @@ namespace ANIMOL.Puzzle
             {
                 case PrototypeRole.StarSocket:
                 case PrototypeRole.Conveyor:
-                case PrototypeRole.OneWayGate:
                 case PrototypeRole.Bounce:
                 case PrototypeRole.Brake:
                 case PrototypeRole.Chick:
@@ -129,7 +128,6 @@ namespace ANIMOL.Puzzle
                     { error = "Star pattern number must be 1, 2, or 3."; return false; }
                     key = "star/" + shape + "/" + (d.variant == "socket" ? state.active ? "filled" : "empty" : "stone"); break;
                 case PrototypeRole.Conveyor: key = "conveyor/" + direction + "/idle"; break;
-                case PrototypeRole.OneWayGate: key = "oneway_gate/" + direction + "/idle"; break;
                 case PrototypeRole.Bounce: key = "bounce_corner/" + PuzzleDeviceSession.Corner(d.orientation) + "/idle"; break;
                 case PrototypeRole.Brake: key = "brake/" + direction + "/idle"; break;
                 case PrototypeRole.Wind:
@@ -173,13 +171,6 @@ namespace ANIMOL.Puzzle
             }
             else if (definition.role == PrototypeRole.Conveyor && cue.eventName == "conveyor_visual_running")
             { if (!TryDirection(state.direction, out var direction)) return false; key = "conveyor/" + direction + "/run"; }
-            else if (definition.role == PrototypeRole.OneWayGate)
-            {
-                if (!TryDirection(state.direction, out var direction)) return false;
-                if (cue.eventName == "allowed_passage_begin") key = "oneway_gate/" + direction + "/open";
-                else if (cue.eventName == "allowed_passage_clear") key = "oneway_gate/" + direction + "/close";
-                else if (cue.eventName == "existing_rejected_gate_contact") key = "oneway_gate/" + direction + "/reject";
-            }
             else if (definition.role == PrototypeRole.Bounce && cue.eventName == "existing_bounce_resolved")
                 key = "bounce_corner/" + PuzzleDeviceSession.Corner(definition.orientation) + "/bounce";
             else if (definition.role == PrototypeRole.Brake && cue.eventName == "forced_motion_stopped")
