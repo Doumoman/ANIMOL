@@ -11,6 +11,7 @@ namespace ANIMOL.Puzzle
         public GameObject hudPrefab;
         public float secondsPerCell = .16f;
         public PuzzleDeviceSession Session { get; private set; }
+        public StarwayV3StrictPolicy Strict { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
         public Transform Player { get; private set; }
         public StarwayCharacterVisual CharacterVisual { get; private set; }
@@ -33,6 +34,7 @@ namespace ANIMOL.Puzzle
             if (presentation) { presentation.gameObject.SetActive(false); Destroy(presentation.gameObject); }
             if (RuntimeMap) Destroy(RuntimeMap);
             RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data; Session = new PuzzleDeviceSession(RuntimeMap);
+            Strict = RuntimeMap.starwayV3Certificate ? new StarwayV3StrictPolicy(RuntimeMap) : null;
             presentation = new GameObject("Prototype presentation").transform; presentation.SetParent(transform, false);
             view = new GameObject("Terrain grid").AddComponent<PuzzleMapView>(); view.transform.SetParent(presentation, false); view.Bind(RuntimeMap);
             CharacterVisual = RuntimeMap.theme.CharacterCatalog
@@ -67,9 +69,16 @@ namespace ANIMOL.Puzzle
         }
         public bool RequestMove(Vector2Int direction)
         {
-            if (Session == null || Session.Won || Session.Failed || !PuzzleSession.IsCardinal(direction)) return false;
+            if (Session == null || Session.Won || Session.Failed || Strict != null && Strict.Failed ||
+                !PuzzleSession.IsCardinal(direction)) return false;
             if (IsMoving) { queuedInput = direction; return true; }
-            var result = Session.Apply(direction);
+            PrototypeAction result = null;
+            if (Strict != null && !Strict.TryApply(Session, direction, out result))
+            {
+                Status = Strict.Error ?? result.reason;
+                return false;
+            }
+            if (Strict == null) result = Session.Apply(direction);
             if (!result.accepted)
             {
                 Status = result.reason;
@@ -83,7 +92,7 @@ namespace ANIMOL.Puzzle
         }
         public bool UndoLast()
         {
-            if (Session == null) return false;
+            if (Session == null || Strict != null) return false;
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             if (!Session.Undo()) return false;
@@ -95,6 +104,7 @@ namespace ANIMOL.Puzzle
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             Session.Reset(); PresentRestoredState();
+            Strict?.Reset();
         }
         public void RestoreSnapshot(PuzzleDeviceSession snapshot)
         {
@@ -102,6 +112,7 @@ namespace ANIMOL.Puzzle
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             Session.RestoreSnapshot(snapshot); PresentRestoredState();
+            Strict?.Reset();
         }
         void PresentRestoredState()
         {
@@ -228,7 +239,9 @@ namespace ANIMOL.Puzzle
         void LateUpdate()
         {
             if (!hud || Session == null) return;
-            hud.cost.text = "COST " + (RuntimeMap.scenario.costLimit > 0 ? Mathf.Max(0, RuntimeMap.scenario.costLimit - Session.Cost).ToString() : Session.Cost.ToString());
+            hud.cost.text = Strict != null && Strict.Failed
+                ? Strict.LastDecision == StarwayV3StrictPolicy.Decision.TransitionMismatch ? "MAP ERROR" : "WRONG INPUT · RESET"
+                : "COST " + (RuntimeMap.scenario.costLimit > 0 ? Mathf.Max(0, RuntimeMap.scenario.costLimit - Session.Cost).ToString() : Session.Cost.ToString());
             hud.bubbles.text = Session.Collected + "/" + RuntimeMap.targetBubbles;
         }
         void OnDestroy() { if (RuntimeMap) Destroy(RuntimeMap); }

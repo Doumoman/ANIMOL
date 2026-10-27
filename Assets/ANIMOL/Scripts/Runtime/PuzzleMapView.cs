@@ -18,6 +18,7 @@ namespace ANIMOL.Puzzle
         public PuzzleMap map;
         readonly Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
         readonly Dictionary<Vector2Int, GameObject> bubbleViews = new Dictionary<Vector2Int, GameObject>();
+        SpriteRenderer exitView;
         sealed class ClassicWindVisual
         {
             public StarwayRanchV12AnimatedVisual body;
@@ -127,7 +128,7 @@ namespace ANIMOL.Puzzle
             sanctumLegacyDecorationViews.Clear();
             coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
             coastLegacyDecorationViews.Clear();
-            bubbleViews.Clear(); classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
+            bubbleViews.Clear(); exitView = null; classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
             ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchNestVisuals.Clear();
             pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
             ranchGrassVisuals.Clear(); ranchEffects.Clear(); ranchWaterCells.Clear(); ranchWaterVisuals.Clear();
@@ -339,7 +340,7 @@ namespace ANIMOL.Puzzle
                 .Select(d => d.socketBubbleCell) : Enumerable.Empty<Vector2Int>());
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
-            if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
+            exitView = map.Contains(map.exit) ? Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white) : null;
             if (currentSession != null)
             {
                 Present(currentSession);
@@ -611,6 +612,8 @@ namespace ANIMOL.Puzzle
             currentSession = session;
             foreach (var entry in bubbleViews) entry.Value.SetActive(session.IsBubbleVisible(entry.Key) && !session.IsCollected(entry.Key));
             var devices = session as PuzzleDeviceSession;
+            if (exitView && map.starwayV3Certificate && devices != null)
+                exitView.color = devices.ExitReady ? Color.white : new Color(.55f, .62f, .75f, 1f);
             if (devices == null) return;
             foreach (var actor in ranchActors)
             {

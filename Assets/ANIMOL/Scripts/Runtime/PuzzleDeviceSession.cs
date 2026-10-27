@@ -23,6 +23,19 @@ namespace ANIMOL.Puzzle
         public Vector2Int Direction { get; private set; } = Vector2Int.right;
         public int Cost { get; private set; }
         public int Collected => collected.Count;
+        public bool ExitReady => Collected >= Map.targetBubbles && Rules.goals.All(g =>
+        {
+            if (g.kind == PrototypeGoalKind.Visited) return visited.Contains(g.cell);
+            var s = states[g.deviceId];
+            switch (g.kind)
+            {
+                case PrototypeGoalKind.Active: return s.active;
+                case PrototypeGoalKind.Removed: return s.removed;
+                case PrototypeGoalKind.Position: return s.cell == g.cell;
+                case PrototypeGoalKind.DiceTop: return s.dice[0] == g.number;
+                default: return false;
+            }
+        });
         public bool Won { get; private set; }
         public bool Failed { get; private set; }
         public string Failure { get; private set; }
@@ -516,11 +529,13 @@ namespace ANIMOL.Puzzle
         }
         PrototypeDevice MismatchedSocket(PrototypeDevice d, Vector2Int destination) =>
             d.role == PrototypeRole.StarSocket && d.variant != "socket" ?
-                At(destination, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" && x.number != d.number) : null;
+                At(destination, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" &&
+                    !states[x.id].active && x.number != d.number) : null;
         bool SeatStarStone(PrototypeDevice d)
         {
             if (d.role != PrototypeRole.StarSocket || d.variant == "socket") return false;
-            var socket = At(states[d.id].cell, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" && x.number == d.number);
+            var socket = At(states[d.id].cell, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" &&
+                !states[x.id].active && x.number == d.number);
             if (socket == null) return false;
             states[d.id].removed = true;
             states[socket.id].active = true;
@@ -964,13 +979,7 @@ namespace ANIMOL.Puzzle
         }
         void Victory()
         {
-            Won = !Failed && Cell == Map.exit && Collected >= Map.targetBubbles && Rules.goals.All(g =>
-            {
-                if (g.kind == PrototypeGoalKind.Visited) return visited.Contains(g.cell);
-                var s = states[g.deviceId];
-                switch (g.kind) { case PrototypeGoalKind.Active: return s.active; case PrototypeGoalKind.Removed: return s.removed;
-                    case PrototypeGoalKind.Position: return s.cell == g.cell; case PrototypeGoalKind.DiceTop: return s.dice[0] == g.number; default: return false; }
-            });
+            Won = !Failed && Cell == Map.exit && ExitReady;
             if (Won) events.Add(new PrototypeEvent { kind = PrototypeEventKind.Won, actor = "player", group = group });
         }
         void Fail(string reason) { Failed = true; Failure = reason; events.Add(new PrototypeEvent { kind = PrototypeEventKind.Failed, actor = "player", state = reason, group = group }); }

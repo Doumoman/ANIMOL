@@ -34,7 +34,8 @@ namespace ANIMOL.Puzzle
     }
     [Serializable] public class PuzzleCameraSettings
     {
-        [Range(5, 25)] public float visibleRows = 11;
+        [Range(5, 80)] public float visibleRows = 11;
+        public bool fitWholeBoard;
         [Range(1, 40)] public float followSharpness = 16;
         [Tooltip("Reserved height for the existing HUD in 540px-wide portrait reference units.")][Range(0, 150)] public float topInset = 90;
         [Tooltip("Optional camera inset; swipe controls need no bottom UI area.")][Range(0, 300)] public float bottomInset = 0;
@@ -52,6 +53,9 @@ namespace ANIMOL.Puzzle
         public int Height => height;
         public PuzzleTheme theme;
         public PuzzleScenario scenario;
+        [Tooltip("V3-only strict input certificate. Null keeps the existing practice rules.")]
+        public TextAsset starwayV3Certificate;
+        public string starwayV3ScenarioSha256;
         [Min(0)] public int targetBubbles = 3;
         public PuzzleCameraSettings cameraSettings = new PuzzleCameraSettings();
         public Vector2Int start = new Vector2Int(1, 1);
@@ -122,6 +126,18 @@ namespace ANIMOL.Puzzle
         public List<string> ValidateMap()
         {
             var errors = new List<string>();
+            if (starwayV3Certificate)
+            {
+                if (scenario == null || scenario.themeId != "starway" ||
+                    string.IsNullOrEmpty(starwayV3ScenarioSha256))
+                    errors.Add("V3 requires its Starway scenario and source hash.");
+                if (targetBubbles != 3 || bubbles == null || bubbles.Count != 3 || bubbles.Distinct().Count() != 3)
+                    errors.Add("V3 requires exactly three unique bubbles and targetBubbles=3.");
+                else if (bubbles.Any(p => p == start || p == exit || !Walkable(p) ||
+                    scenario != null && (scenario.devices.Any(d => d.position == p) ||
+                        scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(p)))))
+                    errors.Add("V3 bubbles must occupy separate walkable cells away from start, exit, and initial devices.");
+            }
             if (!Walkable(start)) errors.Add("Start must be on an in-bounds walkable tile.");
             if (!Walkable(exit)) errors.Add("Exit must be on an in-bounds walkable tile.");
             var possibleBubbles = bubbles.Concat(scenario ? scenario.devices.Where(d =>

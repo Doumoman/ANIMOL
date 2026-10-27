@@ -83,6 +83,20 @@ namespace ANIMOL.Puzzle
             if (!visual) visual = visualChild.gameObject.AddComponent<RanchDeviceVisualV13>();
             if (!visual.Configure(catalog, out var error))
                 throw new InvalidOperationException("V13 visual configuration failed: " + error);
+            if (definition.role == PrototypeRole.StarSocket && definition.number == 4)
+            {
+                renderer.color = new Color(1f, .58f, .95f, 1f);
+                var marker = new GameObject("V3 pattern 4 marker");
+                marker.transform.SetParent(root.transform, false);
+                marker.transform.localPosition = new Vector3(0f, -.12f, -.01f);
+                var label = marker.AddComponent<TextMesh>();
+                label.text = "4"; label.anchor = TextAnchor.MiddleCenter;
+                label.alignment = TextAlignment.Center; label.fontSize = 64;
+                label.characterSize = .12f; label.color = new Color(.2f, .07f, .2f);
+                var labelRenderer = marker.GetComponent<MeshRenderer>();
+                labelRenderer.sortingLayerID = renderer.sortingLayerID;
+                labelRenderer.sortingOrder = renderer.sortingOrder + 2;
+            }
             motion = root.GetComponent<RanchCommittedMotionV13>();
             if (!motion) motion = root.AddComponent<RanchCommittedMotionV13>();
             if (motionChildField == null || motionVisualField == null || motionCapturedField == null)
@@ -103,7 +117,9 @@ namespace ANIMOL.Puzzle
         // triangle/diamond/cross are family keys, not new device IDs.
         static bool TryStarShape(int number, out string shape)
         {
-            shape = number == 1 ? "triangle" : number == 2 ? "diamond" : number == 3 ? "cross" : null;
+            // V3's fourth logical pattern has no dedicated V13 sprite. Reuse the cross
+            // motion with a clearly tinted, numbered visual; matching still uses number 4.
+            shape = number == 1 ? "triangle" : number == 2 ? "diamond" : number == 3 || number == 4 ? "cross" : null;
             return shape != null;
         }
 
@@ -125,7 +141,7 @@ namespace ANIMOL.Puzzle
             {
                 case PrototypeRole.StarSocket:
                     if (!TryStarShape(d.number, out var shape))
-                    { error = "Star pattern number must be 1, 2, or 3."; return false; }
+                    { error = "Star pattern number must be 1, 2, 3, or the V3-marked 4."; return false; }
                     key = "star/" + shape + "/" + (d.variant == "socket" ? state.active ? "filled" : "empty" : "stone"); break;
                 case PrototypeRole.Conveyor: key = "conveyor/" + direction + "/idle"; break;
                 case PrototypeRole.Bounce: key = "bounce_corner/" + PuzzleDeviceSession.Corner(d.orientation) + "/idle"; break;

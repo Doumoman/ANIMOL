@@ -1,0 +1,4598 @@
+{
+  "scope": "document-rule-model only; not Unity runtime",
+  "revision": 3,
+  "mapCount": 20,
+  "passed": true,
+  "all20Present": true,
+  "globalErrors": [],
+  "independentSearchPerformed": true,
+  "beforeRevision": {
+    "mapsViolatingThreeBubbleRequirement": 20,
+    "targetDistribution": {
+      "0": 19,
+      "2": 1
+    }
+  },
+  "bubbleGoalProbeCount": 160,
+  "reports": [
+    {
+      "mapId": "SR01",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 130,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        11,
+        15
+      ],
+      "walkableCells": 111,
+      "shapeName": "초승달 목초지",
+      "wrongRejected": 86,
+      "wrongAccepted": 64,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            3,
+            15
+          ],
+          [
+            9,
+            9
+          ],
+          [
+            5,
+            1
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 5,
+            "position": [
+              3,
+              15
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 21,
+            "position": [
+              9,
+              9
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 37,
+            "position": [
+              5,
+              1
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 12,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 20,
+            "bubbleCount": 1,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 16
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 37
+          }
+        ],
+        "stonePushes": 7,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          11,
+          15
+        ],
+        "uniqueVisitedEndCells": 40,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              3,
+              15
+            ],
+            "step": 5,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              9,
+              9
+            ],
+            "step": 21,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              5,
+              1
+            ],
+            "step": 37,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 50,
+        "count": 1,
+        "solution": "NEENNEEEESSWSSESNEESSSSSSSSEESSWWWWWWEENNEENNNNNNN",
+        "explored": 719,
+        "expanded": 604,
+        "seconds": 0.012228070001583546
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR02",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 103,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        12,
+        14
+      ],
+      "walkableCells": 64,
+      "shapeName": "네 갈래 별마당",
+      "wrongRejected": 76,
+      "wrongAccepted": 74,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            7,
+            1
+          ],
+          [
+            8,
+            14
+          ],
+          [
+            12,
+            7
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 20,
+            "position": [
+              7,
+              1
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 36,
+            "position": [
+              8,
+              14
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 49,
+            "position": [
+              12,
+              7
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 11,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 33
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 47
+          }
+        ],
+        "stonePushes": 17,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          12,
+          14
+        ],
+        "uniqueVisitedEndCells": 44,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              7,
+              1
+            ],
+            "step": 20,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              8,
+              14
+            ],
+            "step": 36,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              12,
+              7
+            ],
+            "step": 49,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 50,
+        "count": 1,
+        "solution": "EEEEEEEESSWNSWSSSSSSEENNNNNNNNNNNNNWWSSSSSEEEEESSW",
+        "explored": 2251,
+        "expanded": 1722,
+        "seconds": 0.05507550699985586
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR03",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 124,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        13,
+        15
+      ],
+      "walkableCells": 107,
+      "shapeName": "고리 목장",
+      "wrongRejected": 80,
+      "wrongAccepted": 70,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            1,
+            15
+          ],
+          [
+            11,
+            13
+          ],
+          [
+            13,
+            3
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 3,
+            "position": [
+              1,
+              15
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 17,
+            "position": [
+              11,
+              13
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 49,
+            "position": [
+              13,
+              3
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 12,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 17
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 49
+          }
+        ],
+        "stonePushes": 10,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 2,
+            "wetA": true
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          13,
+          15
+        ],
+        "uniqueVisitedEndCells": 44,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              1,
+              15
+            ],
+            "step": 3,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              11,
+              13
+            ],
+            "step": 17,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              13,
+              3
+            ],
+            "step": 49,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 50,
+        "count": 1,
+        "solution": "NNNEEEESWSEEEEEEEWWWWWWWWSSSSSSSSSSEEEEEESSEENNEES",
+        "explored": 2296,
+        "expanded": 1984,
+        "seconds": 0.04201995400217129
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR04",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 117,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        13,
+        15
+      ],
+      "walkableCells": 88,
+      "shapeName": "모래시계 골짜기",
+      "wrongRejected": 79,
+      "wrongAccepted": 71,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            13,
+            2
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            13,
+            15
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 3,
+            "position": [
+              13,
+              2
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 30,
+            "position": [
+              3,
+              13
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 42,
+            "position": [
+              13,
+              15
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 12,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 34,
+            "bubbleCount": 2,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 13
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 42
+          }
+        ],
+        "stonePushes": 11,
+        "crateMoves": 2,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          13,
+          15
+        ],
+        "uniqueVisitedEndCells": 43,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              13,
+              2
+            ],
+            "step": 3,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              3,
+              13
+            ],
+            "step": 30,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              13,
+              15
+            ],
+            "step": 42,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 50,
+        "count": 1,
+        "solution": "WWNNWWNNWWWWNNENNNNEENNWWWWWWWNNEEEEEEEEEEWWWWWWWW",
+        "explored": 2652,
+        "expanded": 2107,
+        "seconds": 0.03667089800001122
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR05",
+      "oldSize": [
+        22,
+        21
+      ],
+      "size": [
+        19,
+        18
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 126,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        15
+      ],
+      "walkableCells": 107,
+      "shapeName": "계단 구름섬",
+      "wrongRejected": 85,
+      "wrongAccepted": 65,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            1,
+            6
+          ],
+          [
+            6,
+            13
+          ],
+          [
+            16,
+            15
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 18,
+            "position": [
+              1,
+              6
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 30,
+            "position": [
+              6,
+              13
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 49,
+            "position": [
+              16,
+              15
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 12,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 11
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 39
+          }
+        ],
+        "stonePushes": 6,
+        "crateMoves": 0,
+        "sheepMoves": 1,
+        "grassConsumption": [
+          {
+            "grassId": "grass_1",
+            "step": 3
+          }
+        ],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          15
+        ],
+        "uniqueVisitedEndCells": 46,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              1,
+              6
+            ],
+            "step": 18,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              6,
+              13
+            ],
+            "step": 30,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              16,
+              15
+            ],
+            "step": 49,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 50,
+        "count": 1,
+        "solution": "EENNNNNEENNWWWWSWWNNNEEEENNNNEEEEEESSSSNNNNNNEEEEE",
+        "explored": 968,
+        "expanded": 838,
+        "seconds": 0.014892646002408583
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR06",
+      "oldSize": [
+        21,
+        22
+      ],
+      "size": [
+        18,
+        19
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 182,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        14,
+        14
+      ],
+      "walkableCells": 159,
+      "shapeName": "쌍둥이 목초지",
+      "wrongRejected": 143,
+      "wrongAccepted": 97,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            12,
+            9
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            1,
+            12
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 2,
+            "position": [
+              12,
+              9
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 44,
+            "position": [
+              6,
+              1
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 64,
+            "position": [
+              1,
+              12
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 14,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 68,
+            "bubbleCount": 3,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 42
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 75
+          }
+        ],
+        "stonePushes": 8,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          14,
+          14
+        ],
+        "uniqueVisitedEndCells": 59,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              12,
+              9
+            ],
+            "step": 2,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              6,
+              1
+            ],
+            "step": 44,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              1,
+              12
+            ],
+            "step": 64,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "WWWWWWWWWWWWWSSEESSWWSSSSEEEENNNNNENESSSSSSWWWWWWNNNNEENNWWNNNNNEESEENNENESWWSSW",
+        "explored": 1706,
+        "expanded": 1560,
+        "seconds": 0.023002011002972722
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR07",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 139,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        13,
+        15
+      ],
+      "walkableCells": 120,
+      "shapeName": "말굽 정원",
+      "wrongRejected": 129,
+      "wrongAccepted": 111,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            11,
+            15
+          ],
+          [
+            9,
+            1
+          ],
+          [
+            1,
+            9
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 2,
+            "position": [
+              11,
+              15
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 38,
+            "position": [
+              9,
+              1
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 60,
+            "position": [
+              1,
+              9
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 16,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 41
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 64
+          }
+        ],
+        "stonePushes": 24,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 14,
+            "wetA": true
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          13,
+          15
+        ],
+        "uniqueVisitedEndCells": 67,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              11,
+              15
+            ],
+            "step": 2,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              9,
+              1
+            ],
+            "step": 38,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              1,
+              9
+            ],
+            "step": 60,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "WWSSSSSSSSSSWWWWWWSSSSEENWWNWSWSEEEEEEEEEWWWWWWWWWWWNNNNNNNNNNNNNNEEEESSSSSSWWSS",
+        "explored": 9658,
+        "expanded": 8180,
+        "seconds": 0.142838172003394
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR08",
+      "oldSize": [
+        21,
+        22
+      ],
+      "size": [
+        18,
+        19
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 148,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        17
+      ],
+      "walkableCells": 117,
+      "shapeName": "굽이진 별물길",
+      "wrongRejected": 133,
+      "wrongAccepted": 107,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            17,
+            3
+          ],
+          [
+            8,
+            9
+          ],
+          [
+            1,
+            17
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 10,
+            "position": [
+              17,
+              3
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 45,
+            "position": [
+              8,
+              9
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 60,
+            "position": [
+              1,
+              17
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 15,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 56,
+            "bubbleCount": 2,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 40
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 71
+          }
+        ],
+        "stonePushes": 14,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          17
+        ],
+        "uniqueVisitedEndCells": 64,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              17,
+              3
+            ],
+            "step": 10,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              8,
+              9
+            ],
+            "step": 45,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              1,
+              17
+            ],
+            "step": 60,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "EENNNEESSSWWSSWWNNEWSSEENNNNNNNSEENNWWWWWWWWWWWWWWNNNNWWNNNNEEEEEEESESWWWWWWSSWW",
+        "explored": 832,
+        "expanded": 792,
+        "seconds": 0.011886582004080992
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR09",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 89,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        12,
+        13
+      ],
+      "walkableCells": 73,
+      "shapeName": "네 잎 바람뜰",
+      "wrongRejected": 121,
+      "wrongAccepted": 119,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            9,
+            3
+          ],
+          [
+            13,
+            9
+          ],
+          [
+            3,
+            11
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 2,
+            "position": [
+              9,
+              3
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 32,
+            "position": [
+              13,
+              9
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 60,
+            "position": [
+              3,
+              11
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 10,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 27
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 73
+          }
+        ],
+        "stonePushes": 32,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [
+          {
+            "socketId": "socket_2",
+            "step": 55
+          },
+          {
+            "socketId": "socket_2",
+            "step": 67
+          }
+        ],
+        "routeBounds": [
+          12,
+          13
+        ],
+        "uniqueVisitedEndCells": 39,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              9,
+              3
+            ],
+            "step": 2,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              13,
+              9
+            ],
+            "step": 32,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              3,
+              11
+            ],
+            "step": 60,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "NNNNNNNNEENNNWWSSNNEESSSWWWEEEEESSWWWSWNNSEEEENNWWWWWWWWNNWWSSEEEEEEEEEEEWWWNNNN",
+        "explored": 23059,
+        "expanded": 22131,
+        "seconds": 0.3752325660025235
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR10",
+      "oldSize": [
+        22,
+        21
+      ],
+      "size": [
+        19,
+        18
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 160,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        15
+      ],
+      "walkableCells": 124,
+      "shapeName": "삼지창 곶",
+      "wrongRejected": 133,
+      "wrongAccepted": 107,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            15,
+            15
+          ],
+          [
+            9,
+            5
+          ],
+          [
+            1,
+            13
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 23,
+            "position": [
+              15,
+              15
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 49,
+            "position": [
+              9,
+              5
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 77,
+            "position": [
+              1,
+              13
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 16,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 24
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 66
+          }
+        ],
+        "stonePushes": 16,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 79,
+            "wetA": true
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          15
+        ],
+        "uniqueVisitedEndCells": 59,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              15,
+              15
+            ],
+            "step": 23,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              9,
+              5
+            ],
+            "step": 49,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              1,
+              13
+            ],
+            "step": 77,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "ENNNNEENNWWNNEENNWWNNNNEWSSSSEESSWWSSEESSWWWWWWWWWWWWWWNWWSSENNWNEWNNEENNWWNNEEN",
+        "explored": 6024,
+        "expanded": 5573,
+        "seconds": 0.0869584840038442
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR11",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 142,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        15,
+        11
+      ],
+      "walkableCells": 121,
+      "shapeName": "대각선 날개",
+      "wrongRejected": 140,
+      "wrongAccepted": 100,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            15,
+            13
+          ],
+          [
+            1,
+            11
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 15,
+            "position": [
+              15,
+              13
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 31,
+            "position": [
+              1,
+              11
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 75,
+            "position": [
+              9,
+              3
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 16,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_3",
+            "number": 3,
+            "step": 26
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 55
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 72
+          }
+        ],
+        "stonePushes": 24,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          15,
+          11
+        ],
+        "uniqueVisitedEndCells": 59,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              15,
+              13
+            ],
+            "step": 15,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              1,
+              11
+            ],
+            "step": 31,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              9,
+              3
+            ],
+            "step": 75,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "EEEEEEEEESSEENNWWWWWWWWWWWWWWSSEEEEEESSSSEEEENNWWNNEENNSSWWSSEESSSSESWSEWWWNNWWN",
+        "explored": 1104,
+        "expanded": 994,
+        "seconds": 0.0148742890014546
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR12",
+      "oldSize": [
+        21,
+        22
+      ],
+      "size": [
+        18,
+        19
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 180,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        15,
+        11
+      ],
+      "walkableCells": 149,
+      "shapeName": "갈라진 협곡",
+      "wrongRejected": 129,
+      "wrongAccepted": 111,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            13,
+            17
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            7,
+            15
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 2,
+            "position": [
+              13,
+              17
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 40,
+            "position": [
+              1,
+              7
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 78,
+            "position": [
+              7,
+              15
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 8,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 43
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 64
+          }
+        ],
+        "stonePushes": 9,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 30,
+            "wetA": true
+          },
+          {
+            "sluiceId": "sluice_1",
+            "step": 63,
+            "wetA": false
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          15,
+          11
+        ],
+        "uniqueVisitedEndCells": 50,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              13,
+              17
+            ],
+            "step": 2,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              1,
+              7
+            ],
+            "step": 40,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              7,
+              15
+            ],
+            "step": 78,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "WWSSWWWWNNWWWWSSWWSSSSSSEENNEESSWWSSWWWWNNNSSEENEWSSEENNNSEENNWWWWNNNNEENNEESSSS",
+        "explored": 9178,
+        "expanded": 8304,
+        "seconds": 0.12699365000298712
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR13",
+      "oldSize": [
+        22,
+        21
+      ],
+      "size": [
+        19,
+        18
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 124,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        15,
+        17
+      ],
+      "walkableCells": 100,
+      "shapeName": "세 개의 앞마당",
+      "wrongRejected": 116,
+      "wrongAccepted": 124,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            8,
+            17
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            15,
+            5
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 21,
+            "position": [
+              8,
+              17
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 46,
+            "position": [
+              3,
+              1
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 72,
+            "position": [
+              15,
+              5
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 16,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 70,
+            "bubbleCount": 2,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 51
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 75
+          }
+        ],
+        "stonePushes": 32,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          15,
+          17
+        ],
+        "uniqueVisitedEndCells": 54,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              8,
+              17
+            ],
+            "step": 21,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              3,
+              1
+            ],
+            "step": 46,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              15,
+              5
+            ],
+            "step": 72,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "SSEEEEEENNNNNNNNNNWNNESSSSSSSSSSSSSESWWWWWSSWWNNWWNSEEEEEEEEEEEEEWWNNEEESSSNNNWW",
+        "explored": 8080,
+        "expanded": 7104,
+        "seconds": 0.11890630699781468
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR14",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 127,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        13,
+        13
+      ],
+      "walkableCells": 93,
+      "shapeName": "별 모양 경계",
+      "wrongRejected": 111,
+      "wrongAccepted": 129,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            1,
+            9
+          ],
+          [
+            13,
+            11
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 8,
+            "position": [
+              1,
+              9
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 50,
+            "position": [
+              13,
+              11
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 78,
+            "position": [
+              5,
+              5
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 8,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 43
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 78
+          }
+        ],
+        "stonePushes": 25,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          13,
+          13
+        ],
+        "uniqueVisitedEndCells": 53,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              1,
+              9
+            ],
+            "step": 8,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              13,
+              11
+            ],
+            "step": 50,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              5,
+              5
+            ],
+            "step": 78,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "SSSWWNWNEEEEESENNSWWNNEEEWWWNNEENNEESSESWSSSEEEENNWWWWWWWEEENNNNWWSSWWSSSSSSSSSS",
+        "explored": 55944,
+        "expanded": 53762,
+        "seconds": 0.9550767879991326
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR15",
+      "oldSize": [
+        21,
+        21
+      ],
+      "size": [
+        18,
+        18
+      ],
+      "oldArea": 441,
+      "area": 324,
+      "areaRatio": 0.7346938775510204,
+      "reductionPercent": 26.53,
+      "oldWalkableCells": 109,
+      "floorBounds": [
+        15,
+        14
+      ],
+      "answerBounds": [
+        12,
+        14
+      ],
+      "walkableCells": 69,
+      "shapeName": "작은 연 모양 섬과 바람 꼬리",
+      "wrongRejected": 150,
+      "wrongAccepted": 90,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            14,
+            10
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            7,
+            4
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 22,
+            "position": [
+              14,
+              10
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 50,
+            "position": [
+              6,
+              8
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 55,
+            "position": [
+              7,
+              4
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 5,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 30,
+            "bubbleCount": 1,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [],
+        "stonePushes": 0,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          12,
+          14
+        ],
+        "uniqueVisitedEndCells": 47,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              14,
+              10
+            ],
+            "step": 22,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              6,
+              8
+            ],
+            "step": 50,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              7,
+              4
+            ],
+            "step": 55,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 80,
+        "count": 1,
+        "solution": "SSESNNNNNNNNNEESSEENNEWSSWWNNNNWWNNWWSSWWSSWWSSEEEESSSSNNNNWWWWNNEENNEENNEESSEES",
+        "explored": 981,
+        "expanded": 966,
+        "seconds": 0.03266867899947101
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR16",
+      "oldSize": [
+        21,
+        22
+      ],
+      "size": [
+        18,
+        19
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 167,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        17
+      ],
+      "walkableCells": 132,
+      "shapeName": "쌍고리 천문원",
+      "wrongRejected": 218,
+      "wrongAccepted": 142,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            17,
+            11
+          ],
+          [
+            2,
+            15
+          ],
+          [
+            7,
+            1
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 8,
+            "position": [
+              17,
+              11
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 81,
+            "position": [
+              2,
+              15
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 118,
+            "position": [
+              7,
+              1
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 19,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 64
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 93
+          }
+        ],
+        "stonePushes": 31,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 12,
+            "wetA": true
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          17
+        ],
+        "uniqueVisitedEndCells": 68,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              17,
+              11
+            ],
+            "step": 8,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              2,
+              15
+            ],
+            "step": 81,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              7,
+              1
+            ],
+            "step": 118,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 120,
+        "count": 1,
+        "solution": "EWNNEESSSSWWSSSSSSWWWWWWNNNNNNNNNNNSSSSSSSSSSSEEEEEENNNNEENNNNNNWWNNWWWWWWWWWWWWWEEENNWWWWSSSNEEEEEEEESSSSSSSSSSSSWWSSEE",
+        "explored": 126997,
+        "expanded": 120843,
+        "seconds": 2.575188351998804
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR17",
+      "oldSize": [
+        19,
+        19
+      ],
+      "size": [
+        17,
+        16
+      ],
+      "oldArea": 361,
+      "area": 272,
+      "areaRatio": 0.7534626038781164,
+      "reductionPercent": 24.65,
+      "oldWalkableCells": 156,
+      "floorBounds": [
+        15,
+        15
+      ],
+      "answerBounds": [
+        13,
+        14
+      ],
+      "walkableCells": 124,
+      "shapeName": "왕관 능선",
+      "wrongRejected": 204,
+      "wrongAccepted": 156,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            9,
+            13
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            15,
+            4
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 2,
+            "position": [
+              9,
+              13
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 46,
+            "position": [
+              3,
+              5
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 101,
+            "position": [
+              15,
+              4
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 13,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 58,
+            "bubbleCount": 2,
+            "goal": false
+          },
+          {
+            "step": 68,
+            "bubbleCount": 2,
+            "goal": false
+          },
+          {
+            "step": 96,
+            "bubbleCount": 2,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 46
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 109
+          }
+        ],
+        "stonePushes": 28,
+        "crateMoves": 0,
+        "sheepMoves": 1,
+        "grassConsumption": [
+          {
+            "grassId": "grass_1",
+            "step": 3
+          }
+        ],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          13,
+          14
+        ],
+        "uniqueVisitedEndCells": 52,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              9,
+              13
+            ],
+            "step": 2,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              3,
+              5
+            ],
+            "step": 46,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              15,
+              4
+            ],
+            "step": 101,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 120,
+        "count": 1,
+        "solution": "WSSSSSSSSSWWSSEESSWWWWWWNNNSSSEEEEEENNWWWWNNWWEESSEEEEEEEEEESSWNENWWWWWWSSWWWWWWNNNNEESSEEEEEEEEESENNNNNNNNNNSSSSSSSSSWW",
+        "explored": 48145,
+        "expanded": 45737,
+        "seconds": 0.7812380659961491
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR18",
+      "oldSize": [
+        22,
+        21
+      ],
+      "size": [
+        19,
+        18
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 190,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        17
+      ],
+      "walkableCells": 165,
+      "shapeName": "꼬리를 문 용",
+      "wrongRejected": 195,
+      "wrongAccepted": 165,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            1,
+            17
+          ],
+          [
+            13,
+            1
+          ],
+          [
+            16,
+            15
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 5,
+            "position": [
+              1,
+              17
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 53,
+            "position": [
+              13,
+              1
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 118,
+            "position": [
+              16,
+              15
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 17,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 64
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 96
+          }
+        ],
+        "stonePushes": 27,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [
+          {
+            "sluiceId": "sluice_1",
+            "step": 1,
+            "wetA": true
+          }
+        ],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          17
+        ],
+        "uniqueVisitedEndCells": 92,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              1,
+              17
+            ],
+            "step": 5,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              13,
+              1
+            ],
+            "step": 53,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              16,
+              15
+            ],
+            "step": 118,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 120,
+        "count": 1,
+        "solution": "WNNNNEEEEEESSSSEEEEEEEESSEESSWWWWSSSSSSEENNEESSSSWWWWWWWWWWWWWWWEEENNEEESEEENNWWSWSEESENNNNNENWWEEENNEEEENNWWNNWWNNEEEEN",
+        "explored": 21612,
+        "expanded": 19219,
+        "seconds": 0.3421367929986445
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR19",
+      "oldSize": [
+        21,
+        21
+      ],
+      "size": [
+        18,
+        18
+      ],
+      "oldArea": 441,
+      "area": 324,
+      "areaRatio": 0.7346938775510204,
+      "reductionPercent": 26.53,
+      "oldWalkableCells": 122,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        17,
+        17
+      ],
+      "walkableCells": 106,
+      "shapeName": "엇갈린 다섯 섬",
+      "wrongRejected": 217,
+      "wrongAccepted": 143,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            15,
+            1
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            17,
+            17
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 5,
+            "position": [
+              15,
+              1
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 63,
+            "position": [
+              3,
+              13
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 99,
+            "position": [
+              17,
+              17
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 18,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [
+          {
+            "step": 84,
+            "bubbleCount": 2,
+            "goal": false
+          }
+        ],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_4",
+            "number": 4,
+            "step": 12
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 34
+          },
+          {
+            "socketId": "socket_3",
+            "number": 3,
+            "step": 73
+          },
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 102
+          }
+        ],
+        "stonePushes": 15,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          17,
+          17
+        ],
+        "uniqueVisitedEndCells": 75,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              15,
+              1
+            ],
+            "step": 5,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              3,
+              13
+            ],
+            "step": 63,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              17,
+              17
+            ],
+            "step": 99,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 120,
+        "count": 1,
+        "solution": "SWWSSWWNNNNNNWWWWWWSSWWSSWWSSWWNNNSSSEENNEENNEENNEENNWWNNWWNNWWNNNSEENNWWSSSSEESSEEEEEENNEEEEEENNNNWWWEEESSSSWWWWWWSSWWW",
+        "explored": 7854,
+        "expanded": 7464,
+        "seconds": 0.11135878699860768
+      },
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "mapId": "SR20",
+      "oldSize": [
+        21,
+        22
+      ],
+      "size": [
+        18,
+        19
+      ],
+      "oldArea": 462,
+      "area": 342,
+      "areaRatio": 0.7402597402597403,
+      "reductionPercent": 25.97,
+      "oldWalkableCells": 160,
+      "floorBounds": [
+        17,
+        17
+      ],
+      "answerBounds": [
+        15,
+        17
+      ],
+      "walkableCells": 135,
+      "shapeName": "별의 나뭇가지",
+      "wrongRejected": 201,
+      "wrongAccepted": 159,
+      "bubbleTests": {
+        "coordinates": [
+          [
+            3,
+            1
+          ],
+          [
+            10,
+            17
+          ],
+          [
+            17,
+            5
+          ]
+        ],
+        "required": 3,
+        "initialCount": 0,
+        "collectionEvents": [
+          {
+            "index": 1,
+            "step": 11,
+            "position": [
+              3,
+              1
+            ],
+            "countAfter": 1
+          },
+          {
+            "index": 2,
+            "step": 70,
+            "position": [
+              10,
+              17
+            ],
+            "countAfter": 2
+          },
+          {
+            "index": 3,
+            "step": 115,
+            "position": [
+              17,
+              5
+            ],
+            "countAfter": 3
+          }
+        ],
+        "minimumPairManhattan": 18,
+        "exitSubsetGoalTests": [
+          {
+            "mask": 0,
+            "collected": 0,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 1,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 2,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 3,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 4,
+            "collected": 1,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 5,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 6,
+            "collected": 2,
+            "goal": false,
+            "expected": false
+          },
+          {
+            "mask": 7,
+            "collected": 3,
+            "goal": true,
+            "expected": true
+          }
+        ],
+        "naturallyVisitedEarlyExits": [],
+        "repeatedCollectionTests": [
+          {
+            "index": 1,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 2,
+            "repeatedArrivalChangesCount": false
+          },
+          {
+            "index": 3,
+            "repeatedArrivalChangesCount": false
+          }
+        ],
+        "missingPhysicalBubbleValidation": [
+          {
+            "omittedIndex": 1,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 2,
+            "invalidMapRejected": true
+          },
+          {
+            "omittedIndex": 3,
+            "invalidMapRejected": true
+          }
+        ],
+        "interactionSemantics": "collectonarrivingcell; noadditionalbuttonorcostinvented"
+      },
+      "evidence": {
+        "activations": [
+          {
+            "socketId": "socket_2",
+            "number": 2,
+            "step": 9
+          },
+          {
+            "socketId": "socket_1",
+            "number": 1,
+            "step": 90
+          }
+        ],
+        "stonePushes": 37,
+        "crateMoves": 0,
+        "sheepMoves": 0,
+        "grassConsumption": [],
+        "sluiceExchanges": [],
+        "activeSocketUsedAsPushStand": [],
+        "routeBounds": [
+          15,
+          17
+        ],
+        "uniqueVisitedEndCells": 75,
+        "bubbleCollections": [
+          {
+            "bubbleIndex": 1,
+            "position": [
+              3,
+              1
+            ],
+            "step": 11,
+            "countAfter": 1
+          },
+          {
+            "bubbleIndex": 2,
+            "position": [
+              10,
+              17
+            ],
+            "step": 70,
+            "countAfter": 2
+          },
+          {
+            "bubbleIndex": 3,
+            "position": [
+              17,
+              5
+            ],
+            "step": 115,
+            "countAfter": 3
+          }
+        ]
+      },
+      "independentExactSearch": {
+        "status": "solved",
+        "length": 120,
+        "count": 1,
+        "solution": "WWWSSSSSSSSEEEEEEEENNNSSSWWNNNNEEEESSEENNWWWWWESSSSWWNNNNNNNNNNNNNNENNWSNWWWWSSEEEEEEEEEEEWWWWWWWSSSSSSSSSSEEEEEEEESSSSW",
+        "explored": 127789,
+        "expanded": 119116,
+        "seconds": 2.280591575996368
+      },
+      "errors": [],
+      "warnings": []
+    }
+  ],
+  "summary": {
+    "oldViolatingMaps": 20,
+    "newCorrectMaps": 20,
+    "areaReductionRange": [
+      24.65,
+      26.53
+    ],
+    "aggregateAreaReductionPercent": 25.52,
+    "boardSizes": [
+      [
+        17,
+        16
+      ],
+      [
+        18,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        19,
+        18
+      ]
+    ],
+    "bubbleCollectionEvents": 60,
+    "exitSubsetTests": 160,
+    "blockedInsufficientMasks": 140,
+    "completeMaskWins": 20,
+    "missingPhysicalBubbleValidationTests": 60,
+    "repeatedCollectionTests": 60,
+    "correctInputCount": 1650,
+    "wrongDirections": 4950,
+    "errors": 0,
+    "warnings": 0
+  }
+}

@@ -18,11 +18,14 @@ namespace ANIMOL.Puzzle
         { map = data; player = target; lens = GetComponent<Camera>(); lens.orthographic = true; ApplyLens(); Cut(); }
         void ApplyLens()
         {
-            lens.orthographicSize = Mathf.Clamp(map.cameraSettings.visibleRows, 5, 25) * .5f;
             var safe = Screen.safeArea; var scale = Mathf.Min(Screen.width / 540f, Screen.height / 960f);
             var top = Mathf.Min(map.cameraSettings.topInset * scale, safe.height * .25f);
             var bottom = Mathf.Min(map.cameraSettings.bottomInset * scale, safe.height * .4f);
             lens.rect = new Rect(safe.x / Screen.width, (safe.y + bottom) / Screen.height, safe.width / Screen.width, (safe.height - top - bottom) / Screen.height);
+            var rows = map.cameraSettings.fitWholeBoard
+                ? Mathf.Max(map.Height + 1f, (map.Width + 1f) / Mathf.Max(.1f, lens.aspect))
+                : Mathf.Clamp(map.cameraSettings.visibleRows, 5, 80);
+            lens.orthographicSize = rows * .5f;
         }
         Vector2 Bounded(Vector2 p) => Clamp(p, map.Width, map.Height, lens.orthographicSize, lens.aspect);
         public void Cut()
