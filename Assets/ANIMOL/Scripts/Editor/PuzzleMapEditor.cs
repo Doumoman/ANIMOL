@@ -47,6 +47,22 @@ namespace ANIMOL.Presentation.Editor
         float cellSize = 42;
         Vector2 gridScroll, settingsScroll, deviceListScroll, decorationListScroll;
         Vector2Int lastPaint = new Vector2Int(-999, -999);
+        PuzzleMap previewMap;
+        PuzzleTheme previewTheme;
+        PuzzleScenario previewScenario;
+        int previewMapDirtyCount, previewScenarioDirtyCount, previewThemeDirtyCount;
+        bool previewCacheValid;
+        RanchDecorPlan ranchPreview;
+        TheaterDecorPlan theaterPreview;
+        SanctumDecorPlan sanctumPreview;
+        CoastDecorPlan coastPreview;
+        PuzzleTheme decorationChoicesTheme;
+        DecorationChoice[] cachedDecorationChoices;
+        PuzzleMap validatedMap;
+        PuzzleScenario validatedScenario;
+        PuzzleTheme validatedTheme;
+        int validatedMapDirtyCount, validatedScenarioDirtyCount, validatedThemeDirtyCount, cachedOutsideCount;
+        List<string> cachedValidationErrors;
         [MenuItem("ANIMOL/퍼즐/맵 제작기")]
         public static void Open() => GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기");
         public static void Edit(PuzzleMap data) { var window = GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기"); window.Select(data); }
@@ -59,7 +75,7 @@ namespace ANIMOL.Presentation.Editor
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; }
         }
         void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
-        void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } Repaint(); }
+        void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; Repaint(); }
         void Select(PuzzleMap data)
         {
             EndStroke(); map = data; selectedDeviceId = null; linkTargetMode = nestTargetMode = false; scenarioCreationError = decorationError = null;
@@ -98,12 +114,13 @@ namespace ANIMOL.Presentation.Editor
         }
         void Settings()
         {
+            RefreshValidation();
             EditorGUILayout.LabelField("맵 설정", EditorStyles.boldLabel);
             pendingWidth = EditorGUILayout.IntField("가로 칸 수", pendingWidth);
             pendingHeight = EditorGUILayout.IntField("세로 칸 수", pendingHeight);
             if (GUILayout.Button("크기 적용 (잘린 배치 보관)") && Resize(map, pendingWidth, pendingHeight, true)) { pendingWidth = map.Width; pendingHeight = map.Height; }
             EditorGUILayout.HelpBox("가로·세로 칸 수를 바꿔 크기 적용을 누르세요. 넓힌 칸은 풀 지형으로 채워지며, 줄여서 밖으로 나간 배치는 보관됩니다.", MessageType.Info);
-            var outside = map.OutsideCount(map.Width, map.Height);
+            var outside = cachedOutsideCount;
             if (outside > 0) EditorGUILayout.HelpBox("맵 밖 배치 " + outside + "개가 비활성 상태로 보관됩니다. 맵을 넓히면 복구됩니다. 시작점·출구가 밖에 있으면 미리보기를 실행할 수 없습니다.", MessageType.Warning);
             var previousTheme = map.theme;
             var serialized = new SerializedObject(map); serialized.Update();
@@ -185,7 +202,8 @@ namespace ANIMOL.Presentation.Editor
             }
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
-            var errors = map.ValidateMap();
+            RefreshValidation();
+            var errors = cachedValidationErrors;
             if (!map.theme) EditorGUILayout.HelpBox("퍼즐 테마를 지정하세요.", MessageType.Error);
             foreach (var error in errors) EditorGUILayout.HelpBox(TranslateValidation(error), MessageType.Error);
             if (errors.Count == 0 && map.theme) EditorGUILayout.HelpBox("배치 검사를 통과했습니다. 퍼즐이 실제로 풀리는지는 플레이 미리보기로 확인하세요.", MessageType.Info);
@@ -197,6 +215,20 @@ namespace ANIMOL.Presentation.Editor
                 foreach (var p in map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Where(p => !map.Contains(p)).Distinct().Take(40))
                     EditorGUILayout.LabelField(p.ToString());
             }
+        }
+        void RefreshValidation()
+        {
+            var mapDirtyCount = EditorUtility.GetDirtyCount(map);
+            var scenarioDirtyCount = map.scenario ? EditorUtility.GetDirtyCount(map.scenario) : 0;
+            var themeDirtyCount = map.theme ? EditorUtility.GetDirtyCount(map.theme) : 0;
+            if (cachedValidationErrors != null && validatedMap == map && validatedScenario == map.scenario &&
+                validatedTheme == map.theme && validatedMapDirtyCount == mapDirtyCount &&
+                validatedScenarioDirtyCount == scenarioDirtyCount && validatedThemeDirtyCount == themeDirtyCount) return;
+            validatedMap = map; validatedScenario = map.scenario; validatedTheme = map.theme;
+            validatedMapDirtyCount = mapDirtyCount; validatedScenarioDirtyCount = scenarioDirtyCount;
+            validatedThemeDirtyCount = themeDirtyCount;
+            cachedOutsideCount = map.OutsideCount(map.Width, map.Height);
+            cachedValidationErrors = map.ValidateMap();
         }
         static void DrawCameraSettings(SerializedProperty camera)
         {
@@ -440,7 +472,12 @@ namespace ANIMOL.Presentation.Editor
         }
         void DecorationSettings()
         {
-            var choices = DecorationChoices(map.theme);
+            if (cachedDecorationChoices == null || decorationChoicesTheme != map.theme)
+            {
+                decorationChoicesTheme = map.theme;
+                cachedDecorationChoices = DecorationChoices(map.theme);
+            }
+            var choices = cachedDecorationChoices;
             if (choices.Length == 0)
             {
                 decoration = null;
@@ -465,6 +502,7 @@ namespace ANIMOL.Presentation.Editor
                     var coast = CoastConnectedDecorHost.SourceMapping(map.theme, choice.sprite);
                     if (coast != null && coast.network) decorationConnectionGroup = coast.key;
                 }
+                if (row.yMax < decorationListScroll.y || row.yMin > decorationListScroll.y + 240) continue;
                 if (decoration == choice.sprite)
                     EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
                 DrawSpriteFitted(new Rect(row.x + 8, row.y + 5, 48, 48), choice.preview);
@@ -606,7 +644,12 @@ namespace ANIMOL.Presentation.Editor
                         : Enumerable.Empty<DeviceTemplate>();
                 }).ToArray();
         }
-        void RefreshLibrary() { library = LoadPracticeTemplates(); templateIndex = 0; Repaint(); }
+        void RefreshLibrary()
+        {
+            library = LoadPracticeTemplates(); templateIndex = 0;
+            previewCacheValid = false; cachedDecorationChoices = null; cachedValidationErrors = null;
+            Repaint();
+        }
         void DeviceSettings()
         {
             var themeId = ThemeId(map.theme);
@@ -638,6 +681,7 @@ namespace ANIMOL.Presentation.Editor
                 {
                     var row = GUILayoutUtility.GetRect(250, 62, GUILayout.ExpandWidth(true));
                     if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox)) templateIndex = i;
+                    if (row.yMax < deviceListScroll.y || row.yMin > deviceListScroll.y + 260) continue;
                     if (i == templateIndex) EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
                     DrawDeviceThumbnail(new Rect(row.x + 8, row.y + 7, 48, 48), choices[i]);
                     GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), DeviceLabel(choices[i]), EditorStyles.boldLabel);
@@ -829,6 +873,21 @@ namespace ANIMOL.Presentation.Editor
             }
             return null;
         }
+        // Snapshot planning scans the whole board; redo it only after an edited asset changes.
+        void RefreshPreviewCache()
+        {
+            var mapDirtyCount = EditorUtility.GetDirtyCount(map);
+            var scenarioDirtyCount = map.scenario ? EditorUtility.GetDirtyCount(map.scenario) : 0;
+            var themeDirtyCount = map.theme ? EditorUtility.GetDirtyCount(map.theme) : 0;
+            if (previewCacheValid && previewMap == map && previewScenario == map.scenario &&
+                previewTheme == map.theme && previewMapDirtyCount == mapDirtyCount &&
+                previewScenarioDirtyCount == scenarioDirtyCount && previewThemeDirtyCount == themeDirtyCount) return;
+            previewMap = map; previewScenario = map.scenario; previewTheme = map.theme;
+            previewMapDirtyCount = mapDirtyCount; previewScenarioDirtyCount = scenarioDirtyCount;
+            previewThemeDirtyCount = themeDirtyCount;
+            previewCacheValid = false;
+            ranchPreview = null; theaterPreview = null; sanctumPreview = null; coastPreview = null;
+        }
         void DrawGrid(Rect viewport)
         {
             var retained = map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position))
@@ -863,112 +922,123 @@ namespace ANIMOL.Presentation.Editor
             var islandArt = map.theme ? map.theme.skyIsland : null;
             var latestTerrain = map.theme && (map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02 ||
                 map.theme.sunsetSanctumV02Catalog || map.theme.starSwellCoastV01Catalog);
-            var theaterRows = latestTerrain && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02
-                ? TheaterTerrainRows(map) : null;
-            if (islandArt)
+            if (Event.current.type == EventType.Repaint)
             {
-                // Paint every base first, then the entire underside before any grass.
+                var theaterRows = latestTerrain && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02
+                    ? TheaterTerrainRows(map) : null;
+                var decorationsByCell = map.decorations.ToLookup(d => d.position);
+                var configuredByCell = map.scenario ? map.scenario.devices.ToLookup(d => d.position) :
+                    Enumerable.Empty<PrototypeDevice>().ToLookup(d => d.position);
+                var nestCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
+                    d.role == PrototypeRole.Chick && d.target != Vector2Int.zero).Select(d => d.target)) : null;
+                var rewardCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
+                    d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
+                    d.socketReward == StarSocketReward.RevealBubble).Select(d => d.socketBubbleCell)) : null;
+                var waterCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.water) : null;
+                var bubbleCells = new HashSet<Vector2Int>(map.bubbles);
+                if (islandArt)
+                {
+                    // Paint every base first, then the entire underside before any grass.
+                    for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
+                    {
+                        var p = new Vector2Int(x, shownHeight - 1 - row);
+                        EditorGUI.DrawRect(new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize, cellSize), map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                    }
+                    for (var row = Mathf.Max(0, yMin - 1); row < yMax; row++) for (var x = xMin; x < xMax; x++)
+                    {
+                        var p = new Vector2Int(x, shownHeight - 1 - row);
+                        if (!SkyIslandAutotile.UsesArt(map, p)) continue;
+                        var shape = SkyIslandAutotile.Resolve(map, p);
+                        var pair = islandArt.Find(shape.exposure, shape.innerCorners);
+                        DrawSprite(new Rect(origin.x + x * cellSize, origin.y + (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
+                    }
+                }
+                if (latestTerrain && Event.current.type == EventType.Repaint)
+                    DrawThemedUndersides(theaterRows, shownHeight, origin,
+                        new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
                 for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
                 {
                     var p = new Vector2Int(x, shownHeight - 1 - row);
-                    EditorGUI.DrawRect(new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize, cellSize), map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
-                }
-                for (var row = Mathf.Max(0, yMin - 1); row < yMax; row++) for (var x = xMin; x < xMax; x++)
-                {
-                    var p = new Vector2Int(x, shownHeight - 1 - row);
-                    if (!SkyIslandAutotile.UsesArt(map, p)) continue;
-                    var shape = SkyIslandAutotile.Resolve(map, p);
-                    var pair = islandArt.Find(shape.exposure, shape.innerCorners);
-                    DrawSprite(new Rect(origin.x + x * cellSize, origin.y + (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
-                }
-            }
-            if (latestTerrain && Event.current.type == EventType.Repaint)
-                DrawThemedUndersides(theaterRows, shownHeight, origin,
-                    new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
-            for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
-            {
-                var p = new Vector2Int(x, shownHeight - 1 - row);
-                var rect = new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize - 1, cellSize - 1);
-                if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
-                if (map.TryTerrain(p, out var tile))
-                {
-                    if (latestTerrain)
+                    var rect = new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize - 1, cellSize - 1);
+                    if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                    if (map.TryTerrain(p, out var tile))
                     {
-                        var sprite = TerrainPreviewSprite(map, p, theaterRows);
-                        if (sprite)
+                        if (latestTerrain)
                         {
-                            var previousColor = GUI.color;
-                            GUI.color = tile.blocked ? new Color(.42f, .45f, .55f) : Color.white;
-                            DrawWorldSprite(rect, sprite);
-                            GUI.color = previousColor;
-                        }
-                        else GUI.Label(rect, "그림 없음", EditorStyles.whiteMiniLabel);
-                    }
-                    else
-                    {
-                        var shape = PuzzleAutotile.Resolve(map, p);
-                        var art = map.theme ? map.theme.Art(tile.material) : null;
-                        if (islandArt && SkyIslandAutotile.UsesArt(map, p))
-                        {
-                            var islandShape = SkyIslandAutotile.Resolve(map, p);
-                            DrawSprite(new Rect(rect.x, rect.y, cellSize, cellSize), islandArt.Find(islandShape.exposure, islandShape.innerCorners).grass);
-                        }
-                        else if (art != null && art.outer.Length == 16)
-                        {
-                            for (var i = 0; i < 4; i++)
+                            var sprite = TerrainPreviewSprite(map, p, theaterRows);
+                            if (sprite)
                             {
-                                var source = (shape.innerCorners & (1 << i)) != 0 && i < art.inner.Length ? art.inner[i] : art.outer[shape.exposure];
-                                var offset = PuzzleTerrainSprites.Offset(i);
-                                DrawSprite(new Rect(rect.x + (offset.x + .25f) * rect.width, rect.y + (.25f - offset.y) * rect.height, rect.width * .5f, rect.height * .5f), PuzzleTerrainSprites.Quadrant(source, i));
+                                var previousColor = GUI.color;
+                                GUI.color = tile.blocked ? new Color(.42f, .45f, .55f) : Color.white;
+                                DrawWorldSprite(rect, sprite);
+                                GUI.color = previousColor;
                             }
+                            else GUI.Label(rect, "그림 없음", EditorStyles.whiteMiniLabel);
                         }
-                        else EditorGUI.DrawRect(rect, tile.material == TerrainMaterial.Grass ? new Color(.25f, .5f, .38f) : new Color(.5f, .5f, .6f));
+                        else
+                        {
+                            var shape = PuzzleAutotile.Resolve(map, p);
+                            var art = map.theme ? map.theme.Art(tile.material) : null;
+                            if (islandArt && SkyIslandAutotile.UsesArt(map, p))
+                            {
+                                var islandShape = SkyIslandAutotile.Resolve(map, p);
+                                DrawSprite(new Rect(rect.x, rect.y, cellSize, cellSize), islandArt.Find(islandShape.exposure, islandShape.innerCorners).grass);
+                            }
+                            else if (art != null && art.outer.Length == 16)
+                            {
+                                for (var i = 0; i < 4; i++)
+                                {
+                                    var source = (shape.innerCorners & (1 << i)) != 0 && i < art.inner.Length ? art.inner[i] : art.outer[shape.exposure];
+                                    var offset = PuzzleTerrainSprites.Offset(i);
+                                    DrawSprite(new Rect(rect.x + (offset.x + .25f) * rect.width, rect.y + (.25f - offset.y) * rect.height, rect.width * .5f, rect.height * .5f), PuzzleTerrainSprites.Quadrant(source, i));
+                                }
+                            }
+                            else EditorGUI.DrawRect(rect, tile.material == TerrainMaterial.Grass ? new Color(.25f, .5f, .38f) : new Color(.5f, .5f, .6f));
+                        }
+                        if (tile.blocked) GUI.Label(rect, "#");
                     }
-                    if (tile.blocked) GUI.Label(rect, "#");
+                    foreach (var decor in decorationsByCell[p])
+                    {
+                        if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, decor, out _)) continue;
+                        if (TheaterConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                        if (SanctumConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                        if (CoastConnectedDecorHost.TryMap(map, decor, out _)) continue;
+                        if (map.theme && map.theme.starwayRanch)
+                            DrawRanchDecorationPreview(decor, shownHeight, origin,
+                                new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
+                        else DrawSpriteFitted(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
+                    }
+                    if (nestCells != null && nestCells.Contains(p))
+                    {
+                        var nestSprite = map.theme && map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : null;
+                        if (nestSprite) DrawSprite(rect, nestSprite);
+                        else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
+                    }
+                    if (waterCells != null && waterCells.Contains(p)) GUI.Label(rect, "~");
+                    var d = map.DeviceAt(p);
+                    if (d.kind != DeviceKind.None)
+                        GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
+                            d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
+                    foreach (var configured in configuredByCell[p]) DrawDevice(rect, configured);
+                    if (bubbleCells.Contains(p)) GUI.Label(rect, "방", EditorStyles.boldLabel);
+                    else if (rewardCells != null && rewardCells.Contains(p))
+                        GUI.Label(rect, "방+", EditorStyles.boldLabel);
+                    if (map.start == p) GUI.Label(rect, "시", EditorStyles.boldLabel);
+                    if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
+                    if (!map.Contains(p)) GUI.Label(rect, "/");
                 }
-                foreach (var decor in map.decorations.Where(a => a.position == p))
-                {
-                    if (!string.IsNullOrEmpty(decor.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, decor, out _)) continue;
-                    if (TheaterConnectedDecorHost.TryMap(map, decor, out _)) continue;
-                    if (SanctumConnectedDecorHost.TryMap(map, decor, out _)) continue;
-                    if (CoastConnectedDecorHost.TryMap(map, decor, out _)) continue;
-                    if (map.theme && map.theme.starwayRanch)
-                        DrawRanchDecorationPreview(decor, shownHeight, origin,
-                            new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
-                    else DrawSpriteFitted(rect, decor.sprite ? decor.sprite : map.theme ? map.theme.decoration : null);
-                }
-                if (map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && d.target == p))
-                {
-                    var nestSprite = map.theme && map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : null;
-                    if (nestSprite) DrawSprite(rect, nestSprite);
-                    else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
-                }
-                if (map.scenario && map.scenario.water.Contains(p)) GUI.Label(rect, "~");
-                var d = map.DeviceAt(p);
-                if (d.kind != DeviceKind.None)
-                    GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
-                        d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
-                if (map.scenario) foreach (var configured in map.scenario.devices.Where(a => a.position == p)) DrawDevice(rect, configured);
-                if (map.bubbles.Contains(p)) GUI.Label(rect, "방", EditorStyles.boldLabel);
-                else if (map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.StarSocket &&
-                    d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble && d.socketBubbleCell == p))
-                    GUI.Label(rect, "방+", EditorStyles.boldLabel);
-                if (map.start == p) GUI.Label(rect, "시", EditorStyles.boldLabel);
-                if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
-                if (!map.Contains(p)) GUI.Label(rect, "/");
-            }
-            if (Event.current.type == EventType.Repaint)
-            {
                 var visible = new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height);
                 DrawOffscreenRanchDecorationPreviews(xMin, xMax, yMin, yMax, shownHeight, origin, visible);
+                RefreshPreviewCache();
                 DrawConnectedDecorPreview(shownHeight, origin, visible);
                 DrawTheaterConnectedDecorPreview(shownHeight, origin, visible);
                 DrawSanctumConnectedDecorPreview(shownHeight, origin, visible);
                 DrawCoastConnectedDecorPreview(shownHeight, origin, visible);
+                previewCacheValid = true;
                 DrawDeviceDirectionBadges(xMin, xMax, yMin, yMax, shownHeight, origin);
+                if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
+                if (showCameraBounds) DrawCameraBounds(cameraBounds, shownHeight, origin);
             }
-            if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
-            if (showCameraBounds) DrawCameraBounds(cameraBounds, shownHeight, origin);
             var e = Event.current;
             if (pointerInside && e.type == EventType.Repaint)
             {
@@ -1096,11 +1166,16 @@ namespace ANIMOL.Presentation.Editor
             foreach (var group in devices.Where(device => !string.IsNullOrEmpty(device.group)).GroupBy(device => device.group))
             {
                 var members = group.ToArray();
-                for (var i = 0; i < members.Length; i++) for (var j = i + 1; j < members.Length; j++)
+                if (members.Length < 2) continue;
+                // A shared group is one logical connection. A hub shows every member
+                // without drawing a quadratic number of duplicate lines.
+                var hub = members.FirstOrDefault(device => device.id == selectedDeviceId) ?? members[0];
+                foreach (var member in members)
                 {
-                    Handles.color = members[i].id == selectedDeviceId || members[j].id == selectedDeviceId
+                    if (member == hub) continue;
+                    Handles.color = hub.id == selectedDeviceId || member.id == selectedDeviceId
                         ? new Color(.2f, .9f, 1f, .95f) : new Color(.3f, .8f, 1f, .55f);
-                    Handles.DrawAAPolyLine(3, Center(members[i].position), Center(members[j].position));
+                    Handles.DrawAAPolyLine(3, Center(hub.position), Center(member.position));
                 }
             }
             foreach (var device in devices)
@@ -1185,19 +1260,23 @@ namespace ANIMOL.Presentation.Editor
                 !map.theme.ranchConnectedDecorV02ManifestPin) return;
             var catalog = map.theme.ranchConnectedDecorV02Catalog;
             var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
-            if (!RanchConnectedDecorV02Host.TryCreateSnapshot(map, map.decorations,
-                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
-            RanchDecorPlan plan;
-            try
+            if (!previewCacheValid)
             {
-                plan = RanchConnectedDecorV02Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
-                    key => {
-                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var reason))
-                            throw new InvalidOperationException(reason);
-                        return new RanchDecorGroupSize(group.WidthCells, group.HeightCells);
-                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing);
+                if (RanchConnectedDecorV02Host.TryCreateSnapshot(map, map.decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _))
+                    try
+                    {
+                        ranchPreview = RanchConnectedDecorV02Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                            key => {
+                                if (!catalog.TryGetGroup(key, pin, out var group, out _, out var reason))
+                                    throw new InvalidOperationException(reason);
+                                return new RanchDecorGroupSize(group.WidthCells, group.HeightCells);
+                            }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing);
+                    }
+                    catch (Exception) { ranchPreview = null; }
             }
-            catch (Exception) { return; }
+            var plan = ranchPreview;
+            if (plan == null) return;
             for (var i = 0; i < plan.NetworkCount; i++)
             {
                 var row = plan.GetNetwork(i);
@@ -1224,21 +1303,25 @@ namespace ANIMOL.Presentation.Editor
             if (!TheaterConnectedDecorHost.IsTheater(map) || !map.theme.theaterConnectedDecorV01Catalog ||
                 !map.theme.theaterConnectedDecorV01ManifestPin) return;
             var catalog = map.theme.theaterConnectedDecorV01Catalog;
-            if (!TheaterConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
-                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
             var pin = map.theme.theaterConnectedDecorV01ManifestPin.text.Trim();
-            TheaterDecorPlan plan;
-            try
+            if (!previewCacheValid)
             {
-                plan = TheaterConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
-                    key => {
-                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
-                            throw new InvalidOperationException(error);
-                        return new TheaterDecorGroupSize(group.WidthCells, group.HeightCells);
-                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
-                    family => TheaterConnectedDecorV01Planner.SupportsPeriodicPost(family));
+                if (TheaterConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _))
+                    try
+                    {
+                        theaterPreview = TheaterConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                            key => {
+                                if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
+                                    throw new InvalidOperationException(error);
+                                return new TheaterDecorGroupSize(group.WidthCells, group.HeightCells);
+                            }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
+                            family => TheaterConnectedDecorV01Planner.SupportsPeriodicPost(family));
+                    }
+                    catch (Exception) { theaterPreview = null; }
             }
-            catch (Exception) { return; }
+            var plan = theaterPreview;
+            if (plan == null) return;
             for (var i = 0; i < plan.NetworkCount; i++)
             {
                 var row = plan.GetNetwork(i);
@@ -1261,21 +1344,25 @@ namespace ANIMOL.Presentation.Editor
             if (!SanctumConnectedDecorHost.IsSanctum(map) || !map.theme.sanctumConnectedDecorV01Catalog ||
                 !map.theme.sanctumConnectedDecorV01ManifestPin) return;
             var catalog = map.theme.sanctumConnectedDecorV01Catalog;
-            if (!SanctumConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
-                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
             var pin = map.theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
-            SanctumDecorPlan plan;
-            try
+            if (!previewCacheValid)
             {
-                plan = SanctumConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
-                    key => {
-                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
-                            throw new InvalidOperationException(error);
-                        return new SanctumDecorGroupSize(group.WidthCells, group.HeightCells);
-                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
-                    SanctumConnectedDecorV01Planner.SupportsPeriodicPost);
+                if (SanctumConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _))
+                    try
+                    {
+                        sanctumPreview = SanctumConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                            key => {
+                                if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
+                                    throw new InvalidOperationException(error);
+                                return new SanctumDecorGroupSize(group.WidthCells, group.HeightCells);
+                            }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
+                            SanctumConnectedDecorV01Planner.SupportsPeriodicPost);
+                    }
+                    catch (Exception) { sanctumPreview = null; }
             }
-            catch (Exception) { return; }
+            var plan = sanctumPreview;
+            if (plan == null) return;
             for (var i = 0; i < plan.NetworkCount; i++)
             {
                 var row = plan.GetNetwork(i);
@@ -1298,21 +1385,25 @@ namespace ANIMOL.Presentation.Editor
             if (!CoastConnectedDecorHost.IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog ||
                 !map.theme.coastConnectedDecorV01ManifestPin) return;
             var catalog = map.theme.coastConnectedDecorV01Catalog;
-            if (!CoastConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
-                new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _)) return;
             var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
-            CoastDecorPlan plan;
-            try
+            if (!previewCacheValid)
             {
-                plan = CoastConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
-                    key => {
-                        if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
-                            throw new InvalidOperationException(error);
-                        return new CoastDecorGroupSize(group.WidthCells, group.HeightCells);
-                    }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
-                    CoastConnectedDecorV01Planner.SupportsPeriodicPost);
+                if (CoastConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
+                    new Vector3(-.5f, -.5f), 1, 0, out var snapshot, out _))
+                    try
+                    {
+                        coastPreview = CoastConnectedDecorV01Planner.CreatePlan(snapshot.networkCells, snapshot.groupPlacements,
+                            key => {
+                                if (!catalog.TryGetGroup(key, pin, out var group, out _, out var error))
+                                    throw new InvalidOperationException(error);
+                                return new CoastDecorGroupSize(group.WidthCells, group.HeightCells);
+                            }, snapshot.CreateApprovedCellQuery(), snapshot.seed, snapshot.postSpacing,
+                            CoastConnectedDecorV01Planner.SupportsPeriodicPost);
+                    }
+                    catch (Exception) { coastPreview = null; }
             }
-            catch (Exception) { return; }
+            var plan = coastPreview;
+            if (plan == null) return;
             for (var i = 0; i < plan.NetworkCount; i++)
             {
                 var row = plan.GetNetwork(i);
