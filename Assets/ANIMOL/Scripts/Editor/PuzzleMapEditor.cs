@@ -1179,9 +1179,10 @@ namespace ANIMOL.Presentation.Editor
                     foreach (var art in map.scenario.ranchV13Art)
                     {
                         if (art == null || !map.Contains(art.position)) continue;
+                        var center = new Vector2(art.position.x + (art.family == "sluice" ? .5f : 0f), art.position.y);
+                        if (!NearVisibleWorld(center, shownHeight, origin, visible, 3f)) continue;
                         if (RanchDevicesV13EditorPreview.TryClip(map.theme, art.ClipKey, out var sprite))
-                            DrawWorldSpriteAt(new Vector2(art.position.x + (art.family == "sluice" ? .5f : 0f),
-                                art.position.y), sprite, shownHeight, origin, visible);
+                            DrawWorldSpriteAt(center, sprite, shownHeight, origin, visible);
                         if (art == selectedRanchArt)
                             Handles.DrawSolidRectangleWithOutline(new Rect(origin.x + art.position.x * cellSize,
                                 origin.y + (shownHeight - art.position.y - 1) * cellSize,
@@ -1429,7 +1430,9 @@ namespace ANIMOL.Presentation.Editor
             if (!map.theme || !map.theme.starwayRanch) return;
             foreach (var decor in map.decorations)
             {
-                if (!map.Contains(decor.position) || !string.IsNullOrEmpty(decor.visualFamily) ||
+                if (!map.Contains(decor.position) ||
+                    !NearVisibleWorld(decor.position, shownHeight, origin, visible, 5f) ||
+                    !string.IsNullOrEmpty(decor.visualFamily) ||
                     RanchConnectedDecorV02Host.TryMap(map, decor, out _)) continue;
                 var row = shownHeight - 1 - decor.position.y;
                 if (decor.position.x >= xMin && decor.position.x < xMax && row >= yMin && row < yMax) continue;
@@ -1488,6 +1491,7 @@ namespace ANIMOL.Presentation.Editor
             {
                 var row = plan.GetNetwork(i);
                 var position = new Vector2(row.x, row.y);
+                if (!NearVisibleWorld(position, shownHeight, origin, visible, 4f)) continue;
                 if (catalog.TryGetExact(row.file, pin, out var record, out _))
                     DrawWorldSpriteAt(position, record.Sprite, shownHeight, origin, visible);
                 if (!string.IsNullOrEmpty(row.periodicPostFile) &&
@@ -1500,9 +1504,10 @@ namespace ANIMOL.Presentation.Editor
             for (var i = 0; i < plan.GroupCount; i++)
             {
                 var row = plan.GetGroup(i);
+                var center = new Vector2((float)row.CenterX - .5f, (float)row.CenterY - .5f);
+                if (!NearVisibleWorld(center, shownHeight, origin, visible, 5f)) continue;
                 if (catalog.TryGetGroup(row.groupKey, pin, out _, out var art, out _))
-                    DrawWorldSpriteAt(new Vector2((float)row.CenterX - .5f, (float)row.CenterY - .5f),
-                        art.Sprite, shownHeight, origin, visible);
+                    DrawWorldSpriteAt(center, art.Sprite, shownHeight, origin, visible);
             }
         }
         void DrawTheaterConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
@@ -1649,6 +1654,14 @@ namespace ANIMOL.Presentation.Editor
                 origin.y + (shownHeight - position.y - .5f) * cellSize);
             var rect = WorldSpriteRect(pivot, sprite);
             if (rect.Overlaps(visible)) DrawSprite(rect, sprite);
+        }
+        bool NearVisibleWorld(Vector2 position, int shownHeight, Vector2 origin, Rect visible, float marginCells)
+        {
+            var pivot = new Vector2(origin.x + (position.x + .5f) * cellSize,
+                origin.y + (shownHeight - position.y - .5f) * cellSize);
+            var margin = marginCells * cellSize;
+            return pivot.x >= visible.xMin - margin && pivot.x <= visible.xMax + margin &&
+                pivot.y >= visible.yMin - margin && pivot.y <= visible.yMax + margin;
         }
         void DrawWorldSprite(Vector2 screenPivot, Sprite sprite)
         {
