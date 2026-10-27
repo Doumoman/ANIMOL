@@ -229,9 +229,12 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(puzzle.Devices.MissingBindings, Is.Zero);
             var chick = puzzle.Session.Devices.First(d => d.role == PrototypeRole.Chick);
             var chickRoot = puzzle.Devices.Actor(chick.id);
-            var chickVisual = chickRoot.GetComponent<DeviceVisualView>().visual.transform;
-            Assert.That(chickRoot.GetComponent<DeviceVisualView>().enabled, Is.False);
-            Assert.That(chickRoot.GetComponentInChildren<RanchDeviceVisualV13>(), Is.Not.Null);
+            var chickView = chickRoot.GetComponent<DeviceVisualView>();
+            var chickVisual = chickView.visual.transform;
+            Assert.That(chickView.enabled, Is.True);
+            Assert.That(chickView.IsV12Active, Is.True);
+            Assert.That(puzzle.Devices.HasRanchV13Motion(chick.id), Is.False);
+            Assert.That(chickRoot.GetComponentInChildren<RanchDeviceVisualV13>(), Is.Null);
             Assert.That(chickRoot.localScale, Is.EqualTo(Vector3.one));
             Assert.That(chickVisual.localScale.x, Is.EqualTo(.62f).Within(.00001f));
             Assert.That(puzzle.Session.Footprint(chick).Count(), Is.EqualTo(1));

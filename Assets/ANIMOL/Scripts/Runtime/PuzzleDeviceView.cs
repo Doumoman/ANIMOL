@@ -109,7 +109,9 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
-                if (session.Rules.themeId == "starway" && RanchDevicesV13PuzzleBinding.Covers(d))
+                // The follower chick keeps its V12 visual and blocking puzzle behavior.
+                if (session.Rules.themeId == "starway" && d.role != PrototypeRole.Chick &&
+                    RanchDevicesV13PuzzleBinding.Covers(d))
                 {
                     var catalog = session.Map.theme && session.Map.theme.starwayRanch
                         ? session.Map.theme.starwayRanch.v13Devices : null;

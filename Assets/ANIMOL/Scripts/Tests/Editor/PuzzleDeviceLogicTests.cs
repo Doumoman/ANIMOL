@@ -393,23 +393,19 @@ namespace ANIMOL.Tests
             Assert.That(action.events.Any(e => e.actor == "wind_socket" && e.eventName == "matching_star_socket_committed"), Is.True);
             Assert.That(session.Cost, Is.EqualTo(1));
         }
-        [Test] public void StarwayWindCarriesNonblockingChickToItsNestWithoutExtraCost()
+        [Test] public void StarwayWindStopsAtV12BlockingChick()
         {
             var map = Clone(20);
             map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
             map.scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
                 position = new Vector2Int(2, 4), target = new Vector2Int(6, 4), number = 1 });
             var session = new PuzzleDeviceSession(map);
-            session.Apply(Vector2Int.up);
             var first = session.Apply(Vector2Int.up);
             Assert.That(first.accepted, Is.True);
-            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(first.events.Count(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.EqualTo(2));
-            var second = session.Apply(Vector2Int.up);
-            Assert.That(second.accepted, Is.True);
-            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(6, 4)));
-            Assert.That(session.States["chick"].active, Is.True);
-            Assert.That(session.Cost, Is.EqualTo(3));
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(3, 4)), Is.False);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(2, 4)));
+            Assert.That(first.events.Any(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.Cost, Is.EqualTo(1));
         }
         [Test] public void BlowerPushCyclesThreeSixNineCellsThenOffWithoutMovingPlayer()
         {
@@ -492,20 +488,38 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.right);
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
         }
-        [Test] public void StarwayChickDoesNotBlockPlayerOrPressOrdinaryPlate()
+        [Test] public void V12ChickFollowsBlocksPlayerAndPressesOrdinaryPlate()
         {
             var map = Clone(24);
             map.scenario.devices.Add(new PrototypeDevice { id = "chick_plate", role = PrototypeRole.VineBridge,
                 variant = "plate", position = new Vector2Int(1, 3), group = "chick_plate" });
             var session = new PuzzleDeviceSession(map);
-            Assert.That(session.States["chick_plate"].active, Is.False);
-            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
-            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 3)));
             Assert.That(session.States["chick_plate"].active, Is.True);
-            Assert.That(session.Apply(Vector2Int.down).accepted, Is.True);
-            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(1, 3)));
-            Assert.That(session.States["chick_plate"].active, Is.False);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.False, "The initial chick cell blocks entry.");
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            var follow = session.Apply(Vector2Int.up);
+            Assert.That(follow.accepted, Is.True);
+            Assert.That(follow.events.Any(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move &&
+                e.to == new Vector2Int(1, 2)), Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.States["chick_plate"].active, Is.False, "The plate releases after the chick follows.");
             Assert.That(session.Cost, Is.EqualTo(2));
+        }
+        [Test] public void V12ChickBlocksCratePushWithoutCost()
+        {
+            var map = Clone(24);
+            map.scenario.devices.Single(d => d.id == "chick").position = new Vector2Int(3, 2);
+            map.scenario.devices.Add(new PrototypeDevice { id = "crate", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(2, 2) });
+            var session = new PuzzleDeviceSession(map);
+            var blocked = session.Apply(Vector2Int.right);
+            Assert.That(blocked.accepted, Is.False);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.States["crate"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.Cost, Is.Zero);
         }
         [Test] public void MagnetCannotPullMetalThroughWoodAndDoesNotMoveWood()
         {

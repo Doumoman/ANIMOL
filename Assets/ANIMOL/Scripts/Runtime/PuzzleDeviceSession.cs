@@ -101,8 +101,7 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.DepartureSpikes: return s.phase == 2;
                 case PrototypeRole.Domino: return !s.active;
                 case PrototypeRole.Barrel: case PrototypeRole.Bomb: case PrototypeRole.Statue: case PrototypeRole.Glass:
-                case PrototypeRole.Chick: return Rules.themeId != "starway";
-                case PrototypeRole.CowardDoll: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
+                case PrototypeRole.CowardDoll: case PrototypeRole.Chick: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
                 case PrototypeRole.WoodCrate: case PrototypeRole.MetalCrate: return true;
                 case PrototypeRole.Wind: return d.variant == "blower";
                 default: return false;
@@ -726,9 +725,9 @@ namespace ANIMOL.Puzzle
         }
         static bool WindMovable(PrototypeDevice d) => d.role == PrototypeRole.StarSocket && d.variant != "socket" ||
             d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Barrel || d.role == PrototypeRole.Bomb ||
-            d.role == PrototypeRole.Dice && d.variant != "target" || d.role == PrototypeRole.Chick;
+            d.role == PrototypeRole.Dice && d.variant != "target";
         bool StarwayWindCarrier(PrototypeDevice d) => Rules.themeId == "starway" &&
-            (d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Chick);
+            d.role == PrototypeRole.WoodCrate;
         void WindVisual(PrototypeDevice wind, Vector2Int direction)
         {
             var route = WindRouteFor(wind.id);
@@ -740,8 +739,7 @@ namespace ANIMOL.Puzzle
         }
         void WindPulse()
         {
-            foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id) &&
-                (d.role != PrototypeRole.Chick || Rules.themeId == "starway" && !states[d.id].active)))
+            foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id)))
             {
                 var s = states[d.id];
                 var wind = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
@@ -766,7 +764,6 @@ namespace ANIMOL.Puzzle
                 if (d.role == PrototypeRole.Bomb && s.timer == 0)
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
                 if (SeatStarStone(d)) { TraceWind(); continue; }
-                if (d.role == PrototypeRole.Chick && s.cell == d.target) { EnterNest(d); TraceWind(); continue; }
                 TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
             }
         }
