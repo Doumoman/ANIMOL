@@ -114,9 +114,9 @@ namespace ANIMOL.Puzzle
                 if (consumed.Contains(e)) continue;
                 if (e.kind == PrototypeEventKind.Visual)
                 {
-                    view.PlayRanchCue(e);
+                    var ranchSeconds = view.PlayRanchCue(e);
                     Devices.Notify(e, Session.Cost + ":" + e.group);
-                    if (e.eventName == "PondCrossed") yield return new WaitForSeconds(secondsPerCell);
+                    if (ranchSeconds > 0) yield return new WaitForSeconds(ranchSeconds);
                     if (e.eventName == "this_domino_piece_fold_committed" && --dominoPanelsRemaining > 0)
                         yield return new WaitForSeconds(Mathf.Min(.1f, secondsPerCell * .5f));
                     continue;

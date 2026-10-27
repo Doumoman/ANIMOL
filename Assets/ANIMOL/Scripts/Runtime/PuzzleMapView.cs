@@ -607,24 +607,29 @@ namespace ANIMOL.Puzzle
                 direction == Vector2Int.left ? "west" : "east";
             visual.SetState("sheep/" + heading + (wind ? "/wind" : "/walk"), true);
         }
-        public void PlayRanchCue(PrototypeEvent cue)
+        public float PlayRanchCue(PrototypeEvent cue)
         {
             if ((cue.eventName == "SheepPushed" || cue.eventName == "SheepWindMoved") &&
                 ranchSheepVisuals.TryGetValue(cue.actor, out var sheep))
-            { sheep.SetState(cue.state, true); return; }
+            { sheep.SetState(cue.state, true); return 0; }
             if (cue.eventName == "PondCrossed" && currentSession is PuzzleDeviceSession resolved &&
                 ranchPondVisuals.TryGetValue(cue.actor, out var pair))
             {
                 var wetA = resolved.RanchPonds[cue.actor];
-                pair.PlayCommittedCrossing(!wetA); return;
+                if (!pair.PlayCommittedCrossing(!wetA)) return 0;
+                var pondCatalog = map.theme.starwayRanch.v13Devices;
+                if (!pondCatalog.TryClip("pond_cell/fill", out var fill) ||
+                    !pondCatalog.TryClip("pond_cell/drain", out var drain)) return 0;
+                return Mathf.Max(fill.frames.Length / fill.fps, drain.frames.Length / drain.fps);
             }
-            if (cue.eventName != "SheepAteAndRemoved" && cue.eventName != "SheepWindAteAndRemoved") return;
-            if (!map || !map.theme || !map.theme.starwayRanch || !map.theme.starwayRanch.v13Devices) return;
+            if (cue.eventName != "SheepAteAndRemoved" && cue.eventName != "SheepWindAteAndRemoved") return 0;
+            if (!map || !map.theme || !map.theme.starwayRanch || !map.theme.starwayRanch.v13Devices) return 0;
             if (ranchActors.TryGetValue(cue.actor, out var actor)) actor.gameObject.SetActive(false);
             var catalog = map.theme.starwayRanch.v13Devices;
             var heading = cue.state.Split('/')[1];
             SpawnRanchConsumption("Sheep consumed", cue.to, catalog, heading);
             SpawnRanchConsumption("Grass consumed", cue.to, catalog, null);
+            return 0;
         }
         IPuzzleBoardState currentSession;
         void SpawnRanchConsumption(string name, Vector2Int cell, RanchDevicesV13Catalog catalog, string heading)

@@ -57,6 +57,10 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
                 Is.EquivalentTo(new[] { "pond_cell/dry", "pond_cell/wet" }));
             Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+            yield return new WaitForSeconds(.1f);
+            Assert.That(controller.IsMoving, Is.True);
+            Assert.That(pair.GetComponentsInChildren<RanchDeviceVisualV13>().Select(v => v.CurrentKey),
+                Is.EquivalentTo(new[] { "pond_cell/fill", "pond_cell/drain" }));
             yield return WaitIdle();
             Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(2, 2)));
             Assert.That(controller.Session.Cost, Is.EqualTo(1));

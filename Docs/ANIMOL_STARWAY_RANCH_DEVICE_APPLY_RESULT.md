@@ -22,7 +22,7 @@
 | 277 Sprite 임포터 설정 | Single, FullRect, PPU 256, 중앙 Pivot, Bilinear, 무압축, Mipmap Off, Clamp 및 캔버스 크기 모두 일치 |
 | 제공 순수 규칙 EditMode | 21/21 통과 |
 | 호스트 R2 EditMode | 5/5 통과: 양 밀기·바람 끝/금속 차단·첫 풀 소멸·수문 왕복·일반 물칸 거절·Undo/Reset |
-| R2 PlayMode | 4/4 통과: 셀별 수문 표시·양/풀 소멸 효과·Undo·검수 맵 3입력 경로·전후 가림 |
+| R2 PlayMode | 4/4 통과: 셀별 수문 표시와 fill/drain 6프레임 완료·양/풀 소멸 효과·Undo·검수 맵 3입력 경로·전후 가림 |
 | 방향별 양/병아리 및 수문/풀/바람 클립 PlayMode | 1/1 통과 |
 | 기존 퍼즐 논리 EditMode | `PuzzleDeviceLogicTests` 64/64 통과. V12 병아리 차단·누름판·따라오기와 일방향 문 검사가 포함됨 |
 | 실제 게임 카메라 캡처 | `Docs/ANIMOL_STARWAY_RANCH_DEVICE_QA.png`에서 수문 두 칸, 플레이어 접지, 양과 풀의 크기·위치를 확인 |
