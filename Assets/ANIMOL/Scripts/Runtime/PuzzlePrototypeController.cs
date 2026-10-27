@@ -77,6 +77,33 @@ namespace ANIMOL.Puzzle
             Devices.CommitSanctumBeamAction();
             IsMoving = true; StartCoroutine(Animate(result)); return true;
         }
+        public bool UndoLast()
+        {
+            if (Session == null) return false;
+            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            if (!Session.Undo()) return false;
+            PresentRestoredState(); return true;
+        }
+        public void ResetStage()
+        {
+            if (Session == null) return;
+            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            Session.Reset(); PresentRestoredState();
+        }
+        public void RestoreSnapshot(PuzzleDeviceSession snapshot)
+        {
+            if (Session == null) return;
+            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            Session.RestoreSnapshot(snapshot); PresentRestoredState();
+        }
+        void PresentRestoredState()
+        {
+            view.CancelRanchEffects(); Devices.Settle(); view.Present(Session);
+            Player.position = (Vector2)Session.Cell;
+            if (CharacterVisual) CharacterVisual.SetIdle();
+            if (FollowCamera) FollowCamera.Cut();
+            Status = Session.Won ? "Stage clear" : Session.Failed ? Session.Failure : "";
+        }
         IEnumerator Animate(PrototypeAction result)
         {
             var consumed = new HashSet<PrototypeEvent>();
@@ -87,13 +114,17 @@ namespace ANIMOL.Puzzle
                 if (consumed.Contains(e)) continue;
                 if (e.kind == PrototypeEventKind.Visual)
                 {
+                    view.PlayRanchCue(e);
                     Devices.Notify(e, Session.Cost + ":" + e.group);
+                    if (e.eventName == "PondCrossed") yield return new WaitForSeconds(secondsPerCell);
                     if (e.eventName == "this_domino_piece_fold_committed" && --dominoPanelsRemaining > 0)
                         yield return new WaitForSeconds(Mathf.Min(.1f, secondsPerCell * .5f));
                     continue;
                 }
                 if (e.kind != PrototypeEventKind.Move) continue;
-                var actor = e.actor == "player" ? Player : Devices.Actor(e.actor); if (!actor) continue;
+                var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
+                if (!actor) actor = view.RanchActor(e.actor);
+                if (!actor) continue;
                 if (Devices.HasRanchV13Motion(e.actor))
                 {
                     var path = new List<Vector2Int> { e.from };
@@ -124,6 +155,13 @@ namespace ANIMOL.Puzzle
                     continue;
                 }
                 if (e.actor == "player" && CharacterVisual) CharacterVisual.SetMotion(e.to - e.from, "move");
+                if (view.RanchActor(e.actor))
+                {
+                    var wind = result.events.Exists(cue => cue.kind == PrototypeEventKind.Visual &&
+                        cue.eventName == "valid_action_wind_resolved" && cue.group <= e.group &&
+                        cue.cells != null && cue.cells.Contains(e.from) && cue.cells.Contains(e.to));
+                    view.BeginRanchMotion(e.actor, e.to - e.from, wind);
+                }
                 Transform passenger = null;
                 var definition = Session.Definition(e.actor);
                 if (definition != null && (definition.role == PrototypeRole.Boat || definition.role == PrototypeRole.MovingStage))
@@ -133,7 +171,10 @@ namespace ANIMOL.Puzzle
                 }
                 // Play the existing committed body-motion clip while the grid transform actually moves.
                 foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual && p.actor == e.actor && p.group == e.group + 1))
-                { Devices.Notify(cue, Session.Cost + ":" + cue.group); consumed.Add(cue); }
+                {
+                    if (view.RanchActor(e.actor)) continue;
+                    Devices.Notify(cue, Session.Cost + ":" + cue.group); consumed.Add(cue);
+                }
                 if (e.teleport) { actor.position = (Vector2)e.to; if (e.actor == "player") FollowCamera.Cut(); yield return null; }
                 else
                 {
@@ -142,6 +183,10 @@ namespace ANIMOL.Puzzle
                     actor.position = (Vector2)e.to;
                     if (passenger) passenger.position = (Vector2)e.to;
                 }
+                if (view.RanchActor(e.actor))
+                    foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual &&
+                        p.actor == e.actor && p.group == e.group + 1 && !consumed.Contains(p)))
+                    { view.PlayRanchCue(cue); consumed.Add(cue); }
             }
             Devices.Settle(); view.Present(Session); Player.position = (Vector2)Session.Cell;
             if (CharacterVisual)

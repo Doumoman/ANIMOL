@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.DevicePatch01;
+using ANIMOL.Gameplay.RanchDevicesR2;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -37,10 +38,23 @@ namespace ANIMOL.Puzzle
         public WindRoute WindRouteFor(string id) => id != null && windRoutes.TryGetValue(id, out var route) ? route : null;
         readonly List<PrototypeDevice> definitions;
         Dictionary<string, PrototypeDeviceState> states = new Dictionary<string, PrototypeDeviceState>();
+        Dictionary<string, Vector2Int> ranchSheep = new Dictionary<string, Vector2Int>(StringComparer.Ordinal);
+        Dictionary<string, Vector2Int> ranchSheepDirections = new Dictionary<string, Vector2Int>(StringComparer.Ordinal);
+        Dictionary<string, bool> ranchPonds = new Dictionary<string, bool>(StringComparer.Ordinal);
+        HashSet<Vector2Int> consumedRanchGrass = new HashSet<Vector2Int>();
+        readonly Dictionary<Vector2Int, RanchV13ArtPlacement> ranchPondCells = new Dictionary<Vector2Int, RanchV13ArtPlacement>();
+        readonly HashSet<Vector2Int> ranchGrassPositions = new HashSet<Vector2Int>();
+        public IReadOnlyDictionary<string, Vector2Int> RanchSheep => ranchSheep;
+        public Vector2Int RanchSheepDirection(string id) => ranchSheepDirections.TryGetValue(id, out var direction) ? direction : Vector2Int.right;
+        public IReadOnlyDictionary<string, bool> RanchPonds => ranchPonds;
+        public bool RanchGrassPresent(Vector2Int cell) => ranchGrassPositions.Contains(cell) && !consumedRanchGrass.Contains(cell);
+        public bool RanchWet(Vector2Int cell) => ranchPondCells.TryGetValue(cell, out var pond) &&
+            (pond.position == cell ? ranchPonds[pond.Id] : !ranchPonds[pond.Id]);
         HashSet<Vector2Int> collected = new HashSet<Vector2Int>(), visited = new HashSet<Vector2Int>();
         List<PrototypeEvent> events = new List<PrototypeEvent>();
         readonly HashSet<string> newlyArmed = new HashSet<string>();
         readonly HashSet<string> pushedThisAction = new HashSet<string>();
+        readonly Stack<PuzzleDeviceSession> undo = new Stack<PuzzleDeviceSession>();
         int group;
         bool forced, sliding;
         public PuzzleDeviceSession(PuzzleMap map)
@@ -51,18 +65,48 @@ namespace ANIMOL.Puzzle
             if (errors.Count != 0) throw new ArgumentException(string.Join("; ", errors));
             definitions = Rules.devices.Where(d => Map.Contains(d.position)).OrderBy(d => d.id, StringComparer.Ordinal).ToList();
             foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, lookDirection = d.direction, active = d.active, phase = d.orientation });
-            Cell = map.start; Collect(); RefreshLinks(false); TraceLight(); TraceWind(); Victory(); events.Clear();
+            foreach (var art in Rules.ranchV13Art.Where(a => a != null))
+            {
+                if (art.family == "sheep") { ranchSheep.Add(art.Id, art.position); ranchSheepDirections.Add(art.Id, art.direction); }
+                if (art.family == "sluice")
+                { ranchPonds.Add(art.Id, art.rightState); ranchPondCells.Add(art.position, art); ranchPondCells.Add(art.position + Vector2Int.right, art); }
+                if (art.family == "tall_grass") ranchGrassPositions.Add(art.position);
+            }
+            Cell = map.start;
+            if (RanchWet(Cell) || ranchSheep.Values.Contains(Cell) || RanchGrassPresent(Cell))
+                throw new ArgumentException("Player starts on an occupied ranch cell.");
+            Collect(); RefreshLinks(false); TraceLight(); TraceWind(); Victory(); events.Clear();
         }
         PuzzleDeviceSession(PuzzleDeviceSession source)
         {
             Map = source.Map; definitions = source.definitions; CopyFrom(source);
+            foreach (var entry in source.ranchPondCells) ranchPondCells.Add(entry.Key, entry.Value);
+            ranchGrassPositions.UnionWith(source.ranchGrassPositions);
         }
         public PuzzleDeviceSession Copy() => new PuzzleDeviceSession(this);
+        public bool Undo()
+        {
+            if (undo.Count == 0) return false;
+            CopyFrom(undo.Pop()); events.Clear(); return true;
+        }
+        public void Reset()
+        {
+            CopyFrom(new PuzzleDeviceSession(Map)); undo.Clear(); events.Clear();
+        }
+        public void RestoreSnapshot(PuzzleDeviceSession snapshot)
+        {
+            if (snapshot == null || snapshot.Map != Map) throw new ArgumentException("Snapshot belongs to a different map.");
+            CopyFrom(snapshot); undo.Clear(); events.Clear();
+        }
         void CopyFrom(PuzzleDeviceSession other)
         {
             Cell = other.Cell; Direction = other.Direction; Cost = other.Cost; Won = other.Won; Failed = other.Failed;
             Failure = other.Failure; BoatId = other.BoatId; PortalCuts = other.PortalCuts;
             states = other.states.ToDictionary(p => p.Key, p => p.Value.Copy());
+            ranchSheep = new Dictionary<string, Vector2Int>(other.ranchSheep, StringComparer.Ordinal);
+            ranchSheepDirections = new Dictionary<string, Vector2Int>(other.ranchSheepDirections, StringComparer.Ordinal);
+            ranchPonds = new Dictionary<string, bool>(other.ranchPonds, StringComparer.Ordinal);
+            consumedRanchGrass = new HashSet<Vector2Int>(other.consumedRanchGrass);
             collected = new HashSet<Vector2Int>(other.collected); visited = new HashSet<Vector2Int>(other.visited);
             Beams.Clear(); Beams.AddRange(other.Beams);
             BeamTraces.Clear(); BeamTraces.AddRange(other.BeamTraces);
@@ -110,7 +154,7 @@ namespace ANIMOL.Puzzle
         PrototypeDevice At(Vector2Int p, Func<PrototypeDevice, bool> predicate = null, string except = null) =>
             definitions.FirstOrDefault(d => d.id != except && !states[d.id].removed && Footprint(d).Contains(p) && (predicate == null || predicate(d)));
         bool Occupied(Vector2Int p, string except = null) => Cell == p || At(p, Solid, except) != null;
-        public bool Supported(Vector2Int p) => Map.Contains(p) && !Map.DecorationAt(p) && (Map.Walkable(p) || At(p, d =>
+        public bool Supported(Vector2Int p) => Map.Contains(p) && !Map.DecorationAt(p) && !RanchWet(p) && !RanchGrassPresent(p) && (Map.Walkable(p) || At(p, d =>
             (d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) || d.role == PrototypeRole.MovingStage) != null);
         bool StarSocketPassable(Vector2Int p, string movingId)
         {
@@ -124,7 +168,7 @@ namespace ANIMOL.Puzzle
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
             StarSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
-            At(p, d => d.role == PrototypeRole.Boat, except) == null;
+            At(p, d => d.role == PrototypeRole.Boat, except) == null && !ranchSheep.Values.Contains(p);
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
         static GateHeading GateDirection(Vector2Int p)
         {
@@ -155,7 +199,7 @@ namespace ANIMOL.Puzzle
         {
             if (Won || Failed || !PuzzleSession.IsCardinal(direction)) return new PrototypeAction { reason = "Input unavailable" };
             var next = Copy(); var result = next.Resolve(direction);
-            if (result.accepted) CopyFrom(next);
+            if (result.accepted) { undo.Push(Copy()); CopyFrom(next); }
             return result;
         }
         PrototypeAction Resolve(Vector2Int direction)
@@ -178,16 +222,89 @@ namespace ANIMOL.Puzzle
             }
             else
             {
-                if (!StepPlayer(Cell + direction))
+                bool ranchAccepted;
+                string ranchReason;
+                var ranchHandled = TryRanchInput(direction, out ranchAccepted, out ranchReason);
+                if (ranchHandled ? !ranchAccepted : !StepPlayer(Cell + direction))
                 {
                     RejectedCue(Cell + direction);
-                    return new PrototypeAction { reason = "Blocked", events = events.Where(e => e.kind == PrototypeEventKind.Visual).ToList() };
+                    return new PrototypeAction { reason = ranchReason ?? "Blocked", events = events.Where(e => e.kind == PrototypeEventKind.Visual).ToList() };
                 }
-                Automatic();
+                if (!ranchHandled) Automatic();
             }
             Cost++; EndTurn(); Victory();
             if (!Won && Rules.costLimit > 0 && Cost >= Rules.costLimit) Fail("Cost exhausted");
             return new PrototypeAction { accepted = true, events = events };
+        }
+        static RanchCellR2 RanchCell(Vector2Int p) => new RanchCellR2(p.x, p.y);
+        static Vector2Int UnityCell(RanchCellR2 p) => new Vector2Int(p.x, p.y);
+        static string RanchHeading(Vector2Int direction) => direction == Vector2Int.up ? "north" :
+            direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east";
+        RanchRuleBoardR2 RanchSnapshot(IEnumerable<Vector2Int> extra = null)
+        {
+            var board = new RanchRuleBoardR2 { player = RanchCell(Cell), costSpent = Cost, deviceTurns = Cost };
+            var relevant = new HashSet<Vector2Int> { Cell };
+            if (extra != null) relevant.UnionWith(extra);
+            relevant.UnionWith(ranchSheep.Values);
+            foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
+            { relevant.Add(art.position); relevant.Add(art.position + Vector2Int.right); }
+            foreach (var p in relevant)
+            {
+                if (!Map.Contains(p)) continue;
+                board.ground.Add(RanchCell(p), !Map.Walkable(p)
+                    ? RanchGroundR2.Wall : RanchGrassPresent(p) ? RanchGroundR2.TallGrass : RanchGroundR2.Floor);
+            }
+            foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
+                board.ponds.Add(new RanchPondPairR2 { instanceId = art.Id, a = RanchCell(art.position),
+                    b = RanchCell(art.position + Vector2Int.right), wetA = ranchPonds[art.Id] });
+            foreach (var sheep in ranchSheep) board.sheep.Add(sheep.Key, RanchCell(sheep.Value));
+            foreach (var device in definitions.Where(d => !states[d.id].removed && (Solid(d) || d.role == PrototypeRole.Boat)))
+                foreach (var p in Footprint(device))
+                    if (p == Cell) board.floodPolicyHolds.Add(RanchCell(p));
+                    else board.solidOccupants.Add(RanchCell(p));
+            return board;
+        }
+        bool TryRanchInput(Vector2Int direction, out bool accepted, out string rejection)
+        {
+            accepted = false; rejection = null;
+            var destination = Cell + direction;
+            var sheep = ranchSheep.FirstOrDefault(p => p.Value == destination);
+            if (sheep.Key != null)
+            {
+                var board = RanchSnapshot(new[] { destination + direction });
+                if (!RanchDeviceRulesR2.TryPushSheep(board, sheep.Key, RanchCell(direction), out var next, out var result))
+                { rejection = result.code + ": " + result.diagnostic; return true; }
+                var from = sheep.Value;
+                var to = UnityCell(result.actualRoute[result.actualRoute.Length - 1]);
+                if (result.removedSheep) { ranchSheep.Remove(sheep.Key); consumedRanchGrass.Add(to); }
+                else ranchSheep[sheep.Key] = to;
+                ranchSheepDirections[sheep.Key] = direction;
+                Move(sheep.Key, from, to);
+                events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = sheep.Key,
+                    state = "sheep/" + RanchHeading(direction) + (result.removedSheep ? "/eat_and_disappear" : "/idle"),
+                    eventName = result.eventKind.ToString(), from = from, to = to, group = group });
+                accepted = true; return true;
+            }
+            if (!ranchPondCells.TryGetValue(Cell, out var pond) ||
+                (ranchPonds[pond.Id] ? pond.position + Vector2Int.right : pond.position) != Cell ||
+                (ranchPonds[pond.Id] ? pond.position : pond.position + Vector2Int.right) != destination) return false;
+            if (!GateAllows(Cell, destination, direction) || !EntryAllowed(destination))
+            { rejection = "Pond crossing blocked by entry rule."; return true; }
+            var snapshot = RanchSnapshot();
+            if (!RanchDeviceRulesR2.TryCrossPond(snapshot, RanchCell(direction), out var crossed, out var crossing))
+            {
+                if (crossing.code == RanchRuleCodeR2.NotApplicable) return false;
+                rejection = crossing.code + ": " + crossing.diagnostic; return true;
+            }
+            var previous = Cell;
+            var wasWetA = ranchPonds[pond.Id];
+            ranchPonds[pond.Id] = !wasWetA;
+            Leave(previous); Cell = destination; Move("player", previous, destination);
+            events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = pond.Id,
+                state = wasWetA ? "pond_pair/cross_b_to_a" : "pond_pair/cross_a_to_b",
+                eventName = "PondCrossed", from = previous, to = destination, group = group });
+            Collect(); Enter(); Follow(previous); RefreshLinks(true); TraceWind(); Automatic();
+            accepted = true; return true;
         }
         void Move(string actor, Vector2Int from, Vector2Int to, bool teleport = false)
         { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Move, actor = actor, from = from, to = to, teleport = teleport, group = group++ }); }
@@ -241,7 +358,8 @@ namespace ANIMOL.Puzzle
         }
         bool StepPlayer(Vector2Int destination, PrototypeDevice committedWind = null)
         {
-            if (!Map.Contains(destination) || Map.DecorationAt(destination) || !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
+            if (!Map.Contains(destination) || Map.DecorationAt(destination) || ranchSheep.Values.Contains(destination) ||
+                !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
             if (!string.IsNullOrEmpty(BoatId))
             {
                 var boat = Definition(BoatId); var bs = states[BoatId];
@@ -553,7 +671,7 @@ namespace ANIMOL.Puzzle
                     else Visual(d, "blocked_" + Dir(s.lookDirection), "doll_retreat_cell_blocked");
                 }
             }
-            TraceWind(); WindPulse();
+            TraceWind(); WindPulse(); WindSheepPulse();
             foreach (var bomb in definitions.Where(d => d.role == PrototypeRole.Bomb && !states[d.id].removed && states[d.id].timer > 0 && !newlyArmed.Contains(d.id)))
             {
                 var s = states[bomb.id]; s.timer--;
@@ -703,6 +821,7 @@ namespace ANIMOL.Puzzle
             public WindCellKind Classify(WindGridCell cell, WindHeading incomingTravel)
             {
                 var p = new Vector2Int(cell.x, cell.y);
+                if (session.RanchGrassPresent(p)) return WindCellKind.Open;
                 if (!session.Supported(p)) return WindCellKind.Void;
                 var body = session.At(p, session.Solid, emitter);
                 if (body != null)
@@ -765,6 +884,54 @@ namespace ANIMOL.Puzzle
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
                 if (SeatStarStone(d)) { TraceWind(); continue; }
                 TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
+            }
+        }
+        void WindSheepPulse()
+        {
+            foreach (var sheep in ranchSheep.ToArray())
+            {
+                if (!windOwners.TryGetValue(sheep.Value, out var owner)) continue;
+                var wind = Definition(owner);
+                if (wind == null || wind.variant != "blower") continue;
+                var route = WindRouteFor(owner);
+                if (route == null) continue;
+                var range = states[owner].phase * 3;
+                var moved = 0;
+                var lastDirection = Vector2Int.zero;
+                var lastKind = RanchRuleEventR2.None;
+                var final = sheep.Value;
+                while (moved < range && ranchSheep.ContainsKey(sheep.Key) &&
+                    route.TryGetForce(new WindGridCell(final.x, final.y), out var force))
+                {
+                    var direction = WindVector(force);
+                    var cells = new List<RanchCellR2> { RanchCell(final) };
+                    var cursor = final;
+                    while (cells.Count < range - moved)
+                    {
+                        cursor += direction;
+                        if (!route.TryGetForce(new WindGridCell(cursor.x, cursor.y), out var nextForce)) break;
+                        cells.Add(RanchCell(cursor));
+                        if (WindVector(nextForce) != direction) break;
+                    }
+                    if (cells.Count < 2 || !RanchDeviceRulesR2.TryWindSheep(RanchSnapshot(cells.Select(UnityCell)), sheep.Key,
+                        RanchCell(direction), cells, range, out var next, out var result)) break;
+                    WindVisual(wind, direction);
+                    for (var i = 1; i < result.actualRoute.Length; i++)
+                        Move(sheep.Key, UnityCell(result.actualRoute[i - 1]), UnityCell(result.actualRoute[i]));
+                    moved += result.actualRoute.Length - 1;
+                    final = UnityCell(result.actualRoute[result.actualRoute.Length - 1]);
+                    if (result.removedSheep) { ranchSheep.Remove(sheep.Key); consumedRanchGrass.Add(final); }
+                    else ranchSheep[sheep.Key] = final;
+                    ranchSheepDirections[sheep.Key] = direction;
+                    lastDirection = direction;
+                    lastKind = result.eventKind;
+                    if (result.removedSheep) break;
+                }
+                if (moved == 0) continue;
+                var removed = !ranchSheep.ContainsKey(sheep.Key);
+                events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = sheep.Key,
+                    state = "sheep/" + RanchHeading(lastDirection) + (removed ? "/eat_and_disappear" : "/idle"),
+                    eventName = lastKind.ToString(), from = sheep.Value, to = final, group = group });
             }
         }
         void Victory()

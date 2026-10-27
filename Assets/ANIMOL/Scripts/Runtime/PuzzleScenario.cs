@@ -16,21 +16,24 @@ namespace ANIMOL.Puzzle
         CowardDoll = 23, Chick = 24, Ice = 25, Wall = 100, CrackedWall = 101, WoodCrate = 102, MetalCrate = 103
     }
     public enum StarSocketReward { None, RevealBridge, RevealBubble }
-    // Art layout for V13 families that have no official gameplay device ID yet.
-    // These records are not included in PuzzleDeviceSession.devices.
+    // Placed ranch families have instance IDs, not new official device role numbers.
     [Serializable] public sealed class RanchV13ArtPlacement
     {
         public string family;
+        public string instanceId;
         public Vector2Int position, direction = Vector2Int.right;
+        // Serialized V13 field retained for existing maps. In R2 true means A is wet.
         public bool rightState;
+        public string Id => string.IsNullOrEmpty(instanceId) ? family + "@" + position.x + "," + position.y : instanceId;
         public IEnumerable<Vector2Int> Footprint()
         {
             yield return position;
             if (family == "sluice") yield return position + Vector2Int.right;
         }
-        public string ClipKey => family == "sluice" ? "sluice/horizontal/" + (rightState ? "right" : "left") :
+        public string ClipKey => family == "sluice" ? "pond_pair/" + (rightState ? "a_wet_b_dry" : "a_dry_b_wet") :
             family == "sheep" ? "sheep/" + (direction == Vector2Int.up ? "north" :
-                direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east") + "/idle" : null;
+                direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : "east") + "/idle" :
+            family == "tall_grass" ? "tall_grass/idle" : null;
     }
     [Serializable] public sealed class PrototypeDevice
     {
@@ -80,13 +83,17 @@ namespace ANIMOL.Puzzle
             var ranchFootprints = new HashSet<Vector2Int>();
             foreach (var art in ranchV13Art)
             {
-                if (art == null || (art.family != "sheep" && art.family != "sluice"))
+                if (art == null || (art.family != "sheep" && art.family != "sluice" && art.family != "tall_grass"))
                 { errors.Add("Unknown Ranch V13 art placement."); continue; }
                 if (themeId != "starway" || !map.theme || !map.theme.starwayRanch ||
                     !map.theme.starwayRanch.v13Devices)
                     errors.Add("Ranch V13 art requires the Starway theme and catalog.");
                 if (art.family == "sheep" && !PuzzleSession.IsCardinal(art.direction))
                     errors.Add("Sheep art direction must be cardinal: " + art.position);
+                if (art.family == "sheep" && art.position == map.start ||
+                    art.family == "tall_grass" && art.position == map.start ||
+                    art.family == "sluice" && (art.rightState ? art.position : art.position + Vector2Int.right) == map.start)
+                    errors.Add("Player cannot start on a sheep, tall grass or wet pond cell.");
                 foreach (var p in art.Footprint())
                 {
                     if (!map.Contains(p) || !map.Walkable(p))
@@ -95,6 +102,8 @@ namespace ANIMOL.Puzzle
                     if (devices.Any(d => d.position == p)) errors.Add("Ranch V13 art overlaps a gameplay device: " + p);
                 }
             }
+            if (ranchV13Art.Where(a => a != null).GroupBy(a => a.Id).Any(g => g.Count() > 1))
+                errors.Add("Ranch placement instance IDs must be unique.");
             if (devices.Any(d => string.IsNullOrEmpty(d.id))) errors.Add("Every prototype device needs an ID.");
             if (devices.GroupBy(d => d.id).Any(g => g.Count() > 1)) errors.Add("Prototype device IDs must be unique.");
             foreach (var d in devices.Where(d => map.Contains(d.position)))

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RanchDevicesV13Catalog
   m_EditorClassIdentifier: ANIMOL.Art.RanchDevicesV13::ANIMOL.Art.RanchDevicesV13.RanchDevicesV13Catalog
   packageId: ANIMOL_STARWAY_RANCH_DEVICES_V13
-  sourceSha256: 53442e880935d44c6d985d1ed71e865812b21537e46ef338e24b06016fe9aee7
+  sourceSha256: e7e712d4597486aedcee9b9dcf575d5d8c06eb70cd6e98e3828ef3aa88a16e18
   sprites:
   - key: sheep/south/f00
     sprite: {fileID: 21300000, guid: 9186463d0f3ab0a40b8a7038c6e37164, type: 3}
@@ -526,27 +526,27 @@ MonoBehaviour:
   - key: sluice/horizontal/f00
     sprite: {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: sluice/horizontal/f01
     sprite: {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: sluice/horizontal/f02
     sprite: {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: sluice/horizontal/f03
     sprite: {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: sluice/horizontal/f04
     sprite: {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: sluice/horizontal/f05
     sprite: {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
     footprint: {x: 2, y: 1}
-    role: device
+    role: pond_pair
   - key: wood_crate/f00
     sprite: {fileID: 21300000, guid: c143508a92912334ea078ba0cb99df54, type: 3}
     footprint: {x: 1, y: 1}
@@ -1083,6 +1083,46 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 57bb6311db89e424c869df896686d74a, type: 3}
     footprint: {x: 1, y: 1}
     role: channel_overlay
+  - key: pond_cell/f00
+    sprite: {fileID: 21300000, guid: 7acf34c14c0a71442bf3b6ae86054ca8, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: pond_cell/f01
+    sprite: {fileID: 21300000, guid: 3c8528cd96425f84da5bfb34ebbec5f7, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: pond_cell/f02
+    sprite: {fileID: 21300000, guid: 3a99fc5f22dcdc2479c7c9c6cc5da2fb, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: pond_cell/f03
+    sprite: {fileID: 21300000, guid: 98ce425a9e19f35439007e26e3abffc1, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: pond_cell/f04
+    sprite: {fileID: 21300000, guid: 818477c5d34db434bad60889c7bdadf4, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: pond_cell/f05
+    sprite: {fileID: 21300000, guid: 195cf94a1add2a2468273b691f9dd892, type: 3}
+    footprint: {x: 1, y: 1}
+    role: pond_cell
+  - key: sheep_puff/f00
+    sprite: {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    footprint: {x: 1, y: 1}
+    role: consumption_effect
+  - key: sheep_puff/f01
+    sprite: {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    footprint: {x: 1, y: 1}
+    role: consumption_effect
+  - key: sheep_puff/f02
+    sprite: {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    footprint: {x: 1, y: 1}
+    role: consumption_effect
+  - key: sheep_puff/f03
+    sprite: {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    footprint: {x: 1, y: 1}
+    role: consumption_effect
   clips:
   - key: sheep/south/idle
     frames:
@@ -1973,3 +2013,123 @@ MonoBehaviour:
     - {fileID: 21300000, guid: fa02a5f3bd9c3ba4c86edd20c4e4cdd3, type: 3}
     fps: 12
     loop: 1
+  - key: pond_cell/dry
+    frames:
+    - {fileID: 21300000, guid: 7acf34c14c0a71442bf3b6ae86054ca8, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_cell/wet
+    frames:
+    - {fileID: 21300000, guid: 195cf94a1add2a2468273b691f9dd892, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_cell/fill
+    frames:
+    - {fileID: 21300000, guid: 7acf34c14c0a71442bf3b6ae86054ca8, type: 3}
+    - {fileID: 21300000, guid: 3c8528cd96425f84da5bfb34ebbec5f7, type: 3}
+    - {fileID: 21300000, guid: 3a99fc5f22dcdc2479c7c9c6cc5da2fb, type: 3}
+    - {fileID: 21300000, guid: 98ce425a9e19f35439007e26e3abffc1, type: 3}
+    - {fileID: 21300000, guid: 818477c5d34db434bad60889c7bdadf4, type: 3}
+    - {fileID: 21300000, guid: 195cf94a1add2a2468273b691f9dd892, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_cell/drain
+    frames:
+    - {fileID: 21300000, guid: 195cf94a1add2a2468273b691f9dd892, type: 3}
+    - {fileID: 21300000, guid: 818477c5d34db434bad60889c7bdadf4, type: 3}
+    - {fileID: 21300000, guid: 98ce425a9e19f35439007e26e3abffc1, type: 3}
+    - {fileID: 21300000, guid: 3a99fc5f22dcdc2479c7c9c6cc5da2fb, type: 3}
+    - {fileID: 21300000, guid: 3c8528cd96425f84da5bfb34ebbec5f7, type: 3}
+    - {fileID: 21300000, guid: 7acf34c14c0a71442bf3b6ae86054ca8, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/a_dry_b_wet
+    frames:
+    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/a_wet_b_dry
+    frames:
+    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/cross_a_to_b
+    frames:
+    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
+    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
+    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
+    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
+    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    fps: 12
+    loop: 0
+  - key: pond_pair/cross_b_to_a
+    frames:
+    - {fileID: 21300000, guid: a5ecb115e8e85da4d942062876ecc29b, type: 3}
+    - {fileID: 21300000, guid: 9a32d30bd96abba4785a70162356eaf3, type: 3}
+    - {fileID: 21300000, guid: 6897660759e057b42ac2b5a5d622eefe, type: 3}
+    - {fileID: 21300000, guid: 8300d68f4bd710e4e8f0e559ee4b5cf0, type: 3}
+    - {fileID: 21300000, guid: 10c97fd4b49bdf44fbce59e2c4d8faee, type: 3}
+    - {fileID: 21300000, guid: 31eadfa21a51d9f408f43139e64542af, type: 3}
+    fps: 12
+    loop: 0
+  - key: sheep_puff/disappear
+    frames:
+    - {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0
+  - key: sheep/south/eat_and_disappear
+    frames:
+    - {fileID: 21300000, guid: 9186463d0f3ab0a40b8a7038c6e37164, type: 3}
+    - {fileID: 21300000, guid: be95520f790c34343a2820595b7b33d1, type: 3}
+    - {fileID: 21300000, guid: 76d49710f7413d64db2a0372bd4580c5, type: 3}
+    - {fileID: 21300000, guid: be95520f790c34343a2820595b7b33d1, type: 3}
+    - {fileID: 21300000, guid: 9186463d0f3ab0a40b8a7038c6e37164, type: 3}
+    - {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0
+  - key: sheep/east/eat_and_disappear
+    frames:
+    - {fileID: 21300000, guid: 73dc249a5ce5d5743ac5d8fe704e506e, type: 3}
+    - {fileID: 21300000, guid: 69a13ad68e83fe04ba33e7b4b3e6b5f9, type: 3}
+    - {fileID: 21300000, guid: 856685aedb382f8468c64d1ca0e57f4c, type: 3}
+    - {fileID: 21300000, guid: 69a13ad68e83fe04ba33e7b4b3e6b5f9, type: 3}
+    - {fileID: 21300000, guid: 73dc249a5ce5d5743ac5d8fe704e506e, type: 3}
+    - {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0
+  - key: sheep/north/eat_and_disappear
+    frames:
+    - {fileID: 21300000, guid: 02ad999eb82d0e74fbc19ab621b578c2, type: 3}
+    - {fileID: 21300000, guid: 9703552074e62134cb6510359649624c, type: 3}
+    - {fileID: 21300000, guid: 2b831137c0c09604d8d4290303d34f6c, type: 3}
+    - {fileID: 21300000, guid: 9703552074e62134cb6510359649624c, type: 3}
+    - {fileID: 21300000, guid: 02ad999eb82d0e74fbc19ab621b578c2, type: 3}
+    - {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0
+  - key: sheep/west/eat_and_disappear
+    frames:
+    - {fileID: 21300000, guid: f7b95bb94bd4c854a88723ebcee948c4, type: 3}
+    - {fileID: 21300000, guid: 9f6fd30b0dfd0ca4aa23879a248abcfa, type: 3}
+    - {fileID: 21300000, guid: 1dbfd1e5176abf848b28cee85655a81f, type: 3}
+    - {fileID: 21300000, guid: 9f6fd30b0dfd0ca4aa23879a248abcfa, type: 3}
+    - {fileID: 21300000, guid: f7b95bb94bd4c854a88723ebcee948c4, type: 3}
+    - {fileID: 21300000, guid: 3a1554b4c43f1ca46a8775c0c53be5b9, type: 3}
+    - {fileID: 21300000, guid: 2a37fba928bdc6340a807f5db77278bf, type: 3}
+    - {fileID: 21300000, guid: b2ad23cda75b6664fbfc803f55c70cd2, type: 3}
+    - {fileID: 21300000, guid: 8129b73f046ecd64eb1f214b2525d712, type: 3}
+    fps: 12
+    loop: 0

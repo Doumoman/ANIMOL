@@ -3,8 +3,8 @@ namespace ANIMOL.Art.RanchDevicesV13
     public static class RanchDevicesV13Pin
     {
         public const string Package = "ANIMOL_STARWAY_RANCH_DEVICES_V13";
-        public const string Sha256 = "53442e880935d44c6d985d1ed71e865812b21537e46ef338e24b06016fe9aee7";
-        public const int SpriteCount = 267;
-        public const int ClipCount = 137;
+        public const string Sha256 = "e7e712d4597486aedcee9b9dcf575d5d8c06eb70cd6e98e3828ef3aa88a16e18";
+        public const int SpriteCount = 277;
+        public const int ClipCount = 150;
     }
 }

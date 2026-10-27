@@ -23,6 +23,11 @@ namespace ANIMOL.Puzzle
             public string direction, idleKey;
         }
         readonly Dictionary<Vector2Int, ClassicWindVisual> classicWind = new Dictionary<Vector2Int, ClassicWindVisual>();
+        readonly Dictionary<string, Transform> ranchActors = new Dictionary<string, Transform>(System.StringComparer.Ordinal);
+        readonly Dictionary<string, RanchDeviceVisualV13> ranchSheepVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
+        readonly Dictionary<string, RanchPondPairVisualR2> ranchPondVisuals = new Dictionary<string, RanchPondPairVisualR2>(System.StringComparer.Ordinal);
+        readonly Dictionary<Vector2Int, RanchDeviceVisualV13> ranchGrassVisuals = new Dictionary<Vector2Int, RanchDeviceVisualV13>();
+        readonly List<GameObject> ranchEffects = new List<GameObject>();
         Transform objectsRoot;
         RectInt visible;
         SkyIslandMapRenderer island;
@@ -82,7 +87,7 @@ namespace ANIMOL.Puzzle
             { RefreshLegacyCoastDecor(); PublishCoastDecor(); }
             else Rebuild();
         }
-        void OnEnable() { if (map && objectsRoot) Rebuild(); }
+        void OnEnable() { if (map && objectsRoot) { Rebuild(); if (currentSession != null) Present(currentSession); } }
         void OnDestroy() => Unbind();
         static void Remove(GameObject go)
         { go.SetActive(false); if (Application.isPlaying) Destroy(go); else DestroyImmediate(go); }
@@ -105,7 +110,8 @@ namespace ANIMOL.Puzzle
             sanctumLegacyDecorationViews.Clear();
             coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
             coastLegacyDecorationViews.Clear();
-            bubbleViews.Clear(); classicWind.Clear();
+            bubbleViews.Clear(); classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
+            ranchPondVisuals.Clear(); ranchGrassVisuals.Clear(); ranchEffects.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.theme && map.theme.starSwellCoastV01Catalog)
             {
@@ -264,19 +270,26 @@ namespace ANIMOL.Puzzle
                     foreach (var art in map.scenario.ranchV13Art)
                     {
                         if (art == null || !map.Contains(art.position)) continue;
-                        var key = art.ClipKey;
-                        if (string.IsNullOrEmpty(key)) continue;
-                        var root = new GameObject("V13 art only " + art.family);
+                        var root = new GameObject("Ranch R2 " + art.family + " " + art.Id);
                         root.transform.SetParent(objectsRoot, false);
-                        root.transform.localPosition = new Vector3(art.position.x + (art.family == "sluice" ? .5f : 0f),
-                            art.position.y, 0);
-                        var visual = new GameObject("Visual");
-                        visual.transform.SetParent(root.transform, false);
-                        var renderer = visual.AddComponent<SpriteRenderer>();
-                        renderer.sortingOrder = 28;
-                        var view = visual.AddComponent<RanchDeviceVisualV13>();
-                        if (!view.Configure(map.theme.starwayRanch.v13Devices, out var error) || !view.SetState(key))
-                        { Debug.LogError("V13 art placement failed: " + (error ?? key), root); Remove(root); }
+                        root.transform.localPosition = (Vector2)art.position;
+                        var catalog = map.theme.starwayRanch.v13Devices;
+                        if (art.family == "sluice")
+                        {
+                            var a = RanchCellVisual(root.transform, "Cell A", Vector2Int.zero, 28, catalog);
+                            var b = RanchCellVisual(root.transform, "Cell B", Vector2Int.right, 28, catalog);
+                            var pair = root.AddComponent<RanchPondPairVisualR2>();
+                            if (!pair.Configure(catalog, a, b, out var error) || !pair.SetResolvedState(art.rightState))
+                                Debug.LogError("R2 pond visual failed: " + error, root);
+                            ranchPondVisuals[art.Id] = pair;
+                        }
+                        else if (art.family == "sheep" || art.family == "tall_grass")
+                        {
+                            var visual = RanchCellVisual(root.transform, "Visual", Vector2Int.zero, 28, catalog);
+                            if (!visual.SetState(art.ClipKey)) Debug.LogError("R2 ranch clip missing: " + art.ClipKey, root);
+                            if (art.family == "sheep") { ranchActors[art.Id] = root.transform; ranchSheepVisuals[art.Id] = visual; }
+                            else ranchGrassVisuals[art.position] = visual;
+                        }
                     }
             }
             var possibleBubbles = map.bubbles.Concat(map.scenario ? map.scenario.devices.Where(d =>
@@ -285,6 +298,7 @@ namespace ANIMOL.Puzzle
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
+            if (currentSession != null) Present(currentSession);
         }
         void RefreshLegacyTheaterDecor()
         {
@@ -548,9 +562,100 @@ namespace ANIMOL.Puzzle
         }
         public void Present(IPuzzleBoardState session)
         {
+            currentSession = session;
             foreach (var entry in bubbleViews) entry.Value.SetActive(session.IsBubbleVisible(entry.Key) && !session.IsCollected(entry.Key));
+            var devices = session as PuzzleDeviceSession;
+            if (devices == null) return;
+            foreach (var actor in ranchActors)
+            {
+                var exists = devices.RanchSheep.TryGetValue(actor.Key, out var cell);
+                actor.Value.gameObject.SetActive(exists);
+                if (exists)
+                {
+                    actor.Value.localPosition = (Vector2)cell;
+                    var direction = devices.RanchSheepDirection(actor.Key);
+                    var heading = direction == Vector2Int.up ? "north" : direction == Vector2Int.down ? "south" :
+                        direction == Vector2Int.left ? "west" : "east";
+                    ranchSheepVisuals[actor.Key].SetState("sheep/" + heading + "/idle", true);
+                    ranchSheepVisuals[actor.Key].GetComponent<SpriteRenderer>().sortingOrder = cell.y < devices.Cell.y ? 41 : 39;
+                }
+            }
+            foreach (var grass in ranchGrassVisuals)
+            {
+                var visible = devices.RanchGrassPresent(grass.Key);
+                grass.Value.gameObject.SetActive(visible);
+                if (visible) grass.Value.SetState("tall_grass/idle", true);
+            }
+            foreach (var pond in ranchPondVisuals)
+                if (devices.RanchPonds.TryGetValue(pond.Key, out var wetA)) pond.Value.SetResolvedState(wetA);
         }
-        void LateUpdate() { if (map) SyncViewport(false); }
+        static RanchDeviceVisualV13 RanchCellVisual(Transform parent, string name, Vector2Int offset,
+            int sorting, RanchDevicesV13Catalog catalog)
+        {
+            var visual = new GameObject(name); visual.transform.SetParent(parent, false);
+            visual.transform.localPosition = (Vector2)offset;
+            visual.AddComponent<SpriteRenderer>().sortingOrder = sorting;
+            var view = visual.AddComponent<RanchDeviceVisualV13>();
+            if (!view.Configure(catalog, out var error)) Debug.LogError("R2 visual configure failed: " + error, visual);
+            return view;
+        }
+        public Transform RanchActor(string id) => id != null && ranchActors.TryGetValue(id, out var actor) ? actor : null;
+        public void BeginRanchMotion(string id, Vector2Int direction, bool wind)
+        {
+            if (!ranchSheepVisuals.TryGetValue(id, out var visual)) return;
+            var heading = direction == Vector2Int.up ? "north" : direction == Vector2Int.down ? "south" :
+                direction == Vector2Int.left ? "west" : "east";
+            visual.SetState("sheep/" + heading + (wind ? "/wind" : "/walk"), true);
+        }
+        public void PlayRanchCue(PrototypeEvent cue)
+        {
+            if ((cue.eventName == "SheepPushed" || cue.eventName == "SheepWindMoved") &&
+                ranchSheepVisuals.TryGetValue(cue.actor, out var sheep))
+            { sheep.SetState(cue.state, true); return; }
+            if (cue.eventName == "PondCrossed" && currentSession is PuzzleDeviceSession resolved &&
+                ranchPondVisuals.TryGetValue(cue.actor, out var pair))
+            {
+                var wetA = resolved.RanchPonds[cue.actor];
+                pair.PlayCommittedCrossing(!wetA); return;
+            }
+            if (cue.eventName != "SheepAteAndRemoved" && cue.eventName != "SheepWindAteAndRemoved") return;
+            if (!map || !map.theme || !map.theme.starwayRanch || !map.theme.starwayRanch.v13Devices) return;
+            if (ranchActors.TryGetValue(cue.actor, out var actor)) actor.gameObject.SetActive(false);
+            var catalog = map.theme.starwayRanch.v13Devices;
+            var heading = cue.state.Split('/')[1];
+            SpawnRanchConsumption("Sheep consumed", cue.to, catalog, heading);
+            SpawnRanchConsumption("Grass consumed", cue.to, catalog, null);
+        }
+        IPuzzleBoardState currentSession;
+        void SpawnRanchConsumption(string name, Vector2Int cell, RanchDevicesV13Catalog catalog, string heading)
+        {
+            var root = new GameObject(name); root.transform.SetParent(objectsRoot, false);
+            root.transform.localPosition = (Vector2)cell;
+            root.AddComponent<SpriteRenderer>().sortingOrder = 29;
+            root.AddComponent<RanchDeviceVisualV13>();
+            var effect = root.AddComponent<RanchSheepConsumptionVisualR2>();
+            string error;
+            var played = heading == null ? effect.PlayGrass(catalog, out error) : effect.Play(catalog, heading, out error);
+            if (!played)
+                Debug.LogError("R2 consumption effect failed: " + error, root);
+            ranchEffects.Add(root);
+        }
+        public void CancelRanchEffects()
+        {
+            foreach (var root in ranchEffects) if (root) Remove(root);
+            ranchEffects.Clear();
+        }
+        void LateUpdate()
+        {
+            if (map) SyncViewport(false);
+            for (var i = ranchEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = ranchEffects[i] ? ranchEffects[i].GetComponent<RanchSheepConsumptionVisualR2>() : null;
+                if (effect && effect.IsPlaying) continue;
+                if (ranchEffects[i]) Remove(ranchEffects[i]);
+                ranchEffects.RemoveAt(i);
+            }
+        }
         void SyncViewport(bool force)
         {
             var camera = Camera.main;

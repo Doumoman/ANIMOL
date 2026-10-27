@@ -784,10 +784,11 @@ namespace ANIMOL.Presentation.Editor
         void DrawRanchArtPlacementSettings()
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("V13 별양 · 수문 배치", EditorStyles.boldLabel);
-            foreach (var family in new[] { "sheep", "sluice" })
+            EditorGUILayout.LabelField("V13 R2 별양 · 수문 · 키 큰 풀", EditorStyles.boldLabel);
+            foreach (var family in new[] { "sheep", "sluice", "tall_grass" })
             {
-                var key = family == "sheep" ? "sheep/east/idle" : "sluice/horizontal/left";
+                var key = family == "sheep" ? "sheep/east/idle" :
+                    family == "sluice" ? "pond_pair/a_dry_b_wet" : "tall_grass/idle";
                 var row = GUILayoutUtility.GetRect(250, 58, GUILayout.ExpandWidth(true));
                 if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
                 { ranchArtBrush = family; prototypeBrush = null; selectedDeviceId = null; inspectDevice = false; }
@@ -797,10 +798,10 @@ namespace ANIMOL.Presentation.Editor
                     DrawSpriteFitted(new Rect(row.x + 8, row.y + 5, 48, 48), sprite);
                 else GUI.Label(new Rect(row.x + 8, row.y + 5, 48, 48), "그림 없음", EditorStyles.whiteMiniLabel);
                 GUI.Label(new Rect(row.x + 62, row.y + 7, row.width - 66, 22),
-                    family == "sheep" ? "별양 (1칸)" : "수문 (가로 2칸)", EditorStyles.boldLabel);
+                    family == "sheep" ? "별양 (1칸)" : family == "sluice" ? "수문 A/B (가로 2칸)" : "키 큰 풀 (1칸)", EditorStyles.boldLabel);
                 GUI.Label(new Rect(row.x + 62, row.y + 29, row.width - 66, 23), key, EditorStyles.miniLabel);
             }
-            EditorGUILayout.HelpBox("선택 후 격자에 배치합니다. 현재는 맵에 저장되는 V13 그림 배치이며 양 밀기·풀 먹기·수문 A/B 전환 게임 판정은 아직 연결되지 않았습니다.", MessageType.Warning);
+            EditorGUILayout.HelpBox("양은 한 칸만 밀리고 플레이어는 제자리입니다. 수문은 마른 칸에서 짝 물칸으로만 교환 이동합니다.", MessageType.Info);
             if (!string.IsNullOrEmpty(ranchArtError)) EditorGUILayout.HelpBox(ranchArtError, MessageType.Warning);
             if (selectedRanchArt == null || !map.scenario.ranchV13Art.Contains(selectedRanchArt)) return;
             EditorGUILayout.LabelField("선택한 배치", selectedRanchArt.family + " @ " + selectedRanchArt.position);
@@ -817,9 +818,9 @@ namespace ANIMOL.Presentation.Editor
                     }
                 EditorGUILayout.EndHorizontal();
             }
-            else
+            else if (selectedRanchArt.family == "sluice")
             {
-                var right = EditorGUILayout.Toggle("수문 오른쪽 그림", selectedRanchArt.rightState);
+                var right = EditorGUILayout.Toggle("A 물 / B 마름", selectedRanchArt.rightState);
                 if (right != selectedRanchArt.rightState)
                 {
                     Undo.RecordObject(map.scenario, "수문 그림 상태 변경");
@@ -833,11 +834,11 @@ namespace ANIMOL.Presentation.Editor
         {
             error = null;
             if (!target || !target.scenario || !target.theme || !target.theme.starwayRanch ||
-                !target.theme.starwayRanch.v13Devices || (family != "sheep" && family != "sluice"))
-            { error = "V13 목장 테마·카탈로그와 별양/수문 종류가 필요합니다."; return false; }
-            var art = new RanchV13ArtPlacement { family = family, position = anchor };
+                !target.theme.starwayRanch.v13Devices || (family != "sheep" && family != "sluice" && family != "tall_grass"))
+            { error = "V13 목장 테마·카탈로그와 별양/수문/키 큰 풀 종류가 필요합니다."; return false; }
+            var art = new RanchV13ArtPlacement { family = family, position = anchor, instanceId = Guid.NewGuid().ToString("N") };
             if (!RanchDevicesV13EditorPreview.TryClip(target.theme, art.ClipKey, out _))
-            { error = "V13 별양/수문 그림을 카탈로그에서 찾지 못했습니다."; return false; }
+            { error = "V13 R2 그림을 카탈로그에서 찾지 못했습니다."; return false; }
             foreach (var cell in art.Footprint())
             {
                 if (!target.Contains(cell) || !target.Walkable(cell))
@@ -846,6 +847,9 @@ namespace ANIMOL.Presentation.Editor
                     target.scenario.ranchV13Art.Any(existing => existing != null && existing.Footprint().Contains(cell)))
                 { error = "다른 장치나 V13 배치와 점유 칸이 겹칩니다."; return false; }
             }
+            if ((family == "sheep" || family == "tall_grass") && anchor == target.start ||
+                family == "sluice" && anchor + Vector2Int.right == target.start)
+            { error = "시작 칸에 양·풀·물칸을 놓을 수 없습니다."; return false; }
             target.scenario.ranchV13Art.Add(art);
             return true;
         }

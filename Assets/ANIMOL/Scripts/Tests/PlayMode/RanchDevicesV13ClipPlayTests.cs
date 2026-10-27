@@ -21,11 +21,14 @@ namespace ANIMOL.Presentation.Tests
             {
                 keys.Add("sheep/" + direction + "/walk");
                 keys.Add("sheep/" + direction + "/eat");
+                keys.Add("sheep/" + direction + "/eat_and_disappear");
                 keys.Add("chick/" + direction + "/walk");
                 keys.Add("chick/" + direction + "/sit");
             }
-            keys.AddRange(new[] { "nest/arrive", "nest/settled", "sluice/horizontal/left",
-                "sluice/horizontal/to_right", "sluice/horizontal/right", "sluice/horizontal/to_left",
+            keys.AddRange(new[] { "nest/arrive", "nest/settled", "pond_pair/a_dry_b_wet",
+                "pond_pair/cross_a_to_b", "pond_pair/a_wet_b_dry", "pond_pair/cross_b_to_a",
+                "pond_cell/dry", "pond_cell/wet", "pond_cell/fill", "pond_cell/drain",
+                "tall_grass/idle", "tall_grass/eaten",
                 "windmill/east/off", "windmill/east/3",
                 "windmill/east/6", "windmill/east/9" });
             var go = new GameObject("V13 clip playback check");
@@ -40,7 +43,7 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(catalog.TryClip(key, out var clip), Is.True, key);
                     Assert.That(visual.SetState(key, true), Is.True, key);
                     Assert.That(renderer.sprite, Is.SameAs(clip.frames[0]), key);
-                    if (key.StartsWith("sluice/"))
+                    if (key.StartsWith("pond_pair/"))
                     {
                         Assert.That(renderer.sprite.texture.width, Is.EqualTo(576));
                         Assert.That(renderer.sprite.texture.height, Is.EqualTo(320));

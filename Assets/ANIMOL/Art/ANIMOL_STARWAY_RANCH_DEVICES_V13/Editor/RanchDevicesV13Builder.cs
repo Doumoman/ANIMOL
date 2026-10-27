@@ -76,7 +76,7 @@ namespace ANIMOL.Editor.RanchDevicesV13
                 source.Add(s.key, s);
             }
             string outRoot = root + Generated, catalogPath = outRoot + "/RanchDevicesV13Catalog.asset";
-            string prefabPath = outRoot + "/InspectionOnly_All137Clips.prefab";
+            string prefabPath = outRoot + "/InspectionOnly_AllClips.prefab";
             var oldCatalog = AssetDatabase.LoadMainAssetAtPath(catalogPath);
             if (oldCatalog != null && (!(oldCatalog is RanchDevicesV13Catalog) || ((RanchDevicesV13Catalog)oldCatalog).packageId != RanchDevicesV13Pin.Package || EditorUtility.IsDirty(oldCatalog)))
                 throw new InvalidOperationException("Foreign/dirty generated catalog; resolve before build.");
@@ -151,6 +151,7 @@ namespace ANIMOL.Editor.RanchDevicesV13
             var settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings);
             settings.spriteAlignment = (int)SpriteAlignment.Custom; settings.spritePivot = new Vector2(.5f, .5f); settings.spriteMeshType = SpriteMeshType.FullRect;
             importer.SetTextureSettings(settings);
+            foreach (string platform in new[] { "Android", "iPhone", "Standalone", "WebGL" }) importer.ClearPlatformTextureSettings(platform);
         }
     }
     public sealed class RanchDevicesV13TexturePostprocessor : AssetPostprocessor
