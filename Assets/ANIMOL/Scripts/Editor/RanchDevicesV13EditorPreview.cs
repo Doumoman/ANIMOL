@@ -16,7 +16,8 @@ namespace ANIMOL.Presentation.Editor
         static bool catalogValid;
 
         public static bool Covers(PuzzleTheme theme, PrototypeDevice device) =>
-            theme && theme.starwayRanch && RanchDevicesV13PuzzleBinding.Covers(device);
+            theme && theme.starwayRanch && device != null && device.role != PrototypeRole.Chick &&
+            RanchDevicesV13PuzzleBinding.Covers(device);
 
         public static bool TryDevice(PuzzleTheme theme, PrototypeDevice device, out Sprite sprite, out string key)
         {

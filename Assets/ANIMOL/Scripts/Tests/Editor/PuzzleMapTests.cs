@@ -228,11 +228,10 @@ namespace ANIMOL.Presentation.Tests
             var devices = new[]
             {
                 new PrototypeDevice { role = PrototypeRole.StarSocket, number = 2, direction = Vector2Int.right },
-                new PrototypeDevice { role = PrototypeRole.Chick, direction = Vector2Int.up },
                 new PrototypeDevice { role = PrototypeRole.Conveyor, direction = Vector2Int.left },
                 new PrototypeDevice { role = PrototypeRole.Wind, variant = "blower", direction = Vector2Int.down, orientation = 2 }
             };
-            var keys = new[] { "star/diamond/stone", "chick/north/idle", "conveyor/west/idle", "windmill/south/6" };
+            var keys = new[] { "star/diamond/stone", "conveyor/west/idle", "windmill/south/6" };
             for (var i = 0; i < devices.Length; i++)
             {
                 Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[i], out var sprite, out var key), Is.True);
@@ -243,6 +242,8 @@ namespace ANIMOL.Presentation.Tests
             devices[0].variant = "socket";
             Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[0], out _, out var socketKey), Is.True);
             Assert.That(socketKey, Is.EqualTo("star/diamond/empty"));
+            Assert.That(RanchDevicesV13EditorPreview.Covers(theme,
+                new PrototypeDevice { role = PrototypeRole.Chick, direction = Vector2Int.up }), Is.False);
             Assert.That(RanchDevicesV13EditorPreview.TryClip(theme, "nest/idle", out var nest), Is.True);
             Assert.That(nest, Is.Not.Null);
         }
@@ -252,6 +253,49 @@ namespace ANIMOL.Presentation.Tests
             var connected = new System.Collections.Generic.HashSet<Vector2Int>
             { cell + Vector2Int.up, cell + Vector2Int.right, cell + new Vector2Int(-1, -1) };
             Assert.That(RanchDevicesV13EditorPreview.WaterNeighborMask(connected, cell), Is.EqualTo(1 | 4 | 32));
+        }
+        [Test] public void ThemeDeviceListIncludesEveryPlaceableRanchFamilyWithCatalogArt()
+        {
+            var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var entries = PuzzleMapEditor.RanchPaletteForTheme(theme);
+            Assert.That(entries.Select(e => e.family), Is.EqualTo(new[]
+                { "sheep", "sluice", "sluice", "tall_grass", "nest", "water" }));
+            Assert.That(entries.Select(e => e.direction).Take(3), Is.EqualTo(new[]
+                { Vector2Int.right, Vector2Int.right, Vector2Int.up }));
+            Assert.That(entries.All(e => RanchDevicesV13EditorPreview.TryClip(theme, e.previewKey, out _)), Is.True);
+            var theater = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater_Theme.asset");
+            Assert.That(PuzzleMapEditor.RanchPaletteForTheme(theater), Is.Empty);
+        }
+        [Test] public void RanchPaletteNestAndWaterUseExistingScenarioRulesAndV13Visuals()
+        {
+            Fill();
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var host = new GameObject("Ranch palette binding test");
+            try
+            {
+                map.scenario = scenario; scenario.themeId = "starway";
+                scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                    position = new Vector2Int(2, 2), direction = Vector2Int.right });
+                Assert.That(PuzzleMapEditor.TryAssignChickNest(map, "chick", new Vector2Int(3, 2), out var error), Is.True, error);
+                Assert.That(scenario.devices[0].target, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, new Vector2Int(4, 2), out error), Is.True, error);
+                Assert.That(scenario.water, Does.Contain(new Vector2Int(4, 2)));
+                Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, new Vector2Int(3, 2), out _), Is.False);
+                Assert.That(PuzzleMapEditor.TryPlaceRanchArt(map, "sheep", new Vector2Int(4, 2), out _), Is.False);
+                var view = host.AddComponent<PuzzleMapView>(); view.Bind(map);
+                Assert.That(host.GetComponentInChildren<ANIMOL.Art.RanchDevicesV13.RanchWaterCellVisualV13>(), Is.Not.Null);
+                var nest = host.GetComponentsInChildren<ANIMOL.Art.RanchDevicesV13.RanchDeviceVisualV13>()
+                    .Single(v => v.CurrentKey == "nest/idle");
+                Assert.That(nest.transform.parent.localPosition, Is.EqualTo(new Vector3(3, 2, 0)));
+                var session = new PuzzleDeviceSession(map);
+                Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+                Assert.That(session.States["chick"].active, Is.True);
+                view.Present(session);
+                Assert.That(nest.CurrentKey, Is.EqualTo("nest/settled"));
+            }
+            finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
         [Test] public void SheepAndSluiceArtCanBePlacedWithoutInventingGameplayIds()
         {

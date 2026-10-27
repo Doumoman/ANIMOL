@@ -123,6 +123,37 @@ namespace ANIMOL.Presentation.Tests
                 .Any(v => v.CurrentKey == "tall_grass/idle"), Is.True);
         }
 
+        [UnityTest] public IEnumerator PaletteWaterRendersFromExistingWaterCellsAndRestoresAfterReload()
+        {
+            scenario.water.Add(new Vector2Int(5, 1));
+            controller.Load(map); yield return null;
+            var water = controller.GetComponentInChildren<RanchWaterCellVisualV13>();
+            Assert.That(water, Is.Not.Null);
+            Assert.That(water.GetComponentsInChildren<RanchDeviceVisualV13>()
+                .Single().CurrentKey, Is.EqualTo("water/wet"));
+            controller.Load(map); yield return null;
+            Assert.That(controller.GetComponentsInChildren<RanchWaterCellVisualV13>().Length, Is.EqualTo(1));
+        }
+
+        [UnityTest] public IEnumerator PaletteNestUsesV13ArtAndKeepsTheChickOnV12()
+        {
+            var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
+                .devices.Single(d => d.role == PrototypeRole.Chick);
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(3, 3), target = new Vector2Int(4, 3),
+                direction = Vector2Int.right, number = 1, visualPrefab = template.visualPrefab,
+                initialVisual = template.initialVisual });
+            controller.Load(map); yield return null;
+            var nest = controller.GetComponentsInChildren<RanchDeviceVisualV13>()
+                .Single(v => v.CurrentKey == "nest/idle");
+            Assert.That(controller.Devices.Actor("chick").GetComponentInChildren<RanchDeviceVisualV13>(), Is.Null);
+            Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+            yield return WaitIdle();
+            Assert.That(controller.Session.States["chick"].active, Is.True);
+            Assert.That(nest.CurrentKey, Is.EqualTo("nest/settled"));
+        }
+
         [UnityTest] public IEnumerator SavedQaMapCrossesPondThenConsumesSheepForThreeInputs()
         {
             var qa = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

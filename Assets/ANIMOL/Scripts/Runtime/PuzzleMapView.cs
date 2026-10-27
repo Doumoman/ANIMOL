@@ -28,6 +28,12 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, RanchDeviceVisualV13> ranchSheepVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
         readonly Dictionary<string, RanchPondSluiceVisualR3> ranchPondVisuals = new Dictionary<string, RanchPondSluiceVisualR3>(System.StringComparer.Ordinal);
         readonly Dictionary<string, RanchV13ArtPlacement> ranchPondLayouts = new Dictionary<string, RanchV13ArtPlacement>(System.StringComparer.Ordinal);
+        readonly Dictionary<string, RanchDeviceVisualV13> ranchNestVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
+        readonly HashSet<Vector2Int> ranchWaterCells = new HashSet<Vector2Int>();
+        readonly Dictionary<Vector2Int, GameObject> ranchWaterVisuals = new Dictionary<Vector2Int, GameObject>();
+        static readonly Vector2Int[] ranchWaterNeighbors = { Vector2Int.up, new Vector2Int(1, 1), Vector2Int.right,
+            new Vector2Int(1, -1), Vector2Int.down, new Vector2Int(-1, -1),
+            Vector2Int.left, new Vector2Int(-1, 1) };
         readonly Dictionary<Vector2Int, RanchDeviceVisualV13> ranchGrassVisuals = new Dictionary<Vector2Int, RanchDeviceVisualV13>();
         readonly List<GameObject> ranchEffects = new List<GameObject>();
         Transform objectsRoot;
@@ -113,8 +119,16 @@ namespace ANIMOL.Puzzle
             coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
             coastLegacyDecorationViews.Clear();
             bubbleViews.Clear(); classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
-            ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchGrassVisuals.Clear(); ranchEffects.Clear();
+            ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchNestVisuals.Clear();
+            ranchGrassVisuals.Clear(); ranchEffects.Clear(); ranchWaterCells.Clear(); ranchWaterVisuals.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
+            if (map.scenario && map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
+            {
+                var pondCells = new HashSet<Vector2Int>(map.scenario.ranchV13Art.Where(a => a != null && a.family == "sluice")
+                    .SelectMany(a => a.Footprint()));
+                foreach (var cell in map.scenario.water)
+                    if (map.Contains(cell) && !pondCells.Contains(cell)) ranchWaterCells.Add(cell);
+            }
             if (map.theme && map.theme.starSwellCoastV01Catalog)
             {
                 if (!coastV01) coastV01 = new GameObject("Star Swell Coast V01 world").AddComponent<StarSwellCoastV01MapRenderer>();
@@ -266,8 +280,20 @@ namespace ANIMOL.Puzzle
                 var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
                 foreach (var chick in map.scenario.devices.Where(d => d.role == PrototypeRole.Chick &&
                     map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target)))
-                    if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
+                {
+                    if (map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
+                    {
+                        var nest = new GameObject("Nest " + chick.id);
+                        nest.transform.SetParent(objectsRoot, false);
+                        nest.transform.localPosition = (Vector2)chick.target;
+                        var visual = RanchCellVisual(nest.transform, "Nest visual", Vector2Int.zero, 16,
+                            map.theme.starwayRanch.v13Devices);
+                        if (!visual.SetState("nest/idle")) Debug.LogError("V13 nest clip missing", nest);
+                        ranchNestVisuals[chick.id] = visual;
+                    }
+                    else if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
                         Vector2.one * .8f, Color.white);
+                }
                 if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
                     foreach (var art in map.scenario.ranchV13Art)
                     {
@@ -592,6 +618,9 @@ namespace ANIMOL.Puzzle
             foreach (var pond in ranchPondVisuals)
                 if (devices.RanchPonds.TryGetValue(pond.Key, out var wetA))
                     pond.Value.SetResolvedState(ranchPondLayouts[pond.Key].PondPair(wetA));
+            foreach (var nest in ranchNestVisuals)
+                if (devices.States.TryGetValue(nest.Key, out var chick))
+                    nest.Value.SetState(chick.active ? "nest/settled" : "nest/idle");
         }
         static RanchDeviceVisualV13 RanchCellVisual(Transform parent, string name, Vector2Int offset,
             int sorting, RanchDevicesV13Catalog catalog)
@@ -669,6 +698,24 @@ namespace ANIMOL.Puzzle
                 ranchEffects.RemoveAt(i);
             }
         }
+        int RanchWaterMask(Vector2Int cell)
+        {
+            int mask = 0;
+            for (var i = 0; i < ranchWaterNeighbors.Length; i++)
+                if (ranchWaterCells.Contains(cell + ranchWaterNeighbors[i])) mask |= 1 << i;
+            return mask;
+        }
+        void ShowRanchWater(Vector2Int cell)
+        {
+            var go = new GameObject("V13 water " + cell);
+            go.transform.SetParent(objectsRoot, false);
+            go.transform.localPosition = (Vector2)cell;
+            var visual = go.AddComponent<RanchWaterCellVisualV13>();
+            if (!visual.Apply(map.theme.starwayRanch.v13Devices, true, RanchWaterMask(cell), 1f,
+                SortingLayer.NameToID("Default"), 14, out var error))
+            { Debug.LogError("V13 water visual failed: " + error, go); Remove(go); return; }
+            ranchWaterVisuals.Add(cell, go);
+        }
         void SyncViewport(bool force)
         {
             var camera = Camera.main;
@@ -684,8 +731,14 @@ namespace ANIMOL.Puzzle
             if (island) for (var y = previous.yMin; y < previous.yMax; y++) for (var x = previous.xMin; x < previous.xMax; x++)
                 if (!visible.Contains(new Vector2Int(x, y))) island.ClearCell(new Vector2Int(x, y));
             foreach (var p in tiles.Keys.Where(p => !visible.Contains(p)).ToArray()) { Remove(tiles[p]); tiles.Remove(p); }
+            foreach (var p in ranchWaterVisuals.Keys.Where(p => !visible.Contains(p)).ToArray())
+            { Remove(ranchWaterVisuals[p]); ranchWaterVisuals.Remove(p); }
             for (var y = min.y; y < max.y; y++) for (var x = min.x; x < max.x; x++)
-            { var p = new Vector2Int(x, y); if (!tiles.ContainsKey(p) && (!island || force || !previous.Contains(p)) && map.TryTerrain(p, out _)) RefreshCell(p); }
+            {
+                var p = new Vector2Int(x, y);
+                if (!tiles.ContainsKey(p) && (!island || force || !previous.Contains(p)) && map.TryTerrain(p, out _)) RefreshCell(p);
+                if (ranchWaterCells.Contains(p) && !ranchWaterVisuals.ContainsKey(p)) ShowRanchWater(p);
+            }
         }
     }
 }
