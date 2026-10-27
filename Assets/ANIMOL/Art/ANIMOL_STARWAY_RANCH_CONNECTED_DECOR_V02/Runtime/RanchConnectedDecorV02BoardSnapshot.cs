@@ -17,7 +17,7 @@ namespace ANIMOL.Art.RanchConnectedDecorV02
     [Serializable]
     public sealed class RanchConnectedDecorV02BoardSnapshot
     {
-        public const string ArtManifestSha256 = "770e8085e6cd8c6804c062742f44888ab0fd395282bee413366888ea2d32e38c";
+        public const string ArtManifestSha256 = "2ac1cfca3c42a1a332cc8e987272621ad44893ef76e7213e11bcc2d7b9b34727";
         public int schemaVersion = 1;
         public string packageId, sourceManifestSha256, boardId;
         public long revision;

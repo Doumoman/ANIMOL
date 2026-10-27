@@ -15028,15 +15028,15 @@
       "family": "apiary_corner_2x2",
       "kind": "group",
       "width": 576,
-      "height": 576,
+      "height": 736,
       "ppu": 256,
       "pivot": [
         0.5,
-        0.5
+        0.391304347826087
       ],
       "logicalRect": [
         32,
-        32,
+        192,
         512,
         512
       ],
@@ -15044,50 +15044,51 @@
         2,
         2
       ],
-      "sha256": "719d55dfa02096befd304751b103c6504837e586562470a739adf68af76372e4",
+      "sha256": "2624d29fdacac4dfd184ef5f3cf273ca90645e6a5eb194cdfef5312c159b3832",
       "sourceFiles": [
-        "sources/ranch_apiary_native.png"
+        "sources/perspective_r2/apiary_corner_2x2_native.png"
       ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1254,
-        1254
-      ],
-      "sourceCropBox": [
-        22,
-        55,
-        1233,
-        1199
-      ],
-      "uniformScale": 0.4227910817506193,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
       "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        192,
+        512,
+        512
+      ],
+      "sourceCrop": [
+        136,
+        133,
+        1143,
+        1106
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 160,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.4766633565044687,
+      "sourceRegisteredOrigin": [
+        48,
+        228
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
     },
     {
-      "id": "barnyard_3x2",
-      "key": "barnyard_3x2",
       "family": "barnyard_3x2",
       "kind": "group",
       "file": "decor/groups/barnyard_3x2.png",
       "width": 832,
-      "height": 576,
+      "height": 832,
       "ppu": 256,
-      "pixelsPerUnit": 256,
       "pivot": [
         0.5,
-        0.5
+        0.34615384615384615
       ],
       "logicalRect": [
         32,
-        32,
+        288,
         768,
         512
       ],
@@ -15095,75 +15096,51 @@
         3,
         2
       ],
-      "sha256": "431cea7214a8a9796f54ee388c02b75dc2812d6fbc0a73d863161e19cf07778d",
+      "sha256": "a3c8223bf53c8c9dfaebd5ee642bfd6c6d88824c7a9b1ea7e819cf174b7afba4",
       "sourceFiles": [
-        "sources/barnyard_3x2_native.png"
-      ],
-      "sourceSha256": "0cb40f655afe84a8ee7d33e739e6529bd3ea0e20d23417b95c58212bb0b4a24f",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        34,
-        100,
-        797,
-        536
+        "sources/perspective_r2/barnyard_3x2_native.png"
       ],
       "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.99349,
-      "groundAlphaExtentWidth": 0.9934895833333334,
-      "groundAlphaExtentHeight": 0.8515625,
-      "groundRowOpaqueDensity": [
-        0.4082387288411458,
-        0.9056905110677084
-      ],
-      "actualGameplayFootprintVerified": false,
       "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          18,
-          42,
-          1520,
-          899
-        ],
-        "nativeCropSize": [
-          1502,
-          857
-        ],
-        "uniformScale": 0.5087616511318243,
-        "resizedSize": [
-          764,
-          436
-        ],
-        "pasteTopLeft": [
-          34,
-          100
-        ],
-        "contactBottomPixel": 536,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      },
-      "priorV01File": "decor/groups/barnyard_3x2.png",
-      "priorV01Sha256": "6bcb8bcadd78fa2635bc5b72286bf9fe77a817ece8dcb7f70511b32422a915dd",
-      "decodedRgbaChangedFromV01": true
+      "logical_rect": [
+        32,
+        288,
+        768,
+        512
+      ],
+      "sourceCrop": [
+        22,
+        127,
+        1233,
+        1092
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 256,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.6077621800165153,
+      "sourceRegisteredOrigin": [
+        48,
+        202
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
     },
     {
       "file": "decor/groups/chicken_coop_2x2.png",
       "family": "chicken_coop_2x2",
       "kind": "group",
       "width": 576,
-      "height": 576,
+      "height": 768,
       "ppu": 256,
       "pivot": [
         0.5,
-        0.5
+        0.375
       ],
       "logicalRect": [
         32,
-        32,
+        224,
         512,
         512
       ],
@@ -15171,855 +15148,42 @@
         2,
         2
       ],
-      "sha256": "b62b7aa002a924fee8b3693a733aee89bcb4d0337b2390462454bf32af950c07",
+      "sha256": "fe84c40267033da5e91149be3e49731b8f1939c8e7af0c96a934a9c45fbce6fa",
       "sourceFiles": [
-        "sources/ranch_coop_native.png"
+        "sources/perspective_r2/chicken_coop_2x2_native.png"
       ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1254,
-        1254
-      ],
-      "sourceCropBox": [
-        18,
-        5,
-        1237,
-        1189
-      ],
-      "uniformScale": 0.4200164068908942,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
       "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        224,
+        512,
+        512
+      ],
+      "sourceCrop": [
+        39,
+        18,
+        1162,
+        1259
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 192,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.42742653606411396,
+      "sourceRegisteredOrigin": [
+        48,
+        194
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
     },
     {
-      "id": "feeding_corner_3x1",
-      "key": "feeding_corner_3x1",
       "family": "feeding_corner_3x1",
       "kind": "group",
       "file": "decor/groups/feeding_corner_3x1.png",
       "width": 832,
-      "height": 320,
-      "ppu": 256,
-      "pixelsPerUnit": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        768,
-        256
-      ],
-      "footprintCells": [
-        3,
-        1
-      ],
-      "sha256": "c90da75120dfe02c9b55e0afb2d37ff3e23fecdc423b4835508b8a1ed1263027",
-      "sourceFiles": [
-        "sources/feeding_corner_3x1_native.png"
-      ],
-      "sourceSha256": "397fae2f027b880326515b3953e505fe67c210c6a8acc748ea69cf0967a6495c",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        43,
-        104,
-        788,
-        280
-      ],
-      "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.970052,
-      "groundAlphaExtentWidth": 0.9700520833333334,
-      "groundAlphaExtentHeight": 0.6875,
-      "groundRowOpaqueDensity": [
-        0.5776316324869791
-      ],
-      "actualGameplayFootprintVerified": false,
-      "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          18,
-          100,
-          2156,
-          605
-        ],
-        "nativeCropSize": [
-          2138,
-          505
-        ],
-        "uniformScale": 0.34843779232927974,
-        "resizedSize": [
-          745,
-          176
-        ],
-        "pasteTopLeft": [
-          43,
-          104
-        ],
-        "contactBottomPixel": 280,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      },
-      "priorV01File": "decor/groups/feeding_corner_3x1.png",
-      "priorV01Sha256": "0295ef3f9a5815d50bb6733e184528f9b27fc4e78e62ab80888c2a202da04b75",
-      "decodedRgbaChangedFromV01": true
-    },
-    {
-      "file": "decor/groups/garden_workbench_2x1.png",
-      "family": "garden_workbench_2x1",
-      "kind": "group",
-      "width": 576,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        512,
-        256
-      ],
-      "footprintCells": [
-        2,
-        1
-      ],
-      "sha256": "cee261e0a90ad83a3b51af57e8e7124a70c24576f6a8feb4d8b2b6ac48b4b508",
-      "sourceFiles": [
-        "sources/ranch_workbench_native.png"
-      ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1774,
-        887
-      ],
-      "sourceCropBox": [
-        46,
-        122,
-        1728,
-        762
-      ],
-      "uniformScale": 0.30439952437574314,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/groups/harvest_cart_2x2.png",
-      "family": "harvest_cart_2x2",
-      "kind": "group",
-      "width": 576,
-      "height": 576,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        512,
-        512
-      ],
-      "footprintCells": [
-        2,
-        2
-      ],
-      "sha256": "be4a27235c20f6040862e31f8bd19a5a97bef6e93312a2350f59b399c23484b2",
-      "sourceFiles": [
-        "sources/ranch_cart_native.png"
-      ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1254,
-        1254
-      ],
-      "sourceCropBox": [
-        29,
-        35,
-        1226,
-        1196
-      ],
-      "uniformScale": 0.4277360066833751,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "id": "hay_store_2x1",
-      "key": "hay_store_2x1",
-      "family": "hay_store_2x1",
-      "kind": "group",
-      "file": "decor/groups/hay_store_2x1.png",
-      "width": 576,
-      "height": 320,
-      "ppu": 256,
-      "pixelsPerUnit": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        512,
-        256
-      ],
-      "footprintCells": [
-        2,
-        1
-      ],
-      "sha256": "2f36c6a3982d7d92c114fc3e904cad9f8ce527d6ea9ed9e0fe2dacb63a08e601",
-      "sourceFiles": [
-        "sources/hay_store_2x1_native.png"
-      ],
-      "sourceSha256": "1153a5f244963c5d297634e70d1f3f2478a3afa69f69254943494625daba8214",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        39,
-        112,
-        536,
-        280
-      ],
-      "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.970703,
-      "groundAlphaExtentWidth": 0.970703125,
-      "groundAlphaExtentHeight": 0.65625,
-      "groundRowOpaqueDensity": [
-        0.553253173828125
-      ],
-      "actualGameplayFootprintVerified": false,
-      "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          10,
-          160,
-          1764,
-          753
-        ],
-        "nativeCropSize": [
-          1754,
-          593
-        ],
-        "uniformScale": 0.28314709236031926,
-        "resizedSize": [
-          497,
-          168
-        ],
-        "pasteTopLeft": [
-          39,
-          112
-        ],
-        "contactBottomPixel": 280,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      },
-      "priorV01File": "decor/groups/hay_store_2x1.png",
-      "priorV01Sha256": "72b0fb00ba77f398951a44a59a80444ff406e7187702e001944809d67cc27090",
-      "decodedRgbaChangedFromV01": true
-    },
-    {
-      "id": "orchard_bench_3x1",
-      "key": "orchard_bench_3x1",
-      "family": "orchard_bench_3x1",
-      "kind": "group",
-      "file": "decor/groups/orchard_bench_3x1.png",
-      "width": 832,
-      "height": 320,
-      "ppu": 256,
-      "pixelsPerUnit": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        768,
-        256
-      ],
-      "footprintCells": [
-        3,
-        1
-      ],
-      "sha256": "1aeae65b525392e09aca53d4dc3b6f10014db35ac2db34d5c5bcb45a122c3430",
-      "sourceFiles": [
-        "sources/orchard_bench_3x1_native.png"
-      ],
-      "sourceSha256": "a0ecbbcdc028c7d2fcd828fecd1a955663921d01171b15d860159aa0099bc81a",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        43,
-        59,
-        788,
-        280
-      ],
-      "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.970052,
-      "groundAlphaExtentWidth": 0.9700520833333334,
-      "groundAlphaExtentHeight": 0.86328125,
-      "groundRowOpaqueDensity": [
-        0.6583150227864584
-      ],
-      "actualGameplayFootprintVerified": false,
-      "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          15,
-          30,
-          2158,
-          665
-        ],
-        "nativeCropSize": [
-          2143,
-          635
-        ],
-        "uniformScale": 0.3476248250116659,
-        "resizedSize": [
-          745,
-          221
-        ],
-        "pasteTopLeft": [
-          43,
-          59
-        ],
-        "contactBottomPixel": 280,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      }
-    },
-    {
-      "file": "decor/groups/picnic_arbor_3x2.png",
-      "family": "picnic_arbor_3x2",
-      "kind": "group",
-      "width": 832,
-      "height": 576,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        768,
-        512
-      ],
-      "footprintCells": [
-        3,
-        2
-      ],
-      "sha256": "19bb8edd0025902da54778463825c689b7a5cfd0e1448988cd4f8d8a5c07fc8f",
-      "sourceFiles": [
-        "sources/ranch_arbor_angular_native.png"
-      ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1536,
-        1024
-      ],
-      "sourceCropBox": [
-        16,
-        39,
-        1520,
-        967
-      ],
-      "uniformScale": 0.5106382978723404,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/groups/produce_stall_3x2.png",
-      "family": "produce_stall_3x2",
-      "kind": "group",
-      "width": 832,
-      "height": 576,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        768,
-        512
-      ],
-      "footprintCells": [
-        3,
-        2
-      ],
-      "sha256": "36c6fa3ea3401e33a8e8794f6ce38dd2b5a2a24d5898f5f9c1f00d6e1280e542",
-      "sourceFiles": [
-        "sources/ranch_stall_native.png"
-      ],
-      "sourceSheetRegion": [
-        0,
-        0,
-        1536,
-        1024
-      ],
-      "sourceCropBox": [
-        11,
-        46,
-        1526,
-        975
-      ],
-      "uniformScale": 0.5069306930693069,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "id": "seedling_rack_3x1",
-      "key": "seedling_rack_3x1",
-      "family": "seedling_rack_3x1",
-      "kind": "group",
-      "file": "decor/groups/seedling_rack_3x1.png",
-      "width": 832,
-      "height": 320,
-      "ppu": 256,
-      "pixelsPerUnit": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        768,
-        256
-      ],
-      "footprintCells": [
-        3,
-        1
-      ],
-      "sha256": "f28130cecf1a1e8fe00bd868815f07c83f536a79246c70c6514e3bb274590152",
-      "sourceFiles": [
-        "sources/seedling_rack_3x1_native.png"
-      ],
-      "sourceSha256": "7d6e254e00587512f39edf59f9625c9274a4c271632cc6a5fda56aa90dd4020a",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        43,
-        100,
-        788,
-        280
-      ],
-      "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.970052,
-      "groundAlphaExtentWidth": 0.9700520833333334,
-      "groundAlphaExtentHeight": 0.703125,
-      "groundRowOpaqueDensity": [
-        0.6035359700520834
-      ],
-      "actualGameplayFootprintVerified": false,
-      "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          52,
-          98,
-          2121,
-          598
-        ],
-        "nativeCropSize": [
-          2069,
-          500
-        ],
-        "uniformScale": 0.36005799903334945,
-        "resizedSize": [
-          745,
-          180
-        ],
-        "pasteTopLeft": [
-          43,
-          100
-        ],
-        "contactBottomPixel": 280,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      }
-    },
-    {
-      "id": "tree_flower_corner_2x2",
-      "key": "tree_flower_corner_2x2",
-      "family": "tree_flower_corner_2x2",
-      "kind": "group",
-      "file": "decor/groups/tree_flower_corner_2x2.png",
-      "width": 576,
-      "height": 576,
-      "ppu": 256,
-      "pixelsPerUnit": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        512,
-        512
-      ],
-      "footprintCells": [
-        2,
-        2
-      ],
-      "sha256": "cf2acf6d948a72fe67ff57c787a34f89d5362335c54a90b18126a2d9b726162a",
-      "sourceFiles": [
-        "sources/tree_flower_corner_2x2_native.png"
-      ],
-      "sourceSha256": "e8f476faaa865b3d3fa96fe23e0fe50b99820aa3daeb8627244e181a7de266ad",
-      "nativeWholeGroup": true,
-      "oneRendererPerPlacement": true,
-      "topOverhangPixels": 0,
-      "visualAlphaBounds": [
-        41,
-        40,
-        534,
-        536
-      ],
-      "noGameplayColliderOrCost": true,
-      "horizontalGroundFill": 0.962891,
-      "groundAlphaExtentWidth": 0.962890625,
-      "groundAlphaExtentHeight": 0.96875,
-      "groundRowOpaqueDensity": [
-        0.6292572021484375,
-        0.8673782348632812
-      ],
-      "actualGameplayFootprintVerified": false,
-      "deriveColliderFromAlpha": false,
-      "generationTool": "built-in image_gen",
-      "registration": {
-        "nativeCropLTRB": [
-          54,
-          12,
-          1200,
-          1164
-        ],
-        "nativeCropSize": [
-          1146,
-          1152
-        ],
-        "uniformScale": 0.4305555555555556,
-        "resizedSize": [
-          493,
-          496
-        ],
-        "pasteTopLeft": [
-          41,
-          40
-        ],
-        "contactBottomPixel": 536,
-        "alphaOnlyTechnicalCleanup": true,
-        "alphaCleanupPolicy": "Keep native alpha only within1px dilation of connected native opaque cores alpha>180 of area>=16; remove faint external halos/specks; no RGB modification.",
-        "rgbRepaint": false,
-        "sourceRGBUnchangedBeforeUniformResize": true
-      },
-      "priorV01File": "decor/groups/tree_flower_corner_2x2.png",
-      "priorV01Sha256": "b4fd87cbe793a657b9c47e4512f977b47c3d388f710926990219cf995e639afb",
-      "decodedRgbaChangedFromV01": true
-    },
-    {
-      "file": "decor/points/feed_sack_stack.png",
-      "family": "feed_sack_stack",
-      "kind": "point",
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "sha256": "bf8604bb6d7bce1c66a5b581fb4584ad286310e731ad2238c9c007bf5bdd1402",
-      "sourceFiles": [
-        "sources/ranch_points_b_native.png"
-      ],
-      "sourceSheetRegion": [
-        25,
-        45,
-        632,
-        602
-      ],
-      "sourceCropBox": [
-        26,
-        46,
-        631,
-        601
-      ],
-      "uniformScale": 0.4231404958677686,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/points/flower_bucket.png",
-      "family": "flower_bucket",
-      "kind": "point",
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "sha256": "fbe7c4c6298b11ab2234105abca269a26a8e59d6fb76f37de1ad4bb62ff8e875",
-      "sourceFiles": [
-        "sources/ranch_points_b_native.png"
-      ],
-      "sourceSheetRegion": [
-        638,
-        20,
-        1251,
-        619
-      ],
-      "sourceCropBox": [
-        639,
-        21,
-        1250,
-        618
-      ],
-      "uniformScale": 0.41898527004909986,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/points/harvest_crate.png",
-      "family": "harvest_crate",
-      "kind": "point",
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "sha256": "97fbc0db35ad144217a2ee5a18ad1c696d695f8029c60c4d90f4a726f12c505a",
-      "sourceFiles": [
-        "sources/ranch_points_b_native.png"
-      ],
-      "sourceSheetRegion": [
-        28,
-        671,
-        629,
-        1197
-      ],
-      "sourceCropBox": [
-        29,
-        672,
-        628,
-        1196
-      ],
-      "uniformScale": 0.4273789649415693,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/points/honey_jar_stand.png",
-      "family": "honey_jar_stand",
-      "kind": "point",
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "sha256": "5655965e97e243b4e9146dee169e0b2f7224d0e080b3587f32f42cd7bebab4aa",
-      "sourceFiles": [
-        "sources/ranch_points_b_native.png"
-      ],
-      "sourceSheetRegion": [
-        677,
-        721,
-        1236,
-        1154
-      ],
-      "sourceCropBox": [
-        678,
-        722,
-        1235,
-        1153
-      ],
-      "uniformScale": 0.45960502692998206,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/points/milk_can_pair.png",
-      "family": "milk_can_pair",
-      "kind": "point",
-      "width": 320,
-      "height": 320,
-      "ppu": 256,
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "logicalRect": [
-        32,
-        32,
-        256,
-        256
-      ],
-      "footprintCells": [
-        1,
-        1
-      ],
-      "sha256": "7405c64d09223c71dac0bd094114b91e020f166ded1f392f69b08cef651e9cff",
-      "sourceFiles": [
-        "sources/ranch_points_a_native.png"
-      ],
-      "sourceSheetRegion": [
-        21,
-        40,
-        653,
-        576
-      ],
-      "sourceCropBox": [
-        22,
-        41,
-        652,
-        575
-      ],
-      "uniformScale": 0.40634920634920635,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
-      "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
-    },
-    {
-      "file": "decor/points/ranch_notice_sign.png",
-      "family": "ranch_notice_sign",
-      "kind": "point",
-      "width": 320,
       "height": 384,
       "ppu": 256,
       "pivot": [
@@ -16029,6 +15193,474 @@
       "logicalRect": [
         32,
         96,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "sha256": "f8594a7bc3bc4339b7627359c0f6f5720d19e751473414678a858badef77203c",
+      "sourceFiles": [
+        "sources/perspective_r2/feeding_corner_3x1_native.png"
+      ],
+      "noGameplayColliderOrCost": true,
+      "deriveColliderFromAlpha": false,
+      "logical_rect": [
+        32,
+        96,
+        768,
+        256
+      ],
+      "sourceCrop": [
+        68,
+        141,
+        2105,
+        611
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 64,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.36131566028473244,
+      "sourceRegisteredOrigin": [
+        48,
+        170
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "file": "decor/groups/garden_workbench_2x1.png",
+      "family": "garden_workbench_2x1",
+      "kind": "group",
+      "width": 576,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "89cfb214a474ca2d9b5f968d14f5fb3afd8e48ddd840c0bc3bcf6bbe833a9197",
+      "sourceFiles": [
+        "sources/perspective_r2/garden_workbench_2x1_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        512,
+        256
+      ],
+      "sourceCrop": [
+        49,
+        62,
+        1726,
+        842
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.28622540250447226,
+      "sourceRegisteredOrigin": [
+        48,
+        181
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "file": "decor/groups/harvest_cart_2x2.png",
+      "family": "harvest_cart_2x2",
+      "kind": "group",
+      "width": 576,
+      "height": 736,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.391304347826087
+      ],
+      "logicalRect": [
+        32,
+        192,
+        512,
+        512
+      ],
+      "footprintCells": [
+        2,
+        2
+      ],
+      "sha256": "4ee7dcec28443187d57a825d215f7773cd6a7a4a26bd51bb2fb39fa9360e5f86",
+      "sourceFiles": [
+        "sources/perspective_r2/harvest_cart_2x2_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        192,
+        512,
+        512
+      ],
+      "sourceCrop": [
+        115,
+        67,
+        1140,
+        1196
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 160,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.4682926829268293,
+      "sourceRegisteredOrigin": [
+        48,
+        163
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "family": "hay_store_2x1",
+      "kind": "group",
+      "file": "decor/groups/hay_store_2x1.png",
+      "width": 576,
+      "height": 416,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.38461538461538464
+      ],
+      "logicalRect": [
+        32,
+        128,
+        512,
+        256
+      ],
+      "footprintCells": [
+        2,
+        1
+      ],
+      "sha256": "8817590b22c7b6914192c1044c8881a545ae365458b8882166d1da0ee43d1f85",
+      "sourceFiles": [
+        "sources/perspective_r2/hay_store_2x1_native.png"
+      ],
+      "noGameplayColliderOrCost": true,
+      "deriveColliderFromAlpha": false,
+      "logical_rect": [
+        32,
+        128,
+        512,
+        256
+      ],
+      "sourceCrop": [
+        73,
+        152,
+        1701,
+        736
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 96,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.29484029484029484,
+      "sourceRegisteredOrigin": [
+        48,
+        200
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "family": "orchard_bench_3x1",
+      "kind": "group",
+      "file": "decor/groups/orchard_bench_3x1.png",
+      "width": 832,
+      "height": 480,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3333333333333333
+      ],
+      "logicalRect": [
+        32,
+        192,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "sha256": "2c69ca25f33440cf26439fd915f48b70e25427f2327adb66233c910406aa5c83",
+      "sourceFiles": [
+        "sources/perspective_r2/orchard_bench_3x1_native.png"
+      ],
+      "noGameplayColliderOrCost": true,
+      "deriveColliderFromAlpha": false,
+      "logical_rect": [
+        32,
+        192,
+        768,
+        256
+      ],
+      "sourceCrop": [
+        36,
+        86,
+        1988,
+        687
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 160,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.3770491803278688,
+      "sourceRegisteredOrigin": [
+        48,
+        209
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "file": "decor/groups/picnic_arbor_3x2.png",
+      "family": "picnic_arbor_3x2",
+      "kind": "group",
+      "width": 832,
+      "height": 832,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.34615384615384615
+      ],
+      "logicalRect": [
+        32,
+        288,
+        768,
+        512
+      ],
+      "footprintCells": [
+        3,
+        2
+      ],
+      "sha256": "a9daf54f107d296f53e41bf0baf39c8ce11e6666d31f752c133d7213ba4aa2ad",
+      "sourceFiles": [
+        "sources/perspective_r2/picnic_arbor_3x2_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        288,
+        768,
+        512
+      ],
+      "sourceCrop": [
+        49,
+        89,
+        1491,
+        950
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 256,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.5104022191400832,
+      "sourceRegisteredOrigin": [
+        48,
+        349
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "file": "decor/groups/produce_stall_3x2.png",
+      "family": "produce_stall_3x2",
+      "kind": "group",
+      "width": 832,
+      "height": 832,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.34615384615384615
+      ],
+      "logicalRect": [
+        32,
+        288,
+        768,
+        512
+      ],
+      "footprintCells": [
+        3,
+        2
+      ],
+      "sha256": "3fbb27b8a2aa1ce94ca8212c9348c74f14dd96ada4b82532fd7fa994249406b2",
+      "sourceFiles": [
+        "sources/perspective_r2/produce_stall_3x2_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        288,
+        768,
+        512
+      ],
+      "sourceCrop": [
+        66,
+        64,
+        1469,
+        966
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 256,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.5245901639344263,
+      "sourceRegisteredOrigin": [
+        48,
+        315
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "family": "seedling_rack_3x1",
+      "kind": "group",
+      "file": "decor/groups/seedling_rack_3x1.png",
+      "width": 832,
+      "height": 384,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.4166666666666667
+      ],
+      "logicalRect": [
+        32,
+        96,
+        768,
+        256
+      ],
+      "footprintCells": [
+        3,
+        1
+      ],
+      "sha256": "1fb6b01a976d46d245da0d0166fe534c5d7dc1cd928636442f6dbf65c9250396",
+      "sourceFiles": [
+        "sources/perspective_r2/seedling_rack_3x1_native.png"
+      ],
+      "noGameplayColliderOrCost": true,
+      "deriveColliderFromAlpha": false,
+      "logical_rect": [
+        32,
+        96,
+        768,
+        256
+      ],
+      "sourceCrop": [
+        91,
+        118,
+        1942,
+        685
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 64,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.39762290653700705,
+      "sourceRegisteredOrigin": [
+        48,
+        115
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "family": "tree_flower_corner_2x2",
+      "kind": "group",
+      "file": "decor/groups/tree_flower_corner_2x2.png",
+      "width": 576,
+      "height": 832,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.34615384615384615
+      ],
+      "logicalRect": [
+        32,
+        288,
+        512,
+        512
+      ],
+      "footprintCells": [
+        2,
+        2
+      ],
+      "sha256": "1160adc754ea9ee5e58e372cb598e3e47b9922909aab4dd5a2e3e737767fcd2f",
+      "sourceFiles": [
+        "sources/perspective_r2/tree_flower_corner_2x2_native.png"
+      ],
+      "noGameplayColliderOrCost": true,
+      "deriveColliderFromAlpha": false,
+      "logical_rect": [
+        32,
+        288,
+        512,
+        512
+      ],
+      "sourceCrop": [
+        123,
+        29,
+        1130,
+        1231
+      ],
+      "nativeRedraw": true,
+      "nativeRgbaRepainted": false,
+      "perspectiveRevision": "R2",
+      "extraTopPx": 256,
+      "registrationMethod": "uniform native scale by world width; frontmost ground-contact baseline, no nonuniform warp",
+      "sourceUniformScale": 0.4766633565044687,
+      "sourceRegisteredOrigin": [
+        48,
+        215
+      ],
+      "groundAnchor": "logical footprint centre",
+      "sortAnchor": "front ground edge, supplied by existing host"
+    },
+    {
+      "file": "decor/points/feed_sack_stack.png",
+      "family": "feed_sack_stack",
+      "kind": "point",
+      "width": 320,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
         256,
         256
       ],
@@ -16036,47 +15668,251 @@
         1,
         1
       ],
-      "sha256": "2b73c12571b23afbf2b5ebccdbb33307fb6b958748b249d01a68c2845132d737",
+      "sha256": "80162eb8ae099861fa24a5ac6a048cb136e39d16c56b3bf2bc3724e5c317978d",
+      "sourceFiles": [
+        "sources/ranch_points_b_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        33
+      ]
+    },
+    {
+      "file": "decor/points/flower_bucket.png",
+      "family": "flower_bucket",
+      "kind": "point",
+      "width": 320,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "6f27af8f987fd76f895c00009a5e0219ef4d7159892c5b6902ba0a3164db8950",
+      "sourceFiles": [
+        "sources/ranch_points_b_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        32
+      ]
+    },
+    {
+      "file": "decor/points/harvest_crate.png",
+      "family": "harvest_crate",
+      "kind": "point",
+      "width": 320,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "315ca823435b6e29de1c07cc2f7afc2c0121255fcc4f200631c8fe76025e2af7",
+      "sourceFiles": [
+        "sources/ranch_points_b_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        32
+      ]
+    },
+    {
+      "file": "decor/points/honey_jar_stand.png",
+      "family": "honey_jar_stand",
+      "kind": "point",
+      "width": 320,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "aba155543c3647cb5ff5425da0cf13f4033f51a9258a41682273322d2c6fc141",
+      "sourceFiles": [
+        "sources/ranch_points_b_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        33
+      ]
+    },
+    {
+      "file": "decor/points/milk_can_pair.png",
+      "family": "milk_can_pair",
+      "kind": "point",
+      "width": 320,
+      "height": 448,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.35714285714285715
+      ],
+      "logicalRect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "2f95ae633db495dfaf786ffc480985d0477b62d99afe279d450fca2df6537a52",
       "sourceFiles": [
         "sources/ranch_points_a_native.png"
       ],
-      "sourceSheetRegion": [
-        80,
-        587,
-        557,
-        1183
-      ],
-      "sourceCropBox": [
-        81,
-        589,
-        556,
-        1182
-      ],
-      "uniformScale": 0.5389473684210526,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": true,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
       "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        32
+      ]
+    },
+    {
+      "file": "decor/points/ranch_notice_sign.png",
+      "family": "ranch_notice_sign",
+      "kind": "point",
+      "width": 320,
+      "height": 480,
+      "ppu": 256,
+      "pivot": [
+        0.5,
+        0.3333333333333333
+      ],
+      "logicalRect": [
+        32,
+        192,
+        256,
+        256
+      ],
+      "footprintCells": [
+        1,
+        1
+      ],
+      "sha256": "3933bad37360f574adc56e7618ca0ed0d125d4156cde843d47d5dae688ddfb86",
+      "sourceFiles": [
+        "sources/ranch_points_a_native.png"
+      ],
+      "deriveColliderFromAlpha": false,
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        192,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 160,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        1
+      ]
     },
     {
       "file": "decor/points/tool_basket.png",
       "family": "tool_basket",
       "kind": "point",
       "width": 320,
-      "height": 320,
+      "height": 448,
       "ppu": 256,
       "pivot": [
         0.5,
-        0.5
+        0.35714285714285715
       ],
       "logicalRect": [
         32,
-        32,
+        160,
         256,
         256
       ],
@@ -16084,47 +15920,41 @@
         1,
         1
       ],
-      "sha256": "8ed479a14886873067e6cc9cbd50df35206dc28c0c38d5a43b8f02a695e2b72c",
+      "sha256": "0d4dc5bf2c7b52aec1d6bffa0b1e0e3f4fc052374c012163bc102d1a8237d0a5",
       "sourceFiles": [
         "sources/ranch_points_a_native.png"
       ],
-      "sourceSheetRegion": [
-        681,
-        40,
-        1249,
-        595
-      ],
-      "sourceCropBox": [
-        682,
-        41,
-        1248,
-        594
-      ],
-      "uniformScale": 0.45229681978798586,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
       "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        32
+      ]
     },
     {
       "file": "decor/points/watering_can.png",
       "family": "watering_can",
       "kind": "point",
       "width": 320,
-      "height": 320,
+      "height": 448,
       "ppu": 256,
       "pivot": [
         0.5,
-        0.5
+        0.35714285714285715
       ],
       "logicalRect": [
         32,
-        32,
+        160,
         256,
         256
       ],
@@ -16132,32 +15962,26 @@
         1,
         1
       ],
-      "sha256": "40e180ce9ffb7c5be63dfeecab73741c3e3596f5a7af4fda78babdfd33060ed6",
+      "sha256": "73ad9616cc771cee71df090d06a92ccfa286f56a4aed1283f78040df021b0e83",
       "sourceFiles": [
         "sources/ranch_points_a_native.png"
       ],
-      "sourceSheetRegion": [
-        622,
-        686,
-        1237,
-        1168
-      ],
-      "sourceCropBox": [
-        623,
-        687,
-        1236,
-        1167
-      ],
-      "uniformScale": 0.4176182707993475,
-      "sourceAlphaCleanup": "Keep generated component alpha and 2px native AA fringe; remove detached tiny specks and zero RGB only where alpha0. No RGB repaint, no keying, no nonuniform scaling.",
-      "visualOverhangAllowed": false,
-      "registrationSideOverhangPixels": [
-        0,
-        0
-      ],
-      "nativeRgbRepainted": false,
       "deriveColliderFromAlpha": false,
-      "noGameplayColliderOrCost": true
+      "noGameplayColliderOrCost": true,
+      "logical_rect": [
+        32,
+        160,
+        256,
+        256
+      ],
+      "perspectiveRevision": "R2",
+      "extraTopPx": 128,
+      "nativeRedraw": false,
+      "registrationMethod": "original native RGBA preserved; support baseline moved to cell-centre region",
+      "sourceRegistrationTranslationPx": [
+        0,
+        33
+      ]
     }
   ],
   "groups": [
@@ -16321,5 +16145,8 @@
         1
       ]
     }
-  ]
+  ],
+  "installationRevision": 2,
+  "perspectiveRevision": "R2",
+  "revisionScope": "12 native multi-cell redraws;8 support-anchor corrections;342 connected/accent images byte-preserved"
 }

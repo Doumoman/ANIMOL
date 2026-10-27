@@ -17,7 +17,7 @@ namespace ANIMOL.Art.RanchConnectedDecorV02
         public const string OwnerLabel = "ANIMOL_RANCH_CONNECTED_DECOR_V02_EXAMPLE";
         [Serializable] private sealed class BuildReport
         {
-            public int installationRevision = 1;
+            public int installationRevision = 2;
             public bool exampleBoardAssetsSaved, examplePrefabsSaved, exampleScenesSaved;
             public bool actualProductionBindingsVerified = false, actualPlayModeVerified = false, productionScenesModified = false;
             public string manifest, manifestSha256, sortingLayer, stageSnapshotJson, all26SnapshotJson;
