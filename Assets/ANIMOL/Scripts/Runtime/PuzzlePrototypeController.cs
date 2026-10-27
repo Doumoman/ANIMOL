@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ANIMOL.Presentation;
@@ -78,7 +79,7 @@ namespace ANIMOL.Puzzle
         }
         IEnumerator Animate(PrototypeAction result)
         {
-            var consumed = new System.Collections.Generic.HashSet<PrototypeEvent>();
+            var consumed = new HashSet<PrototypeEvent>();
             int dominoPanelsRemaining = result.events.FindAll(e =>
                 e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
@@ -93,6 +94,35 @@ namespace ANIMOL.Puzzle
                 }
                 if (e.kind != PrototypeEventKind.Move) continue;
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor); if (!actor) continue;
+                if (Devices.HasRanchV13Motion(e.actor))
+                {
+                    var path = new List<Vector2Int> { e.from };
+                    var windBySegment = new List<bool>();
+                    bool contiguous = true;
+                    foreach (var step in result.events)
+                    {
+                        if (step.kind != PrototypeEventKind.Move || step.actor != e.actor || consumed.Contains(step)) continue;
+                        consumed.Add(step);
+                        if (step.teleport || step.from != path[path.Count - 1] ||
+                            (step.to - step.from).sqrMagnitude != 1) contiguous = false;
+                        path.Add(step.to);
+                        bool wind = false;
+                        foreach (var cue in result.events)
+                        {
+                            if (cue.kind != PrototypeEventKind.Visual || cue.eventName != "valid_action_wind_resolved" ||
+                                cue.group > step.group || cue.cells == null || !cue.cells.Contains(step.from) ||
+                                !cue.cells.Contains(step.to)) continue;
+                            wind = true; break;
+                        }
+                        windBySegment.Add(wind);
+                    }
+                    var final = Session.States[e.actor];
+                    if (contiguous && !final.removed &&
+                        Devices.BeginRanchV13Motion(e.actor, path, windBySegment, secondsPerCell))
+                        yield return new WaitForSeconds(secondsPerCell * windBySegment.Count);
+                    else actor.localPosition = (Vector2)final.cell;
+                    continue;
+                }
                 if (e.actor == "player" && CharacterVisual) CharacterVisual.SetMotion(e.to - e.from, "move");
                 Transform passenger = null;
                 var definition = Session.Definition(e.actor);

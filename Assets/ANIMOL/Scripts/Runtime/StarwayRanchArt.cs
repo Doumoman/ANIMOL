@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Animol.StarwayRanch.V12;
 using ANIMOL.Art.V12;
+using ANIMOL.Art.RanchDevicesV13;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -37,6 +38,7 @@ namespace ANIMOL.Puzzle
     {
         public TextAsset backgroundLayout;
         public StarwayRanchV12VisualCatalog v12Animations;
+        public RanchDevicesV13Catalog v13Devices;
         public string v12ManifestSha256;
         public Material windRouteMaterial;
         public RanchSpriteEntry[] sprites = Array.Empty<RanchSpriteEntry>();

@@ -17,6 +17,8 @@ namespace ANIMOL.Puzzle
             new Dictionary<string, SunsetSanctumV02PuzzleBinding>(StringComparer.Ordinal);
         readonly Dictionary<string, StarSwellCoastV01PuzzleBinding> coastV01 =
             new Dictionary<string, StarSwellCoastV01PuzzleBinding>(StringComparer.Ordinal);
+        readonly Dictionary<string, RanchDevicesV13PuzzleBinding> ranchV13 =
+            new Dictionary<string, RanchDevicesV13PuzzleBinding>(StringComparer.Ordinal);
         readonly Dictionary<string, SunsetSanctumV02BeamRenderer> sanctumBeams =
             new Dictionary<string, SunsetSanctumV02BeamRenderer>(StringComparer.Ordinal);
         readonly Dictionary<string, string> sanctumBeamSignatures =
@@ -39,6 +41,17 @@ namespace ANIMOL.Puzzle
         EchoTheaterV03DiceVisualMap diceVisualMap;
         public int MissingBindings { get; private set; }
         public Transform Actor(string id) => roots.TryGetValue(id, out var root) ? root : null;
+        public bool HasRanchV13Motion(string id) => id != null && ranchV13.ContainsKey(id);
+        public bool BeginRanchV13Motion(string id, IReadOnlyList<Vector2Int> cells,
+            IReadOnlyList<bool> windSegments, float secondsPerCell)
+        {
+            if (!ranchV13.TryGetValue(id, out var binding)) return false;
+            if (binding.BeginCommittedMove(cells, session.States[id], secondsPerCell,
+                windSegments, out var error)) return true;
+            MissingBindings++;
+            Debug.LogError("V13 committed movement: " + error + " " + id, this);
+            return false;
+        }
         public void Bind(PuzzleDeviceSession authority, SpriteRenderer playerRenderer, float actionDurationSeconds = .16f)
         {
             session = authority; player = playerRenderer;
@@ -96,6 +109,20 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
+                if (session.Rules.themeId == "starway" && RanchDevicesV13PuzzleBinding.Covers(d))
+                {
+                    var catalog = session.Map.theme && session.Map.theme.starwayRanch
+                        ? session.Map.theme.starwayRanch.v13Devices : null;
+                    if (!catalog)
+                    { MissingBindings++; Debug.LogError("Starway Ranch V13 catalog is missing: " + d.id, root); root.SetActive(false); continue; }
+                    try
+                    {
+                        ranchV13.Add(d.id, new RanchDevicesV13PuzzleBinding(d, root, catalog, session));
+                    }
+                    catch (Exception error)
+                    { MissingBindings++; Debug.LogError("Starway Ranch V13 binding failed: " + error, root); root.SetActive(false); }
+                    continue;
+                }
                 var ferry = root.GetComponent<FerryVisualView>();
                 if (ferry)
                 {
@@ -213,6 +240,11 @@ namespace ANIMOL.Puzzle
         }
         public void Notify(PrototypeEvent e, string actionId)
         {
+            if (ranchV13.TryGetValue(e.actor ?? "", out var ranch))
+            {
+                if (!ranch.Notify(e, session.States[e.actor])) MissingBindings++;
+                return;
+            }
             if (coastV01.TryGetValue(e.actor ?? "", out var coast))
             {
                 if (!coast.Notify(e, session.States[e.actor], session.Cost, windFeedbackDuration)) MissingBindings++;
@@ -380,6 +412,7 @@ namespace ANIMOL.Puzzle
         }
         void OnDestroy()
         {
+            foreach (var binding in ranchV13.Values) binding.Dispose();
             foreach (var binding in coastV01.Values) binding.Dispose();
             foreach (var binding in sanctumV02.Values) binding.Dispose();
             foreach (var beam in sanctumBeams.Values)
@@ -389,6 +422,7 @@ namespace ANIMOL.Puzzle
         }
         void Update()
         {
+            foreach (var binding in ranchV13.Values) binding.Tick();
             bool coastPaused = applicationPaused || !applicationFocused || Time.timeScale <= 0f;
             foreach (var binding in coastV01.Values) binding.SetPaused(coastPaused);
             foreach (var binding in coastV01.Values) binding.Update();
@@ -413,6 +447,8 @@ namespace ANIMOL.Puzzle
             foreach (var d in session.Devices)
             {
                 var s = session.States[d.id];
+                if (ranchV13.TryGetValue(d.id, out var ranch))
+                { if (!ranch.Settle(s)) MissingBindings++; continue; }
                 if (coastV01.TryGetValue(d.id, out var coast))
                 { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))

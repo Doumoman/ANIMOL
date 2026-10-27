@@ -85,6 +85,37 @@ namespace ANIMOL.Tests
             Assert.That(session.IsCollected(reward), Is.True);
             Assert.That(map.bubbles.Contains(reward), Is.False);
         }
+        [Test] public void MismatchedStarSocketRejectsPushWithoutCostOrTurn()
+        {
+            var map = Clone(1);
+            var socket = map.scenario.devices.Single(d => d.variant == "socket");
+            socket.number = 2;
+            map.scenario.devices.Add(new PrototypeDevice { id = "turn_probe", role = PrototypeRole.Shutter,
+                position = new Vector2Int(6, 3), direction = Vector2Int.right });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            var phase = session.States["turn_probe"].phase;
+            var rejected = session.Apply(Vector2Int.right);
+            Assert.That(rejected.accepted, Is.False);
+            Assert.That(rejected.events.Any(e => e.actor == socket.id && e.eventName == "pattern_mismatch_rejected"), Is.True);
+            Assert.That(rejected.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.States["stone"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.States[socket.id].active, Is.False);
+            Assert.That(session.States["turn_probe"].phase, Is.EqualTo(phase));
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+        [Test] public void EmptyStarSocketBlocksPlayerUntilMatchingStoneSeats()
+        {
+            var map = Clone(1);
+            var socket = map.scenario.devices.Single(d => d.variant == "socket");
+            map.start = socket.position + Vector2Int.down;
+            var session = new PuzzleDeviceSession(map);
+            var blocked = session.Apply(Vector2Int.up);
+            Assert.That(blocked.accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+            Assert.That(session.States[socket.id].active, Is.False);
+        }
         [Test] public void SunsetSanctumV02KeepsOneCellFootprintsAndOneMotifForItsActualPortalPair()
         {
             foreach(var map in AssetDatabase.FindAssets("t:PuzzleMap",new[]{PuzzlePrototypeBuilder.Root})
@@ -328,6 +359,58 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
         }
+        [Test] public void StarwayWindCarriesWoodToLastReachableCellAndMetalStopsIt()
+        {
+            var map = Clone(20);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            map.scenario.devices.Add(new PrototypeDevice { id = "wood", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(2, 4) });
+            var session = new PuzzleDeviceSession(map);
+            session.Apply(Vector2Int.up);
+            var first = session.Apply(Vector2Int.up);
+            Assert.That(first.accepted, Is.True);
+            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(first.events.Count(e => e.actor == "wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(2));
+            var second = session.Apply(Vector2Int.up);
+            Assert.That(second.accepted, Is.True);
+            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(6, 4)));
+            Assert.That(session.States["metal"].cell, Is.EqualTo(new Vector2Int(7, 4)));
+            Assert.That(session.Cost, Is.EqualTo(3));
+        }
+        [Test] public void MatchingStarStoneMovedByWindSeatsAndRevealsFloor()
+        {
+            var map = Clone(20);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 1;
+            map.scenario.devices.Add(new PrototypeDevice { id = "wind_stone", role = PrototypeRole.StarSocket,
+                position = new Vector2Int(2, 4), number = 3 });
+            map.scenario.devices.Add(new PrototypeDevice { id = "wind_socket", role = PrototypeRole.StarSocket,
+                variant = "socket", position = new Vector2Int(3, 4), number = 3 });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.right);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["wind_stone"].removed, Is.True);
+            Assert.That(session.States["wind_socket"].active, Is.True);
+            Assert.That(action.events.Any(e => e.actor == "wind_socket" && e.eventName == "matching_star_socket_committed"), Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+        [Test] public void StarwayWindCarriesNonblockingChickToItsNestWithoutExtraCost()
+        {
+            var map = Clone(20);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            map.scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(2, 4), target = new Vector2Int(6, 4), number = 1 });
+            var session = new PuzzleDeviceSession(map);
+            session.Apply(Vector2Int.up);
+            var first = session.Apply(Vector2Int.up);
+            Assert.That(first.accepted, Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(first.events.Count(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.EqualTo(2));
+            var second = session.Apply(Vector2Int.up);
+            Assert.That(second.accepted, Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(6, 4)));
+            Assert.That(session.States["chick"].active, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(3));
+        }
         [Test] public void BlowerPushCyclesThreeSixNineCellsThenOffWithoutMovingPlayer()
         {
             var map=Clone(20);map.Resize(14,7);
@@ -408,6 +491,21 @@ namespace ANIMOL.Tests
             Assert.That(action.events.Any(e=>e.actor=="chick"&&e.kind==PrototypeEventKind.Move&&e.to==chick.target),Is.True);
             session.Apply(Vector2Int.right);
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
+        }
+        [Test] public void StarwayChickDoesNotBlockPlayerOrPressOrdinaryPlate()
+        {
+            var map = Clone(24);
+            map.scenario.devices.Add(new PrototypeDevice { id = "chick_plate", role = PrototypeRole.VineBridge,
+                variant = "plate", position = new Vector2Int(1, 3), group = "chick_plate" });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.States["chick_plate"].active, Is.False);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 3)));
+            Assert.That(session.States["chick_plate"].active, Is.True);
+            Assert.That(session.Apply(Vector2Int.down).accepted, Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(1, 3)));
+            Assert.That(session.States["chick_plate"].active, Is.False);
+            Assert.That(session.Cost, Is.EqualTo(2));
         }
         [Test] public void MagnetCannotPullMetalThroughWoodAndDoesNotMoveWood()
         {

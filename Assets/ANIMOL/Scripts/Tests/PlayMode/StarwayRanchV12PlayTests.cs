@@ -4,6 +4,7 @@ using ANIMOL.Puzzle;
 using Animol.StarwayRanch.V12;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.DevicePatch01;
+using ANIMOL.Art.RanchDevicesV13;
 using NUnit.Framework;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -193,7 +194,7 @@ namespace ANIMOL.Presentation.Tests
                 Does.EndWith("_idle"));
         }
 
-        [UnityTest] public IEnumerator PrototypeUsesV12ArtAndMotionWithoutChangingPuzzleAuthority()
+        [UnityTest] public IEnumerator PrototypeUsesV13DeviceVisualsWithoutChangingPuzzleAuthority()
         {
             EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Prototype/ANIMOL_starway_Prototype.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
@@ -210,30 +211,27 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(StarwayRanchV12BackgroundRig.EffectiveParallaxFactor(-10, 0, 70, .03f),
                 Is.EqualTo(.00375f).Within(.00001f));
             var art = puzzle.RuntimeMap.theme.starwayRanch;
+            Assert.That(art.v13Devices, Is.Not.Null);
             var stone = puzzle.Session.Devices.First(d => d.role == PrototypeRole.StarSocket && d.variant != "socket");
             var stoneView = puzzle.Devices.Actor(stone.id).GetComponent<DeviceVisualView>();
-            Assert.That(stoneView.IsV12Active, Is.True);
-            Assert.That(stoneView.CurrentState, Is.EqualTo("stone"));
-            Assert.That(stoneView.GetComponent<StarwayRanchV12AnimatedVisual>().CurrentKey,
-                Is.EqualTo("id01_star_stone_push"));
-            Assert.That(stoneView.visual.sprite, Is.SameAs(
-                art.Find("animations/linked/star_stone/none/push/frame_00.png")));
-            Assert.That(stoneView.visual.transform.localScale.x, Is.EqualTo(.78f).Within(.0001f));
+            Assert.That(stoneView.enabled, Is.False);
+            var stoneVisual = puzzle.Devices.Actor(stone.id).GetComponentInChildren<RanchDeviceVisualV13>();
+            Assert.That(stoneVisual.CurrentKey, Is.EqualTo("star/triangle/stone"));
+            Assert.That(stoneVisual.transform, Is.Not.EqualTo(puzzle.Devices.Actor(stone.id)));
+            Assert.That(art.v13Devices.TryClip(stoneVisual.CurrentKey, out var stoneClip), Is.True);
+            Assert.That(stoneView.visual.sprite, Is.SameAs(stoneClip.frames[0]));
             var socket = puzzle.Session.Devices.First(d => d.role == PrototypeRole.StarSocket && d.variant == "socket");
             var socketView = puzzle.Devices.Actor(socket.id).GetComponent<DeviceVisualView>();
-            var socketBase = socketView.visual.transform.Find("Socket base");
-            var seatedStone = socketView.visual.transform.Find("Smaller seated stone");
-            Assert.That(socketBase, Is.Not.Null);
-            Assert.That(seatedStone, Is.Not.Null);
-            Assert.That(socketView.visual.enabled, Is.False);
-            Assert.That(socketBase.GetComponent<SpriteRenderer>().sprite, Is.SameAs(art.Find("devices/star_socket/empty.png")));
-            Assert.That(seatedStone.localScale.x, Is.EqualTo(.56f).Within(.0001f));
-            Assert.That(seatedStone.GetComponent<SpriteRenderer>().enabled,
-                Is.EqualTo(puzzle.Session.States[socket.id].active));
+            Assert.That(socketView.enabled, Is.False);
+            var socketVisual = puzzle.Devices.Actor(socket.id).GetComponentInChildren<RanchDeviceVisualV13>();
+            Assert.That(socketVisual.CurrentKey,
+                Is.EqualTo(puzzle.Session.States[socket.id].active ? "star/triangle/filled" : "star/triangle/empty"));
             Assert.That(puzzle.Devices.MissingBindings, Is.Zero);
             var chick = puzzle.Session.Devices.First(d => d.role == PrototypeRole.Chick);
             var chickRoot = puzzle.Devices.Actor(chick.id);
             var chickVisual = chickRoot.GetComponent<DeviceVisualView>().visual.transform;
+            Assert.That(chickRoot.GetComponent<DeviceVisualView>().enabled, Is.False);
+            Assert.That(chickRoot.GetComponentInChildren<RanchDeviceVisualV13>(), Is.Not.Null);
             Assert.That(chickRoot.localScale, Is.EqualTo(Vector3.one));
             Assert.That(chickVisual.localScale.x, Is.EqualTo(.62f).Within(.00001f));
             Assert.That(puzzle.Session.Footprint(chick).Count(), Is.EqualTo(1));

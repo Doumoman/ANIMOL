@@ -101,7 +101,8 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.DepartureSpikes: return s.phase == 2;
                 case PrototypeRole.Domino: return !s.active;
                 case PrototypeRole.Barrel: case PrototypeRole.Bomb: case PrototypeRole.Statue: case PrototypeRole.Glass:
-                case PrototypeRole.CowardDoll: case PrototypeRole.Chick: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
+                case PrototypeRole.Chick: return Rules.themeId != "starway";
+                case PrototypeRole.CowardDoll: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
                 case PrototypeRole.WoodCrate: case PrototypeRole.MetalCrate: return true;
                 case PrototypeRole.Wind: return d.variant == "blower";
                 default: return false;
@@ -112,8 +113,19 @@ namespace ANIMOL.Puzzle
         bool Occupied(Vector2Int p, string except = null) => Cell == p || At(p, Solid, except) != null;
         public bool Supported(Vector2Int p) => Map.Contains(p) && !Map.DecorationAt(p) && (Map.Walkable(p) || At(p, d =>
             (d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) || d.role == PrototypeRole.MovingStage) != null);
+        bool StarSocketPassable(Vector2Int p, string movingId)
+        {
+            if (Rules.themeId != "starway") return true;
+            var socket = At(p, d => d.role == PrototypeRole.StarSocket && d.variant == "socket");
+            if (socket == null || states[socket.id].active) return true;
+            var moving = Definition(movingId);
+            return moving != null && moving.role == PrototypeRole.StarSocket &&
+                moving.variant != "socket" && moving.number == socket.number;
+        }
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
-            Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null && At(p, d => d.role == PrototypeRole.Boat, except) == null;
+            Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
+            StarSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
+            At(p, d => d.role == PrototypeRole.Boat, except) == null;
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
         static GateHeading GateDirection(Vector2Int p)
         {
@@ -256,6 +268,7 @@ namespace ANIMOL.Puzzle
                     if (!Supported(destination)) return false;
                     var body = At(destination, Solid);
                     if (body != null && !Push(body, Direction)) return false;
+                    if (!StarSocketPassable(destination, null)) return false;
                     if (At(destination, Solid) != null) return false;
                 }
             }
@@ -368,6 +381,8 @@ namespace ANIMOL.Puzzle
                 return true;
             }
             if (d.role != PrototypeRole.StarSocket && d.role != PrototypeRole.Barrel && d.role != PrototypeRole.Bomb && d.role != PrototypeRole.Dice && d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.MetalCrate) return false;
+            var mismatch = MismatchedSocket(d, s.cell + direction);
+            if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); return false; }
             if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) return false;
             var portalEntry = At(s.cell + direction, x => x.role == PrototypeRole.Portal);
             if (portalEntry != null && (!Free(portalEntry.target, d.id, false, true) || !Free(portalEntry.target + direction, d.id))) return false;
@@ -378,10 +393,21 @@ namespace ANIMOL.Puzzle
             if (d.role == PrototypeRole.StarSocket) Visual(d, "stone_push_" + Dir(direction), "existing_push_visual");
             if (d.role == PrototypeRole.Bomb && s.timer == 0) { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
             if (d.role == PrototypeRole.Barrel) Visual(d, "start_" + Dir(direction), "existing_barrel_push_committed");
+            if (SeatStarStone(d)) { TraceWind(); return true; }
             TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel);
-            var socket = At(s.cell, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" && x.number == d.number);
-            if (d.role == PrototypeRole.StarSocket && socket != null)
-            { s.removed = true; states[socket.id].active = true; Visual(socket, "socket_insert", "matching_star_socket_committed"); }
+            return true;
+        }
+        PrototypeDevice MismatchedSocket(PrototypeDevice d, Vector2Int destination) =>
+            d.role == PrototypeRole.StarSocket && d.variant != "socket" ?
+                At(destination, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" && x.number != d.number) : null;
+        bool SeatStarStone(PrototypeDevice d)
+        {
+            if (d.role != PrototypeRole.StarSocket || d.variant == "socket") return false;
+            var socket = At(states[d.id].cell, x => x.role == PrototypeRole.StarSocket && x.variant == "socket" && x.number == d.number);
+            if (socket == null) return false;
+            states[d.id].removed = true;
+            states[socket.id].active = true;
+            Visual(socket, "socket_insert", "matching_star_socket_committed");
             return true;
         }
         void SettleBody(PrototypeDevice d, Vector2Int direction, bool rolling, bool windUsed = false)
@@ -409,16 +435,22 @@ namespace ANIMOL.Puzzle
                     var source = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
                     if (source != null && source.variant == "blower")
                     {
-                        if (windUsed) break;
+                        if (windUsed && !StarwayWindCarrier(d)) break;
                         windUsed = true;
+                        var route = WindRouteFor(source.id);
+                        if (route == null || !route.TryGetForce(new WindGridCell((s.cell + wind).x, (s.cell + wind).y), out _)) break;
                     }
                     direction = wind;
                 }
                 else if (At(s.cell, x => x.role == PrototypeRole.Ice) != null) slidingBody = true;
                 else if (!rolling && !slidingBody) break;
+                var mismatch = MismatchedSocket(d, s.cell + direction);
+                if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); break; }
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) break;
                 var old = s.cell; s.cell += direction; Move(d.id, old, s.cell);
                 if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
+                if (SeatStarStone(d)) break;
+                if (d.role == PrototypeRole.Chick && s.cell == d.target) { EnterNest(d); break; }
                 TraceWind();
             }
             if (d.role == PrototypeRole.Barrel) Visual(d, "stop_" + Dir(direction), "existing_barrel_blocker_reached");
@@ -694,7 +726,9 @@ namespace ANIMOL.Puzzle
         }
         static bool WindMovable(PrototypeDevice d) => d.role == PrototypeRole.StarSocket && d.variant != "socket" ||
             d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Barrel || d.role == PrototypeRole.Bomb ||
-            d.role == PrototypeRole.Dice && d.variant != "target";
+            d.role == PrototypeRole.Dice && d.variant != "target" || d.role == PrototypeRole.Chick;
+        bool StarwayWindCarrier(PrototypeDevice d) => Rules.themeId == "starway" &&
+            (d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Chick);
         void WindVisual(PrototypeDevice wind, Vector2Int direction)
         {
             var route = WindRouteFor(wind.id);
@@ -706,7 +740,8 @@ namespace ANIMOL.Puzzle
         }
         void WindPulse()
         {
-            foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id)))
+            foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id) &&
+                (d.role != PrototypeRole.Chick || Rules.themeId == "starway" && !states[d.id].active)))
             {
                 var s = states[d.id];
                 var wind = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
@@ -717,8 +752,12 @@ namespace ANIMOL.Puzzle
                     if (route == null || !route.TryGetForce(new WindGridCell(s.cell.x, s.cell.y),
                             out var forceHeading)) continue;
                     direction = WindVector(forceHeading);
+                    var next = s.cell + direction;
+                    if (!route.TryGetForce(new WindGridCell(next.x, next.y), out _)) continue;
                 }
-                if (!Free(s.cell + direction, d.id)) continue;
+                var mismatch = MismatchedSocket(d, s.cell + direction);
+                if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); continue; }
+                if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) continue;
                 if (wind != null) WindVisual(wind, direction); // Snapshot the trace before movement.
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
                 pushedThisAction.Add(d.id);
@@ -726,6 +765,8 @@ namespace ANIMOL.Puzzle
                 { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 if (d.role == PrototypeRole.Bomb && s.timer == 0)
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
+                if (SeatStarStone(d)) { TraceWind(); continue; }
+                if (d.role == PrototypeRole.Chick && s.cell == d.target) { EnterNest(d); TraceWind(); continue; }
                 TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
             }
         }
