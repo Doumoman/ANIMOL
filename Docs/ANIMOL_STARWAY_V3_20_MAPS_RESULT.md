@@ -3,7 +3,7 @@
 ## 적용 범위
 
 - `MCP_INBOX/ANIMOL_Starway_20_Maps_Full_Package.zip`의 `MANIFEST_SHA256.json`에 적힌 79개 파일을 SHA-256으로 대조했다. 불일치 0건이다.
-- Unity Editor 6000.3.8f1에서 `Assets/ANIMOL/Data/Puzzle/Starway/Maps/V3/`에 `1-2`부터 `1-21`까지 `PuzzleMap` 20개와 `PuzzleScenario` 20개를 실제 `.asset`으로 생성했다. `StarwayV3MapSet.asset`이 쉬움 5개, 중간 10개, 어려움 5개 순서로 연결한다. 기존 캠페인 맵과 사용자 미커밋 에셋은 건드리지 않았다.
+- Unity Editor 6000.3.8f1에서 `Assets/ANIMOL/Data/Puzzle/Maps/` 바로 아래에 `1-2.asset`부터 `1-21.asset`까지 `PuzzleMap` ScriptableObject 20개를 배치했다. 각 맵의 연결된 `PuzzleScenario` 20개와 `StarwayV3MapSet.asset`은 `Assets/ANIMOL/Data/Puzzle/Starway/Maps/V3/`에 있다. 목록은 쉬움 5개, 중간 10개, 어려움 5개 순서다. 기존 캠페인 맵과 사용자 미커밋 에셋은 건드리지 않았다.
 - `PuzzleMap.scenario`, 현재 `starway_Theme.asset`, 현재 장치 프리팹, 방울 3개, 목표 3개, V3 전용 증명 자료를 연결했다. `Tools > ANIMOL > Starway V3 > Test map selection`에서 개별 맵 선택·재생·재생성, `Rebuild all 20 maps`에서 전체 재생성이 가능하다.
 - `shapeCells`만 지형 에셋을 만들고 그 안의 `walkableCells`만 통행 가능하게 지정했다. 나머지 내부 칸은 막힌 돌 지형, 외부는 지형 없는 공간이다. 좌표를 배율 변환하거나 뒤집지 않았다.
 - Strict 모드는 증명 단계의 전후 추상 상태 SHA-256을 실제 세션에 대조한다. 사방 오답은 보드·비용·턴을 변경하지 않고 즉시 실패하며 Reset 전까지 입력을 잠근다. 기존 일반 모드의 거절·Undo 규칙은 유지했다. 일치하지 않는 전이는 플레이어 오답 대신 `MAP ERROR`로 중지한다.

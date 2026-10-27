@@ -44,6 +44,9 @@ namespace ANIMOL.Puzzle.Editor
         static void CheckMap(StarwayV3MapSet.Entry entry, JArray wrong, Result result)
         {
             var map = entry.map;
+            if (AssetDatabase.GetAssetPath(map) != StarwayV3Importer.Maps + "/" + entry.stageName + ".asset" ||
+                !map.scenario || AssetDatabase.GetAssetPath(map.scenario) != StarwayV3Importer.Support + "/" + entry.stageName + "_Scenario.asset")
+                throw new Exception("Map SO or its linked V3 scenario is at the wrong asset path.");
             if (map.targetBubbles != 3 || map.bubbles.Count != 3 || map.bubbles.Distinct().Count() != 3 ||
                 !map.cameraSettings.fitWholeBoard || map.scenario == null || map.theme == null)
                 throw new Exception("V3 map linkage, bubble rule, or camera fit is invalid.");

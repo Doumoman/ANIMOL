@@ -17,8 +17,9 @@ namespace ANIMOL.Puzzle.Editor
     public static class StarwayV3Importer
     {
         public const string Source = "Assets/ANIMOL/Data/Puzzle/Starway/V3Source";
-        public const string Maps = "Assets/ANIMOL/Data/Puzzle/Starway/Maps/V3";
-        public const string SetPath = Maps + "/StarwayV3MapSet.asset";
+        public const string Maps = "Assets/ANIMOL/Data/Puzzle/Maps";
+        public const string Support = "Assets/ANIMOL/Data/Puzzle/Starway/Maps/V3";
+        public const string SetPath = Support + "/StarwayV3MapSet.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Theme.asset";
         const string TemplatePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Scenario.asset";
 
@@ -90,9 +91,10 @@ namespace ANIMOL.Puzzle.Editor
             }
             if (acquired.Count != 3) throw new InvalidDataException(sourceId + ": not all bubbles are acquired by the proof route.");
 
+            MigrateMapToRoot(name);
             Directory.CreateDirectory(Maps); AssetDatabase.Refresh();
             var mapPath = Maps + "/" + name + ".asset";
-            var rulePath = Maps + "/" + name + "_Scenario.asset";
+            var rulePath = Support + "/" + name + "_Scenario.asset";
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(mapPath);
             if (!map) { map = ScriptableObject.CreateInstance<PuzzleMap>(); AssetDatabase.CreateAsset(map, mapPath); }
             var rules = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(rulePath);
@@ -126,6 +128,18 @@ namespace ANIMOL.Puzzle.Editor
             if (errors.Count != 0) throw new InvalidDataException(sourceId + ": " + string.Join("; ", errors));
             EditorUtility.SetDirty(rules); EditorUtility.SetDirty(map);
             return map;
+        }
+
+        static void MigrateMapToRoot(string name)
+        {
+            var previousPath = Support + "/" + name + ".asset";
+            var targetPath = Maps + "/" + name + ".asset";
+            var previous = AssetDatabase.LoadAssetAtPath<PuzzleMap>(previousPath);
+            if (!previous) return;
+            if (AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(targetPath))
+                throw new InvalidDataException("Map destination already exists; keeping both assets untouched: " + targetPath);
+            var error = AssetDatabase.MoveAsset(previousPath, targetPath);
+            if (!string.IsNullOrEmpty(error)) throw new IOException("Could not move V3 map while retaining its GUID: " + error);
         }
 
         static PrototypeDevice Device(JObject row, PuzzleScenario template)
