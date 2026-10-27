@@ -28,7 +28,16 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, RanchDeviceVisualV13> ranchSheepVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
         readonly Dictionary<string, RanchPondSluiceVisualR3> ranchPondVisuals = new Dictionary<string, RanchPondSluiceVisualR3>(System.StringComparer.Ordinal);
         readonly Dictionary<string, RanchV13ArtPlacement> ranchPondLayouts = new Dictionary<string, RanchV13ArtPlacement>(System.StringComparer.Ordinal);
-        readonly Dictionary<string, RanchDeviceVisualV13> ranchNestVisuals = new Dictionary<string, RanchDeviceVisualV13>(System.StringComparer.Ordinal);
+        readonly Dictionary<Vector2Int, RanchChickNestReturnVisualR4> ranchNestVisuals =
+            new Dictionary<Vector2Int, RanchChickNestReturnVisualR4>();
+        sealed class PendingNestArrival
+        {
+            public Vector2Int cell;
+            public string transactionId, direction;
+            public bool settledOnly;
+        }
+        readonly Queue<PendingNestArrival> pendingNestArrivals = new Queue<PendingNestArrival>();
+        readonly HashSet<string> queuedNestTransactions = new HashSet<string>(System.StringComparer.Ordinal);
         readonly HashSet<Vector2Int> ranchWaterCells = new HashSet<Vector2Int>();
         readonly Dictionary<Vector2Int, GameObject> ranchWaterVisuals = new Dictionary<Vector2Int, GameObject>();
         static readonly Vector2Int[] ranchWaterNeighbors = { Vector2Int.up, new Vector2Int(1, 1), Vector2Int.right,
@@ -95,7 +104,7 @@ namespace ANIMOL.Puzzle
             { RefreshLegacyCoastDecor(); PublishCoastDecor(); }
             else Rebuild();
         }
-        void OnEnable() { if (map && objectsRoot) { Rebuild(); if (currentSession != null) Present(currentSession); } }
+        void OnEnable() { if (map && objectsRoot) Rebuild(); }
         void OnDestroy() => Unbind();
         static void Remove(GameObject go)
         { go.SetActive(false); if (Application.isPlaying) Destroy(go); else DestroyImmediate(go); }
@@ -120,6 +129,7 @@ namespace ANIMOL.Puzzle
             coastLegacyDecorationViews.Clear();
             bubbleViews.Clear(); classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
             ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchNestVisuals.Clear();
+            pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
             ranchGrassVisuals.Clear(); ranchEffects.Clear(); ranchWaterCells.Clear(); ranchWaterVisuals.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
             if (map.scenario && map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
@@ -279,17 +289,20 @@ namespace ANIMOL.Puzzle
             {
                 var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
                 foreach (var chick in map.scenario.devices.Where(d => d.role == PrototypeRole.Chick &&
-                    map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target)))
+                    map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target))
+                    .GroupBy(d => d.target).Select(group => group.First()))
                 {
                     if (map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
                     {
-                        var nest = new GameObject("Nest " + chick.id);
+                        var nest = new GameObject("Nest " + chick.target);
                         nest.transform.SetParent(objectsRoot, false);
                         nest.transform.localPosition = (Vector2)chick.target;
                         var visual = RanchCellVisual(nest.transform, "Nest visual", Vector2Int.zero, 16,
                             map.theme.starwayRanch.v13Devices);
-                        if (!visual.SetState("nest/idle")) Debug.LogError("V13 nest clip missing", nest);
-                        ranchNestVisuals[chick.id] = visual;
+                        var returnVisual = nest.AddComponent<RanchChickNestReturnVisualR4>();
+                        if (!returnVisual.Configure(map.theme.starwayRanch.v13Devices, visual, out var error))
+                            Debug.LogError("R4 nest visual failed: " + error, nest);
+                        ranchNestVisuals[chick.target] = returnVisual;
                     }
                     else if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
                         Vector2.one * .8f, Color.white);
@@ -327,7 +340,11 @@ namespace ANIMOL.Puzzle
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
                 bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
             if (map.Contains(map.exit)) Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white);
-            if (currentSession != null) Present(currentSession);
+            if (currentSession != null)
+            {
+                Present(currentSession);
+                if (currentSession is PuzzleDeviceSession deviceSession) RestoreRanchNests(deviceSession);
+            }
         }
         void RefreshLegacyTheaterDecor()
         {
@@ -618,9 +635,64 @@ namespace ANIMOL.Puzzle
             foreach (var pond in ranchPondVisuals)
                 if (devices.RanchPonds.TryGetValue(pond.Key, out var wetA))
                     pond.Value.SetResolvedState(ranchPondLayouts[pond.Key].PondPair(wetA));
-            foreach (var nest in ranchNestVisuals)
-                if (devices.States.TryGetValue(nest.Key, out var chick))
-                    nest.Value.SetState(chick.active ? "nest/settled" : "nest/idle");
+        }
+        public void RestoreRanchNests(PuzzleDeviceSession authority)
+        {
+            pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
+            foreach (var entry in ranchNestVisuals)
+            {
+                var returned = authority.Devices.FirstOrDefault(d => d.role == PrototypeRole.Chick &&
+                    d.target == entry.Key && authority.States[d.id].active);
+                var occupied = returned != null;
+                var direction = occupied ? RanchDirection(authority.States[returned.id].direction) : "south";
+                entry.Value.ClearPresentation();
+                if (!entry.Value.SetResolvedState(occupied, direction, out var error))
+                    Debug.LogError("R4 nest restore failed: " + error, entry.Value);
+            }
+        }
+        static string RanchDirection(Vector2Int direction) =>
+            direction == Vector2Int.up ? "north" : direction == Vector2Int.down ? "south" :
+            direction == Vector2Int.left ? "west" : direction == Vector2Int.right ? "east" : "south";
+        public bool PlayCommittedChickReturn(PrototypeEvent cue, string transactionId, PuzzleDeviceSession authority)
+        {
+            if (cue == null || cue.eventName != "ChickReturned" ||
+                !ranchNestVisuals.TryGetValue(cue.to, out var nest) ||
+                !authority.States.TryGetValue(cue.actor, out var state) || !state.active || state.cell != cue.to ||
+                authority.Definition(cue.actor)?.target != cue.to)
+                return false;
+            var direction = RanchDirection(cue.arrivalDirection.sqrMagnitude == 1 ?
+                cue.arrivalDirection : state.direction);
+            var actualRoute = cue.nestId == "nest:" + cue.to.x + ":" + cue.to.y &&
+                cue.cells != null && cue.cells.Count > 1 && cue.cells[cue.cells.Count - 1] == cue.to &&
+                cue.arrivalDirection.sqrMagnitude == 1 &&
+                cue.cells[cue.cells.Count - 1] - cue.cells[cue.cells.Count - 2] == cue.arrivalDirection;
+            if (!queuedNestTransactions.Add(transactionId)) return true;
+            if (!actualRoute)
+            {
+                // A teleport or missing approach has no safe hop path; show the committed occupied pose.
+                Debug.LogWarning("R4 chick return has no final adjacent approach; showing the settled nest: " + cue.actor, nest);
+                if (nest.IsPlaying)
+                    pendingNestArrivals.Enqueue(new PendingNestArrival { cell = cue.to,
+                        transactionId = transactionId, direction = direction, settledOnly = true });
+                else if (!nest.SetResolvedState(true, direction, out var error))
+                {
+                    queuedNestTransactions.Remove(transactionId);
+                    Debug.LogError("R4 nest resolve failed: " + error, nest);
+                    return false;
+                }
+                return true;
+            }
+            if (!nest.IsPlaying)
+            {
+                if (nest.PlayCommittedArrival(transactionId, direction, out var error))
+                    return true;
+                queuedNestTransactions.Remove(transactionId);
+                Debug.LogError("R4 nest arrival failed: " + error, nest);
+                return false;
+            }
+            pendingNestArrivals.Enqueue(new PendingNestArrival { cell = cue.to,
+                transactionId = transactionId, direction = direction });
+            return true;
         }
         static RanchDeviceVisualV13 RanchCellVisual(Transform parent, string name, Vector2Int offset,
             int sorting, RanchDevicesV13Catalog catalog)
@@ -686,10 +758,30 @@ namespace ANIMOL.Puzzle
             foreach (var root in ranchEffects) if (root) Remove(root);
             ranchEffects.Clear();
             foreach (var pair in ranchPondVisuals.Values) if (pair) pair.Clear();
+            pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
+            foreach (var nest in ranchNestVisuals.Values) if (nest) nest.ClearPresentation();
         }
         void LateUpdate()
         {
             if (map) SyncViewport(false);
+            var queued = pendingNestArrivals.Count;
+            for (var i = 0; i < queued; i++)
+            {
+                var arrival = pendingNestArrivals.Dequeue();
+                if (ranchNestVisuals.TryGetValue(arrival.cell, out var nest) && !nest.IsPlaying)
+                {
+                    string error;
+                    var displayed = arrival.settledOnly
+                        ? nest.SetResolvedState(true, arrival.direction, out error)
+                        : nest.PlayCommittedArrival(arrival.transactionId, arrival.direction, out error);
+                    if (!displayed)
+                    {
+                        queuedNestTransactions.Remove(arrival.transactionId);
+                        Debug.LogError("R4 queued nest arrival failed: " + error, nest);
+                    }
+                }
+                else pendingNestArrivals.Enqueue(arrival);
+            }
             for (var i = ranchEffects.Count - 1; i >= 0; i--)
             {
                 var effect = ranchEffects[i] ? ranchEffects[i].GetComponent<RanchSheepConsumptionVisualR2>() : null;

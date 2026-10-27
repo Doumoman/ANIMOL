@@ -20,6 +20,7 @@ namespace ANIMOL.Puzzle
         public bool BlocksInput => false;
         public string Status { get; private set; }
         int rejectedVisualSerial;
+        int presentationGeneration, committedActionSerial;
         Vector2Int queuedInput;
         Transform presentation;
         PuzzleMapView view;
@@ -27,6 +28,7 @@ namespace ANIMOL.Puzzle
         void Start() { if (stage && Session == null) Load(stage); }
         public void Load(PuzzleMap data)
         {
+            presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             if (presentation) { presentation.gameObject.SetActive(false); Destroy(presentation.gameObject); }
             if (RuntimeMap) Destroy(RuntimeMap);
@@ -54,7 +56,7 @@ namespace ANIMOL.Puzzle
             {
                 var backdrop = new GameObject("Native pixel background").AddComponent<PuzzleBackdrop>(); backdrop.transform.SetParent(presentation, false); backdrop.Configure(RuntimeMap.theme, cam, RuntimeMap.cameraSettings);
             }
-            Devices = new GameObject("Committed devices").AddComponent<PuzzleDeviceView>(); Devices.transform.SetParent(presentation, false); Devices.Bind(Session, renderer, secondsPerCell); view.Present(Session);
+            Devices = new GameObject("Committed devices").AddComponent<PuzzleDeviceView>(); Devices.transform.SetParent(presentation, false); Devices.Bind(Session, renderer, secondsPerCell); view.Present(Session); view.RestoreRanchNests(Session);
             var input = GetComponent<PuzzleSwipeInput>(); if (!input) input = gameObject.AddComponent<PuzzleSwipeInput>(); input.SetReceiver(RequestMove);
             if (hudPrefab)
             {
@@ -75,11 +77,14 @@ namespace ANIMOL.Puzzle
                 return false;
             }
             Devices.CommitSanctumBeamAction();
-            IsMoving = true; StartCoroutine(Animate(result)); return true;
+            IsMoving = true;
+            var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
+            StartCoroutine(Animate(result, eventPrefix, presentationGeneration)); return true;
         }
         public bool UndoLast()
         {
             if (Session == null) return false;
+            presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             if (!Session.Undo()) return false;
             PresentRestoredState(); return true;
@@ -87,33 +92,44 @@ namespace ANIMOL.Puzzle
         public void ResetStage()
         {
             if (Session == null) return;
+            presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             Session.Reset(); PresentRestoredState();
         }
         public void RestoreSnapshot(PuzzleDeviceSession snapshot)
         {
             if (Session == null) return;
+            presentationGeneration++;
             StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
             Session.RestoreSnapshot(snapshot); PresentRestoredState();
         }
         void PresentRestoredState()
         {
-            view.CancelRanchEffects(); Devices.Settle(); view.Present(Session);
+            view.CancelRanchEffects(); Devices.Settle(); view.Present(Session); view.RestoreRanchNests(Session);
             Player.position = (Vector2)Session.Cell;
             if (CharacterVisual) CharacterVisual.SetIdle();
             if (FollowCamera) FollowCamera.Cut();
             Status = Session.Won ? "Stage clear" : Session.Failed ? Session.Failure : "";
         }
-        IEnumerator Animate(PrototypeAction result)
+        IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation)
         {
             var consumed = new HashSet<PrototypeEvent>();
             int dominoPanelsRemaining = result.events.FindAll(e =>
                 e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
             {
+                if (generation != presentationGeneration) yield break;
                 if (consumed.Contains(e)) continue;
                 if (e.kind == PrototypeEventKind.Visual)
                 {
+                    if (e.eventName == "ChickReturned")
+                    {
+                        var chick = Devices.Actor(e.actor);
+                        if (chick) chick.gameObject.SetActive(false);
+                        if (!view.PlayCommittedChickReturn(e, eventPrefix + e.actor + ":" + e.group, Session))
+                            Debug.LogError("R4 committed chick return has no valid nest presentation: " + e.actor, this);
+                        continue;
+                    }
                     var ranchSeconds = view.PlayRanchCue(e);
                     Devices.Notify(e, Session.Cost + ":" + e.group);
                     if (ranchSeconds > 0) yield return new WaitForSeconds(ranchSeconds);
@@ -181,7 +197,8 @@ namespace ANIMOL.Puzzle
                     if (paired != null) { passenger = Player; consumed.Add(paired); }
                 }
                 // Play the existing committed body-motion clip while the grid transform actually moves.
-                foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual && p.actor == e.actor && p.group == e.group + 1))
+                foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual &&
+                    p.actor == e.actor && p.group == e.group + 1 && p.eventName != "ChickReturned"))
                 {
                     if (view.RanchActor(e.actor)) continue;
                     Devices.Notify(cue, Session.Cost + ":" + cue.group); consumed.Add(cue);

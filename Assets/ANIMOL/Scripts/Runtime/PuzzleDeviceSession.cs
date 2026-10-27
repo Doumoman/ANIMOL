@@ -537,7 +537,9 @@ namespace ANIMOL.Puzzle
                 if (portal != null && Free(portal.target, d.id, false, true) && Free(portal.target + direction, d.id))
                 {
                     var before = s.cell; s.cell = portal.target; Move(d.id, before, s.cell, true);
-                    before = s.cell; s.cell += direction; Move(d.id, before, s.cell);
+                    before = s.cell; s.cell += direction;
+                    if (d.role == PrototypeRole.Chick) s.direction = direction;
+                    Move(d.id, before, s.cell);
                     if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                     TraceWind();
                     if (!rolling && !slidingBody) break;
@@ -564,7 +566,9 @@ namespace ANIMOL.Puzzle
                 var mismatch = MismatchedSocket(d, s.cell + direction);
                 if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); break; }
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) break;
-                var old = s.cell; s.cell += direction; Move(d.id, old, s.cell);
+                var old = s.cell; s.cell += direction;
+                if (d.role == PrototypeRole.Chick) s.direction = direction;
+                Move(d.id, old, s.cell);
                 if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 if (SeatStarStone(d)) break;
                 if (d.role == PrototypeRole.Chick && s.cell == d.target) { EnterNest(d); break; }
@@ -592,7 +596,11 @@ namespace ANIMOL.Puzzle
         {
             var s = states[chick.id];
             if (chick.target == Vector2Int.zero || !Map.Walkable(chick.target)) return false;
-            if (s.cell == chick.target) { s.active = true; s.trail.Clear(); return true; }
+            if (s.cell == chick.target)
+            {
+                if (!s.active) { s.active = true; s.trail.Clear(); ChickReturned(chick, s); }
+                return true;
+            }
             if ((chick.target - s.cell).sqrMagnitude != 1 || !Free(chick.target, chick.id)) return false;
             var from = s.cell;
             s.direction = chick.target - from;
@@ -601,7 +609,27 @@ namespace ANIMOL.Puzzle
             s.trail.Clear();
             Move(chick.id, from, s.cell);
             Visual(chick, "walk_" + Dir(s.direction), "existing_recorded_path_following");
+            ChickReturned(chick, s);
             return true;
+        }
+        void ChickReturned(PrototypeDevice chick, PrototypeDeviceState state)
+        {
+            var moves = events.Where(e => e.kind == PrototypeEventKind.Move && e.actor == chick.id).ToList();
+            var route = new List<Vector2Int>();
+            if (moves.Count > 0)
+            {
+                route.Add(moves[0].from);
+                foreach (var move in moves) route.Add(move.to);
+            }
+            else route.Add(state.cell);
+            var arrival = state.direction.sqrMagnitude == 1 ? state.direction : Vector2Int.down;
+            var heading = arrival == Vector2Int.up ? "north" : arrival == Vector2Int.down ? "south" :
+                arrival == Vector2Int.left ? "west" : "east";
+            events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = chick.id,
+                eventName = "ChickReturned", state = "nest_return/" + heading + "/arrive",
+                from = route[0], to = state.cell, cells = route,
+                arrivalDirection = arrival, nestId = "nest:" + chick.target.x + ":" + chick.target.y,
+                group = group });
         }
         void RefreshLinks(bool animate)
         {

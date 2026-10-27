@@ -457,7 +457,10 @@ namespace ANIMOL.Puzzle
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
                 if (!roots.TryGetValue(d.id, out var root) || !views.TryGetValue(d.id, out var view)) continue;
                 root.localPosition = (Vector2)s.cell;
-                if (s.removed)
+                if (s.removed || (d.role == PrototypeRole.Chick && s.active &&
+                    d.target != Vector2Int.zero && session.Map.Walkable(d.target) &&
+                    session.Map.theme && session.Map.theme.starwayRanch &&
+                    session.Map.theme.starwayRanch.v13Devices))
                 {
                     if (PlayingTransition(view) && (d.role == PrototypeRole.Glass || d.role == PrototypeRole.Bomb))
                     { pendingIdle[d.id] = ""; pendingRemoval.Add(d.id); }

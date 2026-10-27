@@ -24,6 +24,9 @@ namespace ANIMOL.Presentation.Tests
                 keys.Add("sheep/" + direction + "/eat_and_disappear");
                 keys.Add("chick/" + direction + "/walk");
                 keys.Add("chick/" + direction + "/sit");
+                keys.Add("chick_return/" + direction + "/hop");
+                keys.Add("nest_return/" + direction + "/arrive");
+                keys.Add("nest_return/" + direction + "/occupied");
             }
             keys.AddRange(new[] { "nest/arrive", "nest/settled",
                 "pond_pair/horizontal/west_wet", "pond_pair/horizontal/east_wet",
@@ -55,9 +58,13 @@ namespace ANIMOL.Presentation.Tests
                         if (key.Contains("/water_"))
                         { Assert.That(clip.frames.Length, Is.EqualTo(12)); Assert.That(clip.fps, Is.EqualTo(12)); }
                     }
-                    yield return new WaitForSeconds(1f / clip.fps + .025f);
+                    var firstChangedFrame = 0;
+                    while (firstChangedFrame < clip.frames.Length &&
+                        clip.frames[firstChangedFrame] == clip.frames[0]) firstChangedFrame++;
+                    yield return new WaitForSeconds((firstChangedFrame < clip.frames.Length ?
+                        firstChangedFrame : 1) / clip.fps + .025f);
                     bool advanced = renderer.sprite != clip.frames[0];
-                    Assert.That(advanced, Is.EqualTo(clip.frames.Length > 1),
+                    Assert.That(advanced, Is.EqualTo(firstChangedFrame < clip.frames.Length),
                         key + " play=" + UnityEditor.EditorApplication.isPlaying + " delta=" + Time.deltaTime);
                 }
             }

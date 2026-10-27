@@ -9,6 +9,7 @@ using ANIMOL.Presentation;
 using ANIMOL.Presentation.Editor;
 using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.StarSwellCoastV01;
+using ANIMOL.Art.RanchDevicesV13;
 namespace ANIMOL.Tests
 {
     public sealed class PuzzleDeviceLogicTests
@@ -165,7 +166,19 @@ namespace ANIMOL.Tests
                     var action=session.Apply(PuzzlePrototypeBuilder.Direction(c));
                     foreach(var e in action.events.Where(e=>e.kind==PrototypeEventKind.Visual))
                     {
-                        var definition=session.Definition(e.actor);var view=definition.visualPrefab.GetComponent<DeviceVisualView>();
+                        var definition=session.Definition(e.actor);
+                        if (e.eventName == "ChickReturned")
+                        {
+                            Assert.That(definition.role, Is.EqualTo(PrototypeRole.Chick));
+                            Assert.That(map.theme.starwayRanch, Is.Not.Null);
+                            var catalog = map.theme.starwayRanch.v13Devices;
+                            Assert.That(catalog, Is.Not.Null);
+                            Assert.That(catalog.TryClip(e.state, out RanchV13Clip clip), Is.True,
+                                map.name + " " + e.actor + " " + e.state);
+                            Assert.That(clip.frames, Is.Not.Empty);
+                            continue;
+                        }
+                        var view=definition.visualPrefab.GetComponent<DeviceVisualView>();
                         if (session.Rules.themeId == "twilight_sea" && StarSwellCoastV01PuzzleBinding.Covers(definition))
                         {
                             var key = StarSwellCoastV01PuzzleBinding.EventClip(definition, e, session.States[e.actor]);
@@ -485,8 +498,14 @@ namespace ANIMOL.Tests
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
             Assert.That(session.States["chick"].active,Is.True);
             Assert.That(action.events.Any(e=>e.actor=="chick"&&e.kind==PrototypeEventKind.Move&&e.to==chick.target),Is.True);
-            session.Apply(Vector2Int.right);
+            var returned = action.events.Single(e => e.eventName == "ChickReturned");
+            Assert.That(returned.nestId, Is.EqualTo("nest:2:3"));
+            Assert.That(returned.arrivalDirection, Is.EqualTo(Vector2Int.right));
+            Assert.That(returned.cells, Is.EqualTo(new[] { new Vector2Int(1, 3), chick.target }));
+            var later = session.Apply(Vector2Int.right);
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
+            Assert.That(session.States["chick"].active, Is.True);
+            Assert.That(later.events.Any(e => e.eventName == "ChickReturned"), Is.False);
         }
         [Test] public void V12ChickFollowsBlocksPlayerAndPressesOrdinaryPlate()
         {

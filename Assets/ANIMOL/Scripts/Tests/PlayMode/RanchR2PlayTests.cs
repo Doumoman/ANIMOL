@@ -151,7 +151,96 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
             yield return WaitIdle();
             Assert.That(controller.Session.States["chick"].active, Is.True);
-            Assert.That(nest.CurrentKey, Is.EqualTo("nest/settled"));
+            Assert.That(nest.CurrentKey, Is.EqualTo("nest_return/east/arrive"));
+            Assert.That(controller.Devices.Actor("chick").gameObject.activeSelf, Is.False);
+            yield return new WaitForSeconds(.85f);
+            Assert.That(nest.CurrentKey, Is.EqualTo("nest_return/east/occupied"));
+            Assert.That(controller.UndoLast(), Is.True);
+            Assert.That(nest.CurrentKey, Is.EqualTo("nest/idle"));
+        }
+
+        [UnityTest] public IEnumerator ChickReturnUsesActualLastApproachInAllFourDirections()
+        {
+            var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
+                .devices.Single(d => d.role == PrototypeRole.Chick);
+            var nestCell = new Vector2Int(4, 3);
+            var approaches = new[] { Vector2Int.down, Vector2Int.left, Vector2Int.up, Vector2Int.right };
+            var keys = new[] { "north", "east", "south", "west" };
+            for (var i = 0; i < approaches.Length; i++)
+            {
+                scenario.devices.Clear();
+                scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                    position = nestCell + approaches[i], target = nestCell, direction = -approaches[i],
+                    number = 1, visualPrefab = template.visualPrefab, initialVisual = template.initialVisual });
+                controller.Load(map); yield return null;
+                var nest = controller.GetComponentInChildren<RanchChickNestReturnVisualR4>();
+                Assert.That(nest, Is.Not.Null);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                yield return WaitIdle();
+                Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                    Is.EqualTo("nest_return/" + keys[i] + "/arrive"));
+                Assert.That(controller.Devices.Actor("chick").gameObject.activeSelf, Is.False);
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                yield return new WaitForSeconds(.85f);
+                Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                    Is.EqualTo("nest_return/" + keys[i] + "/occupied"));
+                Assert.That(controller.Session.States["chick"].active, Is.True);
+            }
+        }
+
+        [UnityTest] public IEnumerator UndoDuringChickArrivalRestoresFollowingAndEmptyNest()
+        {
+            var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
+                .devices.Single(d => d.role == PrototypeRole.Chick);
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(3, 3), target = new Vector2Int(4, 3),
+                direction = Vector2Int.right, number = 1, visualPrefab = template.visualPrefab,
+                initialVisual = template.initialVisual });
+            controller.Load(map); yield return null;
+            var nest = controller.GetComponentInChildren<RanchChickNestReturnVisualR4>();
+            Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+            yield return WaitIdle();
+            Assert.That(nest.IsPlaying, Is.True);
+            Assert.That(controller.UndoLast(), Is.True);
+            Assert.That(nest.IsPlaying, Is.False);
+            Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey, Is.EqualTo("nest/idle"));
+            Assert.That(controller.Session.States["chick"].active, Is.False);
+            Assert.That(controller.Devices.Actor("chick").gameObject.activeSelf, Is.True);
+            yield return new WaitForSeconds(.85f);
+            Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey, Is.EqualTo("nest/idle"));
+            Assert.That(controller.Session.Cost, Is.Zero);
+        }
+
+        [UnityTest] public IEnumerator ChickReturnSnapshotAndReenableShowSettledPoseWithoutReplayingArrival()
+        {
+            var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
+                .devices.Single(d => d.role == PrototypeRole.Chick);
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(3, 3), target = new Vector2Int(4, 3),
+                direction = Vector2Int.right, number = 1, visualPrefab = template.visualPrefab,
+                initialVisual = template.initialVisual });
+            controller.Load(map); yield return null;
+            Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+            yield return WaitIdle();
+            var returned = controller.Session.Copy();
+            controller.ResetStage();
+            var nest = controller.GetComponentInChildren<RanchChickNestReturnVisualR4>();
+            Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey, Is.EqualTo("nest/idle"));
+            controller.RestoreSnapshot(returned);
+            Assert.That(nest.IsPlaying, Is.False);
+            Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("nest_return/east/occupied"));
+            Assert.That(controller.Devices.Actor("chick").gameObject.activeSelf, Is.False);
+            var world = controller.GetComponentInChildren<PuzzleMapView>();
+            world.gameObject.SetActive(false);
+            world.gameObject.SetActive(true); yield return null;
+            nest = controller.GetComponentInChildren<RanchChickNestReturnVisualR4>();
+            Assert.That(nest.IsPlaying, Is.False);
+            Assert.That(nest.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("nest_return/east/occupied"));
         }
 
         [UnityTest] public IEnumerator SavedQaMapCrossesPondThenConsumesSheepForThreeInputs()

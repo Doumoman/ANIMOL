@@ -292,10 +292,33 @@ namespace ANIMOL.Presentation.Tests
                 var session = new PuzzleDeviceSession(map);
                 Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
                 Assert.That(session.States["chick"].active, Is.True);
-                view.Present(session);
-                Assert.That(nest.CurrentKey, Is.EqualTo("nest/settled"));
+                view.Present(session); view.RestoreRanchNests(session);
+                Assert.That(nest.CurrentKey, Is.EqualTo("nest_return/east/occupied"));
             }
             finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void NestCanBeChosenBeforeChickAndCommitsBothToOneScenario()
+        {
+            Fill();
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.scenario = scenario; scenario.themeId = "starway";
+                var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry =>
+                    entry.device.role == PrototypeRole.Chick).device;
+                var nest = new Vector2Int(3, 2);
+                Assert.That(PuzzleMapEditor.TryPlaceChickForNest(map, template, nest, nest,
+                    out _, out _), Is.False);
+                Assert.That(scenario.devices, Is.Empty);
+                Assert.That(PuzzleMapEditor.TryPlaceChickForNest(map, template, new Vector2Int(2, 2), nest,
+                    out var chick, out var error), Is.True, error);
+                Assert.That(scenario.devices, Has.Count.EqualTo(1));
+                Assert.That(chick.target, Is.EqualTo(nest));
+                Assert.That(map.ValidateMap(), Is.Empty);
+                Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, nest, out _), Is.False);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
         }
         [Test] public void SheepAndSluiceArtCanBePlacedWithoutInventingGameplayIds()
         {

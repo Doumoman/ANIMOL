@@ -179,6 +179,9 @@ namespace ANIMOL.Puzzle
         public bool teleport;
         public int group;
         public List<Vector2Int> cells;
+        // Committed chick return presentation data; the session remains the sole authority.
+        public string nestId;
+        public Vector2Int arrivalDirection;
         [NonSerialized] public WindRoute windRoute;
         [NonSerialized] public RanchPondPairR2 pondBefore, pondAfter;
         [NonSerialized] public RanchRuleResultR2 ranchResult;
