@@ -69,7 +69,7 @@ namespace ANIMOL.Puzzle
         readonly HashSet<string> pushedThisAction = new HashSet<string>();
         readonly Stack<PuzzleDeviceSession> undo = new Stack<PuzzleDeviceSession>();
         int group;
-        bool forced, sliding;
+        bool forced, sliding, stationaryCratePush;
         public PuzzleDeviceSession(PuzzleMap map)
         {
             Map = map;
@@ -228,7 +228,7 @@ namespace ANIMOL.Puzzle
         }
         PrototypeAction Resolve(Vector2Int direction)
         {
-            Direction = direction; forced = sliding = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
+            Direction = direction; forced = sliding = stationaryCratePush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
             if (mirror != null && Rules.mirrorBumpRotates)
@@ -254,7 +254,7 @@ namespace ANIMOL.Puzzle
                     RejectedCue(Cell + direction);
                     return new PrototypeAction { reason = ranchReason ?? "Blocked", events = events.Where(e => e.kind == PrototypeEventKind.Visual).ToList() };
                 }
-                if (!ranchHandled) Automatic();
+                if (!ranchHandled && !stationaryCratePush) Automatic();
             }
             Cost++; EndTurn(); Victory();
             if (!Won && Rules.costLimit > 0 && Cost >= Rules.costLimit) Fail("Cost exhausted");
@@ -408,7 +408,15 @@ namespace ANIMOL.Puzzle
                 {
                     if (!Supported(destination)) return false;
                     var body = At(destination, Solid);
-                    if (body != null && !Push(body, Direction)) return false;
+                    if (body != null)
+                    {
+                        if (!Push(body, Direction)) return false;
+                        if (body.role == PrototypeRole.WoodCrate || body.role == PrototypeRole.MetalCrate)
+                        {
+                            stationaryCratePush = true;
+                            return true;
+                        }
+                    }
                     if (!StarSocketPassable(destination, null) || !DiceSocketPassable(destination, null)) return false;
                     if (At(destination, Solid) != null) return false;
                 }
@@ -451,14 +459,14 @@ namespace ANIMOL.Puzzle
                     var exit = At(Cell, d => d.role == PrototypeRole.Portal);
                     if (exit != null) Visual(exit, (exit.variant == "b" ? "b" : "a") + "_exit_" + Dir(Direction), "existing_portal_exit_committed");
                     arrivedFromPortal = true;
-                    if (!StepPlayer(Cell + Direction)) return;
+                    if (!StepPlayer(Cell + Direction) || stationaryCratePush) return;
                     if (!sliding && At(Cell, d => d.role == PrototypeRole.OneWayGate) == null) return;
                     continue;
                 }
                 arrivedFromPortal = false;
                 if (At(Cell, d => d.role == PrototypeRole.OneWayGate) != null)
                 {
-                    if (!StepPlayer(Cell + Direction)) return;
+                    if (!StepPlayer(Cell + Direction) || stationaryCratePush) return;
                     continue;
                 }
                 var leap = At(Cell, d => d.role == PrototypeRole.CrescentLeap);
@@ -505,7 +513,7 @@ namespace ANIMOL.Puzzle
                     }
                     else if (!sliding && !(Rules.echoTheaterV3Rules && forced)) return;
                 }
-                if (!StepPlayer(Cell + Direction, windSource)) return;
+                if (!StepPlayer(Cell + Direction, windSource) || stationaryCratePush) return;
             }
         }
         bool Push(PrototypeDevice d, Vector2Int direction)

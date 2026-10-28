@@ -557,6 +557,31 @@ namespace ANIMOL.Tests
             Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(3, 2)));
             Assert.That(session.Cost, Is.Zero);
         }
+        [TestCase(PrototypeRole.WoodCrate)]
+        [TestCase(PrototypeRole.MetalCrate)]
+        public void CratePushCostsOneAndLeavesPlayerInPlace(PrototypeRole role)
+        {
+            var map = Clone(24);
+            map.scenario.devices.RemoveAll(d => d.role == PrototypeRole.Chick);
+            map.scenario.goals.Clear();
+            map.scenario.devices.Add(new PrototypeDevice { id = "crate", role = role,
+                position = new Vector2Int(2, 2) });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.right);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.States["crate"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(action.events.Any(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.States["crate"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(session.Cost, Is.Zero);
+            session.Apply(Vector2Int.right);
+            session.Reset();
+            Assert.That(session.States["crate"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(session.Cost, Is.Zero);
+        }
         [Test] public void MagnetCannotPullMetalThroughWoodAndDoesNotMoveWood()
         {
             var map=Clone(14);map.scenario.devices.First(d=>d.id=="wood").position=new Vector2Int(4,4);
