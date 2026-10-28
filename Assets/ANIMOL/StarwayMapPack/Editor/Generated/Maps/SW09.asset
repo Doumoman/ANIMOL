@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SW09
   m_EditorClassIdentifier: ANIMOL.StarwayMaps.Editor::ANIMOL.StarwayMaps.Editor.StarwayMapSource
   input:
-    schema: animol.unity-map-input.v1
-    designVersion: 3
-    sourceSha256: 7be029f5c2cdb9093e0f01432fda9039b8f839a6ea94717e3365e988248fb799
-    solutionSha256: 630400318a62b76a5553ea1e31588a806880933b06f4f2e43d8f1abaac1a6576
-    verificationScope: REPORT_MODEL_ONLY
-    referenceSuccessfulInputs: 30
-    referenceActions: NESWWWEEEEEENNEEEWNNNNEEEWWNNN
-    noStarMatchingActions: NESWWWEEEEEENNEEEWNNNNEEEWWNNN
+    schema: animol.unity-map-input.v3
+    designVersion: 7
+    sourceSha256: 949a5b454a38fe42020c2377118673c11b3a2478c4263bfdbcec7e342be55c50
+    solutionSha256: 38ee02b212852a8bf46f6b823bf54dde045c3671d7be35afbedca9788407fd80
+    verificationScope: REPORT_MODEL_PHYSICAL_GATES
+    referenceSuccessfulInputs: 44
+    referenceActions: NWSWEEEEEENNEEEENNEENNNNNNWWSSWNWSSSEEEWWNNN
+    noStarMatchingActions: 
     map:
       id: SW09
       index: 9
@@ -66,6 +66,8 @@ MonoBehaviour:
         y: 6
       - x: 3
         y: 8
+      - x: 3
+        y: 9
       - x: 3
         y: 12
       - x: 3
@@ -1053,8 +1055,6 @@ MonoBehaviour:
       - x: 3
         y: 7
       - x: 3
-        y: 9
-      - x: 3
         y: 10
       - x: 3
         y: 11
@@ -1389,6 +1389,36 @@ MonoBehaviour:
         number: 0
         orientation: 0
         socketReward: 
+      - id: SW09_stone_1
+        role: 1
+        variant: 
+        position:
+          x: 13
+          y: 16
+        direction:
+          x: 1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: 
+      - id: SW09_socket_1
+        role: 1
+        variant: socket
+        position:
+          x: 12
+          y: 14
+        direction:
+          x: 1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: None
       ranchV13Art:
       - instanceId: SW09_sheep_1
         family: sheep

@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: SW10
   m_EditorClassIdentifier: ANIMOL.StarwayMaps.Editor::ANIMOL.StarwayMaps.Editor.StarwayMapSource
   input:
-    schema: animol.unity-map-input.v1
-    designVersion: 3
-    sourceSha256: 9493411acb71e2c1765f19e43131b1ecb913f34f2270f605483a249cfb9fe3e5
-    solutionSha256: e1dc1a320013892539ee4e3f5ea4ed001061785d8669e1a9463c71f936e16e35
+    schema: animol.unity-map-input.v3
+    designVersion: 7
+    sourceSha256: 1ba89f4c52b0278e74c922754965de9bab816954c58d19cb454677c2577e1829
+    solutionSha256: 541e4fbd6376d96d51b4601a5edce0c85012c6d5ceff68aca2f053a8e621fc77
     verificationScope: REPORT_MODEL_ONLY
-    referenceSuccessfulInputs: 32
-    referenceActions: NNWSESEEWWNNNNEEEEEEEENNNNNNNSSS
-    noStarMatchingActions: NNWSESEEWWNNNNEEEEEEEENNNNNNNSSS
+    referenceSuccessfulInputs: 41
+    referenceActions: NNWSESEEWWNNNNEEEEEEESENEWEEESSSSWWWNEENE
+    noStarMatchingActions: NNWSESEEWWNNNNEEEEEEESENEWEEESSSSWWWNEENE
     map:
       id: SW10
       index: 10
-      title: "\uC0BC\uC9C0\uCC3D\uC758 \uC138 \uBC29\uC6B8"
-      shape: "\uC0BC\uC9C0\uCC3D"
+      title: "\uC0BC\uC9C0\uCC3D\uC758 \uB450 \uBC14\uB78C \uB192\uC774"
+      shape: "\uC138 \uAC08\uB798 \uC218\uC9C1 \uBC14\uB78C\uACFC \uADC0\uD658 \uAE38"
       difficulty: 1
       difficultyName: "\uC26C\uC6C0"
       themeId: starway
@@ -235,7 +235,11 @@ MonoBehaviour:
       - x: 13
         y: 4
       - x: 13
+        y: 5
+      - x: 13
         y: 6
+      - x: 13
+        y: 8
       - x: 14
         y: 2
       - x: 14
@@ -259,6 +263,8 @@ MonoBehaviour:
       - x: 14
         y: 12
       - x: 14
+        y: 13
+      - x: 14
         y: 14
       - x: 14
         y: 15
@@ -274,6 +280,8 @@ MonoBehaviour:
         y: 3
       - x: 15
         y: 4
+      - x: 15
+        y: 8
       - x: 15
         y: 16
       - x: 15
@@ -1127,11 +1135,7 @@ MonoBehaviour:
       - x: 13
         y: 3
       - x: 13
-        y: 5
-      - x: 13
         y: 7
-      - x: 13
-        y: 8
       - x: 13
         y: 9
       - x: 13
@@ -1157,8 +1161,6 @@ MonoBehaviour:
       - x: 14
         y: 1
       - x: 14
-        y: 13
-      - x: 14
         y: 19
       - x: 15
         y: 1
@@ -1168,8 +1170,6 @@ MonoBehaviour:
         y: 6
       - x: 15
         y: 7
-      - x: 15
-        y: 8
       - x: 15
         y: 9
       - x: 15
@@ -1237,11 +1237,11 @@ MonoBehaviour:
         y: 2
       exit:
         x: 14
-        y: 9
+        y: 13
       bubbles:
       - x: 8
         y: 2
-      - x: 14
+      - x: 13
         y: 8
       - x: 14
         y: 12
@@ -1262,6 +1262,36 @@ MonoBehaviour:
           x: 4
           y: 4
         number: 1
+        orientation: 0
+        socketReward: 
+      - id: SW10_wind_1
+        role: 20
+        variant: blower
+        position:
+          x: 14
+          y: 5
+        direction:
+          x: 0
+          y: 1
+        target:
+          x: 0
+          y: 0
+        number: 0
+        orientation: 0
+        socketReward: 
+      - id: SW10_brake_1
+        role: 19
+        variant: 
+        position:
+          x: 14
+          y: 13
+        direction:
+          x: 1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 0
         orientation: 0
         socketReward: 
       ranchV13Art:

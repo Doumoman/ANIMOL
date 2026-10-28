@@ -35,7 +35,7 @@ namespace ANIMOL.StarwayMaps.Editor
             if (next != selected) { selected = next; focus = CellVector(inputs[selected].map.start); }
             StarwayMapInput input = inputs[selected]; StarwayMapDto m = input.map;
             EditorGUILayout.LabelField(m.difficultyName + "  |  " + m.size.width + " x " + m.size.height + "  |  reference " + input.referenceSuccessfulInputs + " inputs");
-            EditorGUILayout.HelpBox("배치/카메라 미리보기입니다. 실제 게임 시뮬레이션이 아닙니다. 맵 클릭으로 초점을 옮깁니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("빈 별 홈 O는 길을 막고 같은 번호의 별돌 T를 넣으면 열립니다. 실제 게임 시뮬레이션은 아닙니다. 맵 클릭으로 초점을 옮깁니다.", MessageType.Info);
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Focus Start")) focus = CellVector(m.start);
             if (GUILayout.Button("Focus Exit")) focus = CellVector(m.exit);

@@ -1,9 +1,9 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW15",
   "index": 15,
-  "title": "연섬의 우회로",
-  "shape": "연 모양 섬",
+  "title": "바람을 꺾는 연섬",
+  "shape": "바람 반사와 제동의 연섬",
   "difficulty": 2,
   "difficultyName": "중간",
   "themeId": "starway",
@@ -54,11 +54,11 @@
     ],
     [
       4,
-      13
+      14
     ],
     [
       4,
-      14
+      15
     ],
     [
       4,
@@ -162,14 +162,6 @@
     ],
     [
       6,
-      15
-    ],
-    [
-      6,
-      16
-    ],
-    [
-      6,
       17
     ],
     [
@@ -199,6 +191,10 @@
     [
       7,
       10
+    ],
+    [
+      7,
+      14
     ],
     [
       7,
@@ -1682,7 +1678,7 @@
     ],
     [
       4,
-      15
+      13
     ],
     [
       4,
@@ -1742,6 +1738,14 @@
     ],
     [
       6,
+      15
+    ],
+    [
+      6,
+      16
+    ],
+    [
+      6,
       19
     ],
     [
@@ -1779,10 +1783,6 @@
     [
       7,
       13
-    ],
-    [
-      7,
-      14
     ],
     [
       7,
@@ -2111,8 +2111,8 @@
     8
   ],
   "exit": [
-    5,
-    14
+    4,
+    16
   ],
   "bubbles": [
     [
@@ -2125,7 +2125,7 @@
     ],
     [
       4,
-      14
+      15
     ]
   ],
   "targetBubbles": 3,
@@ -2151,33 +2151,45 @@
       "number": 1
     },
     {
-      "id": "SW15_stone_1",
-      "role": 1,
-      "variant": "",
+      "id": "SW15_wind_1",
+      "role": 20,
+      "variant": "blower",
       "position": [
-        10,
-        16
+        7,
+        14
       ],
       "direction": [
-        1,
+        -1,
         0
       ],
-      "number": 1
+      "orientation": 0
     },
     {
-      "id": "SW15_socket_1",
-      "role": 1,
-      "variant": "socket",
+      "id": "SW15_reflector_1",
+      "role": 18,
+      "variant": "",
       "position": [
-        11,
+        4,
+        14
+      ],
+      "direction": [
+        -1,
+        0
+      ],
+      "orientation": 3
+    },
+    {
+      "id": "SW15_brake_1",
+      "role": 19,
+      "variant": "",
+      "position": [
+        4,
         16
       ],
       "direction": [
-        1,
-        0
-      ],
-      "number": 1,
-      "socketReward": "None"
+        0,
+        1
+      ]
     }
   ],
   "ranchV13Art": [
@@ -2202,7 +2214,7 @@
       "family": "tall_grass",
       "position": [
         4,
-        14
+        15
       ]
     },
     {
@@ -2219,21 +2231,22 @@
   "validation": {
     "scope": "REPORT_MODEL_ONLY",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 48,
-    "actualPlayerCellTransitions": 41,
-    "noStarMatchingMinInputs": 48,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 42,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       13,
-      7
-    ]
+      9
+    ],
+    "referenceSuccessfulInputs": 47
   },
   "topologyMetrics": {
-    "walkableCells": 136,
+    "walkableCells": 135,
     "regionCells": 261,
-    "wallCells": 125,
-    "junctions": 55,
-    "deadEnds": 3,
-    "independentCycles": 35
+    "wallCells": 126,
+    "junctions": 53,
+    "deadEnds": 6,
+    "independentCycles": 32
   },
   "sheepPlanning": [
     {
@@ -2245,13 +2258,13 @@
       ],
       "grassPosition": [
         4,
-        14
+        15
       ],
-      "initialManhattanDistance": 4,
-      "physicalTravel": 4,
-      "directPushInputs": 4,
-      "windTravel": 0,
-      "directionChanges": 1,
+      "initialManhattanDistance": 5,
+      "physicalTravel": 5,
+      "directPushInputs": 3,
+      "windTravel": 2,
+      "directionChanges": 2,
       "positions": [
         [
           5,
@@ -2272,6 +2285,10 @@
         [
           4,
           14
+        ],
+        [
+          4,
+          15
         ]
       ],
       "firstDirectPushTurn": 22,
@@ -2357,5 +2374,86 @@
         }
       ]
     }
-  ]
+  ],
+  "windPlanning": {
+    "blowerId": "SW15_wind_1",
+    "phaseActions": [
+      45,
+      46
+    ],
+    "phaseBeforeRide": 2,
+    "sheepMovedByWindTurns": [
+      45,
+      46
+    ],
+    "playerRideTurn": 47,
+    "playerRidePath": [
+      [
+        5,
+        14
+      ],
+      [
+        4,
+        14
+      ],
+      [
+        4,
+        15
+      ],
+      [
+        4,
+        16
+      ]
+    ],
+    "reflectedAt": [
+      4,
+      14
+    ],
+    "brakedAt": [
+      4,
+      16
+    ],
+    "winsOnRide": true,
+    "proof": "Grass 1 is unreachable by direct sheep pushes in a relaxed push graph with a teleporting player; wind must deliver it.",
+    "referenceRides": [
+      {
+        "turn": 47,
+        "blower": 1,
+        "phase": 2,
+        "start": [
+          5,
+          14
+        ],
+        "landing": [
+          4,
+          16
+        ],
+        "path": [
+          [
+            5,
+            14
+          ],
+          [
+            4,
+            14
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            4,
+            16
+          ]
+        ],
+        "cells": 3,
+        "reflected": true,
+        "brakeLanding": true,
+        "newBubbleArrivals": 1
+      }
+    ],
+    "phaseToggles": 2,
+    "sheepWindCells": 2,
+    "scope": "REPORT_MODEL_WITNESS_ONLY"
+  }
 }

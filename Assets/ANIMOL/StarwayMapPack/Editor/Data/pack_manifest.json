@@ -1,6 +1,7 @@
 {
-  "version": 3,
+  "version": 7,
   "created": "2026-10-28",
+  "levelCount": 20,
   "difficultyCounts": {
     "easy": 10,
     "medium": 5,
@@ -10,7 +11,43 @@
     18,
     22
   ],
-  "levelCount": 20,
+  "cameraFocus": [
+    7,
+    11
+  ],
+  "starStages": [
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    16,
+    20
+  ],
+  "windStages": [
+    6,
+    10,
+    14,
+    15,
+    18,
+    20
+  ],
+  "win": "3 bubbles + initially visible exit; no extra device goals",
+  "starRule": "data-driven star placement; inactive sockets physically gate mandatory paths; each numbered stone is pushed along both axes at least three times in the reference",
+  "windRule": "reference routes include player rides at different phases, bubble collection on wind, reflection and braking; Unity session parity remains unverified",
+  "variation18And20": {
+    "walkableJaccard": 0.35714285714285715,
+    "commonWalkableCells": 75,
+    "identicalWindDevices": [],
+    "sharedCompleteWindSequence": false,
+    "SW18WindDeviceCount": 3,
+    "SW20WindDeviceCount": 3,
+    "sameExit": false,
+    "commonBubblePositions": 0
+  },
+  "minimumProof": "not claimed for redesigned star maps; references are report-model witnesses",
+  "unityRuntimeVerified": false,
   "levels": [
     {
       "id": "SW01",
@@ -20,14 +57,10 @@
         18,
         20
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
       "walkableCells": 129,
-      "regionCells": 267,
-      "wallCells": 138,
-      "junctions": 47,
-      "deadEnds": 6,
-      "independentCycles": 26
+      "referenceInputs": 32,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW02",
@@ -37,14 +70,10 @@
         18,
         20
       ],
-      "inputs": 30,
-      "noStarInputs": 30,
       "walkableCells": 129,
-      "regionCells": 259,
-      "wallCells": 130,
-      "junctions": 44,
-      "deadEnds": 5,
-      "independentCycles": 26
+      "referenceInputs": 30,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW03",
@@ -54,14 +83,10 @@
         18,
         20
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
       "walkableCells": 144,
-      "regionCells": 292,
-      "wallCells": 148,
-      "junctions": 54,
-      "deadEnds": 5,
-      "independentCycles": 31
+      "referenceInputs": 32,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW04",
@@ -71,14 +96,21 @@
         18,
         20
       ],
-      "inputs": 31,
-      "noStarInputs": 31,
-      "walkableCells": 127,
-      "regionCells": 267,
-      "wallCells": 140,
-      "junctions": 42,
-      "deadEnds": 4,
-      "independentCycles": 24
+      "walkableCells": 129,
+      "referenceInputs": 39,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW04_socket_1",
+          "position": [
+            14,
+            4
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
+      ]
     },
     {
       "id": "SW05",
@@ -88,31 +120,23 @@
         18,
         20
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
       "walkableCells": 111,
-      "regionCells": 227,
-      "wallCells": 116,
-      "junctions": 40,
-      "deadEnds": 4,
-      "independentCycles": 24
+      "referenceInputs": 32,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW06",
-      "title": "쌍둥이 뜰의 바람 꼬리",
+      "title": "바람 끝의 제동 방울",
       "difficulty": 1,
       "size": [
         18,
         22
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
       "walkableCells": 120,
-      "regionCells": 271,
-      "wallCells": 151,
-      "junctions": 39,
-      "deadEnds": 3,
-      "independentCycles": 22
+      "referenceInputs": 33,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW07",
@@ -122,14 +146,21 @@
         18,
         20
       ],
-      "inputs": 31,
-      "noStarInputs": 31,
       "walkableCells": 143,
-      "regionCells": 287,
-      "wallCells": 144,
-      "junctions": 57,
-      "deadEnds": 3,
-      "independentCycles": 34
+      "referenceInputs": 37,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW07_socket_1",
+          "position": [
+            10,
+            6
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
+      ]
     },
     {
       "id": "SW08",
@@ -139,14 +170,23 @@
         18,
         20
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
-      "walkableCells": 143,
-      "regionCells": 303,
-      "wallCells": 160,
-      "junctions": 53,
-      "deadEnds": 4,
-      "independentCycles": 30
+      "walkableCells": 144,
+      "referenceInputs": 38,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW08_socket_1",
+          "position": [
+            7,
+            10
+          ],
+          "gates": [
+            "bubble 2",
+            "bubble 3",
+            "exit"
+          ]
+        }
+      ]
     },
     {
       "id": "SW09",
@@ -156,31 +196,34 @@
         18,
         20
       ],
-      "inputs": 30,
-      "noStarInputs": 30,
-      "walkableCells": 161,
-      "regionCells": 319,
-      "wallCells": 158,
-      "junctions": 55,
-      "deadEnds": 4,
-      "independentCycles": 32
+      "walkableCells": 162,
+      "referenceInputs": 44,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW09_socket_1",
+          "position": [
+            12,
+            14
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
+      ]
     },
     {
       "id": "SW10",
-      "title": "삼지창의 세 방울",
+      "title": "삼지창의 두 바람 높이",
       "difficulty": 1,
       "size": [
         18,
         20
       ],
-      "inputs": 32,
-      "noStarInputs": 32,
-      "walkableCells": 138,
-      "regionCells": 299,
-      "wallCells": 161,
-      "junctions": 52,
-      "deadEnds": 7,
-      "independentCycles": 29
+      "walkableCells": 142,
+      "referenceInputs": 41,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW11",
@@ -190,14 +233,22 @@
         18,
         22
       ],
-      "inputs": 52,
-      "noStarInputs": 52,
       "walkableCells": 133,
-      "regionCells": 261,
-      "wallCells": 128,
-      "junctions": 55,
-      "deadEnds": 5,
-      "independentCycles": 33
+      "referenceInputs": 54,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW11_socket_1",
+          "position": [
+            8,
+            15
+          ],
+          "gates": [
+            "bubble 2",
+            "exit"
+          ]
+        }
+      ]
     },
     {
       "id": "SW12",
@@ -207,14 +258,33 @@
         18,
         22
       ],
-      "inputs": 50,
-      "noStarInputs": 50,
       "walkableCells": 157,
-      "regionCells": 316,
-      "wallCells": 159,
-      "junctions": 61,
-      "deadEnds": 2,
-      "independentCycles": 40
+      "referenceInputs": 54,
+      "starPairs": 2,
+      "gateProofs": [
+        {
+          "socketId": "SW12_socket_1",
+          "position": [
+            8,
+            14
+          ],
+          "gates": [
+            "bubble 2",
+            "bubble 3",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW12_socket_2",
+          "position": [
+            4,
+            12
+          ],
+          "gates": [
+            "exit"
+          ]
+        }
+      ]
     },
     {
       "id": "SW13",
@@ -224,48 +294,36 @@
         18,
         22
       ],
-      "inputs": 49,
-      "noStarInputs": 49,
       "walkableCells": 152,
-      "regionCells": 313,
-      "wallCells": 161,
-      "junctions": 59,
-      "deadEnds": 4,
-      "independentCycles": 37
+      "referenceInputs": 49,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW14",
-      "title": "별 모양 뜰의 꺾인 바람",
+      "title": "두 번 꺾이는 바람의 뜰",
       "difficulty": 2,
       "size": [
         18,
         22
       ],
-      "inputs": 52,
-      "noStarInputs": 52,
-      "walkableCells": 107,
-      "regionCells": 250,
-      "wallCells": 143,
-      "junctions": 29,
-      "deadEnds": 5,
-      "independentCycles": 18
+      "walkableCells": 108,
+      "referenceInputs": 54,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW15",
-      "title": "연섬의 우회로",
+      "title": "바람을 꺾는 연섬",
       "difficulty": 2,
       "size": [
         18,
         22
       ],
-      "inputs": 48,
-      "noStarInputs": 48,
-      "walkableCells": 136,
-      "regionCells": 261,
-      "wallCells": 125,
-      "junctions": 55,
-      "deadEnds": 3,
-      "independentCycles": 35
+      "walkableCells": 135,
+      "referenceInputs": 47,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW16",
@@ -275,14 +333,32 @@
         18,
         22
       ],
-      "inputs": 72,
-      "noStarInputs": 72,
       "walkableCells": 165,
-      "regionCells": 333,
-      "wallCells": 168,
-      "junctions": 69,
-      "deadEnds": 4,
-      "independentCycles": 40
+      "referenceInputs": 87,
+      "starPairs": 2,
+      "gateProofs": [
+        {
+          "socketId": "SW16_socket_1",
+          "position": [
+            14,
+            8
+          ],
+          "gates": [
+            "bubble 2",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW16_socket_2",
+          "position": [
+            13,
+            4
+          ],
+          "gates": [
+            "bubble 2"
+          ]
+        }
+      ]
     },
     {
       "id": "SW17",
@@ -292,31 +368,23 @@
         18,
         22
       ],
-      "inputs": 68,
-      "noStarInputs": 68,
       "walkableCells": 169,
-      "regionCells": 337,
-      "wallCells": 168,
-      "junctions": 73,
-      "deadEnds": 2,
-      "independentCycles": 43
+      "referenceInputs": 68,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW18",
-      "title": "용의 꼬리와 바람 문",
+      "title": "짧은 바람과 긴 바람의 회랑",
       "difficulty": 3,
       "size": [
         18,
         22
       ],
-      "inputs": 71,
-      "noStarInputs": 71,
-      "walkableCells": 142,
-      "regionCells": 300,
-      "wallCells": 158,
-      "junctions": 54,
-      "deadEnds": 4,
-      "independentCycles": 31
+      "walkableCells": 149,
+      "referenceInputs": 84,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW19",
@@ -326,14 +394,10 @@
         18,
         22
       ],
-      "inputs": 70,
-      "noStarInputs": 70,
       "walkableCells": 136,
-      "regionCells": 277,
-      "wallCells": 141,
-      "junctions": 61,
-      "deadEnds": 4,
-      "independentCycles": 38
+      "referenceInputs": 72,
+      "starPairs": 0,
+      "gateProofs": []
     },
     {
       "id": "SW20",
@@ -343,68 +407,42 @@
         18,
         22
       ],
-      "inputs": 69,
-      "noStarInputs": 69,
-      "walkableCells": 130,
-      "regionCells": 292,
-      "wallCells": 162,
-      "junctions": 43,
-      "deadEnds": 4,
-      "independentCycles": 27
+      "walkableCells": 136,
+      "referenceInputs": 87,
+      "starPairs": 3,
+      "gateProofs": [
+        {
+          "socketId": "SW20_socket_1",
+          "position": [
+            10,
+            14
+          ],
+          "gates": [
+            "bubble 3",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW20_socket_2",
+          "position": [
+            14,
+            4
+          ],
+          "gates": [
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW20_socket_3",
+          "position": [
+            6,
+            19
+          ],
+          "gates": [
+            "bubble 2"
+          ]
+        }
+      ]
     }
-  ],
-  "sourceVisualReference": "ANIMOL_Starway_20_Maps (1).pdf",
-  "sourceRules": "SOURCE_DEVICE_RULES.md",
-  "win": "3 bubbles and exit; no extra device goals",
-  "sourceRulesNotAdopted": [
-    "Strict immediate failure",
-    "fixed move limit",
-    "mandatory matching goals",
-    "50/80/120 difficulty targets"
-  ],
-  "earlyGameplayFields": [
-    "themeId",
-    "size",
-    "walkableCells",
-    "regionCells",
-    "blockedCells",
-    "start",
-    "exit",
-    "bubbles",
-    "targetBubbles",
-    "costLimit",
-    "goals",
-    "devices",
-    "ranchV13Art",
-    "ranchSluiceDesign",
-    "water"
-  ],
-  "earlyGameplaySHA256": {
-    "SW01": "e28d171c5ba169cd18dcd873290810f5635b28b549e241d8bdd45bc50bf12615",
-    "SW02": "02ba66730f0538dffe46cb81a53990fa222e75306d299ef8742dff08fac689d7",
-    "SW03": "eba6d67dfaafa03c91abbce387750a85c9b739112b2fba5b6fe05f9ee7d8aa00",
-    "SW04": "188f32985976a6810ac4b90e635db21e8d571eb2e63bb5b271ddc765631ad6db",
-    "SW05": "58c046376cee37e492adda88b072aae7c5a4c23431c3acb0b8a89301f223b529",
-    "SW06": "3ebc5e1ee450c1cab65fb889063de3f11a1d2e241bde42f96a06d3e74892b5e3",
-    "SW07": "a2fb7b705b5e6544afea619ecb1f81b03882d5633eef0d1e90515aa80f232a9f",
-    "SW08": "0043b4a69775067c4c2a79df8fb4511e6c8c71c3904fefbc2291f5a280f010c2",
-    "SW09": "be2f5a4a8f9c202bbd1a3a980d4bbdca106b7d831f1e510db361aa701cf6467e",
-    "SW10": "ef119675966aff3cb8d0ac0599ae3560d1a8223a15e82034bd98bdd096b74da8"
-  },
-  "sheepRevision": {
-    "stageRange": [
-      11,
-      20
-    ],
-    "initialDistanceRange": [
-      3,
-      6
-    ],
-    "referenceTransportRange": [
-      3,
-      6
-    ],
-    "directPushMinimumDirectionChanges": 1,
-    "pairingIsExtraWinCondition": false
-  }
+  ]
 }

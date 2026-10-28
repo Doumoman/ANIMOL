@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW12",
   "index": 12,
   "title": "협곡의 왕복 수문",
@@ -230,10 +230,6 @@
     ],
     [
       6,
-      9
-    ],
-    [
-      6,
       10
     ],
     [
@@ -335,6 +331,10 @@
     [
       10,
       14
+    ],
+    [
+      10,
+      15
     ],
     [
       10,
@@ -2114,6 +2114,10 @@
     ],
     [
       6,
+      9
+    ],
+    [
+      6,
       13
     ],
     [
@@ -2247,10 +2251,6 @@
     [
       10,
       13
-    ],
-    [
-      10,
-      15
     ],
     [
       10,
@@ -2589,6 +2589,64 @@
         18
       ],
       "number": 1
+    },
+    {
+      "id": "SW12_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        10,
+        15
+      ],
+      "direction": [
+        -1,
+        0
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW12_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        8,
+        14
+      ],
+      "direction": [
+        -1,
+        0
+      ],
+      "number": 1,
+      "socketReward": "None"
+    },
+    {
+      "id": "SW12_stone_2",
+      "role": 1,
+      "variant": "",
+      "position": [
+        3,
+        14
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2
+    },
+    {
+      "id": "SW12_socket_2",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        4,
+        12
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2626,22 +2684,23 @@
   ],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 50,
-    "actualPlayerCellTransitions": 46,
-    "noStarMatchingMinInputs": 50,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 50,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       13,
       11
-    ]
+    ],
+    "referenceSuccessfulInputs": 54
   },
   "topologyMetrics": {
     "walkableCells": 157,
     "regionCells": 316,
     "wallCells": 159,
-    "junctions": 61,
-    "deadEnds": 2,
+    "junctions": 62,
+    "deadEnds": 3,
     "independentCycles": 40
   },
   "sheepPlanning": [
@@ -2683,8 +2742,8 @@
           18
         ]
       ],
-      "firstDirectPushTurn": 28,
-      "referencePrefixBeforeFirstPush": "NNNNSSSSWWEEEESSWWWWWWNNWWN",
+      "firstDirectPushTurn": 30,
+      "referencePrefixBeforeFirstPush": "NNNNSSSSWWSNEEEESSWWWWWWNNWWN",
       "firstPushChoices": [
         {
           "direction": "W",
@@ -2739,6 +2798,80 @@
           "staticDeadlock": false
         }
       ]
+    }
+  ],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW12_socket_1",
+        "position": [
+          8,
+          14
+        ],
+        "gates": [
+          "bubble 2",
+          "bubble 3",
+          "exit"
+        ]
+      },
+      {
+        "socketId": "SW12_socket_2",
+        "position": [
+          4,
+          12
+        ],
+        "gates": [
+          "exit"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      23,
+      49
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        10,
+        15
+      ],
+      "socket": [
+        8,
+        14
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "S",
+        "W",
+        "W"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 23
+    },
+    {
+      "number": 2,
+      "start": [
+        3,
+        14
+      ],
+      "socket": [
+        4,
+        12
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "E",
+        "S",
+        "S"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 49
     }
   ]
 }

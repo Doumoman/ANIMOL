@@ -2,8 +2,8 @@
   "schema": "animol.unity-replay.v1",
   "id": "SW19",
   "verificationScope": "REPORT_MODEL_ONLY",
-  "actions": "WSSENNNNSSWSWSWWSSSSWWSSSWSWSSEENNNWNEEESSSEENNNNNSSSSESSSSSSEESWWWWEN",
-  "inputCount": 70,
+  "actions": "WSWWNEEENNSSSWWSWWSSSSWWSSSWSWSSEENNNWNEEESSSEENNNNNSSSSESSSSSESESWWWWEN",
+  "inputCount": 72,
   "steps": [
     {
       "turn": 1,
@@ -82,7 +82,9 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 2,
@@ -165,23 +167,25 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 3,
-      "action": "S",
+      "action": "W",
       "playerBefore": {
         "x": 15,
         "y": 17
       },
       "playerAfter": {
-        "x": 15,
-        "y": 16
+        "x": 14,
+        "y": 17
       },
       "playerPath": [
         {
-          "x": 15,
-          "y": 16
+          "x": 14,
+          "y": 17
         }
       ],
       "chicks": [
@@ -252,23 +256,25 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 4,
-      "action": "E",
+      "action": "W",
       "playerBefore": {
-        "x": 15,
-        "y": 16
+        "x": 14,
+        "y": 17
       },
       "playerAfter": {
-        "x": 16,
-        "y": 16
+        "x": 13,
+        "y": 17
       },
       "playerPath": [
         {
-          "x": 16,
-          "y": 16
+          "x": 13,
+          "y": 17
         }
       ],
       "chicks": [
@@ -280,8 +286,8 @@
           "returned": false,
           "trail": [
             {
-              "x": 15,
-              "y": 16
+              "x": 14,
+              "y": 17
             }
           ]
         },
@@ -301,8 +307,8 @@
               "y": 17
             },
             {
-              "x": 15,
-              "y": 16
+              "x": 14,
+              "y": 17
             }
           ]
         }
@@ -339,23 +345,25 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 5,
       "action": "N",
       "playerBefore": {
-        "x": 16,
-        "y": 16
+        "x": 13,
+        "y": 17
       },
       "playerAfter": {
-        "x": 16,
-        "y": 17
+        "x": 13,
+        "y": 18
       },
       "playerPath": [
         {
-          "x": 16,
-          "y": 17
+          "x": 13,
+          "y": 18
         }
       ],
       "chicks": [
@@ -379,12 +387,12 @@
               "y": 17
             },
             {
-              "x": 15,
-              "y": 16
+              "x": 14,
+              "y": 17
             },
             {
-              "x": 16,
-              "y": 16
+              "x": 13,
+              "y": 17
             }
           ]
         }
@@ -421,14 +429,184 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 6,
-      "action": "N",
+      "action": "E",
       "playerBefore": {
-        "x": 16,
-        "y": 17
+        "x": 13,
+        "y": 18
+      },
+      "playerAfter": {
+        "x": 14,
+        "y": 18
+      },
+      "playerPath": [
+        {
+          "x": 14,
+          "y": 18
+        }
+      ],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 15,
+            "y": 17
+          },
+          "returned": false,
+          "trail": [
+            {
+              "x": 14,
+              "y": 17
+            },
+            {
+              "x": 13,
+              "y": 17
+            },
+            {
+              "x": 13,
+              "y": 18
+            }
+          ]
+        }
+      ],
+      "sheep": [
+        {
+          "exists": true,
+          "position": {
+            "x": 10,
+            "y": 8
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 5
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 10
+        },
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 7,
+      "action": "E",
+      "playerBefore": {
+        "x": 14,
+        "y": 18
+      },
+      "playerAfter": {
+        "x": 15,
+        "y": 18
+      },
+      "playerPath": [
+        {
+          "x": 15,
+          "y": 18
+        }
+      ],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 14,
+            "y": 17
+          },
+          "returned": false,
+          "trail": [
+            {
+              "x": 13,
+              "y": 17
+            },
+            {
+              "x": 13,
+              "y": 18
+            },
+            {
+              "x": 14,
+              "y": 18
+            }
+          ]
+        }
+      ],
+      "sheep": [
+        {
+          "exists": true,
+          "position": {
+            "x": 10,
+            "y": 8
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 5
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 10
+        },
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 8,
+      "action": "E",
+      "playerBefore": {
+        "x": 15,
+        "y": 18
       },
       "playerAfter": {
         "x": 16,
@@ -451,22 +629,22 @@
         },
         {
           "position": {
-            "x": 15,
+            "x": 13,
             "y": 17
           },
           "returned": false,
           "trail": [
             {
+              "x": 13,
+              "y": 18
+            },
+            {
+              "x": 14,
+              "y": 18
+            },
+            {
               "x": 15,
-              "y": 16
-            },
-            {
-              "x": 16,
-              "y": 16
-            },
-            {
-              "x": 16,
-              "y": 17
+              "y": 18
             }
           ]
         }
@@ -503,10 +681,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 7,
+      "turn": 9,
       "action": "N",
       "playerBefore": {
         "x": 16,
@@ -533,24 +713,11 @@
         },
         {
           "position": {
-            "x": 15,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 16
-            },
-            {
-              "x": 16,
-              "y": 17
-            },
-            {
-              "x": 16,
-              "y": 18
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -585,10 +752,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 0
+      "bubbleMask": 0,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 8,
+      "turn": 10,
       "action": "N",
       "playerBefore": {
         "x": 16,
@@ -615,24 +784,11 @@
         },
         {
           "position": {
-            "x": 15,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 17
-            },
-            {
-              "x": 16,
-              "y": 18
-            },
-            {
-              "x": 16,
-              "y": 19
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -667,10 +823,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 9,
+      "turn": 11,
       "action": "S",
       "playerBefore": {
         "x": 16,
@@ -697,24 +855,11 @@
         },
         {
           "position": {
-            "x": 16,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 18
-            },
-            {
-              "x": 16,
-              "y": 19
-            },
-            {
-              "x": 16,
-              "y": 20
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -749,10 +894,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 10,
+      "turn": 12,
       "action": "S",
       "playerBefore": {
         "x": 16,
@@ -779,24 +926,11 @@
         },
         {
           "position": {
-            "x": 16,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 19
-            },
-            {
-              "x": 16,
-              "y": 20
-            },
-            {
-              "x": 16,
-              "y": 19
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -831,23 +965,25 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 11,
-      "action": "W",
+      "turn": 13,
+      "action": "S",
       "playerBefore": {
         "x": 16,
         "y": 18
       },
       "playerAfter": {
-        "x": 15,
-        "y": 18
+        "x": 16,
+        "y": 17
       },
       "playerPath": [
         {
-          "x": 15,
-          "y": 18
+          "x": 16,
+          "y": 17
         }
       ],
       "chicks": [
@@ -861,24 +997,11 @@
         },
         {
           "position": {
-            "x": 16,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 20
-            },
-            {
-              "x": 16,
-              "y": 19
-            },
-            {
-              "x": 16,
-              "y": 18
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -913,14 +1036,16 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 12,
-      "action": "S",
+      "turn": 14,
+      "action": "W",
       "playerBefore": {
-        "x": 15,
-        "y": 18
+        "x": 16,
+        "y": 17
       },
       "playerAfter": {
         "x": 15,
@@ -943,24 +1068,11 @@
         },
         {
           "position": {
-            "x": 16,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 19
-            },
-            {
-              "x": 16,
-              "y": 18
-            },
-            {
-              "x": 15,
-              "y": 18
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -995,10 +1107,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 13,
+      "turn": 15,
       "action": "W",
       "playerBefore": {
         "x": 15,
@@ -1025,24 +1139,11 @@
         },
         {
           "position": {
-            "x": 16,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 16,
-              "y": 18
-            },
-            {
-              "x": 15,
-              "y": 18
-            },
-            {
-              "x": 15,
-              "y": 17
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1077,10 +1178,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 14,
+      "turn": 16,
       "action": "S",
       "playerBefore": {
         "x": 14,
@@ -1107,24 +1210,11 @@
         },
         {
           "position": {
-            "x": 16,
-            "y": 18
+            "x": 12,
+            "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 15,
-              "y": 18
-            },
-            {
-              "x": 15,
-              "y": 17
-            },
-            {
-              "x": 14,
-              "y": 17
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1159,10 +1249,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 15,
+      "turn": 17,
       "action": "W",
       "playerBefore": {
         "x": 14,
@@ -1189,24 +1281,11 @@
         },
         {
           "position": {
-            "x": 15,
-            "y": 18
+            "x": 12,
+            "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 15,
-              "y": 17
-            },
-            {
-              "x": 14,
-              "y": 17
-            },
-            {
-              "x": 14,
-              "y": 16
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1241,10 +1320,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 16,
+      "turn": 18,
       "action": "W",
       "playerBefore": {
         "x": 13,
@@ -1271,24 +1352,11 @@
         },
         {
           "position": {
-            "x": 15,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 14,
-              "y": 17
-            },
-            {
-              "x": 14,
-              "y": 16
-            },
-            {
-              "x": 13,
-              "y": 16
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1323,10 +1391,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 17,
+      "turn": 19,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -1353,24 +1423,11 @@
         },
         {
           "position": {
-            "x": 14,
+            "x": 12,
             "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 14,
-              "y": 16
-            },
-            {
-              "x": 13,
-              "y": 16
-            },
-            {
-              "x": 12,
-              "y": 16
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1405,10 +1462,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 18,
+      "turn": 20,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -1435,24 +1494,11 @@
         },
         {
           "position": {
-            "x": 14,
-            "y": 16
+            "x": 12,
+            "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 13,
-              "y": 16
-            },
-            {
-              "x": 12,
-              "y": 16
-            },
-            {
-              "x": 12,
-              "y": 15
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1487,10 +1533,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 19,
+      "turn": 21,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -1517,24 +1565,11 @@
         },
         {
           "position": {
-            "x": 13,
-            "y": 16
+            "x": 12,
+            "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 12,
-              "y": 16
-            },
-            {
-              "x": 12,
-              "y": 15
-            },
-            {
-              "x": 12,
-              "y": 14
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1569,10 +1604,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 20,
+      "turn": 22,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -1600,23 +1637,10 @@
         {
           "position": {
             "x": 12,
-            "y": 16
+            "y": 17
           },
-          "returned": false,
-          "trail": [
-            {
-              "x": 12,
-              "y": 15
-            },
-            {
-              "x": 12,
-              "y": 14
-            },
-            {
-              "x": 12,
-              "y": 13
-            }
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -1651,10 +1675,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 21,
+      "turn": 23,
       "action": "W",
       "playerBefore": {
         "x": 12,
@@ -1720,10 +1746,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 22,
+      "turn": 24,
       "action": "W",
       "playerBefore": {
         "x": 11,
@@ -1789,10 +1817,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 23,
+      "turn": 25,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -1858,10 +1888,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 24,
+      "turn": 26,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -1927,10 +1959,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 25,
+      "turn": 27,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -1996,10 +2030,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 26,
+      "turn": 28,
       "action": "W",
       "playerBefore": {
         "x": 10,
@@ -2065,10 +2101,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 27,
+      "turn": 29,
       "action": "S",
       "playerBefore": {
         "x": 9,
@@ -2134,10 +2172,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 28,
+      "turn": 30,
       "action": "W",
       "playerBefore": {
         "x": 9,
@@ -2203,10 +2243,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 29,
+      "turn": 31,
       "action": "S",
       "playerBefore": {
         "x": 8,
@@ -2272,10 +2314,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 30,
+      "turn": 32,
       "action": "S",
       "playerBefore": {
         "x": 8,
@@ -2341,10 +2385,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 31,
+      "turn": 33,
       "action": "E",
       "playerBefore": {
         "x": 8,
@@ -2410,10 +2456,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 32,
+      "turn": 34,
       "action": "E",
       "playerBefore": {
         "x": 9,
@@ -2479,146 +2527,152 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
-    },
-    {
-      "turn": 33,
-      "action": "N",
-      "playerBefore": {
-        "x": 10,
-        "y": 6
-      },
-      "playerAfter": {
-        "x": 10,
-        "y": 7
-      },
-      "playerPath": [
-        {
-          "x": 10,
-          "y": 7
-        }
-      ],
-      "chicks": [
-        {
-          "position": {
-            "x": 15,
-            "y": 16
-          },
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": {
-            "x": 12,
-            "y": 17
-          },
-          "returned": true,
-          "trail": []
-        }
-      ],
-      "sheep": [
-        {
-          "exists": true,
-          "position": {
-            "x": 10,
-            "y": 8
-          }
-        },
-        {
-          "exists": true,
-          "position": {
-            "x": 13,
-            "y": 5
-          }
-        }
-      ],
-      "remainingGrass": [
-        {
-          "x": 12,
-          "y": 10
-        },
-        {
-          "x": 12,
-          "y": 2
-        }
-      ],
-      "wetA": [
-        false,
-        false
-      ],
-      "windPhases": [],
-      "activeSocketMask": 0,
-      "bubbleMask": 1
-    },
-    {
-      "turn": 34,
-      "action": "N",
-      "playerBefore": {
-        "x": 10,
-        "y": 7
-      },
-      "playerAfter": {
-        "x": 10,
-        "y": 7
-      },
-      "playerPath": [],
-      "chicks": [
-        {
-          "position": {
-            "x": 15,
-            "y": 16
-          },
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": {
-            "x": 12,
-            "y": 17
-          },
-          "returned": true,
-          "trail": []
-        }
-      ],
-      "sheep": [
-        {
-          "exists": true,
-          "position": {
-            "x": 10,
-            "y": 9
-          }
-        },
-        {
-          "exists": true,
-          "position": {
-            "x": 13,
-            "y": 5
-          }
-        }
-      ],
-      "remainingGrass": [
-        {
-          "x": 12,
-          "y": 10
-        },
-        {
-          "x": 12,
-          "y": 2
-        }
-      ],
-      "wetA": [
-        false,
-        false
-      ],
-      "windPhases": [],
-      "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 35,
       "action": "N",
       "playerBefore": {
         "x": 10,
+        "y": 6
+      },
+      "playerAfter": {
+        "x": 10,
+        "y": 7
+      },
+      "playerPath": [
+        {
+          "x": 10,
+          "y": 7
+        }
+      ],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 12,
+            "y": 17
+          },
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        {
+          "exists": true,
+          "position": {
+            "x": 10,
+            "y": 8
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 5
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 10
+        },
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 36,
+      "action": "N",
+      "playerBefore": {
+        "x": 10,
+        "y": 7
+      },
+      "playerAfter": {
+        "x": 10,
+        "y": 7
+      },
+      "playerPath": [],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 12,
+            "y": 17
+          },
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        {
+          "exists": true,
+          "position": {
+            "x": 10,
+            "y": 9
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 5
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 10
+        },
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 37,
+      "action": "N",
+      "playerBefore": {
+        "x": 10,
         "y": 7
       },
       "playerAfter": {
@@ -2681,10 +2735,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 36,
+      "turn": 38,
       "action": "W",
       "playerBefore": {
         "x": 10,
@@ -2750,10 +2806,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 37,
+      "turn": 39,
       "action": "N",
       "playerBefore": {
         "x": 9,
@@ -2819,10 +2877,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 38,
+      "turn": 40,
       "action": "E",
       "playerBefore": {
         "x": 9,
@@ -2883,10 +2943,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 39,
+      "turn": 41,
       "action": "E",
       "playerBefore": {
         "x": 9,
@@ -2952,10 +3014,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 40,
+      "turn": 42,
       "action": "E",
       "playerBefore": {
         "x": 10,
@@ -3016,10 +3080,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 41,
+      "turn": 43,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -3085,10 +3151,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 42,
+      "turn": 44,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -3154,10 +3222,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 43,
+      "turn": 45,
       "action": "S",
       "playerBefore": {
         "x": 10,
@@ -3223,10 +3293,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 44,
+      "turn": 46,
       "action": "E",
       "playerBefore": {
         "x": 10,
@@ -3292,10 +3364,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 45,
+      "turn": 47,
       "action": "E",
       "playerBefore": {
         "x": 11,
@@ -3361,10 +3435,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 46,
+      "turn": 48,
       "action": "N",
       "playerBefore": {
         "x": 12,
@@ -3430,10 +3506,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 47,
+      "turn": 49,
       "action": "N",
       "playerBefore": {
         "x": 12,
@@ -3499,10 +3577,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 48,
+      "turn": 50,
       "action": "N",
       "playerBefore": {
         "x": 12,
@@ -3559,10 +3639,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 49,
+      "turn": 51,
       "action": "N",
       "playerBefore": {
         "x": 12,
@@ -3624,10 +3706,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 1
+      "bubbleMask": 1,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 50,
+      "turn": 52,
       "action": "N",
       "playerBefore": {
         "x": 12,
@@ -3689,10 +3773,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 51,
+      "turn": 53,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -3754,10 +3840,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 52,
+      "turn": 54,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -3819,10 +3907,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 53,
+      "turn": 55,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -3884,10 +3974,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 54,
+      "turn": 56,
       "action": "S",
       "playerBefore": {
         "x": 12,
@@ -3949,10 +4041,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 55,
+      "turn": 57,
       "action": "E",
       "playerBefore": {
         "x": 12,
@@ -4014,10 +4108,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 56,
+      "turn": 58,
       "action": "S",
       "playerBefore": {
         "x": 13,
@@ -4074,10 +4170,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 57,
+      "turn": 59,
       "action": "S",
       "playerBefore": {
         "x": 13,
@@ -4139,10 +4237,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 58,
+      "turn": 60,
       "action": "S",
       "playerBefore": {
         "x": 13,
@@ -4199,10 +4299,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 59,
+      "turn": 61,
       "action": "S",
       "playerBefore": {
         "x": 13,
@@ -4264,10 +4366,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 60,
+      "turn": 62,
       "action": "S",
       "playerBefore": {
         "x": 13,
@@ -4324,142 +4428,148 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
-    },
-    {
-      "turn": 61,
-      "action": "S",
-      "playerBefore": {
-        "x": 13,
-        "y": 4
-      },
-      "playerAfter": {
-        "x": 13,
-        "y": 3
-      },
-      "playerPath": [
-        {
-          "x": 13,
-          "y": 3
-        }
-      ],
-      "chicks": [
-        {
-          "position": {
-            "x": 15,
-            "y": 16
-          },
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": {
-            "x": 12,
-            "y": 17
-          },
-          "returned": true,
-          "trail": []
-        }
-      ],
-      "sheep": [
-        {
-          "exists": false,
-          "position": {
-            "x": 0,
-            "y": 0
-          }
-        },
-        {
-          "exists": true,
-          "position": {
-            "x": 13,
-            "y": 2
-          }
-        }
-      ],
-      "remainingGrass": [
-        {
-          "x": 12,
-          "y": 2
-        }
-      ],
-      "wetA": [
-        false,
-        false
-      ],
-      "windPhases": [],
-      "activeSocketMask": 0,
-      "bubbleMask": 5
-    },
-    {
-      "turn": 62,
-      "action": "E",
-      "playerBefore": {
-        "x": 13,
-        "y": 3
-      },
-      "playerAfter": {
-        "x": 14,
-        "y": 3
-      },
-      "playerPath": [
-        {
-          "x": 14,
-          "y": 3
-        }
-      ],
-      "chicks": [
-        {
-          "position": {
-            "x": 15,
-            "y": 16
-          },
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": {
-            "x": 12,
-            "y": 17
-          },
-          "returned": true,
-          "trail": []
-        }
-      ],
-      "sheep": [
-        {
-          "exists": false,
-          "position": {
-            "x": 0,
-            "y": 0
-          }
-        },
-        {
-          "exists": true,
-          "position": {
-            "x": 13,
-            "y": 2
-          }
-        }
-      ],
-      "remainingGrass": [
-        {
-          "x": 12,
-          "y": 2
-        }
-      ],
-      "wetA": [
-        false,
-        false
-      ],
-      "windPhases": [],
-      "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
       "turn": 63,
       "action": "E",
       "playerBefore": {
+        "x": 13,
+        "y": 4
+      },
+      "playerAfter": {
+        "x": 14,
+        "y": 4
+      },
+      "playerPath": [
+        {
+          "x": 14,
+          "y": 4
+        }
+      ],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 12,
+            "y": 17
+          },
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        {
+          "exists": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 2
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 64,
+      "action": "S",
+      "playerBefore": {
+        "x": 14,
+        "y": 4
+      },
+      "playerAfter": {
+        "x": 14,
+        "y": 3
+      },
+      "playerPath": [
+        {
+          "x": 14,
+          "y": 3
+        }
+      ],
+      "chicks": [
+        {
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": {
+            "x": 12,
+            "y": 17
+          },
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        {
+          "exists": false,
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "exists": true,
+          "position": {
+            "x": 13,
+            "y": 2
+          }
+        }
+      ],
+      "remainingGrass": [
+        {
+          "x": 12,
+          "y": 2
+        }
+      ],
+      "wetA": [
+        false,
+        false
+      ],
+      "windPhases": [],
+      "activeSocketMask": 0,
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
+    },
+    {
+      "turn": 65,
+      "action": "E",
+      "playerBefore": {
         "x": 14,
         "y": 3
       },
@@ -4519,10 +4629,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 64,
+      "turn": 66,
       "action": "S",
       "playerBefore": {
         "x": 15,
@@ -4584,10 +4696,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 65,
+      "turn": 67,
       "action": "W",
       "playerBefore": {
         "x": 15,
@@ -4649,10 +4763,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 66,
+      "turn": 68,
       "action": "W",
       "playerBefore": {
         "x": 14,
@@ -4704,10 +4820,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 67,
+      "turn": 69,
       "action": "W",
       "playerBefore": {
         "x": 14,
@@ -4764,10 +4882,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 5
+      "bubbleMask": 5,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 68,
+      "turn": 70,
       "action": "W",
       "playerBefore": {
         "x": 13,
@@ -4824,10 +4944,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 7
+      "bubbleMask": 7,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 69,
+      "turn": 71,
       "action": "E",
       "playerBefore": {
         "x": 12,
@@ -4884,10 +5006,12 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 7
+      "bubbleMask": 7,
+      "activeSocketIds": [],
+      "exitVisible": true
     },
     {
-      "turn": 70,
+      "turn": 72,
       "action": "N",
       "playerBefore": {
         "x": 13,
@@ -4944,7 +5068,9 @@
       ],
       "windPhases": [],
       "activeSocketMask": 0,
-      "bubbleMask": 7
+      "bubbleMask": 7,
+      "activeSocketIds": [],
+      "exitVisible": true
     }
   ]
 }

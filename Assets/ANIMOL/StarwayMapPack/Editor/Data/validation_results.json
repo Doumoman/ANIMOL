@@ -1,5 +1,5 @@
 {
-  "status": "PASS_REPORT_MODEL_ONLY",
+  "status": "PASS_REPORT_MODEL_VARIED_WIND_AND_STARS",
   "unityRuntimeVerified": false,
   "levelCount": 20,
   "difficultyCounts": {
@@ -7,454 +7,669 @@
     "2": 5,
     "3": 5
   },
-  "distinctUpToRotationAndReflection": true,
-  "earlyMapsUnchanged": true,
-  "lateSheepCount": 17,
-  "lateSheepInitialAndTransportRange": [
-    3,
-    6
+  "starStages": [
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    16,
+    20
   ],
+  "windStages": [
+    "SW06",
+    "SW10",
+    "SW14",
+    "SW15",
+    "SW18",
+    "SW20"
+  ],
+  "lateSheepCount": 17,
+  "windSummary": {
+    "SW06": {
+      "phaseToggles": 2,
+      "playerWindTurns": [
+        30
+      ],
+      "playerWindCells": 4,
+      "bubblesCollectedOnWind": 1,
+      "reflectedPlayerSteps": 0,
+      "brakeArrivals": 1
+    },
+    "SW10": {
+      "phaseToggles": 3,
+      "playerWindTurns": [
+        25,
+        41
+      ],
+      "playerWindCells": 9,
+      "bubblesCollectedOnWind": 1,
+      "reflectedPlayerSteps": 0,
+      "brakeArrivals": 1
+    },
+    "SW14": {
+      "phaseToggles": 3,
+      "playerWindTurns": [
+        48
+      ],
+      "playerWindCells": 8,
+      "bubblesCollectedOnWind": 0,
+      "reflectedPlayerSteps": 1,
+      "brakeArrivals": 0
+    },
+    "SW15": {
+      "phaseToggles": 2,
+      "playerWindTurns": [
+        47
+      ],
+      "playerWindCells": 3,
+      "bubblesCollectedOnWind": 1,
+      "reflectedPlayerSteps": 1,
+      "brakeArrivals": 1
+    },
+    "SW18": {
+      "phaseToggles": 3,
+      "playerWindTurns": [
+        65,
+        72
+      ],
+      "playerWindCells": 10,
+      "bubblesCollectedOnWind": 1,
+      "reflectedPlayerSteps": 1,
+      "brakeArrivals": 1
+    },
+    "SW20": {
+      "phaseToggles": 3,
+      "playerWindTurns": [
+        77
+      ],
+      "playerWindCells": 8,
+      "bubblesCollectedOnWind": 0,
+      "reflectedPlayerSteps": 1,
+      "brakeArrivals": 1
+    }
+  },
+  "starTransport": {
+    "SW04": [
+      {
+        "number": 1,
+        "start": [
+          12,
+          3
+        ],
+        "socket": [
+          14,
+          4
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "N",
+          "E",
+          "E"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 31
+      }
+    ],
+    "SW07": [
+      {
+        "number": 1,
+        "start": [
+          8,
+          5
+        ],
+        "socket": [
+          10,
+          6
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "N",
+          "E",
+          "E"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 30
+      }
+    ],
+    "SW08": [
+      {
+        "number": 1,
+        "start": [
+          5,
+          12
+        ],
+        "socket": [
+          7,
+          10
+        ],
+        "manhattan": 4,
+        "axisChangeForced": true,
+        "pushCount": 4,
+        "directions": [
+          "S",
+          "S",
+          "E",
+          "E"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 16
+      }
+    ],
+    "SW09": [
+      {
+        "number": 1,
+        "start": [
+          13,
+          16
+        ],
+        "socket": [
+          12,
+          14
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "W",
+          "S",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 35
+      }
+    ],
+    "SW11": [
+      {
+        "number": 1,
+        "start": [
+          9,
+          17
+        ],
+        "socket": [
+          8,
+          15
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "W",
+          "S",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 26
+      }
+    ],
+    "SW12": [
+      {
+        "number": 1,
+        "start": [
+          10,
+          15
+        ],
+        "socket": [
+          8,
+          14
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "S",
+          "W",
+          "W"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 23
+      },
+      {
+        "number": 2,
+        "start": [
+          3,
+          14
+        ],
+        "socket": [
+          4,
+          12
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "E",
+          "S",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 49
+      }
+    ],
+    "SW16": [
+      {
+        "number": 1,
+        "start": [
+          12,
+          9
+        ],
+        "socket": [
+          14,
+          8
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "E",
+          "E",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 53
+      },
+      {
+        "number": 2,
+        "start": [
+          15,
+          6
+        ],
+        "socket": [
+          13,
+          4
+        ],
+        "manhattan": 4,
+        "axisChangeForced": true,
+        "pushCount": 4,
+        "directions": [
+          "W",
+          "W",
+          "S",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 70
+      }
+    ],
+    "SW20": [
+      {
+        "number": 1,
+        "start": [
+          7,
+          16
+        ],
+        "socket": [
+          10,
+          14
+        ],
+        "manhattan": 5,
+        "axisChangeForced": true,
+        "pushCount": 5,
+        "directions": [
+          "S",
+          "E",
+          "S",
+          "E",
+          "E"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 49
+      },
+      {
+        "number": 2,
+        "start": [
+          12,
+          6
+        ],
+        "socket": [
+          14,
+          4
+        ],
+        "manhattan": 4,
+        "axisChangeForced": true,
+        "pushCount": 4,
+        "directions": [
+          "E",
+          "E",
+          "S",
+          "S"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 84
+      },
+      {
+        "number": 3,
+        "start": [
+          5,
+          17
+        ],
+        "socket": [
+          6,
+          19
+        ],
+        "manhattan": 3,
+        "axisChangeForced": true,
+        "pushCount": 3,
+        "directions": [
+          "E",
+          "N",
+          "N"
+        ],
+        "uniqueDirections": 2,
+        "matchTurn": 12
+      }
+    ]
+  },
+  "sw18Sw20Variation": {
+    "walkableJaccard": 0.35714285714285715,
+    "commonWalkableCells": 75,
+    "identicalWindDevices": [],
+    "sharedCompleteWindSequence": false,
+    "SW18WindDeviceCount": 3,
+    "SW20WindDeviceCount": 3,
+    "sameExit": false,
+    "commonBubblePositions": 0
+  },
   "levels": [
     {
       "id": "SW01",
       "difficulty": 1,
-      "size": [
-        18,
-        20
-      ],
-      "walkable": 129,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 28,
-      "rejectedInputCases": 48,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 32,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW02",
       "difficulty": 1,
-      "size": [
-        18,
-        20
-      ],
-      "walkable": 129,
-      "minInputs": 30,
-      "noStarMinInputs": 30,
-      "states": 24,
-      "rejectedInputCases": 46,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 30,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW03",
       "difficulty": 1,
-      "size": [
-        18,
-        20
-      ],
-      "walkable": 144,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 33,
-      "rejectedInputCases": 51,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 32,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW04",
       "difficulty": 1,
-      "size": [
-        18,
-        20
+      "referenceSuccessfulInputs": 39,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW04_socket_1",
+          "position": [
+            14,
+            4
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
       ],
-      "walkable": 127,
-      "minInputs": 31,
-      "noStarMinInputs": 31,
-      "states": 27,
-      "rejectedInputCases": 44,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW05",
       "difficulty": 1,
-      "size": [
-        18,
-        20
-      ],
-      "walkable": 111,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 29,
-      "rejectedInputCases": 44,
-      "waterPairsUsed": 1,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 32,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW06",
       "difficulty": 1,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 120,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 90,
-      "rejectedInputCases": 54,
-      "waterPairsUsed": 0,
-      "windTurns": 2,
-      "directSheepPushes": 0,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 33,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW07",
       "difficulty": 1,
-      "size": [
-        18,
-        20
+      "referenceSuccessfulInputs": 37,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW07_socket_1",
+          "position": [
+            10,
+            6
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
       ],
-      "walkable": 143,
-      "minInputs": 31,
-      "noStarMinInputs": 31,
-      "states": 27,
-      "rejectedInputCases": 48,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW08",
       "difficulty": 1,
-      "size": [
-        18,
-        20
+      "referenceSuccessfulInputs": 38,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW08_socket_1",
+          "position": [
+            7,
+            10
+          ],
+          "gates": [
+            "bubble 2",
+            "bubble 3",
+            "exit"
+          ]
+        }
       ],
-      "walkable": 143,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 42,
-      "rejectedInputCases": 53,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW09",
       "difficulty": 1,
-      "size": [
-        18,
-        20
+      "referenceSuccessfulInputs": 44,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW09_socket_1",
+          "position": [
+            12,
+            14
+          ],
+          "gates": [
+            "bubble 3"
+          ]
+        }
       ],
-      "walkable": 161,
-      "minInputs": 30,
-      "noStarMinInputs": 30,
-      "states": 26,
-      "rejectedInputCases": 38,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW10",
       "difficulty": 1,
-      "size": [
-        18,
-        20
-      ],
-      "walkable": 138,
-      "minInputs": 32,
-      "noStarMinInputs": 32,
-      "states": 61,
-      "rejectedInputCases": 46,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 1,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [],
-      "sheepDirectionChanges": []
+      "referenceSuccessfulInputs": 41,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW11",
       "difficulty": 2,
-      "size": [
-        18,
-        22
+      "referenceSuccessfulInputs": 54,
+      "starPairs": 1,
+      "gateProofs": [
+        {
+          "socketId": "SW11_socket_1",
+          "position": [
+            8,
+            15
+          ],
+          "gates": [
+            "bubble 2",
+            "exit"
+          ]
+        }
       ],
-      "walkable": 133,
-      "minInputs": 52,
-      "noStarMinInputs": 52,
-      "states": 2086,
-      "rejectedInputCases": 60,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 6,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        3,
-        3
-      ],
-      "sheepDirectionChanges": [
-        2,
-        1
-      ]
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW12",
       "difficulty": 2,
-      "size": [
-        18,
-        22
+      "referenceSuccessfulInputs": 54,
+      "starPairs": 2,
+      "gateProofs": [
+        {
+          "socketId": "SW12_socket_1",
+          "position": [
+            8,
+            14
+          ],
+          "gates": [
+            "bubble 2",
+            "bubble 3",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW12_socket_2",
+          "position": [
+            4,
+            12
+          ],
+          "gates": [
+            "exit"
+          ]
+        }
       ],
-      "walkable": 157,
-      "minInputs": 50,
-      "noStarMinInputs": 50,
-      "states": 94,
-      "rejectedInputCases": 68,
-      "waterPairsUsed": 1,
-      "windTurns": 0,
-      "directSheepPushes": 4,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        4
-      ],
-      "sheepDirectionChanges": [
-        1
-      ]
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW13",
       "difficulty": 2,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 152,
-      "minInputs": 49,
-      "noStarMinInputs": 49,
-      "states": 350,
-      "rejectedInputCases": 53,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 4,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        4
-      ],
-      "sheepDirectionChanges": [
-        1
-      ]
+      "referenceSuccessfulInputs": 49,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW14",
       "difficulty": 2,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 107,
-      "minInputs": 52,
-      "noStarMinInputs": 52,
-      "states": 66,
-      "rejectedInputCases": 84,
-      "waterPairsUsed": 0,
-      "windTurns": 3,
-      "directSheepPushes": 0,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        5
-      ],
-      "sheepDirectionChanges": [
-        1
-      ]
+      "referenceSuccessfulInputs": 54,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW15",
       "difficulty": 2,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 136,
-      "minInputs": 48,
-      "noStarMinInputs": 48,
-      "states": 193,
-      "rejectedInputCases": 65,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 7,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        4,
-        3
-      ],
-      "sheepDirectionChanges": [
-        1,
-        1
-      ]
+      "referenceSuccessfulInputs": 47,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW16",
       "difficulty": 3,
-      "size": [
-        18,
-        22
+      "referenceSuccessfulInputs": 87,
+      "starPairs": 2,
+      "gateProofs": [
+        {
+          "socketId": "SW16_socket_1",
+          "position": [
+            14,
+            8
+          ],
+          "gates": [
+            "bubble 2",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW16_socket_2",
+          "position": [
+            13,
+            4
+          ],
+          "gates": [
+            "bubble 2"
+          ]
+        }
       ],
-      "walkable": 165,
-      "minInputs": 72,
-      "noStarMinInputs": 72,
-      "states": 19321,
-      "rejectedInputCases": 95,
-      "waterPairsUsed": 0,
-      "windTurns": 0,
-      "directSheepPushes": 9,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        5,
-        4
-      ],
-      "sheepDirectionChanges": [
-        2,
-        1
-      ]
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW17",
       "difficulty": 3,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 169,
-      "minInputs": 68,
-      "noStarMinInputs": 68,
-      "states": 47902,
-      "rejectedInputCases": 84,
-      "waterPairsUsed": 1,
-      "windTurns": 0,
-      "directSheepPushes": 11,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        6,
-        5
-      ],
-      "sheepDirectionChanges": [
-        1,
-        1
-      ]
+      "referenceSuccessfulInputs": 68,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW18",
       "difficulty": 3,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 142,
-      "minInputs": 71,
-      "noStarMinInputs": 71,
-      "states": 156,
-      "rejectedInputCases": 104,
-      "waterPairsUsed": 0,
-      "windTurns": 3,
-      "directSheepPushes": 4,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        5,
-        4
-      ],
-      "sheepDirectionChanges": [
-        1,
-        1
-      ]
+      "referenceSuccessfulInputs": 84,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW19",
       "difficulty": 3,
-      "size": [
-        18,
-        22
-      ],
-      "walkable": 136,
-      "minInputs": 70,
-      "noStarMinInputs": 70,
-      "states": 70339,
-      "rejectedInputCases": 85,
-      "waterPairsUsed": 2,
-      "windTurns": 0,
-      "directSheepPushes": 8,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        4,
-        4
-      ],
-      "sheepDirectionChanges": [
-        2,
-        1
-      ]
+      "referenceSuccessfulInputs": 72,
+      "starPairs": 0,
+      "gateProofs": [],
+      "unityRuntimeVerified": false
     },
     {
       "id": "SW20",
       "difficulty": 3,
-      "size": [
-        18,
-        22
+      "referenceSuccessfulInputs": 87,
+      "starPairs": 3,
+      "gateProofs": [
+        {
+          "socketId": "SW20_socket_1",
+          "position": [
+            10,
+            14
+          ],
+          "gates": [
+            "bubble 3",
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW20_socket_2",
+          "position": [
+            14,
+            4
+          ],
+          "gates": [
+            "exit"
+          ]
+        },
+        {
+          "socketId": "SW20_socket_3",
+          "position": [
+            6,
+            19
+          ],
+          "gates": [
+            "bubble 2"
+          ]
+        }
       ],
-      "walkable": 130,
-      "minInputs": 69,
-      "noStarMinInputs": 69,
-      "states": 10854,
-      "rejectedInputCases": 97,
-      "waterPairsUsed": 0,
-      "windTurns": 3,
-      "directSheepPushes": 4,
-      "status": "PASS_REPORT_MODEL",
-      "sheepDistances": [
-        5,
-        4
-      ],
-      "sheepDirectionChanges": [
-        1,
-        1
-      ]
+      "unityRuntimeVerified": false
     }
-  ],
-  "pendingUnityChecks": [
-    "Chick blocked-trail consumption policy",
-    "Full PuzzleDeviceSession movement/automatic priority ordering",
-    "Actual V13 sluice family adapter",
-    "Whole-state Undo/Reset and actual Cost values",
-    "Rewarded-ad and current-state hint integration"
   ]
 }

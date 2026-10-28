@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW20",
   "index": 20,
   "title": "별가지의 마지막 귀환",
@@ -78,6 +78,10 @@
     ],
     [
       3,
+      11
+    ],
+    [
+      3,
       12
     ],
     [
@@ -150,6 +154,10 @@
     ],
     [
       5,
+      17
+    ],
+    [
+      5,
       18
     ],
     [
@@ -167,6 +175,10 @@
     [
       6,
       12
+    ],
+    [
+      6,
+      15
     ],
     [
       6,
@@ -202,6 +214,14 @@
     ],
     [
       7,
+      14
+    ],
+    [
+      7,
+      15
+    ],
+    [
+      7,
       16
     ],
     [
@@ -211,10 +231,6 @@
     [
       7,
       18
-    ],
-    [
-      7,
-      20
     ],
     [
       8,
@@ -422,6 +438,10 @@
     ],
     [
       13,
+      7
+    ],
+    [
+      13,
       10
     ],
     [
@@ -459,6 +479,10 @@
     [
       14,
       6
+    ],
+    [
+      14,
+      7
     ],
     [
       14,
@@ -1826,10 +1850,6 @@
     ],
     [
       3,
-      11
-    ],
-    [
-      3,
       13
     ],
     [
@@ -1899,10 +1919,6 @@
     [
       5,
       15
-    ],
-    [
-      5,
-      17
     ],
     [
       5,
@@ -1935,10 +1951,6 @@
     [
       6,
       13
-    ],
-    [
-      6,
-      15
     ],
     [
       6,
@@ -1974,15 +1986,11 @@
     ],
     [
       7,
-      14
-    ],
-    [
-      7,
-      15
-    ],
-    [
-      7,
       19
+    ],
+    [
+      7,
+      20
     ],
     [
       7,
@@ -2182,10 +2190,6 @@
     ],
     [
       13,
-      7
-    ],
-    [
-      13,
       9
     ],
     [
@@ -2215,10 +2219,6 @@
     [
       14,
       1
-    ],
-    [
-      14,
-      7
     ],
     [
       14,
@@ -2417,35 +2417,6 @@
       "number": 3
     },
     {
-      "id": "SW20_stone_1",
-      "role": 1,
-      "variant": "",
-      "position": [
-        12,
-        16
-      ],
-      "direction": [
-        1,
-        0
-      ],
-      "number": 1
-    },
-    {
-      "id": "SW20_socket_1",
-      "role": 1,
-      "variant": "socket",
-      "position": [
-        13,
-        16
-      ],
-      "direction": [
-        1,
-        0
-      ],
-      "number": 1,
-      "socketReward": "None"
-    },
-    {
       "id": "SW20_wind_1",
       "role": 20,
       "variant": "blower",
@@ -2485,6 +2456,93 @@
         1,
         0
       ]
+    },
+    {
+      "id": "SW20_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        7,
+        16
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW20_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        10,
+        14
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1,
+      "socketReward": "None"
+    },
+    {
+      "id": "SW20_stone_2",
+      "role": 1,
+      "variant": "",
+      "position": [
+        12,
+        6
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2
+    },
+    {
+      "id": "SW20_socket_2",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        14,
+        4
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2,
+      "socketReward": "None"
+    },
+    {
+      "id": "SW20_stone_3",
+      "role": 1,
+      "variant": "",
+      "position": [
+        5,
+        17
+      ],
+      "direction": [
+        0,
+        1
+      ],
+      "number": 3
+    },
+    {
+      "id": "SW20_socket_3",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        6,
+        19
+      ],
+      "direction": [
+        0,
+        1
+      ],
+      "number": 3,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2524,23 +2582,24 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 69,
-    "actualPlayerCellTransitions": 70,
-    "noStarMatchingMinInputs": 69,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 88,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       13,
       19
-    ]
+    ],
+    "referenceSuccessfulInputs": 87
   },
   "topologyMetrics": {
-    "walkableCells": 130,
+    "walkableCells": 136,
     "regionCells": 292,
-    "wallCells": 162,
-    "junctions": 43,
-    "deadEnds": 4,
-    "independentCycles": 27
+    "wallCells": 156,
+    "junctions": 56,
+    "deadEnds": 5,
+    "independentCycles": 36
   },
   "sheepPlanning": [
     {
@@ -2627,9 +2686,22 @@
           20
         ]
       ],
-      "firstDirectPushTurn": 6,
-      "referencePrefixBeforeFirstPush": "EEEES",
+      "firstDirectPushTurn": 18,
+      "referencePrefixBeforeFirstPush": "WWSSEENESENNEEESW",
       "firstPushChoices": [
+        {
+          "direction": "E",
+          "walk": "EWNWWS",
+          "pushPosition": [
+            6,
+            17
+          ],
+          "leadsTo": [
+            8,
+            17
+          ],
+          "staticDeadlock": false
+        },
         {
           "direction": "W",
           "walk": "",
@@ -2642,47 +2714,178 @@
             17
           ],
           "staticDeadlock": false
-        },
-        {
-          "direction": "N",
-          "walk": "NSSW",
-          "pushPosition": [
-            7,
-            16
-          ],
-          "leadsTo": [
-            7,
-            18
-          ],
-          "staticDeadlock": false
-        },
-        {
-          "direction": "S",
-          "walk": "NNESWW",
-          "pushPosition": [
-            7,
-            18
-          ],
-          "leadsTo": [
-            7,
-            16
-          ],
-          "staticDeadlock": false
-        },
-        {
-          "direction": "E",
-          "walk": "NSSWWN",
-          "pushPosition": [
-            6,
-            17
-          ],
-          "leadsTo": [
-            8,
-            17
-          ],
-          "staticDeadlock": false
         }
       ]
     }
-  ]
+  ],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW20_socket_1",
+        "position": [
+          10,
+          14
+        ],
+        "gates": [
+          "bubble 3",
+          "exit"
+        ]
+      },
+      {
+        "socketId": "SW20_socket_2",
+        "position": [
+          14,
+          4
+        ],
+        "gates": [
+          "exit"
+        ]
+      },
+      {
+        "socketId": "SW20_socket_3",
+        "position": [
+          6,
+          19
+        ],
+        "gates": [
+          "bubble 2"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      49,
+      84,
+      12
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        7,
+        16
+      ],
+      "socket": [
+        10,
+        14
+      ],
+      "manhattan": 5,
+      "axisChangeForced": true,
+      "pushCount": 5,
+      "directions": [
+        "S",
+        "E",
+        "S",
+        "E",
+        "E"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 49
+    },
+    {
+      "number": 2,
+      "start": [
+        12,
+        6
+      ],
+      "socket": [
+        14,
+        4
+      ],
+      "manhattan": 4,
+      "axisChangeForced": true,
+      "pushCount": 4,
+      "directions": [
+        "E",
+        "E",
+        "S",
+        "S"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 84
+    },
+    {
+      "number": 3,
+      "start": [
+        5,
+        17
+      ],
+      "socket": [
+        6,
+        19
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "E",
+        "N",
+        "N"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 12
+    }
+  ],
+  "windPlanning": {
+    "referenceRides": [
+      {
+        "turn": 77,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          5,
+          3
+        ],
+        "landing": [
+          10,
+          6
+        ],
+        "path": [
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            10,
+            5
+          ],
+          [
+            10,
+            6
+          ]
+        ],
+        "cells": 8,
+        "reflected": true,
+        "brakeLanding": true,
+        "newBubbleArrivals": 0
+      }
+    ],
+    "phaseToggles": 3,
+    "sheepWindCells": 5,
+    "scope": "REPORT_MODEL_WITNESS_ONLY"
+  }
 }

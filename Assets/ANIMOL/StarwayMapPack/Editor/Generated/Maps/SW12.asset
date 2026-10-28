@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SW12
   m_EditorClassIdentifier: ANIMOL.StarwayMaps.Editor::ANIMOL.StarwayMaps.Editor.StarwayMapSource
   input:
-    schema: animol.unity-map-input.v1
-    designVersion: 3
-    sourceSha256: b3c09a2d1b037905c7b7c1e3b860481c3cb8b44050d9bbb5b5f240c64fa67fe1
-    solutionSha256: a02cb03bafb340d96839909e6c514192bf6f1b434652405f60404681db3dd5e9
-    verificationScope: REPORT_MODEL_ONLY
-    referenceSuccessfulInputs: 50
-    referenceActions: NNNNSSSSWWEEEESSWWWWWWNNWWNWWWWWWSWNNNEESSSSSSEESS
-    noStarMatchingActions: NNNNSSSSWWEEEESSWWWWWWNNWWNWWWWWWSWNNNEESSSSSSEESS
+    schema: animol.unity-map-input.v3
+    designVersion: 7
+    sourceSha256: 696ed21708111184119a8420474d70859013b3f0ab31aa14206510a1f19cf100
+    solutionSha256: 6532bdb3cdaf864b1e4f787cd3994ba09f94816fd4f8f2403e18ce35a2820201
+    verificationScope: REPORT_MODEL_PHYSICAL_GATES
+    referenceSuccessfulInputs: 54
+    referenceActions: NNNNSSSSWWSNEEEESSWWWWWWNNWWNWWWWWSWWNNNSSSSENESSSEESS
+    noStarMatchingActions: 
     map:
       id: SW12
       index: 12
@@ -143,8 +143,6 @@ MonoBehaviour:
       - x: 6
         y: 8
       - x: 6
-        y: 9
-      - x: 6
         y: 10
       - x: 6
         y: 11
@@ -196,6 +194,8 @@ MonoBehaviour:
         y: 8
       - x: 10
         y: 14
+      - x: 10
+        y: 15
       - x: 10
         y: 16
       - x: 11
@@ -1085,6 +1085,8 @@ MonoBehaviour:
       - x: 6
         y: 7
       - x: 6
+        y: 9
+      - x: 6
         y: 13
       - x: 6
         y: 21
@@ -1152,8 +1154,6 @@ MonoBehaviour:
         y: 9
       - x: 10
         y: 13
-      - x: 10
-        y: 15
       - x: 10
         y: 17
       - x: 11
@@ -1332,6 +1332,66 @@ MonoBehaviour:
         number: 1
         orientation: 0
         socketReward: 
+      - id: SW12_stone_1
+        role: 1
+        variant: 
+        position:
+          x: 10
+          y: 15
+        direction:
+          x: -1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: 
+      - id: SW12_socket_1
+        role: 1
+        variant: socket
+        position:
+          x: 8
+          y: 14
+        direction:
+          x: -1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: None
+      - id: SW12_stone_2
+        role: 1
+        variant: 
+        position:
+          x: 3
+          y: 14
+        direction:
+          x: 0
+          y: -1
+        target:
+          x: 0
+          y: 0
+        number: 2
+        orientation: 0
+        socketReward: 
+      - id: SW12_socket_2
+        role: 1
+        variant: socket
+        position:
+          x: 4
+          y: 12
+        direction:
+          x: 0
+          y: -1
+        target:
+          x: 0
+          y: 0
+        number: 2
+        orientation: 0
+        socketReward: None
       ranchV13Art:
       - instanceId: SW12_sheep_1
         family: sheep

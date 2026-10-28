@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
-  m_Name: SW19_Scenario
+  m_Name: SW04_Scenario
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
-  title: "\uB2E4\uC12F \uC12C\uC758 \uC774\uC911 \uC218\uBB38"
+  title: "\uBAA8\uB798\uC2DC\uACC4\uC758 \uB450 \uC785\uAD6C"
   themeId: starway
-  verificationRoute: WSSENNNNSSWSWSWWSSSSWWSSSWSWSSEENNNWNEEESSSEENNNNNSSSSESSSSSSEESWWWWEN
+  verificationRoute: SWNEEEWWSSSSEESSSSEESSWSSENWNEEENNNSSEE
   beamPrefab: {fileID: 0}
   devices:
-  - id: SW19_chick_1
+  - id: SW04_chick_1
     variant: 
-    group: SW19_chick_1
+    group: SW04_chick_1
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
     initialVisual: 
     role: 24
-    position: {x: 16, y: 19}
+    position: {x: 9, y: 14}
     direction: {x: 1, y: 0}
-    target: {x: 15, y: 16}
+    target: {x: 6, y: 13}
     orientation: 0
     number: 1
     active: 0
@@ -35,27 +35,27 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW19_chick_2
+  - id: SW04_stone_1
     variant: 
-    group: SW19_chick_2
+    group: SW04_stone_1
     artTheme: starway
-    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
+    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
     initialVisual: 
-    role: 24
-    position: {x: 16, y: 17}
+    role: 1
+    position: {x: 12, y: 3}
     direction: {x: 1, y: 0}
-    target: {x: 12, y: 17}
+    target: {x: 0, y: 0}
     orientation: 0
-    number: 3
+    number: 1
     active: 0
     socketReward: 0
     socketBridgeId: 
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW19_stone_1
-    variant: 
-    group: SW19_stone_1
+  - id: SW04_socket_1
+    variant: socket
+    group: SW04_socket_1
     artTheme: starway
     visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
     initialVisual: 
@@ -71,66 +71,20 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW19_socket_1
-    variant: socket
-    group: SW19_socket_1
-    artTheme: starway
-    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
-    initialVisual: 
-    role: 1
-    position: {x: 14, y: 5}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
-    cells: []
-    blastOffsets: []
   ranchV13Art:
   - family: sheep
-    instanceId: SW19_sheep_1
-    position: {x: 10, y: 8}
-    direction: {x: 1, y: 0}
-    hasPondB: 0
-    pondB: {x: 0, y: 0}
-    rightState: 0
-  - family: sheep
-    instanceId: SW19_sheep_2
-    position: {x: 13, y: 5}
+    instanceId: SW04_sheep_1
+    position: {x: 14, y: 5}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}
     rightState: 0
   - family: tall_grass
-    instanceId: SW19_tall_grass_1
-    position: {x: 12, y: 10}
+    instanceId: SW04_tall_grass_1
+    position: {x: 14, y: 6}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}
-    rightState: 0
-  - family: tall_grass
-    instanceId: SW19_tall_grass_2
-    position: {x: 12, y: 2}
-    direction: {x: 1, y: 0}
-    hasPondB: 0
-    pondB: {x: 0, y: 0}
-    rightState: 0
-  - family: sluice
-    instanceId: SW19_sluice_1
-    position: {x: 15, y: 2}
-    direction: {x: -1, y: 0}
-    hasPondB: 1
-    pondB: {x: 14, y: 2}
-    rightState: 0
-  - family: sluice
-    instanceId: SW19_sluice_2
-    position: {x: 12, y: 7}
-    direction: {x: 0, y: 1}
-    hasPondB: 1
-    pondB: {x: 12, y: 8}
     rightState: 0
   water: []
   goals: []

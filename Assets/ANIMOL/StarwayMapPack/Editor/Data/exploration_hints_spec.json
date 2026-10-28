@@ -4,7 +4,32 @@
   "win": {
     "bubblesRequired": 3,
     "playerMustBeAtExit": true,
-    "extraDeviceGoals": []
+    "extraDeviceGoals": [],
+    "physicalSocketGates": {
+      "stageIndices": [
+        4,
+        7,
+        8,
+        9,
+        11,
+        12,
+        16,
+        20
+      ],
+      "inactiveBlocksPath": true,
+      "multiDirectionPushes": true
+    },
+    "windTraversal": {
+      "stageIndices": [
+        6,
+        10,
+        14,
+        15,
+        18,
+        20
+      ],
+      "phaseDependentPlayerRoutes": true
+    }
   },
   "movement": {
     "costLimit": 0,

@@ -1,9 +1,9 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW06",
   "index": 6,
-  "title": "쌍둥이 뜰의 바람 꼬리",
-  "shape": "쌍둥이 뜰과 꼬리",
+  "title": "바람 끝의 제동 방울",
+  "shape": "좌우뜰과 바람 제동 마당",
   "difficulty": 1,
   "difficultyName": "쉬움",
   "themeId": "starway",
@@ -2204,7 +2204,7 @@
       11
     ],
     [
-      11,
+      9,
       3
     ]
   ],
@@ -2249,8 +2249,8 @@
       "role": 19,
       "variant": "",
       "position": [
-        10,
-        4
+        9,
+        3
       ],
       "direction": [
         1,
@@ -2281,13 +2281,14 @@
   "validation": {
     "scope": "REPORT_MODEL_ONLY",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 32,
+    "minSuccessfulInputs": null,
     "actualPlayerCellTransitions": 35,
-    "noStarMatchingMinInputs": 32,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       10,
       11
-    ]
+    ],
+    "referenceSuccessfulInputs": 33
   },
   "topologyMetrics": {
     "walkableCells": 120,
@@ -2297,5 +2298,70 @@
     "deadEnds": 3,
     "independentCycles": 22
   },
-  "sheepPlanning": []
+  "sheepPlanning": [],
+  "windPlanning": {
+    "purpose": "wind carries sheep to grass, then player ride stops at brake bubble before exit",
+    "rideTurns": [
+      30
+    ],
+    "ridePhase": [
+      2
+    ],
+    "rideEnds": [
+      [
+        9,
+        3
+      ]
+    ],
+    "bubbleCollectedDuringRide": 3,
+    "brake": [
+      9,
+      3
+    ],
+    "proofScope": "REPORT_MODEL_WITNESS; STATIC_NECESSITY_NOT_CLAIMED",
+    "referenceRides": [
+      {
+        "turn": 30,
+        "blower": 1,
+        "phase": 2,
+        "start": [
+          5,
+          3
+        ],
+        "landing": [
+          9,
+          3
+        ],
+        "path": [
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "cells": 4,
+        "reflected": false,
+        "brakeLanding": true,
+        "newBubbleArrivals": 1
+      }
+    ],
+    "phaseToggles": 2,
+    "sheepWindCells": 3,
+    "scope": "REPORT_MODEL_WITNESS_ONLY"
+  }
 }

@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
-  m_Name: SW14_Scenario
+  m_Name: SW09_Scenario
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
-  title: "\uBCC4 \uBAA8\uC591 \uB730\uC758 \uAEBE\uC778 \uBC14\uB78C"
+  title: "\uB124 \uC78E \uC815\uB958\uC7A5"
   themeId: starway
-  verificationRoute: SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNENESSSS
+  verificationRoute: NWSWEEEEEENNEEEENNEENNNNNNWWSSWNWSSSEEEWWNNN
   beamPrefab: {fileID: 0}
   devices:
-  - id: SW14_chick_1
+  - id: SW09_chick_1
     variant: 
-    group: SW14_chick_1
+    group: SW09_chick_1
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
     initialVisual: 
     role: 24
-    position: {x: 15, y: 14}
+    position: {x: 3, y: 8}
     direction: {x: 1, y: 0}
-    target: {x: 11, y: 14}
+    target: {x: 5, y: 9}
     orientation: 0
     number: 1
     active: 0
@@ -35,32 +35,14 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW14_wind_1
-    variant: blower
-    group: SW14_wind_1
-    artTheme: starway
-    visualPrefab: {fileID: 4873364921097887510, guid: 63413553afa92e94f87161e27b0166bc, type: 3}
-    initialVisual: 
-    role: 20
-    position: {x: 4, y: 3}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 0
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
-    cells: []
-    blastOffsets: []
-  - id: SW14_conveyor_1
+  - id: SW09_conveyor_1
     variant: 
-    group: SW14_conveyor_1
+    group: SW09_conveyor_1
     artTheme: starway
     visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
     initialVisual: 
     role: 7
-    position: {x: 11, y: 6}
+    position: {x: 6, y: 8}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -71,14 +53,14 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW14_conveyor_2
+  - id: SW09_conveyor_2
     variant: 
-    group: SW14_conveyor_2
+    group: SW09_conveyor_2
     artTheme: starway
     visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
     initialVisual: 
     role: 7
-    position: {x: 12, y: 6}
+    position: {x: 7, y: 8}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -89,50 +71,14 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW14_conveyor_3
+  - id: SW09_brake_1
     variant: 
-    group: SW14_conveyor_3
-    artTheme: starway
-    visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
-    initialVisual: 
-    role: 7
-    position: {x: 13, y: 6}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 0
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
-    cells: []
-    blastOffsets: []
-  - id: SW14_reflector_1
-    variant: 
-    group: SW14_reflector_1
-    artTheme: starway
-    visualPrefab: {fileID: 588088442928477709, guid: 1d59528606e4df748bb4087cabe45740, type: 3}
-    initialVisual: 
-    role: 18
-    position: {x: 10, y: 3}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 2
-    number: 0
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
-    cells: []
-    blastOffsets: []
-  - id: SW14_brake_1
-    variant: 
-    group: SW14_brake_1
+    group: SW09_brake_1
     artTheme: starway
     visualPrefab: {fileID: 5164312448115599324, guid: ff5d84d2e27f5f443a5e4880cc2e6d14, type: 3}
     initialVisual: 
     role: 19
-    position: {x: 10, y: 6}
+    position: {x: 8, y: 8}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -143,18 +89,36 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW14_brake_2
+  - id: SW09_stone_1
     variant: 
-    group: SW14_brake_2
+    group: SW09_stone_1
     artTheme: starway
-    visualPrefab: {fileID: 5164312448115599324, guid: ff5d84d2e27f5f443a5e4880cc2e6d14, type: 3}
+    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
     initialVisual: 
-    role: 19
-    position: {x: 14, y: 6}
+    role: 1
+    position: {x: 13, y: 16}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
-    number: 0
+    number: 1
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW09_socket_1
+    variant: socket
+    group: SW09_socket_1
+    artTheme: starway
+    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
+    initialVisual: 
+    role: 1
+    position: {x: 12, y: 14}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
     active: 0
     socketReward: 0
     socketBridgeId: 
@@ -163,15 +127,15 @@ MonoBehaviour:
     blastOffsets: []
   ranchV13Art:
   - family: sheep
-    instanceId: SW14_sheep_1
-    position: {x: 7, y: 3}
+    instanceId: SW09_sheep_1
+    position: {x: 13, y: 14}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}
     rightState: 0
   - family: tall_grass
-    instanceId: SW14_tall_grass_1
-    position: {x: 10, y: 5}
+    instanceId: SW09_tall_grass_1
+    position: {x: 14, y: 14}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}

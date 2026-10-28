@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW11",
   "index": 11,
   "title": "대각선 날개의 급식 순서",
@@ -2162,6 +2162,35 @@
         -1,
         0
       ]
+    },
+    {
+      "id": "SW11_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        9,
+        17
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW11_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        8,
+        15
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2201,15 +2230,16 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 52,
-    "actualPlayerCellTransitions": 47,
-    "noStarMatchingMinInputs": 52,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 49,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       11,
       10
-    ]
+    ],
+    "referenceSuccessfulInputs": 54
   },
   "topologyMetrics": {
     "walkableCells": 133,
@@ -2284,19 +2314,6 @@
           "staticDeadlock": true
         },
         {
-          "direction": "E",
-          "walk": "WS",
-          "pushPosition": [
-            8,
-            16
-          ],
-          "leadsTo": [
-            10,
-            16
-          ],
-          "staticDeadlock": false
-        },
-        {
           "direction": "N",
           "walk": "ESSW",
           "pushPosition": [
@@ -2345,8 +2362,8 @@
           12
         ]
       ],
-      "firstDirectPushTurn": 41,
-      "referencePrefixBeforeFirstPush": "WWNNWSESEESSNNWWWWWNWSSWSEENESSSNWWSSSSS",
+      "firstDirectPushTurn": 43,
+      "referencePrefixBeforeFirstPush": "WWNNWSESEESSNNWWWWWNWSNWSSSENEESSSNWWSSSSS",
       "firstPushChoices": [
         {
           "direction": "W",
@@ -2375,6 +2392,47 @@
           "staticDeadlock": true
         }
       ]
+    }
+  ],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW11_socket_1",
+        "position": [
+          8,
+          15
+        ],
+        "gates": [
+          "bubble 2",
+          "exit"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      26
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        9,
+        17
+      ],
+      "socket": [
+        8,
+        15
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "W",
+        "S",
+        "S"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 26
     }
   ]
 }

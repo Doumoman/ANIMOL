@@ -11,13 +11,13 @@ namespace ANIMOL.Puzzle.Editor
 {
     public sealed class Starway20ProjectAdapter : StarwayNativeAdapter
     {
-        public const string Root = "Assets/ANIMOL/Data/Puzzle/Starway20";
+        public const string Root = "Assets/ANIMOL/Data/Puzzle/MapData/starway";
         public const string SetPath = Root + "/Starway20MapSet.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Theme.asset";
         public override string DisplayName => "ANIMOL native PuzzleMap adapter";
         public override string[] OwnedAssetRoots => new[] { Root };
         static Vector2Int Cell(StarwayCell value) => value.ToVector2Int();
-        static string MapPath(string id) => Root + "/" + id + ".asset";
+        public static string MapPath(string id) => Root + "/" + id + "_MapData.asset";
         static string ScenarioPath(string id) => Root + "/" + id + "_Scenario.asset";
         static PuzzleTheme Theme => AssetDatabase.LoadAssetAtPath<PuzzleTheme>(ThemePath);
 
@@ -59,7 +59,9 @@ namespace ANIMOL.Puzzle.Editor
 
         static void EnsureRoot()
         {
-            if (!AssetDatabase.IsValidFolder(Root)) AssetDatabase.CreateFolder("Assets/ANIMOL/Data/Puzzle", "Starway20");
+            const string parent = "Assets/ANIMOL/Data/Puzzle/MapData";
+            if (!AssetDatabase.IsValidFolder(parent)) AssetDatabase.CreateFolder("Assets/ANIMOL/Data/Puzzle", "MapData");
+            if (!AssetDatabase.IsValidFolder(Root)) AssetDatabase.CreateFolder(parent, "starway");
         }
         static T Upsert<T>(string path) where T : ScriptableObject
         {
@@ -182,7 +184,7 @@ namespace ANIMOL.Puzzle.Editor
                     set.maps[i].trace == null) errors.Add("SW map set mismatch at " + i);
         }
 
-        [MenuItem("ANIMOL/Starway 20/7 Archive Previous 1-2 to 1-21 Maps")]
+        [MenuItem("ANIMOL/Starway 20/8 Archive Previous 1-2 to 1-21 Maps")]
         public static void ArchivePreviousMaps()
         {
             var root = "Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3";

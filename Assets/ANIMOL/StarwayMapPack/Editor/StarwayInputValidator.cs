@@ -9,22 +9,19 @@ namespace ANIMOL.StarwayMaps.Editor
         {
             Require(inputs != null && inputs.Length == 20, "Expected exactly 20 maps.");
             int[] counts = new int[4];
-            int lateSheep = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
                 Validate(inputs[i], i + 1);
                 counts[inputs[i].map.difficulty]++;
-                if (i >= 10) lateSheep += inputs[i].sheepPlanning.Length;
             }
             Require(counts[1] == 10 && counts[2] == 5 && counts[3] == 5, "Difficulty split must be 10/5/5.");
-            Require(lateSheep == 17, "The v3 late stages contain 17 sheep.");
         }
 
         public static void Validate(StarwayMapInput input, int index)
         {
             string id = "SW" + index.ToString("00");
-            Require(input != null && input.schema == "animol.unity-map-input.v1", id + ": unsupported input schema.");
-            Require(input.designVersion == 3 && input.verificationScope == "REPORT_MODEL_ONLY", id + ": wrong design provenance.");
+            Require(input != null && input.schema == "animol.unity-map-input.v3", id + ": unsupported input schema.");
+            Require(input.designVersion == 7, id + ": wrong design version.");
             StarwayMapDto m = input.map;
             Require(m != null && m.id == id && m.index == index, id + ": identity/order mismatch.");
             Require(m.difficulty == (index <= 10 ? 1 : index <= 15 ? 2 : 3), id + ": wrong difficulty.");
@@ -59,7 +56,7 @@ namespace ANIMOL.StarwayMaps.Editor
                     Require((d.target.x != 0 || d.target.y != 0) && floor.Contains(d.target), id + ": missing chick nest.");
                     Require(!d.target.Equals(d.position) && nests.Add(d.target) && d.number >= 1 && d.number <= 8, id + ": invalid chick target/lag.");
                 }
-                if (d.role == 1 && d.variant == "socket") Require(d.socketReward == "None", id + ": star matching must remain optional.");
+                if (d.role == 1 && d.variant == "socket") Require(d.socketReward == "None", id + ": socket reward must not reveal a bubble.");
                 if (d.role == 20) Require(d.variant == "blower" && d.orientation >= 0 && d.orientation <= 3, id + ": invalid blower.");
             }
             List<StarwayCell> grasses = new List<StarwayCell>();
@@ -83,17 +80,46 @@ namespace ANIMOL.StarwayMaps.Editor
             foreach (StarwayCell n in nests) Require(!occupied.Contains(n) && !n.Equals(m.start), id + ": nest initially occupied.");
             foreach (StarwayPrototype d in m.devices) Require(!d.position.Equals(m.start), id + ": occupied start.");
             foreach (StarwayRanchObject d in m.ranchV13Art) Require(!d.position.Equals(m.start), id + ": occupied start.");
+            List<StarwayPrototype> stones = new List<StarwayPrototype>();
+            List<StarwayPrototype> sockets = new List<StarwayPrototype>();
+            foreach (StarwayPrototype d in m.devices) if (d.role == 1)
+            { if (d.variant == "socket") sockets.Add(d); else if (d.variant == "") stones.Add(d); else Require(false, id + ": unexpected star variant."); }
+            bool hasStars = sockets.Count > 0;
+            Require(stones.Count == sockets.Count,
+                id + ": physical star gates require one numbered stone per socket.");
+            Require(input.verificationScope == (hasStars ? "REPORT_MODEL_PHYSICAL_GATES" : "REPORT_MODEL_ONLY"),
+                id + ": wrong design provenance for the authored star devices.");
+            HashSet<int> numbers = new HashSet<int>();
+            foreach (StarwayPrototype socket in sockets)
+            {
+                Require(numbers.Add(socket.number) && socket.socketReward == "None", id + ": duplicate numbered socket.");
+                int matchingStones = 0;
+                foreach (StarwayPrototype stone in stones)
+                {
+                    if (stone.number != socket.number) continue;
+                    matchingStones++;
+                    int deltaX = Math.Abs(stone.position.x - socket.position.x);
+                    int deltaY = Math.Abs(stone.position.y - socket.position.y);
+                    Require(deltaX > 0 && deltaY > 0 && deltaX + deltaY >= 3,
+                        id + ": star " + socket.number + " must start at least three cells away on both axes combined.");
+                }
+                Require(matchingStones == 1, id + ": each socket must have one numbered stone.");
+                HashSet<StarwayCell> withoutSocket = Reachable(floor, m.start, socket.position);
+                bool gatesTarget = !withoutSocket.Contains(m.exit);
+                foreach (StarwayCell b in m.bubbles) if (!withoutSocket.Contains(b)) gatesTarget = true;
+                Require(gatesTarget, id + ": socket " + socket.id + " does not gate an exit/bubble path.");
+            }
             Require(input.camera != null && input.camera.visibleColumns == 7 && input.camera.visibleRows == 11,
                 id + ": focus must be 7 by 11 cells.");
             Require(input.camera.layoutMode == "exact_focus_fit_inside_gameplay_area" && input.camera.boundsSource == "regionCellsAABB",
                 id + ": unexpected camera layout/bounds contract.");
             Require(input.camera.clampToBounds && input.camera.centerSmallMaps && input.camera.snapOnStageLoad, id + ": camera flags changed.");
             ValidateActions(input.referenceActions, id);
-            ValidateActions(input.noStarMatchingActions, id);
+            if (!hasStars) ValidateActions(input.noStarMatchingActions, id);
+            else Require(string.IsNullOrEmpty(input.noStarMatchingActions), id + ": mandatory stars cannot have a no-match solution.");
             Require(input.referenceActions.Length == input.referenceSuccessfulInputs, id + ": reference length mismatch.");
-            int lo = index <= 10 ? 30 : index <= 15 ? 48 : 68;
-            int hi = index <= 10 ? 32 : index <= 15 ? 52 : 72;
-            Require(input.referenceSuccessfulInputs >= lo && input.referenceSuccessfulInputs <= hi, id + ": reference input budget changed.");
+            Require(input.referenceSuccessfulInputs > 0 && input.referenceSuccessfulInputs <= 160,
+                id + ": reference route must fit within the overall 160-input review ceiling.");
             Require(input.sheepPlanning != null, id + ": null sheep proof.");
             if (index >= 11)
             {
@@ -126,6 +152,20 @@ namespace ANIMOL.StarwayMaps.Editor
             Require(list != null, label + ": null array.");
             HashSet<StarwayCell> set = new HashSet<StarwayCell>(list);
             Require(set.Count == list.Length, label + ": duplicate cell."); return set;
+        }
+        private static HashSet<StarwayCell> Reachable(HashSet<StarwayCell> floor, StarwayCell start, StarwayCell blocked)
+        {
+            HashSet<StarwayCell> seen = new HashSet<StarwayCell> { start };
+            Queue<StarwayCell> todo = new Queue<StarwayCell>(); todo.Enqueue(start);
+            while (todo.Count > 0)
+            {
+                StarwayCell c = todo.Dequeue();
+                StarwayCell[] neighbors = { new StarwayCell(c.x+1,c.y), new StarwayCell(c.x-1,c.y),
+                    new StarwayCell(c.x,c.y+1), new StarwayCell(c.x,c.y-1) };
+                foreach (StarwayCell n in neighbors)
+                    if (!n.Equals(blocked) && floor.Contains(n) && seen.Add(n)) todo.Enqueue(n);
+            }
+            return seen;
         }
         private static void AddId(HashSet<string> ids, string value, string label)
         { Require(!string.IsNullOrEmpty(value) && ids.Add(value), label + ": missing/duplicate instance ID."); }

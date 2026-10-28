@@ -4,7 +4,7 @@ namespace ANIMOL.StarwayMaps.Editor
 {
     public sealed class StarwayMapCatalog : ScriptableObject
     {
-        public int designVersion = 3;
+        public int designVersion = 7;
         public StarwayMapSource[] maps;
     }
 }

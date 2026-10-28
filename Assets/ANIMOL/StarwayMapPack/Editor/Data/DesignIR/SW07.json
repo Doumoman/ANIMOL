@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW07",
   "index": 7,
   "title": "말굽 정원 돌아오기",
@@ -2370,6 +2370,35 @@
         0,
         -1
       ]
+    },
+    {
+      "id": "SW07_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        8,
+        5
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW07_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        10,
+        6
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2393,15 +2422,16 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 31,
-    "actualPlayerCellTransitions": 31,
-    "noStarMatchingMinInputs": 31,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 37,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       10,
       15
-    ]
+    ],
+    "referenceSuccessfulInputs": 37
   },
   "topologyMetrics": {
     "walkableCells": 143,
@@ -2411,5 +2441,45 @@
     "deadEnds": 3,
     "independentCycles": 34
   },
-  "sheepPlanning": []
+  "sheepPlanning": [],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW07_socket_1",
+        "position": [
+          10,
+          6
+        ],
+        "gates": [
+          "bubble 3"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      30
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        8,
+        5
+      ],
+      "socket": [
+        10,
+        6
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "N",
+        "E",
+        "E"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 30
+    }
+  ]
 }

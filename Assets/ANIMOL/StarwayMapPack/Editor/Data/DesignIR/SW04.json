@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW04",
   "index": 4,
   "title": "모래시계의 두 입구",
@@ -334,6 +334,10 @@
     ],
     [
       11,
+      3
+    ],
+    [
+      11,
       4
     ],
     [
@@ -355,6 +359,10 @@
     [
       12,
       2
+    ],
+    [
+      12,
+      3
     ],
     [
       12,
@@ -1930,10 +1938,6 @@
     ],
     [
       11,
-      3
-    ],
-    [
-      11,
       5
     ],
     [
@@ -1979,10 +1983,6 @@
     [
       12,
       1
-    ],
-    [
-      12,
-      3
     ],
     [
       12,
@@ -2197,6 +2197,35 @@
         13
       ],
       "number": 1
+    },
+    {
+      "id": "SW04_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        12,
+        3
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW04_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        14,
+        4
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "number": 1,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2220,23 +2249,64 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 31,
-    "actualPlayerCellTransitions": 30,
-    "noStarMatchingMinInputs": 31,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 38,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       10,
-      11
-    ]
+      13
+    ],
+    "referenceSuccessfulInputs": 39
   },
   "topologyMetrics": {
-    "walkableCells": 127,
+    "walkableCells": 129,
     "regionCells": 267,
-    "wallCells": 140,
-    "junctions": 42,
+    "wallCells": 138,
+    "junctions": 48,
     "deadEnds": 4,
-    "independentCycles": 24
+    "independentCycles": 28
   },
-  "sheepPlanning": []
+  "sheepPlanning": [],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW04_socket_1",
+        "position": [
+          14,
+          4
+        ],
+        "gates": [
+          "bubble 3"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      31
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        12,
+        3
+      ],
+      "socket": [
+        14,
+        4
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "N",
+        "E",
+        "E"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 31
+    }
+  ]
 }

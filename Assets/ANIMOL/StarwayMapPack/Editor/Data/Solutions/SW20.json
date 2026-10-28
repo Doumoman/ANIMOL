@@ -1,23 +1,24 @@
 {
   "id": "SW20",
-  "actions": "EEEESWWSWNNNNNNNSSWWNNSSSSEEEEEESSSSWWSSWWWWWWSSSSSSSSEENNNENEEEESSSS",
-  "inputCount": 69,
-  "noStarMatchingActions": "EEEESWWSWNNNNNNNSSWWNNSSSSEEEEEESSSSWWSSWWWWWWSSSSSSSSEENNNENEEEESSSS",
+  "actions": "WWSSEENESENNEEESWWWSWNNNNWWNNSSEENNNSSSSSENESWSEEESSWWSSWWWWWWSSSSSSSSEENNNENEEENESSSSS",
+  "inputCount": 87,
+  "noStarMatchingActions": null,
+  "noStarMatchingInputs": null,
   "trace": [
     {
       "turn": 1,
-      "action": "E",
+      "action": "W",
       "playerBefore": [
         4,
         18
       ],
       "playerAfter": [
-        5,
+        3,
         18
       ],
       "playerPath": [
         [
-          5,
+          3,
           18
         ]
       ],
@@ -74,6 +75,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -81,18 +84,18 @@
     },
     {
       "turn": 2,
-      "action": "E",
+      "action": "W",
       "playerBefore": [
-        5,
+        3,
         18
       ],
       "playerAfter": [
-        6,
+        2,
         18
       ],
       "playerPath": [
         [
-          6,
+          2,
           18
         ]
       ],
@@ -105,7 +108,7 @@
           "returned": false,
           "trail": [
             [
-              5,
+              3,
               18
             ]
           ]
@@ -122,7 +125,7 @@
               18
             ],
             [
-              5,
+              3,
               18
             ]
           ]
@@ -153,6 +156,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -160,31 +165,31 @@
     },
     {
       "turn": 3,
-      "action": "E",
+      "action": "S",
       "playerBefore": [
-        6,
+        2,
         18
       ],
       "playerAfter": [
-        7,
-        18
+        2,
+        17
       ],
       "playerPath": [
         [
-          7,
-          18
+          2,
+          17
         ]
       ],
       "chicks": [
         {
           "position": [
-            5,
+            3,
             18
           ],
           "returned": false,
           "trail": [
             [
-              6,
+              2,
               18
             ]
           ]
@@ -201,11 +206,11 @@
               18
             ],
             [
-              5,
+              3,
               18
             ],
             [
-              6,
+              2,
               18
             ]
           ]
@@ -236,6 +241,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -243,32 +250,32 @@
     },
     {
       "turn": 4,
-      "action": "E",
+      "action": "S",
       "playerBefore": [
-        7,
-        18
+        2,
+        17
       ],
       "playerAfter": [
-        8,
-        18
+        2,
+        16
       ],
       "playerPath": [
         [
-          8,
-          18
+          2,
+          16
         ]
       ],
       "chicks": [
         {
           "position": [
-            6,
+            2,
             18
           ],
           "returned": false,
           "trail": [
             [
-              7,
-              18
+              2,
+              17
             ]
           ]
         },
@@ -280,16 +287,16 @@
           "returned": false,
           "trail": [
             [
-              5,
+              3,
               18
             ],
             [
-              6,
+              2,
               18
             ],
             [
-              7,
-              18
+              2,
+              17
             ]
           ]
         }
@@ -319,6 +326,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -326,53 +335,53 @@
     },
     {
       "turn": 5,
-      "action": "S",
+      "action": "E",
       "playerBefore": [
-        8,
-        18
+        2,
+        16
       ],
       "playerAfter": [
-        8,
-        17
+        3,
+        16
       ],
       "playerPath": [
         [
-          8,
-          17
+          3,
+          16
         ]
       ],
       "chicks": [
         {
           "position": [
-            7,
-            18
+            2,
+            17
           ],
           "returned": false,
           "trail": [
             [
-              8,
-              18
+              2,
+              16
             ]
           ]
         },
         {
           "position": [
-            5,
+            3,
             18
           ],
           "returned": false,
           "trail": [
             [
-              6,
+              2,
               18
             ],
             [
-              7,
-              18
+              2,
+              17
             ],
             [
-              8,
-              18
+              2,
+              16
             ]
           ]
         }
@@ -402,6 +411,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -409,48 +420,53 @@
     },
     {
       "turn": 6,
-      "action": "W",
+      "action": "E",
       "playerBefore": [
-        8,
-        17
+        3,
+        16
       ],
       "playerAfter": [
-        8,
-        17
+        4,
+        16
       ],
-      "playerPath": [],
+      "playerPath": [
+        [
+          4,
+          16
+        ]
+      ],
       "chicks": [
         {
           "position": [
-            7,
-            18
+            2,
+            16
           ],
           "returned": false,
           "trail": [
             [
-              8,
-              18
+              3,
+              16
             ]
           ]
         },
         {
           "position": [
-            5,
+            2,
             18
           ],
           "returned": false,
           "trail": [
             [
-              6,
-              18
+              2,
+              17
             ],
             [
-              7,
-              18
+              2,
+              16
             ],
             [
-              8,
-              18
+              3,
+              16
             ]
           ]
         }
@@ -461,7 +477,7 @@
           3
         ],
         [
-          6,
+          7,
           17
         ]
       ],
@@ -480,6 +496,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -487,53 +505,53 @@
     },
     {
       "turn": 7,
-      "action": "W",
+      "action": "N",
       "playerBefore": [
-        8,
-        17
+        4,
+        16
       ],
       "playerAfter": [
-        7,
+        4,
         17
       ],
       "playerPath": [
         [
-          7,
+          4,
           17
         ]
       ],
       "chicks": [
         {
           "position": [
-            8,
-            18
+            3,
+            16
           ],
           "returned": false,
           "trail": [
             [
-              8,
-              17
+              4,
+              16
             ]
           ]
         },
         {
           "position": [
-            6,
-            18
+            2,
+            17
           ],
           "returned": false,
           "trail": [
             [
-              7,
-              18
+              2,
+              16
             ],
             [
-              8,
-              18
+              3,
+              16
             ],
             [
-              8,
-              17
+              4,
+              16
             ]
           ]
         }
@@ -544,7 +562,7 @@
           3
         ],
         [
-          6,
+          7,
           17
         ]
       ],
@@ -563,6 +581,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -570,47 +590,52 @@
     },
     {
       "turn": 8,
-      "action": "S",
+      "action": "E",
       "playerBefore": [
-        7,
+        4,
         17
       ],
       "playerAfter": [
-        7,
-        16
+        5,
+        17
       ],
       "playerPath": [
         [
-          7,
-          16
+          5,
+          17
         ]
       ],
       "chicks": [
         {
           "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            7,
-            18
+            4,
+            16
           ],
           "returned": false,
           "trail": [
             [
-              8,
-              18
-            ],
-            [
-              8,
+              4,
               17
+            ]
+          ]
+        },
+        {
+          "position": [
+            2,
+            16
+          ],
+          "returned": false,
+          "trail": [
+            [
+              3,
+              16
             ],
             [
-              7,
+              4,
+              16
+            ],
+            [
+              4,
               17
             ]
           ]
@@ -622,7 +647,7 @@
           3
         ],
         [
-          6,
+          7,
           17
         ]
       ],
@@ -641,57 +666,62 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
-      "returnedChicks": [
-        1
-      ],
+      "returnedChicks": [],
       "consumedSheep": []
     },
     {
       "turn": 9,
-      "action": "W",
+      "action": "S",
       "playerBefore": [
-        7,
-        16
+        5,
+        17
       ],
       "playerAfter": [
-        6,
+        5,
         16
       ],
       "playerPath": [
         [
-          6,
+          5,
           16
         ]
       ],
       "chicks": [
         {
           "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            8,
-            18
+            4,
+            17
           ],
           "returned": false,
           "trail": [
             [
-              8,
+              5,
               17
-            ],
+            ]
+          ]
+        },
+        {
+          "position": [
+            3,
+            16
+          ],
+          "returned": false,
+          "trail": [
             [
-              7,
-              17
-            ],
-            [
-              7,
+              4,
               16
+            ],
+            [
+              4,
+              17
+            ],
+            [
+              5,
+              17
             ]
           ]
         }
@@ -702,7 +732,7 @@
           3
         ],
         [
-          6,
+          7,
           17
         ]
       ],
@@ -721,6 +751,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -728,42 +760,52 @@
     },
     {
       "turn": 10,
-      "action": "N",
+      "action": "E",
       "playerBefore": [
-        6,
+        5,
         16
       ],
       "playerAfter": [
         6,
         16
       ],
-      "playerPath": [],
+      "playerPath": [
+        [
+          6,
+          16
+        ]
+      ],
       "chicks": [
         {
           "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            8,
-            18
+            5,
+            17
           ],
           "returned": false,
           "trail": [
             [
-              8,
+              5,
+              16
+            ]
+          ]
+        },
+        {
+          "position": [
+            4,
+            16
+          ],
+          "returned": false,
+          "trail": [
+            [
+              4,
               17
             ],
             [
-              7,
+              5,
               17
             ],
             [
-              7,
+              5,
               16
             ]
           ]
@@ -775,8 +817,8 @@
           3
         ],
         [
-          6,
-          18
+          7,
+          17
         ]
       ],
       "remainingGrass": [
@@ -794,6 +836,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -819,25 +863,30 @@
       "chicks": [
         {
           "position": [
-            8,
-            19
+            5,
+            16
           ],
-          "returned": true,
-          "trail": []
+          "returned": false,
+          "trail": [
+            [
+              6,
+              16
+            ]
+          ]
         },
         {
           "position": [
-            8,
+            4,
             17
           ],
           "returned": false,
           "trail": [
             [
-              7,
+              5,
               17
             ],
             [
-              7,
+              5,
               16
             ],
             [
@@ -853,8 +902,8 @@
           3
         ],
         [
-          6,
-          18
+          7,
+          17
         ]
       ],
       "remainingGrass": [
@@ -872,6 +921,8 @@
         0
       ],
       "activeSockets": 0,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -886,36 +937,46 @@
       ],
       "playerAfter": [
         6,
-        17
+        18
       ],
-      "playerPath": [],
+      "playerPath": [
+        [
+          6,
+          18
+        ]
+      ],
       "chicks": [
         {
           "position": [
-            8,
-            19
+            6,
+            16
           ],
-          "returned": true,
-          "trail": []
+          "returned": false,
+          "trail": [
+            [
+              6,
+              17
+            ]
+          ]
         },
         {
           "position": [
-            8,
+            5,
             17
           ],
           "returned": false,
           "trail": [
             [
-              7,
-              17
-            ],
-            [
-              7,
+              5,
               16
             ],
             [
               6,
               16
+            ],
+            [
+              6,
+              17
             ]
           ]
         }
@@ -926,8 +987,8 @@
           3
         ],
         [
-          6,
-          19
+          7,
+          17
         ]
       ],
       "remainingGrass": [
@@ -944,7 +1005,11 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [
+        3
+      ],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -952,41 +1017,42 @@
     },
     {
       "turn": 13,
-      "action": "N",
+      "action": "E",
       "playerBefore": [
         6,
-        17
+        18
       ],
       "playerAfter": [
-        6,
+        7,
         18
       ],
       "playerPath": [
         [
-          6,
+          7,
           18
         ]
       ],
       "chicks": [
         {
           "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            7,
+            6,
             17
           ],
           "returned": false,
           "trail": [
             [
-              7,
-              16
-            ],
+              6,
+              18
+            ]
+          ]
+        },
+        {
+          "position": [
+            5,
+            16
+          ],
+          "returned": false,
+          "trail": [
             [
               6,
               16
@@ -994,6 +1060,10 @@
             [
               6,
               17
+            ],
+            [
+              6,
+              18
             ]
           ]
         }
@@ -1004,8 +1074,8 @@
           3
         ],
         [
-          6,
-          19
+          7,
+          17
         ]
       ],
       "remainingGrass": [
@@ -1022,7 +1092,9 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -1030,115 +1102,52 @@
     },
     {
       "turn": 14,
-      "action": "N",
+      "action": "E",
       "playerBefore": [
-        6,
+        7,
         18
       ],
       "playerAfter": [
-        6,
+        8,
         18
       ],
-      "playerPath": [],
+      "playerPath": [
+        [
+          8,
+          18
+        ]
+      ],
       "chicks": [
         {
           "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            7,
-            17
+            6,
+            18
           ],
           "returned": false,
           "trail": [
             [
               7,
-              16
-            ],
-            [
-              6,
-              16
-            ],
-            [
-              6,
-              17
+              18
             ]
           ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 0,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": [
-        2
-      ]
-    },
-    {
-      "turn": 15,
-      "action": "N",
-      "playerBefore": [
-        6,
-        18
-      ],
-      "playerAfter": [
-        6,
-        19
-      ],
-      "playerPath": [
-        [
-          6,
-          19
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
         },
         {
           "position": [
-            7,
+            6,
             16
           ],
           "returned": false,
           "trail": [
             [
               6,
-              16
-            ],
-            [
-              6,
               17
             ],
             [
               6,
+              18
+            ],
+            [
+              7,
               18
             ]
           ]
@@ -1149,19 +1158,113 @@
           7,
           3
         ],
-        null
+        [
+          7,
+          17
+        ]
       ],
       "remainingGrass": [
         [
           10,
           5
+        ],
+        [
+          6,
+          20
         ]
       ],
       "wetA": [],
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 15,
+      "action": "E",
+      "playerBefore": [
+        8,
+        18
+      ],
+      "playerAfter": [
+        9,
+        18
+      ],
+      "playerPath": [
+        [
+          9,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            7,
+            18
+          ],
+          "returned": false,
+          "trail": [
+            [
+              8,
+              18
+            ]
+          ]
+        },
+        {
+          "position": [
+            6,
+            17
+          ],
+          "returned": false,
+          "trail": [
+            [
+              6,
+              18
+            ],
+            [
+              7,
+              18
+            ],
+            [
+              8,
+              18
+            ]
+          ]
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          17
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
@@ -1169,48 +1272,53 @@
     },
     {
       "turn": 16,
-      "action": "N",
+      "action": "S",
       "playerBefore": [
-        6,
-        19
+        9,
+        18
       ],
       "playerAfter": [
-        6,
-        20
+        9,
+        17
       ],
       "playerPath": [
         [
-          6,
-          20
+          9,
+          17
         ]
       ],
       "chicks": [
         {
           "position": [
             8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            16
+            18
           ],
           "returned": false,
           "trail": [
             [
-              6,
-              17
-            ],
+              9,
+              18
+            ]
+          ]
+        },
+        {
+          "position": [
+            6,
+            18
+          ],
+          "returned": false,
+          "trail": [
             [
-              6,
+              7,
               18
             ],
             [
-              6,
-              19
+              8,
+              18
+            ],
+            [
+              9,
+              18
             ]
           ]
         }
@@ -1220,610 +1328,47 @@
           7,
           3
         ],
-        null
+        [
+          7,
+          17
+        ]
       ],
       "remainingGrass": [
         [
           10,
           5
+        ],
+        [
+          6,
+          20
         ]
       ],
       "wetA": [],
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [
-        2
-      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
       "turn": 17,
-      "action": "S",
-      "playerBefore": [
-        6,
-        20
-      ],
-      "playerAfter": [
-        6,
-        19
-      ],
-      "playerPath": [
-        [
-          6,
-          19
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            17
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              18
-            ],
-            [
-              6,
-              19
-            ],
-            [
-              6,
-              20
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 18,
-      "action": "S",
-      "playerBefore": [
-        6,
-        19
-      ],
-      "playerAfter": [
-        6,
-        18
-      ],
-      "playerPath": [
-        [
-          6,
-          18
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            17
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              19
-            ],
-            [
-              6,
-              20
-            ],
-            [
-              6,
-              19
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 19,
       "action": "W",
       "playerBefore": [
-        6,
-        18
+        9,
+        17
       ],
       "playerAfter": [
-        5,
-        18
-      ],
-      "playerPath": [
-        [
-          5,
-          18
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            17
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              20
-            ],
-            [
-              6,
-              19
-            ],
-            [
-              6,
-              18
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 20,
-      "action": "W",
-      "playerBefore": [
-        5,
-        18
-      ],
-      "playerAfter": [
-        4,
-        18
-      ],
-      "playerPath": [
-        [
-          4,
-          18
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            17
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              19
-            ],
-            [
-              6,
-              18
-            ],
-            [
-              5,
-              18
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 21,
-      "action": "N",
-      "playerBefore": [
-        4,
-        18
-      ],
-      "playerAfter": [
-        4,
-        19
-      ],
-      "playerPath": [
-        [
-          4,
-          19
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            17
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              18
-            ],
-            [
-              5,
-              18
-            ],
-            [
-              4,
-              18
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 2,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 22,
-      "action": "N",
-      "playerBefore": [
-        4,
-        19
-      ],
-      "playerAfter": [
-        4,
-        20
-      ],
-      "playerPath": [
-        [
-          4,
-          20
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            18
-          ],
-          "returned": false,
-          "trail": [
-            [
-              5,
-              18
-            ],
-            [
-              4,
-              18
-            ],
-            [
-              4,
-              19
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [
-        1
-      ],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 23,
-      "action": "S",
-      "playerBefore": [
-        4,
-        20
-      ],
-      "playerAfter": [
-        4,
-        19
-      ],
-      "playerPath": [
-        [
-          4,
-          19
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            5,
-            18
-          ],
-          "returned": false,
-          "trail": [
-            [
-              4,
-              18
-            ],
-            [
-              4,
-              19
-            ],
-            [
-              4,
-              20
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 24,
-      "action": "S",
-      "playerBefore": [
-        4,
-        19
-      ],
-      "playerAfter": [
-        4,
-        18
-      ],
-      "playerPath": [
-        [
-          4,
-          18
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            5,
-            18
-          ],
-          "returned": false,
-          "trail": [
-            [
-              4,
-              19
-            ],
-            [
-              4,
-              20
-            ],
-            [
-              4,
-              19
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 25,
-      "action": "S",
-      "playerBefore": [
-        4,
-        18
-      ],
-      "playerAfter": [
-        4,
+        8,
         17
       ],
       "playerPath": [
         [
-          4,
+          8,
           17
         ]
       ],
@@ -1838,22 +1383,22 @@
         },
         {
           "position": [
-            5,
+            7,
             18
           ],
           "returned": false,
           "trail": [
             [
-              4,
-              20
-            ],
-            [
-              4,
-              19
-            ],
-            [
-              4,
+              8,
               18
+            ],
+            [
+              9,
+              18
+            ],
+            [
+              9,
+              17
             ]
           ]
         }
@@ -1863,41 +1408,47 @@
           7,
           3
         ],
-        null
+        [
+          7,
+          17
+        ]
       ],
       "remainingGrass": [
         [
           10,
           5
+        ],
+        [
+          6,
+          20
         ]
       ],
       "wetA": [],
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
       "newBubbles": [],
-      "returnedChicks": [],
+      "returnedChicks": [
+        1
+      ],
       "consumedSheep": []
     },
     {
-      "turn": 26,
-      "action": "S",
+      "turn": 18,
+      "action": "W",
       "playerBefore": [
-        4,
+        8,
         17
       ],
       "playerAfter": [
-        4,
-        16
+        8,
+        17
       ],
-      "playerPath": [
-        [
-          4,
-          16
-        ]
-      ],
+      "playerPath": [],
       "chicks": [
         {
           "position": [
@@ -1909,21 +1460,21 @@
         },
         {
           "position": [
-            5,
+            7,
             18
           ],
           "returned": false,
           "trail": [
             [
-              4,
-              19
-            ],
-            [
-              4,
+              8,
               18
             ],
             [
-              4,
+              9,
+              18
+            ],
+            [
+              9,
               17
             ]
           ]
@@ -1934,110 +1485,48 @@
           7,
           3
         ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 27,
-      "action": "E",
-      "playerBefore": [
-        4,
-        16
-      ],
-      "playerAfter": [
-        5,
-        16
-      ],
-      "playerPath": [
-        [
-          5,
-          16
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            5,
-            18
-          ],
-          "returned": false,
-          "trail": [
-            [
-              4,
-              18
-            ],
-            [
-              4,
-              17
-            ],
-            [
-              4,
-              16
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 28,
-      "action": "E",
-      "playerBefore": [
-        5,
-        16
-      ],
-      "playerAfter": [
-        6,
-        16
-      ],
-      "playerPath": [
         [
           6,
-          16
+          17
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 19,
+      "action": "W",
+      "playerBefore": [
+        8,
+        17
+      ],
+      "playerAfter": [
+        7,
+        17
+      ],
+      "playerPath": [
+        [
+          7,
+          17
         ]
       ],
       "chicks": [
@@ -2051,22 +1540,22 @@
         },
         {
           "position": [
-            4,
+            8,
             18
           ],
           "returned": false,
           "trail": [
             [
-              4,
+              9,
+              18
+            ],
+            [
+              9,
               17
             ],
             [
-              4,
-              16
-            ],
-            [
-              5,
-              16
+              8,
+              17
             ]
           ]
         }
@@ -2076,30 +1565,39 @@
           7,
           3
         ],
-        null
+        [
+          6,
+          17
+        ]
       ],
       "remainingGrass": [
         [
           10,
           5
+        ],
+        [
+          6,
+          20
         ]
       ],
       "wetA": [],
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 29,
-      "action": "E",
+      "turn": 20,
+      "action": "S",
       "playerBefore": [
-        6,
-        16
+        7,
+        17
       ],
       "playerAfter": [
         7,
@@ -2122,24 +1620,977 @@
         },
         {
           "position": [
-            4,
+            9,
+            18
+          ],
+          "returned": false,
+          "trail": [
+            [
+              9,
+              17
+            ],
+            [
+              8,
+              17
+            ],
+            [
+              7,
+              17
+            ]
+          ]
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          17
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 21,
+      "action": "W",
+      "playerBefore": [
+        7,
+        16
+      ],
+      "playerAfter": [
+        6,
+        16
+      ],
+      "playerPath": [
+        [
+          6,
+          16
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
             17
           ],
           "returned": false,
           "trail": [
             [
-              4,
-              16
+              8,
+              17
             ],
             [
-              5,
-              16
+              7,
+              17
             ],
             [
-              6,
+              7,
               16
             ]
           ]
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          17
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 22,
+      "action": "N",
+      "playerBefore": [
+        6,
+        16
+      ],
+      "playerAfter": [
+        6,
+        16
+      ],
+      "playerPath": [],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            17
+          ],
+          "returned": false,
+          "trail": [
+            [
+              8,
+              17
+            ],
+            [
+              7,
+              17
+            ],
+            [
+              7,
+              16
+            ]
+          ]
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          18
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 23,
+      "action": "N",
+      "playerBefore": [
+        6,
+        16
+      ],
+      "playerAfter": [
+        6,
+        17
+      ],
+      "playerPath": [
+        [
+          6,
+          17
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          18
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [
+        2
+      ],
+      "consumedSheep": []
+    },
+    {
+      "turn": 24,
+      "action": "N",
+      "playerBefore": [
+        6,
+        17
+      ],
+      "playerAfter": [
+        6,
+        17
+      ],
+      "playerPath": [],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 25,
+      "action": "N",
+      "playerBefore": [
+        6,
+        17
+      ],
+      "playerAfter": [
+        6,
+        18
+      ],
+      "playerPath": [
+        [
+          6,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 26,
+      "action": "W",
+      "playerBefore": [
+        6,
+        18
+      ],
+      "playerAfter": [
+        5,
+        18
+      ],
+      "playerPath": [
+        [
+          5,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 27,
+      "action": "W",
+      "playerBefore": [
+        5,
+        18
+      ],
+      "playerAfter": [
+        4,
+        18
+      ],
+      "playerPath": [
+        [
+          4,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 28,
+      "action": "N",
+      "playerBefore": [
+        4,
+        18
+      ],
+      "playerAfter": [
+        4,
+        19
+      ],
+      "playerPath": [
+        [
+          4,
+          19
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 0,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 29,
+      "action": "N",
+      "playerBefore": [
+        4,
+        19
+      ],
+      "playerAfter": [
+        4,
+        20
+      ],
+      "playerPath": [
+        [
+          4,
+          20
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [
+        1
+      ],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 30,
+      "action": "S",
+      "playerBefore": [
+        4,
+        20
+      ],
+      "playerAfter": [
+        4,
+        19
+      ],
+      "playerPath": [
+        [
+          4,
+          19
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 31,
+      "action": "S",
+      "playerBefore": [
+        4,
+        19
+      ],
+      "playerAfter": [
+        4,
+        18
+      ],
+      "playerPath": [
+        [
+          4,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 32,
+      "action": "E",
+      "playerBefore": [
+        4,
+        18
+      ],
+      "playerAfter": [
+        5,
+        18
+      ],
+      "playerPath": [
+        [
+          5,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 33,
+      "action": "E",
+      "playerBefore": [
+        5,
+        18
+      ],
+      "playerAfter": [
+        6,
+        18
+      ],
+      "playerPath": [
+        [
+          6,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        [
+          6,
+          19
+        ]
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ],
+        [
+          6,
+          20
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 34,
+      "action": "N",
+      "playerBefore": [
+        6,
+        18
+      ],
+      "playerAfter": [
+        6,
+        18
+      ],
+      "playerPath": [],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -2159,14 +2610,560 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": [
+        2
+      ]
+    },
+    {
+      "turn": 35,
+      "action": "N",
+      "playerBefore": [
+        6,
+        18
+      ],
+      "playerAfter": [
+        6,
+        19
+      ],
+      "playerPath": [
+        [
+          6,
+          19
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 1,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 36,
+      "action": "N",
+      "playerBefore": [
+        6,
+        19
+      ],
+      "playerAfter": [
+        6,
+        20
+      ],
+      "playerPath": [
+        [
+          6,
+          20
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [
+        2
+      ],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 37,
+      "action": "S",
+      "playerBefore": [
+        6,
+        20
+      ],
+      "playerAfter": [
+        6,
+        19
+      ],
+      "playerPath": [
+        [
+          6,
+          19
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 30,
+      "turn": 38,
+      "action": "S",
+      "playerBefore": [
+        6,
+        19
+      ],
+      "playerAfter": [
+        6,
+        18
+      ],
+      "playerPath": [
+        [
+          6,
+          18
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 39,
+      "action": "S",
+      "playerBefore": [
+        6,
+        18
+      ],
+      "playerAfter": [
+        6,
+        17
+      ],
+      "playerPath": [
+        [
+          6,
+          17
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 40,
+      "action": "S",
+      "playerBefore": [
+        6,
+        17
+      ],
+      "playerAfter": [
+        6,
+        16
+      ],
+      "playerPath": [
+        [
+          6,
+          16
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 41,
+      "action": "S",
+      "playerBefore": [
+        6,
+        16
+      ],
+      "playerAfter": [
+        6,
+        15
+      ],
+      "playerPath": [
+        [
+          6,
+          15
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 42,
+      "action": "E",
+      "playerBefore": [
+        6,
+        15
+      ],
+      "playerAfter": [
+        7,
+        15
+      ],
+      "playerPath": [
+        [
+          7,
+          15
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 43,
+      "action": "N",
+      "playerBefore": [
+        7,
+        15
+      ],
+      "playerAfter": [
+        7,
+        16
+      ],
+      "playerPath": [
+        [
+          7,
+          16
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 44,
       "action": "E",
       "playerBefore": [
         7,
@@ -2193,24 +3190,11 @@
         },
         {
           "position": [
-            4,
+            9,
             16
           ],
-          "returned": false,
-          "trail": [
-            [
-              5,
-              16
-            ],
-            [
-              6,
-              16
-            ],
-            [
-              7,
-              16
-            ]
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -2230,168 +3214,28 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 31,
-      "action": "E",
+      "turn": 45,
+      "action": "S",
       "playerBefore": [
         8,
         16
       ],
       "playerAfter": [
-        9,
-        16
-      ],
-      "playerPath": [
-        [
-          9,
-          16
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            5,
-            16
-          ],
-          "returned": false,
-          "trail": [
-            [
-              6,
-              16
-            ],
-            [
-              7,
-              16
-            ],
-            [
-              8,
-              16
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 32,
-      "action": "E",
-      "playerBefore": [
-        9,
-        16
-      ],
-      "playerAfter": [
-        10,
-        16
-      ],
-      "playerPath": [
-        [
-          10,
-          16
-        ]
-      ],
-      "chicks": [
-        {
-          "position": [
-            8,
-            19
-          ],
-          "returned": true,
-          "trail": []
-        },
-        {
-          "position": [
-            6,
-            16
-          ],
-          "returned": false,
-          "trail": [
-            [
-              7,
-              16
-            ],
-            [
-              8,
-              16
-            ],
-            [
-              9,
-              16
-            ]
-          ]
-        }
-      ],
-      "sheep": [
-        [
-          7,
-          3
-        ],
-        null
-      ],
-      "remainingGrass": [
-        [
-          10,
-          5
-        ]
-      ],
-      "wetA": [],
-      "windPhases": [
-        0
-      ],
-      "activeSockets": 0,
-      "bubbleMask": 3,
-      "newBubbles": [],
-      "returnedChicks": [],
-      "consumedSheep": []
-    },
-    {
-      "turn": 33,
-      "action": "S",
-      "playerBefore": [
-        10,
-        16
-      ],
-      "playerAfter": [
-        10,
+        8,
         15
       ],
       "playerPath": [
         [
-          10,
+          8,
           15
         ]
       ],
@@ -2406,24 +3250,11 @@
         },
         {
           "position": [
-            7,
+            9,
             16
           ],
-          "returned": false,
-          "trail": [
-            [
-              8,
-              16
-            ],
-            [
-              9,
-              16
-            ],
-            [
-              10,
-              16
-            ]
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -2443,18 +3274,262 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 34,
+      "turn": 46,
+      "action": "W",
+      "playerBefore": [
+        8,
+        15
+      ],
+      "playerAfter": [
+        7,
+        15
+      ],
+      "playerPath": [
+        [
+          7,
+          15
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 47,
       "action": "S",
       "playerBefore": [
-        10,
+        7,
         15
+      ],
+      "playerAfter": [
+        7,
+        14
+      ],
+      "playerPath": [
+        [
+          7,
+          14
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 48,
+      "action": "E",
+      "playerBefore": [
+        7,
+        14
+      ],
+      "playerAfter": [
+        8,
+        14
+      ],
+      "playerPath": [
+        [
+          8,
+          14
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 4,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 49,
+      "action": "E",
+      "playerBefore": [
+        8,
+        14
+      ],
+      "playerAfter": [
+        9,
+        14
+      ],
+      "playerPath": [
+        [
+          9,
+          14
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        [
+          7,
+          3
+        ],
+        null
+      ],
+      "remainingGrass": [
+        [
+          10,
+          5
+        ]
+      ],
+      "wetA": [],
+      "windPhases": [
+        0
+      ],
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [
+        1
+      ],
+      "bubbleMask": 3,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 50,
+      "action": "E",
+      "playerBefore": [
+        9,
+        14
       ],
       "playerAfter": [
         10,
@@ -2477,24 +3552,11 @@
         },
         {
           "position": [
-            8,
+            9,
             16
           ],
-          "returned": false,
-          "trail": [
-            [
-              9,
-              16
-            ],
-            [
-              10,
-              16
-            ],
-            [
-              10,
-              15
-            ]
-          ]
+          "returned": true,
+          "trail": []
         }
       ],
       "sheep": [
@@ -2514,14 +3576,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 35,
+      "turn": 51,
       "action": "S",
       "playerBefore": [
         10,
@@ -2572,16 +3636,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
-      "returnedChicks": [
-        2
-      ],
+      "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 36,
+      "turn": 52,
       "action": "S",
       "playerBefore": [
         10,
@@ -2632,14 +3696,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 37,
+      "turn": 53,
       "action": "W",
       "playerBefore": [
         10,
@@ -2690,14 +3756,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 38,
+      "turn": 54,
       "action": "W",
       "playerBefore": [
         9,
@@ -2748,14 +3816,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 39,
+      "turn": 55,
       "action": "S",
       "playerBefore": [
         8,
@@ -2806,14 +3876,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 40,
+      "turn": 56,
       "action": "S",
       "playerBefore": [
         8,
@@ -2864,14 +3936,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 41,
+      "turn": 57,
       "action": "W",
       "playerBefore": [
         8,
@@ -2922,14 +3996,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 42,
+      "turn": 58,
       "action": "W",
       "playerBefore": [
         7,
@@ -2980,14 +4056,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 43,
+      "turn": 59,
       "action": "W",
       "playerBefore": [
         6,
@@ -3038,14 +4116,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 44,
+      "turn": 60,
       "action": "W",
       "playerBefore": [
         5,
@@ -3096,14 +4176,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 45,
+      "turn": 61,
       "action": "W",
       "playerBefore": [
         4,
@@ -3154,14 +4236,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 46,
+      "turn": 62,
       "action": "W",
       "playerBefore": [
         3,
@@ -3212,14 +4296,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 47,
+      "turn": 63,
       "action": "S",
       "playerBefore": [
         2,
@@ -3270,14 +4356,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 48,
+      "turn": 64,
       "action": "S",
       "playerBefore": [
         2,
@@ -3328,14 +4416,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 49,
+      "turn": 65,
       "action": "S",
       "playerBefore": [
         2,
@@ -3386,14 +4476,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 50,
+      "turn": 66,
       "action": "S",
       "playerBefore": [
         2,
@@ -3444,14 +4536,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 51,
+      "turn": 67,
       "action": "S",
       "playerBefore": [
         2,
@@ -3502,14 +4596,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 52,
+      "turn": 68,
       "action": "S",
       "playerBefore": [
         2,
@@ -3560,14 +4656,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 53,
+      "turn": 69,
       "action": "S",
       "playerBefore": [
         2,
@@ -3618,14 +4716,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 54,
+      "turn": 70,
       "action": "S",
       "playerBefore": [
         2,
@@ -3676,14 +4776,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 55,
+      "turn": 71,
       "action": "E",
       "playerBefore": [
         2,
@@ -3734,14 +4836,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 56,
+      "turn": 72,
       "action": "E",
       "playerBefore": [
         3,
@@ -3792,14 +4896,16 @@
       "windPhases": [
         0
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 57,
+      "turn": 73,
       "action": "N",
       "playerBefore": [
         4,
@@ -3845,14 +4951,16 @@
       "windPhases": [
         1
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 58,
+      "turn": 74,
       "action": "N",
       "playerBefore": [
         4,
@@ -3898,14 +5006,16 @@
       "windPhases": [
         2
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 59,
+      "turn": 75,
       "action": "N",
       "playerBefore": [
         4,
@@ -3943,7 +5053,9 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
@@ -3952,7 +5064,7 @@
       ]
     },
     {
-      "turn": 60,
+      "turn": 76,
       "action": "E",
       "playerBefore": [
         4,
@@ -3995,14 +5107,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 61,
+      "turn": 77,
       "action": "N",
       "playerBefore": [
         5,
@@ -4077,14 +5191,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 62,
+      "turn": 78,
       "action": "E",
       "playerBefore": [
         10,
@@ -4127,14 +5243,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 63,
+      "turn": 79,
       "action": "E",
       "playerBefore": [
         11,
@@ -4177,14 +5295,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 3,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 64,
+      "turn": 80,
       "action": "E",
       "playerBefore": [
         12,
@@ -4227,7 +5347,9 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 7,
       "newBubbles": [
         3
@@ -4236,11 +5358,115 @@
       "consumedSheep": []
     },
     {
-      "turn": 65,
-      "action": "E",
+      "turn": 81,
+      "action": "N",
       "playerBefore": [
         13,
         6
+      ],
+      "playerAfter": [
+        13,
+        7
+      ],
+      "playerPath": [
+        [
+          13,
+          7
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        null,
+        null
+      ],
+      "remainingGrass": [],
+      "wetA": [],
+      "windPhases": [
+        3
+      ],
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 7,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 82,
+      "action": "E",
+      "playerBefore": [
+        13,
+        7
+      ],
+      "playerAfter": [
+        14,
+        7
+      ],
+      "playerPath": [
+        [
+          14,
+          7
+        ]
+      ],
+      "chicks": [
+        {
+          "position": [
+            8,
+            19
+          ],
+          "returned": true,
+          "trail": []
+        },
+        {
+          "position": [
+            9,
+            16
+          ],
+          "returned": true,
+          "trail": []
+        }
+      ],
+      "sheep": [
+        null,
+        null
+      ],
+      "remainingGrass": [],
+      "wetA": [],
+      "windPhases": [
+        3
+      ],
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
+      "bubbleMask": 7,
+      "newBubbles": [],
+      "returnedChicks": [],
+      "consumedSheep": []
+    },
+    {
+      "turn": 83,
+      "action": "S",
+      "playerBefore": [
+        14,
+        7
       ],
       "playerAfter": [
         14,
@@ -4279,14 +5505,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 5,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 7,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 66,
+      "turn": 84,
       "action": "S",
       "playerBefore": [
         14,
@@ -4329,14 +5557,18 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 7,
+      "exitVisible": true,
+      "newlyActivatedSockets": [
+        2
+      ],
       "bubbleMask": 7,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 67,
+      "turn": 85,
       "action": "S",
       "playerBefore": [
         14,
@@ -4379,14 +5611,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 7,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 7,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 68,
+      "turn": 86,
       "action": "S",
       "playerBefore": [
         14,
@@ -4429,14 +5663,16 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 7,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 7,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     },
     {
-      "turn": 69,
+      "turn": 87,
       "action": "S",
       "playerBefore": [
         14,
@@ -4479,11 +5715,14 @@
       "windPhases": [
         3
       ],
-      "activeSockets": 0,
+      "activeSockets": 7,
+      "exitVisible": true,
+      "newlyActivatedSockets": [],
       "bubbleMask": 7,
       "newBubbles": [],
       "returnedChicks": [],
       "consumedSheep": []
     }
-  ]
+  ],
+  "verificationScope": "REPORT_MODEL_PHYSICAL_GATES"
 }

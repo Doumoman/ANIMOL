@@ -1,9 +1,9 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW14",
   "index": 14,
-  "title": "별 모양 뜰의 꺾인 바람",
-  "shape": "별 모양과 바람 꼬리",
+  "title": "두 번 꺾이는 바람의 뜰",
+  "shape": "남-동-북으로 꺾이는 바람 꼬리",
   "difficulty": 2,
   "difficultyName": "중간",
   "themeId": "starway",
@@ -79,6 +79,10 @@
     [
       4,
       3
+    ],
+    [
+      4,
+      4
     ],
     [
       4,
@@ -1578,10 +1582,6 @@
     ],
     [
       4,
-      4
-    ],
-    [
-      4,
       11
     ],
     [
@@ -2068,11 +2068,11 @@
       "variant": "blower",
       "position": [
         4,
-        3
+        4
       ],
       "direction": [
-        1,
-        0
+        0,
+        -1
       ],
       "orientation": 0
     },
@@ -2154,6 +2154,20 @@
         1,
         0
       ]
+    },
+    {
+      "id": "SW14_reflector_2",
+      "role": 18,
+      "variant": "",
+      "position": [
+        4,
+        3
+      ],
+      "direction": [
+        1,
+        0
+      ],
+      "orientation": 3
     }
   ],
   "ranchV13Art": [
@@ -2179,20 +2193,21 @@
   "validation": {
     "scope": "REPORT_MODEL_ONLY",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 52,
-    "actualPlayerCellTransitions": 60,
-    "noStarMatchingMinInputs": 52,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 62,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       15,
       15
-    ]
+    ],
+    "referenceSuccessfulInputs": 54
   },
   "topologyMetrics": {
-    "walkableCells": 107,
+    "walkableCells": 108,
     "regionCells": 250,
-    "wallCells": 143,
-    "junctions": 29,
-    "deadEnds": 5,
+    "wallCells": 142,
+    "junctions": 30,
+    "deadEnds": 6,
     "independentCycles": 18
   },
   "sheepPlanning": [
@@ -2242,5 +2257,91 @@
       "referencePrefixBeforeFirstPush": "",
       "firstPushChoices": []
     }
-  ]
+  ],
+  "windPlanning": {
+    "purpose": "south-facing blower passes two reflectors for south-east-north player transport before conveyor chain",
+    "rideTurns": [
+      48
+    ],
+    "ridePhase": [
+      3
+    ],
+    "rideEnds": [
+      [
+        10,
+        5
+      ]
+    ],
+    "reflectors": [
+      [
+        4,
+        3
+      ],
+      [
+        10,
+        3
+      ]
+    ],
+    "proofScope": "REPORT_MODEL_WITNESS; STATIC_NECESSITY_NOT_CLAIMED",
+    "referenceRides": [
+      {
+        "turn": 48,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          4,
+          3
+        ],
+        "landing": [
+          10,
+          5
+        ],
+        "path": [
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            10,
+            5
+          ]
+        ],
+        "cells": 8,
+        "reflected": true,
+        "brakeLanding": false,
+        "newBubbleArrivals": 0
+      }
+    ],
+    "phaseToggles": 3,
+    "sheepWindCells": 5,
+    "scope": "REPORT_MODEL_WITNESS_ONLY"
+  }
 }

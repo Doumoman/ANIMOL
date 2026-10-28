@@ -27,8 +27,9 @@ namespace ANIMOL.StarwayMaps.Editor
         public StarwayCell[] remainingGrass;
         public bool[] wetA;
         public int[] windPhases;
-        public int activeSocketMask;
+        public string[] activeSocketIds; // Scales with the data; no fixed bit-count contract.
         public int bubbleMask;
+        public bool exitVisible;
     }
     [Serializable] public sealed class StarwayReplayExpectations
     {

@@ -1,12 +1,12 @@
 {
-  "schema": "animol.unity-map-input.v1",
-  "designVersion": 3,
-  "sourceSha256": "f8eb27885f4016cbdfa1cd2bd9d7e299964ea8373302ae7d5a92d2b2c5dda465",
-  "solutionSha256": "e26ae5ad1f866b368e1154893de50f642109f2ec36cb38db9c3c94b5950ccc57",
-  "verificationScope": "REPORT_MODEL_ONLY",
-  "referenceSuccessfulInputs": 72,
-  "referenceActions": "SSNSEEEEWWWWNNWWEESSEEEEEESSWSSENNWNEEEESENNNNNEESSSSSSSSEESSWWWWWWENNNE",
-  "noStarMatchingActions": "SSNSEEEEWWWWNNWWEESSEEEEEESSWSSENNWNEEEESENNNNNEESSSSSSSSEESSWWWWWWENNNE",
+  "schema": "animol.unity-map-input.v3",
+  "designVersion": 7,
+  "sourceSha256": "975323a628b8f5dde6e8f053a956ec5b7501c593d8579474486ed4e6c36c2134",
+  "solutionSha256": "3730940388c250b465ef3f07936bc1bdac828090cef48a1be9decea5321a97fc",
+  "verificationScope": "REPORT_MODEL_PHYSICAL_GATES",
+  "referenceSuccessfulInputs": 87,
+  "referenceActions": "SSEEEEWENNSSWWWWNNWWEESSEEEENEESSSWSSENNWNEEEEESEENESSSSSSNNEESSWWNWSSNEEESSWWWWWWENNNE",
+  "noStarMatchingActions": null,
   "map": {
     "id": "SW16",
     "index": 16,
@@ -467,10 +467,6 @@
       },
       {
         "x": 12,
-        "y": 2
-      },
-      {
-        "x": 12,
         "y": 3
       },
       {
@@ -520,6 +516,10 @@
       {
         "x": 13,
         "y": 7
+      },
+      {
+        "x": 13,
+        "y": 9
       },
       {
         "x": 13,
@@ -2455,6 +2455,10 @@
       },
       {
         "x": 12,
+        "y": 2
+      },
+      {
+        "x": 12,
         "y": 5
       },
       {
@@ -2484,10 +2488,6 @@
       {
         "x": 13,
         "y": 8
-      },
-      {
-        "x": 13,
-        "y": 9
       },
       {
         "x": 13,
@@ -2708,8 +2708,8 @@
         "y": 4
       },
       {
-        "x": 12,
-        "y": 12
+        "x": 13,
+        "y": 10
       }
     ],
     "targetBubbles": 3,
@@ -2755,6 +2755,86 @@
         "number": 3,
         "orientation": 0,
         "socketReward": ""
+      },
+      {
+        "id": "SW16_stone_1",
+        "role": 1,
+        "variant": "",
+        "position": {
+          "x": 12,
+          "y": 9
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 1,
+        "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW16_socket_1",
+        "role": 1,
+        "variant": "socket",
+        "position": {
+          "x": 14,
+          "y": 8
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 1,
+        "orientation": 0,
+        "socketReward": "None"
+      },
+      {
+        "id": "SW16_stone_2",
+        "role": 1,
+        "variant": "",
+        "position": {
+          "x": 15,
+          "y": 6
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 2,
+        "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW16_socket_2",
+        "role": 1,
+        "variant": "socket",
+        "position": {
+          "x": 13,
+          "y": 4
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 2,
+        "orientation": 0,
+        "socketReward": "None"
       }
     ],
     "ranchV13Art": [
@@ -2778,8 +2858,8 @@
         "instanceId": "SW16_tall_grass_1",
         "family": "tall_grass",
         "position": {
-          "x": 12,
-          "y": 12
+          "x": 13,
+          "y": 10
         }
       },
       {
@@ -2812,14 +2892,14 @@
         "y": 9
       },
       "grassPosition": {
-        "x": 12,
-        "y": 12
+        "x": 13,
+        "y": 10
       },
-      "initialManhattanDistance": 5,
-      "physicalTravel": 5,
-      "directPushInputs": 5,
+      "initialManhattanDistance": 4,
+      "physicalTravel": 4,
+      "directPushInputs": 4,
       "windTravel": 0,
-      "directionChanges": 2,
+      "directionChanges": 1,
       "positions": [
         {
           "x": 10,
@@ -2838,12 +2918,8 @@
           "y": 10
         },
         {
-          "x": 12,
-          "y": 11
-        },
-        {
-          "x": 12,
-          "y": 12
+          "x": 13,
+          "y": 10
         }
       ]
     },

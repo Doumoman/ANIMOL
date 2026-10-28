@@ -1,32 +1,60 @@
-# 별길 목장 SW01~SW20 Unity 적용 결과
+# 별길 목장 v7 Unity 적용 결과
 
-2026-10-28, Unity 6000.3.8f1. 입력은 `MCP_INBOX/ANIMOL_Starway_Unity_Integration_v1.zip`이다. 패키지의 `README_KO.md`, `Editor/Data/SOURCE_DEVICE_RULES.md`, `Documentation/ProjectAdapter.example.cs.txt`를 읽고 현재 `PuzzleMap`, `PuzzleScenario`, `PuzzleDeviceSession`, `PuzzleFollowCamera`, `StarwayV3Importer`와 맵 선택 데이터를 대조했다.
+2026-10-28 · Unity 6000.3.8f1 · 입력: `MCP_INBOX/ANIMOL_Starway_Unity_WindAndStars_v7.zip`
 
-## 적용 범위
+## 적용
 
-- 패키지의 `Assets/ANIMOL/StarwayMapPack`을 복사했다. 에디터 전용 설계 소스 20개와 `Assets/ANIMOL/Data/Puzzle/Starway20/SW01~SW20.asset`, 대응 시나리오 20개를 생성했다. `Starway20MapSet.asset`은 `SW01`부터 `SW20`까지 한 번씩 순서대로 참조한다.
-- 프로젝트 어댑터는 기존 `StarwayV3Importer.FindVisualTemplate`을 공유해 실제 목장 visual prefab을 사용한다. `regionCells`만 지형으로 저장하고, 그 안에서 `walkableCells`는 잔디 바닥, `blockedCells`는 돌벽이다. `regionCells` 바깥은 지형이 없어 통행할 수 없다. 시작/출구/방울 3개, 장치, 양·풀, 수문 A/B와 `wetA`, 병아리 둥지 좌표를 원본에서 변환한다. `themeId=starway`, `goals=[]`, `costLimit=0`, `targetBubbles=3`이다.
-- 기존 `PuzzleFollowCamera`가 SW 맵에서 패키지 `StarwayCameraMath`를 사용한다. 안전 영역에서 HUD 상단/하단 여백을 제외한 사각형 안에 7×11 시야를 맞추고 `regionCells`의 AABB로 중심을 제한한다. 진입 시 `Cut()`으로 시작 칸에 즉시 맞추며 기존 이동 추적을 유지한다.
-- Unity `AssetDatabase.MoveAsset`으로 기존 추적 중인 `1-2~1-21` 맵 20개와 시나리오 20개를 `Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3`로 옮겨 GUID를 보존했다. 기존 V3 맵 집합과 그 검증 코드는 레거시 에셋을 계속 참조한다. 새 SW 맵은 `ANIMOL > Starway 20 > Play Canonical Maps`에서 선택해 플레이한다. 기존 생성기의 에셋 작성 관례와 프리팹 탐색을 계승했다.
+- README와 `Reference/StarwayDesignPack/SOURCE_DEVICE_RULES.md`, 실제 `PuzzleMap`·`PuzzleScenario`·`PuzzleDeviceSession`, 카메라와 에셋 등록 코드를 확인했다. 패키지 소스 20개를 `Assets/ANIMOL/StarwayMapPack`에 갱신했다.
+- 정본 맵은 `Assets/ANIMOL/Data/Puzzle/MapData/starway/SW##_MapData.asset`, 시나리오는 같은 폴더의 `SW##_Scenario.asset`이다. 맵·시나리오 20쌍의 메타 GUID가 이동 전과 바이트 단위로 같다. `Starway20MapSet.asset`은 SW01~SW20을 순서대로 한 번씩 참조한다.
+- `MapData` 아래에 `memory_theater`, `letter_observatory`, `twilight_sea` 폴더도 마련했다. 해당 테마의 기존 프로토타입 맵은 생성기 및 미커밋 사용자 변경과 연결되어 있어 이번 이동에서 제외했다.
+- 지형은 region 안의 walkable=바닥, blocked=벽이며 region 밖은 통행 불가다. 시작·출구·방울 3개, 별돌·홈, 병아리·둥지, 양·풀, 수문, 바람 장치와 실제 `visualPrefab`을 저장했다. `themeId=starway`, `goals=[]`, `costLimit=0`이다. 출구는 처음부터 표시하고 승리는 방울 3개와 출구 진입으로 판정한다.
+- 기존 `PuzzleFollowCamera`의 7×11 시야, UI 안전 영역, 지형 AABB 제한을 사용한다. 레거시 1-1~1-21은 `LegacyStarwayV3`에 보관하고 저장 ID는 변경하지 않았다.
 
-## 실행과 확인
+## 실제 Unity 검증
 
 | 항목 | 결과 |
 |---|---|
-| Unity 컴파일 | 통과, 오류 0 |
-| `ANIMOL > Starway 20` 메뉴 1·2·3 | 소스 import, 소스 검증, 7×11 미리보기 창 호출 통과 |
-| 메뉴 4·5 | 20쌍 네이티브 에셋 생성·readback 통과 |
-| 메뉴 4·5 재실행 | SW01 map GUID 유지, 중복 생성 없음 |
-| 실제 `PuzzleDeviceSession` 재생 | `UnityReplay/SW*.json`과 `Solutions/SW*.json` 입력 20/20 완주. 각 입력의 플레이어 경로, 방울 마스크, 병아리 위치·귀환·추종 기록, 양·풀, 수문 물 위상, 바람 단계, 별 홈 상태, 코스트와 최종 출구 승리를 비교. 첫 행동 Undo 및 각 맵 Reset 확인 |
-| `Starway20NativeTests` EditMode | 2/2 통과 |
-| `Starway20PlayTests` PlayMode | 1/1 통과. 20맵 로드, 장치 바인딩 누락 0, 시작 `0/3` HUD, 카메라 `orthographicSize=5.5` 확인 |
-| 기존 V3 회귀 | EditMode 1/1, PlayMode 2/2 통과 |
-| `PuzzleDeviceLogicTests` | 65/65 통과 |
-| `PuzzleMapTests` | 57/58 통과. 미추적 `Assets/ANIMOL/Data/Puzzle/Maps/PuzzleMapf.asset`의 필수 목표 장치가 맵 경계 밖인 기존 데이터 오류 1건. 이번 SW 맵과 무관하며 수정하지 않음 |
+| 컴파일 | 오류 0 |
+| 메뉴 1 Import, 2 Validate, 3 Preview, 6 Source and Camera Checks | 통과 |
+| 메뉴 4 Build Native Maps, 5 Validate Native Maps | 통과; 이동 후 재실행도 통과 |
+| `PuzzleDeviceSession` UnityReplay/Solutions 재생 | 20/20 승리, 방울 3개·출구, 매 입력 경로·상태 비교, 첫 입력 Undo·최종 Reset |
+| 별돌 | 12개 모두 실제 밀기 순서 확인, 각 3회 이상·2방향 이상. 시작 칸은 대응 홈과 x·y 모두 다름 |
+| 홈 통행 | 실제 세션 분기에서 빈 홈 진입 거절, 활성 홈 진입 허용을 홈마다 확인 |
+| 별돌 없는 대체 해법 | 입력에 경로가 있는 맵은 실제 세션에서 방울 3개·출구 승리 확인. 별돌 맵은 각 홈을 막은 바닥 연결 검사에서 필수 방울 또는 출구가 단절됨 |
+| 바람 | 8회 실제 탑승 경로의 모든 칸이 설계 audit와 일치. 세기=phase×3, 반사 확인. SW10·SW18은 각각 2회 탑승 |
+| 병아리·양·수문 | 매 입력의 병아리 순서별 위치·trail, 양 위치, 풀 소모, 수문 물 위상 비교. 이동 이벤트 중 병아리 상호 및 플레이어 겹침 없음 |
+| EditMode `Starway20NativeTests` | 2/2 |
+| PlayMode `Starway20PlayTests` | 1/1, 20개 로드·HUD·카메라 확인 |
 
-## 남은 차이와 경계
+### 별돌별 실제 밀기 방향
 
-- 프로젝트의 로비에는 현재 실제 캠페인 스테이지 목록·진행 저장 서비스가 없고, `MainMenuCatalog.requiredStageIds`는 대전 잠금용 빈 목록이다. 이번 등록은 검증 가능한 `Starway20MapSet`과 에디터 선택 창이다. 플레이어용 캠페인 진행·저장 UI의 SW ID 교체는 아직 연결되지 않았다. 기존 저장 키를 임의로 새 키로 덮지 않았다.
-- 기존 미추적 `1-1.asset`, `1-1_Scenario.asset`, 별도 `1-2_Scenario.asset`은 Unity의 GUID 보존 이동으로 같은 레거시 폴더에 옮겼다. 이 세 파일은 사용자 미커밋 작업으로 남기며 이번 커밋에 포함하지 않는다. 다른 미추적 시험 맵은 건드리지 않았다.
-- 패키지의 `verificationScope=REPORT_MODEL_ONLY`는 설계 자료 자체의 표기다. 위 20/20은 현재 Unity `PuzzleDeviceSession`을 실제 실행해 확인한 결과다. 이 결과는 정답 경로 검증이며 모든 오답 가지나 출시 난도·실기기 화면 검증을 뜻하지 않는다.
-- 광고 힌트 연동에 사용할 SDK나 기존 캠페인 힌트 연결은 확인되지 않았다. 강제 광고와 실패 직후 자동 재시작은 추가하지 않았다.
+| 맵 | 별돌별 순서 |
+|---|---|
+| SW04 | #1 N,E,E |
+| SW07 | #1 N,E,E |
+| SW08 | #1 S,S,E,E |
+| SW09 | #1 W,S,S |
+| SW11 | #1 W,S,S |
+| SW12 | #1 S,W,W · #2 E,S,S |
+| SW16 | #1 E,E,S · #2 W,W,S,S |
+| SW20 | #1 S,E,S,E,E · #2 E,E,S,S · #3 E,N,N |
+
+### 바람 탑승
+
+| 맵·입력 | 출발 → 착지 | 세기 | 반사 | 제동판 착지 |
+|---|---|---:|---|---|
+| SW06·30 | (5,3) → (9,3) | 6 | 아니오 | 예 |
+| SW10·25 | (14,6) → (14,8) | 3 | 아니오 | 아니오 |
+| SW10·41 | (14,6) → (14,13) | 9 | 아니오 | 예 |
+| SW14·48 | (4,3) → (10,5) | 9 | 예 | 아니오 |
+| SW15·47 | (5,14) → (4,16) | 6 | 예 | 예 |
+| SW18·65 | (13,19) → (11,19) | 3 | 아니오 | 아니오 |
+| SW18·72 | (13,19) → (8,16) | 9 | 예 | 예 |
+| SW20·77 | (5,3) → (10,6) | 9 | 예 | 예 |
+
+세부 이벤트 기록은 `Logs/starway20-replay-result.txt`에 생성된다. 위 기록은 Unity 세션 실행 결과를 설계 자료와 대조한 것이다.
+
+## 남은 확인 범위
+
+- 별돌 맵의 모든 가능한 행동 경로를 완전 탐색한 것은 아니다. 필수 경로 검사는 지형 연결성 기준이다.
+- 로비의 SW 진행·저장 서비스와 광고 힌트 SDK 연결은 현재 없다. `Starway20MapSet`과 에디터 선택 창까지만 연결했고 기존 저장 키는 유지했다.

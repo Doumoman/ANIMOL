@@ -1,17 +1,17 @@
 {
-  "schema": "animol.unity-map-input.v1",
-  "designVersion": 3,
-  "sourceSha256": "9e20184e321a4f49efe1bbe8a5ec743696d01c52c78f65084f2ce9f81616f7b5",
-  "solutionSha256": "bf0f5e6e7a9ec248a8cdbc69c0ffa25a57a4913f53909f6f96f076b36a78d202",
+  "schema": "animol.unity-map-input.v3",
+  "designVersion": 7,
+  "sourceSha256": "2e8d807c40fbdc9785cfe40b1bd29b90f54fa2fca99c551e0fa0c118100fa237",
+  "solutionSha256": "d03a58bdc3fcfaadcb0d2f12c398c1218192b73fb578ab6d5eb8a1039b8624a8",
   "verificationScope": "REPORT_MODEL_ONLY",
-  "referenceSuccessfulInputs": 52,
-  "referenceActions": "SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNENESSSS",
-  "noStarMatchingActions": "SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNENESSSS",
+  "referenceSuccessfulInputs": 54,
+  "referenceActions": "SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNNSNNESSSS",
+  "noStarMatchingActions": "SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNNSNNESSSS",
   "map": {
     "id": "SW14",
     "index": 14,
-    "title": "별 모양 뜰의 꺾인 바람",
-    "shape": "별 모양과 바람 꼬리",
+    "title": "두 번 꺾이는 바람의 뜰",
+    "shape": "남-동-북으로 꺾이는 바람 꼬리",
     "difficulty": 2,
     "difficultyName": "중간",
     "themeId": "starway",
@@ -88,6 +88,10 @@
       {
         "x": 4,
         "y": 3
+      },
+      {
+        "x": 4,
+        "y": 4
       },
       {
         "x": 4,
@@ -1587,10 +1591,6 @@
       },
       {
         "x": 4,
-        "y": 4
-      },
-      {
-        "x": 4,
         "y": 11
       },
       {
@@ -2078,11 +2078,11 @@
         "variant": "blower",
         "position": {
           "x": 4,
-          "y": 3
+          "y": 4
         },
         "direction": {
-          "x": 1,
-          "y": 0
+          "x": 0,
+          "y": -1
         },
         "target": {
           "x": 0,
@@ -2210,6 +2210,26 @@
         },
         "number": 0,
         "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW14_reflector_2",
+        "role": 18,
+        "variant": "",
+        "position": {
+          "x": 4,
+          "y": 3
+        },
+        "direction": {
+          "x": 1,
+          "y": 0
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 0,
+        "orientation": 3,
         "socketReward": ""
       }
     ],

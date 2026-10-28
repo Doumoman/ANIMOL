@@ -22,13 +22,24 @@ namespace ANIMOL.StarwayMaps.Editor
                 Check(text != null, input.map.id + " replay TextAsset");
                 StarwayReplayExpectations replay = JsonUtility.FromJson<StarwayReplayExpectations>(text.text);
                 Check(replay != null && replay.schema == "animol.unity-replay.v1" && replay.id == input.map.id &&
-                    replay.verificationScope == "REPORT_MODEL_ONLY", input.map.id + " replay identity");
+                    replay.verificationScope == input.verificationScope, input.map.id + " replay identity");
                 Check(replay.actions == input.referenceActions && replay.inputCount == input.referenceSuccessfulInputs &&
                     replay.steps.Length == replay.inputCount, input.map.id + " replay length");
                 for (int i = 0; i < replay.steps.Length; i++)
+                {
                     Check(replay.steps[i].turn == i + 1 && replay.steps[i].action == replay.actions[i].ToString(), input.map.id + " replay sequence");
+                    Check(replay.steps[i].exitVisible, input.map.id + " exit must be visible throughout");
+                }
                 Check(replay.steps[replay.steps.Length - 1].playerAfter.Equals(input.map.exit) &&
-                    replay.steps[replay.steps.Length - 1].bubbleMask == 7, input.map.id + " final exit/three bubbles");
+                    replay.steps[replay.steps.Length - 1].bubbleMask == 7 && replay.steps[replay.steps.Length - 1].exitVisible,
+                    input.map.id + " final visible exit/three bubbles");
+                System.Collections.Generic.HashSet<string> socketIds = new System.Collections.Generic.HashSet<string>();
+                foreach (StarwayPrototype d in input.map.devices)
+                    if (d.role == 1 && d.variant == "socket") socketIds.Add(d.id);
+                System.Collections.Generic.HashSet<string> active = new System.Collections.Generic.HashSet<string>(
+                    replay.steps[replay.steps.Length - 1].activeSocketIds);
+                Check(active.SetEquals(socketIds),
+                    input.map.id + " all physical socket gates open");
             }
             Vector2 focus = StarwayCameraMath.FocusWorldSize(Vector2.one);
             Near(focus.x, 7, "focus width"); Near(focus.y, 11, "focus height");

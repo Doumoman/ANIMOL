@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW08",
   "index": 8,
   "title": "굽이길의 선택 샛길",
@@ -163,6 +163,10 @@
     [
       5,
       12
+    ],
+    [
+      5,
+      13
     ],
     [
       5,
@@ -1982,10 +1986,6 @@
     ],
     [
       5,
-      13
-    ],
-    [
-      5,
       15
     ],
     [
@@ -2491,8 +2491,8 @@
       "role": 1,
       "variant": "",
       "position": [
-        4,
-        16
+        5,
+        12
       ],
       "direction": [
         1,
@@ -2505,8 +2505,8 @@
       "role": 1,
       "variant": "socket",
       "position": [
-        5,
-        16
+        7,
+        10
       ],
       "direction": [
         1,
@@ -2537,23 +2537,67 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 32,
-    "actualPlayerCellTransitions": 31,
-    "noStarMatchingMinInputs": 32,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 37,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       15,
-      10
-    ]
+      12
+    ],
+    "referenceSuccessfulInputs": 38
   },
   "topologyMetrics": {
-    "walkableCells": 143,
+    "walkableCells": 144,
     "regionCells": 303,
-    "wallCells": 160,
-    "junctions": 53,
+    "wallCells": 159,
+    "junctions": 56,
     "deadEnds": 4,
-    "independentCycles": 30
+    "independentCycles": 32
   },
-  "sheepPlanning": []
+  "sheepPlanning": [],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW08_socket_1",
+        "position": [
+          7,
+          10
+        ],
+        "gates": [
+          "bubble 2",
+          "bubble 3",
+          "exit"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      16
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        5,
+        12
+      ],
+      "socket": [
+        7,
+        10
+      ],
+      "manhattan": 4,
+      "axisChangeForced": true,
+      "pushCount": 4,
+      "directions": [
+        "S",
+        "S",
+        "E",
+        "E"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 16
+    }
+  ]
 }

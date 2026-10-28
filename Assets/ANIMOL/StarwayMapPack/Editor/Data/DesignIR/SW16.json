@@ -1,5 +1,5 @@
 {
-  "schema": "animol.level-design.v3",
+  "schema": "animol.level-design.v7",
   "id": "SW16",
   "index": 16,
   "title": "쌍고리의 두 둥지",
@@ -458,10 +458,6 @@
     ],
     [
       12,
-      2
-    ],
-    [
-      12,
       3
     ],
     [
@@ -511,6 +507,10 @@
     [
       13,
       7
+    ],
+    [
+      13,
+      9
     ],
     [
       13,
@@ -2446,6 +2446,10 @@
     ],
     [
       12,
+      2
+    ],
+    [
+      12,
       5
     ],
     [
@@ -2475,10 +2479,6 @@
     [
       13,
       8
-    ],
-    [
-      13,
-      9
     ],
     [
       13,
@@ -2700,8 +2700,8 @@
       4
     ],
     [
-      12,
-      12
+      13,
+      10
     ]
   ],
   "targetBubbles": 3,
@@ -2743,6 +2743,64 @@
         12
       ],
       "number": 3
+    },
+    {
+      "id": "SW16_stone_1",
+      "role": 1,
+      "variant": "",
+      "position": [
+        12,
+        9
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 1
+    },
+    {
+      "id": "SW16_socket_1",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        14,
+        8
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 1,
+      "socketReward": "None"
+    },
+    {
+      "id": "SW16_stone_2",
+      "role": 1,
+      "variant": "",
+      "position": [
+        15,
+        6
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2
+    },
+    {
+      "id": "SW16_socket_2",
+      "role": 1,
+      "variant": "socket",
+      "position": [
+        13,
+        4
+      ],
+      "direction": [
+        0,
+        -1
+      ],
+      "number": 2,
+      "socketReward": "None"
     }
   ],
   "ranchV13Art": [
@@ -2766,8 +2824,8 @@
       "instanceId": "SW16_tall_grass_1",
       "family": "tall_grass",
       "position": [
-        12,
-        12
+        13,
+        10
       ]
     },
     {
@@ -2782,22 +2840,23 @@
   "ranchSluiceDesign": [],
   "water": [],
   "validation": {
-    "scope": "REPORT_MODEL_ONLY",
+    "scope": "REPORT_MODEL_PHYSICAL_GATES",
     "unityRuntimeVerified": false,
-    "minSuccessfulInputs": 72,
-    "actualPlayerCellTransitions": 63,
-    "noStarMatchingMinInputs": 72,
+    "minSuccessfulInputs": null,
+    "actualPlayerCellTransitions": 79,
+    "noStarMatchingMinInputs": null,
     "routeSpan": [
       15,
       11
-    ]
+    ],
+    "referenceSuccessfulInputs": 87
   },
   "topologyMetrics": {
     "walkableCells": 165,
     "regionCells": 333,
     "wallCells": 168,
-    "junctions": 69,
-    "deadEnds": 4,
+    "junctions": 72,
+    "deadEnds": 7,
     "independentCycles": 40
   },
   "sheepPlanning": [
@@ -2809,14 +2868,14 @@
         9
       ],
       "grassPosition": [
-        12,
-        12
+        13,
+        10
       ],
-      "initialManhattanDistance": 5,
-      "physicalTravel": 5,
-      "directPushInputs": 5,
+      "initialManhattanDistance": 4,
+      "physicalTravel": 4,
+      "directPushInputs": 4,
       "windTravel": 0,
-      "directionChanges": 2,
+      "directionChanges": 1,
       "positions": [
         [
           10,
@@ -2835,16 +2894,12 @@
           10
         ],
         [
-          12,
-          11
-        ],
-        [
-          12,
-          12
+          13,
+          10
         ]
       ],
-      "firstDirectPushTurn": 33,
-      "referencePrefixBeforeFirstPush": "SSNSEEEEWWWWNNWWEESSEEEEEESSWSSE",
+      "firstDirectPushTurn": 39,
+      "referencePrefixBeforeFirstPush": "SSEEEEWENNSSWWWWNNWWEESSEEEENEESSSWSSE",
       "firstPushChoices": [
         {
           "direction": "N",
@@ -2938,35 +2993,9 @@
           4
         ]
       ],
-      "firstDirectPushTurn": 55,
-      "referencePrefixBeforeFirstPush": "SSNSEEEEWWWWNNWWEESSEEEEEESSWSSENNWNEEEESENNNNNEESSSSS",
+      "firstDirectPushTurn": 56,
+      "referencePrefixBeforeFirstPush": "SSEEEEWENNSSWWWWNNWWEESSEEEENEESSSWSSENNWNEEEEESEENESSS",
       "firstPushChoices": [
-        {
-          "direction": "S",
-          "walk": "",
-          "pushPosition": [
-            14,
-            7
-          ],
-          "leadsTo": [
-            14,
-            5
-          ],
-          "staticDeadlock": false
-        },
-        {
-          "direction": "E",
-          "walk": "WS",
-          "pushPosition": [
-            13,
-            6
-          ],
-          "leadsTo": [
-            15,
-            6
-          ],
-          "staticDeadlock": false
-        },
         {
           "direction": "N",
           "walk": "WSSE",
@@ -2981,19 +3010,93 @@
           "staticDeadlock": false
         },
         {
-          "direction": "W",
-          "walk": "NEESSW",
+          "direction": "S",
+          "walk": "",
           "pushPosition": [
-            15,
-            6
+            14,
+            7
           ],
           "leadsTo": [
-            13,
-            6
+            14,
+            5
           ],
           "staticDeadlock": false
         }
       ]
+    }
+  ],
+  "gatePlanning": {
+    "proofs": [
+      {
+        "socketId": "SW16_socket_1",
+        "position": [
+          14,
+          8
+        ],
+        "gates": [
+          "bubble 2",
+          "exit"
+        ]
+      },
+      {
+        "socketId": "SW16_socket_2",
+        "position": [
+          13,
+          4
+        ],
+        "gates": [
+          "bubble 2"
+        ]
+      }
+    ],
+    "referenceMatchTurns": [
+      53,
+      70
+    ]
+  },
+  "stoneTransportPlanning": [
+    {
+      "number": 1,
+      "start": [
+        12,
+        9
+      ],
+      "socket": [
+        14,
+        8
+      ],
+      "manhattan": 3,
+      "axisChangeForced": true,
+      "pushCount": 3,
+      "directions": [
+        "E",
+        "E",
+        "S"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 53
+    },
+    {
+      "number": 2,
+      "start": [
+        15,
+        6
+      ],
+      "socket": [
+        13,
+        4
+      ],
+      "manhattan": 4,
+      "axisChangeForced": true,
+      "pushCount": 4,
+      "directions": [
+        "W",
+        "W",
+        "S",
+        "S"
+      ],
+      "uniqueDirections": 2,
+      "matchTurn": 70
     }
   ]
 }

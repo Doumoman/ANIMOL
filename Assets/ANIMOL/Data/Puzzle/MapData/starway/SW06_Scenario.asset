@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
-  m_Name: SW11_Scenario
+  m_Name: SW06_Scenario
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
-  title: "\uB300\uAC01\uC120 \uB0A0\uAC1C\uC758 \uAE09\uC2DD \uC21C\uC11C"
+  title: "\uBC14\uB78C \uB05D\uC758 \uC81C\uB3D9 \uBC29\uC6B8"
   themeId: starway
-  verificationRoute: WWNNWSESEESSNNWWWWWNWSSWSEENESSSNWWSSSSSWWSWNNNNNEEN
+  verificationRoute: WWNNSSEENNSSSSWWWWSSSSSSEENNENEEN
   beamPrefab: {fileID: 0}
   devices:
-  - id: SW11_chick_1
+  - id: SW06_chick_1
     variant: 
-    group: SW11_chick_1
+    group: SW06_chick_1
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
     initialVisual: 
     role: 24
-    position: {x: 16, y: 15}
+    position: {x: 6, y: 11}
     direction: {x: 1, y: 0}
-    target: {x: 14, y: 19}
+    target: {x: 4, y: 9}
     orientation: 0
     number: 1
     active: 0
@@ -35,15 +35,33 @@ MonoBehaviour:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
-  - id: SW11_gate_1
-    variant: 
-    group: SW11_gate_1
+  - id: SW06_wind_1
+    variant: blower
+    group: SW06_wind_1
     artTheme: starway
-    visualPrefab: {fileID: 3420239401674086500, guid: deb1e09fc564481429997e4686565ae6, type: 3}
+    visualPrefab: {fileID: 4873364921097887510, guid: 63413553afa92e94f87161e27b0166bc, type: 3}
     initialVisual: 
-    role: 9
-    position: {x: 13, y: 16}
-    direction: {x: -1, y: 0}
+    role: 20
+    position: {x: 4, y: 3}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW06_brake_1
+    variant: 
+    group: SW06_brake_1
+    artTheme: starway
+    visualPrefab: {fileID: 5164312448115599324, guid: ff5d84d2e27f5f443a5e4880cc2e6d14, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 9, y: 3}
+    direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
     number: 0
@@ -55,29 +73,15 @@ MonoBehaviour:
     blastOffsets: []
   ranchV13Art:
   - family: sheep
-    instanceId: SW11_sheep_1
-    position: {x: 9, y: 16}
-    direction: {x: 1, y: 0}
-    hasPondB: 0
-    pondB: {x: 0, y: 0}
-    rightState: 0
-  - family: sheep
-    instanceId: SW11_sheep_2
-    position: {x: 7, y: 10}
+    instanceId: SW06_sheep_1
+    position: {x: 7, y: 3}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}
     rightState: 0
   - family: tall_grass
-    instanceId: SW11_tall_grass_1
-    position: {x: 10, y: 14}
-    direction: {x: 1, y: 0}
-    hasPondB: 0
-    pondB: {x: 0, y: 0}
-    rightState: 0
-  - family: tall_grass
-    instanceId: SW11_tall_grass_2
-    position: {x: 6, y: 12}
+    instanceId: SW06_tall_grass_1
+    position: {x: 10, y: 3}
     direction: {x: 1, y: 0}
     hasPondB: 0
     pondB: {x: 0, y: 0}

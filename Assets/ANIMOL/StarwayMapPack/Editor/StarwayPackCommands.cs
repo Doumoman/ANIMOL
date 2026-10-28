@@ -58,7 +58,7 @@ namespace ANIMOL.StarwayMaps.Editor
                 EditorUtility.SetDirty(maps[i]);
             }
             StarwayMapCatalog catalog = Upsert<StarwayMapCatalog>(CatalogPath);
-            catalog.designVersion = 3; catalog.maps = maps; EditorUtility.SetDirty(catalog);
+            catalog.designVersion = 7; catalog.maps = maps; EditorUtility.SetDirty(catalog);
             AssetDatabase.SaveAssets();
             Debug.Log("[Starway20] Imported 20 EDITOR design sources. Native game maps/campaign/camera are not changed by this command.");
         }
@@ -71,7 +71,7 @@ namespace ANIMOL.StarwayMaps.Editor
             for (int i = 0; i < 20; i++)
                 if (JsonUtility.ToJson(inputs[i]) != JsonUtility.ToJson(sources[i].input))
                     throw new InvalidOperationException(inputs[i].map.id + ": staging asset changed; reimport the source pack.");
-            Debug.Log("[Starway20] Source hashes, DTO fields, 20 maps, 10/5/5, sheep distance and 7x11 focus passed. Unity gameplay replay is a separate check.");
+            Debug.Log("[Starway20] Source hashes, physical socket gate fields, 20 maps, 10/5/5, sheep distance and 7x11 focus passed. Unity gameplay replay is a separate check.");
         }
 
         [MenuItem("ANIMOL/Starway 20/4 Build Native Maps with Project Adapter")]
@@ -109,7 +109,7 @@ namespace ANIMOL.StarwayMaps.Editor
         public static StarwayMapSource[] RequireSources()
         {
             StarwayMapCatalog c = AssetDatabase.LoadAssetAtPath<StarwayMapCatalog>(CatalogPath);
-            if (c == null || c.designVersion != 3 || c.maps == null || c.maps.Length != 20)
+            if (c == null || c.designVersion != 7 || c.maps == null || c.maps.Length != 20)
                 throw new InvalidOperationException("Run ANIMOL > Starway 20 > 1 Import or Update Design Sources first.");
             for (int i = 0; i < 20; i++)
                 if (c.maps[i] == null || c.maps[i].input == null || c.maps[i].input.map.id != "SW" + (i + 1).ToString("00"))

@@ -1,12 +1,12 @@
 {
-  "schema": "animol.unity-map-input.v1",
-  "designVersion": 3,
-  "sourceSha256": "75bea18ed01883a04870f472d9cf849d00770d23db163d3ce837620fdf2dcf2e",
-  "solutionSha256": "f77e9121222e55e4b4f4b653ed5add0c3e91198cdd180989e838560c41d0ec3a",
-  "verificationScope": "REPORT_MODEL_ONLY",
-  "referenceSuccessfulInputs": 69,
-  "referenceActions": "EEEESWWSWNNNNNNNSSWWNNSSSSEEEEEESSSSWWSSWWWWWWSSSSSSSSEENNNENEEEESSSS",
-  "noStarMatchingActions": "EEEESWWSWNNNNNNNSSWWNNSSSSEEEEEESSSSWWSSWWWWWWSSSSSSSSEENNNENEEEESSSS",
+  "schema": "animol.unity-map-input.v3",
+  "designVersion": 7,
+  "sourceSha256": "48fdf494c0acfc752618d4c33c19422bb50024bff91c1187e026167759928204",
+  "solutionSha256": "f7157ace697c0e8483e6e81296c57cfecee6b5baa7bbc4528a2ba45bf6d80560",
+  "verificationScope": "REPORT_MODEL_PHYSICAL_GATES",
+  "referenceSuccessfulInputs": 87,
+  "referenceActions": "WWSSEENESENNEEESWWWSWNNNNWWNNSSEENNNSSSSSENESWSEEESSWWSSWWWWWWSSSSSSSSEENNNENEEENESSSSS",
+  "noStarMatchingActions": null,
   "map": {
     "id": "SW20",
     "index": 20,
@@ -87,6 +87,10 @@
       },
       {
         "x": 3,
+        "y": 11
+      },
+      {
+        "x": 3,
         "y": 12
       },
       {
@@ -159,6 +163,10 @@
       },
       {
         "x": 5,
+        "y": 17
+      },
+      {
+        "x": 5,
         "y": 18
       },
       {
@@ -176,6 +184,10 @@
       {
         "x": 6,
         "y": 12
+      },
+      {
+        "x": 6,
+        "y": 15
       },
       {
         "x": 6,
@@ -211,6 +223,14 @@
       },
       {
         "x": 7,
+        "y": 14
+      },
+      {
+        "x": 7,
+        "y": 15
+      },
+      {
+        "x": 7,
         "y": 16
       },
       {
@@ -220,10 +240,6 @@
       {
         "x": 7,
         "y": 18
-      },
-      {
-        "x": 7,
-        "y": 20
       },
       {
         "x": 8,
@@ -431,6 +447,10 @@
       },
       {
         "x": 13,
+        "y": 7
+      },
+      {
+        "x": 13,
         "y": 10
       },
       {
@@ -468,6 +488,10 @@
       {
         "x": 14,
         "y": 6
+      },
+      {
+        "x": 14,
+        "y": 7
       },
       {
         "x": 14,
@@ -1835,10 +1859,6 @@
       },
       {
         "x": 3,
-        "y": 11
-      },
-      {
-        "x": 3,
         "y": 13
       },
       {
@@ -1908,10 +1928,6 @@
       {
         "x": 5,
         "y": 15
-      },
-      {
-        "x": 5,
-        "y": 17
       },
       {
         "x": 5,
@@ -1944,10 +1960,6 @@
       {
         "x": 6,
         "y": 13
-      },
-      {
-        "x": 6,
-        "y": 15
       },
       {
         "x": 6,
@@ -1983,15 +1995,11 @@
       },
       {
         "x": 7,
-        "y": 14
-      },
-      {
-        "x": 7,
-        "y": 15
-      },
-      {
-        "x": 7,
         "y": 19
+      },
+      {
+        "x": 7,
+        "y": 20
       },
       {
         "x": 7,
@@ -2191,10 +2199,6 @@
       },
       {
         "x": 13,
-        "y": 7
-      },
-      {
-        "x": 13,
         "y": 9
       },
       {
@@ -2224,10 +2228,6 @@
       {
         "x": 14,
         "y": 1
-      },
-      {
-        "x": 14,
-        "y": 7
       },
       {
         "x": 14,
@@ -2429,46 +2429,6 @@
         "socketReward": ""
       },
       {
-        "id": "SW20_stone_1",
-        "role": 1,
-        "variant": "",
-        "position": {
-          "x": 12,
-          "y": 16
-        },
-        "direction": {
-          "x": 1,
-          "y": 0
-        },
-        "target": {
-          "x": 0,
-          "y": 0
-        },
-        "number": 1,
-        "orientation": 0,
-        "socketReward": ""
-      },
-      {
-        "id": "SW20_socket_1",
-        "role": 1,
-        "variant": "socket",
-        "position": {
-          "x": 13,
-          "y": 16
-        },
-        "direction": {
-          "x": 1,
-          "y": 0
-        },
-        "target": {
-          "x": 0,
-          "y": 0
-        },
-        "number": 1,
-        "orientation": 0,
-        "socketReward": "None"
-      },
-      {
         "id": "SW20_wind_1",
         "role": 20,
         "variant": "blower",
@@ -2527,6 +2487,126 @@
         "number": 0,
         "orientation": 0,
         "socketReward": ""
+      },
+      {
+        "id": "SW20_stone_1",
+        "role": 1,
+        "variant": "",
+        "position": {
+          "x": 7,
+          "y": 16
+        },
+        "direction": {
+          "x": 1,
+          "y": 0
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 1,
+        "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW20_socket_1",
+        "role": 1,
+        "variant": "socket",
+        "position": {
+          "x": 10,
+          "y": 14
+        },
+        "direction": {
+          "x": 1,
+          "y": 0
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 1,
+        "orientation": 0,
+        "socketReward": "None"
+      },
+      {
+        "id": "SW20_stone_2",
+        "role": 1,
+        "variant": "",
+        "position": {
+          "x": 12,
+          "y": 6
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 2,
+        "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW20_socket_2",
+        "role": 1,
+        "variant": "socket",
+        "position": {
+          "x": 14,
+          "y": 4
+        },
+        "direction": {
+          "x": 0,
+          "y": -1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 2,
+        "orientation": 0,
+        "socketReward": "None"
+      },
+      {
+        "id": "SW20_stone_3",
+        "role": 1,
+        "variant": "",
+        "position": {
+          "x": 5,
+          "y": 17
+        },
+        "direction": {
+          "x": 0,
+          "y": 1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 3,
+        "orientation": 0,
+        "socketReward": ""
+      },
+      {
+        "id": "SW20_socket_3",
+        "role": 1,
+        "variant": "socket",
+        "position": {
+          "x": 6,
+          "y": 19
+        },
+        "direction": {
+          "x": 0,
+          "y": 1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 3,
+        "orientation": 0,
+        "socketReward": "None"
       }
     ],
     "ranchV13Art": [

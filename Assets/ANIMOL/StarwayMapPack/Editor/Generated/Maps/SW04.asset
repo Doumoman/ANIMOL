@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SW04
   m_EditorClassIdentifier: ANIMOL.StarwayMaps.Editor::ANIMOL.StarwayMaps.Editor.StarwayMapSource
   input:
-    schema: animol.unity-map-input.v1
-    designVersion: 3
-    sourceSha256: 8adc637aef871f5f3ba6125a6f143193c50b67c2475aa4d6d3d9979d00e811c5
-    solutionSha256: 9f17d986377c37e2b96a81de371648a7a36ea07102089aab76ba63eb7191b289
-    verificationScope: REPORT_MODEL_ONLY
-    referenceSuccessfulInputs: 31
-    referenceActions: SWNEEEWWSSSSEESSSSEESSEENNNSSEE
-    noStarMatchingActions: SWNEEEWWSSSSEESSSSEESSEENNNSSEE
+    schema: animol.unity-map-input.v3
+    designVersion: 7
+    sourceSha256: da891a8ee198d420d0f9b99ba65a2ab8fcb580359dbe8ec12af328f9f606bdad
+    solutionSha256: 302a0b22f8517719a6c95de6ccc98c804aab0d6eeeb491534305833b1a509fe9
+    verificationScope: REPORT_MODEL_PHYSICAL_GATES
+    referenceSuccessfulInputs: 39
+    referenceActions: SWNEEEWWSSSSEESSSSEESSWSSENWNEEENNNSSEE
+    noStarMatchingActions: 
     map:
       id: SW04
       index: 4
@@ -195,6 +195,8 @@ MonoBehaviour:
       - x: 11
         y: 2
       - x: 11
+        y: 3
+      - x: 11
         y: 4
       - x: 11
         y: 6
@@ -206,6 +208,8 @@ MonoBehaviour:
         y: 18
       - x: 12
         y: 2
+      - x: 12
+        y: 3
       - x: 12
         y: 4
       - x: 12
@@ -993,8 +997,6 @@ MonoBehaviour:
       - x: 11
         y: 1
       - x: 11
-        y: 3
-      - x: 11
         y: 5
       - x: 11
         y: 7
@@ -1018,8 +1020,6 @@ MonoBehaviour:
         y: 19
       - x: 12
         y: 1
-      - x: 12
-        y: 3
       - x: 12
         y: 19
       - x: 13
@@ -1136,6 +1136,36 @@ MonoBehaviour:
         number: 1
         orientation: 0
         socketReward: 
+      - id: SW04_stone_1
+        role: 1
+        variant: 
+        position:
+          x: 12
+          y: 3
+        direction:
+          x: 1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: 
+      - id: SW04_socket_1
+        role: 1
+        variant: socket
+        position:
+          x: 14
+          y: 4
+        direction:
+          x: 1
+          y: 0
+        target:
+          x: 0
+          y: 0
+        number: 1
+        orientation: 0
+        socketReward: None
       ranchV13Art:
       - instanceId: SW04_sheep_1
         family: sheep

@@ -14,7 +14,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator AllTwentyStagesLoadWithHudVisualsAndSevenByElevenCamera()
         {
             var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(
-                "Assets/ANIMOL/Data/Puzzle/Starway20/Starway20MapSet.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/Starway20MapSet.asset");
             Assert.That(set, Is.Not.Null);
             Assert.That(set.maps.Count, Is.EqualTo(20));
             var cameraObject = new GameObject("Main Camera", typeof(Camera)); cameraObject.tag = "MainCamera";

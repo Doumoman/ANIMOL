@@ -1,0 +1,1526 @@
+{
+  "SW06": {
+    "referenceInputs": 33,
+    "phaseToggles": 2,
+    "playerWindCells": 4,
+    "playerWindTurns": [
+      30
+    ],
+    "playerRides": [
+      {
+        "turn": 30,
+        "blower": 1,
+        "phase": 2,
+        "start": [
+          5,
+          3
+        ],
+        "landing": [
+          9,
+          3
+        ],
+        "path": [
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ]
+        ],
+        "cells": 4,
+        "reflected": false,
+        "brakeLanding": true,
+        "newBubbleArrivals": 1
+      }
+    ],
+    "reflectedPlayerSteps": 0,
+    "brakeArrivals": 1,
+    "bubblesCollectedOnWind": 1,
+    "sheepWindCells": 3,
+    "events": [
+      {
+        "turn": 27,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 28,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ]
+      },
+      {
+        "turn": 28,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ]
+      },
+      {
+        "turn": 28,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          9,
+          3
+        ],
+        "to": [
+          10,
+          3
+        ]
+      },
+      {
+        "turn": 28,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 30,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          5,
+          3
+        ],
+        "to": [
+          6,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 30,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          6,
+          3
+        ],
+        "to": [
+          7,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 30,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 30,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": true,
+        "bubble_arrival": true
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 33,
+      "reason": "blocked"
+    }
+  },
+  "SW10": {
+    "referenceInputs": 41,
+    "phaseToggles": 3,
+    "playerWindCells": 9,
+    "playerWindTurns": [
+      25,
+      41
+    ],
+    "playerRides": [
+      {
+        "turn": 25,
+        "blower": 1,
+        "phase": 1,
+        "start": [
+          14,
+          6
+        ],
+        "landing": [
+          14,
+          8
+        ],
+        "path": [
+          [
+            14,
+            6
+          ],
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            8
+          ]
+        ],
+        "cells": 2,
+        "reflected": false,
+        "brakeLanding": false,
+        "newBubbleArrivals": 0
+      },
+      {
+        "turn": 41,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          14,
+          6
+        ],
+        "landing": [
+          14,
+          13
+        ],
+        "path": [
+          [
+            14,
+            6
+          ],
+          [
+            14,
+            7
+          ],
+          [
+            14,
+            8
+          ],
+          [
+            14,
+            9
+          ],
+          [
+            14,
+            10
+          ],
+          [
+            14,
+            11
+          ],
+          [
+            14,
+            12
+          ],
+          [
+            14,
+            13
+          ]
+        ],
+        "cells": 7,
+        "reflected": false,
+        "brakeLanding": true,
+        "newBubbleArrivals": 1
+      }
+    ],
+    "reflectedPlayerSteps": 0,
+    "brakeArrivals": 1,
+    "bubblesCollectedOnWind": 1,
+    "sheepWindCells": 1,
+    "events": [
+      {
+        "turn": 23,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 25,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          6
+        ],
+        "to": [
+          14,
+          7
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 25,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          7
+        ],
+        "to": [
+          14,
+          8
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 38,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 39,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          14,
+          11
+        ],
+        "to": [
+          14,
+          12
+        ]
+      },
+      {
+        "turn": 39,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 2,
+        "to": 3
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          6
+        ],
+        "to": [
+          14,
+          7
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          7
+        ],
+        "to": [
+          14,
+          8
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          8
+        ],
+        "to": [
+          14,
+          9
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          9
+        ],
+        "to": [
+          14,
+          10
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          10
+        ],
+        "to": [
+          14,
+          11
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          11
+        ],
+        "to": [
+          14,
+          12
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": true
+      },
+      {
+        "turn": 41,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          14,
+          12
+        ],
+        "to": [
+          14,
+          13
+        ],
+        "reflected": false,
+        "brake_arrival": true,
+        "bubble_arrival": false
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 28,
+      "reason": "blocked"
+    }
+  },
+  "SW14": {
+    "referenceInputs": 54,
+    "phaseToggles": 3,
+    "playerWindCells": 8,
+    "playerWindTurns": [
+      48
+    ],
+    "playerRides": [
+      {
+        "turn": 48,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          4,
+          3
+        ],
+        "landing": [
+          10,
+          5
+        ],
+        "path": [
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            10,
+            5
+          ]
+        ],
+        "cells": 8,
+        "reflected": true,
+        "brakeLanding": false,
+        "newBubbleArrivals": 0
+      }
+    ],
+    "reflectedPlayerSteps": 1,
+    "brakeArrivals": 0,
+    "bubblesCollectedOnWind": 0,
+    "sheepWindCells": 5,
+    "events": [
+      {
+        "turn": 44,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 45,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ]
+      },
+      {
+        "turn": 45,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ]
+      },
+      {
+        "turn": 45,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 46,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          9,
+          3
+        ],
+        "to": [
+          10,
+          3
+        ]
+      },
+      {
+        "turn": 46,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          10,
+          3
+        ],
+        "to": [
+          10,
+          4
+        ]
+      },
+      {
+        "turn": 46,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          10,
+          4
+        ],
+        "to": [
+          10,
+          5
+        ]
+      },
+      {
+        "turn": 46,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 2,
+        "to": 3
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          4,
+          3
+        ],
+        "to": [
+          5,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          5,
+          3
+        ],
+        "to": [
+          6,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          6,
+          3
+        ],
+        "to": [
+          7,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          9,
+          3
+        ],
+        "to": [
+          10,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          3
+        ],
+        "to": [
+          10,
+          4
+        ],
+        "reflected": true,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 48,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          4
+        ],
+        "to": [
+          10,
+          5
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 52,
+      "reason": "blocked"
+    }
+  },
+  "SW15": {
+    "referenceInputs": 47,
+    "phaseToggles": 2,
+    "playerWindCells": 3,
+    "playerWindTurns": [
+      47
+    ],
+    "playerRides": [
+      {
+        "turn": 47,
+        "blower": 1,
+        "phase": 2,
+        "start": [
+          5,
+          14
+        ],
+        "landing": [
+          4,
+          16
+        ],
+        "path": [
+          [
+            5,
+            14
+          ],
+          [
+            4,
+            14
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            4,
+            16
+          ]
+        ],
+        "cells": 3,
+        "reflected": true,
+        "brakeLanding": true,
+        "newBubbleArrivals": 1
+      }
+    ],
+    "reflectedPlayerSteps": 1,
+    "brakeArrivals": 1,
+    "bubblesCollectedOnWind": 1,
+    "sheepWindCells": 2,
+    "events": [
+      {
+        "turn": 45,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          5,
+          14
+        ],
+        "to": [
+          4,
+          14
+        ]
+      },
+      {
+        "turn": 45,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 46,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          4,
+          14
+        ],
+        "to": [
+          4,
+          15
+        ]
+      },
+      {
+        "turn": 46,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 47,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          5,
+          14
+        ],
+        "to": [
+          4,
+          14
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 47,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          4,
+          14
+        ],
+        "to": [
+          4,
+          15
+        ],
+        "reflected": true,
+        "brake_arrival": false,
+        "bubble_arrival": true
+      },
+      {
+        "turn": 47,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          4,
+          15
+        ],
+        "to": [
+          4,
+          16
+        ],
+        "reflected": false,
+        "brake_arrival": true,
+        "bubble_arrival": false
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 47,
+      "reason": "incomplete"
+    }
+  },
+  "SW18": {
+    "referenceInputs": 84,
+    "phaseToggles": 3,
+    "playerWindCells": 10,
+    "playerWindTurns": [
+      65,
+      72
+    ],
+    "playerRides": [
+      {
+        "turn": 65,
+        "blower": 1,
+        "phase": 1,
+        "start": [
+          13,
+          19
+        ],
+        "landing": [
+          11,
+          19
+        ],
+        "path": [
+          [
+            13,
+            19
+          ],
+          [
+            12,
+            19
+          ],
+          [
+            11,
+            19
+          ]
+        ],
+        "cells": 2,
+        "reflected": false,
+        "brakeLanding": false,
+        "newBubbleArrivals": 1
+      },
+      {
+        "turn": 72,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          13,
+          19
+        ],
+        "landing": [
+          8,
+          16
+        ],
+        "path": [
+          [
+            13,
+            19
+          ],
+          [
+            12,
+            19
+          ],
+          [
+            11,
+            19
+          ],
+          [
+            10,
+            19
+          ],
+          [
+            9,
+            19
+          ],
+          [
+            8,
+            19
+          ],
+          [
+            8,
+            18
+          ],
+          [
+            8,
+            17
+          ],
+          [
+            8,
+            16
+          ]
+        ],
+        "cells": 8,
+        "reflected": true,
+        "brakeLanding": true,
+        "newBubbleArrivals": 0
+      }
+    ],
+    "reflectedPlayerSteps": 1,
+    "brakeArrivals": 1,
+    "bubblesCollectedOnWind": 1,
+    "sheepWindCells": 4,
+    "events": [
+      {
+        "turn": 63,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 65,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          13,
+          19
+        ],
+        "to": [
+          12,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 65,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          12,
+          19
+        ],
+        "to": [
+          11,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": true
+      },
+      {
+        "turn": 69,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          10,
+          19
+        ],
+        "to": [
+          9,
+          19
+        ]
+      },
+      {
+        "turn": 69,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          9,
+          19
+        ],
+        "to": [
+          8,
+          19
+        ]
+      },
+      {
+        "turn": 69,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 70,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          8,
+          19
+        ],
+        "to": [
+          8,
+          18
+        ]
+      },
+      {
+        "turn": 70,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          8,
+          18
+        ],
+        "to": [
+          8,
+          17
+        ]
+      },
+      {
+        "turn": 70,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 2,
+        "to": 3
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          13,
+          19
+        ],
+        "to": [
+          12,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          12,
+          19
+        ],
+        "to": [
+          11,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          11,
+          19
+        ],
+        "to": [
+          10,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          19
+        ],
+        "to": [
+          9,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          9,
+          19
+        ],
+        "to": [
+          8,
+          19
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          19
+        ],
+        "to": [
+          8,
+          18
+        ],
+        "reflected": true,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          18
+        ],
+        "to": [
+          8,
+          17
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 72,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          17
+        ],
+        "to": [
+          8,
+          16
+        ],
+        "reflected": false,
+        "brake_arrival": true,
+        "bubble_arrival": false
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 69,
+      "reason": "blocked"
+    }
+  },
+  "SW20": {
+    "referenceInputs": 87,
+    "phaseToggles": 3,
+    "playerWindCells": 8,
+    "playerWindTurns": [
+      77
+    ],
+    "playerRides": [
+      {
+        "turn": 77,
+        "blower": 1,
+        "phase": 3,
+        "start": [
+          5,
+          3
+        ],
+        "landing": [
+          10,
+          6
+        ],
+        "path": [
+          [
+            5,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            8,
+            3
+          ],
+          [
+            9,
+            3
+          ],
+          [
+            10,
+            3
+          ],
+          [
+            10,
+            4
+          ],
+          [
+            10,
+            5
+          ],
+          [
+            10,
+            6
+          ]
+        ],
+        "cells": 8,
+        "reflected": true,
+        "brakeLanding": true,
+        "newBubbleArrivals": 0
+      }
+    ],
+    "reflectedPlayerSteps": 1,
+    "brakeArrivals": 1,
+    "bubblesCollectedOnWind": 0,
+    "sheepWindCells": 5,
+    "events": [
+      {
+        "turn": 73,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 0,
+        "to": 1
+      },
+      {
+        "turn": 74,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ]
+      },
+      {
+        "turn": 74,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ]
+      },
+      {
+        "turn": 74,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          9,
+          3
+        ],
+        "to": [
+          10,
+          3
+        ]
+      },
+      {
+        "turn": 74,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 1,
+        "to": 2
+      },
+      {
+        "turn": 75,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          10,
+          3
+        ],
+        "to": [
+          10,
+          4
+        ]
+      },
+      {
+        "turn": 75,
+        "kind": "sheep_wind_cell",
+        "sheep": 1,
+        "from": [
+          10,
+          4
+        ],
+        "to": [
+          10,
+          5
+        ]
+      },
+      {
+        "turn": 75,
+        "kind": "phase_toggle",
+        "blower": 1,
+        "from": 2,
+        "to": 3
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          5,
+          3
+        ],
+        "to": [
+          6,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          6,
+          3
+        ],
+        "to": [
+          7,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          7,
+          3
+        ],
+        "to": [
+          8,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          8,
+          3
+        ],
+        "to": [
+          9,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          9,
+          3
+        ],
+        "to": [
+          10,
+          3
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          3
+        ],
+        "to": [
+          10,
+          4
+        ],
+        "reflected": true,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          4
+        ],
+        "to": [
+          10,
+          5
+        ],
+        "reflected": false,
+        "brake_arrival": false,
+        "bubble_arrival": false
+      },
+      {
+        "turn": 77,
+        "kind": "player_wind_cell",
+        "blower": 1,
+        "from": [
+          10,
+          5
+        ],
+        "to": [
+          10,
+          6
+        ],
+        "reflected": false,
+        "brake_arrival": true,
+        "bubble_arrival": false
+      }
+    ],
+    "noPlayerWindCounterfactual": {
+      "sameInputsWinWithoutPlayerWind": false,
+      "divergesAtTurn": 81,
+      "reason": "blocked"
+    }
+  }
+}

@@ -1,17 +1,17 @@
 {
-  "schema": "animol.unity-map-input.v1",
-  "designVersion": 3,
-  "sourceSha256": "8c4f2b1e56b16148b507f9e55c07905ce9187098606029214fcb0464cfb00585",
-  "solutionSha256": "caeecfd4c7c964d9fb170e83183db979de79f99346c05775b1e573fa372a31dd",
+  "schema": "animol.unity-map-input.v3",
+  "designVersion": 7,
+  "sourceSha256": "5419fcf3bbe82bdd78e3653aa4435b8fe3fefbc18c8eb2b93607bef00ea0665e",
+  "solutionSha256": "025ad1113fd12afc1b5649ab8955b5fceae9ee5d6a645f0b6cd94c40fc3c7be3",
   "verificationScope": "REPORT_MODEL_ONLY",
-  "referenceSuccessfulInputs": 48,
-  "referenceActions": "NNNNSSSSEEWWWWNNWWWWWNNNNNWWWSWNNNNNSSEENEENWWWE",
-  "noStarMatchingActions": "NNNNSSSSEEWWWWNNWWWWWNNNNNWWWSWNNNNNSSEENEENWWWE",
+  "referenceSuccessfulInputs": 47,
+  "referenceActions": "NNNNSSSSEEWWWWNNWWWWWNNNNNWWWSWNNNNNSSEEENENEEW",
+  "noStarMatchingActions": "NNNNSSSSEEWWWWNNWWWWWNNNNNWWWSWNNNNNSSEEENENEEW",
   "map": {
     "id": "SW15",
     "index": 15,
-    "title": "연섬의 우회로",
-    "shape": "연 모양 섬",
+    "title": "바람을 꺾는 연섬",
+    "shape": "바람 반사와 제동의 연섬",
     "difficulty": 2,
     "difficultyName": "중간",
     "themeId": "starway",
@@ -63,11 +63,11 @@
       },
       {
         "x": 4,
-        "y": 13
+        "y": 14
       },
       {
         "x": 4,
-        "y": 14
+        "y": 15
       },
       {
         "x": 4,
@@ -171,14 +171,6 @@
       },
       {
         "x": 6,
-        "y": 15
-      },
-      {
-        "x": 6,
-        "y": 16
-      },
-      {
-        "x": 6,
         "y": 17
       },
       {
@@ -208,6 +200,10 @@
       {
         "x": 7,
         "y": 10
+      },
+      {
+        "x": 7,
+        "y": 14
       },
       {
         "x": 7,
@@ -1691,7 +1687,7 @@
       },
       {
         "x": 4,
-        "y": 15
+        "y": 13
       },
       {
         "x": 4,
@@ -1751,6 +1747,14 @@
       },
       {
         "x": 6,
+        "y": 15
+      },
+      {
+        "x": 6,
+        "y": 16
+      },
+      {
+        "x": 6,
         "y": 19
       },
       {
@@ -1788,10 +1792,6 @@
       {
         "x": 7,
         "y": 13
-      },
-      {
-        "x": 7,
-        "y": 14
       },
       {
         "x": 7,
@@ -2119,8 +2119,8 @@
       "y": 8
     },
     "exit": {
-      "x": 5,
-      "y": 14
+      "x": 4,
+      "y": 16
     },
     "bubbles": [
       {
@@ -2133,7 +2133,7 @@
       },
       {
         "x": 4,
-        "y": 14
+        "y": 15
       }
     ],
     "targetBubbles": 3,
@@ -2161,44 +2161,64 @@
         "socketReward": ""
       },
       {
-        "id": "SW15_stone_1",
-        "role": 1,
-        "variant": "",
+        "id": "SW15_wind_1",
+        "role": 20,
+        "variant": "blower",
         "position": {
-          "x": 10,
-          "y": 16
+          "x": 7,
+          "y": 14
         },
         "direction": {
-          "x": 1,
+          "x": -1,
           "y": 0
         },
         "target": {
           "x": 0,
           "y": 0
         },
-        "number": 1,
+        "number": 0,
         "orientation": 0,
         "socketReward": ""
       },
       {
-        "id": "SW15_socket_1",
-        "role": 1,
-        "variant": "socket",
+        "id": "SW15_reflector_1",
+        "role": 18,
+        "variant": "",
         "position": {
-          "x": 11,
-          "y": 16
+          "x": 4,
+          "y": 14
         },
         "direction": {
-          "x": 1,
+          "x": -1,
           "y": 0
         },
         "target": {
           "x": 0,
           "y": 0
         },
-        "number": 1,
+        "number": 0,
+        "orientation": 3,
+        "socketReward": ""
+      },
+      {
+        "id": "SW15_brake_1",
+        "role": 19,
+        "variant": "",
+        "position": {
+          "x": 4,
+          "y": 16
+        },
+        "direction": {
+          "x": 0,
+          "y": 1
+        },
+        "target": {
+          "x": 0,
+          "y": 0
+        },
+        "number": 0,
         "orientation": 0,
-        "socketReward": "None"
+        "socketReward": ""
       }
     ],
     "ranchV13Art": [
@@ -2223,7 +2243,7 @@
         "family": "tall_grass",
         "position": {
           "x": 4,
-          "y": 14
+          "y": 15
         }
       },
       {
@@ -2257,13 +2277,13 @@
       },
       "grassPosition": {
         "x": 4,
-        "y": 14
+        "y": 15
       },
-      "initialManhattanDistance": 4,
-      "physicalTravel": 4,
-      "directPushInputs": 4,
-      "windTravel": 0,
-      "directionChanges": 1,
+      "initialManhattanDistance": 5,
+      "physicalTravel": 5,
+      "directPushInputs": 3,
+      "windTravel": 2,
+      "directionChanges": 2,
       "positions": [
         {
           "x": 5,
@@ -2284,6 +2304,10 @@
         {
           "x": 4,
           "y": 14
+        },
+        {
+          "x": 4,
+          "y": 15
         }
       ]
     },
