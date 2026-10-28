@@ -46,6 +46,25 @@ namespace ANIMOL.Puzzle.Tests
             Assert.That(session.Collected, Is.Zero);
         }
 
+        [TestCase("SW01")]
+        [TestCase("SW02")]
+        [TestCase("SW03")]
+        public void RevisedMapEditorUsesTheRanchTilesForEveryFloor(string id)
+        {
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
+            var rows = ANIMOL.Presentation.Editor.PuzzleMapEditor.StarwayTerrainRows(map);
+            foreach (var tile in map.terrain)
+            {
+                var sprite = ANIMOL.Presentation.Editor.PuzzleMapEditor.TerrainPreviewSprite(map, tile.position, rows);
+                if (tile.blocked) Assert.That(sprite, Is.Null, id + " wall " + tile.position);
+                else Assert.That(sprite, Is.Not.Null, id + " floor " + tile.position);
+            }
+            foreach (var finish in ANIMOL.Art.V12.StarwayRanchV12MaterialSelector.GetBottomFinishes(rows))
+                Assert.That(map.theme.starwayRanch.Find(finish.File), Is.Not.Null, id + " underside " + finish.File);
+            foreach (var piece in ANIMOL.Art.V12.StarwayRanchV12BridgeDecorSelector.Select(rows))
+                Assert.That(map.theme.starwayRanch.Find(piece.File), Is.Not.Null, id + " bridge " + piece.File);
+        }
+
         [Test]
         public void StarwayFocusUsesSevenByElevenCellsAndClampsToRegion()
         {

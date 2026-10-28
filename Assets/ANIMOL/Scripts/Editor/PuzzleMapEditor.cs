@@ -9,6 +9,7 @@ using ANIMOL.Art.RanchConnectedDecorV02;
 using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
+using ANIMOL.Art.V12;
 using ANIMOL.Puzzle;
 using ANIMOL.Puzzle.Editor;
 using UnityEditor;
@@ -1122,10 +1123,31 @@ namespace ANIMOL.Presentation.Editor
                 (x, y) => deck.Contains(new Vector2Int(x, data.Height - 1 - y)),
                 (x, y) => carpet.Contains(new Vector2Int(x, data.Height - 1 - y)));
         }
+        public static string[] StarwayTerrainRows(PuzzleMap data)
+        {
+            var rows = new string[data.Height];
+            for (var y = 0; y < data.Height; y++)
+            {
+                var cells = new char[data.Width];
+                for (var x = 0; x < data.Width; x++)
+                {
+                    if (data.TryTerrain(new Vector2Int(x, data.Height - 1 - y), out var tile) && !tile.blocked)
+                        cells[x] = tile.material == TerrainMaterial.Grass ? 'G' :
+                            tile.material == TerrainMaterial.Stone ? 'S' : 'W';
+                    else cells[x] = '0';
+                }
+                rows[y] = new string(cells);
+            }
+            return rows;
+        }
         public static Sprite TerrainPreviewSprite(PuzzleMap data, Vector2Int p, string[] theaterRows = null)
         {
             if (!data.theme || !data.TryTerrain(p, out var tile)) return null;
             var theme = data.theme;
+            if (theme.starwayRanch)
+                return tile.blocked ? null : theme.starwayRanch.Find(
+                    StarwayRanchV12MaterialSelector.GetTopSpritePath(theaterRows ?? StarwayTerrainRows(data),
+                        p.x, data.Height - 1 - p.y));
             if (theme.memorySkyTheater && theme.memorySkyTheater.v02)
             {
                 var rows = theaterRows ?? TheaterTerrainRows(data);
@@ -1203,12 +1225,13 @@ namespace ANIMOL.Presentation.Editor
             var yMin = Mathf.Max(0, Mathf.FloorToInt((gridScroll.y - origin.y) / cellSize));
             var yMax = Mathf.Min(shownHeight, Mathf.CeilToInt((gridScroll.y + viewport.height - origin.y) / cellSize));
             var islandArt = map.theme ? map.theme.skyIsland : null;
-            var latestTerrain = map.theme && (map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02 ||
+            var latestTerrain = map.theme && (map.theme.starwayRanch || map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02 ||
                 map.theme.sunsetSanctumV02Catalog || map.theme.starSwellCoastV01Catalog);
             if (Event.current.type == EventType.Repaint)
             {
                 var theaterRows = latestTerrain && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02
                     ? TheaterTerrainRows(map) : null;
+                var ranchRows = latestTerrain && map.theme.starwayRanch ? StarwayTerrainRows(map) : null;
                 var decorationsByCell = map.decorations.ToLookup(d => d.position);
                 var configuredByCell = map.scenario ? map.scenario.devices.ToLookup(d => d.position) :
                     Enumerable.Empty<PrototypeDevice>().ToLookup(d => d.position);
@@ -1237,19 +1260,26 @@ namespace ANIMOL.Presentation.Editor
                         DrawSprite(new Rect(origin.x + x * cellSize, origin.y + (row - SkyIslandArt.UndersideY) * cellSize, cellSize, cellSize), pair.underside);
                     }
                 }
+                if (ranchRows != null)
+                    for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
+                    {
+                        var p = new Vector2Int(x, shownHeight - 1 - row);
+                        EditorGUI.DrawRect(new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize - 1, cellSize - 1),
+                            map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                    }
                 if (latestTerrain && Event.current.type == EventType.Repaint)
-                    DrawThemedUndersides(theaterRows, shownHeight, origin,
+                    DrawThemedUndersides(theaterRows, ranchRows, shownHeight, origin,
                         new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height));
                 for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
                 {
                     var p = new Vector2Int(x, shownHeight - 1 - row);
                     var rect = new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize - 1, cellSize - 1);
-                    if (!islandArt) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
+                    if (!islandArt && ranchRows == null) EditorGUI.DrawRect(rect, map.Contains(p) ? new Color(.08f, .11f, .16f) : new Color(.25f, .12f, .16f));
                     if (map.TryTerrain(p, out var tile))
                     {
                         if (latestTerrain)
                         {
-                            var sprite = TerrainPreviewSprite(map, p, theaterRows);
+                            var sprite = TerrainPreviewSprite(map, p, ranchRows ?? theaterRows);
                             if (sprite)
                             {
                                 var previousColor = GUI.color;
@@ -1257,7 +1287,8 @@ namespace ANIMOL.Presentation.Editor
                                 DrawWorldSprite(rect, sprite);
                                 GUI.color = previousColor;
                             }
-                            else GUI.Label(rect, "그림 없음", EditorStyles.whiteMiniLabel);
+                            else if (!(ranchRows != null && tile.blocked))
+                                GUI.Label(rect, "그림 없음", EditorStyles.whiteMiniLabel);
                         }
                         else
                         {
@@ -1833,9 +1864,16 @@ namespace ANIMOL.Presentation.Editor
                 screenPivot.y - (rect.height - sprite.pivot.y) * pixelsToGrid,
                 rect.width * pixelsToGrid, rect.height * pixelsToGrid);
         }
-        void DrawThemedUndersides(string[] theaterRows, int shownHeight, Vector2 origin, Rect visible)
+        void DrawThemedUndersides(string[] theaterRows, string[] ranchRows, int shownHeight, Vector2 origin, Rect visible)
         {
             var theme = map.theme;
+            if (ranchRows != null)
+            {
+                foreach (var finish in StarwayRanchV12MaterialSelector.GetBottomFinishes(ranchRows))
+                    DrawWorldSpriteAt(new Vector2(finish.CenterCellX, map.Height - 1 - finish.CenterCellY),
+                        theme.starwayRanch.Find(finish.File), shownHeight, origin, visible);
+                return;
+            }
             if (theaterRows != null)
             {
                 foreach (var finish in EchoTheaterV03MaterialSelector.GetBottomFinishes(theaterRows))
