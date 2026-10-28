@@ -30,6 +30,23 @@ namespace ANIMOL.Tests
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
                 Assert.That(PuzzlePrototypeBuilder.Verify(AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/"+name+".asset")),Does.Contain("clear"));
         }
+        [Test] public void TheaterWinRequiresThreeBubblesAndExitOnly()
+        {
+            var map=AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzlePrototypeBuilder.Root+"/memory_theater.asset");
+            Assert.That(map.targetBubbles,Is.EqualTo(3));
+            Assert.That(map.bubbles.Distinct().Count(),Is.EqualTo(3));
+            Assert.That(map.scenario.goals,Is.Empty);
+            var session=new PuzzleDeviceSession(map);
+            Assert.That(session.ExitReady,Is.False);
+            foreach(char c in map.scenario.verificationRoute)
+            {
+                Assert.That(session.Apply(PuzzlePrototypeBuilder.Direction(c)).accepted,Is.True);
+                if(session.Collected<3)Assert.That(session.Won,Is.False);
+            }
+            Assert.That(session.Collected,Is.EqualTo(3));
+            Assert.That(session.Cell,Is.EqualTo(map.exit));
+            Assert.That(session.Won,Is.True);
+        }
         [TestCase("memory_theater")][TestCase("letter_observatory")][TestCase("twilight_sea")]
         public void UpdatedGateRoutesClearInOtherCombinedStages(string name)
         {

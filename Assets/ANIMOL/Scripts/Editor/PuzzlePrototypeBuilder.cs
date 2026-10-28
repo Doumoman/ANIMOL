@@ -146,7 +146,8 @@ namespace ANIMOL.Presentation.Editor
                     d.cells=d.cells.Select(p=>p+offset).ToList();m.scenario.devices.Add(d);
                 }
                 foreach(var p in room.scenario.water)m.scenario.water.Add(p+offset);
-                foreach(var g in room.scenario.goals){g.deviceId=i+"_"+g.deviceId;g.cell+=offset;m.scenario.goals.Add(g);}
+                if(theme!="memory_theater")
+                    foreach(var g in room.scenario.goals){g.deviceId=i+"_"+g.deviceId;g.cell+=offset;m.scenario.goals.Add(g);}
                 if(i==0||i==roles.Length-1||i==roles.Length/2)m.bubbles.Add(room.exit+offset);
                 route+=room.scenario.verificationRoute;m.exit=room.exit+offset;
                 if(i<roles.Length-1)
