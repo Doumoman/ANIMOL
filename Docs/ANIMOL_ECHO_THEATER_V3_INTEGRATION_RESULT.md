@@ -36,3 +36,7 @@ ET-05의 기본 면에서 R→D→R 윗면은 4→2→6이고 D→R→R의 최�
 ## V3 art mapping
 
 V3 swaps the north/south face labels relative to the older V03 art orientation table. The view converts that complete six-face state only for V03 sprite and roll-clip lookup; gameplay continues to use the authoritative V3 faces. No generated square or text dice is used. The interior wall cells are omitted from native terrain, so the existing theater renderer shows them as holes.
+
+## V3 floating-decoration cleanup
+
+All 35 V3 stages omit Curtain lintel, Left curtain, Right curtain, Static footlights, Left seats, Right seats, and Organ from the map artwork. The background rig omits only velvet_swag_lower_right. Source art and layouts remain available for other theater content. Unity 6000.3.8f1 compiled with zero errors; PlayMode EchoTheaterV3PlayTests passed 3/3, including an active-hierarchy check of all 35 stages. ET-03 and ET-05 Unity captures were refreshed.

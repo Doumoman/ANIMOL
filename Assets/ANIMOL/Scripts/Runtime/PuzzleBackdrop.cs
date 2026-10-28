@@ -13,7 +13,8 @@ namespace ANIMOL.Puzzle
         SpriteRenderer farImage;
         Vector2 lastSize;
         public static float UniformCover(Vector2 frame, Vector2 source) => Mathf.Max(frame.x / source.x, frame.y / source.y);
-        public void Configure(PuzzleTheme data, Camera gameplay, PuzzleCameraSettings settings)
+        public void Configure(PuzzleTheme data, Camera gameplay, PuzzleCameraSettings settings,
+            bool omitEchoTheaterV3Decor = false)
         {
             if (data.twilightCoast)
             {
@@ -32,7 +33,8 @@ namespace ANIMOL.Puzzle
                 var art = data.memorySkyTheater;
                 if (art.v02)
                 {
-                    gameObject.AddComponent<EchoTheaterV02Background>().Configure(art.v02, gameplay);
+                    gameObject.AddComponent<EchoTheaterV02Background>().Configure(art.v02, gameplay,
+                        omitEchoTheaterV3Decor);
                     return;
                 }
                 gameObject.AddComponent<SkyIslandBackdrop>().Configure(art.far, art.mid, art.near, art.compositor, gameplay); return;

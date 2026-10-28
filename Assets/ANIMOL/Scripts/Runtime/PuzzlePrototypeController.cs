@@ -56,7 +56,10 @@ namespace ANIMOL.Puzzle
                 StarwayRanchBackground.Create(presentation, cam, RuntimeMap.theme.starwayRanch);
             else
             {
-                var backdrop = new GameObject("Native pixel background").AddComponent<PuzzleBackdrop>(); backdrop.transform.SetParent(presentation, false); backdrop.Configure(RuntimeMap.theme, cam, RuntimeMap.cameraSettings);
+                var backdrop = new GameObject("Native pixel background").AddComponent<PuzzleBackdrop>();
+                backdrop.transform.SetParent(presentation, false);
+                backdrop.Configure(RuntimeMap.theme, cam, RuntimeMap.cameraSettings,
+                    RuntimeMap.scenario && RuntimeMap.scenario.echoTheaterV3Rules);
             }
             Devices = new GameObject("Committed devices").AddComponent<PuzzleDeviceView>(); Devices.transform.SetParent(presentation, false); Devices.Bind(Session, renderer, secondsPerCell); view.Present(Session); view.RestoreRanchNests(Session);
             var input = GetComponent<PuzzleSwipeInput>(); if (!input) input = gameObject.AddComponent<PuzzleSwipeInput>(); input.SetReceiver(RequestMove);

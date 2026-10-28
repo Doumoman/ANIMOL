@@ -28,7 +28,7 @@ namespace ANIMOL.Puzzle
     {
         EchoTheaterV03BackgroundRig rig;
 
-        public void Configure(EchoTheaterV02Art art, Camera camera)
+        public void Configure(EchoTheaterV02Art art, Camera camera, bool omitV3FloatingDecor = false)
         {
             if (!art || !art.backgroundLayout || !camera) return;
             var layout = JsonUtility.FromJson<EchoTheaterV02BackgroundLayout>(art.backgroundLayout.text);
@@ -47,6 +47,7 @@ namespace ANIMOL.Puzzle
             var layers = new List<EchoTheaterV03BackgroundRig.Layer>(layout.layers.Length);
             foreach (var item in layout.layers)
             {
+                if (omitV3FloatingDecor && item.id == "velvet_swag_lower_right") continue;
                 var sprite = art.Find(item.file);
                 if (!sprite) throw new InvalidOperationException("Missing theater background sprite: " + item.file);
                 var position = new Vector3(camera.transform.position.x + item.positionWorld[0],

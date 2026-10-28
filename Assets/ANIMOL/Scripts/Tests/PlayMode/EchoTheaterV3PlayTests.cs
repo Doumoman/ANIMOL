@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using System.Linq;
 using ANIMOL.Puzzle;
 using NUnit.Framework;
 using UnityEditor;
@@ -27,6 +28,12 @@ namespace ANIMOL.Tests
                     controller.Load(entry.map);
                     Assert.That(controller.Session, Is.Not.Null, entry.stageId);
                     Assert.That(controller.Devices.MissingBindings, Is.Zero, entry.stageId);
+                    var names = controller.GetComponentsInChildren<Transform>()
+                        .Select(t => t.name).ToArray();
+                    foreach (var omitted in new[] { "Curtain lintel", "Left curtain", "Right curtain",
+                        "Static footlights", "velvet_swag_lower_right", "Left seats", "Right seats", "Organ" })
+                        Assert.That(names, Does.Not.Contain(omitted), entry.stageId + " " + omitted);
+                    Assert.That(names, Does.Contain("Sky base"), entry.stageId);
                     foreach (var die in entry.map.scenario.devices)
                     {
                         if (die.role != PrototypeRole.Dice || die.variant == "socket" || die.variant == "target") continue;

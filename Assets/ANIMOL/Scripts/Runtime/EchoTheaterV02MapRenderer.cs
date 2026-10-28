@@ -76,7 +76,7 @@ namespace ANIMOL.Puzzle
                 Add(rail.File, "Catwalk " + rail.Kind,
                     new Vector3(origin.x + rail.XPixel / 256f, origin.y - rail.YPixel / 256f, 0),
                     rail.Layer);
-            PlaceExistingProps();
+            if (!map.scenario || !map.scenario.echoTheaterV3Rules) PlaceExistingProps();
         }
 
         void PlaceExistingProps()
