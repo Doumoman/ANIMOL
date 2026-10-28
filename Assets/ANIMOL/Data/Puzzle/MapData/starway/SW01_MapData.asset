@@ -15,42 +15,77 @@ MonoBehaviour:
   title: "\uCD08\uC2B9\uB2EC\uC758 \uCCAB \uADC0\uD658"
   themeId: starway
   echoTheaterV3Rules: 0
-  verificationRoute: NWSESSNNNNEEEESNNNNNEEEENNNSSEEN
+  verificationRoute: SEENNEEEESSSNWWWWSSNNNNNWWNNEEEEEEEEEEESSWWNNWNEEEEEEEEEEENNSSEEN
   beamPrefab: {fileID: 0}
   devices:
-  - id: SW01_chick_1
-    variant: 
-    group: SW01_chick_1
+  - id: chick_1
+    variant:
+    group:
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
-    initialVisual: 
+    initialVisual:
     role: 24
-    position: {x: 4, y: 7}
+    position: {x: 4, y: 9}
     direction: {x: 1, y: 0}
-    target: {x: 2, y: 8}
+    target: {x: 6, y: 10}
     orientation: 0
     number: 1
     initialDiceFaces: 010000000600000005000000020000000300000004000000
     active: 0
     socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
+    socketBridgeId:
+    socketBubbleCell: {x: 3, y: 6}
     cells: []
     blastOffsets: []
   ranchV13Art:
-  - family: sheep
-    instanceId: SW01_sheep_1
-    position: {x: 12, y: 15}
+  - family: tall_grass
+    instanceId: cd455e05111046e5bb8c3c3511ee325d
+    position: {x: 9, y: 14}
     direction: {x: 1, y: 0}
     hasPondB: 0
-    pondB: {x: 0, y: 0}
+    pondB: {x: 10, y: 14}
     rightState: 0
   - family: tall_grass
-    instanceId: SW01_tall_grass_1
-    position: {x: 12, y: 16}
+    instanceId: e7b12f8f9e7447ea930c36f301fc379b
+    position: {x: 7, y: 16}
     direction: {x: 1, y: 0}
     hasPondB: 0
-    pondB: {x: 0, y: 0}
+    pondB: {x: 8, y: 16}
+    rightState: 0
+  - family: tall_grass
+    instanceId: dbb29b805f4745ef8521a48d216d7485
+    position: {x: 10, y: 14}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 11, y: 14}
+    rightState: 0
+  - family: tall_grass
+    instanceId: 2d49d470e4f94b869b0138526dfbe31f
+    position: {x: 8, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 9, y: 16}
+    rightState: 0
+  - family: sheep
+    instanceId: 2c5a4e16833b456985c166aea4254e9a
+    position: {x: 6, y: 13}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 7, y: 13}
+    rightState: 0
+  - family: sheep
+    instanceId: 846e5845123146968f7453672ad901d7
+    position: {x: 4, y: 13}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 5, y: 13}
+    rightState: 0
+  - family: sheep
+    instanceId: 0af3e508102f47e0847442f833decb7f
+    position: {x: 6, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 7, y: 16}
     rightState: 0
   water: []
   goals: []
@@ -80,7 +115,7 @@ MonoBehaviour:
   theme: {fileID: 11400000, guid: 84dac723bb5d43e4c8daca4c5c0d4aa5, type: 2}
   scenario: {fileID: -8669351226120218679}
   starwayV3Certificate: {fileID: 0}
-  starwayV3ScenarioSha256: 
+  starwayV3ScenarioSha256:
   targetBubbles: 3
   cameraSettings:
     visibleRows: 11
@@ -91,7 +126,7 @@ MonoBehaviour:
     farParallax: 0.08
     midParallax: 0.3
     nearParallax: 0.65
-  start: {x: 4, y: 8}
+  start: {x: 2, y: 11}
   exit: {x: 14, y: 15}
   terrain:
   - position: {x: 1, y: 3}
@@ -154,9 +189,6 @@ MonoBehaviour:
   - position: {x: 2, y: 7}
     material: 0
     blocked: 0
-  - position: {x: 2, y: 8}
-    material: 0
-    blocked: 0
   - position: {x: 2, y: 9}
     material: 0
     blocked: 0
@@ -205,12 +237,6 @@ MonoBehaviour:
   - position: {x: 3, y: 7}
     material: 1
     blocked: 1
-  - position: {x: 3, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 9}
-    material: 0
-    blocked: 0
   - position: {x: 3, y: 10}
     material: 0
     blocked: 0
@@ -256,12 +282,6 @@ MonoBehaviour:
   - position: {x: 4, y: 5}
     material: 1
     blocked: 1
-  - position: {x: 4, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 7}
-    material: 0
-    blocked: 0
   - position: {x: 4, y: 8}
     material: 0
     blocked: 0
@@ -895,9 +915,12 @@ MonoBehaviour:
   - position: {x: 17, y: 17}
     material: 1
     blocked: 1
+  - position: {x: 2, y: 8}
+    material: 0
+    blocked: 0
   devices: []
   decorations: []
   bubbles:
-  - {x: 4, y: 6}
   - {x: 8, y: 9}
   - {x: 12, y: 16}
+  - {x: 4, y: 8}

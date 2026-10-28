@@ -15,42 +15,63 @@ MonoBehaviour:
   title: "\uB124 \uAC08\uB798 \uBC29\uC6B8 \uB9C8\uB2F9"
   themeId: starway
   echoTheaterV3Rules: 0
-  verificationRoute: SWNEEEWWSWSWWWSSWWSSWWNNNSSSSS
+  verificationRoute: SSWWWWSSWWSSWWNNSSSSSSEEEEEENNNNSSWWSSWWWWN
   beamPrefab: {fileID: 0}
   devices:
   - id: SW02_chick_1
-    variant: 
+    variant:
     group: SW02_chick_1
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
-    initialVisual: 
+    initialVisual:
     role: 24
     position: {x: 11, y: 18}
     direction: {x: 1, y: 0}
-    target: {x: 10, y: 16}
+    target: {x: 10, y: 9}
     orientation: 0
     number: 1
     initialDiceFaces: 010000000600000005000000020000000300000004000000
     active: 0
     socketReward: 0
-    socketBridgeId: 
+    socketBridgeId:
     socketBubbleCell: {x: 0, y: 0}
     cells: []
     blastOffsets: []
   ranchV13Art:
-  - family: sheep
-    instanceId: SW02_sheep_1
-    position: {x: 2, y: 13}
+  - family: tall_grass
+    instanceId: b662a45f8a97428a9fec8f866ce7e302
+    position: {x: 6, y: 13}
     direction: {x: 1, y: 0}
     hasPondB: 0
-    pondB: {x: 0, y: 0}
+    pondB: {x: 7, y: 13}
     rightState: 0
   - family: tall_grass
-    instanceId: SW02_tall_grass_1
-    position: {x: 2, y: 14}
+    instanceId: 26db58acdcaa49399ec94b71a9df5c06
+    position: {x: 8, y: 13}
     direction: {x: 1, y: 0}
     hasPondB: 0
-    pondB: {x: 0, y: 0}
+    pondB: {x: 9, y: 13}
+    rightState: 0
+  - family: sheep
+    instanceId: 9394e40ab7f24d808ab3275ad258103f
+    position: {x: 7, y: 17}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 8, y: 17}
+    rightState: 0
+  - family: sluice
+    instanceId: 676945d06274454b92785b599407b8d7
+    position: {x: 4, y: 14}
+    direction: {x: 1, y: 0}
+    hasPondB: 1
+    pondB: {x: 5, y: 14}
+    rightState: 1
+  - family: sluice
+    instanceId: 300627f28cec49e08a535153f61850da
+    position: {x: 4, y: 8}
+    direction: {x: 1, y: 0}
+    hasPondB: 1
+    pondB: {x: 5, y: 8}
     rightState: 0
   water: []
   goals: []
@@ -80,7 +101,7 @@ MonoBehaviour:
   theme: {fileID: 11400000, guid: 84dac723bb5d43e4c8daca4c5c0d4aa5, type: 2}
   scenario: {fileID: -6042289702985892708}
   starwayV3Certificate: {fileID: 0}
-  starwayV3ScenarioSha256: 
+  starwayV3ScenarioSha256:
   targetBubbles: 3
   cameraSettings:
     visibleRows: 11
@@ -610,9 +631,6 @@ MonoBehaviour:
   - position: {x: 11, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 11, y: 15}
-    material: 1
-    blocked: 1
   - position: {x: 11, y: 16}
     material: 0
     blocked: 0
@@ -874,6 +892,7 @@ MonoBehaviour:
   devices: []
   decorations: []
   bubbles:
-  - {x: 12, y: 18}
-  - {x: 2, y: 10}
   - {x: 2, y: 14}
+  - {x: 8, y: 8}
+  - {x: 8, y: 12}
+  - {x: 6, y: 12}
