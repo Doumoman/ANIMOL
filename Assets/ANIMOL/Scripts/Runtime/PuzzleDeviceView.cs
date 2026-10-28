@@ -24,6 +24,8 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, string> sanctumBeamSignatures =
             new Dictionary<string, string>(StringComparer.Ordinal);
         readonly Dictionary<string, Transform> roots = new Dictionary<string, Transform>();
+        readonly Dictionary<string, EchoTheaterDiceFaceView> echoDice = new Dictionary<string, EchoTheaterDiceFaceView>();
+        readonly HashSet<string> echoReflectors = new HashSet<string>();
         readonly Dictionary<string, SeatedStarVisual> seatedStars = new Dictionary<string, SeatedStarVisual>();
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
@@ -125,6 +127,21 @@ namespace ANIMOL.Puzzle
                     { MissingBindings++; Debug.LogError("Starway Ranch V13 binding failed: " + error, root); root.SetActive(false); }
                     continue;
                 }
+                if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Dice &&
+                    d.variant != "target" && d.variant != "socket")
+                {
+                    var faceView = root.AddComponent<EchoTheaterDiceFaceView>();
+                    faceView.Configure(); faceView.Present(session.States[d.id].dice);
+                    echoDice.Add(d.id, faceView);
+                    continue;
+                }
+                if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Bounce &&
+                    (d.variant == "slash" || d.variant == "backslash"))
+                {
+                    root.AddComponent<EchoTheaterReflectorView>().Configure(d.variant == "slash");
+                    echoReflectors.Add(d.id);
+                    continue;
+                }
                 var ferry = root.GetComponent<FerryVisualView>();
                 if (ferry)
                 {
@@ -135,7 +152,7 @@ namespace ANIMOL.Puzzle
                 else
                 {
                     var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view; if (view.visual) view.visual.sortingOrder = d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30;
-                        if (theaterArt && theaterArt.v03Animations && d.variant != "plate" && d.variant != "target" && HasV03DeviceArt(d.role))
+                        if (theaterArt && theaterArt.v03Animations && d.variant != "plate" && d.variant != "target" && d.variant != "socket" && HasV03DeviceArt(d.role))
                             if (!view.ActivateV03(theaterArt.v03Animations, theaterArt.v03ManifestSha256)) MissingBindings++;
                         if (session.Map.theme && session.Map.theme.starwayRanch)
                         {
@@ -257,10 +274,17 @@ namespace ANIMOL.Puzzle
                 if (!sanctum.Notify(e, session.States[e.actor], session.Cost, windFeedbackDuration)) MissingBindings++;
                 return;
             }
+            if (echoDice.TryGetValue(e.actor ?? "", out var echoFace))
+            {
+                if (e.eventName == "actual_one_cell_die_roll") echoFace.BeginRoll(e.rollHeading);
+                return;
+            }
+            if (echoReflectors.Contains(e.actor ?? "")) return;
             if (!views.TryGetValue(e.actor ?? "", out var view)) return;
             var definition = session.Definition(e.actor);
             if (diceVisualMap != null && definition != null && definition.role == PrototypeRole.Dice &&
-                definition.variant != "target" && e.eventName == "actual_one_cell_die_roll")
+                definition.variant != "target" && definition.variant != "socket" && !echoDice.ContainsKey(definition.id) &&
+                e.eventName == "actual_one_cell_die_roll")
             {
                 string error = null;
                 EchoTheaterV03DiceOrientation.State before, after;
@@ -455,8 +479,19 @@ namespace ANIMOL.Puzzle
                 { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
-                if (!roots.TryGetValue(d.id, out var root) || !views.TryGetValue(d.id, out var view)) continue;
+                if (!roots.TryGetValue(d.id, out var root)) continue;
+                if (echoDice.TryGetValue(d.id, out var faceView))
+                {
+                    root.localPosition = (Vector2)s.cell;
+                    root.gameObject.SetActive(!s.removed);
+                    if (!s.removed) faceView.Present(s.dice);
+                    continue;
+                }
+                if (echoReflectors.Contains(d.id)) { root.localPosition = (Vector2)s.cell; continue; }
+                if (!views.TryGetValue(d.id, out var view)) continue;
                 root.localPosition = (Vector2)s.cell;
+                if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Domino && s.active)
+                { root.gameObject.SetActive(false); continue; }
                 if (s.removed || (d.role == PrototypeRole.Chick && s.active &&
                     d.target != Vector2Int.zero && session.Map.Walkable(d.target) &&
                     session.Map.theme && session.Map.theme.starwayRanch &&
@@ -507,7 +542,7 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Brake: return "idle_" + (d.variant == "vertical" ? "vertical" : "horizontal");
                 case PrototypeRole.Wind: return (d.variant == "blower" ? "blower_idle_" : "wind_flow_") + dir;
                 case PrototypeRole.Glass: return "intact_" + (string.IsNullOrEmpty(d.variant) ? "square" : d.variant);
-                case PrototypeRole.Dice: return d.variant == "target" ? "target_" + d.number + (s.active ? "_on" : "_off") : s.DiceId;
+                case PrototypeRole.Dice: return d.variant == "target" || d.variant == "socket" ? "target_" + d.number + (s.active ? "_on" : "_off") : s.DiceId;
                 case PrototypeRole.Magnet: return d.variant == "switch" ? (s.active ? "switch_on" : "switch_off") : (s.active ? "on_" : "off_") + dir;
                 case PrototypeRole.Optics:
                     if (d.variant == "mirror") return s.phase == 0 ? "mirror_slash" : "mirror_backslash";

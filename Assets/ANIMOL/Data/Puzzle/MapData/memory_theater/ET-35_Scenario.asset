@@ -1,0 +1,241 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: ET-35_Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uC138 \uC22B\uC790\uC758 \uCEE4\uD2BC\uCF5C"
+  themeId: memory_theater
+  echoTheaterV3Rules: 1
+  verificationRoute: RRURDRRRRRDDDDDRDRDLULDDDDDDLLLLLLDURRRRDDDDLDRURDLDRRRRLLLUURUUUUUUUUUUUUUULLLULULDDDDLLLLLLUURRDDDDDDDDLLU
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: conveyor_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 2, y: 18}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: reflector_2
+    variant: backslash
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 5751376457866879347, guid: 95ac1691a83f1d34086f37129662ea9a, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 2, y: 16}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: brake_3
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6068852089537676916, guid: 86c4f48174e87af44815dd4cbf74c5d4, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 4, y: 16}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: oneway_4
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 333183891977533475, guid: cb5c85e2f62752046a27bf0e9ce9e631, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 13, y: 18}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: shutter_5
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8761605271224070040, guid: 3841aacd0cc328144bdd0cb58c886fde, type: 3}
+    initialVisual: 
+    role: 4
+    position: {x: 11, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 1
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: Q1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 15, y: 14}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000002000000050000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: G1
+    variant: socket
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 14, y: 12}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 6
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: Q2
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 12, y: 4}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000002000000050000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: G2
+    variant: socket
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 14, y: 2}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 5
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: Q3
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 9, y: 20}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000002000000050000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: G3
+    variant: socket
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 8, y: 18}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 6
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art: []
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

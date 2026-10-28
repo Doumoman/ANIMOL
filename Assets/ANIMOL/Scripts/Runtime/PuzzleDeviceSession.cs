@@ -77,7 +77,10 @@ namespace ANIMOL.Puzzle
             var errors = map.ValidateMap();
             if (errors.Count != 0) throw new ArgumentException(string.Join("; ", errors));
             definitions = Rules.devices.Where(d => Map.Contains(d.position)).OrderBy(d => d.id, StringComparer.Ordinal).ToList();
-            foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, lookDirection = d.direction, active = d.active, phase = d.orientation });
+            foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, lookDirection = d.direction,
+                active = d.active, phase = d.orientation,
+                dice = d.role == PrototypeRole.Dice && d.variant != "target" && d.variant != "socket" && d.initialDiceFaces != null && d.initialDiceFaces.Length == 6
+                    ? (int[])d.initialDiceFaces.Clone() : new[] { 1, 6, 5, 2, 3, 4 } });
             foreach (var art in Rules.ranchV13Art.Where(a => a != null))
             {
                 if (art.family == "sheep") { ranchSheep.Add(art.Id, art.position); ranchSheepDirections.Add(art.Id, art.direction); }
@@ -151,7 +154,7 @@ namespace ANIMOL.Puzzle
             {
                 case PrototypeRole.StarSocket: return d.variant != "socket";
                 case PrototypeRole.Bookshelf: return d.variant != "plate";
-                case PrototypeRole.Dice: return d.variant != "target";
+                case PrototypeRole.Dice: return d.variant != "target" && d.variant != "socket";
                 case PrototypeRole.Magnet: return d.variant != "switch";
                 case PrototypeRole.Optics: return d.variant == "source" || d.variant == "mirror" || (d.variant == "gate" && !s.active);
                 case PrototypeRole.Shutter: return !s.active;
@@ -178,9 +181,17 @@ namespace ANIMOL.Puzzle
             return moving != null && moving.role == PrototypeRole.StarSocket &&
                 moving.variant != "socket" && moving.number == socket.number;
         }
+        bool DiceSocketPassable(Vector2Int p, string movingId)
+        {
+            if (!Rules.echoTheaterV3Rules) return true;
+            var socket = At(p, d => d.role == PrototypeRole.Dice && d.variant == "socket");
+            if (socket == null || states[socket.id].active) return true;
+            var moving = Definition(movingId);
+            return moving != null && moving.role == PrototypeRole.Dice && moving.variant != "target" && moving.variant != "socket";
+        }
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
-            StarSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
+            StarSocketPassable(p, except) && DiceSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
             At(p, d => d.role == PrototypeRole.Boat, except) == null && !ranchSheep.Values.Contains(p);
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
         static GateHeading GateDirection(Vector2Int p)
@@ -398,7 +409,7 @@ namespace ANIMOL.Puzzle
                     if (!Supported(destination)) return false;
                     var body = At(destination, Solid);
                     if (body != null && !Push(body, Direction)) return false;
-                    if (!StarSocketPassable(destination, null)) return false;
+                    if (!StarSocketPassable(destination, null) || !DiceSocketPassable(destination, null)) return false;
                     if (At(destination, Solid) != null) return false;
                 }
             }
@@ -487,11 +498,12 @@ namespace ANIMOL.Puzzle
                     var bounce = At(Cell, d => d.role == PrototypeRole.Bounce);
                     if (bounce != null && forced)
                     {
-                        var reflected = ReflectCorner(Direction, bounce.orientation);
+                        var reflected = bounce.variant == "slash" || bounce.variant == "backslash"
+                            ? ReflectMirror(Direction, bounce.variant == "slash") : ReflectCorner(Direction, bounce.orientation);
                         if (reflected == Vector2Int.zero) return;
                         Direction = reflected; Visual(bounce, "impact_" + Corner(bounce.orientation), "existing_bounce_resolved");
                     }
-                    else if (!sliding) return;
+                    else if (!sliding && !(Rules.echoTheaterV3Rules && forced)) return;
                 }
                 if (!StepPlayer(Cell + Direction, windSource)) return;
             }
@@ -504,13 +516,21 @@ namespace ANIMOL.Puzzle
                 if (s.direction != direction) return false;
                 for (var p = s.cell; ; p += direction)
                 {
-                    var next = At(p, x => x.role == PrototypeRole.Domino && !states[x.id].active && states[x.id].direction == direction);
+                    var next = At(p, x => x.role == PrototypeRole.Domino && !states[x.id].active && states[x.id].direction == direction &&
+                        (!Rules.echoTheaterV3Rules || x.group == d.group));
                     if (next == null) break;
                     states[next.id].active = true; Visual(next, "fold_" + Dir(direction), "this_domino_piece_fold_committed");
                 }
                 return true;
             }
             if (d.role != PrototypeRole.StarSocket && d.role != PrototypeRole.Barrel && d.role != PrototypeRole.Bomb && d.role != PrototypeRole.Dice && d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.MetalCrate) return false;
+            var diceSocket = d.role == PrototypeRole.Dice && d.variant != "target" && d.variant != "socket"
+                ? At(s.cell + direction, x => x.role == PrototypeRole.Dice && x.variant == "socket" && !states[x.id].active) : null;
+            if (diceSocket != null)
+            {
+                var rolled = (int[])s.dice.Clone(); Roll(rolled, direction);
+                if (rolled[0] != diceSocket.number || direction != diceSocket.direction) return false;
+            }
             var mismatch = MismatchedSocket(d, s.cell + direction);
             if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); return false; }
             if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) return false;
@@ -520,6 +540,12 @@ namespace ANIMOL.Puzzle
             pushedThisAction.Add(d.id);
             if (d.role == PrototypeRole.Dice)
             { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
+            if (diceSocket != null)
+            {
+                s.removed = true; states[diceSocket.id].active = true;
+                Visual(diceSocket, "target_" + diceSocket.number + "_match", "die_target_match_committed");
+                return true;
+            }
             if (d.role == PrototypeRole.StarSocket) Visual(d, "stone_push_" + Dir(direction), "existing_push_visual");
             if (d.role == PrototypeRole.Bomb && s.timer == 0) { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
             if (d.role == PrototypeRole.Barrel) Visual(d, "start_" + Dir(direction), "existing_barrel_push_committed");
@@ -665,7 +691,7 @@ namespace ANIMOL.Puzzle
                     }
                     if (linked.role == PrototypeRole.Bookshelf && rising)
                     {
-                        var phase = ls.phase; ls.phase = (phase + 1) % 4;
+                        var phase = ls.phase; ls.phase = Rules.echoTheaterV3Rules ? 1 - phase : (phase + 1) % 4;
                         if (Footprint(linked).Any(p => !Free(p, linked.id))) ls.phase = phase;
                         else if (animate) Visual(linked, "rotate_" + phase * 90 + "_cw", "bookshelf_rotation_committed");
                     }

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: ET-12_Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uC6C0\uC9C1\uC774\uB294 \uCD9C\uC785\uAD6C"
+  themeId: memory_theater
+  echoTheaterV3Rules: 1
+  verificationRoute: RUUUULLULLUUUULLUULRDDRRDDLLDDDDRRRRRRUURRRRRUUUUUDDDDDD
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: oneway_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 333183891977533475, guid: cb5c85e2f62752046a27bf0e9ce9e631, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 8, y: 7}
+    direction: {x: 0, y: 1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: platform_2
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
+    initialVisual: 
+    role: 6
+    position: {x: 10, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells:
+    - {x: 10, y: 8}
+    - {x: 11, y: 8}
+    blastOffsets: []
+  ranchV13Art: []
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

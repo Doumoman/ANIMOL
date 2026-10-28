@@ -59,6 +59,8 @@ namespace ANIMOL.Puzzle
         public PrototypeRole role;
         public Vector2Int position, direction = Vector2Int.right, target;
         public int orientation, number = 1;
+        // Dice source order: top, bottom, north, south, east, west.
+        public int[] initialDiceFaces = { 1, 6, 5, 2, 3, 4 };
         public bool active;
         public StarSocketReward socketReward;
         public string socketBridgeId;
@@ -78,6 +80,7 @@ namespace ANIMOL.Puzzle
     public sealed class PuzzleScenario : ScriptableObject
     {
         public string title, themeId;
+        public bool echoTheaterV3Rules;
         [Tooltip("Review/verification route, never used by gameplay.")] public string verificationRoute;
         public GameObject beamPrefab;
         public List<PrototypeDevice> devices = new List<PrototypeDevice>();

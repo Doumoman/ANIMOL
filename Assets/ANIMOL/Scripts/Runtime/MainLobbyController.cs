@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Animol.UI.Pattern;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace ANIMOL.Menu
@@ -118,6 +119,7 @@ namespace ANIMOL.Menu
             campaignContinueButton.onClick.AddListener(() =>
             {
                 if (CampaignContinueOverride != null) CampaignContinueOverride();
+                else if (catalog.themes[campaignTheme].id == "theater") SceneManager.LoadScene("ANIMOL_Echo_Theater");
                 else OpenModal("스테이지 선택", "정식 캠페인 스테이지 목록이 아직 연결되지 않았습니다.");
             });
             modalCloseButton.onClick.AddListener(CloseModal);
