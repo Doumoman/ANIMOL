@@ -131,7 +131,11 @@ namespace ANIMOL.Puzzle
                     d.variant != "target" && d.variant != "socket")
                 {
                     var faceView = root.AddComponent<EchoTheaterDiceFaceView>();
-                    faceView.Configure(); faceView.Present(session.States[d.id].dice);
+                    string error;
+                    if (!faceView.Configure(diceVisualMap, theaterArt ? theaterArt.v03Animations : null,
+                        theaterArt ? theaterArt.v03ManifestSha256 : null, out error))
+                    { MissingBindings++; Debug.LogError("V3 dice art: " + error, root); }
+                    else faceView.Present(session.States[d.id].dice);
                     echoDice.Add(d.id, faceView);
                     continue;
                 }
@@ -276,7 +280,7 @@ namespace ANIMOL.Puzzle
             }
             if (echoDice.TryGetValue(e.actor ?? "", out var echoFace))
             {
-                if (e.eventName == "actual_one_cell_die_roll") echoFace.BeginRoll(e.rollHeading);
+                if (e.eventName == "actual_one_cell_die_roll") echoFace.BeginRoll(e.rollHeading, e.diceBefore, e.diceAfter);
                 return;
             }
             if (echoReflectors.Contains(e.actor ?? "")) return;

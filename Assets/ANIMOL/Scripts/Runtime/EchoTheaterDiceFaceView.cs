@@ -1,62 +1,83 @@
 using UnityEngine;
 using ANIMOL.Presentation;
+using ANIMOL.Art.EchoTheaterV03;
 
 namespace ANIMOL.Puzzle
 {
-    // V3 uses the opposite north/south chirality from the older baked 24-state sheet.
-    // These labels show the authoritative six-face state without remapping its numbers.
+    // V3 mirrors the north/south labels of V03's 24-state sheet. Convert only for
+    // art lookup; the authoritative faces remain in PuzzleDeviceSession.
     public sealed class EchoTheaterDiceFaceView : MonoBehaviour
     {
-        TextMesh top, north, east;
-        int[] shown;
+        EchoTheaterV03DiceVisualMap map;
+        EchoTheaterV03VisualCatalog catalog;
+        string manifestHash;
+        Sprite[] rollFrames;
+        SpriteRenderer image;
+        Sprite settled;
         float rollTime;
-        Vector2Int rollHeading;
-        static Sprite square;
-
-        static TextMesh Label(Transform parent, string name, Vector3 position, int size)
+        internal static bool TryArtState(int[] faces, out EchoTheaterV03DiceOrientation.State state, out string error)
         {
-            var child = new GameObject(name); child.transform.SetParent(parent, false);
-            child.transform.localPosition = position;
-            var label = child.AddComponent<TextMesh>(); label.fontSize = size; label.characterSize = .09f;
-            label.anchor = TextAnchor.MiddleCenter; label.alignment = TextAlignment.Center;
-            label.color = new Color(.19f, .13f, .25f);
-            child.GetComponent<MeshRenderer>().sortingOrder = 32;
-            return label;
+            state = default;
+            if (faces == null || faces.Length != 6) { error = "Six dice faces required."; return false; }
+            return EchoTheaterV03DiceOrientation.TryCreate(faces[0], faces[1], faces[3], faces[2],
+                faces[4], faces[5], out state, out error);
         }
-        public void Configure()
+
+        static EchoTheaterV03DiceOrientation.Heading ArtHeading(Vector2Int direction) =>
+            direction == Vector2Int.up ? EchoTheaterV03DiceOrientation.Heading.South :
+            direction == Vector2Int.down ? EchoTheaterV03DiceOrientation.Heading.North :
+            direction == Vector2Int.right ? EchoTheaterV03DiceOrientation.Heading.East :
+            direction == Vector2Int.left ? EchoTheaterV03DiceOrientation.Heading.West :
+                EchoTheaterV03DiceOrientation.Heading.None;
+
+        public bool Configure(EchoTheaterV03DiceVisualMap map, EchoTheaterV03VisualCatalog catalog,
+            string manifestHash, out string error)
         {
+            error = null;
             var view = GetComponent<DeviceVisualView>();
+            image = view && view.visual ? view.visual : GetComponentInChildren<SpriteRenderer>();
+            if (!image || map == null || !catalog)
+            { error = "Dice prefab or V03 orientation art is missing."; return false; }
+            this.map = map; this.catalog = catalog; this.manifestHash = manifestHash;
             if (view) view.enabled = false;
-            var animated = GetComponent<ANIMOL.Art.EchoTheaterV03.EchoTheaterV03AnimatedVisual>();
+            var animated = GetComponent<EchoTheaterV03AnimatedVisual>();
             if (animated) animated.enabled = false;
-            if (!square) square = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 1, 1),
-                new Vector2(.5f, .5f), 1f);
-            var image = view && view.visual ? view.visual : GetComponentInChildren<SpriteRenderer>();
-            if (image) { image.sprite = square; image.color = new Color(.96f, .89f, .72f); image.sortingOrder = 30;
-                image.transform.localScale = Vector3.one * .78f; }
-            top = Label(transform, "Top face", new Vector3(0, .18f, -.01f), 54);
-            north = Label(transform, "North face", new Vector3(-.18f, -.17f, -.01f), 29);
-            east = Label(transform, "East face", new Vector3(.18f, -.17f, -.01f), 29);
+            image.sortingOrder = 30;
+            return true;
         }
         public void Present(int[] faces)
         {
-            if (faces == null || faces.Length != 6) return;
-            if (shown != null && shown[0] != faces[0]) rollTime = .15f;
-            shown = (int[])faces.Clone();
-            top.text = faces[0].ToString(); north.text = faces[2].ToString(); east.text = faces[4].ToString();
+            EchoTheaterV03DiceOrientation.State state;
+            string key, error;
+            EchoTheaterV03VisualCatalog.Clip clip;
+            if (!TryArtState(faces, out state, out error) ||
+                !map.TryGetStableClip(state, out key, out error) ||
+                !catalog.TryGetClip(key, manifestHash, out clip, out error))
+            { Debug.LogError("V3 dice stable art: " + error, this); return; }
+            settled = clip.GetFrame(0).Sprite;
+            if (rollTime <= 0f) image.sprite = settled;
         }
-        public void BeginRoll(Vector2Int heading)
+        public void BeginRoll(Vector2Int heading, int[] beforeFaces, int[] afterFaces)
         {
-            rollHeading = heading;
-            rollTime = .15f;
+            EchoTheaterV03DiceOrientation.State before, after;
+            string key, error;
+            EchoTheaterV03VisualCatalog.Clip clip;
+            if (!TryArtState(beforeFaces, out before, out error) || !TryArtState(afterFaces, out after, out error) ||
+                !map.TryGetCommittedRollClip(before, after, ArtHeading(heading), true, false, out key, out error) ||
+                !catalog.TryGetClip(key, manifestHash, out clip, out error))
+            { Debug.LogError("V3 dice roll art: " + error, this); return; }
+            rollFrames = new Sprite[4];
+            for (var frame = 0; frame < 4; frame++) rollFrames[frame] = clip.GetFrame(frame + 1).Sprite;
+            rollTime = .16f;
+            image.sprite = rollFrames[0];
         }
         void Update()
         {
-            if (rollTime <= 0f) { transform.localScale = Vector3.one; transform.localRotation = Quaternion.identity; return; }
+            if (rollTime <= 0f) return;
             rollTime = Mathf.Max(0f, rollTime - Time.unscaledDeltaTime);
-            transform.localScale = Vector3.one * (1f + .08f * Mathf.Sin(rollTime / .15f * Mathf.PI));
-            var angle = 70f * rollTime / .15f;
-            transform.localRotation = Quaternion.Euler(rollHeading.y * angle, -rollHeading.x * angle, 0f);
+            if (rollTime <= 0f) { image.sprite = settled; return; }
+            var frame = Mathf.Clamp(Mathf.FloorToInt((1f - rollTime / .16f) * 4f), 0, 3);
+            image.sprite = rollFrames[frame];
         }
     }
 }

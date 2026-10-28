@@ -27,6 +27,17 @@ namespace ANIMOL.Tests
                     controller.Load(entry.map);
                     Assert.That(controller.Session, Is.Not.Null, entry.stageId);
                     Assert.That(controller.Devices.MissingBindings, Is.Zero, entry.stageId);
+                    foreach (var die in entry.map.scenario.devices)
+                    {
+                        if (die.role != PrototypeRole.Dice || die.variant == "socket" || die.variant == "target") continue;
+                        var actor = controller.Devices.Actor(die.id);
+                        var face = actor.GetComponent<EchoTheaterDiceFaceView>();
+                        var sprite = actor.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual.sprite;
+                        Assert.That(face, Is.Not.Null, entry.stageId + " " + die.id);
+                        Assert.That(AssetDatabase.GetAssetPath(sprite), Does.Contain(
+                            "/ANIMOL_ECHO_THEATER_CARTOON_V03/devices/dice_block/orientations/"),
+                            entry.stageId + " " + die.id);
+                    }
                     yield return null;
                 }
             }

@@ -81,7 +81,7 @@ namespace ANIMOL.Puzzle.Editor
                 map.start = Cell(json["start"]); map.exit = Cell(json["exit"]);
                 map.bubbles = ((JArray)json["bubbles"]).Select(Cell).ToList(); map.targetBubbles = 3;
                 map.terrain = ((JArray)json["floor"]).Select(p => new TerrainCell(Cell(p), TerrainMaterial.Grass)).ToList();
-                map.terrain.AddRange(((JArray)json["interior_walls"]).Select(p => new TerrainCell(Cell(p), TerrainMaterial.Stone, true)));
+                // V3 interior walls are holes. Missing terrain remains impassable.
                 map.devices.Clear(); map.decorations.Clear(); map.starwayV3Certificate = null;
                 map.starwayV3ScenarioSha256 = ""; map.cameraSettings.visibleRows = 11;
                 rules.title = (string)json["title"]; rules.themeId = "memory_theater"; rules.echoTheaterV3Rules = true;

@@ -4,6 +4,7 @@ using ANIMOL.Puzzle.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace ANIMOL.Puzzle.Tests
 {
@@ -16,6 +17,34 @@ namespace ANIMOL.Puzzle.Tests
 
         [Test] public void AllThirtyFiveSolutionsMatchNativeSessionTrace() =>
             Assert.That(EchoTheaterV3Validation.RunAll(), Is.EqualTo("35/35"));
+
+        [Test] public void FinalFloorOnlyAndInteriorWallsAreEmptyHoles()
+        {
+            for (var index = 1; index <= 35; index++)
+            {
+                var id = "ET-" + index.ToString("00");
+                var source = AssetDatabase.LoadAssetAtPath<TextAsset>(
+                    EchoTheaterV3Importer.SourceRoot + "/maps/" + id + ".json");
+                var map = Map(id);
+                var floorStart = source.text.IndexOf("\"floor\":", System.StringComparison.Ordinal);
+                var wallsStart = source.text.IndexOf("\"interior_walls\":", System.StringComparison.Ordinal);
+                var startStart = source.text.IndexOf("\"start\":", wallsStart, System.StringComparison.Ordinal);
+                Assert.That(floorStart, Is.GreaterThanOrEqualTo(0), id);
+                Assert.That(wallsStart, Is.GreaterThan(floorStart), id);
+                Assert.That(startStart, Is.GreaterThan(wallsStart), id);
+                var cellPattern = @"\[\s*(\d+)\s*,\s*(\d+)\s*\]";
+                var floor = new HashSet<Vector2Int>(Regex.Matches(
+                    source.text.Substring(floorStart, wallsStart - floorStart), cellPattern)
+                    .Cast<Match>().Select(m => new Vector2Int(int.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value))));
+                Assert.That(new HashSet<Vector2Int>(map.terrain.Select(c => c.position)), Is.EquivalentTo(floor), id);
+                foreach (Match wall in Regex.Matches(source.text.Substring(wallsStart, startStart - wallsStart), cellPattern))
+                {
+                    var cell = new Vector2Int(int.Parse(wall.Groups[1].Value), int.Parse(wall.Groups[2].Value));
+                    Assert.That(map.TryTerrain(cell, out _), Is.False, id + " wall " + cell);
+                    Assert.That(map.Walkable(cell), Is.False, id + " wall " + cell);
+                }
+            }
+        }
 
         [Test] public void DiceFacesRollAsSixSidesWithTwentyFourOrientations()
         {
