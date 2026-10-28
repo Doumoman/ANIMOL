@@ -78,7 +78,7 @@ namespace ANIMOL.Puzzle.Tests
         }
 
         [Test]
-        public void StarwayFollowCanCenterOnTopTerrainWithoutChangingMapSettings()
+        public void StarwayTopBlankRowsControlsCameraHeadroom()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
@@ -92,13 +92,24 @@ namespace ANIMOL.Puzzle.Tests
                 map.terrain.RemoveAll(t => t.position.y < 5 || t.position.y > 18);
                 var originalInset = map.cameraSettings.topInset;
                 var originalRows = map.cameraSettings.visibleRows;
+                map.cameraSettings.topBlankRows = 2;
                 var bounds = PuzzleFollowCamera.StarwayFollowBounds(map);
                 var center = StarwayCameraMath.ClampCenter(map.start, bounds,
                     StarwayCameraMath.FocusWorldSize(Vector2.one));
-                Assert.That(center.y, Is.EqualTo(map.start.y).Within(.001f));
+                Assert.That(center.y, Is.EqualTo(15f).Within(.001f));
+                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, map.start).center.y,
+                    Is.EqualTo(15f).Within(.001f));
                 playerObject.transform.position = (Vector2)map.start;
                 cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(map.start.y).Within(.001f));
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(15f).Within(.001f));
+                map.cameraSettings.topBlankRows = 4;
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(17f).Within(.001f));
+                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, map.start).center.y,
+                    Is.EqualTo(17f).Within(.001f));
+                map.cameraSettings.topBlankRows = 0;
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(13f).Within(.001f));
                 Assert.That(map.cameraSettings.topInset, Is.EqualTo(originalInset));
                 Assert.That(map.cameraSettings.visibleRows, Is.EqualTo(originalRows));
             }
