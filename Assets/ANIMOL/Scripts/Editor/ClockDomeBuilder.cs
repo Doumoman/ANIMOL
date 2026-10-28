@@ -58,7 +58,6 @@ namespace ANIMOL.Presentation.Editor
             if (source.StartsWith("animation/")) return Props + "/Animation/" + source.Substring(10);
             return Backgrounds + source.Substring(11);
         }
-        [MenuItem("ANIMOL/Art QA/Apply clock dome environment")]
         public static void Apply()
         {
             if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty) throw new InvalidOperationException("Stop Play and save current scene first.");

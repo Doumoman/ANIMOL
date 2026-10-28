@@ -29,7 +29,6 @@ namespace Animol.Art.AfterimageTheaterNative
 
         [Serializable] public sealed class FrameInfo { public string file; public int width, height; public float pixelsPerUnit; public float[] pivot; }
 
-        [MenuItem("ANIMOL/Art/Import Afterimage Theater Native Resolution Animations")]
         public static void ImportMenu()
         {
             string root = EditorUtility.OpenFolderPanel("Select folder containing afterimage_theater_native_animations.json", Application.dataPath, "");

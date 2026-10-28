@@ -20,7 +20,6 @@ namespace Animol.Art.SunsetSanctumNative
         static readonly string[] Ids = { "sein", "daon", "lumi", "soyul", "doyun" };
         static readonly string[] Names = { "세인", "다온", "루미", "소율", "도윤" };
 
-        [MenuItem("ANIMOL/Art/Connect Sunset Sanctum Characters")]
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolSunsetSanctumNativeImporter.Manifest>(

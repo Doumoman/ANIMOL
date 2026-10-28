@@ -155,7 +155,8 @@ namespace ANIMOL.Presentation.Tests
             try
             {
                 var created = PuzzleMapEditor.CreateStarterMap(path, theme, 9, 7);
-                Assert.That(created.scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
+                Assert.That(created.scenario, Is.SameAs(AssetDatabase.LoadAllAssetsAtPath(path).OfType<PuzzleScenario>().Single()));
+                Assert.That(AssetDatabase.LoadMainAssetAtPath(scenarioPath), Is.Null);
                 Assert.That(created.theme, Is.SameAs(theme));
                 Assert.That(created.scenario.themeId, Is.EqualTo("starway"));
                 Assert.That(created.Width, Is.EqualTo(9));
@@ -181,7 +182,8 @@ namespace ANIMOL.Presentation.Tests
             {
                 AssetDatabase.CreateAsset(existing, path);
                 var scenario = PuzzleMapEditor.EnsureScenario(existing);
-                Assert.That(scenario, Is.SameAs(AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath)));
+                Assert.That(scenario, Is.SameAs(AssetDatabase.LoadAllAssetsAtPath(path).OfType<PuzzleScenario>().Single()));
+                Assert.That(AssetDatabase.LoadMainAssetAtPath(scenarioPath), Is.Null);
                 Assert.That(existing.scenario, Is.SameAs(scenario));
                 Assert.That(scenario.themeId, Is.EqualTo("starway"));
                 Assert.That(scenario.title, Is.EqualTo(existing.name));

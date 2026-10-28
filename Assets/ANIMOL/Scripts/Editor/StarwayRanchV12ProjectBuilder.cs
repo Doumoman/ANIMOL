@@ -18,7 +18,6 @@ namespace ANIMOL.Art.V12
         [Serializable] sealed class AssetRow
         { public string file, sha256; public int width, height; public float ppu; public float[] pivot; }
 
-        [MenuItem("ANIMOL/Art QA/Apply Starway Ranch V12 environment")]
         public static string Apply()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before rebinding ranch art.");
@@ -68,7 +67,6 @@ namespace ANIMOL.Art.V12
             return "Rebound 1937 verified P01 V12 sprites and 54 animated clips to existing ranch art.";
         }
 
-        [MenuItem("ANIMOL/Art QA/Refresh Starway Ranch V12 QA scenes")]
         public static string RefreshQaScenes()
         {
             if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty)

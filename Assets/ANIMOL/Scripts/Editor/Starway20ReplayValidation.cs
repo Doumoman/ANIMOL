@@ -59,7 +59,6 @@ namespace ANIMOL.Puzzle.Editor
             }
         }
 
-        [MenuItem("ANIMOL/Starway 20/6 Replay Native Maps")]
         public static string RunAll()
         {
             var differences = new List<string>();

@@ -5,7 +5,7 @@
 ## 적용 데이터와 경로
 
 - 패키지 `README.md`, `MAPS_AND_SOLUTIONS.md`, 최종 `maps/ET-XX.json`, `verification/ET-XX_trace.json`을 확인했다. `generation_input/`과 생성기는 사용하지 않았다.
-- 최종 JSON 35개와 trace 35개는 `Assets/ANIMOL/Scripts/Editor/EchoTheaterV3Data`에 보관한다. 임포터는 `Assets/ANIMOL/Data/Puzzle/MapData/memory_theater`에 `ET-01_MapData.asset`~`ET-35_MapData.asset` 및 대응 `ET-XX_Scenario.asset`을 upsert한다. 같은 71개 에셋 메타의 재임포트 전후 해시가 모두 같다.
+- Final JSON and traces stay in `Assets/ANIMOL/Scripts/Editor/EchoTheaterV3Data`. The importer upserts ET-01 through ET-35 as one `*_MapData.asset` each, with `PuzzleScenario` stored as a subasset. Reimport preserves the map asset GUID and creates no separate Scenario file.
 - `EchoTheaterMapSet.asset`은 ET-01~ET-35를 순서대로 참조한다. `ANIMOL_Echo_Theater.unity`가 빌드 씬에 등록되어 있고 로비의 잔영 극장 캠페인 버튼에서 진입한다. 씬의 스테이지 선택 UI는 35개를 로드하며 `ANIMOL.EchoTheater.Cleared.ET-XX` 키로 승리한 스테이지만 저장한다.
 - V3 coordinates remain bottom-left 1-based. Native terrain contains exactly the JSON floor cells; interior_walls and all other absent cells have no terrain and remain impassable. Victory remains three bubbles plus the exit, with no added cost limit.
 - 주사위 40개/홈 40개는 24개 맵의 입력 데이터 그대로다. 주사위 면 배열은 `[위,아래,북,남,동,서]`로 저장하고 매 칸 굴림은 기존 여섯 면 회전 함수를 사용한다. `dice_socket`은 기존 `target` 판정과 분리했다. 윗면·마지막 진입 방향이 일치할 때만 고정·개방되며, 실패 입력은 상태와 코스트를 보존한다. 홈 판정에는 주사위 ID를 사용하지 않는다.
@@ -40,3 +40,7 @@ V3 swaps the north/south face labels relative to the older V03 art orientation t
 ## V3 floating-decoration cleanup
 
 All 35 V3 stages omit Curtain lintel, Left curtain, Right curtain, Static footlights, Left seats, Right seats, and Organ from the map artwork. The background rig omits only velvet_swag_lower_right. Source art and layouts remain available for other theater content. Unity 6000.3.8f1 compiled with zero errors; PlayMode EchoTheaterV3PlayTests passed 3/3, including an active-hierarchy check of all 35 stages. ET-03 and ET-05 Unity captures were refreshed.
+
+## MapData and menu cleanup
+
+The 35 Echo Theater and 20 Starway MapData files each contain exactly one embedded `PuzzleScenario`. All 55 separate Scenario files were removed after Unity readback, and rerunning both importers did not recreate them. The top-level ANIMOL menu now exposes only `ANIMOL/맵 제작기`; other builder methods remain callable from Editor code. Practice scenario templates and preexisting untracked maps were left in place.

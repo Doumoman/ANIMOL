@@ -23,7 +23,6 @@ namespace ANIMOL.Art.EchoTheaterV03
             public float[] pivot;
         }
 
-        [MenuItem("ANIMOL/Art QA/Apply Echo Theater V03 environment")]
         public static string ApplyEnvironment()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before rebinding theater art.");

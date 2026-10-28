@@ -32,7 +32,6 @@ namespace ANIMOL.Presentation.Editor
             var view=root.AddComponent<DeviceVisualView>();view.visual=renderer;view.deviceId=id;view.states=states;view.initialState=initial;view.ResetVisual();return root;
         }
         static void Save(GameObject go,string path){PrefabUtility.SaveAsPrefabAsset(go,path);UnityEngine.Object.DestroyImmediate(go);}
-        [MenuItem("ANIMOL/Art QA/Rebuild letter observatory QA")]
         public static string Build()
         {
             if(EditorApplication.isPlaying||EditorSceneManager.GetActiveScene().isDirty)throw new InvalidOperationException("Exit Play mode and save current scene before authoring.");

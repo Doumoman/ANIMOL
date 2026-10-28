@@ -33,7 +33,6 @@ namespace ANIMOL.Puzzle.Editor
             type == "brake" ? PrototypeRole.Brake : type == "dice" || type == "dice_socket" ? PrototypeRole.Dice :
             type == "doll" ? PrototypeRole.CowardDoll : throw new InvalidOperationException("Unknown Echo device " + type);
 
-        [MenuItem("ANIMOL/Echo Theater V3/4 Inspect Visual Bindings")]
         public static void InspectVisuals()
         {
             var lines = new List<string>();
@@ -54,7 +53,6 @@ namespace ANIMOL.Puzzle.Editor
             System.IO.File.WriteAllLines("Logs/et-v3-art.txt", lines);
         }
 
-        [MenuItem("ANIMOL/Echo Theater V3/1 Import 35 Maps")]
         public static void Import()
         {
             var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(ThemePath);
@@ -74,7 +72,7 @@ namespace ANIMOL.Puzzle.Editor
                 if ((string)json["schema"] != "animol.echo-theater.design.v3" || (string)json["id"] != id)
                     throw new InvalidOperationException(id + " schema/id mismatch.");
                 var map = Upsert<PuzzleMap>(Root + "/" + id + "_MapData.asset");
-                var rules = Upsert<PuzzleScenario>(Root + "/" + id + "_Scenario.asset");
+                var rules = PuzzleEmbeddedScenario.Ensure(map, Root + "/" + id + "_Scenario.asset");
                 map.name = id;
                 map.Resize((int)json["width"] + 1, (int)json["height"] + 1);
                 map.theme = theme; map.scenario = rules;
@@ -115,6 +113,9 @@ namespace ANIMOL.Puzzle.Editor
             }
             set.maps = entries; EditorUtility.SetDirty(set);
             AssetDatabase.SaveAssets();
+            foreach (var entry in entries)
+                PuzzleEmbeddedScenario.RemoveLegacyAfterReadback(entry.map,
+                    Root + "/" + entry.stageId + "_Scenario.asset");
             Debug.Log("[Echo Theater V3] Imported 35 native maps and ordered map set.");
         }
     }

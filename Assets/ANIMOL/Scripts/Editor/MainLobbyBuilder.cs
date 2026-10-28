@@ -41,7 +41,6 @@ namespace ANIMOL.Menu.Editor
             new[] { "haerin", "stranger", "danu", "eden" }
         };
 
-        [MenuItem("ANIMOL/UI/Build Main Lobby")]
         public static void Build()
         {
             AssetDatabase.Refresh();
@@ -55,7 +54,6 @@ namespace ANIMOL.Menu.Editor
 
         public static void BuildBatch() => Build();
 
-        [MenuItem("ANIMOL/UI/Upgrade Main Lobby Diagonal Wipe")]
         public static void UpgradeDiagonalWipe()
         {
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);

@@ -25,7 +25,6 @@ namespace ANIMOL.Art.EchoTheaterV02
             public float[] pivot;
         }
 
-        [MenuItem("ANIMOL/Art QA/Apply Echo Theater V02 art")]
         public static string Apply()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before applying Echo Theater art.");
@@ -128,7 +127,6 @@ namespace ANIMOL.Art.EchoTheaterV02
             return count;
         }
 
-        [MenuItem("ANIMOL/Art QA/Validate Echo Theater V02 import")]
         public static string Validate()
         {
             var settings = JsonUtility.FromJson<Settings>(AssetDatabase.LoadAssetAtPath<TextAsset>(Data + "/sprite_import_settings.json").text);

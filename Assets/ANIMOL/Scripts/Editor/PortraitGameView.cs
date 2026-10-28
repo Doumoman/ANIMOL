@@ -11,10 +11,8 @@ namespace ANIMOL.Presentation.Editor
         private const BindingFlags AnyInstance = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         private const BindingFlags AnyStatic = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-        [MenuItem("ANIMOL/Art QA/Portrait QA/Use 1080x1920 Game View")]
         public static void Use1080x1920() => SelectFixedResolution(1080, 1920, "ANIMOL Portrait 1080x1920");
 
-        [MenuItem("ANIMOL/Art QA/Portrait QA/Use 1080x2400 Game View")]
         public static void Use1080x2400() => SelectFixedResolution(1080, 2400, "ANIMOL Tall 1080x2400");
 
         public static void SelectFixedResolution(int width, int height, string label)

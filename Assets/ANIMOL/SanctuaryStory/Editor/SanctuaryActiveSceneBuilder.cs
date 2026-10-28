@@ -20,7 +20,6 @@ namespace ANIMOL.SanctuaryStory.Editor
         private static readonly Color Paper = new Color(.97f, .94f, .84f, 1f);
         private static readonly Color Rose = new Color(.85f, .36f, .42f, 1f);
 
-        [MenuItem("ANIMOL/Sanctuary Story/Build Active SC18 Screen")]
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play Mode before building SC18.");
@@ -143,7 +142,6 @@ namespace ANIMOL.SanctuaryStory.Editor
             Debug.Log("[Sanctuary] Built SC18_SanctuaryStory under the existing Main UI Canvas/Safe Area. Now run Install Sprite Stage Under Selection.", root);
         }
 
-        [MenuItem("ANIMOL/Sanctuary Story/Bind Active SC18 Stage")]
         public static void BindStage()
         {
             var scene = SceneManager.GetActiveScene();

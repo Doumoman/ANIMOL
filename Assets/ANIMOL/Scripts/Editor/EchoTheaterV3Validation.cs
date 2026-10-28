@@ -15,7 +15,6 @@ namespace ANIMOL.Puzzle.Editor
         static Vector2Int Direction(char c) => c == 'U' ? Vector2Int.up : c == 'D' ? Vector2Int.down :
             c == 'L' ? Vector2Int.left : Vector2Int.right;
 
-        [MenuItem("ANIMOL/Echo Theater V3/2 Replay 35 Native Maps")]
         public static string RunAll()
         {
             var issues = new List<string>();

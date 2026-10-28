@@ -15,7 +15,7 @@ MonoBehaviour:
   width: 18
   height: 22
   theme: {fileID: 11400000, guid: 22f9e23bf98b8294e836f99f3eb5b589, type: 2}
-  scenario: {fileID: 11400000, guid: 36766d5a53a1fc141b1412e59b34a1a3, type: 2}
+  scenario: {fileID: 6098135471418922048}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
   targetBubbles: 3
@@ -469,3 +469,128 @@ MonoBehaviour:
   - {x: 5, y: 12}
   - {x: 11, y: 8}
   - {x: 16, y: 15}
+--- !u!114 &6098135471418922048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uCC45\uC7A5 \uC606 \uC790\uB3D9 \uD1F4\uC7A5"
+  themeId: memory_theater
+  echoTheaterV3Rules: 1
+  verificationRoute: RRDUUULLLLDDDDDDDDDLLDDLLUULLLLUUUURUDRDDRRDDRRUURRRRRR
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: shelf_1
+    variant: 
+    group: shelf_1
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 6, y: 13}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: plate_2
+    variant: plate
+    group: shelf_1
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 5, y: 12}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: conveyor_3
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7860584869625981515, guid: 65751dd75945a17428b336fe40d1b5a3, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 6, y: 10}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: brake_4
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6068852089537676916, guid: 86c4f48174e87af44815dd4cbf74c5d4, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 6, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: oneway_5
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 333183891977533475, guid: cb5c85e2f62752046a27bf0e9ce9e631, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 12, y: 12}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art: []
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

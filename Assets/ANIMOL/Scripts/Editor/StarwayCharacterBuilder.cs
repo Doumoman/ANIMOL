@@ -18,7 +18,6 @@ namespace Animol.Art.StarwayNative
         static readonly string[] Ids = { "choa", "uram", "yeoul", "tori" };
         static readonly string[] Names = { "초아", "이솔", "여울", "토리" };
 
-        [MenuItem("ANIMOL/Art/Connect Starway Characters")]
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(

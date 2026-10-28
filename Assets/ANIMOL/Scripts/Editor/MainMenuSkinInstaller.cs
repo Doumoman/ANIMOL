@@ -35,7 +35,6 @@ namespace ANIMOL.Menu.Editor
             public int[] border;
         }
 
-        [MenuItem("ANIMOL/UI/Apply Main Menu Skin")]
         public static void Apply()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode)

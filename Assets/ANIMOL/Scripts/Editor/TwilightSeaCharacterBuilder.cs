@@ -32,7 +32,6 @@ namespace Animol.Art.StarwaveCoastNative
             public string[] clipNames;
         }
 
-        [MenuItem("ANIMOL/Art/Connect Starwave Coast Characters")]
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwaveCoastNativeImporter.Manifest>(

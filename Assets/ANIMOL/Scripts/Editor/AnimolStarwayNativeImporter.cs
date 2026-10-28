@@ -29,7 +29,6 @@ namespace Animol.Art.StarwayNative
 
         [Serializable] public sealed class FrameInfo { public string file; public int width, height; public float pixelsPerUnit; public float[] pivot; }
 
-        [MenuItem("ANIMOL/Art/Import Starway Pasture Native Resolution Animations")]
         public static void ImportMenu()
         {
             string root = EditorUtility.OpenFolderPanel("Select folder containing starway_native_animations.json", Application.dataPath, "");

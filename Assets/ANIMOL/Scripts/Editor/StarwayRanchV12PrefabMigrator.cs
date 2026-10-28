@@ -31,7 +31,6 @@ namespace ANIMOL.Art.V12
         static string Capital(string dir) => dir == "east" ? "E" : dir == "north" ? "N" :
             dir == "west" ? "W" : "S";
 
-        [MenuItem("ANIMOL/Art QA/Migrate Starway Ranch V12 device prefabs")]
         public static string Migrate()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode first.");

@@ -10,6 +10,7 @@ using ANIMOL.Art.TheaterConnectedDecorV01;
 using ANIMOL.Art.SanctumConnectedDecorV01;
 using ANIMOL.Art.CoastConnectedDecorV01;
 using ANIMOL.Puzzle;
+using ANIMOL.Puzzle.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -78,7 +79,7 @@ namespace ANIMOL.Presentation.Editor
         PuzzleTheme validatedTheme;
         int validatedMapDirtyCount, validatedScenarioDirtyCount, validatedThemeDirtyCount, cachedOutsideCount;
         List<string> cachedValidationErrors;
-        [MenuItem("ANIMOL/퍼즐/맵 제작기")]
+        [MenuItem("ANIMOL/맵 제작기")]
         public static void Open() => GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기");
         public static void Edit(PuzzleMap data) { var window = GetWindow<PuzzleMapEditor>("퍼즐 맵 제작기"); window.Select(data); }
         void OnEnable()
@@ -377,19 +378,12 @@ namespace ANIMOL.Presentation.Editor
             var mapPath = AssetDatabase.GetAssetPath(data);
             if (string.IsNullOrEmpty(mapPath)) throw new ArgumentException("맵을 에셋으로 저장한 뒤 장치를 배치하세요.");
             var scenarioPath = Path.ChangeExtension(mapPath, null) + "_Scenario.asset";
-            var scenario = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath);
-            if (!scenario)
-            {
-                if (AssetDatabase.LoadMainAssetAtPath(scenarioPath))
-                    scenarioPath = AssetDatabase.GenerateUniqueAssetPath(scenarioPath);
-                scenario = CreateInstance<PuzzleScenario>();
-                scenario.title = data.name;
-                scenario.themeId = themeId;
-                AssetDatabase.CreateAsset(scenario, scenarioPath);
-            }
-            data.scenario = scenario;
-            EditorUtility.SetDirty(data);
-            AssetDatabase.SaveAssetIfDirty(data);
+            var scenario = PuzzleEmbeddedScenario.Ensure(data, scenarioPath);
+            if (string.IsNullOrEmpty(scenario.title)) scenario.title = data.name;
+            if (string.IsNullOrEmpty(scenario.themeId)) scenario.themeId = themeId;
+            EditorUtility.SetDirty(scenario);
+            AssetDatabase.SaveAssets();
+            PuzzleEmbeddedScenario.RemoveLegacyAfterReadback(data, scenarioPath);
             return scenario;
         }
         void QueueScenarioCreation()
@@ -2119,17 +2113,12 @@ namespace ANIMOL.Presentation.Editor
             if (string.IsNullOrEmpty(path) || !path.StartsWith("Assets/", StringComparison.Ordinal) ||
                 !path.EndsWith(".asset", StringComparison.OrdinalIgnoreCase))
                 throw new ArgumentException("프로젝트 안에서 .asset으로 끝나는 저장 경로를 선택하세요.");
-            var scenarioPath = path.Substring(0, path.Length - ".asset".Length) + "_Scenario.asset";
-            if (AssetDatabase.LoadMainAssetAtPath(path) || AssetDatabase.LoadMainAssetAtPath(scenarioPath))
+            if (AssetDatabase.LoadMainAssetAtPath(path))
                 throw new InvalidOperationException("맵 또는 연결된 시나리오의 저장 경로가 이미 사용 중입니다.");
             width = Mathf.Clamp(width, 4, 256); height = Mathf.Clamp(height, 4, 256);
-            var scenario = CreateInstance<PuzzleScenario>();
-            scenario.title = Path.GetFileNameWithoutExtension(path);
-            scenario.themeId = themeId;
             var data = CreateInstance<PuzzleMap>();
             data.Resize(width, height);
             data.theme = theme;
-            data.scenario = scenario;
             data.start = new Vector2Int(1, 1);
             data.exit = new Vector2Int(width - 2, height - 2);
             data.targetBubbles = 1;
@@ -2139,13 +2128,16 @@ namespace ANIMOL.Presentation.Editor
             data.InvalidateIndex();
             try
             {
-                AssetDatabase.CreateAsset(scenario, scenarioPath);
                 AssetDatabase.CreateAsset(data, path);
+                var scenario = PuzzleEmbeddedScenario.Ensure(data);
+                scenario.title = Path.GetFileNameWithoutExtension(path);
+                scenario.themeId = themeId;
+                EditorUtility.SetDirty(scenario);
+                AssetDatabase.SaveAssets();
             }
             catch
             {
                 if (AssetDatabase.LoadAssetAtPath<PuzzleMap>(path) == data) AssetDatabase.DeleteAsset(path);
-                if (AssetDatabase.LoadAssetAtPath<PuzzleScenario>(scenarioPath) == scenario) AssetDatabase.DeleteAsset(scenarioPath);
                 throw;
             }
             EditorGUIUtility.PingObject(data);

@@ -12,7 +12,6 @@ namespace ANIMOL.Puzzle.Editor
         int selected;
         StarwayV3MapSet set;
 
-        [MenuItem("ANIMOL/Starway 20/Play Canonical Maps")]
         static void Open() => GetWindow<Starway20SelectionWindow>("Starway 20 maps");
 
         void OnGUI()

@@ -15,7 +15,7 @@ MonoBehaviour:
   width: 18
   height: 22
   theme: {fileID: 11400000, guid: 84dac723bb5d43e4c8daca4c5c0d4aa5, type: 2}
-  scenario: {fileID: 11400000, guid: 727a72b890e4fce4a8a38c9cb070a40c, type: 2}
+  scenario: {fileID: 3979131235758567973}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
   targetBubbles: 3
@@ -820,3 +820,137 @@ MonoBehaviour:
   - {x: 16, y: 14}
   - {x: 6, y: 12}
   - {x: 10, y: 14}
+--- !u!114 &3979131235758567973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uB300\uAC01\uC120 \uB0A0\uAC1C\uC758 \uAE09\uC2DD \uC21C\uC11C"
+  themeId: starway
+  echoTheaterV3Rules: 0
+  verificationRoute: WWNNWSESEESSNNWWWWWNWSNWSSSENEESSSNWWSSSSSWSWWNNNNNEEN
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: SW11_chick_1
+    variant: 
+    group: SW11_chick_1
+    artTheme: starway
+    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
+    initialVisual: 
+    role: 24
+    position: {x: 16, y: 15}
+    direction: {x: 1, y: 0}
+    target: {x: 14, y: 19}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW11_gate_1
+    variant: 
+    group: SW11_gate_1
+    artTheme: starway
+    visualPrefab: {fileID: 3420239401674086500, guid: deb1e09fc564481429997e4686565ae6, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 13, y: 16}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW11_stone_1
+    variant: 
+    group: SW11_stone_1
+    artTheme: starway
+    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
+    initialVisual: 
+    role: 1
+    position: {x: 9, y: 17}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW11_socket_1
+    variant: socket
+    group: SW11_socket_1
+    artTheme: starway
+    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
+    initialVisual: 
+    role: 1
+    position: {x: 8, y: 15}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art:
+  - family: sheep
+    instanceId: SW11_sheep_1
+    position: {x: 9, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  - family: sheep
+    instanceId: SW11_sheep_2
+    position: {x: 7, y: 10}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  - family: tall_grass
+    instanceId: SW11_tall_grass_1
+    position: {x: 10, y: 14}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  - family: tall_grass
+    instanceId: SW11_tall_grass_2
+    position: {x: 6, y: 12}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

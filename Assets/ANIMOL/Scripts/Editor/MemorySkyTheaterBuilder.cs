@@ -65,7 +65,6 @@ namespace ANIMOL.Presentation.Editor
             if (source.StartsWith("animation/")) return Props + "/Animation/" + source.Substring(10);
             return Backgrounds + source.Substring(11);
         }
-        [MenuItem("ANIMOL/Art QA/Apply memory theater environment")]
         public static void Apply()
         {
             if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty) throw new InvalidOperationException("Stop Play and save the current scene first.");

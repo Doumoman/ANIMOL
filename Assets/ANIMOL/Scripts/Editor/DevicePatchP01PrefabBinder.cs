@@ -17,7 +17,6 @@ namespace ANIMOL.Art.DevicePatch01.Editor
         const string Ranch = "Assets/ANIMOL/Prefabs/Themes/starway";
         const string Theater = "Assets/ANIMOL/Prefabs/Themes/memory_theater";
 
-        [MenuItem("ANIMOL/Art QA/Bind P01 device prefabs")]
         public static string Bind()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play Mode first.");

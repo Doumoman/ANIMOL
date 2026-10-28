@@ -98,7 +98,6 @@ namespace ANIMOL.Presentation.Editor
             }
             return go;
         }
-        [MenuItem("ANIMOL/Art QA/Rebuild art QA")]
         public static void Build()
         {
             foreach(var name in new[]{"Data/AnimationSequences","Prefabs","Scenes","Materials"}) Directory.CreateDirectory(Root+"/"+name);

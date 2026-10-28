@@ -13,7 +13,6 @@ namespace ANIMOL.Presentation.Editor
         public const string Data = "Assets/ANIMOL/Data/Puzzle";
         public const string Art = "Assets/ANIMOL/Sprites/Tiles/Puzzle";
         public const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity";
-        [MenuItem("ANIMOL/Puzzle/Create playable puzzle and validation maps")]
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play mode before building maps.");

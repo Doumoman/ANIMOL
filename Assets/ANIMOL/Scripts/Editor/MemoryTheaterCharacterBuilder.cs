@@ -21,7 +21,6 @@ namespace Animol.Art.AfterimageTheaterNative
         static readonly string[] Ids = { "seri", "roan", "mion", "piko" };
         static readonly string[] Names = { "\uC138\uB9AC", "\uB85C\uC548", "\uBBF8\uC628", "\uD53C\uCF54" };
 
-        [MenuItem("ANIMOL/Art/Connect Afterimage Theater Characters")]
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolAfterimageTheaterNativeImporter.Manifest>(

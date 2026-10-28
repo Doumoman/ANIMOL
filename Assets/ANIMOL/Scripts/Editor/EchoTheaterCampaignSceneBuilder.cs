@@ -12,7 +12,6 @@ namespace ANIMOL.Puzzle.Editor
     {
         public const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Echo_Theater.unity";
 
-        [MenuItem("ANIMOL/Echo Theater V3/3 Build Campaign Scene")]
         public static void Build()
         {
             if (EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty)

@@ -1,5 +1,220 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6235176642778973706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uB450 \uBC88 \uAEBE\uC774\uB294 \uBC14\uB78C\uC758 \uB730"
+  themeId: starway
+  echoTheaterV3Rules: 0
+  verificationRoute: SSWWNNEEEEWWWWNNWWWWWWSSWWWWSSSSSSSSSSSSEENNNNSNNESSSS
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: SW14_chick_1
+    variant: 
+    group: SW14_chick_1
+    artTheme: starway
+    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
+    initialVisual: 
+    role: 24
+    position: {x: 15, y: 14}
+    direction: {x: 1, y: 0}
+    target: {x: 11, y: 14}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_wind_1
+    variant: blower
+    group: SW14_wind_1
+    artTheme: starway
+    visualPrefab: {fileID: 4873364921097887510, guid: 63413553afa92e94f87161e27b0166bc, type: 3}
+    initialVisual: 
+    role: 20
+    position: {x: 4, y: 4}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_conveyor_1
+    variant: 
+    group: SW14_conveyor_1
+    artTheme: starway
+    visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 11, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_conveyor_2
+    variant: 
+    group: SW14_conveyor_2
+    artTheme: starway
+    visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 12, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_conveyor_3
+    variant: 
+    group: SW14_conveyor_3
+    artTheme: starway
+    visualPrefab: {fileID: 2035603874337546709, guid: 9a2d84ec12cc2eb4bbc810b2de3e69c7, type: 3}
+    initialVisual: 
+    role: 7
+    position: {x: 13, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_reflector_1
+    variant: 
+    group: SW14_reflector_1
+    artTheme: starway
+    visualPrefab: {fileID: 588088442928477709, guid: 1d59528606e4df748bb4087cabe45740, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 10, y: 3}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 2
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_brake_1
+    variant: 
+    group: SW14_brake_1
+    artTheme: starway
+    visualPrefab: {fileID: 5164312448115599324, guid: ff5d84d2e27f5f443a5e4880cc2e6d14, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 10, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_brake_2
+    variant: 
+    group: SW14_brake_2
+    artTheme: starway
+    visualPrefab: {fileID: 5164312448115599324, guid: ff5d84d2e27f5f443a5e4880cc2e6d14, type: 3}
+    initialVisual: 
+    role: 19
+    position: {x: 14, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: SW14_reflector_2
+    variant: 
+    group: SW14_reflector_2
+    artTheme: starway
+    visualPrefab: {fileID: 588088442928477709, guid: 1d59528606e4df748bb4087cabe45740, type: 3}
+    initialVisual: 
+    role: 18
+    position: {x: 4, y: 3}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 3
+    number: 0
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art:
+  - family: sheep
+    instanceId: SW14_sheep_1
+    position: {x: 7, y: 3}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  - family: tall_grass
+    instanceId: SW14_tall_grass_1
+    position: {x: 10, y: 5}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +230,7 @@ MonoBehaviour:
   width: 18
   height: 22
   theme: {fileID: 11400000, guid: 84dac723bb5d43e4c8daca4c5c0d4aa5, type: 2}
-  scenario: {fileID: 11400000, guid: ac478d445692d984d8b0ad8652420009, type: 2}
+  scenario: {fileID: -6235176642778973706}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
   targetBubbles: 3

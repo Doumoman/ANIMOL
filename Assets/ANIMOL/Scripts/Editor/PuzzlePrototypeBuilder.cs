@@ -196,7 +196,6 @@ namespace ANIMOL.Presentation.Editor
         }
         // Updates the four referenced map assets in place. Rebuilding theme assets would discard
         // later environment art assignments, so this command only touches prototype maps/scenarios.
-        [MenuItem("ANIMOL/Puzzle/Rebuild themed device test maps")]
         public static string RebuildThemedDeviceTestMaps()
         {
             if(EditorApplication.isPlaying || EditorSceneManager.GetActiveScene().isDirty)
@@ -215,7 +214,6 @@ namespace ANIMOL.Presentation.Editor
             AssetDatabase.SaveAssets();
             return string.Join("; ",ThemedNames.Select((name,i)=>name+" "+ThemedRoles[i].Length+" rooms"));
         }
-        [MenuItem("ANIMOL/Puzzle/Build themed prototypes")]
         public static string Build()
         {
             if(EditorApplication.isPlaying||EditorSceneManager.GetActiveScene().isDirty)throw new InvalidOperationException("Exit play mode and save scene first.");

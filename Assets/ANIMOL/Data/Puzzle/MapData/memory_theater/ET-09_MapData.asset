@@ -1,5 +1,149 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4091562818697545234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uC811\uD78C \uBCBD \uB108\uBA38 \uC8FC\uC0AC\uC704"
+  themeId: memory_theater
+  echoTheaterV3Rules: 1
+  verificationRoute: ULLUURRRUULLLLDLURULDLUUULLUDDDDL
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: oneway_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 333183891977533475, guid: cb5c85e2f62752046a27bf0e9ce9e631, type: 3}
+    initialVisual: 
+    role: 9
+    position: {x: 12, y: 10}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: D1
+    variant: 
+    group: domino_gate_1
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 7, y: 15}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: D2
+    variant: 
+    group: domino_gate_1
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 6, y: 15}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: D3
+    variant: 
+    group: domino_gate_1
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 5, y: 15}
+    direction: {x: -1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: Q1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 9, y: 12}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000002000000050000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  - id: G1
+    variant: socket
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8032426668780277461, guid: 5f0ba439dcdc88e499e4a17848acc859, type: 3}
+    initialVisual: 
+    role: 22
+    position: {x: 8, y: 14}
+    direction: {x: 0, y: 1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 6
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art: []
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +159,7 @@ MonoBehaviour:
   width: 18
   height: 20
   theme: {fileID: 11400000, guid: 22f9e23bf98b8294e836f99f3eb5b589, type: 2}
-  scenario: {fileID: 11400000, guid: c6b7464a900d8f540a87f488cdeac233, type: 2}
+  scenario: {fileID: -4091562818697545234}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
   targetBubbles: 3

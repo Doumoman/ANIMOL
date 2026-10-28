@@ -50,10 +50,10 @@ namespace ANIMOL.Puzzle.Editor
                 foreach (var s in m.ranchSluiceDesign)
                     if (!s.hasPondB || (Cell(s.position) - Cell(s.pondB)).sqrMagnitude != 1)
                         errors.Add(m.id + ": invalid sluice pair " + s.instanceId);
-                foreach (var path in new[] { MapPath(m.id), ScenarioPath(m.id) })
-                    if (AssetDatabase.LoadMainAssetAtPath(path) &&
-                        (path == MapPath(m.id) ? !(AssetDatabase.LoadMainAssetAtPath(path) is PuzzleMap) : !(AssetDatabase.LoadMainAssetAtPath(path) is PuzzleScenario)))
-                        errors.Add("Unrelated asset at " + path);
+                var path = MapPath(m.id);
+                if (AssetDatabase.LoadMainAssetAtPath(path) &&
+                    !(AssetDatabase.LoadMainAssetAtPath(path) is PuzzleMap))
+                    errors.Add("Unrelated asset at " + path);
             }
         }
 
@@ -81,7 +81,7 @@ namespace ANIMOL.Puzzle.Editor
                 var input = source.input;
                 var m = input.map;
                 var map = Upsert<PuzzleMap>(MapPath(m.id));
-                var scenario = Upsert<PuzzleScenario>(ScenarioPath(m.id));
+                var scenario = PuzzleEmbeddedScenario.Ensure(map, ScenarioPath(m.id));
                 map.Resize(m.size.width, m.size.height);
                 map.theme = Theme; map.scenario = scenario;
                 map.start = Cell(m.start); map.exit = Cell(m.exit);
@@ -116,12 +116,17 @@ namespace ANIMOL.Puzzle.Editor
                 if (issues.Count != 0) throw new InvalidOperationException(m.id + ": " + string.Join("; ", issues));
                 EditorUtility.SetDirty(map); EditorUtility.SetDirty(scenario);
             }
+            AssetDatabase.SaveAssets();
+            foreach (var source in sources)
+                PuzzleEmbeddedScenario.RemoveLegacyAfterReadback(
+                    AssetDatabase.LoadAssetAtPath<PuzzleMap>(MapPath(source.input.map.id)),
+                    ScenarioPath(source.input.map.id));
         }
 
         public override StarwayNativeLink[] ReadNativeLinks(StarwayMapSource[] sources) => sources.Select(s => new StarwayNativeLink
         {
             id = s.input.map.id, map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(MapPath(s.input.map.id)),
-            scenario = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(ScenarioPath(s.input.map.id))
+            scenario = AssetDatabase.LoadAssetAtPath<PuzzleMap>(MapPath(s.input.map.id)).scenario
         }).ToArray();
 
         public override void ValidateNativeMap(StarwayMapSource source, StarwayNativeLink native, List<string> errors)
@@ -184,7 +189,6 @@ namespace ANIMOL.Puzzle.Editor
                     set.maps[i].trace == null) errors.Add("SW map set mismatch at " + i);
         }
 
-        [MenuItem("ANIMOL/Starway 20/8 Archive Previous 1-2 to 1-21 Maps")]
         public static void ArchivePreviousMaps()
         {
             var root = "Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3";

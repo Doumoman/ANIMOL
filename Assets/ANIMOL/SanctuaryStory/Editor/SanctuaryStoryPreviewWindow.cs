@@ -23,7 +23,6 @@ namespace ANIMOL.SanctuaryStory.Editor
         private bool paused;
         private string error;
 
-        [MenuItem("ANIMOL/Sanctuary Story/Validate Selected Chapter")]
         private static void ValidateSelected()
         {
             var selected = Selection.activeObject as TextAsset;
@@ -50,7 +49,6 @@ namespace ANIMOL.SanctuaryStory.Editor
             }
         }
 
-        [MenuItem("ANIMOL/Sanctuary Story/Open Story Preview")]
         private static void OpenPreview()
         {
             GetWindow<SanctuaryStoryPreviewWindow>("Sanctuary Preview");

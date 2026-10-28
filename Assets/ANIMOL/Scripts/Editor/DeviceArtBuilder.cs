@@ -37,7 +37,6 @@ namespace ANIMOL.Presentation.Editor
             var renderer=child.AddComponent<SpriteRenderer>();renderer.sortingOrder=10;
             var view=go.AddComponent<DeviceVisualView>();view.deviceId=deviceId;view.visual=renderer;view.states=states;view.initialState=initial;view.ResetVisual();return go;
         }
-        [MenuItem("ANIMOL/Art QA/Rebuild device QA")]
         public static string Build()
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Exit Play mode before authoring.");

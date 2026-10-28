@@ -7,7 +7,6 @@ namespace ANIMOL.StarwayMaps.Editor
     // No NUnit/Test Framework dependency. These execute IN Unity, not in the delivered zip's Python QA.
     public static class StarwaySourceChecks
     {
-        [MenuItem("ANIMOL/Starway 20/6 Run Source and Camera Checks")]
         public static void RunSourceAndCameraChecks()
         {
             StarwayMapInput[] inputs = StarwayPackCommands.LoadAndValidateInputs();
@@ -69,7 +68,6 @@ namespace ANIMOL.StarwayMaps.Editor
             Debug.Log("[Starway20] Unity JsonUtility/source/camera math checks PASSED. Gameplay replay is not covered by these checks.");
         }
 
-        [MenuItem("ANIMOL/Starway 20/7 Check Source Import Idempotence")]
         public static void CheckSourceImportIdempotence()
         {
             StarwayPackCommands.ImportOrUpdateSources();

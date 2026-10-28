@@ -11,7 +11,6 @@ namespace ANIMOL.StarwayMaps.Editor
         private Vector2 focus;
         private bool drawLabels = true;
 
-        [MenuItem("ANIMOL/Starway 20/3 Preview Maps and 7x11 Focus")]
         public static void Open()
         {
             StarwayMapPreviewWindow w = GetWindow<StarwayMapPreviewWindow>("Starway20 7x11");

@@ -38,7 +38,6 @@ namespace ANIMOL.StarwayMaps.Editor
             return result;
         }
 
-        [MenuItem("ANIMOL/Starway 20/1 Import or Update Design Sources")]
         public static void ImportOrUpdateSources()
         {
             StarwayMapInput[] inputs = LoadAndValidateInputs(); // ALL checks before writes.
@@ -63,7 +62,6 @@ namespace ANIMOL.StarwayMaps.Editor
             Debug.Log("[Starway20] Imported 20 EDITOR design sources. Native game maps/campaign/camera are not changed by this command.");
         }
 
-        [MenuItem("ANIMOL/Starway 20/2 Validate Design Sources")]
         public static void ValidateSources()
         {
             StarwayMapInput[] inputs = LoadAndValidateInputs();
@@ -74,7 +72,6 @@ namespace ANIMOL.StarwayMaps.Editor
             Debug.Log("[Starway20] Source hashes, physical socket gate fields, 20 maps, 10/5/5, sheep distance and 7x11 focus passed. Unity gameplay replay is a separate check.");
         }
 
-        [MenuItem("ANIMOL/Starway 20/4 Build Native Maps with Project Adapter")]
         public static void BuildNativeMaps()
         {
             ValidateSources();
@@ -92,7 +89,6 @@ namespace ANIMOL.StarwayMaps.Editor
             Debug.Log("[Starway20] Native assets and campaign readback passed with " + adapter.DisplayName + ". Runtime replays/Undo/ad callbacks still require the project's tests.");
         }
 
-        [MenuItem("ANIMOL/Starway 20/5 Validate Native Maps with Project Adapter")]
         public static void ValidateNativeMaps()
         {
             ValidateSources();

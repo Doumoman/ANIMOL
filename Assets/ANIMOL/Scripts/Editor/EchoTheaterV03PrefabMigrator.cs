@@ -19,7 +19,6 @@ namespace ANIMOL.Art.EchoTheaterV03
         [Serializable] sealed class Roll { public string fromId, heading, clipKey; }
         sealed class Binding { public string key; public float progress; }
 
-        [MenuItem("ANIMOL/Art QA/Migrate Echo Theater V03 device prefabs")]
         public static string Migrate()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Exit Play mode before migrating device prefabs.");

@@ -68,7 +68,6 @@ namespace ANIMOL.SanctuaryStory.Editor
             public float registrationX;
         }
 
-        [MenuItem("ANIMOL/Sanctuary Story/Install Sprite Stage Under Selection")]
         public static void InstallUnderSelection()
         {
             try
@@ -151,7 +150,6 @@ namespace ANIMOL.SanctuaryStory.Editor
             }
         }
 
-        [MenuItem("ANIMOL/Sanctuary Story/Validate Sprite Assets")]
         public static void ValidateSpriteAssets()
         {
             try
