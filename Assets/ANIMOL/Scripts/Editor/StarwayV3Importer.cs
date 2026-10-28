@@ -17,8 +17,9 @@ namespace ANIMOL.Puzzle.Editor
     public static class StarwayV3Importer
     {
         public const string Source = "Assets/ANIMOL/Data/Puzzle/Starway/V3Source";
-        public const string Maps = "Assets/ANIMOL/Data/Puzzle/Maps";
+        public const string Maps = "Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3/Maps";
         public const string Support = "Assets/ANIMOL/Data/Puzzle/Starway/Maps/V3";
+        public const string LegacyScenarioRoot = "Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3/Scenarios";
         public const string SetPath = Support + "/StarwayV3MapSet.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Theme.asset";
         const string TemplatePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Scenario.asset";
@@ -94,7 +95,7 @@ namespace ANIMOL.Puzzle.Editor
             MigrateMapToRoot(name);
             Directory.CreateDirectory(Maps); AssetDatabase.Refresh();
             var mapPath = Maps + "/" + name + ".asset";
-            var rulePath = Support + "/" + name + "_Scenario.asset";
+            var rulePath = LegacyScenarioRoot + "/" + name + "_Scenario.asset";
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(mapPath);
             if (!map) { map = ScriptableObject.CreateInstance<PuzzleMap>(); AssetDatabase.CreateAsset(map, mapPath); }
             var rules = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(rulePath);
@@ -147,10 +148,7 @@ namespace ANIMOL.Puzzle.Editor
             if (!Enum.TryParse(String(row, "role"), out PrototypeRole role)) throw new InvalidDataException("Unknown role: " + row["role"]);
             var source = template.devices.FirstOrDefault(d => d.role == role);
             if (source == null || !source.visualPrefab)
-                source = AssetDatabase.FindAssets("t:PuzzleScenario", new[] { "Assets/ANIMOL/Data/Puzzle/Prototypes" })
-                    .Select(g => AssetDatabase.LoadAssetAtPath<PuzzleScenario>(AssetDatabase.GUIDToAssetPath(g)))
-                    .Where(s => s && s.themeId == "starway").SelectMany(s => s.devices)
-                    .FirstOrDefault(d => d.role == role && d.visualPrefab);
+                source = FindVisualTemplate(role);
             if (source == null || !source.visualPrefab) throw new InvalidDataException("Missing actual visual prefab for " + role);
             var reward = row["socketReward"] == null ? StarSocketReward.None :
                 (StarSocketReward)Enum.Parse(typeof(StarSocketReward), String(row, "socketReward"));
@@ -163,6 +161,13 @@ namespace ANIMOL.Puzzle.Editor
                 initialVisual = source.initialVisual, group = String(row, "id")
             };
         }
+
+        // Shared with Starway20: both importers bind the same verified Starway device art.
+        public static PrototypeDevice FindVisualTemplate(PrototypeRole role) =>
+            AssetDatabase.FindAssets("t:PuzzleScenario", new[] { "Assets/ANIMOL/Data/Puzzle/Prototypes" })
+                .Select(g => AssetDatabase.LoadAssetAtPath<PuzzleScenario>(AssetDatabase.GUIDToAssetPath(g)))
+                .Where(s => s && s.themeId == "starway").SelectMany(s => s.devices)
+                .FirstOrDefault(d => d.role == role && d.visualPrefab);
 
         static RanchV13ArtPlacement Ranch(JObject row) => new RanchV13ArtPlacement
         {

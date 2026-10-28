@@ -1,0 +1,97 @@
+{
+  "schema": "animol.exploration-hints.v1",
+  "status": "design_spec_not_runtime_code",
+  "win": {
+    "bubblesRequired": 3,
+    "playerMustBeAtExit": true,
+    "extraDeviceGoals": []
+  },
+  "movement": {
+    "costLimit": 0,
+    "parInputsByDifficulty": [
+      30,
+      50,
+      70
+    ],
+    "parIsFailLimit": false,
+    "count": "successful_directional_inputs_including_sheep_push_and_blower_turn",
+    "autoMotionAddsCost": false,
+    "rejectedInputsAddCost": false
+  },
+  "alwaysAvailable": [
+    "Undo",
+    "Reset_in_small_persistent_menu"
+  ],
+  "noAutomaticFailure": [
+    "non_optimal_move",
+    "unreachable_solution_detected",
+    "par_exceeded",
+    "exit_with_less_than_3_bubbles"
+  ],
+  "feedback": {
+    "rejectedInput": "brief_local_bump_no_reset_popup",
+    "earlyExit": "show_bubble_counter_and_keep_playing",
+    "stuck": "keep_exploration_and_undo_available"
+  },
+  "tuning": {
+    "status": "initial_values_require_playtest",
+    "freeObservationAfterMeaningfulResets": 2,
+    "rewardedHintOfferAfterMeaningfulResets": 3,
+    "rewardedHintOfferAfterStalledSeconds": 120,
+    "minimumSuccessfulInputsForMeaningfulReset": 5,
+    "stallResetsOn": [
+      "new_bubble",
+      "new_grass_consumption",
+      "new_chick_home",
+      "new_region_checkpoint",
+      "new_socket_activation"
+    ],
+    "rejectedWallInputsCountAsFailures": false,
+    "singleUndoCountsAsFailure": false,
+    "undoLoopAsSeparateFailure": false,
+    "emptyResetCountsAsFailure": false
+  },
+  "hintOffer": {
+    "presentation": "small_optional_button",
+    "copy": "광고 보고 다음 수 힌트",
+    "autoStartAd": false,
+    "repeatModalNag": false,
+    "keepOfferVisibleUntilStateProgress": true,
+    "hideOfferOnProgress": true
+  },
+  "rewardedAd": {
+    "requestOnlyOnExplicitTap": true,
+    "grantOnlyOnVerifiedCompletionCallback": true,
+    "grantOncePerRewardId": true,
+    "cancelOrUnavailable": "return_to_unchanged_board_no_penalty",
+    "boardStateUnchangedDuringAd": true,
+    "checkpointUndoNeverRequiresAd": true
+  },
+  "hintSelection": {
+    "fromCurrentState": true,
+    "neverBlindlyReplayInitialSolution": true,
+    "ifSolvable": "explain_next_subgoal_then_highlight_1_to_3_successful_inputs",
+    "ifDeadlocked": "state_the_mechanic_and_identify_nearest_solvable_undo_checkpoint",
+    "afterClaim": "keep_same_hint_reopenable_for_this_board_snapshot_without_another_ad",
+    "solverScope": "PuzzleDeviceSession_equivalent_solver_or_validated_authored_checkpoints_required"
+  },
+  "telemetry": [
+    "level_id",
+    "difficulty",
+    "meaningful_attempts",
+    "stall_seconds",
+    "first_hint_offered_at",
+    "ad_started",
+    "ad_completed",
+    "hint_reward_id",
+    "hint_opened",
+    "cleared_after_hint",
+    "undo_depth"
+  ],
+  "doNotCountAsNewBoardProgress": [
+    "back_and_forth_walks",
+    "repeated_blower_cycle_to_seen_phase",
+    "repeated_sluice_flip_to_seen_phase",
+    "revisiting_same_socket_state"
+  ]
+}

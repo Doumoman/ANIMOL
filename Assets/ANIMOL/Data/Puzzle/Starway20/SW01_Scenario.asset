@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: SW01_Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uCD08\uC2B9\uB2EC\uC758 \uCCAB \uADC0\uD658"
+  themeId: starway
+  verificationRoute: NWSESSNNNNEEEESNNNNNEEEENNNSSEEN
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: SW01_chick_1
+    variant: 
+    group: SW01_chick_1
+    artTheme: starway
+    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
+    initialVisual: 
+    role: 24
+    position: {x: 4, y: 7}
+    direction: {x: 1, y: 0}
+    target: {x: 2, y: 8}
+    orientation: 0
+    number: 1
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 0}
+    cells: []
+    blastOffsets: []
+  ranchV13Art:
+  - family: sheep
+    instanceId: SW01_sheep_1
+    position: {x: 12, y: 15}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  - family: tall_grass
+    instanceId: SW01_tall_grass_1
+    position: {x: 12, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 0, y: 0}
+    rightState: 0
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1

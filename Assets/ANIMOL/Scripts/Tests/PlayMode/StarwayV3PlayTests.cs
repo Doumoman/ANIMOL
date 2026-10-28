@@ -48,7 +48,7 @@ namespace ANIMOL.Tests
 
         [UnityTest] public IEnumerator StrictWrongInputLocksThenResetRestoresBubbleHudAndRoute()
         {
-            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/Maps/1-2.asset");
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/LegacyStarwayV3/Maps/1-2.asset");
             var cameraObject = new GameObject("Main Camera", typeof(Camera)); cameraObject.tag = "MainCamera";
             var host = new GameObject("Starway V3 strict test");
             var controller = host.AddComponent<PuzzlePrototypeController>();

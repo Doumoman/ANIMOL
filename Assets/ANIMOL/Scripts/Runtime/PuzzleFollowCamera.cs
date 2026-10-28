@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using ANIMOL.StarwayMaps;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle
@@ -8,6 +11,8 @@ namespace ANIMOL.Puzzle
         public Transform player;
         public PuzzleMap map;
         Camera lens;
+        bool starway20;
+        Rect starwayBounds;
         public static Vector2 Clamp(Vector2 target, int width, int height, float halfHeight, float aspect)
         {
             var halfWidth = halfHeight * aspect;
@@ -15,19 +20,38 @@ namespace ANIMOL.Puzzle
                 height <= halfHeight * 2 ? (height - 1) * .5f : Mathf.Clamp(target.y, halfHeight - .5f, height - .5f - halfHeight));
         }
         public void Configure(PuzzleMap data, Transform target)
-        { map = data; player = target; lens = GetComponent<Camera>(); lens.orthographic = true; ApplyLens(); Cut(); }
+        {
+            map = data; player = target; lens = GetComponent<Camera>(); lens.orthographic = true;
+            starway20 = data.scenario && data.scenario.themeId == "starway" &&
+                data.name.StartsWith("SW", StringComparison.Ordinal) && data.terrain.Count > 0;
+            if (starway20)
+                starwayBounds = StarwayCameraMath.CellBounds(data.terrain.Select(t =>
+                    new StarwayCell(t.position.x, t.position.y)).ToArray(), Vector2.zero, Vector2.one);
+            ApplyLens(); Cut();
+        }
         void ApplyLens()
         {
             var safe = Screen.safeArea; var scale = Mathf.Min(Screen.width / 540f, Screen.height / 960f);
             var top = Mathf.Min(map.cameraSettings.topInset * scale, safe.height * .25f);
             var bottom = Mathf.Min(map.cameraSettings.bottomInset * scale, safe.height * .4f);
+            if (starway20)
+            {
+                var available = new Rect(safe.x, safe.y + bottom, safe.width, safe.height - top - bottom);
+                var focus = StarwayCameraMath.FocusWorldSize(Vector2.one);
+                lens.rect = StarwayCameraMath.NormalizePixels(
+                    StarwayCameraMath.FitInsidePixels(available, focus.x / focus.y), Screen.width, Screen.height);
+                lens.orthographicSize = focus.y * .5f;
+                return;
+            }
             lens.rect = new Rect(safe.x / Screen.width, (safe.y + bottom) / Screen.height, safe.width / Screen.width, (safe.height - top - bottom) / Screen.height);
             var rows = map.cameraSettings.fitWholeBoard
                 ? Mathf.Max(map.Height + 1f, (map.Width + 1f) / Mathf.Max(.1f, lens.aspect))
                 : Mathf.Clamp(map.cameraSettings.visibleRows, 5, 80);
             lens.orthographicSize = rows * .5f;
         }
-        Vector2 Bounded(Vector2 p) => Clamp(p, map.Width, map.Height, lens.orthographicSize, lens.aspect);
+        Vector2 Bounded(Vector2 p) => starway20
+            ? StarwayCameraMath.ClampCenter(p, starwayBounds, StarwayCameraMath.FocusWorldSize(Vector2.one))
+            : Clamp(p, map.Width, map.Height, lens.orthographicSize, lens.aspect);
         public void Cut()
         { if (!lens || !map || !player) return; ApplyLens(); var p = Bounded(player.position); transform.position = new Vector3(p.x, p.y, -10); }
         void LateUpdate()
