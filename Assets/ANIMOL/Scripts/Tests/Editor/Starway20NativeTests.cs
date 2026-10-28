@@ -76,5 +76,38 @@ namespace ANIMOL.Puzzle.Tests
             Assert.That(center.x, Is.EqualTo(5.0f).Within(.001f));
             Assert.That(center.y, Is.EqualTo(14.0f).Within(.001f));
         }
+
+        [Test]
+        public void StarwayFollowCanCenterOnTopTerrainWithoutChangingMapSettings()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
+            var map = Object.Instantiate(source);
+            var cameraObject = new GameObject("Starway camera focus test", typeof(Camera), typeof(PuzzleFollowCamera));
+            var playerObject = new GameObject("Starway camera target test");
+            cameraObject.hideFlags = HideFlags.HideAndDontSave;
+            playerObject.hideFlags = HideFlags.HideAndDontSave;
+            try
+            {
+                map.terrain.RemoveAll(t => t.position.y < 5 || t.position.y > 18);
+                var originalInset = map.cameraSettings.topInset;
+                var originalRows = map.cameraSettings.visibleRows;
+                var bounds = PuzzleFollowCamera.StarwayFollowBounds(map);
+                var center = StarwayCameraMath.ClampCenter(map.start, bounds,
+                    StarwayCameraMath.FocusWorldSize(Vector2.one));
+                Assert.That(center.y, Is.EqualTo(map.start.y).Within(.001f));
+                playerObject.transform.position = (Vector2)map.start;
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(map.start.y).Within(.001f));
+                Assert.That(map.cameraSettings.topInset, Is.EqualTo(originalInset));
+                Assert.That(map.cameraSettings.visibleRows, Is.EqualTo(originalRows));
+            }
+            finally
+            {
+                Object.DestroyImmediate(cameraObject);
+                Object.DestroyImmediate(playerObject);
+                Object.DestroyImmediate(map);
+            }
+        }
     }
 }

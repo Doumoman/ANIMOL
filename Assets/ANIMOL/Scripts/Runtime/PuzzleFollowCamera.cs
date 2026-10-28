@@ -19,14 +19,21 @@ namespace ANIMOL.Puzzle
             return new Vector2(width <= halfWidth * 2 ? (width - 1) * .5f : Mathf.Clamp(target.x, halfWidth - .5f, width - .5f - halfWidth),
                 height <= halfHeight * 2 ? (height - 1) * .5f : Mathf.Clamp(target.y, halfHeight - .5f, height - .5f - halfHeight));
         }
+        public static Rect StarwayFollowBounds(PuzzleMap data)
+        {
+            var bounds = StarwayCameraMath.CellBounds(data.terrain.Select(t =>
+                new StarwayCell(t.position.x, t.position.y)).ToArray(), Vector2.zero, Vector2.one);
+            // Let the highest terrain cell reach the center while keeping the 7x11 lens.
+            bounds.yMax += (StarwayCameraMath.FocusWorldSize(Vector2.one).y - 1f) * .5f;
+            return bounds;
+        }
         public void Configure(PuzzleMap data, Transform target)
         {
             map = data; player = target; lens = GetComponent<Camera>(); lens.orthographic = true;
             starway20 = data.scenario && data.scenario.themeId == "starway" &&
                 data.name.StartsWith("SW", StringComparison.Ordinal) && data.terrain.Count > 0;
             if (starway20)
-                starwayBounds = StarwayCameraMath.CellBounds(data.terrain.Select(t =>
-                    new StarwayCell(t.position.x, t.position.y)).ToArray(), Vector2.zero, Vector2.one);
+                starwayBounds = StarwayFollowBounds(data);
             ApplyLens(); Cut();
         }
         void ApplyLens()
