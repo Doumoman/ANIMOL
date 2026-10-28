@@ -59,8 +59,9 @@ namespace ANIMOL.Puzzle.Editor
             }
         }
 
-        public static string RunAll()
+        public static string RunAll(ISet<string> excludedStageIds = null)
         {
+            var expectedCount = 20 - (excludedStageIds?.Count ?? 0);
             var differences = new List<string>();
             var details = new List<string>();
             var windAudit = JObject.Parse(AssetDatabase.LoadAssetAtPath<TextAsset>(
@@ -69,6 +70,7 @@ namespace ANIMOL.Puzzle.Editor
             foreach (var source in StarwayPackCommands.RequireSources())
             {
                 var id = source.input.map.id;
+                if (excludedStageIds != null && excludedStageIds.Contains(id)) continue;
                 var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Starway20ProjectAdapter.MapPath(id));
                 if (!map) { differences.Add(id + ": native map missing"); continue; }
                 var replay = JObject.Parse(source.normalizedReplay.text);
@@ -227,11 +229,11 @@ namespace ANIMOL.Puzzle.Editor
                 }
             }
             Directory.CreateDirectory("Logs");
-            File.WriteAllText("Logs/starway20-replay-result.txt", "passed=" + passed + "/20\n" + string.Join("\n", differences) +
+            File.WriteAllText("Logs/starway20-replay-result.txt", "passed=" + passed + "/" + expectedCount + "\n" + string.Join("\n", differences) +
                 "\n" + string.Join("\n", details));
-            if (differences.Count > 0) throw new InvalidOperationException("Starway20 replay: " + passed + "/20; " + differences[0]);
-            Debug.Log("[Starway20] native PuzzleDeviceSession replay 20/20 passed.");
-            return "20/20";
+            if (differences.Count > 0) throw new InvalidOperationException("Starway20 replay: " + passed + "/" + expectedCount + "; " + differences[0]);
+            Debug.Log("[Starway20] native PuzzleDeviceSession source replay " + passed + "/" + expectedCount + " passed.");
+            return passed + "/" + expectedCount;
         }
     }
 }

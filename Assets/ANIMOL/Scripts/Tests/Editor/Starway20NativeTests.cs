@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using ANIMOL.Puzzle.Editor;
 using ANIMOL.StarwayMaps;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace ANIMOL.Puzzle.Tests
@@ -8,9 +10,40 @@ namespace ANIMOL.Puzzle.Tests
     public sealed class Starway20NativeTests
     {
         [Test]
-        public void AllTwentyNativeMapsReplayTheirSourceSolutions()
+        public void UnchangedSeventeenNativeMapsReplayTheirSourceSolutions()
         {
-            Assert.That(Starway20ReplayValidation.RunAll(), Is.EqualTo("20/20"));
+            Assert.That(Starway20ReplayValidation.RunAll(new HashSet<string> { "SW01", "SW02", "SW03" }), Is.EqualTo("17/17"));
+        }
+
+        [TestCase("SW01", 65)]
+        [TestCase("SW02", 43)]
+        [TestCase("SW03", 43)]
+        public void RevisedNativeMapReplaysSavedVerificationRoute(string id, int expectedCost)
+        {
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
+            Assert.That(map, Is.Not.Null);
+            Assert.That(map.ValidateMap(), Is.Empty);
+            Assert.That(map.scenario.goals, Is.Empty);
+            Assert.That(map.scenario.costLimit, Is.Zero);
+            var route = map.scenario.verificationRoute;
+            Assert.That(route.Length, Is.EqualTo(expectedCost));
+            var session = new PuzzleDeviceSession(map);
+            foreach (var input in route)
+            {
+                var action = session.Apply(ANIMOL.Presentation.Editor.PuzzlePrototypeBuilder.Direction(input));
+                Assert.That(action.accepted, Is.True, id + " input " + session.Cost + " " + input);
+                Assert.That(session.Failed, Is.False);
+            }
+            Assert.That(session.Cost, Is.EqualTo(expectedCost));
+            Assert.That(session.Collected, Is.EqualTo(3));
+            Assert.That(session.Cell, Is.EqualTo(map.exit));
+            Assert.That(session.Won, Is.True);
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.Won, Is.False);
+            session.Reset();
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+            Assert.That(session.Collected, Is.Zero);
         }
 
         [Test]

@@ -18,6 +18,7 @@ namespace ANIMOL.Puzzle.Editor
         public override string[] OwnedAssetRoots => new[] { Root };
         static Vector2Int Cell(StarwayCell value) => value.ToVector2Int();
         public static string MapPath(string id) => Root + "/" + id + "_MapData.asset";
+        static readonly HashSet<string> AuthoredStageIds = new HashSet<string> { "SW01", "SW02", "SW03" };
         static string ScenarioPath(string id) => Root + "/" + id + "_Scenario.asset";
         static PuzzleTheme Theme => AssetDatabase.LoadAssetAtPath<PuzzleTheme>(ThemePath);
 
@@ -80,6 +81,10 @@ namespace ANIMOL.Puzzle.Editor
             {
                 var input = source.input;
                 var m = input.map;
+                // Keep the maps edited in the native map editor when rebuilding the old source pack.
+                var existing = AssetDatabase.LoadAssetAtPath<PuzzleMap>(MapPath(m.id));
+                if (AuthoredStageIds.Contains(m.id) && existing && existing.scenario &&
+                    existing.scenario.verificationRoute != input.referenceActions) continue;
                 var map = Upsert<PuzzleMap>(MapPath(m.id));
                 var scenario = PuzzleEmbeddedScenario.Ensure(map, ScenarioPath(m.id));
                 map.Resize(m.size.width, m.size.height);
@@ -135,6 +140,15 @@ namespace ANIMOL.Puzzle.Editor
             var map = native.map as PuzzleMap;
             var rules = native.scenario as PuzzleScenario;
             if (!map || !rules) { errors.Add(m.id + ": missing native asset."); return; }
+            if (AuthoredStageIds.Contains(m.id) && rules.verificationRoute != source.input.referenceActions)
+            {
+                if (map.theme != Theme || map.scenario != rules || rules.themeId != "starway" ||
+                    map.targetBubbles != 3 || rules.goals.Count != 0 || rules.costLimit != 0 ||
+                    string.IsNullOrEmpty(rules.verificationRoute))
+                    errors.Add(m.id + ": revised native map references or victory fields");
+                errors.AddRange(map.ValidateMap().Select(e => m.id + ": " + e));
+                return;
+            }
             void Check(bool condition, string field) { if (!condition) errors.Add(m.id + ": " + field); }
             Check(map.Width == m.size.width && map.Height == m.size.height, "size");
             Check(map.theme == Theme && map.scenario == rules && rules.themeId == "starway", "references/theme");
