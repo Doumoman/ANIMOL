@@ -497,7 +497,8 @@ namespace ANIMOL.Puzzle
                 if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Domino && s.active)
                 { root.gameObject.SetActive(false); continue; }
                 if (s.removed || (d.role == PrototypeRole.Chick && s.active &&
-                    d.target != Vector2Int.zero && session.Map.Walkable(d.target) &&
+                    session.Devices.Any(nest => nest.role == PrototypeRole.Chick &&
+                        nest.target == s.cell && session.Map.Walkable(nest.target)) &&
                     session.Map.theme && session.Map.theme.starwayRanch &&
                     session.Map.theme.starwayRanch.v13Devices))
                 {

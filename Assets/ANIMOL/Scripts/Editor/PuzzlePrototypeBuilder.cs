@@ -50,7 +50,7 @@ namespace ANIMOL.Presentation.Editor
             switch(r)
             {
                 case PrototypeRole.StarSocket:
-                    D(m,r,"stone",2,2);D(m,r,"socket",4,2,"socket");Goal(m,"socket",PrototypeGoalKind.Active);break;
+                    D(m,r,"stone",2,2);D(m,r,"socket",4,2,"socket");Goal(m,"socket",PrototypeGoalKind.Active);route="EEEEEEEE";break;
                 case PrototypeRole.VineBridge:
                     D(m,r,"plate",2,2,"plate").group="vine";D(m,r,"bridge",3,2).group="vine";m.RemoveTerrain(P(3,2));break;
                 case PrototypeRole.CrescentLeap:

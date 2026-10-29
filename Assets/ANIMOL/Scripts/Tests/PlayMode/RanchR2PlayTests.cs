@@ -159,6 +159,33 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(nest.CurrentKey, Is.EqualTo("nest/idle"));
         }
 
+        [UnityTest] public IEnumerator ForeignNestShowsArrivalAndRestoresByOccupiedCell()
+        {
+            var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
+                .devices.Single(d => d.role == PrototypeRole.Chick);
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(3, 3), target = new Vector2Int(5, 3),
+                visualPrefab = template.visualPrefab });
+            scenario.devices.Add(new PrototypeDevice { id = "other", role = PrototypeRole.Chick,
+                position = new Vector2Int(6, 1), target = new Vector2Int(4, 3),
+                visualPrefab = template.visualPrefab });
+            controller.Load(map); yield return null;
+            Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+            yield return WaitIdle();
+            var occupied = controller.GetComponentsInChildren<RanchChickNestReturnVisualR4>()
+                .Single(nest => nest.transform.localPosition == new Vector3(4, 3, 0));
+            Assert.That(controller.Session.States["chick"].cell, Is.EqualTo(new Vector2Int(4, 3)));
+            Assert.That(occupied.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("nest_return/east/arrive"));
+            var returned = controller.Session.Copy();
+            controller.ResetStage();
+            controller.RestoreSnapshot(returned);
+            Assert.That(occupied.GetComponentInChildren<RanchDeviceVisualV13>().CurrentKey,
+                Is.EqualTo("nest_return/east/occupied"));
+            Assert.That(controller.Devices.Actor("chick").gameObject.activeSelf, Is.False);
+        }
+
         [UnityTest] public IEnumerator ChickReturnUsesActualLastApproachInAllFourDirections()
         {
             var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(

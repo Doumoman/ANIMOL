@@ -100,6 +100,23 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(session.RanchWet(map.start), Is.True);
         }
 
+        [Test] public void ChickFollowsOntoDrySluiceCell()
+        {
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sluice",
+                position = new Vector2Int(2, 2), instanceId = "pond" });
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(0, 2), target = new Vector2Int(6, 3) });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
+            var follow = session.Apply(Vector2Int.right);
+            Assert.That(follow.accepted, Is.True);
+            Assert.That(session.RanchWet(new Vector2Int(2, 2)), Is.False);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(follow.events.Any(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move &&
+                e.to == new Vector2Int(2, 2)), Is.True);
+        }
+
         [Test] public void SheepPushKeepsPlayerStillAndConsumesBothSheepAndGrass()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });

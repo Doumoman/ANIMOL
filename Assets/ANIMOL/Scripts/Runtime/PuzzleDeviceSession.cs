@@ -31,7 +31,9 @@ namespace ANIMOL.Puzzle
             {
                 case PrototypeGoalKind.Active: return s.active;
                 case PrototypeGoalKind.Removed: return s.removed;
-                case PrototypeGoalKind.Position: return s.cell == g.cell;
+                case PrototypeGoalKind.Position:
+                    return definitions.Any(d => d.id == g.deviceId && d.role == PrototypeRole.Chick &&
+                        d.target == g.cell) ? s.active : s.cell == g.cell;
                 case PrototypeGoalKind.DiceTop: return s.dice[0] == g.number;
                 default: return false;
             }
@@ -69,7 +71,7 @@ namespace ANIMOL.Puzzle
         readonly HashSet<string> pushedThisAction = new HashSet<string>();
         readonly Stack<PuzzleDeviceSession> undo = new Stack<PuzzleDeviceSession>();
         int group;
-        bool forced, sliding, stationaryCratePush;
+        bool forced, sliding, stationaryPush;
         public PuzzleDeviceSession(PuzzleMap map)
         {
             Map = map;
@@ -228,7 +230,7 @@ namespace ANIMOL.Puzzle
         }
         PrototypeAction Resolve(Vector2Int direction)
         {
-            Direction = direction; forced = sliding = stationaryCratePush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
+            Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
             if (mirror != null && Rules.mirrorBumpRotates)
@@ -254,7 +256,7 @@ namespace ANIMOL.Puzzle
                     RejectedCue(Cell + direction);
                     return new PrototypeAction { reason = ranchReason ?? "Blocked", events = events.Where(e => e.kind == PrototypeEventKind.Visual).ToList() };
                 }
-                if (!ranchHandled && !stationaryCratePush) Automatic();
+                if (!ranchHandled && !stationaryPush) Automatic();
             }
             Cost++; EndTurn(); Victory();
             if (!Won && Rules.costLimit > 0 && Cost >= Rules.costLimit) Fail("Cost exhausted");
@@ -411,9 +413,10 @@ namespace ANIMOL.Puzzle
                     if (body != null)
                     {
                         if (!Push(body, Direction)) return false;
-                        if (body.role == PrototypeRole.WoodCrate || body.role == PrototypeRole.MetalCrate)
+                        if (body.role == PrototypeRole.WoodCrate || body.role == PrototypeRole.MetalCrate ||
+                            body.role == PrototypeRole.StarSocket && body.variant != "socket")
                         {
-                            stationaryCratePush = true;
+                            stationaryPush = true;
                             return true;
                         }
                     }
@@ -459,14 +462,14 @@ namespace ANIMOL.Puzzle
                     var exit = At(Cell, d => d.role == PrototypeRole.Portal);
                     if (exit != null) Visual(exit, (exit.variant == "b" ? "b" : "a") + "_exit_" + Dir(Direction), "existing_portal_exit_committed");
                     arrivedFromPortal = true;
-                    if (!StepPlayer(Cell + Direction) || stationaryCratePush) return;
+                    if (!StepPlayer(Cell + Direction) || stationaryPush) return;
                     if (!sliding && At(Cell, d => d.role == PrototypeRole.OneWayGate) == null) return;
                     continue;
                 }
                 arrivedFromPortal = false;
                 if (At(Cell, d => d.role == PrototypeRole.OneWayGate) != null)
                 {
-                    if (!StepPlayer(Cell + Direction) || stationaryCratePush) return;
+                    if (!StepPlayer(Cell + Direction) || stationaryPush) return;
                     continue;
                 }
                 var leap = At(Cell, d => d.role == PrototypeRole.CrescentLeap);
@@ -513,7 +516,7 @@ namespace ANIMOL.Puzzle
                     }
                     else if (!sliding && !(Rules.echoTheaterV3Rules && forced)) return;
                 }
-                if (!StepPlayer(Cell + Direction, windSource) || stationaryCratePush) return;
+                if (!StepPlayer(Cell + Direction, windSource) || stationaryPush) return;
             }
         }
         bool Push(PrototypeDevice d, Vector2Int direction)
@@ -620,7 +623,7 @@ namespace ANIMOL.Puzzle
                 Move(d.id, old, s.cell);
                 if (d.role == PrototypeRole.Dice) { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                 if (SeatStarStone(d)) break;
-                if (d.role == PrototypeRole.Chick && s.cell == d.target) { EnterNest(d); break; }
+                if (d.role == PrototypeRole.Chick && EnterNest(d)) break;
                 TraceWind();
             }
             if (d.role == PrototypeRole.Barrel) Visual(d, "stop_" + Dir(direction), "existing_barrel_blocker_reached");
@@ -638,22 +641,27 @@ namespace ANIMOL.Puzzle
                 if ((target - s.cell).sqrMagnitude != 1 || !Free(target, chick.id)) continue;
                 var from = s.cell; s.direction = target - from; s.cell = target; Move(chick.id, from, target);
                 Visual(chick, "walk_" + Dir(s.direction), "existing_recorded_path_following");
-                if (s.cell == chick.target) EnterNest(chick);
+                EnterNest(chick);
             }
         }
         bool EnterNest(PrototypeDevice chick)
         {
             var s = states[chick.id];
-            if (chick.target == Vector2Int.zero || !Map.Walkable(chick.target)) return false;
-            if (s.cell == chick.target)
+            var nests = definitions.Where(d => d.role == PrototypeRole.Chick &&
+                d.target != Vector2Int.zero && Map.Walkable(d.target))
+                .Select(d => d.target).Distinct().OrderBy(p => p.x).ThenBy(p => p.y);
+            foreach (var nest in nests)
             {
+                if (s.cell != nest) continue;
                 if (!s.active) { s.active = true; s.trail.Clear(); ChickReturned(chick, s); }
                 return true;
             }
-            if ((chick.target - s.cell).sqrMagnitude != 1 || !Free(chick.target, chick.id)) return false;
+            var destination = nests.FirstOrDefault(nest =>
+                (nest - s.cell).sqrMagnitude == 1 && Free(nest, chick.id));
+            if (destination == Vector2Int.zero) return false;
             var from = s.cell;
-            s.direction = chick.target - from;
-            s.cell = chick.target;
+            s.direction = destination - from;
+            s.cell = destination;
             s.active = true;
             s.trail.Clear();
             Move(chick.id, from, s.cell);
@@ -677,7 +685,7 @@ namespace ANIMOL.Puzzle
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = chick.id,
                 eventName = "ChickReturned", state = "nest_return/" + heading + "/arrive",
                 from = route[0], to = state.cell, cells = route,
-                arrivalDirection = arrival, nestId = "nest:" + chick.target.x + ":" + chick.target.y,
+                arrivalDirection = arrival, nestId = "nest:" + state.cell.x + ":" + state.cell.y,
                 group = group });
         }
         void RefreshLinks(bool animate)

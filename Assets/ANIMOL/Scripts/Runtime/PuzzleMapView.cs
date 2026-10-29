@@ -645,7 +645,7 @@ namespace ANIMOL.Puzzle
             foreach (var entry in ranchNestVisuals)
             {
                 var returned = authority.Devices.FirstOrDefault(d => d.role == PrototypeRole.Chick &&
-                    d.target == entry.Key && authority.States[d.id].active);
+                    authority.States[d.id].cell == entry.Key && authority.States[d.id].active);
                 var occupied = returned != null;
                 var direction = occupied ? RanchDirection(authority.States[returned.id].direction) : "south";
                 entry.Value.ClearPresentation();
@@ -661,7 +661,7 @@ namespace ANIMOL.Puzzle
             if (cue == null || cue.eventName != "ChickReturned" ||
                 !ranchNestVisuals.TryGetValue(cue.to, out var nest) ||
                 !authority.States.TryGetValue(cue.actor, out var state) || !state.active || state.cell != cue.to ||
-                authority.Definition(cue.actor)?.target != cue.to)
+                authority.Definition(cue.actor)?.role != PrototypeRole.Chick)
                 return false;
             var direction = RanchDirection(cue.arrivalDirection.sqrMagnitude == 1 ?
                 cue.arrivalDirection : state.direction);

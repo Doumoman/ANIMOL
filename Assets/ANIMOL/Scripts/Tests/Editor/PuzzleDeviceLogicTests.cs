@@ -71,6 +71,8 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.right);
             Assert.That(session.States[bridge.id].active, Is.False);
             session.Apply(Vector2Int.right);
+            Assert.That(session.States[bridge.id].active, Is.False);
+            session.Apply(Vector2Int.right);
             Assert.That(session.States[socket.id].active, Is.True);
             Assert.That(session.States[bridge.id].active, Is.True);
             Assert.That(session.Supported(bridge.position), Is.True);
@@ -92,8 +94,11 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.right);
             Assert.That(session.IsBubbleVisible(reward), Is.False);
             session.Apply(Vector2Int.right);
+            Assert.That(session.IsBubbleVisible(reward), Is.False);
+            session.Apply(Vector2Int.right);
             Assert.That(session.IsBubbleVisible(reward), Is.True);
             Assert.That(session.Collected, Is.Zero);
+            session.Apply(Vector2Int.right);
             session.Apply(Vector2Int.right);
             session.Apply(Vector2Int.right);
             session.Apply(Vector2Int.right);
@@ -113,6 +118,8 @@ namespace ANIMOL.Tests
             var session = new PuzzleDeviceSession(map);
             Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
             var phase = session.States["turn_probe"].phase;
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            phase = session.States["turn_probe"].phase;
             var rejected = session.Apply(Vector2Int.right);
             Assert.That(rejected.accepted, Is.False);
             Assert.That(rejected.events.Any(e => e.actor == socket.id && e.eventName == "pattern_mismatch_rejected"), Is.True);
@@ -120,7 +127,7 @@ namespace ANIMOL.Tests
             Assert.That(session.States["stone"].cell, Is.EqualTo(new Vector2Int(3, 2)));
             Assert.That(session.States[socket.id].active, Is.False);
             Assert.That(session.States["turn_probe"].phase, Is.EqualTo(phase));
-            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Cost, Is.EqualTo(2));
         }
         [Test] public void EmptyStarSocketBlocksPlayerUntilMatchingStoneSeats()
         {
@@ -524,6 +531,24 @@ namespace ANIMOL.Tests
             Assert.That(session.States["chick"].active, Is.True);
             Assert.That(later.events.Any(e => e.eventName == "ChickReturned"), Is.False);
         }
+        [Test] public void ChickReturnsToAnotherChicksNest()
+        {
+            var map = Clone(24);
+            var chick = map.scenario.devices.Single(d => d.id == "chick");
+            chick.target = new Vector2Int(5, 3);
+            map.scenario.goals.Single(g => g.deviceId == "chick").cell = chick.target;
+            map.targetBubbles = 0;
+            map.scenario.devices.Add(new PrototypeDevice { id = "other_chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(5, 4), target = new Vector2Int(2, 3) });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.right);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(2, 3)));
+            Assert.That(session.States["chick"].active, Is.True);
+            Assert.That(session.ExitReady, Is.True);
+            Assert.That(action.events.Single(e => e.actor == "chick" && e.eventName == "ChickReturned").nestId,
+                Is.EqualTo("nest:2:3"));
+        }
         [Test] public void V12ChickFollowsBlocksPlayerAndPressesOrdinaryPlate()
         {
             var map = Clone(24);
@@ -559,7 +584,8 @@ namespace ANIMOL.Tests
         }
         [TestCase(PrototypeRole.WoodCrate)]
         [TestCase(PrototypeRole.MetalCrate)]
-        public void CratePushCostsOneAndLeavesPlayerInPlace(PrototypeRole role)
+        [TestCase(PrototypeRole.StarSocket)]
+        public void StationaryPushCostsOneAndLeavesPlayerInPlace(PrototypeRole role)
         {
             var map = Clone(24);
             map.scenario.devices.RemoveAll(d => d.role == PrototypeRole.Chick);
