@@ -78,6 +78,7 @@ namespace ANIMOL.Tests
         {
             var map = Clone("20_Wind");
             var blower = map.scenario.devices.Single(d => d.variant == "blower");
+            blower.orientation = 2;
             var metal = map.scenario.devices.Single(d => d.role == PrototypeRole.MetalCrate);
             map.scenario.devices.Add(new PrototypeDevice {
                 id = "corner", role = PrototypeRole.Bounce, position = new Vector2Int(3, 4),
@@ -98,13 +99,14 @@ namespace ANIMOL.Tests
                         direction == WindHeading.South ? Vector2Int.down : Vector2Int.left));
             }
             Assert.That(route.cells.Any(x => x.cell.x == metal.position.x && x.cell.y == metal.position.y), Is.False);
-            Assert.That(route.maxRangeCells, Is.EqualTo(map.Width * map.Height));
+            Assert.That(route.maxRangeCells, Is.EqualTo(6));
         }
 
         [Test]
         public void OneCommittedActionAppliesAtMostOneWindStepPerLightActor()
         {
             var map = Clone("20_Wind");
+            map.scenario.devices.Single(d => d.variant == "blower").orientation = 1;
             map.scenario.devices.Add(new PrototypeDevice {
                 id = "corner", role = PrototypeRole.Bounce, position = new Vector2Int(3, 4),
                 direction = Vector2Int.right, orientation = 2

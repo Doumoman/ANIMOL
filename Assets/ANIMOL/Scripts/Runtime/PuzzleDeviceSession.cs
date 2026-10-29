@@ -757,7 +757,13 @@ namespace ANIMOL.Puzzle
                     else Visual(d, "blocked_" + Dir(s.lookDirection), "doll_retreat_cell_blocked");
                 }
             }
-            TraceWind(); WindPulse(); WindSheepPulse();
+            TraceWind();
+            // Keep this action's shadow even if its first blocker moves or disappears.
+            var pulseCells = new Dictionary<Vector2Int, Vector2Int>(WindCells);
+            var pulseOwners = new Dictionary<Vector2Int, string>(windOwners);
+            var pulseRoutes = new Dictionary<string, WindRoute>(windRoutes, StringComparer.Ordinal);
+            WindPulse(pulseCells, pulseOwners, pulseRoutes);
+            WindSheepPulse(pulseOwners, pulseRoutes);
             foreach (var bomb in definitions.Where(d => d.role == PrototypeRole.Bomb && !states[d.id].removed && states[d.id].timer > 0 && !newlyArmed.Contains(d.id)))
             {
                 var s = states[bomb.id]; s.timer--;
@@ -907,12 +913,14 @@ namespace ANIMOL.Puzzle
             public WindCellKind Classify(WindGridCell cell, WindHeading incomingTravel)
             {
                 var p = new Vector2Int(cell.x, cell.y);
+                if (session.ranchSheep.Values.Contains(p))
+                    return session.Supported(p) ? WindCellKind.MovableBlock : WindCellKind.Void;
                 if (session.RanchGrassPresent(p)) return WindCellKind.Open;
                 if (!session.Supported(p)) return WindCellKind.Void;
                 var body = session.At(p, session.Solid, emitter);
                 if (body != null)
                     return body.role == PrototypeRole.MetalCrate ? WindCellKind.MetalBlock :
-                        WindMovable(body) ? WindCellKind.Open : WindCellKind.HardBlock;
+                        WindMovable(body) ? WindCellKind.MovableBlock : WindCellKind.HardBlock;
                 var corner = session.At(p, d => d.role == PrototypeRole.Bounce);
                 if (corner != null && ReflectCorner(WindVector(incomingTravel), corner.orientation) == Vector2Int.zero)
                     return WindCellKind.HardBlock;
@@ -933,35 +941,39 @@ namespace ANIMOL.Puzzle
             d.role == PrototypeRole.Dice && d.variant != "target";
         bool StarwayWindCarrier(PrototypeDevice d) => Rules.themeId == "starway" &&
             d.role == PrototypeRole.WoodCrate;
-        void WindVisual(PrototypeDevice wind, Vector2Int direction)
+        void WindVisual(PrototypeDevice wind, Vector2Int direction, WindRoute committedRoute = null)
         {
-            var route = WindRouteFor(wind.id);
+            var route = committedRoute ?? WindRouteFor(wind.id);
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = wind.id,
                 state = "wind_push_" + Dir(direction), eventName = "valid_action_wind_resolved",
                 group = group, windRoute = route,
                 cells = route == null ? new List<Vector2Int>() :
                     route.cells.Select(x => new Vector2Int(x.cell.x, x.cell.y)).ToList() });
         }
-        void WindPulse()
+        void WindPulse(Dictionary<Vector2Int, Vector2Int> pulseCells,
+            Dictionary<Vector2Int, string> pulseOwners, Dictionary<string, WindRoute> pulseRoutes)
         {
             foreach (var d in definitions.Where(d => !states[d.id].removed && WindMovable(d) && !pushedThisAction.Contains(d.id)))
             {
                 var s = states[d.id];
-                var wind = windOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
-                if (!WindCells.TryGetValue(s.cell, out var direction)) continue;
+                var wind = pulseOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
+                if (!pulseCells.TryGetValue(s.cell, out var direction)) continue;
+                WindRoute committedRoute = null;
                 if (wind != null && wind.variant == "blower")
                 {
-                    var route = WindRouteFor(wind.id);
-                    if (route == null || !route.TryGetForce(new WindGridCell(s.cell.x, s.cell.y),
+                    if (!pulseRoutes.TryGetValue(wind.id, out committedRoute) ||
+                        committedRoute.stopReason != WindStopReason.MovableBlock ||
+                        committedRoute.cells.Count == 0 ||
+                        !committedRoute.cells[committedRoute.cells.Count - 1].cell.Equals(
+                            new WindGridCell(s.cell.x, s.cell.y)) ||
+                        !committedRoute.TryGetForce(new WindGridCell(s.cell.x, s.cell.y),
                             out var forceHeading)) continue;
                     direction = WindVector(forceHeading);
-                    var next = s.cell + direction;
-                    if (!route.TryGetForce(new WindGridCell(next.x, next.y), out _)) continue;
                 }
                 var mismatch = MismatchedSocket(d, s.cell + direction);
                 if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); continue; }
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) continue;
-                if (wind != null) WindVisual(wind, direction); // Snapshot the trace before movement.
+                if (wind != null) WindVisual(wind, direction, committedRoute);
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
                 pushedThisAction.Add(d.id);
                 if (d.role == PrototypeRole.Dice)
@@ -969,55 +981,38 @@ namespace ANIMOL.Puzzle
                 if (d.role == PrototypeRole.Bomb && s.timer == 0)
                 { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
                 if (SeatStarStone(d)) { TraceWind(); continue; }
-                TraceWind(); SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
+                TraceWind();
+                if (wind == null || wind.variant != "blower")
+                    SettleBody(d, direction, d.role == PrototypeRole.Barrel, true);
             }
         }
-        void WindSheepPulse()
+        void WindSheepPulse(Dictionary<Vector2Int, string> pulseOwners,
+            Dictionary<string, WindRoute> pulseRoutes)
         {
             foreach (var sheep in ranchSheep.ToArray())
             {
-                if (!windOwners.TryGetValue(sheep.Value, out var owner)) continue;
+                if (!pulseOwners.TryGetValue(sheep.Value, out var owner)) continue;
                 var wind = Definition(owner);
                 if (wind == null || wind.variant != "blower") continue;
-                var route = WindRouteFor(owner);
-                if (route == null) continue;
+                if (!pulseRoutes.TryGetValue(owner, out var route) ||
+                    route.stopReason != WindStopReason.MovableBlock || route.cells.Count == 0 ||
+                    !route.cells[route.cells.Count - 1].cell.Equals(
+                        new WindGridCell(sheep.Value.x, sheep.Value.y)) ||
+                    !route.TryGetForce(new WindGridCell(sheep.Value.x, sheep.Value.y), out var force)) continue;
                 var range = states[owner].phase * 3;
-                var moved = 0;
-                var lastDirection = Vector2Int.zero;
-                var lastKind = RanchRuleEventR2.None;
-                var final = sheep.Value;
-                while (moved < range && ranchSheep.ContainsKey(sheep.Key) &&
-                    route.TryGetForce(new WindGridCell(final.x, final.y), out var force))
-                {
-                    var direction = WindVector(force);
-                    var cells = new List<RanchCellR2> { RanchCell(final) };
-                    var cursor = final;
-                    while (cells.Count < range - moved)
-                    {
-                        cursor += direction;
-                        if (!route.TryGetForce(new WindGridCell(cursor.x, cursor.y), out var nextForce)) break;
-                        cells.Add(RanchCell(cursor));
-                        if (WindVector(nextForce) != direction) break;
-                    }
-                    if (cells.Count < 2 || !RanchDeviceRulesR2.TryWindSheep(RanchSnapshot(cells.Select(UnityCell)), sheep.Key,
-                        RanchCell(direction), cells, range, out var next, out var result)) break;
-                    WindVisual(wind, direction);
-                    for (var i = 1; i < result.actualRoute.Length; i++)
-                        Move(sheep.Key, UnityCell(result.actualRoute[i - 1]), UnityCell(result.actualRoute[i]));
-                    moved += result.actualRoute.Length - 1;
-                    final = UnityCell(result.actualRoute[result.actualRoute.Length - 1]);
-                    if (result.removedSheep) { ranchSheep.Remove(sheep.Key); consumedRanchGrass.Add(final); }
-                    else ranchSheep[sheep.Key] = final;
-                    ranchSheepDirections[sheep.Key] = direction;
-                    lastDirection = direction;
-                    lastKind = result.eventKind;
-                    if (result.removedSheep) break;
-                }
-                if (moved == 0) continue;
-                var removed = !ranchSheep.ContainsKey(sheep.Key);
+                var direction = WindVector(force);
+                var destination = sheep.Value + direction;
+                var cells = new List<RanchCellR2> { RanchCell(sheep.Value), RanchCell(destination) };
+                if (!RanchDeviceRulesR2.TryWindSheep(RanchSnapshot(cells.Select(UnityCell)), sheep.Key,
+                    RanchCell(direction), cells, range, out var next, out var result)) continue;
+                WindVisual(wind, direction, route);
+                Move(sheep.Key, sheep.Value, destination);
+                if (result.removedSheep) { ranchSheep.Remove(sheep.Key); consumedRanchGrass.Add(destination); }
+                else ranchSheep[sheep.Key] = destination;
+                ranchSheepDirections[sheep.Key] = direction;
                 events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = sheep.Key,
-                    state = "sheep/" + RanchHeading(lastDirection) + (removed ? "/eat_and_disappear" : "/idle"),
-                    eventName = lastKind.ToString(), from = sheep.Value, to = final, group = group });
+                    state = "sheep/" + RanchHeading(direction) + (result.removedSheep ? "/eat_and_disappear" : "/idle"),
+                    eventName = result.eventKind.ToString(), from = sheep.Value, to = destination, group = group });
             }
         }
         void Victory()

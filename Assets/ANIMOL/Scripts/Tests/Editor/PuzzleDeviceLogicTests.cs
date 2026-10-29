@@ -9,6 +9,7 @@ using ANIMOL.Presentation;
 using ANIMOL.Presentation.Editor;
 using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.StarSwellCoastV01;
+using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Art.RanchDevicesV13;
 namespace ANIMOL.Tests
 {
@@ -396,7 +397,7 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
         }
-        [Test] public void StarwayWindCarriesWoodToLastReachableCellAndMetalStopsIt()
+        [Test] public void StarwayWindMovesFirstWoodOneCellPerActionAndMetalStopsIt()
         {
             var map = Clone(20);
             map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
@@ -406,11 +407,11 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             var first = session.Apply(Vector2Int.up);
             Assert.That(first.accepted, Is.True);
-            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(first.events.Count(e => e.actor == "wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(2));
+            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(3, 4)));
+            Assert.That(first.events.Count(e => e.actor == "wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(1));
             var second = session.Apply(Vector2Int.up);
             Assert.That(second.accepted, Is.True);
-            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(6, 4)));
+            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(4, 4)));
             Assert.That(session.States["metal"].cell, Is.EqualTo(new Vector2Int(7, 4)));
             Assert.That(session.Cost, Is.EqualTo(3));
         }
@@ -494,10 +495,57 @@ namespace ANIMOL.Tests
             var action = session.Apply(Vector2Int.up);
 
             Assert.That(action.accepted, Is.True);
-            Assert.That(session.RanchSheep["wind_sheep"], Is.EqualTo(new Vector2Int(10, 4)));
+            Assert.That(session.RanchSheep["wind_sheep"], Is.EqualTo(new Vector2Int(6, 4)));
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
             Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             Assert.That(session.Cost, Is.EqualTo(1));
+        }
+        [Test] public void BlowerDoesNotReachSheepBehindFirstOccupiedWindCell()
+        {
+            var map = Clone(20); map.Resize(14, 7);
+            for (var x = 8; x <= 12; x++) map.SetTerrain(new Vector2Int(x, 4), TerrainMaterial.Grass);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(12, 4);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 3;
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "front_sheep", position = new Vector2Int(3, 4) });
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "rear_sheep", position = new Vector2Int(5, 4) });
+            map.start = new Vector2Int(2, 3);
+            var session = new PuzzleDeviceSession(map);
+
+            Assert.That(session.WindRouteFor("blower").stopReason, Is.EqualTo(WindStopReason.MovableBlock));
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(3, 4)), Is.True);
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(5, 4)), Is.False);
+            var action = session.Apply(Vector2Int.up);
+
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.RanchSheep["front_sheep"], Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(action.events.Any(e => e.actor == "rear_sheep" && e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+        [Test] public void BlowerShadowPersistsForActionWhenFirstSheepEatsGrass()
+        {
+            var map = Clone(20); map.Resize(14, 7);
+            for (var x = 8; x <= 12; x++) map.SetTerrain(new Vector2Int(x, 4), TerrainMaterial.Grass);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(12, 4);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 3;
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "front_sheep", position = new Vector2Int(3, 4) });
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "tall_grass", instanceId = "wind_grass", position = new Vector2Int(4, 4) });
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "rear_sheep", position = new Vector2Int(5, 4) });
+            map.start = new Vector2Int(2, 3);
+            var session = new PuzzleDeviceSession(map);
+
+            var action = session.Apply(Vector2Int.up);
+
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.RanchSheep.ContainsKey("front_sheep"), Is.False);
+            Assert.That(session.RanchGrassPresent(new Vector2Int(4, 4)), Is.False);
+            Assert.That(session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(action.events.Any(e => e.actor == "rear_sheep" && e.kind == PrototypeEventKind.Move), Is.False);
         }
         [Test] public void BlowerStopsPlayerBeforeWoodCrateEvenWhenWindCarriesCrate()
         {
@@ -514,7 +562,7 @@ namespace ANIMOL.Tests
 
             Assert.That(action.accepted, Is.True);
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(session.States["wind_wood"].cell, Is.EqualTo(new Vector2Int(10, 4)));
+            Assert.That(session.States["wind_wood"].cell, Is.EqualTo(new Vector2Int(6, 4)));
             Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             Assert.That(session.Cost, Is.EqualTo(1));
         }

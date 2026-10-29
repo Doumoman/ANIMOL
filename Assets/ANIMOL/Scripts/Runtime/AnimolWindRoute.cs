@@ -6,8 +6,8 @@ namespace ANIMOL.Art.DevicePatch01
 {
     // Pure data/logic: no Unity, Transform, actor movement, turn cost or simulation clock.
     public enum WindHeading { North, East, South, West }
-    public enum WindCellKind { Open, HardBlock, MetalBlock, Void }
-    public enum WindStopReason { RangeEnd, HardBlock, MetalBlock, Void, RepeatedCell }
+    public enum WindCellKind { Open, HardBlock, MetalBlock, Void, MovableBlock }
+    public enum WindStopReason { RangeEnd, HardBlock, MetalBlock, Void, RepeatedCell, MovableBlock }
 
     [Serializable]
     public struct WindGridCell : IEquatable<WindGridCell>
@@ -23,8 +23,8 @@ namespace ANIMOL.Art.DevicePatch01
 
     public interface IWindBoard
     {
-        // Return Void outside the board. Open includes native light wood boxes/players;
-        // such actors receive force but do not cast a wind shadow. Glass/hard walls block.
+        // Return Void outside the board. A MovableBlock receives force at its cell
+        // and shadows every cell behind it. Glass and hard walls block before their cell.
         // incomingTravel also lets the host classify an actual directional blocking face
         // (including a corner non-reflecting back) using its existing rule.
         WindCellKind Classify(WindGridCell cell, WindHeading incomingTravel);
@@ -95,7 +95,8 @@ namespace ANIMOL.Art.DevicePatch01
 
         // maxRangeCells is the host's existing number of downstream affected cells.
         // A corner consumes one range cell; turning does not reset remaining range.
-        // The blocking cell and all cells behind it are absent from the result.
+        // Hard, metal and void blockers are excluded. A movable blocker is the
+        // final affected cell; no cell behind it receives this trace's force.
         public static WindRoute Trace(IWindBoard board, WindGridCell emitter,
             WindHeading heading, int maxRangeCells)
         {
@@ -114,7 +115,7 @@ namespace ANIMOL.Art.DevicePatch01
             {
                 WindGridCell next = Step(current, travel);
                 WindCellKind kind = board.Classify(next, travel);
-                if (kind != WindCellKind.Open)
+                if (kind != WindCellKind.Open && kind != WindCellKind.MovableBlock)
                 {
                     WindStopReason reason;
                     switch (kind)
@@ -139,6 +140,10 @@ namespace ANIMOL.Art.DevicePatch01
                 }
                 else outgoing = travel;
                 result.Add(new WindRouteCell(next, travel, outgoing));
+                // The first movable occupant receives force, but casts a shadow behind it.
+                if (kind == WindCellKind.MovableBlock)
+                    return new WindRoute(emitter, heading, maxRangeCells, result,
+                        WindStopReason.MovableBlock, null);
                 current = next;
                 travel = outgoing;
             }

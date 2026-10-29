@@ -54,6 +54,19 @@ public sealed class AnimolWindRouteTests
     }
 
     [Test]
+    public void FirstMovableCellReceivesForceButCastsWindShadow()
+    {
+        var board = new Board(); board.blocks.Add(new WindGridCell(2, 0), WindCellKind.MovableBlock);
+        var route = AnimolWindRoute.Trace(board, new WindGridCell(0, 0), WindHeading.East, 8);
+
+        Assert.That(route.stopReason, Is.EqualTo(WindStopReason.MovableBlock));
+        Assert.That(route.cells.Count, Is.EqualTo(2));
+        Assert.That(route.TryGetForce(new WindGridCell(2, 0), out var heading), Is.True);
+        Assert.That(heading, Is.EqualTo(WindHeading.East));
+        Assert.That(route.TryGetForce(new WindGridCell(3, 0), out _), Is.False);
+    }
+
+    [Test]
     public void ExistingCornerCallbackChangesSameRouteForceAndConsumesOneRangeCell()
     {
         var board = new Board(); board.turns.Add(new WindGridCell(2, 0), WindHeading.North);
@@ -101,9 +114,9 @@ public sealed class AnimolWindRouteTests
     }
 
     [Test]
-    public void ZeroRangeAndNativeWoodDoNotInventBlockers()
+    public void ZeroRangeAndOpenCorridorDoNotInventBlockers()
     {
-        var board = new Board(); // Native wood is deliberately Classify(Open).
+        var board = new Board();
         Assert.AreEqual(0, AnimolWindRoute.Trace(board, new WindGridCell(0, 0), WindHeading.East, 0).cells.Count);
         Assert.AreEqual(3, AnimolWindRoute.Trace(board, new WindGridCell(0, 0), WindHeading.East, 3).cells.Count);
     }
