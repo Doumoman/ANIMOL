@@ -28,6 +28,8 @@ namespace ANIMOL.Presentation.Editor
             "water/bank/inner_sw", "water/bank/inner_nw" };
         static readonly int[] waterEdgeBits = { 1, 4, 16, 64 };
         static readonly int[] waterDiagonalBits = { 2, 8, 32, 128 };
+        const string MarkerFontPath = "Assets/ANIMOL/Fonts/Galmuri14.ttf";
+        static Font markerFont;
         enum Layer { Terrain, Device, Decoration, Markers, Water }
         enum Marker { Start, Bubble, Exit }
         [SerializeField] PuzzleMap map;
@@ -1307,11 +1309,6 @@ namespace ANIMOL.Presentation.Editor
                         GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
                             d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
                     foreach (var configured in configuredByCell[p]) DrawDevice(rect, configured);
-                    if (bubbleCells.Contains(p)) GUI.Label(rect, "방", EditorStyles.boldLabel);
-                    else if (rewardCells != null && rewardCells.Contains(p))
-                        GUI.Label(rect, "방+", EditorStyles.boldLabel);
-                    if (map.start == p) GUI.Label(rect, "시", EditorStyles.boldLabel);
-                    if (map.exit == p) GUI.Label(new Rect(rect.x + cellSize * .5f, rect.y, cellSize * .5f, cellSize), "출", EditorStyles.boldLabel);
                     if (!map.Contains(p)) GUI.Label(rect, "/");
                 }
                 var visible = new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height);
@@ -1343,6 +1340,7 @@ namespace ANIMOL.Presentation.Editor
                 DrawDeviceDirectionBadges(xMin, xMax, yMin, yMax, shownHeight, origin);
                 if (map.scenario && showConnections) DrawConnections(shownHeight, origin);
                 if (showCameraBounds) DrawCameraBounds(cameraBounds, shownHeight, origin);
+                DrawMarkerBadges(xMin, xMax, yMin, yMax, shownHeight, origin, bubbleCells, rewardCells);
             }
             var e = Event.current;
             if (pointerInside && e.type == EventType.Repaint)
@@ -1397,6 +1395,52 @@ namespace ANIMOL.Presentation.Editor
                 }
             }
             GUI.EndScrollView();
+        }
+        void DrawMarkerBadges(int xMin, int xMax, int yMin, int yMax, int shownHeight, Vector2 origin,
+            ISet<Vector2Int> bubbleCells, ISet<Vector2Int> rewardCells)
+        {
+            if (!markerFont) markerFont = AssetDatabase.LoadAssetAtPath<Font>(MarkerFontPath);
+            var style = new GUIStyle(EditorStyles.label)
+            {
+                font = markerFont,
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = Mathf.Max(9, Mathf.RoundToInt(cellSize * .43f)),
+                clipping = TextClipping.Clip
+            };
+            style.normal.textColor = Color.black;
+            var previousColor = GUI.color;
+            GUI.color = Color.white;
+            for (var row = yMin; row < yMax; row++) for (var x = xMin; x < xMax; x++)
+            {
+                var p = new Vector2Int(x, shownHeight - 1 - row);
+                var bubble = bubbleCells.Contains(p) || rewardCells != null && rewardCells.Contains(p);
+                var start = map.start == p;
+                var exit = map.exit == p;
+                if (!bubble && !start && !exit) continue;
+                var cell = new Rect(origin.x + x * cellSize, origin.y + row * cellSize, cellSize, cellSize);
+                var halfHeight = (cellSize - 4f) * .5f;
+                var center = new Rect(cell.x + 2f, cell.y + (cellSize - halfHeight * 1.35f) * .5f,
+                    cellSize - 4f, halfHeight * 1.35f);
+                if (bubble)
+                    DrawMarkerBadge(!start && !exit ? center :
+                        new Rect(cell.x + 2f, cell.y + 2f, cellSize - 4f, halfHeight),
+                        bubbleCells.Contains(p) ? "방" : "방+", style);
+                if (start)
+                    DrawMarkerBadge(!bubble && !exit ? center :
+                        new Rect(cell.x + 2f, cell.y + 2f + halfHeight, (cellSize - 4f) * .5f, halfHeight),
+                        "시", style);
+                if (exit)
+                    DrawMarkerBadge(!bubble && !start ? center :
+                        new Rect(cell.x + 2f + (cellSize - 4f) * .5f, cell.y + 2f + halfHeight,
+                            (cellSize - 4f) * .5f, halfHeight),
+                        "출", style);
+            }
+            GUI.color = previousColor;
+        }
+        static void DrawMarkerBadge(Rect rect, string label, GUIStyle style)
+        {
+            EditorGUI.DrawRect(rect, new Color(1f, .976f, .914f, .88f));
+            GUI.Label(rect, label, style);
         }
         static string DirectionGlyph(Vector2Int d) => d == Vector2Int.up ? "^" : d == Vector2Int.right ? ">" : d == Vector2Int.down ? "v" : d == Vector2Int.left ? "<" : "?";
         void DrawV13WaterPreview(Rect cell, Vector2Int position, ISet<Vector2Int> sameState)
