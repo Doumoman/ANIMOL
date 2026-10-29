@@ -69,7 +69,6 @@ namespace ANIMOL.Puzzle
         List<PrototypeEvent> events = new List<PrototypeEvent>();
         readonly HashSet<string> newlyArmed = new HashSet<string>();
         readonly HashSet<string> pushedThisAction = new HashSet<string>();
-        readonly HashSet<string> windSheepMovedThisAction = new HashSet<string>();
         readonly Stack<PuzzleDeviceSession> undo = new Stack<PuzzleDeviceSession>();
         int group;
         bool forced, sliding, stationaryPush;
@@ -231,7 +230,7 @@ namespace ANIMOL.Puzzle
         }
         PrototypeAction Resolve(Vector2Int direction)
         {
-            Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear(); windSheepMovedThisAction.Clear();
+            Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
             if (mirror != null && Rules.mirrorBumpRotates)
@@ -501,12 +500,6 @@ namespace ANIMOL.Puzzle
                         var route = WindRouteFor(windSource.id);
                         var next = Cell + Direction;
                         if (route == null || !route.TryGetForce(new WindGridCell(next.x, next.y), out _)) return;
-                        if (ranchSheep.Values.Contains(next))
-                        {
-                            // Clear sheep carried by this same gust before the player reaches their cell.
-                            WindSheepPulse();
-                            TraceWind();
-                        }
                         if (!windCued.Add(windSource.id)) windSource = null;
                     }
                 }
@@ -523,6 +516,9 @@ namespace ANIMOL.Puzzle
                     }
                     else if (!sliding && !(Rules.echoTheaterV3Rules && forced)) return;
                 }
+                // A later wind pulse moving an occupant does not extend this player move.
+                if (conveyor == null && wind &&
+                    (ranchSheep.Values.Contains(Cell + Direction) || At(Cell + Direction, Solid) != null)) return;
                 if (!StepPlayer(Cell + Direction, windSource) || stationaryPush) return;
             }
         }
@@ -980,7 +976,6 @@ namespace ANIMOL.Puzzle
         {
             foreach (var sheep in ranchSheep.ToArray())
             {
-                if (windSheepMovedThisAction.Contains(sheep.Key)) continue;
                 if (!windOwners.TryGetValue(sheep.Value, out var owner)) continue;
                 var wind = Definition(owner);
                 if (wind == null || wind.variant != "blower") continue;
@@ -1019,7 +1014,6 @@ namespace ANIMOL.Puzzle
                     if (result.removedSheep) break;
                 }
                 if (moved == 0) continue;
-                windSheepMovedThisAction.Add(sheep.Key);
                 var removed = !ranchSheep.ContainsKey(sheep.Key);
                 events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = sheep.Key,
                     state = "sheep/" + RanchHeading(lastDirection) + (removed ? "/eat_and_disappear" : "/idle"),

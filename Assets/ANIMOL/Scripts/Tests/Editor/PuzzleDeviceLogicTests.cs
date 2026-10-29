@@ -480,14 +480,14 @@ namespace ANIMOL.Tests
             Assert.That(action.events.Count(e=>e.actor=="player"&&e.kind==PrototypeEventKind.Move),
                 Is.EqualTo(destinationX-1));
         }
-        [Test] public void BlowerCarriesPlayerBehindSheepThatWindMovesInSameAction()
+        [Test] public void BlowerStopsPlayerBeforeSheepEvenWhenSheepMovesInSameAction()
         {
             var map = Clone(20); map.Resize(14, 7);
             for (var x = 8; x <= 12; x++) map.SetTerrain(new Vector2Int(x, 4), TerrainMaterial.Grass);
             map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(12, 4);
             map.scenario.devices.First(d => d.id == "blower").orientation = 3;
             map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
-                { family = "sheep", instanceId = "wind_sheep", position = new Vector2Int(3, 4) });
+                { family = "sheep", instanceId = "wind_sheep", position = new Vector2Int(5, 4) });
             map.start = new Vector2Int(2, 3);
             var session = new PuzzleDeviceSession(map);
 
@@ -495,7 +495,27 @@ namespace ANIMOL.Tests
 
             Assert.That(action.accepted, Is.True);
             Assert.That(session.RanchSheep["wind_sheep"], Is.EqualTo(new Vector2Int(10, 4)));
-            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(9, 4)));
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+        [Test] public void BlowerStopsPlayerBeforeWoodCrateEvenWhenWindCarriesCrate()
+        {
+            var map = Clone(20); map.Resize(14, 7);
+            for (var x = 8; x <= 12; x++) map.SetTerrain(new Vector2Int(x, 4), TerrainMaterial.Grass);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(12, 4);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 3;
+            map.scenario.devices.Add(new PrototypeDevice { id = "wind_wood", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(5, 4), direction = Vector2Int.right });
+            map.start = new Vector2Int(2, 3);
+            var session = new PuzzleDeviceSession(map);
+
+            var action = session.Apply(Vector2Int.up);
+
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(session.States["wind_wood"].cell, Is.EqualTo(new Vector2Int(10, 4)));
+            Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             Assert.That(session.Cost, Is.EqualTo(1));
         }
         [TestCase(2)][TestCase(3)]
