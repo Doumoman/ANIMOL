@@ -397,6 +397,22 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
         }
+        [TestCase(0)][TestCase(1)][TestCase(2)][TestCase(3)]
+        public void BlowerStartsWithConfiguredRangeAndMatchingPreview(int phase)
+        {
+            var map = Clone(20);
+            var blower = map.scenario.devices.First(d => d.variant == "blower");
+            blower.orientation = phase;
+            blower.active = phase != 0;
+
+            var session = new PuzzleDeviceSession(map);
+
+            Assert.That(session.States[blower.id].phase, Is.EqualTo(phase));
+            Assert.That(session.States[blower.id].active, Is.EqualTo(phase != 0));
+            Assert.That(session.WindRouteFor(blower.id)?.maxRangeCells ?? 0, Is.EqualTo(phase * 3));
+            Assert.That(RanchDevicesV13EditorPreview.TryDevice(map.theme, blower, out _, out var key), Is.True);
+            Assert.That(key, Does.EndWith(phase == 0 ? "/off" : "/" + (phase * 3)));
+        }
         [Test] public void StarwayWindCarriesFirstWoodToLastReachableCellAndMetalStopsIt()
         {
             var map = Clone(20);

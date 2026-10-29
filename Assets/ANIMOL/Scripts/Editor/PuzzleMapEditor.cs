@@ -303,9 +303,28 @@ namespace ANIMOL.Presentation.Editor
             var roles = Enum.GetValues(typeof(PrototypeRole)).Cast<PrototypeRole>().ToArray();
             role.intValue = EditorGUILayout.IntPopup("장치 종류", role.intValue,
                 roles.Select(value => DeviceName(value)).ToArray(), roles.Select(value => (int)value).ToArray());
+            var blower = role.intValue == (int)PrototypeRole.Wind &&
+                device.FindPropertyRelative("variant").stringValue == "blower";
             var fields = new[] { "id", "variant", "group", "artTheme", "visualPrefab", "initialVisual", "position", "direction", "target", "orientation", "number", "active" };
             var labels = new[] { "장치 ID", "구성 종류", "연결 그룹", "그림 테마 ID", "장치 그림 프리팹", "첫 그림 상태", "배치 좌표", "방향 벡터", "목적지", "회전 값", "숫자", "처음 활성화" };
-            for (var i = 0; i < fields.Length; i++) EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+            for (var i = 0; i < fields.Length; i++)
+            {
+                if (blower && (fields[i] == "orientation" || fields[i] == "active")) continue;
+                EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+            }
+            if (blower)
+            {
+                var phase = device.FindPropertyRelative("orientation");
+                EditorGUI.BeginChangeCheck();
+                var selected = EditorGUILayout.IntPopup("시작 바람 단계", phase.intValue,
+                    new[] { "꺼짐 · 0칸", "1단계 · 3칸", "2단계 · 6칸", "3단계 · 9칸" },
+                    new[] { 0, 1, 2, 3 });
+                if (EditorGUI.EndChangeCheck())
+                {
+                    phase.intValue = selected;
+                    device.FindPropertyRelative("active").boolValue = selected != 0;
+                }
+            }
             DrawVectorArray(device.FindPropertyRelative("cells"), "점유·선로 칸");
             DrawVectorArray(device.FindPropertyRelative("blastOffsets"), "폭발 상대 좌표");
         }
