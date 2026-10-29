@@ -57,12 +57,14 @@ namespace ANIMOL.Puzzle
         Dictionary<string, Vector2Int> ranchSheepDirections = new Dictionary<string, Vector2Int>(StringComparer.Ordinal);
         Dictionary<string, bool> ranchPonds = new Dictionary<string, bool>(StringComparer.Ordinal);
         HashSet<Vector2Int> consumedRanchGrass = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> consumedNests = new HashSet<Vector2Int>();
         readonly Dictionary<Vector2Int, RanchV13ArtPlacement> ranchPondCells = new Dictionary<Vector2Int, RanchV13ArtPlacement>();
         readonly HashSet<Vector2Int> ranchGrassPositions = new HashSet<Vector2Int>();
         public IReadOnlyDictionary<string, Vector2Int> RanchSheep => ranchSheep;
         public Vector2Int RanchSheepDirection(string id) => ranchSheepDirections.TryGetValue(id, out var direction) ? direction : Vector2Int.right;
         public IReadOnlyDictionary<string, bool> RanchPonds => ranchPonds;
         public bool RanchGrassPresent(Vector2Int cell) => ranchGrassPositions.Contains(cell) && !consumedRanchGrass.Contains(cell);
+        public bool NestPresent(Vector2Int cell) => !consumedNests.Contains(cell) && Rules.NestCells.Contains(cell);
         public bool RanchWet(Vector2Int cell) => ranchPondCells.TryGetValue(cell, out var pond) &&
             (pond.position == cell ? ranchPonds[pond.Id] : !ranchPonds[pond.Id]);
         HashSet<Vector2Int> collected = new HashSet<Vector2Int>(), visited = new HashSet<Vector2Int>();
@@ -125,6 +127,7 @@ namespace ANIMOL.Puzzle
             ranchSheepDirections = new Dictionary<string, Vector2Int>(other.ranchSheepDirections, StringComparer.Ordinal);
             ranchPonds = new Dictionary<string, bool>(other.ranchPonds, StringComparer.Ordinal);
             consumedRanchGrass = new HashSet<Vector2Int>(other.consumedRanchGrass);
+            consumedNests = new HashSet<Vector2Int>(other.consumedNests);
             collected = new HashSet<Vector2Int>(other.collected); visited = new HashSet<Vector2Int>(other.visited);
             Beams.Clear(); Beams.AddRange(other.Beams);
             BeamTraces.Clear(); BeamTraces.AddRange(other.BeamTraces);
@@ -193,6 +196,7 @@ namespace ANIMOL.Puzzle
         }
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
+            (!NestPresent(p) || Definition(except)?.role == PrototypeRole.Chick) &&
             StarSocketPassable(p, except) && DiceSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
             At(p, d => d.role == PrototypeRole.Boat, except) == null && !ranchSheep.Values.Contains(p);
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
@@ -272,6 +276,7 @@ namespace ANIMOL.Puzzle
             var relevant = new HashSet<Vector2Int> { Cell };
             if (extra != null) relevant.UnionWith(extra);
             relevant.UnionWith(ranchSheep.Values);
+            relevant.UnionWith(Rules.NestCells.Where(NestPresent));
             foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
             { relevant.Add(art.position); relevant.Add(art.PondB); }
             foreach (var p in relevant)
@@ -287,6 +292,8 @@ namespace ANIMOL.Puzzle
                 foreach (var p in Footprint(device))
                     if (p == Cell) board.floodPolicyHolds.Add(RanchCell(p));
                     else board.solidOccupants.Add(RanchCell(p));
+            foreach (var nest in Rules.NestCells.Where(NestPresent))
+                board.solidOccupants.Add(RanchCell(nest));
             return board;
         }
         bool TryRanchInput(Vector2Int direction, out bool accepted, out string rejection)
@@ -384,7 +391,7 @@ namespace ANIMOL.Puzzle
         }
         bool StepPlayer(Vector2Int destination, PrototypeDevice committedWind = null)
         {
-            if (!Map.Contains(destination) || Map.DecorationAt(destination) || ranchSheep.Values.Contains(destination) ||
+            if (!Map.Contains(destination) || Map.DecorationAt(destination) || NestPresent(destination) || ranchSheep.Values.Contains(destination) ||
                 !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
             if (!string.IsNullOrEmpty(BoatId))
             {
@@ -650,11 +657,12 @@ namespace ANIMOL.Puzzle
         bool EnterNest(PrototypeDevice chick)
         {
             var s = states[chick.id];
-            var nests = Rules.NestCells.Where(Map.Walkable).OrderBy(p => p.x).ThenBy(p => p.y);
+            var nests = Rules.NestCells.Where(nest => Map.Walkable(nest) && NestPresent(nest))
+                .OrderBy(p => p.x).ThenBy(p => p.y);
             foreach (var nest in nests)
             {
                 if (s.cell != nest) continue;
-                if (!s.active) { s.active = true; s.trail.Clear(); ChickReturned(chick, s); }
+                if (!s.active) { s.active = true; s.removed = true; consumedNests.Add(nest); s.trail.Clear(); ChickReturned(chick, s); }
                 return true;
             }
             var destination = nests.Where(nest => (nest - s.cell).sqrMagnitude == 1 && Free(nest, chick.id))
@@ -664,6 +672,8 @@ namespace ANIMOL.Puzzle
             s.direction = destination.Value - from;
             s.cell = destination.Value;
             s.active = true;
+            s.removed = true;
+            consumedNests.Add(destination.Value);
             s.trail.Clear();
             Move(chick.id, from, s.cell);
             Visual(chick, "walk_" + Dir(s.direction), "existing_recorded_path_following");
@@ -934,6 +944,7 @@ namespace ANIMOL.Puzzle
                 var p = new Vector2Int(cell.x, cell.y);
                 if (session.ranchSheep.Values.Contains(p))
                     return session.Supported(p) ? WindCellKind.MovableBlock : WindCellKind.Void;
+                if (session.NestPresent(p)) return WindCellKind.HardBlock;
                 if (session.RanchGrassPresent(p)) return WindCellKind.Open;
                 if (!session.Supported(p)) return WindCellKind.Void;
                 var body = session.At(p, session.Solid, emitter);

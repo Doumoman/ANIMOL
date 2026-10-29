@@ -461,6 +461,17 @@ namespace ANIMOL.Tests
             Assert.That(first.events.Any(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.False);
             Assert.That(session.Cost, Is.EqualTo(1));
         }
+        [Test] public void EmptyNestBlocksWindRoute()
+        {
+            var map = Clone(20);
+            map.scenario.nests.Add(new Vector2Int(3, 4));
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
+            Assert.That(session.NestPresent(new Vector2Int(3, 4)), Is.True);
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(3, 4)), Is.False);
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(4, 4)), Is.False);
+            Assert.That(session.WindRouteFor("blower").stopReason, Is.EqualTo(WindStopReason.HardBlock));
+        }
         [Test] public void BlowerPushCyclesThreeSixNineCellsThenOffWithoutMovingPlayer()
         {
             var map=Clone(20);map.Resize(14,7);
@@ -636,15 +647,46 @@ namespace ANIMOL.Tests
             Assert.That(action.accepted,Is.True);
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
             Assert.That(session.States["chick"].active,Is.True);
+            Assert.That(session.States["chick"].removed, Is.True);
+            Assert.That(session.NestPresent(chick.target), Is.False);
             Assert.That(action.events.Any(e=>e.actor=="chick"&&e.kind==PrototypeEventKind.Move&&e.to==chick.target),Is.True);
             var returned = action.events.Single(e => e.eventName == "ChickReturned");
             Assert.That(returned.nestId, Is.EqualTo("nest:2:3"));
             Assert.That(returned.arrivalDirection, Is.EqualTo(Vector2Int.right));
             Assert.That(returned.cells, Is.EqualTo(new[] { new Vector2Int(1, 3), chick.target }));
+            var clearedNest = session.Copy();
+            Assert.That(clearedNest.Apply(Vector2Int.up).accepted, Is.True);
+            Assert.That(clearedNest.Cell, Is.EqualTo(chick.target));
             var later = session.Apply(Vector2Int.right);
             Assert.That(session.States["chick"].cell,Is.EqualTo(chick.target));
             Assert.That(session.States["chick"].active, Is.True);
             Assert.That(later.events.Any(e => e.eventName == "ChickReturned"), Is.False);
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.NestPresent(chick.target), Is.False);
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.NestPresent(chick.target), Is.True);
+            Assert.That(session.States["chick"].removed, Is.False);
+        }
+        [Test] public void EmptyNestBlocksPlayerAndCrate()
+        {
+            var map = Clone(24);
+            map.scenario.devices.RemoveAll(d => d.role == PrototypeRole.Chick);
+            map.scenario.goals.Clear();
+            var nest = new Vector2Int(2, 2);
+            map.scenario.nests.Add(nest);
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.NestPresent(nest), Is.True);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+
+            map.scenario.nests.Clear();
+            map.scenario.nests.Add(new Vector2Int(3, 2));
+            map.scenario.devices.Add(new PrototypeDevice { id = "crate", role = PrototypeRole.WoodCrate,
+                position = nest });
+            session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.False);
+            Assert.That(session.States["crate"].cell, Is.EqualTo(nest));
+            Assert.That(session.Cost, Is.Zero);
         }
         [Test] public void ChickReturnsToAnotherChicksNest()
         {

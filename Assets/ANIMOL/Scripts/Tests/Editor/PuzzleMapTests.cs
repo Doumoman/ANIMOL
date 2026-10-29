@@ -296,8 +296,11 @@ namespace ANIMOL.Presentation.Tests
                 var session = new PuzzleDeviceSession(map);
                 Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
                 Assert.That(session.States["chick"].active, Is.True);
+                Assert.That(session.States["chick"].removed, Is.True);
+                Assert.That(session.NestPresent(new Vector2Int(3, 2)), Is.False);
                 view.Present(session); view.RestoreRanchNests(session);
-                Assert.That(nest.CurrentKey, Is.EqualTo("nest_return/east/occupied"));
+                Assert.That(nest.CurrentKey, Is.Null);
+                Assert.That(nest.transform.parent.gameObject.activeSelf, Is.False);
             }
             finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }

@@ -11,7 +11,7 @@ namespace ANIMOL.Art.RanchDevicesV13
         [SerializeField] RanchDeviceVisualV13 nestVisual;
         readonly HashSet<string> playedTransactions = new HashSet<string>(StringComparer.Ordinal);
         bool configured;
-        string settledKey;
+        bool showingPuff;
         public bool IsPlaying { get; private set; }
 
         bool OwnsVisual()
@@ -34,14 +34,14 @@ namespace ANIMOL.Art.RanchDevicesV13
         }
         // Use for initial state, load, undo/reset and pool reuse. No arrival animation is replayed.
         // This starts a new playback generation; do not call it every Update or while queuing old callbacks.
-        public bool SetResolvedState(bool occupied, string settledDirection, out string error)
+        public bool SetResolvedState(bool consumed, string settledDirection, out string error)
         {
             error = null;
             if (!configured || !OwnsVisual()) { error = "Configure the owned nest renderer first."; return false; }
-            if (occupied && !Cardinal(settledDirection)) { error = "Supply the stored cardinal settled direction."; return false; }
-            string key = occupied ? "nest_return/" + settledDirection + "/occupied" : "nest/idle";
-            if (!nestVisual.SetState(key, true)) { error = "Resolved nest visual is missing."; return false; }
-            IsPlaying = false; settledKey = null; playedTransactions.Clear(); return true;
+            ClearPresentation(); playedTransactions.Clear();
+            if (consumed) return true;
+            if (!nestVisual.SetState("nest/idle", true)) { error = "Resolved nest visual is missing."; return false; }
+            return true;
         }
         // transactionId is the host's unique successful return-event identity, including board/reset generation.
         // Repeated delivery of the same event is a successful no-op. A different event while busy is left to the host queue.
@@ -58,18 +58,22 @@ namespace ANIMOL.Art.RanchDevicesV13
             if (!nestVisual.SetState("nest_return/" + arrivalDirection + "/arrive", true))
             { error = "Directional arrival clip is missing."; return false; }
             playedTransactions.Add(transactionId);
-            settledKey = "nest_return/" + arrivalDirection + "/occupied"; IsPlaying = true; return true;
+            showingPuff = false; IsPlaying = true; return true;
         }
         void LateUpdate()
         {
             if (!IsPlaying || !OwnsVisual() || !nestVisual.Finished) return;
-            string key = settledKey; IsPlaying = false; settledKey = null;
-            if (!nestVisual.SetState(key, true)) ClearPresentation();
+            if (!showingPuff)
+            {
+                showingPuff = true;
+                if (!nestVisual.SetState("sheep_puff/disappear", true)) ClearPresentation();
+            }
+            else ClearPresentation();
         }
         // Reapply an authoritative resolved state after cancellation. Does not return a chick to gameplay.
         public void ClearPresentation()
         {
-            IsPlaying = false; settledKey = null;
+            IsPlaying = false; showingPuff = false;
             if (OwnsVisual()) nestVisual.Clear();
         }
         void OnDisable() { ClearPresentation(); }

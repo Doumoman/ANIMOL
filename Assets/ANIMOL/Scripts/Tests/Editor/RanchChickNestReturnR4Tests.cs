@@ -31,7 +31,7 @@ namespace ANIMOL.Tests
                 Assert.That(presentation.PlayCommittedArrival("board:2:chick", "east", out error), Is.False);
                 Assert.That(presentation.SetResolvedState(true, "north", out error), Is.True, error);
                 Assert.That(presentation.IsPlaying, Is.False);
-                Assert.That(sprite.CurrentKey, Is.EqualTo("nest_return/north/occupied"));
+                Assert.That(sprite.CurrentKey, Is.Null);
                 Assert.That(presentation.SetResolvedState(false, "south", out error), Is.True, error);
                 Assert.That(sprite.CurrentKey, Is.EqualTo("nest/idle"));
             }

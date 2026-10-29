@@ -131,6 +131,18 @@ namespace ANIMOL.Presentation.Tests
                 Is.EqualTo("nest:0:0"));
         }
 
+        [Test] public void SheepCannotBePushedIntoAnEmptyNest()
+        {
+            scenario.nests.Add(new Vector2Int(3, 2));
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep",
+                instanceId = "sheep", position = new Vector2Int(2, 2) });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.False);
+            Assert.That(session.RanchSheep["sheep"], Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(session.NestPresent(new Vector2Int(3, 2)), Is.True);
+            Assert.That(session.Cost, Is.Zero);
+        }
+
         [Test] public void SheepPushKeepsPlayerStillAndConsumesBothSheepAndGrass()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });

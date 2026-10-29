@@ -31,6 +31,7 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, RanchV13ArtPlacement> ranchPondLayouts = new Dictionary<string, RanchV13ArtPlacement>(System.StringComparer.Ordinal);
         readonly Dictionary<Vector2Int, RanchChickNestReturnVisualR4> ranchNestVisuals =
             new Dictionary<Vector2Int, RanchChickNestReturnVisualR4>();
+        readonly Dictionary<Vector2Int, GameObject> nestRoots = new Dictionary<Vector2Int, GameObject>();
         sealed class PendingNestArrival
         {
             public Vector2Int cell;
@@ -129,7 +130,7 @@ namespace ANIMOL.Puzzle
             coastConnectedDecor = null; coastDecorSource = null; coastDecorBinding = null;
             coastLegacyDecorationViews.Clear();
             bubbleViews.Clear(); exitView = null; classicWind.Clear(); ranchActors.Clear(); ranchSheepVisuals.Clear();
-            ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchNestVisuals.Clear();
+            ranchPondVisuals.Clear(); ranchPondLayouts.Clear(); ranchNestVisuals.Clear(); nestRoots.Clear();
             pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
             ranchGrassVisuals.Clear(); ranchEffects.Clear(); ranchWaterCells.Clear(); ranchWaterVisuals.Clear();
             objectsRoot = new GameObject("Devices and Decoration (no parallax)").transform; objectsRoot.SetParent(transform, false);
@@ -302,9 +303,10 @@ namespace ANIMOL.Puzzle
                         if (!returnVisual.Configure(map.theme.starwayRanch.v13Devices, visual, out var error))
                             Debug.LogError("R4 nest visual failed: " + error, nest);
                         ranchNestVisuals[nestCell] = returnVisual;
+                        nestRoots[nestCell] = nest;
                     }
-                    else if (nestSprite) Sprite(objectsRoot, "Nest " + nestCell, nestSprite, nestCell, 16,
-                        Vector2.one * .8f, Color.white);
+                    else if (nestSprite) nestRoots[nestCell] = Sprite(objectsRoot, "Nest " + nestCell,
+                        nestSprite, nestCell, 16, Vector2.one * .8f, Color.white).gameObject;
                 }
                 if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
                     foreach (var art in map.scenario.ranchV13Art)
@@ -613,6 +615,9 @@ namespace ANIMOL.Puzzle
             if (exitView && map.starwayV3Certificate && devices != null)
                 exitView.color = devices.ExitReady ? Color.white : new Color(.55f, .62f, .75f, 1f);
             if (devices == null) return;
+            foreach (var nest in nestRoots)
+                nest.Value.SetActive(devices.NestPresent(nest.Key) ||
+                    (ranchNestVisuals.TryGetValue(nest.Key, out var arrival) && arrival.IsPlaying));
             foreach (var actor in ranchActors)
             {
                 var exists = devices.RanchSheep.TryGetValue(actor.Key, out var cell);
@@ -642,13 +647,11 @@ namespace ANIMOL.Puzzle
             pendingNestArrivals.Clear(); queuedNestTransactions.Clear();
             foreach (var entry in ranchNestVisuals)
             {
-                var returned = authority.Devices.FirstOrDefault(d => d.role == PrototypeRole.Chick &&
-                    authority.States[d.id].cell == entry.Key && authority.States[d.id].active);
-                var occupied = returned != null;
-                var direction = occupied ? RanchDirection(authority.States[returned.id].direction) : "south";
+                var consumed = !authority.NestPresent(entry.Key);
                 entry.Value.ClearPresentation();
-                if (!entry.Value.SetResolvedState(occupied, direction, out var error))
+                if (!entry.Value.SetResolvedState(consumed, "south", out var error))
                     Debug.LogError("R4 nest restore failed: " + error, entry.Value);
+                entry.Value.gameObject.SetActive(!consumed);
             }
         }
         static string RanchDirection(Vector2Int direction) =>
@@ -658,7 +661,8 @@ namespace ANIMOL.Puzzle
         {
             if (cue == null || cue.eventName != "ChickReturned" ||
                 !ranchNestVisuals.TryGetValue(cue.to, out var nest) ||
-                !authority.States.TryGetValue(cue.actor, out var state) || !state.active || state.cell != cue.to ||
+                !authority.States.TryGetValue(cue.actor, out var state) || !state.active || !state.removed ||
+                state.cell != cue.to || authority.NestPresent(cue.to) ||
                 authority.Definition(cue.actor)?.role != PrototypeRole.Chick)
                 return false;
             var direction = RanchDirection(cue.arrivalDirection.sqrMagnitude == 1 ?
@@ -668,10 +672,20 @@ namespace ANIMOL.Puzzle
                 cue.arrivalDirection.sqrMagnitude == 1 &&
                 cue.cells[cue.cells.Count - 1] - cue.cells[cue.cells.Count - 2] == cue.arrivalDirection;
             if (!queuedNestTransactions.Add(transactionId)) return true;
+            if (!nest.gameObject.activeSelf)
+            {
+                nest.gameObject.SetActive(true);
+                if (!nest.SetResolvedState(false, "south", out var restoreError))
+                {
+                    queuedNestTransactions.Remove(transactionId);
+                    Debug.LogError("R4 nest presentation restore failed: " + restoreError, nest);
+                    return false;
+                }
+            }
             if (!actualRoute)
             {
-                // A teleport or missing approach has no safe hop path; show the committed occupied pose.
-                Debug.LogWarning("R4 chick return has no final adjacent approach; showing the settled nest: " + cue.actor, nest);
+                // A teleport or missing approach has no safe hop path; show the committed disappearance.
+                Debug.LogWarning("R4 chick return has no final adjacent approach; clearing the consumed nest: " + cue.actor, nest);
                 if (nest.IsPlaying)
                     pendingNestArrivals.Enqueue(new PendingNestArrival { cell = cue.to,
                         transactionId = transactionId, direction = direction, settledOnly = true });
@@ -783,6 +797,10 @@ namespace ANIMOL.Puzzle
                 }
                 else pendingNestArrivals.Enqueue(arrival);
             }
+            if (currentSession is PuzzleDeviceSession devices)
+                foreach (var nest in ranchNestVisuals)
+                    if (!devices.NestPresent(nest.Key) && !nest.Value.IsPlaying)
+                        nest.Value.gameObject.SetActive(false);
             for (var i = ranchEffects.Count - 1; i >= 0; i--)
             {
                 var effect = ranchEffects[i] ? ranchEffects[i].GetComponent<RanchSheepConsumptionVisualR2>() : null;

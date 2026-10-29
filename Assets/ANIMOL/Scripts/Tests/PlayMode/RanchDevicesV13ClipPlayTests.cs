@@ -28,7 +28,7 @@ namespace ANIMOL.Presentation.Tests
                 keys.Add("nest_return/" + direction + "/arrive");
                 keys.Add("nest_return/" + direction + "/occupied");
             }
-            keys.AddRange(new[] { "nest/arrive", "nest/settled",
+            keys.AddRange(new[] { "nest/arrive", "nest/settled", "sheep_puff/disappear",
                 "pond_pair/horizontal/west_wet", "pond_pair/horizontal/east_wet",
                 "pond_pair/horizontal/water_west", "pond_pair/horizontal/water_east",
                 "pond_pair/vertical/north_wet", "pond_pair/vertical/south_wet",
