@@ -140,8 +140,9 @@ namespace ANIMOL.Presentation.Tests
             var template = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
                 "Assets/ANIMOL/Data/Puzzle/Prototypes/Device24_Chick_Scenario.asset")
                 .devices.Single(d => d.role == PrototypeRole.Chick);
+            scenario.nests.Add(new Vector2Int(4, 3));
             scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
-                position = new Vector2Int(3, 3), target = new Vector2Int(4, 3),
+                position = new Vector2Int(3, 3),
                 direction = Vector2Int.right, number = 1, visualPrefab = template.visualPrefab,
                 initialVisual = template.initialVisual });
             controller.Load(map); yield return null;

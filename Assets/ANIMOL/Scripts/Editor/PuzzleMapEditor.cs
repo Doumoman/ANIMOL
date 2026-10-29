@@ -43,12 +43,9 @@ namespace ANIMOL.Presentation.Editor
         RanchV13ArtPlacement selectedRanchArt;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
         readonly Dictionary<string, Sprite> legacyDeviceSprites = new Dictionary<string, Sprite>();
-        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, nestTargetMode, scenarioCreationQueued;
+        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, scenarioCreationQueued;
         int templateIndex;
         string selectedDeviceId;
-        [SerializeField] string ranchNestChickId;
-        bool pendingNestPlacement;
-        Vector2Int pendingNestCell;
         string scenarioCreationError;
         bool showScenario;
         Sprite decoration;
@@ -96,10 +93,9 @@ namespace ANIMOL.Presentation.Editor
         void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = ranchNestChickId = null;
+            EndStroke(); map = data; selectedDeviceId = null;
             selectedRanchArt = null; ranchArtBrush = ranchArtError = null;
-            pendingNestPlacement = false;
-            linkTargetMode = nestTargetMode = false; scenarioCreationError = decorationError = null;
+            linkTargetMode = false; scenarioCreationError = decorationError = null;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
             Repaint();
         }
@@ -353,7 +349,7 @@ namespace ANIMOL.Presentation.Editor
             new RanchPaletteEntry { family = "sluice", label = "수문 · 가로", previewKey = "pond_pair/horizontal/east_wet", detail = "2×1 · 물 교환", direction = Vector2Int.right },
             new RanchPaletteEntry { family = "sluice", label = "수문 · 세로", previewKey = "pond_pair/vertical/north_wet", detail = "1×2 · 물 교환", direction = Vector2Int.up },
             new RanchPaletteEntry { family = "tall_grass", label = "키 큰 풀", previewKey = "tall_grass/idle", detail = "1칸 · 별양 소비", direction = Vector2Int.right },
-            new RanchPaletteEntry { family = "nest", label = "병아리 둥지", previewKey = "nest/idle", detail = "병아리 목표 칸 지정", direction = Vector2Int.right },
+            new RanchPaletteEntry { family = "nest", label = "병아리 둥지", previewKey = "nest/idle", detail = "1칸 · 독립 배치", direction = Vector2Int.right },
             new RanchPaletteEntry { family = "water", label = "물칸", previewKey = "water/wet", detail = "고정 물칸 · 기존 물 판정", direction = Vector2Int.right }
         };
         public static RanchPaletteEntry[] RanchPaletteForTheme(PuzzleTheme theme)
@@ -685,7 +681,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void RefreshLibrary()
         {
-            library = LoadPracticeTemplates(); templateIndex = 0; pendingNestPlacement = false;
+            library = LoadPracticeTemplates(); templateIndex = 0;
             legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache();
             previewCacheValid = false; cachedDecorationChoices = null; cachedValidationErrors = null;
             Repaint();
@@ -701,7 +697,7 @@ namespace ANIMOL.Presentation.Editor
             if (inspectDevice) EditorGUILayout.HelpBox("장치를 누르면 설정을 볼 수 있습니다. 새 장치를 놓으려면 선택 모드를 끄세요. 오른쪽 드래그로 지웁니다.", MessageType.Info);
             var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치" });
             if (useLibrary != (source == 0))
-            { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; pendingNestPlacement = false; }
+            { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; }
             var templates = TemplatesForTheme(library, themeId);
             var ranchChoices = useLibrary ? RanchPaletteForTheme(map.theme) : Array.Empty<RanchPaletteEntry>();
             var choices = useLibrary ? templates.Select(entry => entry.device).ToArray() :
@@ -725,13 +721,11 @@ namespace ANIMOL.Presentation.Editor
                     var row = GUILayoutUtility.GetRect(250, 62, GUILayout.ExpandWidth(true));
                     if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
                     {
-                        templateIndex = i; selectedRanchArt = null; inspectDevice = false; pendingNestPlacement = false;
+                        templateIndex = i; selectedRanchArt = null; inspectDevice = false;
                         if (i < ranchChoices.Length)
                         {
                             ranchArtBrush = ranchChoices[i].family;
                             ranchPondBrushDirection = ranchChoices[i].direction;
-                            if (ranchArtBrush == "nest" && map.scenario.devices.Any(d => d.id == selectedDeviceId && d.role == PrototypeRole.Chick))
-                                ranchNestChickId = selectedDeviceId;
                         }
                         else ranchArtBrush = null;
                     }
@@ -767,7 +761,7 @@ namespace ANIMOL.Presentation.Editor
                         ? (UnityEngine.Object)map.theme.starwayRanch.v13Devices : templates[templateIndex - ranchChoices.Length].source);
             }
             if (GUILayout.Button("장치 목록 새로고침")) RefreshLibrary();
-            EditorGUILayout.HelpBox("V13 별양·수문·풀은 기존 목장 판정에 배치됩니다. 둥지는 병아리 목표 칸, 물칸은 기존 물 데이터에 연결됩니다. 바람 범위는 바람개비에서 계산됩니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("V13 별양·수문·풀은 기존 목장 판정에 배치됩니다. 둥지는 병아리와 관계없이 배치하며, 물칸은 기존 물 데이터에 연결됩니다. 바람 범위는 바람개비에서 계산됩니다.", MessageType.Info);
             if (themeId == "starway")
                 DrawRanchArtPlacementSettings();
             var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
@@ -800,12 +794,7 @@ namespace ANIMOL.Presentation.Editor
             }
             if (placed.role == PrototypeRole.Portal) EditorGUILayout.LabelField("포털 목적지", placed.target.ToString());
             if (placed.role == PrototypeRole.Chick)
-            {
-                EditorGUILayout.LabelField("둥지 위치", placed.target == Vector2Int.zero ? "미설정" : placed.target.ToString());
-                if (GUILayout.Button(nestTargetMode ? "둥지 위치 선택 취소" : "격자에서 둥지 위치 선택"))
-                { nestTargetMode = !nestTargetMode; if (nestTargetMode) { inspectDevice = true; linkTargetMode = false; } }
-                if (nestTargetMode) EditorGUILayout.HelpBox("통행 가능한 칸을 클릭하면 병아리의 둥지가 됩니다.", MessageType.Info);
-            }
+                EditorGUILayout.HelpBox("둥지는 V13 배치 목록에서 별도로 놓습니다. 모든 병아리가 빈 둥지에 들어갈 수 있습니다.", MessageType.Info);
             if (placed.role == PrototypeRole.Wind && placed.variant == "blower")
                 EditorGUILayout.HelpBox("플레이 중 풍차를 밀 때 바람이 꺼짐 → 3칸 → 6칸 → 9칸 → 꺼짐 순서로 바뀝니다.", MessageType.Info);
             if (placed.role == PrototypeRole.StarSocket && placed.variant == "socket") DrawSocketRewardSettings(placed);
@@ -821,22 +810,7 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("V13 배치 설정", EditorStyles.boldLabel);
             if (ranchArtBrush == "nest")
-            {
-                var chicks = map.scenario.devices.Where(d => d.role == PrototypeRole.Chick).ToArray();
-                if (chicks.Length == 0)
-                    EditorGUILayout.HelpBox("둥지 칸을 먼저 클릭한 다음 병아리 시작 칸을 클릭하세요. 두 칸이 함께 저장됩니다.", MessageType.Info);
-                else
-                {
-                    var selected = Array.FindIndex(chicks, d => d.id == ranchNestChickId);
-                    selected = EditorGUILayout.Popup("연결할 병아리", Mathf.Max(0, selected),
-                        chicks.Select(d => d.id + " @ " + d.position).ToArray());
-                    ranchNestChickId = chicks[selected].id;
-                    EditorGUILayout.HelpBox("격자를 클릭하면 " + ranchNestChickId + "의 둥지 목표 칸이 저장됩니다. 현재 위치: " +
-                        chicks[selected].target, MessageType.Info);
-                }
-            }
-            else if (pendingNestPlacement)
-                EditorGUILayout.HelpBox("둥지 " + pendingNestCell + " 선택됨. 병아리 시작 칸을 클릭하면 함께 저장됩니다.", MessageType.Info);
+                EditorGUILayout.HelpBox("통행 가능한 빈 칸을 클릭하면 둥지만 배치됩니다. 병아리는 별도로 놓을 수 있습니다.", MessageType.Info);
             else if (ranchArtBrush == "water")
                 EditorGUILayout.HelpBox("격자를 클릭하면 기존 물칸 판정에 V13 물 그림을 연결합니다. 수문 쌍의 물 위상은 수문에서 설정합니다.", MessageType.Info);
             if (ranchArtBrush == "sluice")
@@ -934,7 +908,8 @@ namespace ANIMOL.Presentation.Editor
                 { error = "전체 점유 칸에 통행 가능한 지형이 필요합니다."; return false; }
                 if (target.scenario.water.Contains(cell))
                 { error = "물칸과 장치 점유 칸이 겹칩니다."; return false; }
-                if (target.scenario.devices.Any(device => device.position == cell) ||
+                if (target.scenario.NestCells.Contains(cell) ||
+                    target.scenario.devices.Any(device => device.position == cell) ||
                     target.scenario.ranchV13Art.Any(existing => existing != null && existing.Footprint().Contains(cell)))
                 { error = "다른 장치나 V13 배치와 점유 칸이 겹칩니다."; return false; }
             }
@@ -953,55 +928,31 @@ namespace ANIMOL.Presentation.Editor
             target.scenario.ranchV13Art.RemoveAt(index);
             return true;
         }
-        public static bool TryAssignChickNest(PuzzleMap target, string chickId, Vector2Int cell, out string error)
+        public static bool TryPlaceNest(PuzzleMap target, Vector2Int cell, out string error)
         {
-            error = null;
-            var chick = target && target.scenario ? target.scenario.devices.FirstOrDefault(d =>
-                d.id == chickId && d.role == PrototypeRole.Chick) : null;
-            if (chick == null) { error = "연결할 병아리를 선택하세요."; return false; }
-            if (!TryValidateChickNestCell(target, cell, out error)) return false;
-            chick.target = cell;
+            if (!TryValidateNestCell(target, cell, out error)) return false;
+            if (target.scenario.NestCells.Contains(cell))
+            { error = "이미 둥지가 있는 칸입니다."; return false; }
+            if (target.scenario.nests == null) target.scenario.nests = new List<Vector2Int>();
+            target.scenario.nests.Add(cell);
             return true;
         }
-        static bool TryValidateChickNestCell(PuzzleMap target, Vector2Int cell, out string error)
+        public static bool TryEraseNest(PuzzleMap target, Vector2Int cell)
+        {
+            if (!target || !target.scenario) return false;
+            var removed = target.scenario.nests != null && target.scenario.nests.RemoveAll(p => p == cell) > 0;
+            foreach (var chick in target.scenario.devices.Where(d => d.role == PrototypeRole.Chick && d.target == cell))
+            { chick.target = Vector2Int.zero; removed = true; }
+            return removed;
+        }
+        static bool TryValidateNestCell(PuzzleMap target, Vector2Int cell, out string error)
         {
             error = null;
             if (!target || !target.scenario || !target.Contains(cell) || !target.Walkable(cell) ||
-                target.scenario.water.Contains(cell) ||
-                target.scenario.ranchV13Art.Any(a => a != null && a.family == "sluice" && a.Footprint().Contains(cell)))
+                cell == target.start || target.scenario.water.Contains(cell) ||
+                target.scenario.devices.Any(d => d.position == cell) ||
+                target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(cell)))
             { error = "둥지는 통행 가능한 빈 땅에 배치하세요."; return false; }
-            return true;
-        }
-        public static bool TryPlaceChickForNest(PuzzleMap target, PrototypeDevice template, Vector2Int chickCell,
-            Vector2Int nestCell, out PrototypeDevice chick, out string error)
-        {
-            chick = null;
-            error = null;
-            if (template == null || template.role != PrototypeRole.Chick || !TryValidateChickNestCell(target, nestCell, out error))
-            { if (error == null) error = "병아리 장치를 선택하세요."; return false; }
-            if (chickCell == nestCell || chickCell == target.start || !target.Contains(chickCell) ||
-                !target.Walkable(chickCell) || target.scenario.water.Contains(chickCell) ||
-                target.scenario.devices.Any(d => d.position == chickCell) ||
-                target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(chickCell)))
-            { error = "병아리 시작 칸은 둥지와 다른 빈 땅이어야 합니다."; return false; }
-            chick = StampTemplate(target.scenario, template, chickCell);
-            chick.target = nestCell;
-            return true;
-        }
-        bool StageNestBeforeChick(Vector2Int cell)
-        {
-            if (!TryValidateChickNestCell(map, cell, out ranchArtError)) return false;
-            var templates = TemplatesForTheme(library, ThemeId(map.theme));
-            var chickIndex = Array.FindIndex(templates, entry => entry.device.role == PrototypeRole.Chick);
-            if (chickIndex < 0)
-            { ranchArtError = "병아리 장치 원본을 찾을 수 없습니다. 장치 목록을 새로고침하세요."; return false; }
-            pendingNestCell = cell;
-            pendingNestPlacement = true;
-            templateIndex = RanchPaletteForTheme(map.theme).Length + chickIndex;
-            prototypeBrush = templates[chickIndex].device;
-            ranchArtBrush = null;
-            ranchArtError = null;
-            ShowNotification(new GUIContent("둥지 " + cell + " 선택됨. 병아리 시작 칸을 클릭하세요."));
             return true;
         }
         public static bool TryPlaceRanchWater(PuzzleMap target, Vector2Int cell, out string error)
@@ -1010,7 +961,7 @@ namespace ANIMOL.Presentation.Editor
             if (!target || !target.scenario || !target.theme || !target.theme.starwayRanch ||
                 !target.theme.starwayRanch.v13Devices || !target.Contains(cell) || cell == target.start ||
                 target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(cell)) ||
-                target.scenario.devices.Any(d => d.role == PrototypeRole.Chick && d.target == cell))
+                target.scenario.NestCells.Contains(cell))
             { error = "물칸은 별길 목장 맵의 수문 밖 칸에 배치하세요."; return false; }
             if (!target.scenario.water.Contains(cell)) target.scenario.water.Add(cell);
             return true;
@@ -1244,9 +1195,7 @@ namespace ANIMOL.Presentation.Editor
                 var decorationsByCell = map.decorations.ToLookup(d => d.position);
                 var configuredByCell = map.scenario ? map.scenario.devices.ToLookup(d => d.position) :
                     Enumerable.Empty<PrototypeDevice>().ToLookup(d => d.position);
-                var nestCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
-                    d.role == PrototypeRole.Chick && d.target != Vector2Int.zero).Select(d => d.target)) : null;
-                if (pendingNestPlacement && nestCells != null) nestCells.Add(pendingNestCell);
+                var nestCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.NestCells) : null;
                 var rewardCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
                     d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
                     d.socketReward == StarSocketReward.RevealBubble).Select(d => d.socketBubbleCell)) : null;
@@ -1347,9 +1296,6 @@ namespace ANIMOL.Presentation.Editor
                             else GUI.Label(rect, "둥지", EditorStyles.boldLabel);
                         }
                     }
-                    if (pendingNestPlacement && p == pendingNestCell)
-                        GUI.Label(new Rect(rect.x, rect.y + rect.height - 14, rect.width * 2, 14),
-                            "병아리 연결 대기", EditorStyles.whiteMiniLabel);
                     if (waterCells != null && waterCells.Contains(p))
                     {
                         if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
@@ -1425,17 +1371,7 @@ namespace ANIMOL.Presentation.Editor
                     else if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
                     {
                         var clicked = map.scenario.devices.FirstOrDefault(device => device.position == p);
-                        var selectedChick = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId && device.role == PrototypeRole.Chick);
-                        if (nestTargetMode && selectedChick != null && e.type == EventType.MouseDown)
-                        {
-                            Undo.RecordObject(map.scenario, "병아리 둥지 위치 변경");
-                            if (TryAssignChickNest(map, selectedChick.id, p, out ranchArtError))
-                            {
-                                EditorUtility.SetDirty(map.scenario);
-                                nestTargetMode = false;
-                            }
-                        }
-                        else if (linkTargetMode && clicked != null)
+                        if (linkTargetMode && clicked != null)
                         {
                             var source = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId);
                             if (source != null && source != clicked)
@@ -1918,7 +1854,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void Paint(Vector2Int p, bool remove)
         {
-            if (layer == Layer.Device && (ranchArtBrush == "nest" || pendingNestPlacement) &&
+            if (layer == Layer.Device && ranchArtBrush == "nest" &&
                 Event.current.type != EventType.MouseDown) return;
             if (layer == Layer.Terrain) { if (remove) map.RemoveTerrain(p); else map.SetTerrain(p, material, blocked); }
             if (layer == Layer.Device)
@@ -1928,31 +1864,16 @@ namespace ANIMOL.Presentation.Editor
                     Undo.RecordObject(map.scenario, "테마 장치 배치");
                     if (remove)
                     {
-                        if (pendingNestPlacement)
-                        { pendingNestPlacement = false; ranchArtError = null; ShowNotification(new GUIContent("둥지 배치 취소")); return; }
                         if (ranchArtBrush == "water") map.scenario.water.RemoveAll(cell => cell == p);
-                        else if (ranchArtBrush == "nest")
-                        {
-                            var chick = map.scenario.devices.FirstOrDefault(d => d.id == ranchNestChickId && d.role == PrototypeRole.Chick);
-                            if (chick != null && chick.target == p) chick.target = Vector2Int.zero;
-                        }
+                        else if (ranchArtBrush == "nest") TryEraseNest(map, p);
                         else if (!TryEraseRanchArt(map, p)) map.scenario.devices.RemoveAll(d => d.position == p);
                         if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
                     }
                     else if (ranchArtBrush == "nest")
                     {
-                        var chickId = ranchNestChickId;
-                        if (!map.scenario.devices.Any(d => d.id == chickId && d.role == PrototypeRole.Chick))
-                            chickId = map.scenario.devices.FirstOrDefault(d => d.role == PrototypeRole.Chick)?.id;
-                        if (chickId == null)
-                        {
-                            if (!StageNestBeforeChick(p)) ShowNotification(new GUIContent(ranchArtError));
-                            return;
-                        }
-                        if (!TryAssignChickNest(map, chickId, p, out ranchArtError))
+                        if (!TryPlaceNest(map, p, out ranchArtError))
                         { ShowNotification(new GUIContent(ranchArtError)); return; }
-                        ranchNestChickId = chickId;
-                        ShowNotification(new GUIContent("병아리 둥지 " + p + " 배치 완료"));
+                        ShowNotification(new GUIContent("둥지 " + p + " 배치 완료"));
                     }
                     else if (ranchArtBrush == "water")
                     {
@@ -1962,17 +1883,6 @@ namespace ANIMOL.Presentation.Editor
                     {
                         if (!TryPlaceRanchArt(map, ranchArtBrush, p, ranchPondBrushDirection, out ranchArtError)) return;
                         selectedRanchArt = map.scenario.ranchV13Art[map.scenario.ranchV13Art.Count - 1];
-                    }
-                    else if (pendingNestPlacement)
-                    {
-                        if (!TryPlaceChickForNest(map, prototypeBrush, p, pendingNestCell, out var chick, out ranchArtError))
-                        { ShowNotification(new GUIContent(ranchArtError)); return; }
-                        selectedDeviceId = ranchNestChickId = chick.id;
-                        pendingNestPlacement = false;
-                        templateIndex = Array.FindIndex(RanchPaletteForTheme(map.theme), entry => entry.family == "nest");
-                        ranchArtBrush = "nest";
-                        prototypeBrush = null;
-                        ShowNotification(new GUIContent("병아리와 둥지 " + pendingNestCell + " 배치 완료"));
                     }
                     else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&
                         (string.IsNullOrEmpty(prototypeBrush.artTheme) || ThemeId(map.theme) == prototypeBrush.artTheme) &&

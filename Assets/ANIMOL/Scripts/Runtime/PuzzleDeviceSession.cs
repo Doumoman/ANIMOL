@@ -647,21 +647,19 @@ namespace ANIMOL.Puzzle
         bool EnterNest(PrototypeDevice chick)
         {
             var s = states[chick.id];
-            var nests = definitions.Where(d => d.role == PrototypeRole.Chick &&
-                d.target != Vector2Int.zero && Map.Walkable(d.target))
-                .Select(d => d.target).Distinct().OrderBy(p => p.x).ThenBy(p => p.y);
+            var nests = Rules.NestCells.Where(Map.Walkable).OrderBy(p => p.x).ThenBy(p => p.y);
             foreach (var nest in nests)
             {
                 if (s.cell != nest) continue;
                 if (!s.active) { s.active = true; s.trail.Clear(); ChickReturned(chick, s); }
                 return true;
             }
-            var destination = nests.FirstOrDefault(nest =>
-                (nest - s.cell).sqrMagnitude == 1 && Free(nest, chick.id));
-            if (destination == Vector2Int.zero) return false;
+            var destination = nests.Where(nest => (nest - s.cell).sqrMagnitude == 1 && Free(nest, chick.id))
+                .Select(nest => (Vector2Int?)nest).FirstOrDefault();
+            if (!destination.HasValue) return false;
             var from = s.cell;
-            s.direction = destination - from;
-            s.cell = destination;
+            s.direction = destination.Value - from;
+            s.cell = destination.Value;
             s.active = true;
             s.trail.Clear();
             Move(chick.id, from, s.cell);

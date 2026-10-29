@@ -117,6 +117,20 @@ namespace ANIMOL.Presentation.Tests
                 e.to == new Vector2Int(2, 2)), Is.True);
         }
 
+        [Test] public void IndependentNestAtOriginAcceptsChick()
+        {
+            scenario.nests.Add(Vector2Int.zero);
+            scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(0, 1) });
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.right);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(Vector2Int.zero));
+            Assert.That(session.States["chick"].active, Is.True);
+            Assert.That(action.events.Single(e => e.eventName == "ChickReturned").nestId,
+                Is.EqualTo("nest:0:0"));
+        }
+
         [Test] public void SheepPushKeepsPlayerStillAndConsumesBothSheepAndGrass()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });

@@ -278,10 +278,12 @@ namespace ANIMOL.Presentation.Tests
             try
             {
                 map.scenario = scenario; scenario.themeId = "starway";
+                Assert.That(PuzzleMapEditor.TryPlaceNest(map, new Vector2Int(3, 2), out var error), Is.True, error);
+                Assert.That(scenario.devices, Is.Empty);
+                Assert.That(scenario.nests, Is.EqualTo(new[] { new Vector2Int(3, 2) }));
                 scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
                     position = new Vector2Int(2, 2), direction = Vector2Int.right });
-                Assert.That(PuzzleMapEditor.TryAssignChickNest(map, "chick", new Vector2Int(3, 2), out var error), Is.True, error);
-                Assert.That(scenario.devices[0].target, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(scenario.devices[0].target, Is.EqualTo(Vector2Int.zero));
                 Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, new Vector2Int(4, 2), out error), Is.True, error);
                 Assert.That(scenario.water, Does.Contain(new Vector2Int(4, 2)));
                 Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, new Vector2Int(3, 2), out _), Is.False);
@@ -299,28 +301,33 @@ namespace ANIMOL.Presentation.Tests
             }
             finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
-        [Test] public void NestCanBeChosenBeforeChickAndCommitsBothToOneScenario()
+        [Test] public void NestCanBePlacedAndErasedWithoutAChick()
         {
             Fill();
             map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var host = new GameObject("Independent nest preview test");
             try
             {
                 map.scenario = scenario; scenario.themeId = "starway";
-                var template = PuzzleMapEditor.LoadPracticeTemplates().First(entry =>
-                    entry.device.role == PrototypeRole.Chick).device;
                 var nest = new Vector2Int(3, 2);
-                Assert.That(PuzzleMapEditor.TryPlaceChickForNest(map, template, nest, nest,
-                    out _, out _), Is.False);
+                var outsideBefore = map.OutsideCount(3, 5);
+                Assert.That(PuzzleMapEditor.TryPlaceNest(map, nest, out var error), Is.True, error);
                 Assert.That(scenario.devices, Is.Empty);
-                Assert.That(PuzzleMapEditor.TryPlaceChickForNest(map, template, new Vector2Int(2, 2), nest,
-                    out var chick, out var error), Is.True, error);
-                Assert.That(scenario.devices, Has.Count.EqualTo(1));
-                Assert.That(chick.target, Is.EqualTo(nest));
+                Assert.That(scenario.NestCells, Is.EqualTo(new[] { nest }));
+                Assert.That(map.OutsideCount(3, 5), Is.EqualTo(outsideBefore + 1));
+                var view = host.AddComponent<PuzzleMapView>(); view.Bind(map);
+                Assert.That(host.GetComponentsInChildren<ANIMOL.Art.RanchDevicesV13.RanchDeviceVisualV13>()
+                    .Any(visual => visual.CurrentKey == "nest/idle"), Is.True);
+                Assert.That(PuzzleMapEditor.TryPlaceNest(map, nest, out _), Is.False);
                 Assert.That(map.ValidateMap(), Is.Empty);
                 Assert.That(PuzzleMapEditor.TryPlaceRanchWater(map, nest, out _), Is.False);
+                Assert.That(PuzzleMapEditor.TryEraseNest(map, nest), Is.True);
+                Assert.That(scenario.NestCells, Is.Empty);
+                Assert.That(map.OutsideCount(3, 5), Is.EqualTo(outsideBefore));
+                Assert.That(PuzzleMapEditor.TryEraseNest(map, nest), Is.False);
             }
-            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+            finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
         [Test] public void SheepAndSluiceArtCanBePlacedWithoutInventingGameplayIds()
         {

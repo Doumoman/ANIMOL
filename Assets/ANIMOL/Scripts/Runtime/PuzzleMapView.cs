@@ -289,23 +289,21 @@ namespace ANIMOL.Puzzle
             if (map.scenario)
             {
                 var nestSprite = map.theme.starwayRanch ? map.theme.starwayRanch.Find("props/birdhouse.png") : map.theme.decoration;
-                foreach (var chick in map.scenario.devices.Where(d => d.role == PrototypeRole.Chick &&
-                    map.Contains(d.position) && d.target != Vector2Int.zero && map.Walkable(d.target))
-                    .GroupBy(d => d.target).Select(group => group.First()))
+                foreach (var nestCell in map.scenario.NestCells.Where(map.Walkable))
                 {
                     if (map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)
                     {
-                        var nest = new GameObject("Nest " + chick.target);
+                        var nest = new GameObject("Nest " + nestCell);
                         nest.transform.SetParent(objectsRoot, false);
-                        nest.transform.localPosition = (Vector2)chick.target;
+                        nest.transform.localPosition = (Vector2)nestCell;
                         var visual = RanchCellVisual(nest.transform, "Nest visual", Vector2Int.zero, 16,
                             map.theme.starwayRanch.v13Devices);
                         var returnVisual = nest.AddComponent<RanchChickNestReturnVisualR4>();
                         if (!returnVisual.Configure(map.theme.starwayRanch.v13Devices, visual, out var error))
                             Debug.LogError("R4 nest visual failed: " + error, nest);
-                        ranchNestVisuals[chick.target] = returnVisual;
+                        ranchNestVisuals[nestCell] = returnVisual;
                     }
-                    else if (nestSprite) Sprite(objectsRoot, "Nest " + chick.id, nestSprite, chick.target, 16,
+                    else if (nestSprite) Sprite(objectsRoot, "Nest " + nestCell, nestSprite, nestCell, 16,
                         Vector2.one * .8f, Color.white);
                 }
                 if (map.theme && map.theme.starwayRanch && map.theme.starwayRanch.v13Devices)

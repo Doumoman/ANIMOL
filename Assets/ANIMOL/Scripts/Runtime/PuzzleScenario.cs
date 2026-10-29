@@ -84,9 +84,13 @@ namespace ANIMOL.Puzzle
         [Tooltip("Review/verification route, never used by gameplay.")] public string verificationRoute;
         public GameObject beamPrefab;
         public List<PrototypeDevice> devices = new List<PrototypeDevice>();
+        public List<Vector2Int> nests = new List<Vector2Int>();
         public List<RanchV13ArtPlacement> ranchV13Art = new List<RanchV13ArtPlacement>();
         public List<Vector2Int> water = new List<Vector2Int>();
         public List<PrototypeGoal> goals = new List<PrototypeGoal>();
+        public IEnumerable<Vector2Int> NestCells => (nests ?? new List<Vector2Int>()).Concat(
+            devices.Where(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero)
+                .Select(d => d.target)).Distinct();
         [Tooltip("0 = unlimited. Valid actions cost 1, invalid input and auto movement cost 0.")] public int costLimit;
         [Tooltip("Prototype policy: hold occupied bridge spans; close after they clear.")] public bool holdOccupiedBridge = true;
         [Tooltip("Prototype policy: all shutters advance phase; occupied shutter stays open.")] public bool shutterPhaseAdvancesWhenOccupied = true;
@@ -99,6 +103,10 @@ namespace ANIMOL.Puzzle
         public List<string> Validate(PuzzleMap map)
         {
             var errors = new List<string>();
+            if (nests != null && nests.Any(cell => !map.Walkable(cell) || cell == map.start ||
+                water.Contains(cell) || devices.Any(d => d.position == cell) ||
+                ranchV13Art.Any(a => a != null && a.Footprint().Contains(cell))))
+                errors.Add("Nest needs an unoccupied walkable cell.");
             var ranchFootprints = new HashSet<Vector2Int>();
             foreach (var art in ranchV13Art)
             {

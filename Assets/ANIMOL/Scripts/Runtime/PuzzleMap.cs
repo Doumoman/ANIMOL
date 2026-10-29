@@ -122,7 +122,7 @@ namespace ANIMOL.Puzzle
                     scenario.devices.Sum(d => d.cells.Count(Outside)) +
                     scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
                         d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) +
-                    scenario.devices.Count(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && Outside(d.target)) : 0);
+                    scenario.NestCells.Count(Outside) : 0);
         }
         public List<string> ValidateMap()
         {
