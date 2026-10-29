@@ -413,7 +413,7 @@ namespace ANIMOL.Tests
             Assert.That(RanchDevicesV13EditorPreview.TryDevice(map.theme, blower, out _, out var key), Is.True);
             Assert.That(key, Does.EndWith(phase == 0 ? "/off" : "/" + (phase * 3)));
         }
-        [Test] public void StarwayWindCarriesFirstWoodToLastReachableCellAndMetalStopsIt()
+        [Test] public void StarwayWindCarriesFirstWoodBeyondWindRangeAndMetalStopsIt()
         {
             var map = Clone(20);
             map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
@@ -423,8 +423,8 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             var first = session.Apply(Vector2Int.up);
             Assert.That(first.accepted, Is.True);
-            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(first.events.Count(e => e.actor == "wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(2));
+            Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(first.events.Count(e => e.actor == "wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             var second = session.Apply(Vector2Int.up);
             Assert.That(second.accepted, Is.True);
             Assert.That(session.States["wood"].cell, Is.EqualTo(new Vector2Int(6, 4)));
@@ -481,8 +481,8 @@ namespace ANIMOL.Tests
             Assert.That(session.WindRouteFor("blower"),Is.Null);
             Assert.That(session.WindCells.Keys.Any(p=>p.y==4),Is.False);
         }
-        [TestCase(1, 4)][TestCase(2, 7)][TestCase(3, 10)]
-        public void ActiveBlowerCarriesPlayerToLastWindCellInOneAction(int phase, int destinationX)
+        [TestCase(1, 5)][TestCase(2, 8)][TestCase(3, 11)]
+        public void ActiveBlowerCarriesPlayerOneCellBeyondLastWindCell(int phase, int destinationX)
         {
             var map=Clone(20);map.Resize(14,7);
             for(var x=8;x<=12;x++)map.SetTerrain(new Vector2Int(x,4),TerrainMaterial.Grass);
@@ -496,6 +496,18 @@ namespace ANIMOL.Tests
             Assert.That(session.Cost,Is.EqualTo(1));
             Assert.That(action.events.Count(e=>e.actor=="player"&&e.kind==PrototypeEventKind.Move),
                 Is.EqualTo(destinationX-1));
+        }
+        [Test] public void ActiveBlowerStopsBeforeBlockerOneCellBeyondWindRange()
+        {
+            var map = Clone(20);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(5, 4);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 1;
+            map.start = new Vector2Int(2, 3);
+            var session = new PuzzleDeviceSession(map);
+
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
+            Assert.That(session.WindRouteFor("blower").stopReason, Is.EqualTo(WindStopReason.RangeEnd));
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
         }
         [Test] public void BlowerStopsPlayerBeforeSheepEvenWhenSheepMovesInSameAction()
         {
@@ -511,7 +523,7 @@ namespace ANIMOL.Tests
             var action = session.Apply(Vector2Int.up);
 
             Assert.That(action.accepted, Is.True);
-            Assert.That(session.RanchSheep["wind_sheep"], Is.EqualTo(new Vector2Int(10, 4)));
+            Assert.That(session.RanchSheep["wind_sheep"], Is.EqualTo(new Vector2Int(11, 4)));
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
             Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             Assert.That(session.Cost, Is.EqualTo(1));
@@ -579,7 +591,7 @@ namespace ANIMOL.Tests
 
             Assert.That(action.accepted, Is.True);
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(session.States["wind_wood"].cell, Is.EqualTo(new Vector2Int(10, 4)));
+            Assert.That(session.States["wind_wood"].cell, Is.EqualTo(new Vector2Int(11, 4)));
             Assert.That(action.events.Count(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
             Assert.That(session.Cost, Is.EqualTo(1));
         }

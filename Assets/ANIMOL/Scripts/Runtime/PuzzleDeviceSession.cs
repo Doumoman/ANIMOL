@@ -499,7 +499,7 @@ namespace ANIMOL.Puzzle
                     {
                         var route = WindRouteFor(windSource.id);
                         var next = Cell + Direction;
-                        if (route == null || !route.TryGetForce(new WindGridCell(next.x, next.y), out _)) return;
+                        if (!WindAllowsStep(route, Cell, next)) return;
                         if (!windCued.Add(windSource.id)) windSource = null;
                     }
                 }
@@ -612,7 +612,7 @@ namespace ANIMOL.Puzzle
                         if (windUsed && !StarwayWindCarrier(d)) break;
                         windUsed = true;
                         var route = WindRouteFor(source.id);
-                        if (route == null || !route.TryGetForce(new WindGridCell((s.cell + wind).x, (s.cell + wind).y), out _)) break;
+                        if (!WindAllowsStep(route, s.cell, s.cell + wind)) break;
                     }
                     direction = wind;
                 }
@@ -906,11 +906,22 @@ namespace ANIMOL.Puzzle
         static Vector2Int WindVector(WindHeading h) =>
             h == WindHeading.North ? Vector2Int.up : h == WindHeading.East ? Vector2Int.right :
             h == WindHeading.South ? Vector2Int.down : Vector2Int.left;
+        static bool WindAllowsStep(WindRoute route, Vector2Int from, Vector2Int to)
+        {
+            if (route == null) return false;
+            var next = new WindGridCell(to.x, to.y);
+            if (route.TryGetForce(next, out _)) return true;
+            // The final affected cell can carry its occupant one tile past the visible range.
+            if (route.stopReason != WindStopReason.RangeEnd || route.cells.Count == 0) return false;
+            var last = route.cells[route.cells.Count - 1];
+            return last.cell.Equals(new WindGridCell(from.x, from.y)) &&
+                AnimolWindRoute.Step(last.cell, last.localForceHeading).Equals(next);
+        }
         WindRoute WindCarrierRoute(string emitter, WindRoute blockedRoute)
         {
             var terminal = blockedRoute.cells[blockedRoute.cells.Count - 1];
             return AnimolWindRoute.Trace(new WindBoard(this, emitter), terminal.cell,
-                terminal.localForceHeading, blockedRoute.maxRangeCells - blockedRoute.cells.Count);
+                terminal.localForceHeading, blockedRoute.maxRangeCells - blockedRoute.cells.Count + 1);
         }
         sealed class WindBoard : IWindBoard
         {
