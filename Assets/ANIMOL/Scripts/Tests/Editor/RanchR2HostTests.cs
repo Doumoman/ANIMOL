@@ -180,7 +180,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(session.Cost, Is.Zero);
         }
 
-        [Test] public void ManualPushThenWindMovesSheepOneAdditionalCell()
+        [Test] public void ManualPushThenWindCarriesSheepToLastReachableCell()
         {
             scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });
             scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind,
@@ -188,7 +188,7 @@ namespace ANIMOL.Presentation.Tests
                 orientation = 2, active = true });
             var open = new PuzzleDeviceSession(map);
             Assert.That(open.Apply(Vector2Int.right).accepted, Is.True);
-            Assert.That(open.RanchSheep["sheep"], Is.EqualTo(new Vector2Int(4, 2)));
+            Assert.That(open.RanchSheep["sheep"], Is.EqualTo(new Vector2Int(6, 2)));
             Assert.That(open.Cost, Is.EqualTo(1));
 
             scenario.devices.Add(new PrototypeDevice { id = "metal", role = PrototypeRole.MetalCrate,

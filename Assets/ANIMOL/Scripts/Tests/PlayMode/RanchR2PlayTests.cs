@@ -123,6 +123,28 @@ namespace ANIMOL.Presentation.Tests
                 .Any(v => v.CurrentKey == "tall_grass/idle"), Is.True);
         }
 
+        [UnityTest] public IEnumerator WindCarriesSheepIntoGrassAndShowsConsumption()
+        {
+            map.start = new Vector2Int(4, 3);
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind,
+                variant = "blower", position = new Vector2Int(0, 2), direction = Vector2Int.right,
+                orientation = 1, active = true });
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep",
+                position = new Vector2Int(1, 2), instanceId = "wind_sheep" });
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "tall_grass",
+                position = new Vector2Int(3, 2), instanceId = "wind_grass" });
+            controller.Load(map); yield return null;
+
+            Assert.That(controller.RequestMove(Vector2Int.left), Is.True);
+            yield return WaitIdle();
+
+            Assert.That(controller.Session.RanchSheep.ContainsKey("wind_sheep"), Is.False);
+            Assert.That(controller.Session.RanchGrassPresent(new Vector2Int(3, 2)), Is.False);
+            Assert.That(controller.Session.Cost, Is.EqualTo(1));
+            Assert.That(controller.GetComponentsInChildren<RanchSheepConsumptionVisualR2>()
+                .Count(effect => effect.IsPlaying), Is.EqualTo(2));
+        }
+
         [UnityTest] public IEnumerator PaletteWaterRendersFromExistingWaterCellsAndRestoresAfterReload()
         {
             scenario.water.Add(new Vector2Int(5, 1));

@@ -103,7 +103,7 @@ namespace ANIMOL.Tests
         }
 
         [Test]
-        public void OneCommittedActionAppliesAtMostOneWindStepPerLightActor()
+        public void OneCommittedActionCarriesFirstLightActorAlongWindRoute()
         {
             var map = Clone("20_Wind");
             map.scenario.devices.Single(d => d.variant == "blower").orientation = 1;
@@ -121,10 +121,10 @@ namespace ANIMOL.Tests
             Assert.That(session.Cost, Is.EqualTo(1));
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 2)),
                 "The existing field variants keep their authored connected movement.");
-            Assert.That(session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 4)),
-                "The wood stops at the corner until the next committed action.");
+            Assert.That(session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 5)),
+                "The wood follows the corner and stops at the last reachable cell.");
             Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "qa_wood"),
-                Is.EqualTo(1));
+                Is.EqualTo(2));
         }
 
         [Test]
