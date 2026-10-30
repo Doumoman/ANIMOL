@@ -135,6 +135,7 @@ namespace ANIMOL.Presentation.Editor
         {
             layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "지형", "장치", "장식", "표식", "물" });
             erase = EditorGUILayout.Toggle("지우개", erase);
+            DrawActiveLayerSettings();
             EditorGUILayout.Space();
             if (layer == Layer.Device && map.scenario)
             {
@@ -192,38 +193,6 @@ namespace ANIMOL.Presentation.Editor
                 }
             }
             EditorGUILayout.Space();
-            if (layer == Layer.Terrain)
-            {
-                material = (TerrainMaterial)EditorGUILayout.IntPopup("지형 재질", (int)material, new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
-                blocked = EditorGUILayout.Toggle("통행 금지 칸", blocked);
-                EditorGUILayout.HelpBox("왼쪽 드래그로 지형을 칠하고 오른쪽 드래그로 지웁니다. 지우개를 켜면 왼쪽 드래그도 지웁니다. 빈 칸은 지나갈 수 없으며 다른 레이어는 보존됩니다.", MessageType.Info);
-            }
-            if (layer == Layer.Device)
-            {
-                if (map.scenario)
-                {
-                    DeviceSettings();
-                }
-                else
-                {
-                    QueueScenarioCreation();
-                    EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
-                        "장치를 배치하려면 테마를 선택하세요." : "장치 데이터를 자동으로 준비하는 중입니다."),
-                        scenarioCreationError == null ? MessageType.Info : MessageType.Error);
-                }
-            }
-            if (layer == Layer.Decoration) DecorationSettings();
-            if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.IntPopup("배치할 표식", (int)marker, new[] { "시작점", "방울", "출구" }, new[] { 0, 1, 2 });
-            if (layer == Layer.Water && !map.scenario)
-            {
-                QueueScenarioCreation();
-                EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
-                    "물 칸을 배치하려면 테마를 선택하세요." : "물 칸 데이터를 자동으로 준비하는 중입니다."),
-                    scenarioCreationError == null ? MessageType.Info : MessageType.Error);
-            }
-            if (layer == Layer.Water && ThemeId(map.theme) == "starway" && map.scenario)
-                EditorGUILayout.HelpBox("V13 수로 그림으로 표시됩니다. 현재 물 칸은 고정 데이터이며 수문 A/B 전환 판정은 아직 연결되지 않았습니다.", MessageType.Info);
-            EditorGUILayout.Space();
             EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
             RefreshValidation();
             var errors = cachedValidationErrors;
@@ -249,6 +218,37 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.LabelField("540×960 화면 기준", EditorStyles.miniLabel);
             }
             if (cameraSerialized.ApplyModifiedProperties()) map.InvalidateIndex();
+        }
+        void DrawActiveLayerSettings()
+        {
+            if (layer == Layer.Terrain)
+            {
+                material = (TerrainMaterial)EditorGUILayout.IntPopup("배치할 지형 타일", (int)material, new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
+                blocked = EditorGUILayout.Toggle("통행 금지 칸", blocked);
+                EditorGUILayout.HelpBox("왼쪽 드래그로 지형을 칠하고 오른쪽 드래그로 지웁니다. 지우개를 켜면 왼쪽 드래그도 지웁니다. 빈 칸은 지나갈 수 없으며 다른 레이어는 보존됩니다.", MessageType.Info);
+            }
+            if (layer == Layer.Device)
+            {
+                if (map.scenario) DeviceSettings();
+                else
+                {
+                    QueueScenarioCreation();
+                    EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
+                        "장치를 배치하려면 테마를 선택하세요." : "장치 데이터를 자동으로 준비하는 중입니다."),
+                        scenarioCreationError == null ? MessageType.Info : MessageType.Error);
+                }
+            }
+            if (layer == Layer.Decoration) DecorationSettings();
+            if (layer == Layer.Markers) marker = (Marker)EditorGUILayout.IntPopup("배치할 표식", (int)marker, new[] { "시작점", "방울", "출구" }, new[] { 0, 1, 2 });
+            if (layer == Layer.Water && !map.scenario)
+            {
+                QueueScenarioCreation();
+                EditorGUILayout.HelpBox(scenarioCreationError ?? (string.IsNullOrEmpty(ThemeId(map.theme)) ?
+                    "물 칸을 배치하려면 테마를 선택하세요." : "물 칸 데이터를 자동으로 준비하는 중입니다."),
+                    scenarioCreationError == null ? MessageType.Info : MessageType.Error);
+            }
+            if (layer == Layer.Water && ThemeId(map.theme) == "starway" && map.scenario)
+                EditorGUILayout.HelpBox("V13 수로 그림으로 표시됩니다. 현재 물 칸은 고정 데이터이며 수문 A/B 전환 판정은 아직 연결되지 않았습니다.", MessageType.Info);
         }
         void RefreshValidation()
         {
