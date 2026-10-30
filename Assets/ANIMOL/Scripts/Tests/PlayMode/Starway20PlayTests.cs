@@ -11,6 +11,27 @@ namespace ANIMOL.Tests
 {
     public sealed class Starway20PlayTests
     {
+        [UnityTest] public IEnumerator BottomBlankRowsRemainVisibleAtTheLowerMapEdge()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
+            var map = Object.Instantiate(source);
+            var cameraObject = new GameObject("Starway bottom margin camera", typeof(Camera), typeof(PuzzleFollowCamera));
+            var target = new GameObject("Starway bottom margin target");
+            try
+            {
+                map.terrain.RemoveAll(t => t.position.y < 5 || t.position.y > 18);
+                map.cameraSettings.bottomBlankRows = 2;
+                target.transform.position = new Vector3(map.start.x, -100, 0);
+                var follow = cameraObject.GetComponent<PuzzleFollowCamera>();
+                follow.Configure(map, target.transform);
+                yield return null;
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(8f).Within(.001f));
+                Assert.That(cameraObject.transform.position.y - cameraObject.GetComponent<Camera>().orthographicSize,
+                    Is.EqualTo(2.5f).Within(.001f));
+            }
+            finally { Object.Destroy(cameraObject); Object.Destroy(target); Object.Destroy(map); }
+        }
         [UnityTest] public IEnumerator AllTwentyStagesLoadWithHudVisualsAndSevenByElevenCamera()
         {
             var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(

@@ -39,6 +39,7 @@ namespace ANIMOL.Puzzle
         [Range(1, 40)] public float followSharpness = 16;
         [Tooltip("Reserved height for the existing HUD in 540px-wide portrait reference units.")][Range(0, 150)] public float topInset = 90;
         [Tooltip("Starway only: empty world rows visible above the highest terrain tile.")][Range(0, 8)] public int topBlankRows = 2;
+        [Tooltip("Starway only: empty world rows visible below the lowest terrain tile.")][Range(0, 8)] public int bottomBlankRows = 2;
         [Tooltip("Optional camera inset; swipe controls need no bottom UI area.")][Range(0, 300)] public float bottomInset = 0;
         [Range(0, 1)] public float farParallax = .08f;
         [Range(0, 1)] public float midParallax = .3f;

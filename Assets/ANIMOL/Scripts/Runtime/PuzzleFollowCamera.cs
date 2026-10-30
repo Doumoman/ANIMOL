@@ -23,8 +23,9 @@ namespace ANIMOL.Puzzle
         {
             var bounds = StarwayCameraMath.CellBounds(data.terrain.Select(t =>
                 new StarwayCell(t.position.x, t.position.y)).ToArray(), Vector2.zero, Vector2.one);
-            // World-space headroom is independent of the HUD pixel inset.
+            // World-space blank rows are independent of the HUD pixel insets.
             bounds.yMax += Mathf.Clamp(data.cameraSettings.topBlankRows, 0, 8);
+            bounds.yMin -= Mathf.Clamp(data.cameraSettings.bottomBlankRows, 0, 8);
             return bounds;
         }
         public void Configure(PuzzleMap data, Transform target)

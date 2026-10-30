@@ -78,7 +78,7 @@ namespace ANIMOL.Puzzle.Tests
         }
 
         [Test]
-        public void StarwayTopBlankRowsControlsCameraHeadroom()
+        public void StarwayBlankRowsControlCameraHeadroomAndFootroom()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
@@ -92,6 +92,7 @@ namespace ANIMOL.Puzzle.Tests
                 map.terrain.RemoveAll(t => t.position.y < 5 || t.position.y > 18);
                 var originalInset = map.cameraSettings.topInset;
                 var originalRows = map.cameraSettings.visibleRows;
+                Assert.That(map.cameraSettings.bottomBlankRows, Is.EqualTo(2));
                 map.cameraSettings.topBlankRows = 2;
                 var bounds = PuzzleFollowCamera.StarwayFollowBounds(map);
                 var center = StarwayCameraMath.ClampCenter(map.start, bounds,
@@ -110,6 +111,21 @@ namespace ANIMOL.Puzzle.Tests
                 map.cameraSettings.topBlankRows = 0;
                 cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
                 Assert.That(cameraObject.transform.position.y, Is.EqualTo(13f).Within(.001f));
+
+                map.cameraSettings.topBlankRows = 2;
+                playerObject.transform.position = new Vector2(-100, -100);
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(8f).Within(.001f));
+                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, playerObject.transform.position).center.y,
+                    Is.EqualTo(8f).Within(.001f));
+                map.cameraSettings.bottomBlankRows = 4;
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(6f).Within(.001f));
+                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, playerObject.transform.position).center.y,
+                    Is.EqualTo(6f).Within(.001f));
+                map.cameraSettings.bottomBlankRows = 0;
+                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(10f).Within(.001f));
                 Assert.That(map.cameraSettings.topInset, Is.EqualTo(originalInset));
                 Assert.That(map.cameraSettings.visibleRows, Is.EqualTo(originalRows));
             }

@@ -257,6 +257,7 @@ namespace ANIMOL.Presentation.Editor
             camera.isExpanded = EditorGUILayout.Foldout(camera.isExpanded, "카메라 설정", true);
             if (!camera.isExpanded) return;
             EditorGUILayout.PropertyField(camera.FindPropertyRelative("topBlankRows"), new GUIContent("위쪽 빈 공간 (칸)"));
+            EditorGUILayout.PropertyField(camera.FindPropertyRelative("bottomBlankRows"), new GUIContent("아래쪽 빈 공간 (칸)"));
             var fields = new[] { "visibleRows", "followSharpness", "topInset", "bottomInset", "farParallax", "midParallax", "nearParallax" };
             var labels = new[] { "화면에 보이는 세로 칸", "추적 속도", "위쪽 여백", "아래쪽 여백", "먼 배경 시차", "중간 배경 시차", "가까운 배경 시차" };
             for (var i = 0; i < fields.Length; i++) EditorGUILayout.PropertyField(camera.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
