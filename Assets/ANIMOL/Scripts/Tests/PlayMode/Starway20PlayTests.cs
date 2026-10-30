@@ -14,7 +14,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator BottomBlankRowsRemainVisibleAtTheLowerMapEdge()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset");
             var map = Object.Instantiate(source);
             var cameraObject = new GameObject("Starway bottom margin camera", typeof(Camera), typeof(PuzzleFollowCamera));
             var target = new GameObject("Starway bottom margin target");
@@ -32,12 +32,12 @@ namespace ANIMOL.Tests
             }
             finally { Object.Destroy(cameraObject); Object.Destroy(target); Object.Destroy(map); }
         }
-        [UnityTest] public IEnumerator AllTwentyStagesLoadWithHudVisualsAndSevenByElevenCamera()
+        [UnityTest] public IEnumerator AllTwentyOneStagesLoadWithHudVisualsAndSevenByElevenCamera()
         {
             var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/starway/Starway20MapSet.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/Starway21MapSet.asset");
             Assert.That(set, Is.Not.Null);
-            Assert.That(set.maps.Count, Is.EqualTo(20));
+            Assert.That(set.maps.Count, Is.EqualTo(21));
             var cameraObject = new GameObject("Main Camera", typeof(Camera)); cameraObject.tag = "MainCamera";
             var host = new GameObject("Starway20 stage test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
