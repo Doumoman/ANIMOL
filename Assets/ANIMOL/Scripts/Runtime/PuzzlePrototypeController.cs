@@ -89,7 +89,6 @@ namespace ANIMOL.Puzzle
                 foreach (var cue in result.events) if (cue.kind == PrototypeEventKind.Visual) Devices.Notify(cue, "reject:" + (++rejectedVisualSerial));
                 return false;
             }
-            DrainWind(result);
             Devices.CommitSanctumBeamAction();
             IsMoving = true;
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
@@ -134,26 +133,9 @@ namespace ANIMOL.Puzzle
             if (IsMoving || Session == null || Session.Won || Session.Failed || Strict != null) return;
             var result = Session.AdvanceWind();
             if (!result.accepted) return;
-            DrainWind(result);
             IsMoving = true;
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
             StartCoroutine(Animate(result, eventPrefix, presentationGeneration));
-        }
-        void DrainWind(PrototypeAction action)
-        {
-            if (Strict != null || Session.Won || Session.Failed) return;
-            // Settle the whole wind chain before presenting it, so a sheep exposed by
-            // an earlier push does not wait for another animation or player move.
-            var limit = Mathf.Max(1, RuntimeMap.Width * RuntimeMap.Height);
-            for (var i = 0; i < limit; i++)
-            {
-                var next = Session.AdvanceWind();
-                if (!next.accepted) break;
-                var groupOffset = 0;
-                foreach (var cue in action.events) groupOffset = Mathf.Max(groupOffset, cue.group + 1);
-                foreach (var cue in next.events) { cue.group += groupOffset; action.events.Add(cue); }
-                if (Session.Won || Session.Failed) break;
-            }
         }
         IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation)
         {

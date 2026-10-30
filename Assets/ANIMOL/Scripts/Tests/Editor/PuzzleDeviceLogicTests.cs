@@ -491,39 +491,19 @@ namespace ANIMOL.Tests
             Assert.That(action.events.Any(e => e.actor == "wind_socket" && e.eventName == "matching_star_socket_committed"), Is.True);
             Assert.That(session.Cost, Is.EqualTo(1));
         }
-        [Test] public void StarwayWindCarriesChickWithoutPlayerInput()
+        [Test] public void StarwayWindStopsAtV12BlockingChick()
         {
             var map = Clone(20);
             map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
-            map.scenario.devices.First(d => d.id == "blower").orientation = 1;
             map.scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
-                position = new Vector2Int(2, 4), target = new Vector2Int(6, 3), number = 1 });
+                position = new Vector2Int(2, 4), target = new Vector2Int(6, 4), number = 1 });
             var session = new PuzzleDeviceSession(map);
-            var wind = session.AdvanceWind();
-            Assert.That(wind.accepted, Is.True);
-            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(5, 4)));
-            Assert.That(wind.events.Count(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
-            Assert.That(session.AdvanceWind().accepted, Is.False);
-            Assert.That(session.Cost, Is.Zero);
-        }
-        [Test] public void WindCarriedChickReturnsToAdjacentNest()
-        {
-            var map = Clone(20);
-            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
-            map.scenario.devices.First(d => d.id == "blower").orientation = 1;
-            map.scenario.nests.Add(new Vector2Int(4, 4));
-            map.scenario.devices.Add(new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
-                position = new Vector2Int(2, 4), target = new Vector2Int(4, 4), number = 1 });
-            var session = new PuzzleDeviceSession(map);
-
-            var wind = session.AdvanceWind();
-
-            Assert.That(wind.accepted, Is.True);
-            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(4, 4)));
-            Assert.That(session.States["chick"].removed, Is.True);
-            Assert.That(session.NestPresent(new Vector2Int(4, 4)), Is.False);
-            Assert.That(wind.events.Any(e => e.actor == "chick" && e.eventName == "ChickReturned"), Is.True);
-            Assert.That(session.Cost, Is.Zero);
+            var first = session.Apply(Vector2Int.up);
+            Assert.That(first.accepted, Is.True);
+            Assert.That(session.WindCells.ContainsKey(new Vector2Int(3, 4)), Is.False);
+            Assert.That(session.States["chick"].cell, Is.EqualTo(new Vector2Int(2, 4)));
+            Assert.That(first.events.Any(e => e.actor == "chick" && e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.Cost, Is.EqualTo(1));
         }
         [Test] public void EmptyNestBlocksWindRoute()
         {
