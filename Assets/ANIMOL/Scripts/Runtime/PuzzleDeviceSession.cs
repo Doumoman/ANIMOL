@@ -994,17 +994,19 @@ namespace ANIMOL.Puzzle
         }
         static bool WindMovable(PrototypeDevice d) => d.role == PrototypeRole.StarSocket && d.variant != "socket" ||
             d.role == PrototypeRole.WoodCrate || d.role == PrototypeRole.Barrel || d.role == PrototypeRole.Bomb ||
-            d.role == PrototypeRole.Dice && d.variant != "target";
+            d.role == PrototypeRole.Chick || d.role == PrototypeRole.Dice && d.variant != "target";
         bool StarwayWindCarrier(PrototypeDevice d) => Rules.themeId == "starway" &&
             d.role == PrototypeRole.WoodCrate;
-        void WindVisual(PrototypeDevice wind, Vector2Int direction, WindRoute committedRoute = null)
+        PrototypeEvent WindVisual(PrototypeDevice wind, Vector2Int direction, WindRoute committedRoute = null)
         {
             var route = committedRoute ?? WindRouteFor(wind.id);
-            events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = wind.id,
+            var cue = new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = wind.id,
                 state = "wind_push_" + Dir(direction), eventName = "valid_action_wind_resolved",
                 group = group, windRoute = route,
                 cells = route == null ? new List<Vector2Int>() :
-                    route.cells.Select(x => new Vector2Int(x.cell.x, x.cell.y)).ToList() });
+                    route.cells.Select(x => new Vector2Int(x.cell.x, x.cell.y)).ToList() };
+            events.Add(cue);
+            return cue;
         }
         void WindPulse(Dictionary<Vector2Int, Vector2Int> pulseCells,
             Dictionary<Vector2Int, string> pulseOwners, Dictionary<string, WindRoute> pulseRoutes,
@@ -1015,6 +1017,7 @@ namespace ANIMOL.Puzzle
                 var s = states[d.id];
                 var wind = pulseOwners.TryGetValue(s.cell, out var owner) ? Definition(owner) : null;
                 if (!pulseCells.TryGetValue(s.cell, out var direction)) continue;
+                if (d.role == PrototypeRole.Chick && (wind == null || wind.variant != "blower")) continue;
                 WindRoute committedRoute = null;
                 if (wind != null && wind.variant == "blower")
                 {
@@ -1025,6 +1028,7 @@ namespace ANIMOL.Puzzle
                             new WindGridCell(s.cell.x, s.cell.y)) ||
                         !carrierRoutes.TryGetValue(wind.id, out var carrierRoute)) continue;
                     var carried = false;
+                    PrototypeEvent windCue = null;
                     foreach (var step in carrierRoute.cells)
                     {
                         var target = new Vector2Int(step.cell.x, step.cell.y);
@@ -1032,14 +1036,20 @@ namespace ANIMOL.Puzzle
                         var carrierMismatch = MismatchedSocket(d, target);
                         if (carrierMismatch != null) { Visual(carrierMismatch, "socket_reject", "pattern_mismatch_rejected"); break; }
                         if (!Free(target, d.id) || !GateAllows(s.cell, target, direction)) break;
-                        if (!carried) WindVisual(wind, direction, committedRoute);
+                        if (!carried) windCue = WindVisual(wind, direction, committedRoute);
                         var carrierFrom = s.cell; s.cell = target; s.direction = direction; Move(d.id, carrierFrom, target);
+                        windCue.cells.Add(target);
                         pushedThisAction.Add(d.id);
                         if (d.role == PrototypeRole.Dice)
                         { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
                         if (d.role == PrototypeRole.Bomb && s.timer == 0)
                         { s.timer = 3; newlyArmed.Add(d.id); Visual(d, "arm", "existing_bomb_first_successful_push"); }
                         carried = true;
+                        if (d.role == PrototypeRole.Chick)
+                        {
+                            if (EnterNest(d)) break;
+                            Visual(d, "walk_" + Dir(direction), "existing_recorded_path_following");
+                        }
                         if (SeatStarStone(d)) break;
                     }
                     if (carried) TraceWind();
@@ -1048,8 +1058,9 @@ namespace ANIMOL.Puzzle
                 var mismatch = MismatchedSocket(d, s.cell + direction);
                 if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); continue; }
                 if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) continue;
-                if (wind != null) WindVisual(wind, direction, committedRoute);
+                var cue = wind != null ? WindVisual(wind, direction, committedRoute) : null;
                 var old = s.cell; s.cell += direction; s.direction = direction; Move(d.id, old, s.cell);
+                cue?.cells.Add(s.cell);
                 pushedThisAction.Add(d.id);
                 if (d.role == PrototypeRole.Dice)
                 { var beforeRoll = (int[])s.dice.Clone(); Roll(s.dice, direction); DiceRollVisual(d, beforeRoll, s.dice, direction); }
@@ -1079,6 +1090,7 @@ namespace ANIMOL.Puzzle
                 var lastKind = RanchRuleEventR2.None;
                 var moved = false;
                 var removed = false;
+                PrototypeEvent windCue = null;
                 foreach (var step in carrierRoute.cells)
                 {
                     var destination = new Vector2Int(step.cell.x, step.cell.y);
@@ -1086,8 +1098,9 @@ namespace ANIMOL.Puzzle
                     var cells = new List<RanchCellR2> { RanchCell(current), RanchCell(destination) };
                     if (!RanchDeviceRulesR2.TryWindSheep(RanchSnapshot(cells.Select(UnityCell)), sheep.Key,
                         RanchCell(direction), cells, range, out var next, out var result)) break;
-                    if (!moved) WindVisual(wind, direction, route);
+                    if (!moved) windCue = WindVisual(wind, direction, route);
                     Move(sheep.Key, current, destination);
+                    windCue.cells.Add(destination);
                     if (result.removedSheep) { ranchSheep.Remove(sheep.Key); consumedRanchGrass.Add(destination); }
                     else ranchSheep[sheep.Key] = destination;
                     ranchSheepDirections[sheep.Key] = direction;

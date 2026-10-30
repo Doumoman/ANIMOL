@@ -70,6 +70,58 @@ namespace ANIMOL.Tests
             }
             finally { Object.Destroy(map); Object.Destroy(scenario); }
         }
+        [UnityTest] public IEnumerator BlowerPushResolvesSheepChainBeforeAnimation()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root + "Device20_Wind.asset");
+            var map = Object.Instantiate(source);
+            var scenario = Object.Instantiate(source.scenario);
+            map.scenario = scenario;
+            scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "front_sheep", position = new Vector2Int(2, 4) });
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "tall_grass", instanceId = "wind_grass", position = new Vector2Int(3, 4) });
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "rear_sheep", position = new Vector2Int(4, 4) });
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                yield return WaitIdle();
+                Assert.That(controller.Session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(4, 4)));
+
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                Assert.That(controller.Session.RanchSheep.ContainsKey("front_sheep"), Is.False);
+                Assert.That(controller.Session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(5, 4)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(2));
+                yield return WaitIdle();
+                Assert.That(controller.Session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(5, 4)));
+            }
+            finally { Object.Destroy(map); Object.Destroy(scenario); }
+        }
+        [UnityTest] public IEnumerator ActiveBlowerPresentsChickWindMovement()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root + "Device20_Wind.asset");
+            var map = Object.Instantiate(source);
+            var scenario = Object.Instantiate(source.scenario);
+            map.scenario = scenario;
+            scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            scenario.devices.First(d => d.id == "blower").orientation = 1;
+            scenario.devices.Add(new PrototypeDevice { id = "wind_chick", role = PrototypeRole.Chick,
+                position = new Vector2Int(2, 4), target = new Vector2Int(6, 3), direction = Vector2Int.right,
+                number = 1, artTheme = "starway",
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                    "Assets/ANIMOL/Prefabs/Themes/starway/d24_follower_chick.prefab") });
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.Session.States["wind_chick"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+                yield return WaitIdle();
+                Assert.That((Vector2)controller.Devices.Actor("wind_chick").position, Is.EqualTo(new Vector2(5, 4)));
+                Assert.That(controller.Session.Cost, Is.Zero);
+            }
+            finally { Object.Destroy(map); Object.Destroy(scenario); }
+        }
         [UnityTest] public IEnumerator DistantPortalCutsCameraAndNeverInterpolatesAcrossGap()
         {
             var original=AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root+"Device16_Portal.asset");var map=Object.Instantiate(original);var scenario=Object.Instantiate(map.scenario);map.scenario=scenario;
