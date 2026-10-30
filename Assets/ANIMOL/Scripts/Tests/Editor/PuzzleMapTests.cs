@@ -367,6 +367,40 @@ namespace ANIMOL.Presentation.Tests
             }
             finally { map.scenario = null; Object.DestroyImmediate(scenario); }
         }
+        [Test] public void PlacedDeviceFocusFindsExistingDeviceAndRanchArtFromOccupiedCells()
+        {
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.scenario = scenario;
+                var device = new PrototypeDevice { id = "existing", role = PrototypeRole.Bounce,
+                    position = new Vector2Int(1, 1) };
+                scenario.devices.Add(device);
+                var pond = new RanchV13ArtPlacement { family = "sluice", position = new Vector2Int(2, 2),
+                    direction = Vector2Int.right, hasPondB = true, pondB = new Vector2Int(3, 2) };
+                scenario.ranchV13Art.Add(pond);
+                var nest = new Vector2Int(1, 3);
+                scenario.nests.Add(nest);
+                var water = new Vector2Int(4, 2);
+                scenario.water.Add(water);
+
+                Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, device.position,
+                    out var foundDevice, out _, out _), Is.True);
+                Assert.That(foundDevice, Is.SameAs(device));
+                Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, pond.pondB,
+                    out _, out var foundArt, out _), Is.True);
+                Assert.That(foundArt, Is.SameAs(pond));
+                Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, nest,
+                    out _, out _, out var nestLabel), Is.True);
+                Assert.That(nestLabel, Does.Contain("병아리 둥지"));
+                Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, water,
+                    out _, out _, out var waterLabel), Is.True);
+                Assert.That(waterLabel, Does.Contain("물칸"));
+                Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, new Vector2Int(4, 4),
+                    out _, out _, out _), Is.False);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
         [TestCase(0, "nw"), TestCase(1, "ne"), TestCase(2, "se"), TestCase(3, "sw")]
         public void BounceFacingSelectionUpdatesTheCornerUsedByGameplay(int corner, string expected)
         {

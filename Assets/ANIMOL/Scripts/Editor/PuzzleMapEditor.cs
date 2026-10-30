@@ -45,9 +45,9 @@ namespace ANIMOL.Presentation.Editor
         RanchV13ArtPlacement selectedRanchArt;
         DeviceTemplate[] library = Array.Empty<DeviceTemplate>();
         readonly Dictionary<string, Sprite> legacyDeviceSprites = new Dictionary<string, Sprite>();
-        bool useLibrary = true, inspectDevice, showConnections = true, linkTargetMode, scenarioCreationQueued;
+        bool useLibrary = true, inspectDevice, deviceSelectionDrag, showConnections = true, linkTargetMode, scenarioCreationQueued;
         int templateIndex;
-        string selectedDeviceId;
+        string selectedDeviceId, selectedSimpleDeviceLabel;
         string scenarioCreationError;
         bool showScenario;
         Sprite decoration;
@@ -95,7 +95,7 @@ namespace ANIMOL.Presentation.Editor
         void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = null;
+            EndStroke(); map = data; selectedDeviceId = selectedSimpleDeviceLabel = null;
             selectedRanchArt = null; ranchArtBrush = ranchArtError = null;
             linkTargetMode = false; scenarioCreationError = decorationError = null;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
@@ -133,6 +133,14 @@ namespace ANIMOL.Presentation.Editor
         }
         void Settings()
         {
+            if (layer == Layer.Device && map.scenario)
+            {
+                if (ThemeId(map.theme) == "starway") DrawRanchArtPlacementSettings();
+                if (!string.IsNullOrEmpty(selectedSimpleDeviceLabel))
+                    EditorGUILayout.HelpBox(selectedSimpleDeviceLabel + " · 추가 설정 없음", MessageType.Info);
+                DrawSelectedDeviceSettings();
+                EditorGUILayout.Space();
+            }
             RefreshValidation();
             EditorGUILayout.LabelField("맵 설정", EditorStyles.boldLabel);
             pendingWidth = EditorGUILayout.IntField("가로 칸 수", pendingWidth);
@@ -756,10 +764,10 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.HelpBox("장치 시나리오의 테마 저장 ID가 현재 맵 테마와 다릅니다. 시나리오 설정을 확인하세요.", MessageType.Warning);
             inspectDevice = GUILayout.Toggle(inspectDevice, "왼쪽 클릭으로 배치된 장치 선택");
             showConnections = GUILayout.Toggle(showConnections, "연결선과 작동 범위 표시");
-            if (inspectDevice) EditorGUILayout.HelpBox("장치를 누르면 설정을 볼 수 있습니다. 지우개를 켜면 선택 모드에서도 왼쪽 클릭으로 모든 종류의 장치를 지웁니다.", MessageType.Info);
-            var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치" });
+            EditorGUILayout.HelpBox("배치된 장치나 이 맵의 장치 목록을 누르면 설정을 엽니다. 테마 장치 목록에서 고른 장치는 빈 칸에 배치합니다. 지우개를 켜면 왼쪽 클릭으로 지웁니다.", MessageType.Info);
+            var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치 선택" });
             if (useLibrary != (source == 0))
-            { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; }
+            { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; inspectDevice = !useLibrary; }
             var templates = TemplatesForTheme(library, themeId);
             var ranchChoices = useLibrary ? RanchPaletteForTheme(map.theme) : Array.Empty<RanchPaletteEntry>();
             var choices = useLibrary ? templates.Select(entry => entry.device).ToArray() :
@@ -783,16 +791,27 @@ namespace ANIMOL.Presentation.Editor
                     var row = GUILayoutUtility.GetRect(250, 62, GUILayout.ExpandWidth(true));
                     if (GUI.Button(row, GUIContent.none, EditorStyles.helpBox))
                     {
-                        templateIndex = i; selectedRanchArt = null; inspectDevice = false;
-                        if (i < ranchChoices.Length)
+                        templateIndex = i; selectedRanchArt = null; selectedSimpleDeviceLabel = null;
+                        if (!useLibrary)
                         {
-                            ranchArtBrush = ranchChoices[i].family;
-                            ranchPondBrushDirection = ranchChoices[i].direction;
+                            selectedDeviceId = choices[i].id;
+                            inspectDevice = true;
+                            settingsScroll = Vector2.zero;
                         }
-                        else ranchArtBrush = null;
+                        else
+                        {
+                            selectedDeviceId = null; inspectDevice = false;
+                            if (i < ranchChoices.Length)
+                            {
+                                ranchArtBrush = ranchChoices[i].family;
+                                ranchPondBrushDirection = ranchChoices[i].direction;
+                            }
+                            else ranchArtBrush = null;
+                        }
                     }
                     if (row.yMax < deviceListScroll.y || row.yMin > deviceListScroll.y + 260) continue;
-                    if (i == templateIndex) EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
+                    if (useLibrary ? i == templateIndex : choices[i].id == selectedDeviceId)
+                        EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
                     if (i < ranchChoices.Length)
                     {
                         var entry = ranchChoices[i];
@@ -814,7 +833,9 @@ namespace ANIMOL.Presentation.Editor
                     }
                 }
                 EditorGUILayout.EndScrollView();
-                if (templateIndex < ranchChoices.Length)
+                if (!useLibrary)
+                { ranchArtBrush = null; prototypeBrush = null; }
+                else if (templateIndex < ranchChoices.Length)
                 { ranchArtBrush = ranchChoices[templateIndex].family; prototypeBrush = null; }
                 else
                 { ranchArtBrush = null; prototypeBrush = choices[templateIndex - ranchChoices.Length]; }
@@ -824,8 +845,9 @@ namespace ANIMOL.Presentation.Editor
             }
             if (GUILayout.Button("장치 목록 새로고침")) RefreshLibrary();
             EditorGUILayout.HelpBox("V13 별양·수문·풀은 기존 목장 판정에 배치됩니다. 둥지는 병아리와 관계없이 배치하며, 물칸은 기존 물 데이터에 연결됩니다. 바람 범위는 바람개비에서 계산됩니다.", MessageType.Info);
-            if (themeId == "starway")
-                DrawRanchArtPlacementSettings();
+        }
+        void DrawSelectedDeviceSettings()
+        {
             var selected = map.scenario.devices.FindIndex(device => device.id == selectedDeviceId);
             if (selected < 0) return;
             EditorGUILayout.LabelField("선택한 장치", EditorStyles.boldLabel);
@@ -1050,6 +1072,27 @@ namespace ANIMOL.Presentation.Editor
             removed = target.devices.RemoveAll(device => device.position == cell) > 0 || removed;
             if (removed) target.InvalidateIndex();
             return removed;
+        }
+        public static bool TryFindPlacedDevice(PuzzleMap target, Vector2Int cell,
+            out PrototypeDevice device, out RanchV13ArtPlacement art, out string label)
+        {
+            device = null;
+            art = null;
+            label = null;
+            if (!target || !target.Contains(cell)) return false;
+            if (target.scenario)
+            {
+                device = target.scenario.devices.FirstOrDefault(candidate => candidate.position == cell);
+                if (device != null) { label = device.id; return true; }
+                art = target.scenario.ranchV13Art.FirstOrDefault(candidate =>
+                    candidate != null && candidate.Footprint().Contains(cell));
+                if (art != null) { label = art.family + " @ " + art.position; return true; }
+                if (target.scenario.NestCells.Contains(cell)) { label = "병아리 둥지 @ " + cell; return true; }
+                if (target.scenario.water.Contains(cell)) { label = "물칸 @ " + cell; return true; }
+            }
+            if (target.DeviceAt(cell).kind == DeviceKind.None) return false;
+            label = "기존 장치 @ " + cell;
+            return true;
         }
         static bool TryValidateNestCell(PuzzleMap target, Vector2Int cell, out string error)
         {
@@ -1466,28 +1509,37 @@ namespace ANIMOL.Presentation.Editor
                     shownHeight - 1 - Mathf.FloorToInt((e.mousePosition.y - origin.y) / cellSize));
                 if (map.Contains(p))
                 {
+                    PrototypeDevice clickedDevice = null;
+                    RanchV13ArtPlacement clickedArt = null;
+                    string clickedLabel = null;
+                    var placedDevice = layer == Layer.Device && map.scenario &&
+                        TryFindPlacedDevice(map, p, out clickedDevice, out clickedArt, out clickedLabel);
                     if (layer == Layer.Decoration && inspectDecoration && e.button == 0)
                     {
                         if (e.type == EventType.MouseDown) selectedDecorationCell = p;
                     }
-                    else if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0 && !erase)
+                    else if (layer == Layer.Device && map.scenario && e.button == 0 && !erase &&
+                        (inspectDevice || linkTargetMode || deviceSelectionDrag ||
+                         e.type == EventType.MouseDown && placedDevice))
                     {
-                        var clicked = map.scenario.devices.FirstOrDefault(device => device.position == p);
-                        if (linkTargetMode && clicked != null)
+                        if (e.type == EventType.MouseDown) deviceSelectionDrag = true;
+                        if (linkTargetMode && clickedDevice != null)
                         {
                             var source = map.scenario.devices.FirstOrDefault(device => device.id == selectedDeviceId);
-                            if (source != null && source != clicked)
+                            if (source != null && source != clickedDevice)
                             {
                                 Undo.RecordObject(map.scenario, "퍼즐 장치 연결");
-                                ConnectDevices(map.scenario, source, clicked);
+                                ConnectDevices(map.scenario, source, clickedDevice);
                                 EditorUtility.SetDirty(map.scenario);
                                 linkTargetMode = false;
                             }
                         }
                         else if (e.type == EventType.MouseDown)
                         {
-                            selectedDeviceId = clicked?.id;
-                            selectedRanchArt = map.scenario.ranchV13Art.FirstOrDefault(art => art != null && art.Footprint().Contains(p));
+                            selectedDeviceId = clickedDevice?.id;
+                            selectedRanchArt = clickedArt;
+                            selectedSimpleDeviceLabel = clickedDevice == null && clickedArt == null ? clickedLabel : null;
+                            if (placedDevice) settingsScroll = Vector2.zero;
                         }
                     }
                     else
@@ -2015,27 +2067,36 @@ namespace ANIMOL.Presentation.Editor
                         TryEraseDeviceAt(map, p);
                         if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
                         if (!map.scenario.devices.Any(device => device.id == selectedDeviceId)) selectedDeviceId = null;
+                        selectedSimpleDeviceLabel = null;
                     }
                     else if (ranchArtBrush == "nest")
                     {
                         if (!TryPlaceNest(map, p, out ranchArtError))
                         { ShowNotification(new GUIContent(ranchArtError)); return; }
+                        selectedDeviceId = null; selectedRanchArt = null;
+                        selectedSimpleDeviceLabel = "병아리 둥지 @ " + p; settingsScroll = Vector2.zero;
                         ShowNotification(new GUIContent("둥지 " + p + " 배치 완료"));
                     }
                     else if (ranchArtBrush == "water")
                     {
                         if (!TryPlaceRanchWater(map, p, out ranchArtError)) return;
+                        selectedDeviceId = null; selectedRanchArt = null;
+                        selectedSimpleDeviceLabel = "물칸 @ " + p; settingsScroll = Vector2.zero;
                     }
                     else if (ranchArtBrush != null)
                     {
                         if (!TryPlaceRanchArt(map, ranchArtBrush, p, ranchPondBrushDirection, out ranchArtError)) return;
                         selectedRanchArt = map.scenario.ranchV13Art[map.scenario.ranchV13Art.Count - 1];
+                        selectedDeviceId = selectedSimpleDeviceLabel = null; settingsScroll = Vector2.zero;
                     }
                     else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&
                         (string.IsNullOrEmpty(prototypeBrush.artTheme) || ThemeId(map.theme) == prototypeBrush.artTheme) &&
                         !map.scenario.ranchV13Art.Any(art => art != null && art.Footprint().Contains(p)) &&
                         !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
+                    {
                         selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
+                        selectedRanchArt = null; selectedSimpleDeviceLabel = null; settingsScroll = Vector2.zero;
+                    }
                     EditorUtility.SetDirty(map.scenario);
                 }
                 else if (remove) TryEraseDeviceAt(map, p);
@@ -2178,7 +2239,7 @@ namespace ANIMOL.Presentation.Editor
             destination.devices.Add(copy);
             return copy;
         }
-        void EndStroke() { if (stroke) Undo.CollapseUndoOperations(undoGroup); stroke = false; lastPaint = new Vector2Int(-999, -999); }
+        void EndStroke() { if (stroke) Undo.CollapseUndoOperations(undoGroup); stroke = deviceSelectionDrag = false; lastPaint = new Vector2Int(-999, -999); }
         void Create()
         {
             if (!newMapTheme) { EditorUtility.DisplayDialog("테마 선택", "새 맵에 사용할 테마를 지정하세요.", "확인"); return; }
