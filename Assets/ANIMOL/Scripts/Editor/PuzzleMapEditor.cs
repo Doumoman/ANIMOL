@@ -133,6 +133,9 @@ namespace ANIMOL.Presentation.Editor
         }
         void Settings()
         {
+            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "지형", "장치", "장식", "표식", "물" });
+            erase = EditorGUILayout.Toggle("지우개", erase);
+            EditorGUILayout.Space();
             if (layer == Layer.Device && map.scenario)
             {
                 if (ThemeId(map.theme) == "starway") DrawRanchArtPlacementSettings();
@@ -153,14 +156,6 @@ namespace ANIMOL.Presentation.Editor
             var serialized = new SerializedObject(map); serialized.Update();
             EditorGUILayout.PropertyField(serialized.FindProperty("theme"), new GUIContent("테마"));
             EditorGUILayout.PropertyField(serialized.FindProperty("targetBubbles"), new GUIContent("목표 방울 수"));
-            DrawCameraSettings(serialized.FindProperty("cameraSettings"));
-            showCameraBounds = EditorGUILayout.Toggle("카메라 테두리 표시", showCameraBounds);
-            if (showCameraBounds)
-            {
-                cameraPreviewCell = EditorGUILayout.Vector2IntField("카메라 초점 칸", cameraPreviewCell);
-                if (GUILayout.Button("시작점으로 초점 이동")) cameraPreviewCell = map.start;
-                EditorGUILayout.LabelField("540×960 화면 기준", EditorStyles.miniLabel);
-            }
             if (serialized.ApplyModifiedProperties()) map.InvalidateIndex();
             if (map.theme != previousTheme)
             {
@@ -197,8 +192,6 @@ namespace ANIMOL.Presentation.Editor
                 }
             }
             EditorGUILayout.Space();
-            layer = (Layer)GUILayout.Toolbar((int)layer, new[] { "지형", "장치", "장식", "표식", "물" });
-            erase = EditorGUILayout.Toggle("지우개", erase);
             if (layer == Layer.Terrain)
             {
                 material = (TerrainMaterial)EditorGUILayout.IntPopup("지형 재질", (int)material, new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
@@ -245,6 +238,17 @@ namespace ANIMOL.Presentation.Editor
                 foreach (var p in map.terrain.Select(t => t.position).Concat(map.devices.Select(d => d.position)).Concat(map.decorations.Select(d => d.position)).Concat(map.bubbles).Concat(new[] { map.start, map.exit }).Where(p => !map.Contains(p)).Distinct().Take(40))
                     EditorGUILayout.LabelField(p.ToString());
             }
+            EditorGUILayout.Space();
+            var cameraSerialized = new SerializedObject(map); cameraSerialized.Update();
+            DrawCameraSettings(cameraSerialized.FindProperty("cameraSettings"));
+            showCameraBounds = EditorGUILayout.Toggle("카메라 테두리 표시", showCameraBounds);
+            if (showCameraBounds)
+            {
+                cameraPreviewCell = EditorGUILayout.Vector2IntField("카메라 초점 칸", cameraPreviewCell);
+                if (GUILayout.Button("시작점으로 초점 이동")) cameraPreviewCell = map.start;
+                EditorGUILayout.LabelField("540×960 화면 기준", EditorStyles.miniLabel);
+            }
+            if (cameraSerialized.ApplyModifiedProperties()) map.InvalidateIndex();
         }
         void RefreshValidation()
         {
