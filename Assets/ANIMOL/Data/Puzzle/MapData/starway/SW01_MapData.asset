@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6801171971579773511
+--- !u!114 &-8669351226120218679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,93 +12,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
   m_Name: Scenario
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
-  title: 1-1
+  title: "\uCD08\uC2B9\uB2EC\uC758 \uCCAB \uADC0\uD658"
   themeId: starway
   echoTheaterV3Rules: 0
-  verificationRoute: 
+  verificationRoute: SEENNEEEESSSNWWWWSSNNNNNWWNNEEEEEEEEEEESSWWNNWNEEEEEEEEEEENNSSEEN
   beamPrefab: {fileID: 0}
   devices:
-  - id: starsocket_2
-    variant: socket
-    group: 
-    artTheme: starway
-    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
-    initialVisual: 
-    role: 1
-    position: {x: 3, y: 16}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    initialDiceFaces: 010000000600000005000000020000000300000004000000
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: -1, y: 14}
-    cells: []
-    blastOffsets: []
   - id: chick_1
-    variant: 
-    group: 
+    variant:
+    group:
     artTheme: starway
     visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
-    initialVisual: 
+    initialVisual:
     role: 24
-    position: {x: 8, y: 10}
+    position: {x: 4, y: 9}
     direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
+    target: {x: 6, y: 10}
     orientation: 0
     number: 1
     initialDiceFaces: 010000000600000005000000020000000300000004000000
     active: 0
     socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 7, y: 7}
+    socketBridgeId:
+    socketBubbleCell: {x: 3, y: 6}
     cells: []
     blastOffsets: []
-  - id: starsocket_1
-    variant: 
-    group: 
-    artTheme: starway
-    visualPrefab: {fileID: 6246282583849581694, guid: 6ca3efeb44fd17341ac772e7e8736152, type: 3}
-    initialVisual: 
-    role: 1
-    position: {x: 5, y: 16}
+  ranchV13Art:
+  - family: tall_grass
+    instanceId: cd455e05111046e5bb8c3c3511ee325d
+    position: {x: 9, y: 14}
     direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    initialDiceFaces: 010000000600000005000000020000000300000004000000
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 3, y: 14}
-    cells: []
-    blastOffsets: []
-  - id: onewaygate_1
-    variant: 
-    group: 
-    artTheme: starway
-    visualPrefab: {fileID: 3420239401674086500, guid: deb1e09fc564481429997e4686565ae6, type: 3}
-    initialVisual: 
-    role: 9
-    position: {x: 7, y: 6}
+    hasPondB: 0
+    pondB: {x: 10, y: 14}
+    rightState: 0
+  - family: tall_grass
+    instanceId: e7b12f8f9e7447ea930c36f301fc379b
+    position: {x: 7, y: 16}
     direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 0
-    number: 1
-    initialDiceFaces: 010000000600000005000000020000000300000004000000
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 4, y: 4}
-    cells: []
-    blastOffsets: []
-  nests: []
-  ranchV13Art: []
+    hasPondB: 0
+    pondB: {x: 8, y: 16}
+    rightState: 0
+  - family: tall_grass
+    instanceId: dbb29b805f4745ef8521a48d216d7485
+    position: {x: 10, y: 14}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 11, y: 14}
+    rightState: 0
+  - family: tall_grass
+    instanceId: 2d49d470e4f94b869b0138526dfbe31f
+    position: {x: 8, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 9, y: 16}
+    rightState: 0
+  - family: sheep
+    instanceId: 2c5a4e16833b456985c166aea4254e9a
+    position: {x: 6, y: 13}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 7, y: 13}
+    rightState: 0
+  - family: sheep
+    instanceId: 846e5845123146968f7453672ad901d7
+    position: {x: 4, y: 13}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 5, y: 13}
+    rightState: 0
+  - family: sheep
+    instanceId: 0af3e508102f47e0847442f833decb7f
+    position: {x: 6, y: 16}
+    direction: {x: 1, y: 0}
+    hasPondB: 0
+    pondB: {x: 7, y: 16}
+    rightState: 0
   water: []
   goals: []
-  costLimit: 52
+  costLimit: 0
   holdOccupiedBridge: 1
   shutterPhaseAdvancesWhenOccupied: 1
   leapSkipsIntermediate: 1
@@ -119,439 +110,817 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bcaf13dfc781c3429458ed1a8e74f46, type: 3}
   m_Name: SW01
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleMap
-  width: 12
+  width: 18
   height: 20
-  theme: {fileID: 11400000, guid: 77323baed8bfd9e4ab929816831b282f, type: 2}
-  scenario: {fileID: -6801171971579773511}
+  theme: {fileID: 11400000, guid: 84dac723bb5d43e4c8daca4c5c0d4aa5, type: 2}
+  scenario: {fileID: -8669351226120218679}
   starwayV3Certificate: {fileID: 0}
-  starwayV3ScenarioSha256: 
+  starwayV3ScenarioSha256:
   targetBubbles: 3
   cameraSettings:
     visibleRows: 11
     fitWholeBoard: 0
     followSharpness: 16
     topInset: 90
-    topBlankRows: 2
-    bottomBlankRows: 2
     bottomInset: 0
     farParallax: 0.08
     midParallax: 0.3
     nearParallax: 0.65
-  start: {x: 2, y: 3}
-  exit: {x: 10, y: 16}
+  start: {x: 2, y: 11}
+  exit: {x: 14, y: 15}
   terrain:
-  - position: {x: 1, y: 1}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 1}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 1}
-    material: 0
-    blocked: 0
-  - position: {x: 1, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 0, y: 3}
-    material: 0
-    blocked: 0
   - position: {x: 1, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 0, y: 4}
-    material: 0
-    blocked: 0
+    material: 1
+    blocked: 1
   - position: {x: 1, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 0, y: 5}
-    material: 0
-    blocked: 0
+    material: 1
+    blocked: 1
   - position: {x: 1, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 6}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 8}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 9}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 10}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 11}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 12}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 14}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 1, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 2, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 2, y: 4}
     material: 0
     blocked: 0
   - position: {x: 2, y: 5}
     material: 0
     blocked: 0
-  - position: {x: 3, y: 5}
+  - position: {x: 2, y: 6}
     material: 0
     blocked: 0
-  - position: {x: 4, y: 5}
+  - position: {x: 2, y: 7}
     material: 0
     blocked: 0
-  - position: {x: 5, y: 5}
+  - position: {x: 2, y: 9}
     material: 0
     blocked: 0
-  - position: {x: 9, y: 5}
+  - position: {x: 2, y: 10}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 5}
+  - position: {x: 2, y: 11}
     material: 0
     blocked: 0
-  - position: {x: 11, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 0, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 1, y: 13}
+  - position: {x: 2, y: 12}
     material: 0
     blocked: 0
   - position: {x: 2, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 0, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 1, y: 14}
     material: 0
     blocked: 0
   - position: {x: 2, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 5, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 14}
-    material: 0
-    blocked: 0
   - position: {x: 2, y: 15}
     material: 0
     blocked: 0
-  - position: {x: 5, y: 15}
+  - position: {x: 2, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 9, y: 15}
+  - position: {x: 2, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 2}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 4}
     material: 0
     blocked: 0
+  - position: {x: 3, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 6}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 11}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 15}
+    material: 1
+    blocked: 1
   - position: {x: 3, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 3, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 18}
+    material: 1
+    blocked: 1
+  - position: {x: 3, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 4, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 4, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 4, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 15}
     material: 0
     blocked: 0
   - position: {x: 4, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 5, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 12}
+  - position: {x: 4, y: 17}
     material: 1
+    blocked: 1
+  - position: {x: 4, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 4, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 6}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 8}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 9}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 10}
+    material: 0
     blocked: 0
   - position: {x: 5, y: 11}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 12}
     material: 0
     blocked: 0
   - position: {x: 5, y: 13}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 9}
+  - position: {x: 5, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 10}
+  - position: {x: 5, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 9, y: 8}
+  - position: {x: 5, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 5, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 5, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 7}
     material: 0
     blocked: 0
   - position: {x: 6, y: 8}
     material: 0
     blocked: 0
+  - position: {x: 6, y: 9}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 11}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 6, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 6, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 2}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 7}
+    material: 1
+    blocked: 1
   - position: {x: 7, y: 8}
     material: 0
     blocked: 0
-  devices: []
-  decorations:
-  - position: {x: 11, y: 6}
-    sprite: {fileID: 21300000, guid: 89f65c5c40f356241950f46f6812198c, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 577cfebbe415446d81faa78aedb6c5d0
-    connectionGroup: 
-    visualFamily: ranch_notice_sign
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 9, y: 12}
-    sprite: {fileID: 21300000, guid: 00b89974d7c1aa44bac0706c901ee2d5, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 18d6746d8af4460f85233f1b411599e4
-    connectionGroup: 
-    visualFamily: 
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 0, y: 4}
-    sprite: {fileID: 21300000, guid: f884efb58443b28478f8197175e7b023, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 769e3aa7939b45f89eda42e7238aa347
-    connectionGroup: 
-    visualFamily: picnic_arbor_3x2
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 7, y: 7}
-    sprite: {fileID: 21300000, guid: 32a1a36d1fd8f3f4c8739210a08089e3, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 5a43a6ddd9a240038f328b78b98733eb
-    connectionGroup: 
-    visualFamily: garden_workbench_2x1
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 3, y: 11}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 9ff19dd06739425aa38fef5b29bb6df2
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 4, y: 11}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 4170adb674a04024ab91bb0e1cbf2708
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 6, y: 11}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 4979a9fcb11f4c999575bf1e109768b6
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
+  - position: {x: 7, y: 9}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 10}
+    material: 0
+    blocked: 0
   - position: {x: 7, y: 11}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 393c4bf8a36c400290b4b6d259fb50c7
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 6, y: 13}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 29c634fafe6d4bf9a7680b98ccf8af1d
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 12}
+    material: 0
+    blocked: 0
   - position: {x: 7, y: 13}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 34b81b89dc664e6ca69c982c15d06c54
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 0, y: 13}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: d1ede08aee734de79a2e15afc5486256
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 1, y: 13}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: e99b5081a7d14b70b5646012ad25283b
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 2, y: 13}
-    sprite: {fileID: 21300000, guid: 299e2db626129a74c859495abd3b9425, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 2c178d8854f64c718d8030ec7aaaf196
-    connectionGroup: cream_fence
-    visualFamily: cream_fence
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 9, y: 9}
-    sprite: {fileID: 21300000, guid: 82448726ccb0c8e4bb112e211384ea3f, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 0966ed36babf4d9199d25fd08e221cc3
-    connectionGroup: 
-    visualFamily: chicken_coop_2x2
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 3, y: 5}
-    sprite: {fileID: 21300000, guid: 6b6c1a67f435d614d8703e7081eef14a, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: ea9de8fe1f454dc3b190bdc064549e20
-    connectionGroup: 
-    visualFamily: milk_can_pair
-    logicalLayer: 0
-    heightKey: 0
-  - position: {x: 9, y: 17}
-    sprite: {fileID: 21300000, guid: ce7925ee15d284c45a4d50e90d6d16d8, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 94240b4ffd184f97bf90a3562384158b
-    connectionGroup: 
-    visualFamily: watering_can
-    logicalLayer: 0
-    heightKey: 0
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 7, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 7, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 8, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 8, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 8, y: 8}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 9}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 10}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 11}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 12}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 13}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 8, y: 16}
+    material: 0
+    blocked: 0
   - position: {x: 8, y: 17}
-    sprite: {fileID: 21300000, guid: c3bc34766280df3428025be3a4db2ddb, type: 3}
-    tint: {r: 1, g: 1, b: 1, a: 1}
-    placementId: 6d707d41eb7849afb81052d22bc3d930
-    connectionGroup: herb_planter_strip
-    visualFamily: herb_planter_strip
-    logicalLayer: 0
-    heightKey: 0
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 8, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 8}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 9}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 10}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 11}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 12}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 9, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 9, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 10, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 10, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 10, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 10, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 10, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 10, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 11, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 11, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 6}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 11, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 11, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 11, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 12, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 12, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 13, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 4}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 13, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 13, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 13, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 13, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 14, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 14, y: 2}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 3}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 14, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 14, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 17}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 18}
+    material: 0
+    blocked: 0
+  - position: {x: 14, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 1}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 2}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 4}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 15, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 15, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 18}
+    material: 1
+    blocked: 1
+  - position: {x: 15, y: 19}
+    material: 1
+    blocked: 1
+  - position: {x: 16, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 16, y: 4}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 5}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 6}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 16, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 16, y: 14}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 15}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 16}
+    material: 0
+    blocked: 0
+  - position: {x: 16, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 3}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 4}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 5}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 6}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 7}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 13}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 14}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 15}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 16}
+    material: 1
+    blocked: 1
+  - position: {x: 17, y: 17}
+    material: 1
+    blocked: 1
+  - position: {x: 2, y: 8}
+    material: 0
+    blocked: 0
+  devices: []
+  decorations: []
   bubbles:
-  - {x: 6, y: 9}
-  - {x: 10, y: 5}
-  - {x: 1, y: 14}
+  - {x: 8, y: 9}
+  - {x: 12, y: 16}
+  - {x: 4, y: 8}

@@ -13,7 +13,6 @@ namespace ANIMOL.Puzzle.Editor
     {
         public const string Root = "Assets/ANIMOL/Data/Puzzle/MapData/starway";
         public const string SetPath = Root + "/Starway20MapSet.asset";
-        public const string ActiveSetPath = Root + "/Starway21MapSet.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Theme.asset";
         public override string DisplayName => "ANIMOL native PuzzleMap adapter";
         public override string[] OwnedAssetRoots => new[] { Root };
@@ -36,8 +35,6 @@ namespace ANIMOL.Puzzle.Editor
 
         public override void Preflight(StarwayMapSource[] sources, List<string> errors)
         {
-            if (AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(ActiveSetPath))
-            { errors.Add("The 21-stage campaign is active; the old 20-stage source pack cannot rebuild it."); return; }
             if (sources == null || sources.Length != 20) { errors.Add("Expected 20 sources."); return; }
             if (!Theme || !Theme.starwayRanch || !Theme.starwayRanch.v13Devices) errors.Add("Starway V13 theme is missing.");
             var visuals = Visuals();
@@ -78,8 +75,6 @@ namespace ANIMOL.Puzzle.Editor
 
         public override void BuildOrUpdateMaps(StarwayMapSource[] sources)
         {
-            if (AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(ActiveSetPath))
-                throw new InvalidOperationException("The 21-stage campaign is active; the old 20-stage source pack cannot rebuild it.");
             EnsureRoot();
             var visuals = Visuals();
             foreach (var source in sources)

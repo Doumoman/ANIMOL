@@ -71,8 +71,7 @@ namespace ANIMOL.Puzzle.Editor
             {
                 var id = source.input.map.id;
                 if (excludedStageIds != null && excludedStageIds.Contains(id)) continue;
-                var shiftedId = "SW" + (int.Parse(id.Substring(2)) + 1).ToString("00");
-                var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Starway20ProjectAdapter.MapPath(shiftedId));
+                var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Starway20ProjectAdapter.MapPath(id));
                 if (!map) { differences.Add(id + ": native map missing"); continue; }
                 var replay = JObject.Parse(source.normalizedReplay.text);
                 var solution = JObject.Parse(source.originalSolution.text);
