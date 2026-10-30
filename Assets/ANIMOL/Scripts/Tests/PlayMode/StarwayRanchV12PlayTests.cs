@@ -71,10 +71,10 @@ namespace ANIMOL.Presentation.Tests
                 var view = visualRoot.AddComponent<PuzzleDeviceView>();
                 view.Bind(session, player);
                 view.Notify(cue, "wind-authority-step");
-                var ranges = view.GetComponentsInChildren<AnimolWindRouteRenderer>();
+                var ranges = view.GetComponentsInChildren<RanchResolvedWindVisualV13>();
                 Assert.That(ranges.Length, Is.EqualTo(1));
-                Assert.That(ranges[0].HasVisibleRange, Is.True);
-                Assert.That(ranges[0].IsActive, Is.True);
+                Assert.That(ranges[0].GetComponentsInChildren<RanchDeviceVisualV13>().Length,
+                    Is.EqualTo(cue.windRoute.cells.Count));
                 foreach (var segment in cue.windRoute.cells)
                 {
                     Assert.That(cue.windRoute.TryGetForce(segment.cell, out var heading), Is.True);
@@ -84,8 +84,8 @@ namespace ANIMOL.Presentation.Tests
                             heading == WindHeading.South ? Vector2Int.down : Vector2Int.left));
                 }
                 view.Settle();
-                Assert.That(ranges[0].HasVisibleRange, Is.True);
-                Assert.That(ranges[0].IsActive, Is.False);
+                Assert.That(ranges[0].GetComponentsInChildren<RanchDeviceVisualV13>().Length,
+                    Is.EqualTo(session.WindRouteFor("blower").cells.Count));
             }
             finally
             {

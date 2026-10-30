@@ -397,6 +397,50 @@ namespace ANIMOL.Tests
             session.Apply(Vector2Int.up);
             Assert.That(session.States["wood"].cell,Is.EqualTo(new Vector2Int(3,4)));
         }
+        [Test] public void ActiveBlowerMovesWoodWithoutPlayerInputOrTurnCost()
+        {
+            var map = Clone(20);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 1;
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            map.scenario.devices.Add(new PrototypeDevice { id = "idle_wood", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(2, 4) });
+            var session = new PuzzleDeviceSession(map);
+
+            var wind = session.AdvanceWind();
+
+            Assert.That(wind.accepted, Is.True);
+            Assert.That(session.States["idle_wood"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(wind.events.Count(e => e.actor == "idle_wood" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(session.AdvanceWind().accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+        }
+        [Test] public void BlowerRechecksWindAfterFirstSheepClearsItsShadow()
+        {
+            var map = Clone(20); map.Resize(14, 7);
+            for (var x = 8; x <= 12; x++) map.SetTerrain(new Vector2Int(x, 4), TerrainMaterial.Grass);
+            map.scenario.devices.First(d => d.id == "metal").position = new Vector2Int(12, 4);
+            map.scenario.devices.First(d => d.id == "blower").orientation = 3;
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "front_sheep", position = new Vector2Int(2, 4) });
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "tall_grass", instanceId = "wind_grass", position = new Vector2Int(4, 4) });
+            map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement
+                { family = "sheep", instanceId = "rear_sheep", position = new Vector2Int(5, 4) });
+            var session = new PuzzleDeviceSession(map);
+
+            var first = session.AdvanceWind();
+            Assert.That(first.accepted, Is.True);
+            Assert.That(session.RanchSheep.ContainsKey("front_sheep"), Is.False);
+            Assert.That(session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(first.events.Any(e => e.actor == "rear_sheep" && e.kind == PrototypeEventKind.Move), Is.False);
+
+            var second = session.AdvanceWind();
+            Assert.That(second.accepted, Is.True);
+            Assert.That(session.RanchSheep["rear_sheep"], Is.EqualTo(new Vector2Int(11, 4)));
+            Assert.That(session.AdvanceWind().accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+        }
         [TestCase(0)][TestCase(1)][TestCase(2)][TestCase(3)]
         public void BlowerStartsWithConfiguredRangeAndMatchingPreview(int phase)
         {
@@ -466,6 +510,7 @@ namespace ANIMOL.Tests
             var map = Clone(20);
             map.scenario.nests.Add(new Vector2Int(3, 4));
             var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
             Assert.That(session.Apply(Vector2Int.up).accepted, Is.True);
             Assert.That(session.NestPresent(new Vector2Int(3, 4)), Is.True);
             Assert.That(session.WindCells.ContainsKey(new Vector2Int(3, 4)), Is.False);

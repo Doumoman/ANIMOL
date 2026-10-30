@@ -69,6 +69,7 @@ namespace ANIMOL.Puzzle
                 if (!EventSystem.current) new GameObject("Puzzle EventSystem", typeof(EventSystem), typeof(StandaloneInputModule)).transform.SetParent(transform, false);
             }
             Status = "";
+            ContinueWind();
         }
         public bool RequestMove(Vector2Int direction)
         {
@@ -124,6 +125,17 @@ namespace ANIMOL.Puzzle
             if (CharacterVisual) CharacterVisual.SetIdle();
             if (FollowCamera) FollowCamera.Cut();
             Status = Session.Won ? "Stage clear" : Session.Failed ? Session.Failure : "";
+            ContinueWind();
+        }
+        void ContinueWind()
+        {
+            // Certified V3 stages compare every state with their authored input transcript.
+            if (IsMoving || Session == null || Session.Won || Session.Failed || Strict != null) return;
+            var result = Session.AdvanceWind();
+            if (!result.accepted) return;
+            IsMoving = true;
+            var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
+            StartCoroutine(Animate(result, eventPrefix, presentationGeneration));
         }
         IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation)
         {
@@ -237,7 +249,9 @@ namespace ANIMOL.Puzzle
                 else CharacterVisual.SetIdle();
             }
             Status = Session.Won ? "Stage clear" : Session.Failed ? Session.Failure : "";
-            IsMoving = false; var next = queuedInput; queuedInput = Vector2Int.zero; if (next != Vector2Int.zero) RequestMove(next);
+            IsMoving = false; var next = queuedInput; queuedInput = Vector2Int.zero;
+            if (next != Vector2Int.zero && RequestMove(next)) yield break;
+            ContinueWind();
         }
         void LateUpdate()
         {

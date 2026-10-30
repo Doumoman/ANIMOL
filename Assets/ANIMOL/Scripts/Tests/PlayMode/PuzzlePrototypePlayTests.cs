@@ -47,6 +47,29 @@ namespace ANIMOL.Tests
             var boat=controller.Devices.Actor("boat");Assert.That(Vector2.Distance(boat.position,controller.Player.position),Is.LessThan(.01f));
             yield return WaitIdle();Assert.That(controller.Session.Cell,Is.EqualTo(new Vector2Int(3,2)));
         }
+        [UnityTest] public IEnumerator ActiveBlowerKeepsPushingAfterLoadWithoutPlayerMoves()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root + "Device20_Wind.asset");
+            var map = Object.Instantiate(source);
+            var scenario = Object.Instantiate(source.scenario);
+            map.scenario = scenario;
+            scenario.devices.First(d => d.id == "blower").orientation = 1;
+            scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
+            scenario.devices.Add(new PrototypeDevice { id = "idle_wood", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(2, 4), direction = Vector2Int.right, artTheme = "starway",
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/crate_wood.prefab") });
+            try
+            {
+                controller.Load(map);
+                yield return WaitIdle();
+                Assert.That(controller.Session.States["idle_wood"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+                Assert.That((Vector2)controller.Devices.Actor("idle_wood").position,
+                    Is.EqualTo(new Vector2(5, 4)));
+                Assert.That(controller.Session.Cost, Is.Zero);
+                Assert.That(controller.BlocksInput, Is.False);
+            }
+            finally { Object.Destroy(map); Object.Destroy(scenario); }
+        }
         [UnityTest] public IEnumerator DistantPortalCutsCameraAndNeverInterpolatesAcrossGap()
         {
             var original=AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root+"Device16_Portal.asset");var map=Object.Instantiate(original);var scenario=Object.Instantiate(map.scenario);map.scenario=scenario;

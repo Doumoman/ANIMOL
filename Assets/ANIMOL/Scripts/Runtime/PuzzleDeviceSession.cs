@@ -232,6 +232,24 @@ namespace ANIMOL.Puzzle
             if (result.accepted) { undo.Push(Copy()); CopyFrom(next); }
             return result;
         }
+        public PrototypeAction AdvanceWind()
+        {
+            if (Won || Failed || windRoutes.Count == 0)
+                return new PrototypeAction { reason = "Wind settled" };
+            var next = Copy();
+            next.group = 0; next.events.Clear(); next.newlyArmed.Clear(); next.pushedThisAction.Clear();
+            next.forced = next.sliding = next.stationaryPush = false;
+            next.PulseWind(true);
+            if (next.windOwners.TryGetValue(next.Cell, out var owner) &&
+                next.Definition(owner)?.variant == "blower") next.Automatic();
+            if (!next.events.Any(e => e.kind == PrototypeEventKind.Move))
+                return new PrototypeAction { reason = "Wind settled" };
+            next.RefreshLinks(true); next.TraceLight(); next.TraceWind();
+            if (!next.Supported(next.Cell) && string.IsNullOrEmpty(next.BoatId)) next.Fail("Support lost");
+            next.Victory();
+            CopyFrom(next);
+            return new PrototypeAction { accepted = true, events = next.events };
+        }
         PrototypeAction Resolve(Vector2Int direction)
         {
             Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
@@ -767,15 +785,7 @@ namespace ANIMOL.Puzzle
                     else Visual(d, "blocked_" + Dir(s.lookDirection), "doll_retreat_cell_blocked");
                 }
             }
-            TraceWind();
-            // Keep this action's shadow even if its first blocker moves or disappears.
-            var pulseCells = new Dictionary<Vector2Int, Vector2Int>(WindCells);
-            var pulseOwners = new Dictionary<Vector2Int, string>(windOwners);
-            var pulseRoutes = new Dictionary<string, WindRoute>(windRoutes, StringComparer.Ordinal);
-            var carrierRoutes = pulseRoutes.Where(p => p.Value.stopReason == WindStopReason.MovableBlock)
-                .ToDictionary(p => p.Key, p => WindCarrierRoute(p.Key, p.Value), StringComparer.Ordinal);
-            WindPulse(pulseCells, pulseOwners, pulseRoutes, carrierRoutes);
-            WindSheepPulse(pulseOwners, pulseRoutes, carrierRoutes);
+            PulseWind();
             foreach (var bomb in definitions.Where(d => d.role == PrototypeRole.Bomb && !states[d.id].removed && states[d.id].timer > 0 && !newlyArmed.Contains(d.id)))
             {
                 var s = states[bomb.id]; s.timer--;
@@ -784,6 +794,22 @@ namespace ANIMOL.Puzzle
             }
             RefreshLinks(true); TraceLight(); TraceWind();
             if (!Supported(Cell) && string.IsNullOrEmpty(BoatId)) Fail("Support lost");
+        }
+        void PulseWind(bool blowerOnly = false)
+        {
+            TraceWind();
+            // Keep this pulse's shadow even if its first blocker moves or disappears.
+            var pulseCells = new Dictionary<Vector2Int, Vector2Int>(WindCells);
+            var pulseOwners = new Dictionary<Vector2Int, string>(windOwners);
+            if (blowerOnly)
+                foreach (var cell in pulseOwners.Where(p => Definition(p.Value)?.variant != "blower")
+                    .Select(p => p.Key).ToArray())
+                { pulseOwners.Remove(cell); pulseCells.Remove(cell); }
+            var pulseRoutes = new Dictionary<string, WindRoute>(windRoutes, StringComparer.Ordinal);
+            var carrierRoutes = pulseRoutes.Where(p => p.Value.stopReason == WindStopReason.MovableBlock)
+                .ToDictionary(p => p.Key, p => WindCarrierRoute(p.Key, p.Value), StringComparer.Ordinal);
+            WindPulse(pulseCells, pulseOwners, pulseRoutes, carrierRoutes);
+            WindSheepPulse(pulseOwners, pulseRoutes, carrierRoutes);
         }
         void AdvanceStage(PrototypeDevice d)
         {
