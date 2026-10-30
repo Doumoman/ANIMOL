@@ -306,12 +306,30 @@ namespace ANIMOL.Presentation.Editor
                 roles.Select(value => DeviceName(value)).ToArray(), roles.Select(value => (int)value).ToArray());
             var blower = role.intValue == (int)PrototypeRole.Wind &&
                 device.FindPropertyRelative("variant").stringValue == "blower";
+            var cornerBounce = role.intValue == (int)PrototypeRole.Bounce &&
+                device.FindPropertyRelative("variant").stringValue != "slash" &&
+                device.FindPropertyRelative("variant").stringValue != "backslash";
+            var mirrorBounce = role.intValue == (int)PrototypeRole.Bounce && !cornerBounce;
             var fields = new[] { "id", "variant", "group", "artTheme", "visualPrefab", "initialVisual", "position", "direction", "target", "orientation", "number", "active" };
             var labels = new[] { "장치 ID", "구성 종류", "연결 그룹", "그림 테마 ID", "장치 그림 프리팹", "첫 그림 상태", "배치 좌표", "방향 벡터", "목적지", "회전 값", "숫자", "처음 활성화" };
             for (var i = 0; i < fields.Length; i++)
             {
                 if (blower && (fields[i] == "orientation" || fields[i] == "active")) continue;
+                if (cornerBounce && (fields[i] == "direction" || fields[i] == "orientation")) continue;
+                if (mirrorBounce && (fields[i] == "variant" || fields[i] == "direction" || fields[i] == "orientation")) continue;
                 EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+            }
+            if (cornerBounce)
+            {
+                var orientation = device.FindPropertyRelative("orientation");
+                orientation.intValue = EditorGUILayout.IntPopup("반사판 방향", orientation.intValue,
+                    BounceCornerNames, BounceCornerValues);
+            }
+            if (mirrorBounce)
+            {
+                var variant = device.FindPropertyRelative("variant");
+                variant.stringValue = EditorGUILayout.Popup("반사판 기울기", variant.stringValue == "slash" ? 0 : 1,
+                    BounceSlopeNames) == 0 ? "slash" : "backslash";
             }
             if (blower)
             {
@@ -682,6 +700,28 @@ namespace ANIMOL.Presentation.Editor
             variant == "a" ? "A" : variant == "b" ? "B" : variant;
         static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " + DeviceName(device.role) +
             (string.IsNullOrEmpty(device.variant) ? "" : " · " + VariantName(device.variant));
+        static readonly string[] BounceCornerNames = { "왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래" };
+        static readonly int[] BounceCornerValues = { 0, 1, 2, 3 };
+        static readonly string[] BounceSlopeNames = { "슬래시 (/)", "역슬래시 (\\)" };
+        static bool IsCornerBounce(PrototypeDevice device) => device.role == PrototypeRole.Bounce &&
+            device.variant != "slash" && device.variant != "backslash";
+        static bool IsMirrorBounce(PrototypeDevice device) => device.role == PrototypeRole.Bounce && !IsCornerBounce(device);
+        public static void SetBounceCorner(PrototypeDevice device, int corner)
+        {
+            if (device == null || !IsCornerBounce(device) || corner < 0 || corner > 3)
+                throw new ArgumentException("A corner bounce device and a direction from 0 to 3 are required.");
+            device.orientation = corner;
+        }
+        public static void SetBounceSlope(PrototypeDevice device, string variant)
+        {
+            if (device == null || !IsMirrorBounce(device) || variant != "slash" && variant != "backslash")
+                throw new ArgumentException("A mirror bounce device and a slash or backslash variant are required.");
+            device.variant = variant;
+        }
+        static string DeviceFacingName(PrototypeDevice device) => IsCornerBounce(device)
+            ? BounceCornerNames[((device.orientation % 4) + 4) % 4] :
+            IsMirrorBounce(device) ? (device.variant == "slash" ? BounceSlopeNames[0] : BounceSlopeNames[1]) :
+            DirectionName(device.direction);
         public static DeviceTemplate[] LoadPracticeTemplates()
         {
             const string path = "Assets/ANIMOL/Data/Puzzle/Prototypes";
@@ -716,7 +756,7 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.HelpBox("장치 시나리오의 테마 저장 ID가 현재 맵 테마와 다릅니다. 시나리오 설정을 확인하세요.", MessageType.Warning);
             inspectDevice = GUILayout.Toggle(inspectDevice, "왼쪽 클릭으로 배치된 장치 선택");
             showConnections = GUILayout.Toggle(showConnections, "연결선과 작동 범위 표시");
-            if (inspectDevice) EditorGUILayout.HelpBox("장치를 누르면 설정을 볼 수 있습니다. 새 장치를 놓으려면 선택 모드를 끄세요. 오른쪽 드래그로 지웁니다.", MessageType.Info);
+            if (inspectDevice) EditorGUILayout.HelpBox("장치를 누르면 설정을 볼 수 있습니다. 지우개를 켜면 선택 모드에서도 왼쪽 클릭으로 모든 종류의 장치를 지웁니다.", MessageType.Info);
             var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치" });
             if (useLibrary != (source == 0))
             { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; }
@@ -767,7 +807,7 @@ namespace ANIMOL.Presentation.Editor
                         DrawDeviceThumbnail(new Rect(row.x + 8, row.y + 7, 48, 48), device);
                         GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), DeviceLabel(device), EditorStyles.boldLabel);
                         GUI.Label(new Rect(row.x + 62, row.y + 34, row.width - 66, 24),
-                            useLibrary ? "방향 " + DirectionGlyph(device.direction) + " · " +
+                            useLibrary ? "방향 " + DeviceFacingName(device) + " · " +
                                 (RanchDevicesV13EditorPreview.Covers(map.theme, device) ? "V13 그림" :
                                     device.visualPrefab ? "기존 그림" : "그림 없음") :
                                 "장치 ID: " + device.id, EditorStyles.miniLabel);
@@ -791,16 +831,45 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.LabelField("선택한 장치", EditorStyles.boldLabel);
             var placed = map.scenario.devices[selected];
             EditorGUILayout.LabelField(placed.id + " / " + DeviceName(placed.role));
-            EditorGUILayout.LabelField("바라보는 방향");
+            EditorGUILayout.LabelField(IsCornerBounce(placed) ? "반사판 방향" :
+                IsMirrorBounce(placed) ? "반사판 기울기" : "바라보는 방향");
             EditorGUILayout.BeginHorizontal();
-            foreach (var heading in PuzzleAutotile.Cardinal)
-                if (GUILayout.Toggle(placed.direction == heading, DirectionName(heading),
-                    EditorStyles.miniButton, GUILayout.Width(58)) && placed.direction != heading)
+            if (IsCornerBounce(placed))
+            {
+                for (var corner = 0; corner < BounceCornerNames.Length; corner++)
+                    if (GUILayout.Toggle(placed.orientation == corner, BounceCornerNames[corner],
+                        EditorStyles.miniButton) && placed.orientation != corner)
+                    {
+                        Undo.RecordObject(map.scenario, "반사판 방향 변경");
+                        SetBounceCorner(placed, corner);
+                        EditorUtility.SetDirty(map.scenario);
+                    }
+            }
+            else if (IsMirrorBounce(placed))
+            {
+                for (var slope = 0; slope < BounceSlopeNames.Length; slope++)
                 {
-                    Undo.RecordObject(map.scenario, "장치 방향 변경");
-                    placed.direction = heading;
-                    EditorUtility.SetDirty(map.scenario);
+                    var variant = slope == 0 ? "slash" : "backslash";
+                    if (GUILayout.Toggle(placed.variant == variant, BounceSlopeNames[slope],
+                        EditorStyles.miniButton) && placed.variant != variant)
+                    {
+                        Undo.RecordObject(map.scenario, "반사판 기울기 변경");
+                        SetBounceSlope(placed, variant);
+                        EditorUtility.SetDirty(map.scenario);
+                    }
                 }
+            }
+            else
+            {
+                foreach (var heading in PuzzleAutotile.Cardinal)
+                    if (GUILayout.Toggle(placed.direction == heading, DirectionName(heading),
+                        EditorStyles.miniButton, GUILayout.Width(58)) && placed.direction != heading)
+                    {
+                        Undo.RecordObject(map.scenario, "장치 방향 변경");
+                        placed.direction = heading;
+                        EditorUtility.SetDirty(map.scenario);
+                    }
+            }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.LabelField("연결 그룹", string.IsNullOrEmpty(placed.group) ? "없음" : placed.group);
             if (!string.IsNullOrEmpty(placed.group))
@@ -965,6 +1034,21 @@ namespace ANIMOL.Presentation.Editor
             var removed = target.scenario.nests != null && target.scenario.nests.RemoveAll(p => p == cell) > 0;
             foreach (var chick in target.scenario.devices.Where(d => d.role == PrototypeRole.Chick && d.target == cell))
             { chick.target = Vector2Int.zero; removed = true; }
+            return removed;
+        }
+        public static bool TryEraseDeviceAt(PuzzleMap target, Vector2Int cell)
+        {
+            if (!target) return false;
+            var removed = false;
+            if (target.scenario)
+            {
+                if (target.scenario.NestCells.Contains(cell)) removed = TryEraseNest(target, cell);
+                while (TryEraseRanchArt(target, cell)) removed = true;
+                removed = target.scenario.devices.RemoveAll(device => device.position == cell) > 0 || removed;
+                removed = target.scenario.water.RemoveAll(water => water == cell) > 0 || removed;
+            }
+            removed = target.devices.RemoveAll(device => device.position == cell) > 0 || removed;
+            if (removed) target.InvalidateIndex();
             return removed;
         }
         static bool TryValidateNestCell(PuzzleMap target, Vector2Int cell, out string error)
@@ -1386,7 +1470,7 @@ namespace ANIMOL.Presentation.Editor
                     {
                         if (e.type == EventType.MouseDown) selectedDecorationCell = p;
                     }
-                    else if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0)
+                    else if (layer == Layer.Device && map.scenario && inspectDevice && e.button == 0 && !erase)
                     {
                         var clicked = map.scenario.devices.FirstOrDefault(device => device.position == p);
                         if (linkTargetMode && clicked != null)
@@ -1504,7 +1588,7 @@ namespace ANIMOL.Presentation.Editor
             var selected = device.id == selectedDeviceId;
             var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
             EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
-            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DirectionName(device.direction), EditorStyles.whiteMiniLabel);
+            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DeviceFacingName(device), EditorStyles.whiteMiniLabel);
             if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
             if (!device.visualPrefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "그림 없음", EditorStyles.whiteMiniLabel);
         }
@@ -1646,7 +1730,7 @@ namespace ANIMOL.Presentation.Editor
                 var p = device.position;
                 var row = shownHeight - 1 - p.y;
                 if (p.x < xMin || p.x >= xMax || row < yMin || row >= yMax ||
-                    !PuzzleSession.IsCardinal(device.direction)) continue;
+                    !PuzzleSession.IsCardinal(device.direction) || device.role == PrototypeRole.Bounce) continue;
                 var size = Mathf.Clamp(cellSize * .34f, 12f, 22f);
                 var box = new Rect(origin.x + (p.x + 1) * cellSize - size - 2,
                     origin.y + row * cellSize + 2, size, size);
@@ -1918,7 +2002,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void Paint(Vector2Int p, bool remove)
         {
-            if (layer == Layer.Device && ranchArtBrush == "nest" &&
+            if (layer == Layer.Device && ranchArtBrush == "nest" && !remove &&
                 Event.current.type != EventType.MouseDown) return;
             if (layer == Layer.Terrain) { if (remove) map.RemoveTerrain(p); else map.SetTerrain(p, material, blocked); }
             if (layer == Layer.Device)
@@ -1928,10 +2012,9 @@ namespace ANIMOL.Presentation.Editor
                     Undo.RecordObject(map.scenario, "테마 장치 배치");
                     if (remove)
                     {
-                        if (ranchArtBrush == "water") map.scenario.water.RemoveAll(cell => cell == p);
-                        else if (ranchArtBrush == "nest") TryEraseNest(map, p);
-                        else if (!TryEraseRanchArt(map, p)) map.scenario.devices.RemoveAll(d => d.position == p);
+                        TryEraseDeviceAt(map, p);
                         if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
+                        if (!map.scenario.devices.Any(device => device.id == selectedDeviceId)) selectedDeviceId = null;
                     }
                     else if (ranchArtBrush == "nest")
                     {
@@ -1955,7 +2038,7 @@ namespace ANIMOL.Presentation.Editor
                         selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
                     EditorUtility.SetDirty(map.scenario);
                 }
-                else if (remove) map.SetDevice(new DeviceCell { position = p, kind = DeviceKind.None });
+                else if (remove) TryEraseDeviceAt(map, p);
             }
             if (layer == Layer.Decoration)
             {

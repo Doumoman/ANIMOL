@@ -332,6 +332,62 @@ namespace ANIMOL.Presentation.Tests
             }
             finally { Object.DestroyImmediate(host); map.scenario = null; Object.DestroyImmediate(scenario); }
         }
+        [Test] public void DeviceEraserRemovesNestArtWaterAndBothDeviceLists()
+        {
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.scenario = scenario;
+                var nest = new Vector2Int(3, 2);
+                scenario.nests.Add(nest);
+                var chick = new PrototypeDevice { id = "chick", role = PrototypeRole.Chick,
+                    position = new Vector2Int(1, 1), target = nest };
+                scenario.devices.Add(chick);
+                var bounce = new Vector2Int(2, 1);
+                scenario.devices.Add(new PrototypeDevice { id = "bounce", role = PrototypeRole.Bounce, position = bounce });
+                var pond = new RanchV13ArtPlacement { family = "sluice", position = new Vector2Int(1, 3),
+                    direction = Vector2Int.right, hasPondB = true, pondB = new Vector2Int(2, 3) };
+                scenario.ranchV13Art.Add(pond);
+                var water = new Vector2Int(4, 2);
+                scenario.water.Add(water);
+                var legacy = new Vector2Int(4, 3);
+                map.SetDevice(new DeviceCell { position = legacy, kind = DeviceKind.Ice });
+
+                foreach (var cell in new[] { nest, bounce, pond.pondB, water, legacy })
+                {
+                    Assert.That(PuzzleMapEditor.TryEraseDeviceAt(map, cell), Is.True, cell.ToString());
+                    Assert.That(PuzzleMapEditor.TryEraseDeviceAt(map, cell), Is.False, cell.ToString());
+                }
+                Assert.That(scenario.nests, Is.Empty);
+                Assert.That(chick.target, Is.EqualTo(Vector2Int.zero));
+                Assert.That(scenario.devices, Is.EqualTo(new[] { chick }));
+                Assert.That(scenario.ranchV13Art, Is.Empty);
+                Assert.That(scenario.water, Is.Empty);
+                Assert.That(map.DeviceAt(legacy).kind, Is.EqualTo(DeviceKind.None));
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
+        [TestCase(0, "nw"), TestCase(1, "ne"), TestCase(2, "se"), TestCase(3, "sw")]
+        public void BounceFacingSelectionUpdatesTheCornerUsedByGameplay(int corner, string expected)
+        {
+            var bounce = new PrototypeDevice { role = PrototypeRole.Bounce, direction = Vector2Int.right };
+            PuzzleMapEditor.SetBounceCorner(bounce, corner);
+            Assert.That(PuzzleDeviceSession.Corner(bounce.orientation), Is.EqualTo(expected));
+            Assert.That(bounce.direction, Is.EqualTo(Vector2Int.right));
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
+            Assert.That(RanchDevicesV13EditorPreview.TryDevice(map.theme, bounce, out _, out var key), Is.True);
+            Assert.That(key, Is.EqualTo("bounce_corner/" + expected + "/idle"));
+        }
+        [TestCase("slash", 1), TestCase("backslash", -1)]
+        public void MirrorBounceSlopeSelectionUpdatesReflectedTravel(string variant, int expectedX)
+        {
+            var bounce = new PrototypeDevice { role = PrototypeRole.Bounce, variant = "slash",
+                direction = Vector2Int.down };
+            PuzzleMapEditor.SetBounceSlope(bounce, variant);
+            Assert.That(PuzzleDeviceSession.ReflectMirror(Vector2Int.up, bounce.variant == "slash"),
+                Is.EqualTo(new Vector2Int(expectedX, 0)));
+            Assert.That(bounce.direction, Is.EqualTo(Vector2Int.down));
+        }
         [Test] public void SheepAndSluiceArtCanBePlacedWithoutInventingGameplayIds()
         {
             Fill();
