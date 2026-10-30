@@ -10,14 +10,39 @@ namespace ANIMOL.Puzzle.Tests
     public sealed class Starway20NativeTests
     {
         [Test]
+        public void CampaignContainsImportedFirstMapAndAllShiftedStages()
+        {
+            const string root = "Assets/ANIMOL/Data/Puzzle/MapData/starway/";
+            var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(root + "Starway21MapSet.asset");
+            Assert.That(set, Is.Not.Null);
+            Assert.That(set.maps.Count, Is.EqualTo(21));
+            for (var i = 0; i < set.maps.Count; i++)
+            {
+                var id = "SW" + (i + 1).ToString("00");
+                var entry = set.maps[i];
+                Assert.That(entry.sourceId, Is.EqualTo(id));
+                Assert.That(entry.stageName, Is.EqualTo(id));
+                Assert.That(entry.map, Is.Not.Null);
+                Assert.That(entry.map.name, Is.EqualTo(id));
+                Assert.That(AssetDatabase.GetAssetPath(entry.map), Is.EqualTo(root + id + "_MapData.asset"));
+                Assert.That(AssetDatabase.GetAssetPath(entry.map.scenario), Is.EqualTo(root + id + "_MapData.asset"));
+            }
+            var first = set.maps[0].map;
+            Assert.That(first.terrain.Count, Is.EqualTo(91));
+            Assert.That(first.bubbles.Count, Is.EqualTo(3));
+            Assert.That(first.scenario.devices.Count, Is.EqualTo(4));
+            Assert.That(first.ValidateMap(), Is.Empty);
+        }
+
+        [Test]
         public void UnchangedSeventeenNativeMapsReplayTheirSourceSolutions()
         {
             Assert.That(Starway20ReplayValidation.RunAll(new HashSet<string> { "SW01", "SW02", "SW03" }), Is.EqualTo("17/17"));
         }
 
-        [TestCase("SW01", 65)]
-        [TestCase("SW02", 43)]
+        [TestCase("SW02", 65)]
         [TestCase("SW03", 43)]
+        [TestCase("SW04", 43)]
         public void RevisedNativeMapReplaysSavedVerificationRoute(string id, int expectedCost)
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
@@ -46,9 +71,9 @@ namespace ANIMOL.Puzzle.Tests
             Assert.That(session.Collected, Is.Zero);
         }
 
-        [TestCase("SW01")]
         [TestCase("SW02")]
         [TestCase("SW03")]
+        [TestCase("SW04")]
         public void RevisedMapEditorUsesTheRanchTilesForEveryFloor(string id)
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
@@ -81,7 +106,7 @@ namespace ANIMOL.Puzzle.Tests
         public void StarwayBlankRowsControlCameraHeadroomAndFootroom()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset");
             var map = Object.Instantiate(source);
             var cameraObject = new GameObject("Starway camera focus test", typeof(Camera), typeof(PuzzleFollowCamera));
             var playerObject = new GameObject("Starway camera target test");
