@@ -11,7 +11,7 @@ namespace ANIMOL.Art.EchoRailCartV01
     {
         [Serializable] public sealed class RawSprite { public string key, file, sha256; public int width, height, ppu; public float pivotX, pivotY; }
         [Serializable] public sealed class RawClip { public string key; public string[] frames; public float fps; public bool loop; }
-        [Serializable] public sealed class RawCatalog { public string packageId; public int spriteCount, clipCount; public RawSprite[] sprites; public RawClip[] clips; }
+        [Serializable] public sealed class RawCatalog { public string packageId; public int installationRevision, spriteCount, clipCount; public RawSprite[] sprites; public RawClip[] clips; }
         static string Absolute(string assetPath) { return Path.Combine(Directory.GetParent(Application.dataPath).FullName, assetPath); }
         static string Hash(string path)
         {
@@ -38,13 +38,15 @@ namespace ANIMOL.Art.EchoRailCartV01
                 throw new InvalidOperationException("Select this package's catalog under Assets.");
             if (Hash(Absolute(path)) != EchoRailCartPinV01.Sha256) throw new InvalidOperationException("Catalog SHA256 mismatch.");
             var raw = JsonUtility.FromJson<RawCatalog>(File.ReadAllText(Absolute(path)));
-            if (raw == null || raw.packageId != EchoRailCartPinV01.Package || raw.sprites == null || raw.sprites.Length != 14 || raw.clips == null || raw.clips.Length != 12)
+            if (raw == null || raw.packageId != EchoRailCartPinV01.Package || raw.installationRevision != 2 ||
+                raw.spriteCount != EchoRailCartPinV01.SpriteCount || raw.clipCount != EchoRailCartPinV01.ClipCount ||
+                raw.sprites == null || raw.sprites.Length != EchoRailCartPinV01.SpriteCount || raw.clips == null || raw.clips.Length != EchoRailCartPinV01.ClipCount)
                 throw new InvalidOperationException("Incomplete rail-cart package.");
             string root = path.Substring(0, path.LastIndexOf('/')), output = root + "/_GeneratedRailCartV01";
             var names = new HashSet<string>(StringComparer.Ordinal);
             foreach (var s in raw.sprites)
                 if (s == null || string.IsNullOrEmpty(s.key) || !names.Add(s.key) || string.IsNullOrEmpty(s.file) || !s.file.StartsWith("Sprites/", StringComparison.Ordinal) || !s.file.EndsWith(".png", StringComparison.Ordinal) || s.file.Contains("..")
-                    || s.width != 320 || s.height != 320 || s.ppu != 256 || s.pivotX != .5f || s.pivotY != .5f || Hash(Absolute(root + "/" + s.file)) != s.sha256)
+                    || s.width < 1 || s.width > 1024 || s.height < 1 || s.height > 1024 || s.ppu != 256 || s.pivotX < 0 || s.pivotX > 1 || s.pivotY < 0 || s.pivotY > 1 || Hash(Absolute(root + "/" + s.file)) != s.sha256)
                     throw new InvalidOperationException("Invalid sprite source.");
             var clipNames = new HashSet<string>(StringComparer.Ordinal);
             foreach (var c in raw.clips)
@@ -54,9 +56,8 @@ namespace ANIMOL.Art.EchoRailCartV01
                 string target = output + "/" + c.key.Replace('/', '_') + ".anim";
                 var existing = AssetDatabase.LoadMainAssetAtPath(target);
                 if (existing != null && (!(existing is AnimationClip) ||
-                    existing.name != Path.GetFileNameWithoutExtension(target) &&
-                    existing.name != "EchoRailCartV01|" + c.key || EditorUtility.IsDirty(existing)))
-                    throw new InvalidOperationException("Foreign or dirty output clip.");
+                    existing.name != Path.GetFileNameWithoutExtension(target) && existing.name != "EchoRailCartV01|" + c.key ||
+                    EditorUtility.IsDirty(existing))) throw new InvalidOperationException("Foreign or dirty output clip.");
             }
             string catalogPath = output + "/EchoRailCartCatalog.asset";
             var old = AssetDatabase.LoadMainAssetAtPath(catalogPath);
@@ -68,13 +69,18 @@ namespace ANIMOL.Art.EchoRailCartV01
                 string asset = root + "/" + s.file; var importer = AssetImporter.GetAtPath(asset) as TextureImporter;
                 if (importer == null) { AssetDatabase.ImportAsset(asset, ImportAssetOptions.ForceSynchronousImport); importer = AssetImporter.GetAtPath(asset) as TextureImporter; }
                 if (importer == null) throw new InvalidOperationException("Texture importer missing: " + asset);
-                var settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings); settings.spriteAlignment = 9; settings.spritePivot = new Vector2(.5f, .5f); settings.spriteMeshType = SpriteMeshType.FullRect; importer.SetTextureSettings(settings);
-                importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single; importer.spritePixelsPerUnit = 256;
-                importer.filterMode = FilterMode.Bilinear; importer.wrapMode = TextureWrapMode.Clamp; importer.mipmapEnabled = false; importer.alphaIsTransparency = true;
+                var settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings); settings.spriteAlignment = 9; settings.spritePivot = new Vector2(s.pivotX, s.pivotY); settings.spriteMeshType = SpriteMeshType.FullRect; importer.SetTextureSettings(settings);
+                importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single; importer.spritePixelsPerUnit = s.ppu;
+                importer.filterMode = FilterMode.Bilinear; importer.wrapMode = s.key == "rail/material" ? TextureWrapMode.Repeat : TextureWrapMode.Clamp; importer.mipmapEnabled = false; importer.alphaIsTransparency = true;
                 importer.textureCompression = TextureImporterCompression.Uncompressed; importer.npotScale = TextureImporterNPOTScale.None; importer.maxTextureSize = 512;
+                if (s.key == "rail/material") importer.spritePackingTag = "";
                 foreach (string platform in new[] { "Android", "iPhone", "Standalone", "WebGL" }) importer.ClearPlatformTextureSettings(platform);
                 importer.SaveAndReimport(); Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(asset);
-                if (sprite == null || sprite.rect.width != 320 || sprite.rect.height != 320) throw new InvalidOperationException("Invalid imported sprite.");
+                if (sprite == null || sprite.rect.width != s.width || sprite.rect.height != s.height ||
+                    sprite.pixelsPerUnit != s.ppu || Vector2.Distance(sprite.pivot,
+                        new Vector2(s.pivotX * s.width, s.pivotY * s.height)) > .01f ||
+                    importer.filterMode != FilterMode.Bilinear || importer.wrapMode != (s.key == "rail/material" ? TextureWrapMode.Repeat : TextureWrapMode.Clamp))
+                    throw new InvalidOperationException("Invalid imported sprite settings: " + s.key);
                 sprites.Add(s.key, sprite); entries.Add(new EchoRailCartArtCatalogV01.SpriteEntry { key = s.key, sprite = sprite });
             }
             var clips = new List<EchoRailCartArtCatalogV01.ClipEntry>();
@@ -95,7 +101,7 @@ namespace ANIMOL.Art.EchoRailCartV01
             if (create) catalog = ScriptableObject.CreateInstance<EchoRailCartArtCatalogV01>();
             catalog.packageId = EchoRailCartPinV01.Package; catalog.sourceSha256 = EchoRailCartPinV01.Sha256; catalog.sprites = entries.ToArray(); catalog.clips = clips.ToArray();
             if (create) AssetDatabase.CreateAsset(catalog, catalogPath); else EditorUtility.SetDirty(catalog);
-            AssetDatabase.SaveAssets(); Debug.Log("Echo Rail Cart V01: 14 sprites / 12 clips generated. Gameplay is owned by the project host.");
+            AssetDatabase.SaveAssets(); Debug.Log("Echo Rail Cart V01: R2 current sprites and clips generated. Gameplay is owned by the project host.");
         }
     }
 }

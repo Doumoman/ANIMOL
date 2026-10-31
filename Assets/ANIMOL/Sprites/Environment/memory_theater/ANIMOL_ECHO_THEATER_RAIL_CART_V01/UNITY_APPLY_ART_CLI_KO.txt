@@ -1,38 +1,55 @@
-현재 Unity 프로젝트의 AGENTS.md와 잔영 극장 M06(행동 연동 이동 무대) 생성/카탈로그/렌더러/레일 배치 코드를 읽고 레일 카트 V01 아트를 연결하라.
+현재 Unity 프로젝트의 AGENTS.md와 잔영 극장 M06 생성/카탈로그/렌더러/레일 배치 코드를 읽고 레일 카트 V01 수정 R2를 적용하라.
 
-이번 범위는 스프라이트 설치와 시각 연결이다. RULES_KO.txt의 새 밀침/복귀 판정은 설계 인계이며 아직 제공 게임 코드로 구현되지 않았다.
-기존 탑승/운반 로직이 남아 있다면 아트 교체만으로 새 카트 로직이 완료됐다고 보고하지 말고 후속 변경 지점을 명시하라.
+사용자 의도: 바퀴를 별도 자산으로 나누지 않는다. 바퀴까지 포함된 카트 한 장이 레일에 맞게 보이도록 한다.
+이번 패키지는 아트와 표시 보조 소스다. 새 이동/밀침/복귀 게임 로직을 구현했다고 보고하지 않는다.
 
-1. ANIMOL_ECHO_THEATER_RAIL_CART_V01을 기존 극장 자산 옆 Assets 경로에 설치한다. 다른 V03 전체 폴더를 덮어쓰지 않는다.
-2. 새 PNG는14개이며320×320, PPU256, 중앙 Pivot, 논리 사각형(32,32,256,256)이다.
-   Bilinear/FullRect/무압축/Mipmap Off/NPOT None/Clamp를 적용한다. 프로젝트 전체 텍스처 설정을 바꾸지 않는다.
-3. 컴파일 후 Tools > ANIMOL > Echo Rail Cart V01 > Build art catalog and clips에서 이번 animation_catalog.json을 고른다.
-   _GeneratedRailCartV01/EchoRailCartCatalog.asset과12개 .anim을 생성한다. JSON 복사만으로 생성 완료를 보고하지 않는다.
+1. 기존 ANIMOL_ECHO_THEATER_RAIL_CART_V01 경로에 R2 파일을 교체한다.
+   기존 파일의 .meta와 이미 생성된 카탈로그/클립의 GUID를 유지한다. 다른 V03 전체 폴더를 덮어쓰지 않는다.
+   별도 복제 폴더에 같은 네임스페이스의 .cs를 중복 설치하지 않는다.
+2. animation_catalog.json의 installationRevision=2, Sprite16개, Clip12개인지 확인한다.
+   카트8개는 소품·차체·바퀴를 합친 PNG다. 카트당 SpriteRenderer 하나만 사용한다.
+   바퀴 전용 SpriteRenderer/자식 오브젝트/리그를 새로 만들지 않는다.
+3. PPU256, FullRect, Bilinear, 무압축, Mipmap Off, NPOT None을 적용한다.
+   카트448×448, Pivot(.5,192/448). 레일 타일320×320, Pivot(.5,.5).
+   재질512×64/받침320×96을 포함한 각 크기와 Pivot은 JSON을 따른다. 전체를 중앙 Pivot으로 덮어쓰지 않는다.
+   rail/material은 Repeat, 나머지는 Clamp. rail/material은 SpriteAtlas 패킹에서 제외한다.
+4. 컴파일 후 Tools > ANIMOL > Echo Rail Cart V01 > Build art catalog and clips에서 이번 animation_catalog.json을 고른다.
+   _GeneratedRailCartV01/EchoRailCartCatalog.asset과12개 .anim을 생성 또는 갱신한다.
+   JSON을 복사한 것만으로 생성 완료라고 보고하지 않는다.
 
 선택적 CLI:
 "<Unity Editor>" -batchmode -quit -projectPath "<project>" -executeMethod ANIMOL.Art.EchoRailCartV01.EchoRailCartBuilderV01.BuildFromCommandLine -echoRailCartCatalog "Assets/<path>/ANIMOL_ECHO_THEATER_RAIL_CART_V01/animation_catalog.json" -logFile "<log>"
 
-4. 실제 M06 등록 ID와 팩토리/프리팹/풀/저장 로드를 찾는다. 새 공식 장치 ID를 임의 부여하지 않는다.
-   기존 V03 카탈로그는 packageId/SHA를 고정하므로 새 JSON을 그 빌더에 그대로 넣지 않는다. 이번 빌더/카탈로그를 사용하거나 실제 레지스트리에 명시적으로 대응시킨다.
-5. 카트는 전용 시각 자식 Renderer 하나에 표시한다. 기본1×1 그림을 기존2×1 무대에 맞춰 비균일 확대하지 않는다.
-   기존 프리팹이2칸 점유라면 크기 차이를 보고하고 실제 논리 점유 변경을 아트만 보고 자동 확정하지 않는다.
-6. north/east/south/west를 확정된 카트 이동 방향에 연결하고 cart/<heading>/idle을 정지/이동의 기본 그림으로 쓴다.
-   레일의 모서리에서 실제 진행 방향이 바뀌면 해당 방향 그림으로 바꾼다. SpriteRenderer나 Collider 전체를90도 돌리지 않는다.
-7. 카트 좌표 이동은 기존 호스트의 확정 이동 tween이 소유한다. move 클립은 정적 한 프레임이며 좌표/턴을 이동시키지 않는다.
-   접촉 때 cart/<heading>/contact 클립 또는 EchoRailCartVisualV01.ApplyContactProgress를 사용한다.
-   이때 소품과 몸통은 고정되고 완충대 영역만 바뀐다. 매 Update에서 클립을0프레임으로 재시작하지 않는다.
-8. EchoRailCartVisualV01을 쓴다면 전용 자식에 붙여 Configure(catalog, out error) 후 ShowCart(heading)로 표시한다.
-   Animator와 이 컴포넌트가 같은 SpriteRenderer를 동시에 쓰지 않도록 한 경로만 선택한다.
-9. 레일은 별도 바닥 레이어다. rail_topology.json의 각 두 포트에 맞춰 ew/ns/ne/es/sw/wn을 선택한다.
-   셀 중심 간격은 실제 프로젝트의1칸이다. PNG320의 전체 폭으로 이웃 간격을 잡지 않는다. 논리 간격은256px/PPU256=1유닛이다.
-   레일 끝의 투명32px 여백은 그림 여백이다. Tilemap Atlas tight packing/rotation으로 연결 경계를 훼손하지 않는다.
-10. 기존 빈 무대/빈 카트 Sprite·애니메이션·풀 기본값이 새 카트에 덮어써지는 경로를 찾아 이번 장치에서 새 소품 적재 그림으로 연결한다.
-    다른 극장 장치와 다른 테마 자산을 일괄 삭제하지 않는다. 실제 참조가 남은 파일은 먼저 대응 경로를 확인한다.
-11. 입력→플레이어 이동→카트 한 칸→밀침/입력 전 P0 복귀 순서는 RULES_KO.txt를 후속 구현 기준으로 전달한다.
-    현재 프로젝트에 이 판정이 없다면 미구현이라고 명시한다. 새 아트에 탑승/운반 기능을 추가하지 않는다.
-12. 로드/Undo/Reset/풀 재사용 시 확정된 카트 좌표와 방향으로 표시를 재적용한다. 연출 콜백으로 턴/코스트/충돌 판정을 발생시키지 않는다.
-13. 실제 검사: 카탈로그14 Sprite/12 .anim, 네 방향 소품 적재 모습, 기존 빈 무대 fallback 없음, 레일6종 연결선과 회전 없는 방향 전환,
-    모바일 배율에서 카트/장애물 구분, 씬/에디터/풀/로드에서 같은 최신 그림을 쓰는지 확인한다.
-14. 아트 적용 결과와 실제 게임 로직 미구현 부분을 구분해 보고한다. 새 밀침/복귀 로직은 구현한 것처럼 표시하지 않는다.
+5. 실제 M06 장치 등록 ID, 프리팹, 팩토리, 풀, 저장 로드를 확인한다. 새 공식 ID를 임의 부여하지 않는다.
+   V03 전체 카탈로그의 고정 SHA 빌더에 이번 JSON을 넣지 않는다. 이번 빌더/카탈로그를 사용한다.
+6. 전용 시각 자식에 EchoRailCartVisualV01을 연결하고 Configure(catalog, out error) 후 표시한다.
+   ShowCart(heading, contact)를 쓴다. heading은 호스트가 확정한 north/east/south/west다.
+   모서리에서 실제 진행방향이 바뀌면 새 진행방향의 카트로 전환한다.
+   카트/Collider 전체를90도 회전시키지 않는다. Animator와 표시 컴포넌트가 같은 Renderer를 동시에 쓰지 않게 한다.
+7. 카트의 논리 점유는1×1 기준이다. 기존2×1 무대를 그림만 보고 비균일 확대하지 않는다.
+   1칸은256px/PPU256=1유닛이다. 프로젝트 cellSize가 다르면 카트 전체를 균일한 cellSize 배율로 맞춘다.
+   448px PNG 전체 폭이나320px 레일 PNG 전체 폭으로 이웃 셀 간격을 잡지 않는다.
+8. 레일 표시를 아래 두 방식 중 실제 프로젝트에 맞게 연결한다. 같은 경로를 중복으로 그리지 않는다.
+   A) 기존 Tilemap: rail/ew, ns, ne, es, sw, wn을 rail_topology.json에 맞춰 논리 셀 간격으로 배치한다.
+      두 선의 폭과 연결 위치가 일치한다. 직선 받침64px, 모서리 받침 약67.02px의 로컬 간격이다.
+   B) 전체 경로 등간격: 바닥 전용 EchoRailTrackViewV02.Configure(catalog, orderedCells, closed, cellSize, out error)를 쓴다.
+      orderedCells는 경로 순서의 상하좌우 인접 셀이다. 닫힌 루프의 첫 셀은 마지막에 중복하지 않는다.
+      Examples/R2_CLOSED_LOOP.json을 참고한다. 실제 경로를 그대로 전달하고 오류를 확인한다.
+      경로 전체 누적 길이로 받침을 배치해 마지막 연결부까지 간격을 맞춘다. 닫힌 루프는 약64px에서 균등 보정한다.
+      이 컴포넌트는 레일 바닥만 만든다. 카트·바퀴·점유·충돌·턴을 제어하지 않는다.
+      transform을 실제 보드 좌표계에 맞추고 sorting layer/order를 바닥<레일<카트 순서로 설정한다.
+9. 원래 cart/<heading>/idle,move,contact 키를 보존했다. move는 정적 한 프레임이며 호스트가 좌표를 이동시킨다.
+   연속 곡선 조향 애니메이션은 없다. 이것만으로 연속 곡선 주행이 구현됐다고 보고하지 않는다.
+   접촉 연출은 카탈로그의 contact 클립 또는 ApplyContactProgress를 사용한다.
+10. 기존 빈 이동 무대 Sprite/애니메이션/풀 기본값이 새 카트를 다시 덮어쓰는 경로를 찾아 최신 적재 카트로 연결한다.
+    로드/Undo/Reset/풀 재사용 시 확정 셀·연결 형태·진행방향·상태를 다시 표시한다.
+11. 게임 판정은 RULES_KO.txt의 입력→플레이어 이동→카트 한 칸→밀침/입력 전 P0 복귀 의도를 따른다.
+    이 프로젝트에 해당 코드가 없다면 미구현이라고 명시한다. 연출 콜백으로 턴/코스트/충돌을 발생시키지 않는다.
+12. 실제 검사:16 Sprite/12 .anim, 카트당 Renderer 하나, 별도 바퀴 자원 없음,
+    가로/세로의 바퀴 접촉, 직선과 네 모서리의 두 레일 선 연결, 받침의 연결부 간격,
+    같은 셀 크기/균일 배율, 소품 적재 모습, 기존 빈 무대 fallback 없음,
+    씬·에디터·풀·로드·Undo·Reset에서 최신 그림 적용을 확인한다.
+13. 실제 적용한 경로와 검사 결과를 보고한다. Unity를 실행하지 않았다면 컴파일/임포트/플레이를 NOT_RUN으로 구분한다.
 
-이 전달 환경의 파일/PNG/연결 단면/압축 검수는 수행했지만 Unity 컴파일/임포트/플레이는 NOT_RUN이다.
+전달 패키지의 오프라인 자원·기하·압축 검수와 실제 Unity 검수는 별개다.
+이 전달 환경에서 Unity 컴파일/임포트/플레이는 NOT_RUN이다.

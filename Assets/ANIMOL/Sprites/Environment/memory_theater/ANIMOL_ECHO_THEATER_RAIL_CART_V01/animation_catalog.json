@@ -1,517 +1,481 @@
 {
   "schemaVersion": 1,
   "packageId": "ANIMOL_ECHO_THEATER_RAIL_CART_V01",
-  "spriteCount": 14,
+  "spriteCount": 16,
   "clipCount": 12,
   "ppu": 256,
   "sprites": [
     {
       "key": "cart/south/idle",
       "file": "Sprites/cart/south/idle.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "527645bda148c6eedd8f220ab0ad2bf3f040de992abfbd8a1f5f7f7155ca7fd8",
+      "revision": "R2",
+      "sha256": "3d8d28ea0a9b2eb1b8920ed809fda7bfa4ba0fa3814084bf93ed318390d9d69d",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "south",
-        "uniformScale": 0.5823389021479713,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              0,
-              0,
-              444,
-              444
+            "point": [
+              0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              25,
-              25,
-              444,
-              400
-            ]
+            "key": "ns_right",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              0,
-              444,
-              444,
-              887
+            "point": [
+              -0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              25,
-              12,
-              444,
-              388
-            ]
+            "key": "ns_left",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.3125,
+              0.25
+            ],
+            "key": "ns_right",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              -0.3125,
+              0.25
+            ],
+            "key": "ns_left",
+            "angle": 0.0
           }
-        ],
-        "contactRect": null
+        ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/south/contact",
       "file": "Sprites/cart/south/contact.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "7e2f34a493a579d441957c99a04f4fbff2730b8d81967dda8626f509c3c2572c",
+      "revision": "R2",
+      "sha256": "29d9e71ae6004984760171f6cc3875a40f0f2d309dfc32889ac8d9ddb3f011d3",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "south",
-        "uniformScale": 0.5823389021479713,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              0,
-              0,
-              444,
-              444
+            "point": [
+              0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              25,
-              25,
-              444,
-              400
-            ]
+            "key": "ns_right",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              0,
-              444,
-              444,
-              887
+            "point": [
+              -0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              25,
-              12,
-              444,
-              388
-            ]
+            "key": "ns_left",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.3125,
+              0.25
+            ],
+            "key": "ns_right",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              -0.3125,
+              0.25
+            ],
+            "key": "ns_left",
+            "angle": 0.0
           }
-        ],
-        "contactRect": [
-          64,
-          238,
-          258,
-          286
         ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/east/idle",
       "file": "Sprites/cart/east/idle.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "f5b579081bf1cd4721f8f9f0d635e28c3056311e60dd02729cbb2cd1acbd6835",
+      "revision": "R2",
+      "sha256": "22cd9189e0e7366015827a3d69afd56f4cbad5496a9ec22826fb5790480a01ed",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "east",
-        "uniformScale": 0.5507900677200903,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              444,
-              0,
-              887,
-              444
+            "point": [
+              -0.25,
+              -0.3125
             ],
-            "alphaCrop": [
-              0,
-              29,
-              443,
-              412
-            ]
+            "key": "ew_near",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              444,
-              444,
-              887,
-              887
+            "point": [
+              -0.25,
+              0.3125
             ],
-            "alphaCrop": [
-              0,
-              14,
-              443,
-              399
-            ]
+            "key": "ew_far",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              -0.3125
+            ],
+            "key": "ew_near",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              0.3125
+            ],
+            "key": "ew_far",
+            "angle": 0.0
           }
-        ],
-        "contactRect": null
+        ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/east/contact",
       "file": "Sprites/cart/east/contact.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "524c373bc41e087e6519b38ac52444248f5f7bcef55962de409d16649bdb9738",
+      "revision": "R2",
+      "sha256": "c01f52e3ceb996557d8369aeec55dae3cfb7fc009073c7ff343114173a338b0b",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "east",
-        "uniformScale": 0.5507900677200903,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              444,
-              0,
-              887,
-              444
+            "point": [
+              -0.25,
+              -0.3125
             ],
-            "alphaCrop": [
-              0,
-              29,
-              443,
-              412
-            ]
+            "key": "ew_near",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              444,
-              444,
-              887,
-              887
+            "point": [
+              -0.25,
+              0.3125
             ],
-            "alphaCrop": [
-              0,
-              14,
-              443,
-              399
-            ]
+            "key": "ew_far",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              -0.3125
+            ],
+            "key": "ew_near",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              0.3125
+            ],
+            "key": "ew_far",
+            "angle": 0.0
           }
-        ],
-        "contactRect": [
-          238,
-          120,
-          289,
-          250
         ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/north/idle",
       "file": "Sprites/cart/north/idle.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "3a017a564e53c4e132f0d940cf4604cea2ca50f729ac0dddecb8954a41557b4e",
+      "revision": "R2",
+      "sha256": "4f7eb14f96de72febd76869d287f168f4d3b5a81b36f8654e3364a20f0169e35",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "north",
-        "uniformScale": 0.5907990314769975,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              887,
-              0,
-              1330,
-              444
+            "point": [
+              0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              15,
-              64,
-              428,
-              397
-            ]
+            "key": "ns_right",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              887,
-              444,
-              1330,
-              887
+            "point": [
+              -0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              15,
-              52,
-              427,
-              385
-            ]
+            "key": "ns_left",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.3125,
+              0.25
+            ],
+            "key": "ns_right",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              -0.3125,
+              0.25
+            ],
+            "key": "ns_left",
+            "angle": 0.0
           }
-        ],
-        "contactRect": null
+        ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/north/contact",
       "file": "Sprites/cart/north/contact.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "cd002455ae17eb2cfe5a3777096956fd8536d8840bdf51cbfb6b6ed8ce17a5dc",
+      "revision": "R2",
+      "sha256": "67584b7ef441ab6de4a269518be3f5af7c2b00c716883f0dda29e8c78346ee06",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "north",
-        "uniformScale": 0.5907990314769975,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              887,
-              0,
-              1330,
-              444
+            "point": [
+              0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              15,
-              64,
-              428,
-              397
-            ]
+            "key": "ns_right",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              887,
-              444,
-              1330,
-              887
+            "point": [
+              -0.3125,
+              -0.25
             ],
-            "alphaCrop": [
-              15,
-              52,
-              427,
-              385
-            ]
+            "key": "ns_left",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.3125,
+              0.25
+            ],
+            "key": "ns_right",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              -0.3125,
+              0.25
+            ],
+            "key": "ns_left",
+            "angle": 0.0
           }
-        ],
-        "contactRect": [
-          90,
-          62,
-          232,
-          134
         ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/west/idle",
       "file": "Sprites/cart/west/idle.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "b903edde302b6b547de33a7cf1c874aff7326828b791c2950a1b909b410e29b1",
+      "revision": "R2",
+      "sha256": "a2dfd3f0bdb450524f56ba924728f42f61b5960a3ba416c5101c8dce6afb7b8a",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "west",
-        "uniformScale": 0.5951219512195122,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              1330,
-              0,
-              1774,
-              444
+            "point": [
+              -0.25,
+              -0.3125
             ],
-            "alphaCrop": [
-              13,
-              26,
-              423,
-              413
-            ]
+            "key": "ew_near",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              1330,
-              444,
-              1774,
-              887
+            "point": [
+              -0.25,
+              0.3125
             ],
-            "alphaCrop": [
-              13,
-              13,
-              423,
-              399
-            ]
+            "key": "ew_far",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              -0.3125
+            ],
+            "key": "ew_near",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              0.3125
+            ],
+            "key": "ew_far",
+            "angle": 0.0
           }
-        ],
-        "contactRect": null
+        ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "cart/west/contact",
       "file": "Sprites/cart/west/contact.png",
-      "width": 320,
-      "height": 320,
+      "width": 448,
+      "height": 448,
       "ppu": 256,
       "pivotX": 0.5,
-      "pivotY": 0.5,
+      "pivotY": 0.42857142857142855,
       "logicalRect": [
-        32,
-        32,
+        96,
+        128,
         256,
         256
       ],
       "footprintX": 1,
       "footprintY": 1,
       "role": "blocking_cart",
-      "sha256": "e608b353d2f64acceb77b43c2a6df65abb582127d70192b239f4eb43fd6e3c01",
+      "revision": "R2",
+      "sha256": "5b6a8abb79f88dabdaf5828671a69062337465a99c8d99697c51ceabe4eac433",
       "source": {
-        "file": "Authoring~/native/cart_filled_flat.png",
-        "direction": "west",
-        "uniformScale": 0.5951219512195122,
-        "nativeCells": [
+        "nativeBody": "body_without_wheels_r2.png",
+        "authoringAssembly": "single exported cart PNG; no runtime wheel parts",
+        "wheelContacts": [
           {
-            "cellRect": [
-              1330,
-              0,
-              1774,
-              444
+            "point": [
+              -0.25,
+              -0.3125
             ],
-            "alphaCrop": [
-              13,
-              26,
-              423,
-              413
-            ]
+            "key": "ew_near",
+            "angle": 0.0
           },
           {
-            "cellRect": [
-              1330,
-              444,
-              1774,
-              887
+            "point": [
+              -0.25,
+              0.3125
             ],
-            "alphaCrop": [
-              13,
-              13,
-              423,
-              399
-            ]
+            "key": "ew_far",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              -0.3125
+            ],
+            "key": "ew_near",
+            "angle": 0.0
+          },
+          {
+            "point": [
+              0.25,
+              0.3125
+            ],
+            "key": "ew_far",
+            "angle": 0.0
           }
-        ],
-        "contactRect": [
-          31,
-          120,
-          82,
-          250
         ]
       },
-      "rideable": false,
-      "cargo": [
-        "prop_crate",
-        "folded_curtain",
-        "scenery_panel"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/ew",
@@ -530,23 +494,16 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "aab1c9207fcef22434dc535ab28e40002b61de5ab174868fd852a24bcd222dc9",
+      "revision": "R2",
+      "sha256": "2deba422d35089b39323819a145b0afc5bf76c4c8d3cd48866d93ba3c2a04fcc",
       "source": {
-        "file": "Authoring~/native/rail_straights.png",
-        "rect": [
-          38,
-          108,
-          495,
-          430
-        ],
-        "uniformScale": 0.40875912408759124,
-        "axisRepeat": true,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 4,
+        "localSpacingPixels": 64.0,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "east",
-        "west"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/ns",
@@ -565,23 +522,16 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "7df4c72ae2c2621711c476327ce8408077cc238b316bce58be8046f64cf73d18",
+      "revision": "R2",
+      "sha256": "aaf320fadf676ba02a23e71e0006d1d97d2daff1163c27e86f2894f7c1fae28a",
       "source": {
-        "file": "Authoring~/native/rail_straights.png",
-        "rect": [
-          602,
-          12,
-          960,
-          505
-        ],
-        "uniformScale": 0.3684210526315789,
-        "axisRepeat": true,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 4,
+        "localSpacingPixels": 64.0,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "north",
-        "south"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/ne",
@@ -600,42 +550,16 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "6b10840fa3e6d5476d489dc3f563a80251b0b3e32e59d4414cd5b6b00b055354",
+      "revision": "R2",
+      "sha256": "e526ebeee5b6142ec85ced96755307ef48c515f791a6fe5014f3082804915d79",
       "source": {
-        "file": "Authoring~/native/rail_corners.png",
-        "rect": [
-          90,
-          24,
-          670,
-          615
-        ],
-        "nativePorts": [
-          [
-            304,
-            40
-          ],
-          [
-            654,
-            426
-          ]
-        ],
-        "targetPorts": [
-          [
-            160,
-            32
-          ],
-          [
-            288,
-            160
-          ]
-        ],
-        "uniformScale": 0.34782608695652173,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 3,
+        "localSpacingPixels": 67.02064327658225,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "north",
-        "east"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/es",
@@ -654,42 +578,16 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "6cfcb0e2c2c3af54595fb90f11caaa8adc992dba4adb16b6037c19138c3b86b5",
+      "revision": "R2",
+      "sha256": "7644f153bf22fd56aaa1f2a8083ce288bbcbaeea231ca0812882970573653e1a",
       "source": {
-        "file": "Authoring~/native/rail_corners.png",
-        "rect": [
-          730,
-          20,
-          1263,
-          620
-        ],
-        "nativePorts": [
-          [
-            1228,
-            220.5
-          ],
-          [
-            921.5,
-            588
-          ]
-        ],
-        "targetPorts": [
-          [
-            288,
-            160
-          ],
-          [
-            160,
-            288
-          ]
-        ],
-        "uniformScale": 0.3798219584569733,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 3,
+        "localSpacingPixels": 67.02064327658225,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "east",
-        "south"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/sw",
@@ -708,42 +606,16 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "ed286d26f8f3e14e8567d140aecb019c3bf32261871fae2e24ebecbb60a41f70",
+      "revision": "R2",
+      "sha256": "80eea4ed4ad04200fba07be8992236e8f4b0f816664606372b096438871bef32",
       "source": {
-        "file": "Authoring~/native/rail_corners.png",
-        "rect": [
-          20,
-          686,
-          580,
-          1245
-        ],
-        "nativePorts": [
-          [
-            40,
-            856
-          ],
-          [
-            380.5,
-            1214
-          ]
-        ],
-        "targetPorts": [
-          [
-            32,
-            160
-          ],
-          [
-            160,
-            288
-          ]
-        ],
-        "uniformScale": 0.36649964209019326,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 3,
+        "localSpacingPixels": 67.02064327658225,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "south",
-        "west"
-      ]
+      "deriveColliderFromAlpha": false
     },
     {
       "key": "rail/wn",
@@ -762,42 +634,60 @@
       "footprintX": 1,
       "footprintY": 1,
       "role": "rail",
-      "sha256": "c3875c43260bc6c8ad06d651bc39a129093245cbcd92602bf987903a9eb690e0",
+      "revision": "R2",
+      "sha256": "c698906611238415bca26d8ff9da7d3aab1f1b96880e103a4fbd776ce41fd846",
       "source": {
-        "file": "Authoring~/native/rail_nw.png",
-        "rect": [
-          0,
-          0,
-          1289,
-          1221
-        ],
-        "nativePorts": [
-          [
-            712,
-            95
-          ],
-          [
-            20,
-            849
-          ]
-        ],
-        "targetPorts": [
-          [
-            160,
-            32
-          ],
-          [
-            32,
-            160
-          ]
-        ],
-        "uniformScale": 0.17704011065006917,
-        "nativeEdgeExtrusion": 32
+        "texture": "rail/material",
+        "sleeper": "rail/sleeper",
+        "sleeperCount": 3,
+        "localSpacingPixels": 67.02064327658225,
+        "globalSpacingForConnectedTrack": "EchoRailTrackViewV02"
       },
-      "ports": [
-        "west",
-        "north"
-      ]
+      "deriveColliderFromAlpha": false
+    },
+    {
+      "key": "rail/material",
+      "file": "Sprites/rail/material.png",
+      "width": 512,
+      "height": 64,
+      "ppu": 256,
+      "pivotX": 0.5,
+      "pivotY": 0.5,
+      "logicalRect": [
+        0,
+        0,
+        512,
+        64
+      ],
+      "footprintX": 1,
+      "footprintY": 1,
+      "role": "rail_material",
+      "revision": "R2",
+      "sha256": "6797e576f054465c7c652b4717e305f377eaaa7139401cbcf4066b085cddeade",
+      "source": {},
+      "deriveColliderFromAlpha": false
+    },
+    {
+      "key": "rail/sleeper",
+      "file": "Sprites/rail/sleeper.png",
+      "width": 320,
+      "height": 96,
+      "ppu": 256,
+      "pivotX": 0.5,
+      "pivotY": 0.5,
+      "logicalRect": [
+        60,
+        36,
+        200,
+        24
+      ],
+      "footprintX": 1,
+      "footprintY": 1,
+      "role": "rail_sleeper",
+      "revision": "R2",
+      "sha256": "89ae2a13a81b065e839a525fe410d2787b3aa4a93947a99e33a9f83d7b90b2ea",
+      "source": {},
+      "deriveColliderFromAlpha": false
     }
   ],
   "clips": [
@@ -941,5 +831,10 @@
       "loop": false,
       "gameplayCommitFromAnimation": false
     }
-  ]
+  ],
+  "installationRevision": 2,
+  "cartRenderMode": "single combined PNG; no runtime wheel/body components",
+  "railGaugePixels": 160,
+  "wheelbasePixels": 128,
+  "sleeperPitchPixels": 64
 }

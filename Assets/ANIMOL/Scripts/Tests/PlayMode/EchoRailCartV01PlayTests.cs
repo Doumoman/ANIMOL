@@ -24,9 +24,12 @@ namespace ANIMOL.Tests
                 Assert.That(controller.RequestMove(Vector2Int.left), Is.True);
                 while (controller.IsMoving) yield return null;
                 AssertCart(controller);
+                var moved = controller.Session.Copy();
                 Assert.That(controller.UndoLast(), Is.True);
                 AssertCart(controller);
                 controller.ResetStage();
+                AssertCart(controller);
+                controller.RestoreSnapshot(moved);
                 AssertCart(controller);
                 controller.Load(map);
                 AssertCart(controller);
@@ -41,6 +44,7 @@ namespace ANIMOL.Tests
             var root = controller.Devices.Actor(stage.id);
             var visual = root.GetComponentInChildren<EchoRailCartVisualV01>();
             Assert.That(visual, Is.Not.Null);
+            Assert.That(root.GetComponentsInChildren<SpriteRenderer>().Length, Is.EqualTo(1));
             Assert.That(root.GetComponent<ANIMOL.Presentation.DeviceVisualView>().enabled, Is.False);
             var direction = controller.Session.States[stage.id].direction;
             var heading = direction == Vector2Int.up ? "north" : direction == Vector2Int.right ? "east" :
@@ -48,15 +52,22 @@ namespace ANIMOL.Tests
             Assert.That(visual.GetComponent<SpriteRenderer>().sprite,
                 Is.SameAs(controller.Session.Map.theme.echoRailCartV01Catalog.sprites
                     .First(s => s.key == "cart/" + heading + "/idle").sprite));
+            Assert.That(visual.GetComponent<SpriteRenderer>().sortingOrder, Is.EqualTo(30));
             Assert.That(root.localPosition, Is.EqualTo((Vector3)(Vector2)controller.Session.States[stage.id].cell));
             Assert.That(root.localRotation, Is.EqualTo(Quaternion.identity));
-            var rails = controller.Devices.GetComponentsInChildren<SpriteRenderer>()
-                .Where(r => r.name.StartsWith(stage.id + " rail ")).ToArray();
-            Assert.That(rails.Length, Is.EqualTo(stage.cells.Count));
-            Assert.That(rails.All(r => r.transform.localRotation == Quaternion.identity), Is.True);
-            var railSprites = controller.Session.Map.theme.echoRailCartV01Catalog.sprites
-                .Where(s => s.key.StartsWith("rail/")).Select(s => s.sprite).ToArray();
-            Assert.That(rails.All(r => railSprites.Contains(r.sprite)), Is.True);
+            var track = controller.Devices.GetComponentsInChildren<EchoRailTrackViewV02>()
+                .Single(t => t.name == stage.id + " rail track R2");
+            Assert.That(track.Path, Is.Not.Null);
+            Assert.That(track.Path.CellCount, Is.EqualTo(stage.cells.Count));
+            Assert.That(track.CellSize, Is.EqualTo(1f));
+            Assert.That(track.transform.localPosition, Is.EqualTo(Vector3.zero));
+            Assert.That(track.transform.localScale, Is.EqualTo(Vector3.one));
+            var rails = track.GetComponentsInChildren<MeshRenderer>();
+            var sleepers = track.GetComponentsInChildren<SpriteRenderer>();
+            Assert.That(rails.Length, Is.EqualTo(1));
+            Assert.That(rails[0].sortingOrder, Is.EqualTo(16));
+            Assert.That(sleepers.Length, Is.EqualTo(track.Path.SleeperCount));
+            Assert.That(sleepers.All(s => s.sortingOrder == 15), Is.True);
         }
     }
 }

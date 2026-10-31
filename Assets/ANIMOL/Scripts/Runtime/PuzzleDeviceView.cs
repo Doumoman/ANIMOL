@@ -150,17 +150,16 @@ namespace ANIMOL.Puzzle
                         continue;
                     }
                     railCarts.Add(d.id, visual);
-                    for (var i = 0; i < d.cells.Count; i++)
+                    var rail = new GameObject(d.id + " rail track R2");
+                    rail.transform.SetParent(transform, false);
+                    var track = rail.AddComponent<EchoRailTrackViewV02>();
+                    track.SetSorting("Default", 15);
+                    if (!track.Configure(catalog, d.cells.ToArray(), false, 1f, out error))
                     {
-                        if (!EchoRailCartRailTopologyV01.TryKey(d.cells, i, d.direction, out var key) ||
-                            !catalog.TrySprite("rail/" + key, out var railSprite))
-                        { MissingBindings++; Debug.LogError("Echo rail cart route art is invalid: " + d.id, root); continue; }
-                        var rail = new GameObject(d.id + " rail " + i);
-                        rail.transform.SetParent(transform, false);
-                        rail.transform.localPosition = (Vector2)d.cells[i];
-                        var floor = rail.AddComponent<SpriteRenderer>();
-                        floor.sprite = railSprite;
-                        floor.sortingOrder = 15;
+                        MissingBindings++;
+                        Debug.LogError("Echo rail cart route art is invalid: " + d.id + ": " + error, root);
+                        rail.SetActive(false);
+                        root.SetActive(false);
                     }
                     continue;
                 }
