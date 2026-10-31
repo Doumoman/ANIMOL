@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Gameplay.RanchDevicesR2;
+using ANIMOL.Art.EchoRailCartV01;
 
 namespace ANIMOL.Puzzle
 {
@@ -68,6 +69,12 @@ namespace ANIMOL.Puzzle
         public List<Vector2Int> cells = new List<Vector2Int>();
         public List<Vector2Int> blastOffsets = new List<Vector2Int>();
     }
+    // Floor routes are authored independently of carts. Existing cart cells remain a legacy fallback.
+    [Serializable] public sealed class PrototypeRailPath
+    {
+        public string id;
+        public List<Vector2Int> cells = new List<Vector2Int>();
+    }
     public enum PrototypeGoalKind { Active, Removed, Position, DiceTop, Visited }
     [Serializable] public sealed class PrototypeGoal
     {
@@ -84,6 +91,7 @@ namespace ANIMOL.Puzzle
         [Tooltip("Review/verification route, never used by gameplay.")] public string verificationRoute;
         public GameObject beamPrefab;
         public List<PrototypeDevice> devices = new List<PrototypeDevice>();
+        public List<PrototypeRailPath> railPaths = new List<PrototypeRailPath>();
         public List<Vector2Int> nests = new List<Vector2Int>();
         public List<RanchV13ArtPlacement> ranchV13Art = new List<RanchV13ArtPlacement>();
         public List<Vector2Int> water = new List<Vector2Int>();
@@ -92,6 +100,10 @@ namespace ANIMOL.Puzzle
             devices.Where(d => d.role == PrototypeRole.Chick && d.target != Vector2Int.zero)
                 .Select(d => d.target)).Distinct();
         [Tooltip("0 = unlimited. Valid actions cost 1, invalid input and auto movement cost 0.")] public int costLimit;
+        public PrototypeRailPath RailPathAt(Vector2Int cell) =>
+            railPaths?.FirstOrDefault(path => path != null && path.cells != null && path.cells.Contains(cell));
+        public IReadOnlyList<Vector2Int> RailCellsFor(PrototypeDevice cart) =>
+            RailPathAt(cart.position)?.cells ?? (IReadOnlyList<Vector2Int>)cart.cells;
         [Tooltip("Prototype policy: hold occupied bridge spans; close after they clear.")] public bool holdOccupiedBridge = true;
         [Tooltip("Prototype policy: all shutters advance phase; occupied shutter stays open.")] public bool shutterPhaseAdvancesWhenOccupied = true;
         [Tooltip("Prototype policy: reject blocked landing before entering leap pad.")] public bool leapSkipsIntermediate = true;
@@ -135,12 +147,34 @@ namespace ANIMOL.Puzzle
                 errors.Add("Ranch placement instance IDs must be unique.");
             if (devices.Any(d => string.IsNullOrEmpty(d.id))) errors.Add("Every prototype device needs an ID.");
             if (devices.GroupBy(d => d.id).Any(g => g.Count() > 1)) errors.Add("Prototype device IDs must be unique.");
+            if (railPaths != null)
+            {
+                if (themeId != "memory_theater" && railPaths.Count > 0)
+                    errors.Add("Rail paths require the memory theater theme.");
+                if (railPaths.Any(path => path == null || string.IsNullOrEmpty(path.id) || path.cells == null) ||
+                    railPaths.Where(path => path != null).GroupBy(path => path.id).Any(group => group.Count() > 1))
+                    errors.Add("Rail paths need unique IDs and ordered cells.");
+                var used = new HashSet<Vector2Int>();
+                foreach (var path in railPaths.Where(path => path != null && path.cells != null))
+                {
+                    var cells = path.cells;
+                    if (cells.Any(cell => !map.Contains(cell) || !map.Walkable(cell) || water.Contains(cell)))
+                        errors.Add("Rail path needs walkable in-bounds terrain: " + path.id);
+                    if (cells.Any(cell => !used.Add(cell))) errors.Add("Rail paths overlap: " + path.id);
+                    var closed = cells.Count >= 4 && (cells[0] - cells[cells.Count - 1]).sqrMagnitude == 1;
+                    if (!EchoRailPathV02.TryCreate(cells.ToArray(), closed, out _, out var railError))
+                        errors.Add("Invalid rail path " + path.id + ": " + railError);
+                }
+            }
             foreach (var d in devices.Where(d => map.Contains(d.position)))
             {
                 if (!PuzzleSession.IsCardinal(d.direction)) errors.Add("Invalid direction: " + d.id);
                 if (d.role == PrototypeRole.Bomb && d.blastOffsets.Count == 0) errors.Add("Author explicit bomb footprint offsets: " + d.id);
                 if (d.role == PrototypeRole.Portal && !map.Contains(d.target)) errors.Add("Portal destination outside map: " + d.id);
-                if (d.role == PrototypeRole.MovingStage && d.cells.Count < 2) errors.Add("Moving stage needs a rail: " + d.id);
+                if (d.role == PrototypeRole.MovingStage && (RailCellsFor(d)?.Count ?? 0) < 2)
+                    errors.Add("Moving stage needs a rail: " + d.id);
+                else if (d.role == PrototypeRole.MovingStage && !RailCellsFor(d).Contains(d.position))
+                    errors.Add("Moving stage must start on its rail: " + d.id);
                 if (d.role == PrototypeRole.Chick && d.target != Vector2Int.zero && !map.Walkable(d.target))
                     errors.Add("Chick nest needs walkable terrain: " + d.id);
                 if (d.role == PrototypeRole.StarSocket && d.variant == "socket")

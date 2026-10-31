@@ -115,6 +115,68 @@ namespace ANIMOL.Tests
             finally { Object.Destroy(host); }
         }
 
+        [UnityTest] public IEnumerator IndependentRailDrawsOnceAndCarriesCartAfterReload()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.start = new Vector2Int(1, 4);
+            map.scenario.costLimit = 0;
+            var cart = map.scenario.devices.Single(d => d.role == PrototypeRole.MovingStage);
+            cart.cells.Clear();
+            map.scenario.railPaths.Add(new PrototypeRailPath { id = "rail_1", cells = new List<Vector2Int>
+            {
+                new Vector2Int(2, 2), new Vector2Int(3, 2), new Vector2Int(3, 3), new Vector2Int(2, 3)
+            } });
+            map.InvalidateIndex();
+            var host = new GameObject("M06 independent rail test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                Assert.That(controller.Devices.GetComponentsInChildren<EchoRailTrackViewV02>().Length, Is.EqualTo(1));
+                var track = controller.Devices.GetComponentInChildren<EchoRailTrackViewV02>();
+                Assert.That(track.name, Is.EqualTo("rail_1 rail track R2"));
+                Assert.That(track.Path.CellCount, Is.EqualTo(4));
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That(controller.Session.States[cart.id].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.States[cart.id].cell, Is.EqualTo(new Vector2Int(2, 2)));
+                controller.Load(map);
+                Assert.That(controller.Devices.GetComponentsInChildren<EchoRailTrackViewV02>().Length, Is.EqualTo(1));
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+
+        [UnityTest] public IEnumerator FloorRailRemainsVisibleWithoutAnyCart()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.devices.Clear();
+            map.scenario.railPaths.Add(new PrototypeRailPath { id = "rail_1", cells = new List<Vector2Int>
+            {
+                new Vector2Int(2, 2), new Vector2Int(3, 2), new Vector2Int(4, 2)
+            } });
+            map.InvalidateIndex();
+            var host = new GameObject("M06 floor-only rail test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.Devices.GetComponentsInChildren<EchoRailTrackViewV02>().Length, Is.EqualTo(1));
+                Assert.That(controller.Devices.GetComponentInChildren<EchoRailTrackViewV02>().Path.CellCount, Is.EqualTo(3));
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                yield return null;
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+
         static void AssertCart(PuzzlePrototypeController controller)
         {
             var stage = controller.Session.Devices.First(d => d.role == PrototypeRole.MovingStage);

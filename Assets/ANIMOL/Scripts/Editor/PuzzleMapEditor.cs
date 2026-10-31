@@ -41,6 +41,8 @@ namespace ANIMOL.Presentation.Editor
         Marker marker;
         TerrainMaterial material;
         PrototypeDevice prototypeBrush;
+        bool railBrush;
+        string selectedRailPathId, railError;
         string ranchArtBrush, ranchArtError;
         [SerializeField] Vector2Int ranchPondBrushDirection = Vector2Int.right;
         RanchV13ArtPlacement selectedRanchArt;
@@ -98,6 +100,7 @@ namespace ANIMOL.Presentation.Editor
         {
             EndStroke(); map = data; selectedDeviceId = selectedSimpleDeviceLabel = null;
             selectedRanchArt = null; ranchArtBrush = ranchArtError = null;
+            railBrush = false; selectedRailPathId = railError = null;
             linkTargetMode = false; scenarioCreationError = decorationError = null;
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; if (map.theme) newMapTheme = map.theme; }
             Repaint();
@@ -363,7 +366,10 @@ namespace ANIMOL.Presentation.Editor
                     device.FindPropertyRelative("active").boolValue = selected != 0;
                 }
             }
-            DrawVectorArray(device.FindPropertyRelative("cells"), "점유·선로 칸");
+            if (role.intValue != (int)PrototypeRole.MovingStage)
+                DrawVectorArray(device.FindPropertyRelative("cells"), "점유 칸");
+            else if (device.FindPropertyRelative("cells").arraySize > 0)
+                DrawVectorArray(device.FindPropertyRelative("cells"), "기존 카트 선로 (독립 레일이 없을 때)");
             DrawVectorArray(device.FindPropertyRelative("blastOffsets"), "폭발 상대 좌표");
         }
         public static string TranslateValidation(string error)
@@ -375,17 +381,21 @@ namespace ANIMOL.Presentation.Editor
                 { "Every prototype device needs an ID.", "모든 장치에 ID가 필요합니다." },
                 { "Prototype device IDs must be unique.", "장치 ID가 중복되었습니다." },
                 { "Goal references missing device.", "추가 목표가 없는 장치를 참조합니다." },
+                { "Rail paths require the memory theater theme.", "레일 경로는 잔영 극장 테마에서만 사용할 수 있습니다." },
+                { "Rail paths need unique IDs and ordered cells.", "레일 경로마다 서로 다른 ID와 순서가 있는 칸 목록이 필요합니다." },
                 { "A required goal device is outside map bounds; expand or reposition it before playing.", "목표 장치가 맵 밖에 있습니다. 맵을 넓히거나 장치를 옮기세요." }
             };
             if (exact.TryGetValue(error, out var translated)) return translated;
             var prefixes = new[] { "Bubble has no walkable terrain: ", "Device has no walkable terrain: ", "Portal destination is outside or blocked: ",
                 "Device direction must be cardinal: ", "Invalid direction: ", "Author explicit bomb footprint offsets: ",
-                "Portal destination outside map: ", "Moving stage needs a rail: ",
+                "Portal destination outside map: ", "Moving stage needs a rail: ", "Moving stage must start on its rail: ",
+                "Rail path needs walkable in-bounds terrain: ", "Rail paths overlap: ", "Invalid rail path ",
                 "Socket bridge target is missing or outside map: ", "Socket bubble needs walkable terrain: ",
                 "Socket bubble is already visible: " };
             var replacements = new[] { "방울 칸에 통행 가능한 지형이 없습니다: ", "장치 칸에 통행 가능한 지형이 없습니다: ", "포털 목적지가 맵 밖이거나 막혔습니다: ",
                 "장치 방향은 상하좌우여야 합니다: ", "방향이 올바르지 않습니다: ", "폭탄의 폭발 범위를 지정하세요: ",
-                "포털 목적지가 맵 밖입니다: ", "이동 발판의 선로가 필요합니다: ",
+                "포털 목적지가 맵 밖입니다: ", "레일 카트에 선로가 필요합니다: ", "레일 카트는 선로 위에서 시작해야 합니다: ",
+                "레일은 맵 안의 통행 가능한 지형에 놓아야 합니다: ", "레일 경로가 겹칩니다: ", "레일 경로가 올바르지 않습니다: ",
                 "소켓이 펼칠 덩굴 다리를 선택하세요: ", "소켓 방울 칸에 통행 가능한 지형이 필요합니다: ",
                 "소켓 방울이 이미 일반 방울로 배치되어 있습니다: " };
             for (var i = 0; i < prefixes.Length; i++) if (error.StartsWith(prefixes[i], StringComparison.Ordinal)) return replacements[i] + error.Substring(prefixes[i].Length);
@@ -745,6 +755,8 @@ namespace ANIMOL.Presentation.Editor
         public static bool CanStampPrototype(PuzzleMap target, PrototypeDevice brush, Vector2Int anchor)
         {
             if (!target || !target.scenario || brush == null) return false;
+            if (brush.role == PrototypeRole.MovingStage && ThemeId(target.theme) == "memory_theater" &&
+                (target.scenario.RailPathAt(anchor)?.cells.Count ?? 0) < 2) return false;
             var occupied = DeviceFootprintAt(brush, anchor).ToArray();
             if (occupied.Any(p => !target.Contains(p))) return false;
             if (target.scenario.devices.Any(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate" &&
@@ -755,6 +767,59 @@ namespace ANIMOL.Presentation.Editor
                 target.scenario.devices.Any(d => InitialDeviceFootprint(d).Contains(p)) ||
                 target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(p)) ||
                 target.scenario.NestCells.Contains(p))) return false;
+            return true;
+        }
+        public static bool TryPlaceRailCell(PuzzleMap target, Vector2Int cell, string selectedPathId,
+            out string pathId, out string error)
+        {
+            pathId = null; error = null;
+            if (!target || !target.scenario || ThemeId(target.theme) != "memory_theater" ||
+                !target.Walkable(cell) || target.scenario.water.Contains(cell))
+            { error = "레일은 잔영 극장의 통행 가능한 마른 칸에 놓으세요."; return false; }
+            if (target.scenario.railPaths == null) target.scenario.railPaths = new List<PrototypeRailPath>();
+            var existing = target.scenario.RailPathAt(cell);
+            if (existing != null) { pathId = existing.id; return true; }
+            bool Adjacent(Vector2Int a, Vector2Int b) => (a - b).sqrMagnitude == 1;
+            bool CanExtend(PrototypeRailPath path) => path?.cells != null && path.cells.Count > 0 &&
+                !(path.cells.Count >= 4 && Adjacent(path.cells[0], path.cells[path.cells.Count - 1])) &&
+                (Adjacent(cell, path.cells[0]) || Adjacent(cell, path.cells[path.cells.Count - 1]));
+            var selected = target.scenario.railPaths.FirstOrDefault(path => path != null && path.id == selectedPathId);
+            var route = CanExtend(selected) ? selected : target.scenario.railPaths.FirstOrDefault(CanExtend);
+            if (route == null)
+            {
+                if (target.scenario.railPaths.Any(path => path?.cells != null &&
+                    path.cells.Any(railCell => Adjacent(cell, railCell))))
+                { error = "레일은 열린 경로의 끝 칸에만 이어 놓을 수 있습니다."; return false; }
+                var number = 1;
+                while (target.scenario.railPaths.Any(path => path != null && path.id == "rail_" + number)) number++;
+                route = new PrototypeRailPath { id = "rail_" + number };
+                route.cells.Add(cell);
+                target.scenario.railPaths.Add(route);
+            }
+            else
+            {
+                var neighbors = route.cells.Where(railCell => Adjacent(cell, railCell)).ToArray();
+                if (neighbors.Length > 1 && !(neighbors.Length == 2 && route.cells.Count >= 3 &&
+                    neighbors.Contains(route.cells[0]) && neighbors.Contains(route.cells[route.cells.Count - 1])))
+                { error = "레일이 갈라지지 않도록 한 경로에는 앞뒤 두 연결만 만드세요."; return false; }
+                if (Adjacent(cell, route.cells[route.cells.Count - 1])) route.cells.Add(cell);
+                else route.cells.Insert(0, cell);
+            }
+            pathId = route.id;
+            return true;
+        }
+        public static bool TryEraseRailCell(PuzzleMap target, Vector2Int cell, out string error)
+        {
+            error = null;
+            var route = target && target.scenario ? target.scenario.RailPathAt(cell) : null;
+            if (route == null) return false;
+            if (route.cells[0] != cell && route.cells[route.cells.Count - 1] != cell)
+            { error = "경로가 끊어지지 않도록 레일의 끝 칸부터 지우세요."; return false; }
+            if (target.scenario.devices.Any(device => device.role == PrototypeRole.MovingStage &&
+                route.cells.Contains(device.position) && (device.position == cell || route.cells.Count <= 2)))
+            { error = "이 레일에 있는 카트를 먼저 지우거나 옮기세요."; return false; }
+            route.cells.Remove(cell);
+            if (route.cells.Count == 0) target.scenario.railPaths.Remove(route);
             return true;
         }
         static readonly string[] BounceCornerNames = { "왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래" };
@@ -823,10 +888,11 @@ namespace ANIMOL.Presentation.Editor
                 map.scenario.devices.Where(entry => !string.IsNullOrEmpty(themeId) &&
                     (string.IsNullOrEmpty(entry.artTheme) || entry.artTheme == themeId) &&
                     !(entry.role == PrototypeRole.Wind && entry.variant == "field")).ToArray();
-            var choiceCount = ranchChoices.Length + choices.Length;
+            var railChoiceCount = useLibrary && themeId == "memory_theater" ? 1 : 0;
+            var choiceCount = railChoiceCount + ranchChoices.Length + choices.Length;
             if (choiceCount == 0)
             {
-                prototypeBrush = null; ranchArtBrush = null;
+                prototypeBrush = null; ranchArtBrush = null; railBrush = false;
                 EditorGUILayout.HelpBox(string.IsNullOrEmpty(themeId) ? "테마를 지정하면 해당 테마의 장치가 표시됩니다." :
                     "선택한 테마에 맞는 장치가 없습니다. 다른 목록을 선택하거나 이 맵에 장치를 추가하세요.", MessageType.Info);
             }
@@ -843,6 +909,7 @@ namespace ANIMOL.Presentation.Editor
                         templateIndex = i; selectedRanchArt = null; selectedSimpleDeviceLabel = null;
                         if (!useLibrary)
                         {
+                            railBrush = false;
                             selectedDeviceId = choices[i].id;
                             inspectDevice = true;
                             settingsScroll = Vector2.zero;
@@ -850,10 +917,12 @@ namespace ANIMOL.Presentation.Editor
                         else
                         {
                             selectedDeviceId = null; inspectDevice = false;
-                            if (i < ranchChoices.Length)
+                            railBrush = i < railChoiceCount;
+                            if (railBrush) ranchArtBrush = null;
+                            else if (i - railChoiceCount < ranchChoices.Length)
                             {
-                                ranchArtBrush = ranchChoices[i].family;
-                                ranchPondBrushDirection = ranchChoices[i].direction;
+                                ranchArtBrush = ranchChoices[i - railChoiceCount].family;
+                                ranchPondBrushDirection = ranchChoices[i - railChoiceCount].direction;
                             }
                             else ranchArtBrush = null;
                         }
@@ -861,9 +930,17 @@ namespace ANIMOL.Presentation.Editor
                     if (row.yMax < deviceListScroll.y || row.yMin > deviceListScroll.y + 260) continue;
                     if (useLibrary ? i == templateIndex : choices[i].id == selectedDeviceId)
                         EditorGUI.DrawRect(new Rect(row.x, row.y, 4, row.height), new Color(.2f, .8f, 1f));
-                    if (i < ranchChoices.Length)
+                    if (i < railChoiceCount)
                     {
-                        var entry = ranchChoices[i];
+                        if (map.theme.echoRailCartV01Catalog &&
+                            map.theme.echoRailCartV01Catalog.TrySprite("rail/ew", out var railSprite))
+                            DrawSpriteFitted(new Rect(row.x + 8, row.y + 7, 48, 48), railSprite);
+                        GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), "레일 · 바닥 경로", EditorStyles.boldLabel);
+                        GUI.Label(new Rect(row.x + 62, row.y + 34, row.width - 66, 24), "칸을 이어 그린 뒤 카트 배치", EditorStyles.miniLabel);
+                    }
+                    else if (i - railChoiceCount < ranchChoices.Length)
+                    {
+                        var entry = ranchChoices[i - railChoiceCount];
                         if (RanchDevicesV13EditorPreview.TryClip(map.theme, entry.previewKey, out var sprite))
                             DrawSpriteFitted(new Rect(row.x + 8, row.y + 7, 48, 48), sprite);
                         GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), "V13 " + entry.label, EditorStyles.boldLabel);
@@ -871,7 +948,7 @@ namespace ANIMOL.Presentation.Editor
                     }
                     else
                     {
-                        var device = choices[i - ranchChoices.Length];
+                        var device = choices[i - railChoiceCount - ranchChoices.Length];
                         DrawDeviceThumbnail(new Rect(row.x + 8, row.y + 7, 48, 48), device);
                         GUI.Label(new Rect(row.x + 62, row.y + 9, row.width - 66, 25), DeviceLabel(device), EditorStyles.boldLabel);
                         GUI.Label(new Rect(row.x + 62, row.y + 34, row.width - 66, 24),
@@ -883,17 +960,29 @@ namespace ANIMOL.Presentation.Editor
                 }
                 EditorGUILayout.EndScrollView();
                 if (!useLibrary)
-                { ranchArtBrush = null; prototypeBrush = null; }
-                else if (templateIndex < ranchChoices.Length)
-                { ranchArtBrush = ranchChoices[templateIndex].family; prototypeBrush = null; }
+                { railBrush = false; ranchArtBrush = null; prototypeBrush = null; }
+                else if (templateIndex < railChoiceCount)
+                { railBrush = true; ranchArtBrush = null; prototypeBrush = null; }
+                else if (templateIndex - railChoiceCount < ranchChoices.Length)
+                { railBrush = false; ranchArtBrush = ranchChoices[templateIndex - railChoiceCount].family; prototypeBrush = null; }
                 else
-                { ranchArtBrush = null; prototypeBrush = choices[templateIndex - ranchChoices.Length]; }
+                { railBrush = false; ranchArtBrush = null; prototypeBrush = choices[templateIndex - railChoiceCount - ranchChoices.Length]; }
                 if (useLibrary && GUILayout.Button("선택 항목의 원본 보기"))
-                    EditorGUIUtility.PingObject(templateIndex < ranchChoices.Length
-                        ? (UnityEngine.Object)map.theme.starwayRanch.v13Devices : templates[templateIndex - ranchChoices.Length].source);
+                    EditorGUIUtility.PingObject(templateIndex < railChoiceCount ? map.theme.echoRailCartV01Catalog :
+                        templateIndex - railChoiceCount < ranchChoices.Length
+                        ? (UnityEngine.Object)map.theme.starwayRanch.v13Devices :
+                        templates[templateIndex - railChoiceCount - ranchChoices.Length].source);
             }
+            if (railBrush) DrawRailSettings();
             if (GUILayout.Button("장치 목록 새로고침")) RefreshLibrary();
             EditorGUILayout.HelpBox("V13 별양·수문·풀은 기존 목장 판정에 배치됩니다. 둥지는 병아리와 관계없이 배치하며, 물칸은 기존 물 데이터에 연결됩니다. 바람 범위는 바람개비에서 계산됩니다.", MessageType.Info);
+        }
+        void DrawRailSettings()
+        {
+            EditorGUILayout.HelpBox("레일 칸을 드래그하거나 이웃 칸을 차례로 클릭해 경로를 그리세요. 기존 레일을 클릭하면 그 경로를 이어 그립니다. 오른쪽 클릭은 경로의 끝 칸을 지웁니다. 두 칸 이상 만든 뒤 같은 레일 위에 카트를 놓으세요.", MessageType.Info);
+            var path = map.scenario.railPaths?.FirstOrDefault(item => item != null && item.id == selectedRailPathId);
+            if (path != null) EditorGUILayout.LabelField("선택한 레일", path.id + " · " + path.cells.Count + "칸");
+            if (!string.IsNullOrEmpty(railError)) EditorGUILayout.HelpBox(railError, MessageType.Warning);
         }
         void DrawSelectedDeviceSettings()
         {
@@ -960,7 +1049,13 @@ namespace ANIMOL.Presentation.Editor
             if (placed.role == PrototypeRole.Wind && placed.variant == "blower")
                 EditorGUILayout.HelpBox("플레이 중 풍차를 밀 때 바람이 꺼짐 → 3칸 → 6칸 → 9칸 → 꺼짐 순서로 바뀝니다.", MessageType.Info);
             if (placed.role == PrototypeRole.StarSocket && placed.variant == "socket") DrawSocketRewardSettings(placed);
-            if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("점유·선로 칸", placed.cells.Count.ToString());
+            if (placed.role == PrototypeRole.MovingStage)
+            {
+                var rail = map.scenario.RailPathAt(placed.position);
+                EditorGUILayout.LabelField("카트가 사용할 레일", rail != null ? rail.id + " · " + rail.cells.Count + "칸" :
+                    (placed.cells?.Count ?? 0) + "칸 · 기존 카트 내장 경로");
+            }
+            else if (placed.cells != null && placed.cells.Count > 0) EditorGUILayout.LabelField("점유 칸", placed.cells.Count.ToString());
             if (placed.role == PrototypeRole.Bomb) EditorGUILayout.LabelField("폭발 범위", (placed.blastOffsets?.Count ?? 0).ToString());
             var serialized = new SerializedObject(map.scenario); serialized.Update();
             DrawDeviceProperties(serialized.FindProperty("devices").GetArrayElementAtIndex(selected));
@@ -1403,11 +1498,32 @@ namespace ANIMOL.Presentation.Editor
                 var railByCell = new Dictionary<Vector2Int, Sprite>();
                 var railCatalog = map.theme ? map.theme.echoRailCartV01Catalog : null;
                 if (railCatalog && railCatalog.Validate(out _) && map.scenario)
+                {
+                    foreach (var path in map.scenario.railPaths ?? new List<PrototypeRailPath>())
+                    {
+                        if (path?.cells == null) continue;
+                        var closed = path.cells.Count >= 4 &&
+                            (path.cells[0] - path.cells[path.cells.Count - 1]).sqrMagnitude == 1;
+                        for (var i = 0; i < path.cells.Count; i++)
+                        {
+                            var key = "ew";
+                            if (path.cells.Count > 1 && !EchoRailCartRailTopologyV01.TryKey(
+                                path.cells, i, closed, Vector2Int.right, out key)) continue;
+                            if (railCatalog.TrySprite("rail/" + key, out var rail))
+                                railByCell[path.cells[i]] = rail;
+                        }
+                    }
                     foreach (var stage in map.scenario.devices.Where(d => d.role == PrototypeRole.MovingStage))
+                    {
+                        if (map.scenario.RailPathAt(stage.position) != null) continue;
                         for (var i = 0; i < stage.cells.Count; i++)
-                            if (EchoRailCartRailTopologyV01.TryKey(stage.cells, i, stage.direction, out var key) &&
+                            if (EchoRailCartRailTopologyV01.TryKey(stage.cells, i,
+                                stage.cells.Count >= 4 && (stage.cells[0] - stage.cells[stage.cells.Count - 1]).sqrMagnitude == 1,
+                                stage.direction, out var key) &&
                                 railCatalog.TrySprite("rail/" + key, out var rail))
                                 railByCell[stage.cells[i]] = rail;
+                    }
+                }
                 var nestCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.NestCells) : null;
                 var rewardCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
                     d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
@@ -1587,7 +1703,7 @@ namespace ANIMOL.Presentation.Editor
                         if (e.type == EventType.MouseDown) selectedDecorationCell = p;
                     }
                     else if (layer == Layer.Device && map.scenario && e.button == 0 && !erase &&
-                        (inspectDevice || linkTargetMode || deviceSelectionDrag ||
+                        !railBrush && (inspectDevice || linkTargetMode || deviceSelectionDrag ||
                          e.type == EventType.MouseDown && placedDevice))
                     {
                         if (e.type == EventType.MouseDown) deviceSelectionDrag = true;
@@ -2236,7 +2352,19 @@ namespace ANIMOL.Presentation.Editor
                 if (map.scenario)
                 {
                     Undo.RecordObject(map.scenario, "테마 장치 배치");
-                    if (remove)
+                    if (railBrush)
+                    {
+                        if (remove)
+                        {
+                            if (!TryEraseRailCell(map, p, out railError) && !string.IsNullOrEmpty(railError))
+                                ShowNotification(new GUIContent(railError));
+                            if (map.scenario.railPaths?.All(path => path.id != selectedRailPathId) == true)
+                                selectedRailPathId = null;
+                        }
+                        else if (!TryPlaceRailCell(map, p, selectedRailPathId, out selectedRailPathId, out railError))
+                            ShowNotification(new GUIContent(railError));
+                    }
+                    else if (remove)
                     {
                         TryEraseDeviceAt(map, p);
                         if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
@@ -2397,17 +2525,24 @@ namespace ANIMOL.Presentation.Editor
             var number = 1;
             while (destination.devices.Any(device => device.id == stem + "_" + number)) number++;
             var shift = position - template.position;
+            var rail = template.role == PrototypeRole.MovingStage ? destination.RailPathAt(position) : null;
+            var railIndex = rail?.cells.IndexOf(position) ?? -1;
+            var cartDirection = railIndex >= 0 && rail.cells.Count > 1
+                ? railIndex + 1 < rail.cells.Count ? rail.cells[railIndex + 1] - position :
+                    rail.cells[railIndex - 1] - position
+                : template.direction;
             var copy = new PrototypeDevice {
                 id = stem + "_" + number, role = template.role, variant = template.variant,
                 // Practice examples reuse group names. New placements must be linked deliberately.
                 group = string.Empty, artTheme = template.artTheme, visualPrefab = template.visualPrefab,
-                initialVisual = template.initialVisual, position = position, direction = template.direction,
+                initialVisual = template.initialVisual, position = position, direction = cartDirection,
                 target = template.role == PrototypeRole.Portal ? template.target + shift :
                     template.role == PrototypeRole.Chick ? Vector2Int.zero : template.target,
                 orientation = template.orientation, number = template.number, active = template.active,
                 socketReward = template.socketReward, socketBridgeId = template.socketBridgeId,
                 socketBubbleCell = template.socketBubbleCell + shift,
-                cells = (template.cells ?? new List<Vector2Int>()).Select(cell => cell + shift).ToList(),
+                cells = rail != null ? new List<Vector2Int>() :
+                    (template.cells ?? new List<Vector2Int>()).Select(cell => cell + shift).ToList(),
                 blastOffsets = (template.blastOffsets ?? new List<Vector2Int>()).ToList()
             };
             destination.devices.Add(copy);

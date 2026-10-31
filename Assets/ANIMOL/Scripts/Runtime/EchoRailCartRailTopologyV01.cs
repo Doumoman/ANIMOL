@@ -7,14 +7,18 @@ namespace ANIMOL.Art.EchoRailCartV01
     public static class EchoRailCartRailTopologyV01
     {
         public static bool TryKey(IReadOnlyList<Vector2Int> cells, int index, Vector2Int fallbackDirection,
+            out string key) => TryKey(cells, index, false, fallbackDirection, out key);
+        public static bool TryKey(IReadOnlyList<Vector2Int> cells, int index, bool closed, Vector2Int fallbackDirection,
             out string key)
         {
             key = null;
             if (cells == null || index < 0 || index >= cells.Count) return false;
             var here = cells[index];
             var incoming = index > 0 ? cells[index - 1] - here :
+                closed && cells.Count > 2 ? cells[cells.Count - 1] - here :
                 cells.Count > 1 ? here - cells[1] : -fallbackDirection;
             var outgoing = index + 1 < cells.Count ? cells[index + 1] - here :
+                closed && cells.Count > 2 ? cells[0] - here :
                 cells.Count > 1 ? here - cells[index - 1] : fallbackDirection;
             if (!Cardinal(incoming) || !Cardinal(outgoing) || incoming == outgoing) return false;
             var north = incoming == Vector2Int.up || outgoing == Vector2Int.up;

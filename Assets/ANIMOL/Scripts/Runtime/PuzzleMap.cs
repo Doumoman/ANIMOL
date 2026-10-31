@@ -121,6 +121,8 @@ namespace ANIMOL.Puzzle
                 (scenario ? scenario.devices.Count(d => Outside(d.position)) + scenario.water.Count(Outside) +
                     scenario.ranchV13Art.Where(d => d != null).Sum(d => d.Footprint().Count(Outside)) +
                     scenario.devices.Sum(d => d.cells.Count(Outside)) +
+                    (scenario.railPaths?.Where(path => path != null && path.cells != null)
+                        .Sum(path => path.cells.Count(Outside)) ?? 0) +
                     scenario.devices.Count(d => d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
                         d.socketReward == StarSocketReward.RevealBubble && Outside(d.socketBubbleCell)) +
                     scenario.NestCells.Count(Outside) : 0);

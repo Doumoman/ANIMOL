@@ -845,13 +845,16 @@ namespace ANIMOL.Puzzle
         void AdvanceStage(PrototypeDevice d, Vector2Int inputStart)
         {
             var s = states[d.id];
-            if (d.cells == null || d.cells.Count < 2) return;
-            var index = d.cells.IndexOf(s.cell); if (index < 0) return;
+            var rail = Rules.RailCellsFor(d);
+            if (rail == null || rail.Count < 2) return;
+            var index = -1;
+            for (var i = 0; i < rail.Count; i++) if (rail[i] == s.cell) { index = i; break; }
+            if (index < 0) return;
             var step = s.phase == 0 ? 1 : -1;
-            var closed = d.cells.Count >= 4 && (d.cells[0] - d.cells[d.cells.Count - 1]).sqrMagnitude == 1;
-            if (!closed && (index + step < 0 || index + step >= d.cells.Count))
+            var closed = rail.Count >= 4 && (rail[0] - rail[rail.Count - 1]).sqrMagnitude == 1;
+            if (!closed && (index + step < 0 || index + step >= rail.Count))
             { s.phase = 1 - s.phase; step = -step; }
-            var target = d.cells[(index + step + d.cells.Count) % d.cells.Count];
+            var target = rail[(index + step + rail.Count) % rail.Count];
             var heading = target - s.cell;
             if (heading.sqrMagnitude != 1 || !Map.Contains(target) || Map.DecorationAt(target) ||
                 At(target, Solid, d.id) != null || At(target, x => x.role == PrototypeRole.Boat, d.id) != null ||

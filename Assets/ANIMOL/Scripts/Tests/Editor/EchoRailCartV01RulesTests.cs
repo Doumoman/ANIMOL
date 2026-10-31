@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Puzzle;
+using ANIMOL.Presentation.Editor;
+using ANIMOL.Art.EchoRailCartV01;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -151,6 +153,44 @@ namespace ANIMOL.Tests
             session.Reset();
             Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(2, 2)));
             Assert.That(session.States["stage"].direction, Is.EqualTo(Vector2Int.right));
+        }
+        [Test] public void EditorAuthoredFloorRailOwnsCartRouteAndCanBeEdited()
+        {
+            var map = Room(new Vector2Int(1, 4));
+            var template = map.scenario.devices.Single(d => d.id == "stage");
+            map.scenario.devices.Clear();
+            string id = null, error;
+            Assert.That(PuzzleMapEditor.TryPlaceRailCell(map, new Vector2Int(2, 2), id, out id, out error), Is.True, error);
+            Assert.That(PuzzleMapEditor.CanStampPrototype(map, template, new Vector2Int(2, 2)), Is.False);
+            foreach (var cell in new[] { new Vector2Int(3, 2), new Vector2Int(3, 3), new Vector2Int(2, 3) })
+                Assert.That(PuzzleMapEditor.TryPlaceRailCell(map, cell, id, out id, out error), Is.True, error);
+            Assert.That(map.scenario.railPaths.Single().cells.Count, Is.EqualTo(4));
+            Assert.That(PuzzleMapEditor.CanStampPrototype(map, template, new Vector2Int(2, 2)), Is.True);
+            var cart = PuzzleMapEditor.StampTemplate(map.scenario, template, new Vector2Int(2, 2));
+            Assert.That(cart.cells, Is.Empty);
+            Assert.That(cart.direction, Is.EqualTo(Vector2Int.right));
+            Assert.That(map.scenario.RailCellsFor(cart), Is.SameAs(map.scenario.railPaths.Single().cells));
+            Assert.That(map.ValidateMap(), Is.Empty);
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            Assert.That(session.States[cart.id].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            Assert.That(session.States[cart.id].cell, Is.EqualTo(new Vector2Int(3, 3)));
+            Assert.That(session.States[cart.id].direction, Is.EqualTo(Vector2Int.up));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.States[cart.id].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(PuzzleMapEditor.TryPlaceRailCell(map, new Vector2Int(4, 2), id, out _, out error), Is.False);
+            Assert.That(error, Does.Contain("끝 칸"));
+            Assert.That(PuzzleMapEditor.TryEraseRailCell(map, new Vector2Int(3, 2), out error), Is.False);
+            Assert.That(error, Does.Contain("끝 칸"));
+            Assert.That(PuzzleMapEditor.TryEraseRailCell(map, new Vector2Int(2, 2), out error), Is.False);
+            map.scenario.devices.Clear();
+            Assert.That(PuzzleMapEditor.TryEraseRailCell(map, new Vector2Int(2, 3), out error), Is.True, error);
+            Assert.That(map.scenario.railPaths.Single().cells.Count, Is.EqualTo(3));
+            Assert.That(EchoRailCartRailTopologyV01.TryKey(
+                new[] { new Vector2Int(2, 2), new Vector2Int(3, 2), new Vector2Int(3, 3), new Vector2Int(2, 3) },
+                0, true, Vector2Int.right, out var key), Is.True);
+            Assert.That(key, Is.EqualTo("ne"));
         }
     }
 }

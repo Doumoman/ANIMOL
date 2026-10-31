@@ -82,6 +82,10 @@ namespace ANIMOL.Puzzle
                         out diceVisualMap, out error))
                 { MissingBindings++; Debug.LogError("Invalid V03 dice orientation map: " + error, this); }
             }
+            if (session.Rules.themeId == "memory_theater" && session.Rules.railPaths != null)
+                foreach (var path in session.Rules.railPaths.Where(path => path != null && path.cells != null && path.cells.Count >= 2))
+                    CreateRailTrack(path.id + " rail track R2", path.cells,
+                        session.Map.theme ? session.Map.theme.echoRailCartV01Catalog : null);
             foreach (var d in session.Devices)
             {
                 if (session.Rules.themeId == "twilight_sea" && StarSwellCoastV01PuzzleBinding.Covers(d))
@@ -165,19 +169,9 @@ namespace ANIMOL.Puzzle
                         continue;
                     }
                     railCarts.Add(d.id, visual);
-                    var rail = new GameObject(d.id + " rail track R2");
-                    rail.transform.SetParent(transform, false);
-                    var track = rail.AddComponent<EchoRailTrackViewV02>();
-                    track.SetSorting("Default", 15);
-                    var closedRail = d.cells.Count >= 4 &&
-                        (d.cells[0] - d.cells[d.cells.Count - 1]).sqrMagnitude == 1;
-                    if (!track.Configure(catalog, d.cells.ToArray(), closedRail, 1f, out error))
-                    {
-                        MissingBindings++;
-                        Debug.LogError("Echo rail cart route art is invalid: " + d.id + ": " + error, root);
-                        rail.SetActive(false);
+                    if (session.Rules.RailPathAt(d.position) == null &&
+                        !CreateRailTrack(d.id + " rail track R2", session.Rules.RailCellsFor(d), catalog))
                         root.SetActive(false);
-                    }
                     continue;
                 }
                 // The follower chick keeps its V12 visual and blocking puzzle behavior.
@@ -295,6 +289,22 @@ namespace ANIMOL.Puzzle
             else if (session.Rules.beamPrefab)
             { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
             Settle();
+        }
+        bool CreateRailTrack(string name, IReadOnlyList<Vector2Int> cells, EchoRailCartArtCatalogV01 catalog)
+        {
+            if (!catalog || cells == null || cells.Count < 2)
+            { MissingBindings++; Debug.LogError("Echo rail track needs a catalog and two ordered cells: " + name, this); return false; }
+            var rail = new GameObject(name);
+            rail.transform.SetParent(transform, false);
+            var track = rail.AddComponent<EchoRailTrackViewV02>();
+            track.SetSorting("Default", 15);
+            var closed = cells.Count >= 4 && (cells[0] - cells[cells.Count - 1]).sqrMagnitude == 1;
+            string error;
+            if (track.Configure(catalog, cells.ToArray(), closed, 1f, out error)) return true;
+            MissingBindings++;
+            Debug.LogError("Echo rail track is invalid: " + name + ": " + error, rail);
+            rail.SetActive(false);
+            return false;
         }
         void BindDiceGoal(PrototypeDevice d, GameObject root)
         {
