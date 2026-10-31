@@ -132,7 +132,11 @@ namespace ANIMOL.Puzzle.Tests
             var actions = map.scenario.verificationRoute;
             for (var i = 0; i < 26; i++) Assert.That(session.Apply(Heading(actions[i])).accepted, Is.True);
             var before = session.Copy();
-            Assert.That(session.Apply(Heading(actions[26])).accepted, Is.True);
+            var fold = session.Apply(Heading(actions[26]));
+            Assert.That(fold.accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(before.Cell));
+            Assert.That(session.Cost, Is.EqualTo(before.Cost + 1));
+            Assert.That(fold.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player"), Is.False);
             var dominos = map.scenario.devices.Where(d => d.role == PrototypeRole.Domino).ToArray();
             Assert.That(dominos.Length, Is.EqualTo(3));
             Assert.That(dominos.All(d => session.States[d.id].active), Is.True);

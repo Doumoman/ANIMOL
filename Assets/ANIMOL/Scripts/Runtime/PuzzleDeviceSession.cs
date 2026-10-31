@@ -438,7 +438,8 @@ namespace ANIMOL.Puzzle
                     if (body != null)
                     {
                         if (!Push(body, Direction)) return false;
-                        if (body.role == PrototypeRole.WoodCrate || body.role == PrototypeRole.MetalCrate ||
+                        if (body.role == PrototypeRole.Domino || body.role == PrototypeRole.WoodCrate ||
+                            body.role == PrototypeRole.MetalCrate ||
                             body.role == PrototypeRole.StarSocket && body.variant != "socket")
                         {
                             stationaryPush = true;

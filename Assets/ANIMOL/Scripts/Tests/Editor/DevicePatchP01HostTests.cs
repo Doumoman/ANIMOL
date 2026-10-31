@@ -133,9 +133,12 @@ namespace ANIMOL.Tests
             var domino = new PuzzleDeviceSession(Clone("13_Domino"));
             foreach (var d in domino.Devices.Where(d => d.role == PrototypeRole.Domino))
                 Assert.That(domino.Footprint(d).Count(), Is.EqualTo(1));
+            var playerCell = domino.Cell;
             var action = domino.Apply(Vector2Int.right);
             Assert.That(action.accepted, Is.True);
             Assert.That(domino.Cost, Is.EqualTo(1));
+            Assert.That(domino.Cell, Is.EqualTo(playerCell));
+            Assert.That(action.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player"), Is.False);
             Assert.That(action.events.Count(e => e.eventName == "this_domino_piece_fold_committed"), Is.EqualTo(3));
             var bookcase = new PuzzleDeviceSession(Clone("08_Bookshelf"));
             var shelf = bookcase.Devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");

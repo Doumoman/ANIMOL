@@ -103,10 +103,12 @@ namespace ANIMOL.Tests
                     controller.Load(map);
                     Assert.That(controller.Devices.MissingBindings, Is.Zero, map.name);
                     var limit = index == 2 ? 27 : 20;
+                    var dominoApproach = Vector2Int.zero;
                     for (var turn = 0; turn < limit; turn++)
                     {
                         if (turn == limit - 1)
                         {
+                            if (index == 2) dominoApproach = controller.Session.Cell;
                             yield return null;
                             ScreenCapture.CaptureScreenshot("Logs/" + map.name + "-before.png");
                             yield return null;
@@ -122,6 +124,8 @@ namespace ANIMOL.Tests
                     {
                         Assert.That(controller.Session.States["D1"].active && controller.Session.States["D2"].active &&
                             controller.Session.States["D3"].active, Is.True);
+                        Assert.That(controller.Session.Cell, Is.EqualTo(dominoApproach));
+                        Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)dominoApproach));
                         foreach (var id in new[] { "D1", "D2", "D3" })
                         {
                             var actor = controller.Devices.Actor(id);
