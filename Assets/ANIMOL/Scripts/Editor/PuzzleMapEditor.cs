@@ -306,7 +306,11 @@ namespace ANIMOL.Presentation.Editor
             for (var i = 0; i < devices.arraySize; i++)
             {
                 var device = devices.GetArrayElementAtIndex(i);
-                device.isExpanded = EditorGUILayout.Foldout(device.isExpanded, "장치 " + (i + 1) + " · " + device.FindPropertyRelative("id").stringValue, true);
+                var role = (PrototypeRole)device.FindPropertyRelative("role").intValue;
+                var variant = device.FindPropertyRelative("variant").stringValue;
+                var kind = role == PrototypeRole.Bookshelf ? variant == "plate" ? " · 책장 발판" : " · 책장" : "";
+                device.isExpanded = EditorGUILayout.Foldout(device.isExpanded,
+                    "장치 " + (i + 1) + " · " + device.FindPropertyRelative("id").stringValue + kind, true);
                 if (device.isExpanded) DrawDeviceProperties(device);
             }
         }
@@ -680,7 +684,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.DepartureSpikes: return "이탈 가시";
                 case PrototypeRole.MovingStage: return "이동 발판";
                 case PrototypeRole.Conveyor: return "무빙워크";
-                case PrototypeRole.Bookshelf: return "책장·압력판";
+                case PrototypeRole.Bookshelf: return "책장";
                 case PrototypeRole.OneWayGate: return "일방통행 문";
                 case PrototypeRole.Optics: return "광학 장치";
                 case PrototypeRole.Boat: return "배";
@@ -710,8 +714,13 @@ namespace ANIMOL.Presentation.Editor
             variant == "gate" ? "문" : variant == "switch" ? "스위치" : variant == "target" ? "목표" :
             variant == "field" ? "기존 바람 칸" : variant == "blower" ? "밀어서 켜기" : variant == "square" ? "사각형" :
             variant == "a" ? "A" : variant == "b" ? "B" : variant;
-        static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " + DeviceName(device.role) +
-            (string.IsNullOrEmpty(device.variant) ? "" : " · " + VariantName(device.variant));
+        public static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " +
+            (device.role == PrototypeRole.Bookshelf && device.variant == "plate" ? "책장 발판" : DeviceName(device.role)) +
+            ((device.role == PrototypeRole.Bookshelf && device.variant == "plate") || string.IsNullOrEmpty(device.variant)
+                ? "" : " · " + VariantName(device.variant));
+        public static string GridDeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.Bookshelf
+            ? (device.variant == "plate" ? "발판" : "책장")
+            : ((int)device.role).ToString("00") + " " + DeviceFacingName(device);
         static readonly string[] BounceCornerNames = { "왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래" };
         static readonly int[] BounceCornerValues = { 0, 1, 2, 3 };
         static readonly string[] BounceSlopeNames = { "슬래시 (/)", "역슬래시 (\\)" };
@@ -856,7 +865,7 @@ namespace ANIMOL.Presentation.Editor
             if (selected < 0) return;
             EditorGUILayout.LabelField("선택한 장치", EditorStyles.boldLabel);
             var placed = map.scenario.devices[selected];
-            EditorGUILayout.LabelField(placed.id + " / " + DeviceName(placed.role));
+            EditorGUILayout.LabelField(placed.id + " / " + DeviceLabel(placed));
             EditorGUILayout.LabelField(IsCornerBounce(placed) ? "반사판 방향" :
                 IsMirrorBounce(placed) ? "반사판 기울기" : "바라보는 방향");
             EditorGUILayout.BeginHorizontal();
@@ -900,7 +909,7 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.LabelField("연결 그룹", string.IsNullOrEmpty(placed.group) ? "없음" : placed.group);
             if (!string.IsNullOrEmpty(placed.group))
                 foreach (var peer in map.scenario.devices.Where(device => device != placed && device.group == placed.group))
-                    EditorGUILayout.LabelField("  → " + peer.id + " / " + DeviceName(peer.role) + " " + peer.position);
+                    EditorGUILayout.LabelField("  → " + peer.id + " / " + DeviceLabel(peer) + " " + peer.position);
             if (GUILayout.Button(linkTargetMode ? "연결 취소" : "다른 장치와 연결...")) linkTargetMode = !linkTargetMode;
             if (linkTargetMode) EditorGUILayout.HelpBox("격자에서 연결할 장치를 클릭하세요. 두 장치는 같은 논리 그룹에 속하게 됩니다.", MessageType.Info);
             if (!string.IsNullOrEmpty(placed.group) && GUILayout.Button("선택한 장치 연결 해제"))
@@ -1643,8 +1652,10 @@ namespace ANIMOL.Presentation.Editor
             }
             var selected = device.id == selectedDeviceId;
             var strip = new Rect(cell.x, cell.y + cell.height * .72f, cell.width, cell.height * .28f);
-            EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) : new Color(.04f, .07f, .12f, .85f));
-            GUI.Label(strip, ((int)device.role).ToString("00") + " " + DeviceFacingName(device), EditorStyles.whiteMiniLabel);
+            EditorGUI.DrawRect(strip, selected ? new Color(.1f, .55f, .9f, .9f) :
+                device.role == PrototypeRole.Bookshelf && device.variant == "plate"
+                    ? new Color(.42f, .26f, .05f, .95f) : new Color(.04f, .07f, .12f, .85f));
+            GUI.Label(strip, GridDeviceLabel(device), EditorStyles.whiteMiniLabel);
             if (selected) Handles.DrawSolidRectangleWithOutline(cell, Color.clear, new Color(.2f, .8f, 1f));
             if (!device.visualPrefab) GUI.Label(new Rect(cell.x, cell.y, cell.width, cell.height * .3f), "그림 없음", EditorStyles.whiteMiniLabel);
         }
@@ -1676,16 +1687,30 @@ namespace ANIMOL.Presentation.Editor
                 return RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var current, out _) ? current : null;
             var prefab = device.visualPrefab;
             if (!prefab) return null;
-            var cacheKey = prefab.GetInstanceID() + ":" + device.initialVisual;
+            var cacheKey = prefab.GetInstanceID() + ":" + PreviewState(device);
             if (legacyDeviceSprites.TryGetValue(cacheKey, out var cached)) return cached;
+            return CacheLegacyDeviceSprite(cacheKey, PrefabPreviewSprite(device));
+        }
+        static string PreviewState(PrototypeDevice device)
+        {
+            if (device.role != PrototypeRole.Bookshelf) return device.initialVisual;
+            if (device.variant == "plate") return device.active ? "plate_pressed" : "plate_idle";
+            return new[] { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" }
+                [((device.orientation % 4) + 4) % 4];
+        }
+        public static Sprite PrefabPreviewSprite(PrototypeDevice device)
+        {
+            var prefab = device.visualPrefab;
+            if (!prefab) return null;
             var view = prefab.GetComponentInChildren<ANIMOL.Presentation.DeviceVisualView>(true);
-            var state = view?.states?.FirstOrDefault(candidate => candidate.name == device.initialVisual) ??
+            var stateName = PreviewState(device);
+            var state = view?.states?.FirstOrDefault(candidate => candidate.name == stateName) ??
                 view?.states?.FirstOrDefault(candidate => candidate.name == view.initialState);
-            if (state?.sprite) return CacheLegacyDeviceSprite(cacheKey, state.sprite);
+            if (state?.sprite) return state.sprite;
             if (state?.sequence && state.sequence.frames != null && state.sequence.frames.Length > 0 && state.sequence.frames[0])
-                return CacheLegacyDeviceSprite(cacheKey, state.sequence.frames[0]);
-            return CacheLegacyDeviceSprite(cacheKey, prefab.GetComponentsInChildren<SpriteRenderer>(true)
-                .Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate));
+                return state.sequence.frames[0];
+            return prefab.GetComponentsInChildren<SpriteRenderer>(true)
+                .Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate);
         }
         Sprite CacheLegacyDeviceSprite(string key, Sprite sprite) { legacyDeviceSprites[key] = sprite; return sprite; }
         void DrawCameraBounds(Rect world, int shownHeight, Vector2 origin)

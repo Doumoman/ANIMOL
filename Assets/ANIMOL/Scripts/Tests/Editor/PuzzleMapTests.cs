@@ -224,6 +224,29 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, "starway")
                 .Any(entry => entry.device.role == PrototypeRole.VineBridge), Is.False);
         }
+        [Test] public void BookshelfAndItsPlateHaveDifferentMapEditorPreviews()
+        {
+            var stage = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
+            Assert.That(stage, Is.Not.Null);
+            var shelf = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant != "plate");
+            var plate = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant == "plate");
+            Assert.That(plate.visualPrefab, Is.SameAs(shelf.visualPrefab));
+            var states = shelf.visualPrefab.GetComponent<DeviceVisualView>().states;
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(shelf),
+                Is.SameAs(states.Single(state => state.name == "horizontal").sprite));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(plate),
+                Is.SameAs(states.Single(state => state.name == "plate_idle").sprite));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(plate), Is.Not.SameAs(PuzzleMapEditor.PrefabPreviewSprite(shelf)));
+            Assert.That(PuzzleMapEditor.DeviceLabel(shelf), Is.EqualTo("08 책장"));
+            Assert.That(PuzzleMapEditor.DeviceLabel(plate), Is.EqualTo("08 책장 발판"));
+            Assert.That(PuzzleMapEditor.GridDeviceLabel(shelf), Is.EqualTo("책장"));
+            Assert.That(PuzzleMapEditor.GridDeviceLabel(plate), Is.EqualTo("발판"));
+            var pressed = new PrototypeDevice { role = PrototypeRole.Bookshelf, variant = "plate",
+                visualPrefab = plate.visualPrefab, active = true };
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(pressed),
+                Is.SameAs(states.Single(state => state.name == "plate_pressed").sprite));
+        }
         [Test] public void StarwayMapEditorPreviewUsesV13SpritesForExistingDevices()
         {
             var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
