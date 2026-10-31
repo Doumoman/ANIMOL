@@ -122,6 +122,25 @@ namespace ANIMOL.Tests
                     {
                         Assert.That(controller.Session.States["D1"].active && controller.Session.States["D2"].active &&
                             controller.Session.States["D3"].active, Is.True);
+                        foreach (var id in new[] { "D1", "D2", "D3" })
+                        {
+                            var actor = controller.Devices.Actor(id);
+                            Assert.That(actor.gameObject.activeSelf, Is.True, id + " folded actor");
+                            var visual = actor.GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                            for (var frame = 0; frame < 120 && visual.CurrentState != "folded_n"; frame++)
+                                yield return null;
+                            Assert.That(visual.CurrentState, Is.EqualTo("folded_n"), id);
+                            Assert.That(AssetDatabase.GetAssetPath(visual.visual.sprite),
+                                Does.EndWith("/devices/domino_wall/north/frame_04.png"), id);
+                        }
+                        Assert.That(controller.UndoLast(), Is.True);
+                        foreach (var id in new[] { "D1", "D2", "D3" })
+                        {
+                            var actor = controller.Devices.Actor(id);
+                            var visual = actor.GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                            Assert.That(actor.gameObject.activeSelf, Is.True, id + " restored actor");
+                            Assert.That(visual.CurrentState, Is.EqualTo("standing_n"), id);
+                        }
                     }
                     else
                     {

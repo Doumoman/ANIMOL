@@ -494,8 +494,6 @@ namespace ANIMOL.Puzzle
                 if (echoReflectors.Contains(d.id)) { root.localPosition = (Vector2)s.cell; continue; }
                 if (!views.TryGetValue(d.id, out var view)) continue;
                 root.localPosition = (Vector2)s.cell;
-                if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Domino && s.active)
-                { root.gameObject.SetActive(false); continue; }
                 if (s.removed || (d.role == PrototypeRole.Chick && s.active &&
                     session.Rules.NestCells.Contains(s.cell) &&
                     session.Map.theme && session.Map.theme.starwayRanch &&
