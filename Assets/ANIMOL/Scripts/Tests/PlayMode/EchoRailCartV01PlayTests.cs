@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.EchoRailCartV01;
 using ANIMOL.Puzzle;
@@ -11,6 +12,83 @@ namespace ANIMOL.Tests
 {
     public sealed class EchoRailCartV01PlayTests
     {
+        [UnityTest] public IEnumerator ClosedRailShowsTurnedCartWithoutRotatingActor()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.start = new Vector2Int(1, 4);
+            map.scenario.costLimit = 0;
+            map.scenario.devices.First(d => d.id == "stage").cells = new List<Vector2Int>
+            {
+                new Vector2Int(2, 2), new Vector2Int(3, 2),
+                new Vector2Int(3, 3), new Vector2Int(2, 3)
+            };
+            map.InvalidateIndex();
+            var host = new GameObject("M06 closed rail turn test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                var track = controller.Devices.GetComponentsInChildren<EchoRailTrackViewV02>()
+                    .Single(t => t.name == "stage rail track R2");
+                Assert.That(track.Path.Closed, Is.True);
+                for (var turn = 0; turn < 2; turn++)
+                {
+                    Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                    while (controller.IsMoving) yield return null;
+                }
+                Assert.That(controller.Session.States["stage"].direction, Is.EqualTo(Vector2Int.up));
+                AssertCart(controller);
+            }
+            finally
+            {
+                Object.Destroy(host);
+                Object.Destroy(map.scenario);
+                Object.Destroy(map);
+            }
+        }
+
+        [UnityTest] public IEnumerator ContactTweenMovesPlayerAheadOfCart()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.start = new Vector2Int(3, 3);
+            map.scenario.costLimit = 0;
+            map.InvalidateIndex();
+            var host = new GameObject("M06 contact tween test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.RequestMove(Vector2Int.down), Is.True);
+                var stage = controller.Devices.Actor("stage");
+                var checkedOverlap = false;
+                while (controller.IsMoving)
+                {
+                    if (stage.position.x > 2.4f && stage.position.x < 2.9f)
+                    {
+                        Assert.That(controller.Player.position.x, Is.GreaterThan(3f));
+                        checkedOverlap = true;
+                    }
+                    yield return null;
+                }
+                Assert.That(checkedOverlap, Is.True);
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(4, 2)));
+                Assert.That(controller.Player.position, Is.EqualTo(new Vector3(4, 2, 0)));
+                AssertCart(controller);
+            }
+            finally
+            {
+                Object.Destroy(host);
+                Object.Destroy(map.scenario);
+                Object.Destroy(map);
+            }
+        }
+
         [UnityTest] public IEnumerator M06UsesCartAndFloorRailsAfterMoveAndReload()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

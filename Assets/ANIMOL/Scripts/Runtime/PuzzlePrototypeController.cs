@@ -216,11 +216,25 @@ namespace ANIMOL.Puzzle
                     view.BeginRanchMotion(e.actor, e.to - e.from, wind);
                 }
                 Transform passenger = null;
+                var passengerDestination = e.to;
                 var definition = Session.Definition(e.actor);
-                if (definition != null && (definition.role == PrototypeRole.Boat || definition.role == PrototypeRole.MovingStage))
+                if (definition != null && definition.role == PrototypeRole.Boat)
                 {
                     var paired = result.events.Find(p => p.kind == PrototypeEventKind.Move && p.actor == "player" && p.from == e.from && p.to == e.to && p.group > e.group && !consumed.Contains(p));
                     if (paired != null) { passenger = Player; consumed.Add(paired); }
+                }
+                else if (definition != null && definition.role == PrototypeRole.MovingStage)
+                {
+                    var heading = e.to - e.from;
+                    var pushed = result.events.Find(p => p.kind == PrototypeEventKind.Move && p.actor == "player" &&
+                        p.from == e.to && p.to - p.from == heading && p.group > e.group && !consumed.Contains(p));
+                    if (pushed != null)
+                    {
+                        passenger = Player;
+                        passengerDestination = pushed.to;
+                        consumed.Add(pushed);
+                        if (CharacterVisual) CharacterVisual.SetMotion(heading, "move");
+                    }
                 }
                 // Play the existing committed body-motion clip while the grid transform actually moves.
                 foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual &&
@@ -233,9 +247,9 @@ namespace ANIMOL.Puzzle
                 else
                 {
                     var from = actor.position; var passengerFrom = passenger ? passenger.position : Vector3.zero; var elapsed = 0f;
-                    while (elapsed < moveSeconds) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / moveSeconds); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)e.to, progress); Devices.SetWindActionProgress01(progress); yield return null; }
+                    while (elapsed < moveSeconds) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / moveSeconds); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)passengerDestination, progress); Devices.SetWindActionProgress01(progress); yield return null; }
                     actor.position = (Vector2)e.to;
-                    if (passenger) passenger.position = (Vector2)e.to;
+                    if (passenger) passenger.position = (Vector2)passengerDestination;
                 }
                 if (view.RanchActor(e.actor))
                     foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual &&

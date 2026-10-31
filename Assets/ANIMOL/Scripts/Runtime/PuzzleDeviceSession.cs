@@ -165,6 +165,7 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Shutter: return !s.active;
                 case PrototypeRole.DepartureSpikes: return s.phase == 2;
                 case PrototypeRole.Domino: return !s.active;
+                case PrototypeRole.MovingStage:
                 case PrototypeRole.Barrel: case PrototypeRole.Bomb: case PrototypeRole.Statue: case PrototypeRole.Glass:
                 case PrototypeRole.CowardDoll: case PrototypeRole.Chick: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
                 case PrototypeRole.WoodCrate: case PrototypeRole.MetalCrate: return true;
@@ -176,7 +177,7 @@ namespace ANIMOL.Puzzle
             definitions.FirstOrDefault(d => d.id != except && !states[d.id].removed && Footprint(d).Contains(p) && (predicate == null || predicate(d)));
         bool Occupied(Vector2Int p, string except = null) => Cell == p || At(p, Solid, except) != null;
         public bool Supported(Vector2Int p) => Map.Contains(p) && !Map.DecorationAt(p) && !RanchWet(p) && !RanchGrassPresent(p) && (Map.Walkable(p) || At(p, d =>
-            (d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) || d.role == PrototypeRole.MovingStage) != null);
+            d.role == PrototypeRole.VineBridge && d.variant != "plate" && states[d.id].active) != null);
         bool StarSocketPassable(Vector2Int p, string movingId)
         {
             if (Rules.themeId != "starway") return true;
@@ -252,6 +253,7 @@ namespace ANIMOL.Puzzle
         }
         PrototypeAction Resolve(Vector2Int direction)
         {
+            var inputStart = Cell;
             Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
@@ -280,7 +282,7 @@ namespace ANIMOL.Puzzle
                 }
                 if (!ranchHandled && !stationaryPush) Automatic();
             }
-            Cost++; EndTurn(); Victory();
+            Cost++; EndTurn(inputStart); Victory();
             if (!Won && Rules.costLimit > 0 && Cost >= Rules.costLimit) Fail("Cost exhausted");
             return new PrototypeAction { accepted = true, events = events };
         }
@@ -761,8 +763,12 @@ namespace ANIMOL.Puzzle
         bool SocketEnablesBridge(string bridgeId) => definitions.Any(d =>
             d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
             d.socketReward == StarSocketReward.RevealBridge && d.socketBridgeId == bridgeId && states[d.id].active);
-        void EndTurn()
+        void EndTurn(Vector2Int inputStart)
         {
+            // A cart gets one step after the committed player movement, before other device turns.
+            if (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player"))
+                foreach (var cart in definitions.Where(d => d.role == PrototypeRole.MovingStage && !states[d.id].removed))
+                    AdvanceStage(cart, inputStart);
             foreach (var d in definitions.Where(d => !states[d.id].removed))
             {
                 var s = states[d.id];
@@ -775,7 +781,6 @@ namespace ANIMOL.Puzzle
                     else if (occupied) Visual(d, ShutterPrefix(d) + "blocked_open", "occupied_shutter_remains_open");
                     s.active = open;
                 }
-                if (d.role == PrototypeRole.MovingStage) AdvanceStage(d);
                 if (d.role == PrototypeRole.Magnet && d.variant != "switch") Magnet(d);
                 if (d.role == PrototypeRole.Statue) Statue(d);
                 if (d.role == PrototypeRole.CowardDoll && (s.cell - Cell).sqrMagnitude == 1)
@@ -812,14 +817,43 @@ namespace ANIMOL.Puzzle
             WindPulse(pulseCells, pulseOwners, pulseRoutes, carrierRoutes);
             WindSheepPulse(pulseOwners, pulseRoutes, carrierRoutes);
         }
-        void AdvanceStage(PrototypeDevice d)
+        void AdvanceStage(PrototypeDevice d, Vector2Int inputStart)
         {
-            var s = states[d.id]; int index = d.cells.IndexOf(s.cell); if (index < 0) return;
-            var step = s.phase == 0 ? 1 : -1; if (index + step < 0 || index + step >= d.cells.Count) { s.phase = 1 - s.phase; step = -step; }
-            var target = d.cells[index + step]; var carrying = Cell == s.cell;
-            if (!Map.Contains(target) || At(target, Solid, d.id) != null || (Cell == target && !carrying)) { Visual(d, "blocked_" + Dir(s.direction), "existing_stage_blocked"); return; }
-            var old = s.cell; s.cell = target; s.direction = target - old; Move(d.id, old, target); Visual(d, "advance_" + Dir(s.direction), "valid_action_stage_move_committed");
-            if (carrying) { Leave(Cell); Move("player", Cell, target); var previous = Cell; Cell = target; Collect(); Enter(); Follow(previous); }
+            var s = states[d.id];
+            if (d.cells == null || d.cells.Count < 2) return;
+            var index = d.cells.IndexOf(s.cell); if (index < 0) return;
+            var step = s.phase == 0 ? 1 : -1;
+            var closed = d.cells.Count >= 4 && (d.cells[0] - d.cells[d.cells.Count - 1]).sqrMagnitude == 1;
+            if (!closed && (index + step < 0 || index + step >= d.cells.Count))
+            { s.phase = 1 - s.phase; step = -step; }
+            var target = d.cells[(index + step + d.cells.Count) % d.cells.Count];
+            var heading = target - s.cell;
+            if (heading.sqrMagnitude != 1 || !Map.Contains(target) || Map.DecorationAt(target) ||
+                At(target, Solid, d.id) != null || At(target, x => x.role == PrototypeRole.Boat, d.id) != null ||
+                ranchSheep.Values.Contains(target))
+            { Visual(d, "blocked_" + Dir(s.direction), "existing_stage_blocked"); return; }
+
+            var touchesPlayer = Cell == target;
+            var pushTo = target + heading;
+            var canPush = touchesPlayer && Free(pushTo) && GateAllows(target, pushTo, heading);
+            var canReturn = touchesPlayer && !canPush && inputStart != target && Supported(inputStart) &&
+                At(inputStart, Solid, d.id) == null && At(inputStart, x => x.role == PrototypeRole.Boat, d.id) == null &&
+                !ranchSheep.Values.Contains(inputStart);
+            if (touchesPlayer && !canPush && !canReturn)
+            { Visual(d, "blocked_" + Dir(s.direction), "existing_stage_blocked"); return; }
+
+            var old = s.cell; s.cell = target; s.direction = heading;
+            Move(d.id, old, target);
+            Visual(d, "advance_" + Dir(heading), "valid_action_stage_move_committed");
+            if (!touchesPlayer) return;
+            Visual(d, "contact_" + Dir(heading), canPush ? "rail_cart_player_pushed" : "rail_cart_player_returned_p0");
+            var previous = Cell;
+            Leave(previous);
+            Cell = canPush ? pushTo : inputStart;
+            Direction = canPush ? heading : Direction;
+            Move("player", previous, Cell);
+            Collect(); Enter(); Follow(previous);
+            RefreshLinks(true); TraceWind();
         }
         void Magnet(PrototypeDevice d)
         {

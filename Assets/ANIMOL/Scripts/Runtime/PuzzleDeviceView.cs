@@ -154,7 +154,9 @@ namespace ANIMOL.Puzzle
                     rail.transform.SetParent(transform, false);
                     var track = rail.AddComponent<EchoRailTrackViewV02>();
                     track.SetSorting("Default", 15);
-                    if (!track.Configure(catalog, d.cells.ToArray(), false, 1f, out error))
+                    var closedRail = d.cells.Count >= 4 &&
+                        (d.cells[0] - d.cells[d.cells.Count - 1]).sqrMagnitude == 1;
+                    if (!track.Configure(catalog, d.cells.ToArray(), closedRail, 1f, out error))
                     {
                         MissingBindings++;
                         Debug.LogError("Echo rail cart route art is invalid: " + d.id + ": " + error, root);
@@ -319,6 +321,8 @@ namespace ANIMOL.Puzzle
             {
                 if (e.eventName == "valid_action_stage_move_committed" &&
                     !cart.ShowCart(RailCartHeading(session.States[e.actor].direction))) MissingBindings++;
+                if ((e.eventName == "rail_cart_player_pushed" || e.eventName == "rail_cart_player_returned_p0") &&
+                    !cart.ShowCart(RailCartHeading(session.States[e.actor].direction), true)) MissingBindings++;
                 return;
             }
             if (ranchV13.TryGetValue(e.actor ?? "", out var ranch))
