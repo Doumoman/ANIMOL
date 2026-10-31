@@ -309,7 +309,9 @@ namespace ANIMOL.Presentation.Editor
                 var device = devices.GetArrayElementAtIndex(i);
                 var role = (PrototypeRole)device.FindPropertyRelative("role").intValue;
                 var variant = device.FindPropertyRelative("variant").stringValue;
-                var kind = role == PrototypeRole.Bookshelf ? variant == "plate" ? " · 책장 발판" : " · 책장" : "";
+                var kind = role == PrototypeRole.Bookshelf ? variant == "plate" ? " · 책장 발판" : " · 책장 3칸" :
+                    role == PrototypeRole.Dice ? variant == "target" ? " · 목표 주사위" :
+                        variant == "socket" ? " · 주사위 홈" : " · 굴리는 주사위" : "";
                 device.isExpanded = EditorGUILayout.Foldout(device.isExpanded,
                     "장치 " + (i + 1) + " · " + device.FindPropertyRelative("id").stringValue + kind, true);
                 if (device.isExpanded) DrawDeviceProperties(device);
@@ -699,7 +701,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.Brake: return "브레이크";
                 case PrototypeRole.Wind: return "바람개비·바람";
                 case PrototypeRole.Glass: return "유리";
-                case PrototypeRole.Dice: return "주사위·목표";
+                case PrototypeRole.Dice: return "주사위";
                 case PrototypeRole.CowardDoll: return "겁쟁이 인형";
                 case PrototypeRole.Chick: return "병아리";
                 case PrototypeRole.Ice: return "얼음";
@@ -715,14 +717,46 @@ namespace ANIMOL.Presentation.Editor
             variant == "gate" ? "문" : variant == "switch" ? "스위치" : variant == "target" ? "목표" :
             variant == "field" ? "기존 바람 칸" : variant == "blower" ? "밀어서 켜기" : variant == "square" ? "사각형" :
             variant == "a" ? "A" : variant == "b" ? "B" : variant;
-        public static string DeviceLabel(PrototypeDevice device) => ((int)device.role).ToString("00") + " " +
+        public static string DeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.Dice
+            ? "22 " + (device.variant == "target" ? "목표 주사위 " + device.number :
+                device.variant == "socket" ? "주사위 홈 " + device.number : "굴리는 주사위") :
+            ((int)device.role).ToString("00") + " " +
             (device.role == PrototypeRole.Bookshelf && device.variant == "plate" ? "책장 발판" : DeviceName(device.role)) +
             ((device.role == PrototypeRole.Bookshelf && device.variant == "plate") || string.IsNullOrEmpty(device.variant)
                 ? "" : " · " + VariantName(device.variant));
         public static string GridDeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.MovingStage
             ? "06 카트" : device.role == PrototypeRole.Bookshelf
-            ? (device.variant == "plate" ? "발판" : "책장")
+            ? (device.variant == "plate" ? "발판" : "책장 3칸")
+            : device.role == PrototypeRole.Dice
+                ? (device.variant == "target" ? "목표 " + device.number :
+                    device.variant == "socket" ? "주사위 홈 " + device.number : "굴림 주사위")
             : ((int)device.role).ToString("00") + " " + DeviceFacingName(device);
+        public static IEnumerable<Vector2Int> InitialDeviceFootprint(PrototypeDevice device)
+            => DeviceFootprintAt(device, device.position);
+        static IEnumerable<Vector2Int> DeviceFootprintAt(PrototypeDevice device, Vector2Int anchor)
+        {
+            if (device.role != PrototypeRole.Bookshelf || device.variant == "plate")
+            { yield return anchor; yield break; }
+            var axis = device.orientation % 2 == 0 ? Vector2Int.right : Vector2Int.up;
+            yield return anchor - axis;
+            yield return anchor;
+            yield return anchor + axis;
+        }
+        public static bool CanStampPrototype(PuzzleMap target, PrototypeDevice brush, Vector2Int anchor)
+        {
+            if (!target || !target.scenario || brush == null) return false;
+            var occupied = DeviceFootprintAt(brush, anchor).ToArray();
+            if (occupied.Any(p => !target.Contains(p))) return false;
+            if (target.scenario.devices.Any(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate" &&
+                InitialDeviceFootprint(d).Contains(anchor))) return false;
+            if (target.scenario.devices.Any(d => d.position == anchor && d.role == brush.role &&
+                d.variant == brush.variant)) return false;
+            if (brush.role == PrototypeRole.Bookshelf && brush.variant != "plate" && occupied.Any(p =>
+                target.scenario.devices.Any(d => InitialDeviceFootprint(d).Contains(p)) ||
+                target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(p)) ||
+                target.scenario.NestCells.Contains(p))) return false;
+            return true;
+        }
         static readonly string[] BounceCornerNames = { "왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래" };
         static readonly int[] BounceCornerValues = { 0, 1, 2, 3 };
         static readonly string[] BounceSlopeNames = { "슬래시 (/)", "역슬래시 (\\)" };
@@ -1037,7 +1071,7 @@ namespace ANIMOL.Presentation.Editor
                 if (target.scenario.water.Contains(cell))
                 { error = "물칸과 장치 점유 칸이 겹칩니다."; return false; }
                 if (target.scenario.NestCells.Contains(cell) ||
-                    target.scenario.devices.Any(device => device.position == cell) ||
+                    target.scenario.devices.Any(device => InitialDeviceFootprint(device).Contains(cell)) ||
                     target.scenario.ranchV13Art.Any(existing => existing != null && existing.Footprint().Contains(cell)))
                 { error = "다른 장치나 V13 배치와 점유 칸이 겹칩니다."; return false; }
             }
@@ -1081,7 +1115,11 @@ namespace ANIMOL.Presentation.Editor
             {
                 if (target.scenario.NestCells.Contains(cell)) removed = TryEraseNest(target, cell);
                 while (TryEraseRanchArt(target, cell)) removed = true;
-                removed = target.scenario.devices.RemoveAll(device => device.position == cell) > 0 || removed;
+                var removedAnchors = target.scenario.devices.RemoveAll(device => device.position == cell) > 0;
+                var removedShelf = !removedAnchors && target.scenario.devices.RemoveAll(device =>
+                    device.role == PrototypeRole.Bookshelf && device.variant != "plate" &&
+                    InitialDeviceFootprint(device).Contains(cell)) > 0;
+                removed = removedAnchors || removedShelf || removed;
                 removed = target.scenario.water.RemoveAll(water => water == cell) > 0 || removed;
             }
             removed = target.devices.RemoveAll(device => device.position == cell) > 0 || removed;
@@ -1098,6 +1136,9 @@ namespace ANIMOL.Presentation.Editor
             if (target.scenario)
             {
                 device = target.scenario.devices.FirstOrDefault(candidate => candidate.position == cell);
+                if (device == null) device = target.scenario.devices.FirstOrDefault(candidate =>
+                    candidate.role == PrototypeRole.Bookshelf && candidate.variant != "plate" &&
+                    InitialDeviceFootprint(candidate).Contains(cell));
                 if (device != null) { label = device.id; return true; }
                 art = target.scenario.ranchV13Art.FirstOrDefault(candidate =>
                     candidate != null && candidate.Footprint().Contains(cell));
@@ -1114,7 +1155,7 @@ namespace ANIMOL.Presentation.Editor
             error = null;
             if (!target || !target.scenario || !target.Contains(cell) || !target.Walkable(cell) ||
                 cell == target.start || target.scenario.water.Contains(cell) ||
-                target.scenario.devices.Any(d => d.position == cell) ||
+                target.scenario.devices.Any(d => InitialDeviceFootprint(d).Contains(cell)) ||
                 target.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(cell)))
             { error = "둥지는 통행 가능한 빈 땅에 배치하세요."; return false; }
             return true;
@@ -1479,10 +1520,13 @@ namespace ANIMOL.Presentation.Editor
                         GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
                             d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
                     if (railByCell.TryGetValue(p, out var railSprite)) DrawWorldSprite(rect.center, railSprite);
-                    foreach (var configured in configuredByCell[p]) DrawDevice(rect, configured);
+                    foreach (var configured in configuredByCell[p])
+                        if (configured.role != PrototypeRole.Bookshelf || configured.variant == "plate")
+                            DrawDevice(rect, configured);
                     if (!map.Contains(p)) GUI.Label(rect, "/");
                 }
                 var visible = new Rect(gridScroll.x, gridScroll.y, viewport.width, viewport.height);
+                DrawPlacedBookshelves(shownHeight, origin, visible);
                 if (map.scenario && map.theme && map.theme.starwayRanch)
                     foreach (var art in map.scenario.ranchV13Art)
                     {
@@ -1647,6 +1691,42 @@ namespace ANIMOL.Presentation.Editor
         }
         static string DirectionName(Vector2Int d) => d == Vector2Int.up ? "북 N" : d == Vector2Int.right ? "동 E" :
             d == Vector2Int.down ? "남 S" : d == Vector2Int.left ? "서 W" : "방향 없음";
+        void DrawPlacedBookshelves(int shownHeight, Vector2 origin, Rect visible)
+        {
+            if (!map.scenario) return;
+            foreach (var device in map.scenario.devices.Where(d =>
+                d.role == PrototypeRole.Bookshelf && d.variant != "plate" && map.Contains(d.position)))
+            {
+                if (!NearVisibleWorld(device.position, shownHeight, origin, visible, 3f)) continue;
+                var cells = InitialDeviceFootprint(device).ToArray();
+                var selected = device.id == selectedDeviceId;
+                foreach (var occupied in cells)
+                {
+                    var cell = new Rect(origin.x + occupied.x * cellSize,
+                        origin.y + (shownHeight - occupied.y - 1) * cellSize, cellSize, cellSize);
+                    EditorGUI.DrawRect(cell, selected ? new Color(.15f, .7f, 1f, .22f) :
+                        new Color(.75f, .35f, .1f, .17f));
+                }
+                var sprite = DeviceSprite(device);
+                if (sprite) DrawWorldSpriteAt(device.position, sprite, shownHeight, origin, visible);
+                foreach (var occupied in cells)
+                {
+                    var cell = new Rect(origin.x + occupied.x * cellSize,
+                        origin.y + (shownHeight - occupied.y - 1) * cellSize, cellSize, cellSize);
+                    Handles.DrawSolidRectangleWithOutline(cell, Color.clear,
+                        selected ? new Color(.2f, .8f, 1f) : new Color(1f, .62f, .22f, .8f));
+                }
+                var minX = cells.Min(p => p.x);
+                var maxX = cells.Max(p => p.x);
+                var minY = cells.Min(p => p.y);
+                var badge = new Rect(origin.x + minX * cellSize,
+                    origin.y + (shownHeight - minY - 1) * cellSize + cellSize * .7f,
+                    (maxX - minX + 1) * cellSize, cellSize * .3f);
+                EditorGUI.DrawRect(badge, selected ? new Color(.1f, .55f, .9f, .9f) :
+                    new Color(.3f, .15f, .06f, .9f));
+                GUI.Label(badge, sprite ? GridDeviceLabel(device) : "책장 그림 없음", EditorStyles.whiteMiniLabel);
+            }
+        }
         void DrawDevice(Rect cell, PrototypeDevice device)
         {
             if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
@@ -1719,6 +1799,14 @@ namespace ANIMOL.Presentation.Editor
         }
         static string PreviewState(PrototypeDevice device)
         {
+            if (device.role == PrototypeRole.Dice)
+            {
+                if (device.variant == "target" || device.variant == "socket")
+                    return "target_" + device.number + (device.active ? "_on" : "_off");
+                var faces = device.initialDiceFaces;
+                if (faces != null && faces.Length == 6)
+                    return "t" + faces[0] + "_n" + faces[2] + "_e" + faces[4];
+            }
             if (device.role != PrototypeRole.Bookshelf) return device.initialVisual;
             if (device.variant == "plate") return device.active ? "plate_pressed" : "plate_idle";
             return new[] { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" }
@@ -2147,7 +2235,7 @@ namespace ANIMOL.Presentation.Editor
                     else if (prototypeBrush != null && !string.IsNullOrEmpty(ThemeId(map.theme)) &&
                         (string.IsNullOrEmpty(prototypeBrush.artTheme) || ThemeId(map.theme) == prototypeBrush.artTheme) &&
                         !map.scenario.ranchV13Art.Any(art => art != null && art.Footprint().Contains(p)) &&
-                        !map.scenario.devices.Any(d => d.position == p && d.role == prototypeBrush.role && d.variant == prototypeBrush.variant))
+                        CanStampPrototype(map, prototypeBrush, p))
                     {
                         selectedDeviceId = StampTemplate(map.scenario, prototypeBrush, p).id;
                         selectedRanchArt = null; selectedSimpleDeviceLabel = null; settingsScroll = Vector2.zero;

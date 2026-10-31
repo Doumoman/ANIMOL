@@ -240,12 +240,90 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.PrefabPreviewSprite(plate), Is.Not.SameAs(PuzzleMapEditor.PrefabPreviewSprite(shelf)));
             Assert.That(PuzzleMapEditor.DeviceLabel(shelf), Is.EqualTo("08 책장"));
             Assert.That(PuzzleMapEditor.DeviceLabel(plate), Is.EqualTo("08 책장 발판"));
-            Assert.That(PuzzleMapEditor.GridDeviceLabel(shelf), Is.EqualTo("책장"));
+            Assert.That(PuzzleMapEditor.GridDeviceLabel(shelf), Is.EqualTo("책장 3칸"));
             Assert.That(PuzzleMapEditor.GridDeviceLabel(plate), Is.EqualTo("발판"));
             var pressed = new PrototypeDevice { role = PrototypeRole.Bookshelf, variant = "plate",
                 visualPrefab = plate.visualPrefab, active = true };
             Assert.That(PuzzleMapEditor.PrefabPreviewSprite(pressed),
                 Is.SameAs(states.Single(state => state.name == "plate_pressed").sprite));
+        }
+        [Test] public void DiceGoalAndRollingDieUseTheirOwnEditorSpritesAndLabels()
+        {
+            var scenario = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device22_Dice_Scenario.asset");
+            var die = scenario.devices.Single(d => d.role == PrototypeRole.Dice && d.variant != "target");
+            var target = scenario.devices.Single(d => d.role == PrototypeRole.Dice && d.variant == "target");
+            var states = die.visualPrefab.GetComponent<DeviceVisualView>().states;
+            Assert.That(die.visualPrefab, Is.SameAs(target.visualPrefab));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(die),
+                Is.SameAs(states.Single(s => s.name == "t1_n5_e3").sprite));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(target),
+                Is.SameAs(states.Single(s => s.name == "target_4_off").sprite));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(die),
+                Is.Not.SameAs(PuzzleMapEditor.PrefabPreviewSprite(target)));
+            Assert.That(PuzzleMapEditor.GridDeviceLabel(die), Is.EqualTo("굴림 주사위"));
+            Assert.That(PuzzleMapEditor.GridDeviceLabel(target), Is.EqualTo("목표 4"));
+            Assert.That(PuzzleMapEditor.DeviceLabel(die), Is.EqualTo("22 굴리는 주사위"));
+            Assert.That(PuzzleMapEditor.DeviceLabel(target), Is.EqualTo("22 목표 주사위 4"));
+        }
+        [Test] public void BookshelfWingsCanBeSelectedErasedAndBlockNewDeviceStamps()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            try
+            {
+                var shelf = map.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");
+                var plate = map.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant == "plate");
+                var occupied = PuzzleMapEditor.InitialDeviceFootprint(shelf).ToArray();
+                Assert.That(occupied.Length, Is.EqualTo(3));
+                Assert.That(occupied, Is.EquivalentTo(new[] { shelf.position + Vector2Int.left,
+                    shelf.position, shelf.position + Vector2Int.right }));
+                foreach (var cell in occupied)
+                {
+                    Assert.That(PuzzleMapEditor.TryFindPlacedDevice(map, cell, out var found, out _, out _), Is.True);
+                    Assert.That(found, Is.SameAs(shelf));
+                    Assert.That(PuzzleMapEditor.CanStampPrototype(map,
+                        new PrototypeDevice { role = PrototypeRole.WoodCrate }, cell), Is.False);
+                }
+                Assert.That(PuzzleMapEditor.TryEraseDeviceAt(map, occupied[0]), Is.True);
+                Assert.That(map.scenario.devices.Contains(shelf), Is.False);
+                Assert.That(map.scenario.devices.Contains(plate), Is.True);
+                shelf.orientation = 1;
+                Assert.That(PuzzleMapEditor.InitialDeviceFootprint(shelf), Is.EquivalentTo(new[] {
+                    shelf.position + Vector2Int.down, shelf.position, shelf.position + Vector2Int.up }));
+            }
+            finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
+        }
+        [Test] public void BookshelfEndsBlockPlayerInBothOrientations()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.costLimit = 0;
+            try
+            {
+                var shelf = map.scenario.devices.Single(d => d.id == "shelf");
+                map.start = new Vector2Int(3, 4);
+                map.InvalidateIndex();
+                var horizontal = new PuzzleDeviceSession(map);
+                Assert.That(horizontal.Footprint(shelf), Is.EquivalentTo(
+                    PuzzleMapEditor.InitialDeviceFootprint(shelf)));
+                Assert.That(horizontal.Apply(Vector2Int.down).accepted, Is.False);
+                Assert.That(horizontal.Cost, Is.Zero);
+
+                shelf.orientation = 1;
+                map.start = new Vector2Int(3, 2);
+                map.InvalidateIndex();
+                var vertical = new PuzzleDeviceSession(map);
+                Assert.That(vertical.Footprint(shelf), Is.EquivalentTo(
+                    PuzzleMapEditor.InitialDeviceFootprint(shelf)));
+                Assert.That(vertical.Apply(Vector2Int.right).accepted, Is.False);
+                Assert.That(vertical.Cost, Is.Zero);
+            }
+            finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
         }
         [Test] public void StarwayMapEditorPreviewUsesV13SpritesForExistingDevices()
         {

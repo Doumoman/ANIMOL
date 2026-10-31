@@ -87,6 +87,35 @@ namespace ANIMOL.Tests
             }
         }
 
+        [UnityTest] public IEnumerator DiceGoalAndRollingDieRenderDifferentSpritesAfterReload()
+        {
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
+            var host = new GameObject("Echo Theater dice distinction test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                for (var load = 0; load < 2; load++)
+                {
+                    controller.Load(map);
+                    Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                    var die = controller.Session.Devices.First(d => d.role == PrototypeRole.Dice &&
+                        d.variant != "target" && d.variant != "socket");
+                    var target = controller.Session.Devices.First(d => d.role == PrototypeRole.Dice &&
+                        (d.variant == "target" || d.variant == "socket"));
+                    var dieSprite = controller.Devices.Actor(die.id).GetComponentInChildren<SpriteRenderer>().sprite;
+                    var targetView = controller.Devices.Actor(target.id).GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                    Assert.That(dieSprite, Is.Not.Null);
+                    Assert.That(targetView.CurrentState, Is.EqualTo("target_" + target.number + "_off"));
+                    Assert.That(targetView.visual.sprite, Is.Not.Null);
+                    Assert.That(targetView.visual.sprite, Is.Not.SameAs(dieSprite));
+                    Assert.That(AssetDatabase.GetAssetPath(dieSprite), Does.Contain("/dice_block/orientations/"));
+                    yield return null;
+                }
+            }
+            finally { Object.Destroy(host); }
+        }
+
         [UnityTest] public IEnumerator DominoAndDiceStagesBindVisualsAndOpenPassages()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
