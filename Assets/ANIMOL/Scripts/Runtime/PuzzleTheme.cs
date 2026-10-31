@@ -19,6 +19,8 @@ namespace ANIMOL.Puzzle
         public ANIMOL.Art.RanchConnectedDecorV02.RanchConnectedDecorV02Catalog ranchConnectedDecorV02Catalog;
         public TextAsset ranchConnectedDecorV02ManifestPin;
         public MemorySkyTheaterArt memorySkyTheater;
+        public ANIMOL.Presentation.DiceHintV01.DiceFaceSetV02 diceFaceSet;
+        public ANIMOL.Presentation.DiceHintV01.DiceGoalPlatformArtV03 diceGoalPlatformArt;
         public ANIMOL.Art.EchoRailCartV01.EchoRailCartArtCatalogV01 echoRailCartV01Catalog;
         public ANIMOL.Art.TheaterConnectedDecorV01.TheaterConnectedDecorV01Catalog theaterConnectedDecorV01Catalog;
         public TextAsset theaterConnectedDecorV01ManifestPin;

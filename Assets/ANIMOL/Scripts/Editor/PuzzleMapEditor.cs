@@ -1727,9 +1727,25 @@ namespace ANIMOL.Presentation.Editor
                 GUI.Label(badge, sprite ? GridDeviceLabel(device) : "책장 그림 없음", EditorStyles.whiteMiniLabel);
             }
         }
+        bool DrawDiceGoal(Rect bounds, PrototypeDevice device, bool world = false)
+        {
+            if (device.role != PrototypeRole.Dice || device.variant != "target" && device.variant != "socket" ||
+                !map.theme || !map.theme.diceGoalPlatformArt || !map.theme.diceFaceSet) return false;
+            var plate = device.active ? map.theme.diceGoalPlatformArt.walkable : map.theme.diceGoalPlatformArt.ready;
+            if (!plate) return false;
+            if (world) DrawWorldSprite(bounds.center, plate); else DrawSpriteFitted(bounds, plate);
+            if (!device.active && map.theme.diceFaceSet.TryGet(device.number, out var face))
+            {
+                var side = bounds.width * ANIMOL.Presentation.DiceHintV01.DiceFaceLayoutV02.GoalWidth;
+                DrawSpriteFitted(new Rect(bounds.center.x - side * .5f, bounds.center.y - side * .5f,
+                    side, side), face);
+            }
+            return true;
+        }
         void DrawDevice(Rect cell, PrototypeDevice device)
         {
-            if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
+            if (DrawDiceGoal(cell, device, true)) { }
+            else if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
             {
                 var cart = DeviceSprite(device);
                 if (cart) DrawWorldSprite(cell.center, cart);
@@ -1758,6 +1774,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawDeviceThumbnail(Rect rect, PrototypeDevice device)
         {
+            if (DrawDiceGoal(rect, device)) return;
             var sprite = DeviceSprite(device);
             if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
             {
@@ -1782,6 +1799,9 @@ namespace ANIMOL.Presentation.Editor
         }
         Sprite DeviceSprite(PrototypeDevice device)
         {
+            if (device.role == PrototypeRole.Dice && (device.variant == "target" || device.variant == "socket") &&
+                map.theme && map.theme.diceGoalPlatformArt)
+                return device.active ? map.theme.diceGoalPlatformArt.walkable : map.theme.diceGoalPlatformArt.ready;
             if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
             {
                 var catalog = map.theme.echoRailCartV01Catalog;
@@ -1808,7 +1828,13 @@ namespace ANIMOL.Presentation.Editor
                     return "target_" + device.number + (device.active ? "_on" : "_off");
                 var faces = device.initialDiceFaces;
                 if (faces != null && faces.Length == 6)
-                    return "t" + faces[0] + "_n" + faces[echoV3Rules ? 3 : 2] + "_e" + faces[4];
+                {
+                    ANIMOL.Art.EchoTheaterV03.EchoTheaterV03DiceOrientation.State state;
+                    string error;
+                    var direct = ANIMOL.Art.EchoTheaterV03.EchoTheaterV03DiceOrientation.TryCreate(
+                        faces[0], faces[1], faces[2], faces[3], faces[4], faces[5], out state, out error);
+                    return "t" + faces[0] + "_n" + faces[echoV3Rules && !direct ? 3 : 2] + "_e" + faces[4];
+                }
             }
             if (device.role != PrototypeRole.Bookshelf) return device.initialVisual;
             if (device.variant == "plate") return device.active ? "plate_pressed" : "plate_idle";

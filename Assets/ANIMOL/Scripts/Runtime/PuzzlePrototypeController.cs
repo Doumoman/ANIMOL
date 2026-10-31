@@ -22,6 +22,7 @@ namespace ANIMOL.Puzzle
         public string Status { get; private set; }
         int rejectedVisualSerial;
         int presentationGeneration, committedActionSerial;
+        bool pressingGoal;
         Vector2Int queuedInput;
         Transform presentation;
         PuzzleMapView view;
@@ -29,8 +30,9 @@ namespace ANIMOL.Puzzle
         void Start() { if (stage && Session == null) Load(stage); }
         public void Load(PuzzleMap data)
         {
+            if (Devices) Devices.InvalidateDiceHints();
             presentationGeneration++;
-            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
             if (presentation) { presentation.gameObject.SetActive(false); Destroy(presentation.gameObject); }
             if (RuntimeMap) Destroy(RuntimeMap);
             RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data; Session = new PuzzleDeviceSession(RuntimeMap);
@@ -70,16 +72,19 @@ namespace ANIMOL.Puzzle
             }
             Status = "";
             ContinueWind();
+            if (!IsMoving) Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
         }
         public bool RequestMove(Vector2Int direction)
         {
             if (Session == null || Session.Won || Session.Failed || Strict != null && Strict.Failed ||
                 !PuzzleSession.IsCardinal(direction)) return false;
-            if (IsMoving) { queuedInput = direction; return true; }
+            if (IsMoving) { if (pressingGoal) return false; queuedInput = direction; return true; }
+            Devices.InvalidateDiceHints();
             PrototypeAction result = null;
             if (Strict != null && !Strict.TryApply(Session, direction, out result))
             {
                 Status = Strict.Error ?? result.reason;
+                Devices.PublishDiceHints(false);
                 return false;
             }
             if (Strict == null) result = Session.Apply(direction);
@@ -87,52 +92,63 @@ namespace ANIMOL.Puzzle
             {
                 Status = result.reason;
                 foreach (var cue in result.events) if (cue.kind == PrototypeEventKind.Visual) Devices.Notify(cue, "reject:" + (++rejectedVisualSerial));
+                Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
                 return false;
             }
             Devices.CommitSanctumBeamAction();
             IsMoving = true;
+            pressingGoal = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
             StartCoroutine(Animate(result, eventPrefix, presentationGeneration)); return true;
         }
         public bool UndoLast()
         {
             if (Session == null || Strict != null) return false;
+            Devices.InvalidateDiceHints();
             presentationGeneration++;
-            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
-            if (!Session.Undo()) return false;
+            StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
+            if (!Session.Undo())
+            {
+                Devices.PublishDiceHints(!Session.Won && !Session.Failed);
+                return false;
+            }
             PresentRestoredState(); return true;
         }
         public void ResetStage()
         {
             if (Session == null) return;
+            Devices.InvalidateDiceHints();
             presentationGeneration++;
-            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
             Session.Reset(); PresentRestoredState();
             Strict?.Reset();
         }
         public void RestoreSnapshot(PuzzleDeviceSession snapshot)
         {
             if (Session == null) return;
+            Devices.InvalidateDiceHints();
             presentationGeneration++;
-            StopAllCoroutines(); IsMoving = false; queuedInput = Vector2Int.zero;
+            StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
             Session.RestoreSnapshot(snapshot); PresentRestoredState();
             Strict?.Reset();
         }
         void PresentRestoredState()
         {
-            view.CancelRanchEffects(); Devices.Settle(); view.Present(Session); view.RestoreRanchNests(Session);
+            view.CancelRanchEffects(); Devices.Settle(true); view.Present(Session); view.RestoreRanchNests(Session);
             Player.position = (Vector2)Session.Cell;
             if (CharacterVisual) CharacterVisual.SetIdle();
             if (FollowCamera) FollowCamera.Cut();
             Status = Session.Won ? "Stage clear" : Session.Failed ? Session.Failure : "";
             ContinueWind();
+            if (!IsMoving) Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
         }
         void ContinueWind()
         {
             // Certified V3 stages compare every state with their authored input transcript.
             if (IsMoving || Session == null || Session.Won || Session.Failed || Strict != null) return;
+            Devices.InvalidateDiceHints();
             var result = Session.AdvanceWind();
-            if (!result.accepted) return;
+            if (!result.accepted) { Devices.PublishDiceHints(true); return; }
             IsMoving = true;
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
             StartCoroutine(Animate(result, eventPrefix, presentationGeneration));
@@ -256,6 +272,12 @@ namespace ANIMOL.Puzzle
                         p.actor == e.actor && p.group == e.group + 1 && !consumed.Contains(p)))
                     { view.PlayRanchCue(cue); consumed.Add(cue); }
             }
+            if (result.events.Exists(e => e.eventName == "dice_goal_absorbed"))
+            {
+                queuedInput = Vector2Int.zero;
+                yield return Devices.PlayGoalPresses();
+                pressingGoal = false;
+            }
             Devices.Settle(); view.Present(Session); Player.position = (Vector2)Session.Cell;
             if (CharacterVisual)
             {
@@ -266,6 +288,7 @@ namespace ANIMOL.Puzzle
             IsMoving = false; var next = queuedInput; queuedInput = Vector2Int.zero;
             if (next != Vector2Int.zero && RequestMove(next)) yield break;
             ContinueWind();
+            if (!IsMoving) Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
         }
         void LateUpdate()
         {
@@ -275,7 +298,7 @@ namespace ANIMOL.Puzzle
                 : "COST " + (RuntimeMap.scenario.costLimit > 0 ? Mathf.Max(0, RuntimeMap.scenario.costLimit - Session.Cost).ToString() : Session.Cost.ToString());
             hud.bubbles.text = Session.Collected + "/" + RuntimeMap.targetBubbles;
         }
-        void OnDestroy() { if (RuntimeMap) Destroy(RuntimeMap); }
+        void OnDestroy() { if (Devices) Devices.InvalidateDiceHints(); if (RuntimeMap) Destroy(RuntimeMap); }
         public bool SelectStarwayCharacter(string id)
         {
             return SelectCharacter(id);

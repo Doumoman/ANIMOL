@@ -14,6 +14,7 @@ namespace ANIMOL.Puzzle
         Sprite[] rollFrames;
         SpriteRenderer image;
         Sprite settled;
+        public Sprite CommittedSprite => settled;
         float rollTime;
         internal static bool TryArtState(int[] faces, out EchoTheaterV03DiceOrientation.State state,
             out bool mirrored, out string error)
@@ -66,6 +67,12 @@ namespace ANIMOL.Puzzle
             settled = clip.GetFrame(0).Sprite;
             if (rollTime <= 0f) image.sprite = settled;
         }
+        public void ResetToFaces(int[] faces)
+        {
+            rollTime = 0f;
+            rollFrames = null;
+            Present(faces);
+        }
         public void BeginRoll(Vector2Int heading, int[] beforeFaces, int[] afterFaces)
         {
             EchoTheaterV03DiceOrientation.State before, after;
@@ -81,6 +88,8 @@ namespace ANIMOL.Puzzle
                     out key, out error) ||
                 !catalog.TryGetClip(key, manifestHash, out clip, out error))
             { Debug.LogError("V3 dice roll art: " + error, this); return; }
+            // Cache the real settled face before a matching die is consumed.
+            Present(afterFaces);
             rollFrames = new Sprite[4];
             for (var frame = 0; frame < 4; frame++) rollFrames[frame] = clip.GetFrame(frame + 1).Sprite;
             rollTime = .16f;

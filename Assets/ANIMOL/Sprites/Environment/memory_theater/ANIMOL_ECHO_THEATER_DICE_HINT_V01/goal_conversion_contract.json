@@ -1,0 +1,21 @@
+{
+  "trigger": "real successful roll ends on an unconverted goal with actualAfter.Up==requiredTop",
+  "atomicModelChanges": [
+    "consume die",
+    "remove solid occupancy/collision/push entry",
+    "latch goal converted",
+    "make goal cell supported and walkable for player"
+  ],
+  "mismatch": "die remains solid and can be rolled again",
+  "presentation": [
+    "capture actual resolved die sprite before pooling",
+    "hide original die entity visual",
+    "drive pressing copy over .42 seconds",
+    "show flat wood floor"
+  ],
+  "additionalCost": 0,
+  "additionalTurns": 0,
+  "automaticPlayerMove": false,
+  "persistUntilUndoReset": true,
+  "actualUnityModelBinding": "NOT_RUN"
+}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.IO;
 using System.Linq;
 using ANIMOL.Puzzle;
+using ANIMOL.Presentation.DiceHintV01;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -107,10 +108,15 @@ namespace ANIMOL.Tests
                         (d.variant == "target" || d.variant == "socket"));
                     var dieSprite = controller.Devices.Actor(die.id).GetComponentInChildren<SpriteRenderer>().sprite;
                     var targetView = controller.Devices.Actor(target.id).GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                    var targetFace = controller.Devices.Actor(target.id).GetComponent<DiceGoalFaceViewV02>();
+                    var targetFloor = controller.Devices.Actor(target.id)
+                        .Find("__DiceGoalPlatform_VisualOnly").GetComponent<SpriteRenderer>();
                     Assert.That(dieSprite, Is.Not.Null);
-                    Assert.That(targetView.CurrentState, Is.EqualTo("target_" + target.number + "_off"));
-                    Assert.That(targetView.visual.sprite, Is.Not.Null);
-                    Assert.That(targetView.visual.sprite, Is.Not.SameAs(dieSprite));
+                    Assert.That(targetFace.RequiredFace, Is.EqualTo(target.number));
+                    Assert.That(targetView.visual.enabled, Is.True);
+                    Assert.That(targetView.visual.sprite, Is.Null);
+                    Assert.That(AssetDatabase.GetAssetPath(targetFloor.sprite),
+                        Does.EndWith("/Sprites/GoalPlatform/ready.png"));
                     Assert.That(AssetDatabase.GetAssetPath(dieSprite), Does.Contain("/dice_block/orientations/"));
                     var dieState = controller.Session.States[die.id];
                     if (load == 0)
@@ -162,14 +168,67 @@ namespace ANIMOL.Tests
                 var controller = host.GetComponent<PuzzlePrototypeController>();
                 Assert.That(controller, Is.Not.Null);
                 Assert.That(controller.Session, Is.Not.Null);
+                yield return null;
+                var goal = controller.Devices.Actor("target");
+                var face = goal.GetComponent<DiceGoalFaceViewV02>();
+                var floor = goal.transform.Find("__DiceGoalPlatform_VisualOnly");
+                var hint = controller.Devices.Actor("die").Find("__DiceNextFaceHint_VisualOnly");
+                Assert.That(hint, Is.Not.Null);
+                Assert.That(hint.gameObject.activeSelf, Is.True);
+                Assert.That(AssetDatabase.GetAssetPath(hint.GetComponent<SpriteRenderer>().sprite),
+                    Does.EndWith("/Sprites/Faces/face_4.png"));
+                Assert.That(face.RequiredFaceVisible, Is.False);
+                Assert.That(floor.gameObject.activeSelf, Is.False);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                var pressing = goal.transform.Find("__DiceGoalPressCopy_VisualOnly");
+                var deadline = Time.realtimeSinceStartup + 2f;
+                while (controller.IsMoving && !pressing.gameObject.activeSelf && Time.realtimeSinceStartup < deadline)
+                    yield return null;
+                Assert.That(pressing.gameObject.activeSelf, Is.True);
+                Assert.That(AssetDatabase.GetAssetPath(pressing.GetComponent<SpriteRenderer>().sprite),
+                    Does.EndWith("/devices/dice_block/orientations/o01.png"));
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.False);
+                while (controller.IsMoving) yield return null;
+                Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(4));
+                Assert.That(controller.Session.States["die"].removed, Is.True);
+                Assert.That(controller.Session.States["target"].converted, Is.True);
+                Assert.That(controller.Session.States["target"].active, Is.True);
+                Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.False);
+                Assert.That(face.RequiredFaceVisible, Is.False);
+                Assert.That(floor.gameObject.activeSelf, Is.True);
+                Assert.That(AssetDatabase.GetAssetPath(floor.GetComponent<SpriteRenderer>().sprite),
+                    Does.EndWith("/Sprites/GoalPlatform/walkable.png"));
+                Assert.That(goal.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual.enabled, Is.True);
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                var convertedSnapshot = controller.Session.Copy();
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
                 while (controller.IsMoving) yield return null;
-                yield return new WaitForSecondsRealtime(.3f);
-                Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(4));
-                var view = controller.Devices.Actor("die").GetComponent<ANIMOL.Presentation.DeviceVisualView>();
-                Assert.That(view.CurrentState, Is.EqualTo("t4_n5_e1"));
-                Assert.That(AssetDatabase.GetAssetPath(view.visual.sprite),
-                    Does.EndWith("/devices/dice_block/orientations/o01.png"));
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(2));
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.States["target"].converted, Is.True);
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.States["die"].removed, Is.False);
+                Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(1));
+                Assert.That(controller.Session.States["target"].converted, Is.False);
+                Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                Assert.That(face.RequiredFaceVisible, Is.True);
+                controller.RestoreSnapshot(convertedSnapshot);
+                Assert.That(controller.Session.States["target"].converted, Is.True);
+                Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.False);
+                Assert.That(pressing.gameObject.activeSelf, Is.False);
+                Assert.That(AssetDatabase.GetAssetPath(floor.GetComponent<SpriteRenderer>().sprite),
+                    Does.EndWith("/Sprites/GoalPlatform/walkable.png"));
+                controller.ResetStage();
+                Assert.That(controller.Session.States["target"].converted, Is.False);
+                Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                controller.Load(map);
+                Assert.That(controller.Session.States["target"].converted, Is.False);
+                Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                Assert.That(controller.Devices.Actor("target").GetComponent<DiceGoalFaceViewV02>()
+                    .RequiredFace, Is.EqualTo(4));
+                Assert.That(controller.Devices.Actor("target").Find("__DiceGoalPressCopy_VisualOnly")
+                    .gameObject.activeSelf, Is.False);
                 Assert.That(controller.Devices.MissingBindings, Is.Zero);
             }
             finally { Object.Destroy(host); }
@@ -205,6 +264,50 @@ namespace ANIMOL.Tests
                 Assert.That(controller.Devices.MissingBindings, Is.Zero);
             }
             finally { Object.Destroy(host); Object.Destroy(map); }
+        }
+
+        [UnityTest] public IEnumerator WrongFaceRemainsSolidAndPushQueryDoesNotCommit()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device22_Dice.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.devices.First(d => d.id == "target").number = 5;
+            map.InvalidateIndex();
+            var host = new GameObject("Wrong face dice test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                var state = controller.Session;
+                var initialFaces = (int[])state.States["die"].dice.Clone();
+                for (var i = 0; i < 4; i++)
+                {
+                    Assert.That(state.CanPushDieOneCell("die", Vector2Int.right, out var predicted), Is.True);
+                    Assert.That(predicted[0], Is.EqualTo(4));
+                }
+                Assert.That(state.Cost, Is.Zero);
+                Assert.That(state.States["die"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+                Assert.That(state.States["die"].dice, Is.EqualTo(initialFaces));
+                Assert.That(state.Undo(), Is.False);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That(state.States["die"].removed, Is.False);
+                Assert.That(state.States["die"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(state.States["target"].converted, Is.False);
+                Assert.That(state.Cost, Is.EqualTo(1));
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That(state.States["die"].cell, Is.EqualTo(new Vector2Int(4, 2)));
+                Assert.That(state.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(state.Cost, Is.EqualTo(2));
+                controller.ResetStage();
+                Assert.That(state.Cost, Is.Zero);
+                Assert.That(state.States["die"].dice, Is.EqualTo(initialFaces));
+                Assert.That(state.States["target"].converted, Is.False);
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
         }
 
         [UnityTest] public IEnumerator DominoAndDiceStagesBindVisualsAndOpenPassages()

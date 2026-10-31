@@ -23,6 +23,7 @@ namespace ANIMOL.Presentation.Editor
             // generic 32 PPU policy must not overwrite their native settings.
             if(assetPath.Contains("/ANIMOL_ECHO_THEATER_RAIL_CART_V01/") ||
                assetPath.Contains("/ANIMOL_ECHO_THEATER_CARTOON_V03/") ||
+               assetPath.Contains("/ANIMOL_ECHO_THEATER_DICE_HINT_V01/") ||
                assetPath.Contains("/ANIMOL_STARWAY_RANCH_CARTOON_V12/"))return;
             // The full-resolution menu art has its own importer policy. The gameplay
             // sprite manifest must not force these illustrations to Point/32 PPU.

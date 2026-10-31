@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
@@ -7,6 +8,7 @@ using ANIMOL.Art.V12;
 using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.StarSwellCoastV01;
+using ANIMOL.Presentation.DiceHintV01;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -26,6 +28,13 @@ namespace ANIMOL.Puzzle
             new Dictionary<string, string>(StringComparer.Ordinal);
         readonly Dictionary<string, Transform> roots = new Dictionary<string, Transform>();
         readonly Dictionary<string, EchoTheaterDiceFaceView> echoDice = new Dictionary<string, EchoTheaterDiceFaceView>();
+        readonly Dictionary<string, DiceRollHintFeedV01> diceFeeds = new Dictionary<string, DiceRollHintFeedV01>();
+        readonly Dictionary<string, DiceRollHintViewV01> diceHints = new Dictionary<string, DiceRollHintViewV01>();
+        readonly Dictionary<string, DiceGoalFaceViewV02> diceGoalFaces = new Dictionary<string, DiceGoalFaceViewV02>();
+        readonly Dictionary<string, DiceGoalPlatformViewV03> diceGoalPlatforms = new Dictionary<string, DiceGoalPlatformViewV03>();
+        readonly List<GoalPress> goalPresses = new List<GoalPress>();
+        long diceHintRevision;
+        sealed class GoalPress { public DiceGoalPlatformViewV03 platform; public Sprite sprite; public int top; }
         readonly HashSet<string> echoReflectors = new HashSet<string>();
         readonly Dictionary<string, SeatedStarVisual> seatedStars = new Dictionary<string, SeatedStarVisual>();
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
@@ -114,6 +123,12 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
+                if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Dice &&
+                    (d.variant == "target" || d.variant == "socket"))
+                {
+                    BindDiceGoal(d, root);
+                    continue;
+                }
                 if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.MovingStage)
                 {
                     var catalog = session.Map.theme ? session.Map.theme.echoRailCartV01Catalog : null;
@@ -191,6 +206,7 @@ namespace ANIMOL.Puzzle
                     { MissingBindings++; Debug.LogError("V3 dice art: " + error, root); }
                     else faceView.Present(session.States[d.id].dice);
                     echoDice.Add(d.id, faceView);
+                    BindDiceHint(d, root);
                     continue;
                 }
                 if (session.Rules.echoTheaterV3Rules && d.role == PrototypeRole.Bounce &&
@@ -260,6 +276,8 @@ namespace ANIMOL.Puzzle
                         }
                     }
                 }
+                if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Dice)
+                    BindDiceHint(d, root);
             }
             if (session.Rules.themeId == "letter_observatory" && session.Map.theme &&
                 session.Map.theme.sunsetSanctumV02Catalog)
@@ -277,6 +295,118 @@ namespace ANIMOL.Puzzle
             else if (session.Rules.beamPrefab)
             { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
             Settle();
+        }
+        void BindDiceGoal(PrototypeDevice d, GameObject root)
+        {
+            var theme = session.Map.theme;
+            var old = root.GetComponent<DeviceVisualView>();
+            var baseRenderer = old ? old.visual : root.GetComponentInChildren<SpriteRenderer>();
+            if (!theme || !theme.diceFaceSet || !theme.diceGoalPlatformArt || !baseRenderer)
+            { MissingBindings++; Debug.LogError("R3 dice goal art or original renderer is missing: " + d.id, root); return; }
+            if (old) old.enabled = false;
+            baseRenderer.enabled = true;
+            baseRenderer.sortingOrder = 22;
+            var face = root.AddComponent<DiceGoalFaceViewV02>();
+            var platform = root.AddComponent<DiceGoalPlatformViewV03>();
+            string error;
+            if (!face.Configure(theme.diceFaceSet, baseRenderer, root.transform, 1f,
+                    session.States[d.id].cell, d.number, out error) ||
+                !platform.Configure(theme.diceGoalPlatformArt, face, baseRenderer, root.transform, 1f, out error))
+            { MissingBindings++; Debug.LogError("R3 dice goal binding failed: " + d.id + ": " + error, root); return; }
+            diceGoalFaces.Add(d.id, face);
+            diceGoalPlatforms.Add(d.id, platform);
+            if (session.States[d.id].converted) platform.ShowWalkable(); else platform.ShowReady();
+        }
+        void BindDiceHint(PrototypeDevice d, GameObject root)
+        {
+            var original = root.GetComponent<DeviceVisualView>();
+            var renderer = original ? original.visual : root.GetComponentInChildren<SpriteRenderer>();
+            var faces = session.Map.theme ? session.Map.theme.diceFaceSet : null;
+            if (!renderer || !faces)
+            { MissingBindings++; Debug.LogError("R3 dice hint face set or renderer is missing: " + d.id, root); return; }
+            var feed = root.AddComponent<DiceRollHintFeedV01>();
+            feed.ConfigureGrid(transform, Vector2.zero, 1f);
+            var hint = root.AddComponent<DiceRollHintViewV01>();
+            string error;
+            if (!hint.Configure(feed, renderer, faces, out error))
+            { MissingBindings++; Debug.LogError("R3 dice hint binding failed: " + d.id + ": " + error, root); return; }
+            diceFeeds.Add(d.id, feed);
+            diceHints.Add(d.id, hint);
+        }
+        public void InvalidateDiceHints()
+        {
+            foreach (var feed in diceFeeds.Values) feed.Invalidate();
+            foreach (var hint in diceHints.Values) hint.HideImmediately();
+        }
+        public void PublishDiceHints(bool inputReady)
+        {
+            InvalidateDiceHints();
+            if (!inputReady) return;
+            foreach (var pair in diceFeeds)
+            {
+                var state = session.States[pair.Key];
+                if (state.removed) continue;
+                EchoTheaterV03DiceOrientation.State artFaces;
+                bool mirrored; string error;
+                if (!EchoTheaterDiceFaceView.TryArtState(state.dice, out artFaces, out mirrored, out error))
+                { MissingBindings++; Debug.LogError("R3 dice hint orientation: " + pair.Key + ": " + error, this); continue; }
+                var heading = state.cell - session.Cell;
+                DiceRollMask legal = DiceRollMask.None;
+                int[] after = null;
+                if (heading.sqrMagnitude == 1 && session.CanPushDieOneCell(pair.Key, heading, out after))
+                    legal = heading == Vector2Int.up ? DiceRollMask.North :
+                        heading == Vector2Int.right ? DiceRollMask.East :
+                        heading == Vector2Int.down ? DiceRollMask.South : DiceRollMask.West;
+                var goal = legal == DiceRollMask.None ? null : session.Devices.FirstOrDefault(d =>
+                    d.role == PrototypeRole.Dice && (d.variant == "target" || d.variant == "socket") &&
+                    session.States[d.id].cell == state.cell + heading && !session.States[d.id].converted);
+                DiceGoalFaceViewV02 destinationGoal = null;
+                if (goal != null) diceGoalFaces.TryGetValue(goal.id, out destinationGoal);
+                var snapshot = new DiceHintSnapshot { Revision = ++diceHintRevision,
+                    DiceExists = true, InputReady = true, DiceSettled = true,
+                    PlayerCell = session.Cell, DiceCell = state.cell, Faces = artFaces,
+                    MirroredNorthSouth = mirrored, LegalRolls = legal, DestinationGoal = destinationGoal };
+                DiceRollHint predicted;
+                if (legal != DiceRollMask.None &&
+                    (!DiceRollHintPolicyV01.TryEvaluate(snapshot, out predicted) || predicted.NextTop != after[0]))
+                { MissingBindings++; Debug.LogError("R3 dice hint disagrees with committed roll: " + pair.Key, this); continue; }
+                pair.Value.Publish(snapshot);
+            }
+        }
+        void BeginGoalPress(PrototypeEvent e)
+        {
+            if (!diceGoalPlatforms.TryGetValue(e.actor, out var platform)) return;
+            Sprite captured = null;
+            if (e.dieId != null && echoDice.TryGetValue(e.dieId, out var face)) captured = face.CommittedSprite;
+            if (!captured && e.dieId != null && views.TryGetValue(e.dieId, out var view) && e.diceAfter != null)
+            {
+                var state = session.States[e.dieId];
+                var binding = Array.Find(view.states, item => item.name == state.DiceId);
+                captured = binding != null ? binding.sprite : null;
+            }
+            if (e.dieId != null && roots.TryGetValue(e.dieId, out var die)) die.gameObject.SetActive(false);
+            string error = null;
+            if (!captured || !platform.ShowPressing(captured, e.diceAfter[0], 0f, out error))
+            { MissingBindings++; Debug.LogError("R3 dice goal press art failed: " + e.actor + ": " + error, this); platform.ShowWalkable(); return; }
+            goalPresses.Add(new GoalPress { platform = platform, sprite = captured, top = e.diceAfter[0] });
+        }
+        public IEnumerator PlayGoalPresses()
+        {
+            if (goalPresses.Count == 0) yield break;
+            var elapsed = 0f;
+            while (elapsed < .42f)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                foreach (var press in goalPresses)
+                {
+                    string error;
+                    if (!press.platform.ShowPressing(press.sprite, press.top, Mathf.Clamp01(elapsed / .42f), out error))
+                    { MissingBindings++; Debug.LogError("R3 dice goal press update failed: " + error, this); }
+                }
+                yield return null;
+            }
+            foreach (var press in goalPresses) press.platform.ShowWalkable();
+            goalPresses.Clear();
         }
         static bool HasV03DeviceArt(PrototypeRole role)
         {
@@ -317,6 +447,7 @@ namespace ANIMOL.Puzzle
         }
         public void Notify(PrototypeEvent e, string actionId)
         {
+            if (e.eventName == "dice_goal_absorbed") { BeginGoalPress(e); return; }
             if (railCarts.TryGetValue(e.actor ?? "", out var cart))
             {
                 if (e.eventName == "valid_action_stage_move_committed" &&
@@ -531,8 +662,9 @@ namespace ANIMOL.Puzzle
         }
         void OnApplicationPause(bool paused) { applicationPaused = paused; }
         void OnApplicationFocus(bool focused) { applicationFocused = focused; }
-        public void Settle()
+        public void Settle(bool restoring = false)
         {
+            goalPresses.Clear();
             SettleWindRoutes();
             if (sanctumBeams.Count > 0)
             { SyncSanctumBeams(); foreach (var beam in sanctumBeams.Values) beam.CompleteAction(); }
@@ -545,6 +677,13 @@ namespace ANIMOL.Puzzle
                 { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
+                if (diceGoalPlatforms.TryGetValue(d.id, out var goalPlatform))
+                {
+                    roots[d.id].localPosition = (Vector2)s.cell;
+                    roots[d.id].gameObject.SetActive(true);
+                    if (s.converted) goalPlatform.ShowWalkable(); else goalPlatform.ShowReady();
+                    continue;
+                }
                 if (railCarts.TryGetValue(d.id, out var railCart))
                 {
                     if (roots.TryGetValue(d.id, out var cartRoot))
@@ -560,7 +699,8 @@ namespace ANIMOL.Puzzle
                 {
                     root.localPosition = (Vector2)s.cell;
                     root.gameObject.SetActive(!s.removed);
-                    if (!s.removed) faceView.Present(s.dice);
+                    if (!s.removed)
+                    { if (restoring) faceView.ResetToFaces(s.dice); else faceView.Present(s.dice); }
                     continue;
                 }
                 if (echoReflectors.Contains(d.id)) { root.localPosition = (Vector2)s.cell; continue; }
@@ -579,6 +719,12 @@ namespace ANIMOL.Puzzle
                 root.gameObject.SetActive(true);
                 if (seatedStars.TryGetValue(d.id, out var seated)) seated.Present(s.active);
                 var state = Idle(d, s);
+                if (restoring && d.role == PrototypeRole.Dice)
+                {
+                    pendingIdle.Remove(d.id);
+                    if (!view.Present(state, true)) MissingBindings++;
+                    continue;
+                }
                 if (ferries.TryGetValue(d.id, out var ferry)) ferry.passenger.enabled = session.BoatId == d.id;
                 if (PlayingTransition(view)) { pendingIdle[d.id] = state; continue; }
                 pendingIdle.Remove(d.id);

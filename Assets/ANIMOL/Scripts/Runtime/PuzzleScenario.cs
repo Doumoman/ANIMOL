@@ -171,11 +171,11 @@ namespace ANIMOL.Puzzle
         public Vector2Int cell, direction;
         // Presentation heading for the timid puppet; movement still uses direction.
         public Vector2Int lookDirection;
-        public bool active, removed, locked;
+        public bool active, removed, locked, converted;
         public int phase, timer;
         public int[] dice = { 1, 6, 5, 2, 3, 4 }; // top,bottom,north,south,east,west
         public List<Vector2Int> trail = new List<Vector2Int>();
-        public PrototypeDeviceState Copy() => new PrototypeDeviceState { cell = cell, direction = direction, lookDirection = lookDirection, active = active, removed = removed, locked = locked, phase = phase, timer = timer, dice = (int[])dice.Clone(), trail = new List<Vector2Int>(trail) };
+        public PrototypeDeviceState Copy() => new PrototypeDeviceState { cell = cell, direction = direction, lookDirection = lookDirection, active = active, removed = removed, locked = locked, converted = converted, phase = phase, timer = timer, dice = (int[])dice.Clone(), trail = new List<Vector2Int>(trail) };
         public string DiceId => "t" + dice[0] + "_n" + dice[2] + "_e" + dice[4];
     }
     public enum PrototypeEventKind { Move, Visual, Beam, Blast, Failed, Won }
@@ -186,6 +186,7 @@ namespace ANIMOL.Puzzle
         public Vector2Int from, to;
         // Visual audit data for a committed die roll; it does not alter authority.
         public int[] diceBefore, diceAfter;
+        public string dieId;
         public Vector2Int rollHeading;
         public bool teleport;
         public int group;
