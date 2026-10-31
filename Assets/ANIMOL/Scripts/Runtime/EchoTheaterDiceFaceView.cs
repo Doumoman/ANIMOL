@@ -4,8 +4,8 @@ using ANIMOL.Art.EchoTheaterV03;
 
 namespace ANIMOL.Puzzle
 {
-    // V3 mirrors the north/south labels of V03's 24-state sheet. Convert only for
-    // art lookup; the authoritative faces remain in PuzzleDeviceSession.
+    // Authored V3 maps use both the V03 face convention and its north/south mirror.
+    // Resolve the convention from the full committed orientation for art lookup only.
     public sealed class EchoTheaterDiceFaceView : MonoBehaviour
     {
         EchoTheaterV03DiceVisualMap map;
@@ -15,17 +15,25 @@ namespace ANIMOL.Puzzle
         SpriteRenderer image;
         Sprite settled;
         float rollTime;
-        internal static bool TryArtState(int[] faces, out EchoTheaterV03DiceOrientation.State state, out string error)
+        internal static bool TryArtState(int[] faces, out EchoTheaterV03DiceOrientation.State state,
+            out bool mirrored, out string error)
         {
             state = default;
+            mirrored = false;
             if (faces == null || faces.Length != 6) { error = "Six dice faces required."; return false; }
-            return EchoTheaterV03DiceOrientation.TryCreate(faces[0], faces[1], faces[3], faces[2],
-                faces[4], faces[5], out state, out error);
+            if (EchoTheaterV03DiceOrientation.TryCreate(faces[0], faces[1], faces[2], faces[3],
+                faces[4], faces[5], out state, out error)) return true;
+            if (!EchoTheaterV03DiceOrientation.TryCreate(faces[0], faces[1], faces[3], faces[2],
+                faces[4], faces[5], out state, out error)) return false;
+            mirrored = true;
+            return true;
         }
 
-        static EchoTheaterV03DiceOrientation.Heading ArtHeading(Vector2Int direction) =>
-            direction == Vector2Int.up ? EchoTheaterV03DiceOrientation.Heading.South :
-            direction == Vector2Int.down ? EchoTheaterV03DiceOrientation.Heading.North :
+        static EchoTheaterV03DiceOrientation.Heading ArtHeading(Vector2Int direction, bool mirrored) =>
+            direction == Vector2Int.up ? mirrored ? EchoTheaterV03DiceOrientation.Heading.South :
+                EchoTheaterV03DiceOrientation.Heading.North :
+            direction == Vector2Int.down ? mirrored ? EchoTheaterV03DiceOrientation.Heading.North :
+                EchoTheaterV03DiceOrientation.Heading.South :
             direction == Vector2Int.right ? EchoTheaterV03DiceOrientation.Heading.East :
             direction == Vector2Int.left ? EchoTheaterV03DiceOrientation.Heading.West :
                 EchoTheaterV03DiceOrientation.Heading.None;
@@ -48,9 +56,10 @@ namespace ANIMOL.Puzzle
         public void Present(int[] faces)
         {
             EchoTheaterV03DiceOrientation.State state;
+            bool mirrored;
             string key, error;
             EchoTheaterV03VisualCatalog.Clip clip;
-            if (!TryArtState(faces, out state, out error) ||
+            if (!TryArtState(faces, out state, out mirrored, out error) ||
                 !map.TryGetStableClip(state, out key, out error) ||
                 !catalog.TryGetClip(key, manifestHash, out clip, out error))
             { Debug.LogError("V3 dice stable art: " + error, this); return; }
@@ -60,10 +69,16 @@ namespace ANIMOL.Puzzle
         public void BeginRoll(Vector2Int heading, int[] beforeFaces, int[] afterFaces)
         {
             EchoTheaterV03DiceOrientation.State before, after;
+            bool beforeMirrored, afterMirrored;
             string key, error;
             EchoTheaterV03VisualCatalog.Clip clip;
-            if (!TryArtState(beforeFaces, out before, out error) || !TryArtState(afterFaces, out after, out error) ||
-                !map.TryGetCommittedRollClip(before, after, ArtHeading(heading), true, false, out key, out error) ||
+            if (!TryArtState(beforeFaces, out before, out beforeMirrored, out error) ||
+                !TryArtState(afterFaces, out after, out afterMirrored, out error))
+            { Debug.LogError("V3 dice roll art: " + error, this); return; }
+            if (beforeMirrored != afterMirrored)
+            { Debug.LogError("V3 dice roll art: face convention changed during a roll.", this); return; }
+            if (!map.TryGetCommittedRollClip(before, after, ArtHeading(heading, beforeMirrored), true, false,
+                    out key, out error) ||
                 !catalog.TryGetClip(key, manifestHash, out clip, out error))
             { Debug.LogError("V3 dice roll art: " + error, this); return; }
             rollFrames = new Sprite[4];

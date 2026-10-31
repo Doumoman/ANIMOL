@@ -149,6 +149,64 @@ namespace ANIMOL.Tests
             finally { Object.Destroy(host); }
         }
 
+        [UnityTest] public IEnumerator MapEditorPreviewRollsDieOntoItsTarget()
+        {
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device22_Dice.asset");
+            var host = new GameObject("Map editor preview dice test");
+            var preview = host.AddComponent<PuzzleController>();
+            preview.stage = map;
+            try
+            {
+                yield return null;
+                var controller = host.GetComponent<PuzzlePrototypeController>();
+                Assert.That(controller, Is.Not.Null);
+                Assert.That(controller.Session, Is.Not.Null);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                yield return new WaitForSecondsRealtime(.3f);
+                Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(4));
+                var view = controller.Devices.Actor("die").GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                Assert.That(view.CurrentState, Is.EqualTo("t4_n5_e1"));
+                Assert.That(AssetDatabase.GetAssetPath(view.visual.sprite),
+                    Does.EndWith("/devices/dice_block/orientations/o01.png"));
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(host); }
+        }
+
+        [UnityTest] public IEnumerator SelectedEchoTheaterMapRollsDieWhenPushed()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-01_MapData.asset");
+            var map = Object.Instantiate(source);
+            map.start = new Vector2Int(11, 7);
+            map.InvalidateIndex();
+            var host = new GameObject("ET-01 map editor preview dice test");
+            var preview = host.AddComponent<PuzzleController>();
+            preview.stage = map;
+            try
+            {
+                yield return null;
+                var controller = host.GetComponent<PuzzlePrototypeController>();
+                Assert.That(controller, Is.Not.Null);
+                Assert.That(controller.Session, Is.Not.Null);
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                var die = controller.Devices.Actor("dice_1");
+                var renderer = die.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual;
+                var before = renderer.sprite;
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                while (controller.IsMoving) yield return null;
+                yield return new WaitForSecondsRealtime(.3f);
+                Assert.That(controller.Session.States["dice_1"].dice[0], Is.EqualTo(2));
+                Assert.That(renderer.sprite, Is.Not.SameAs(before));
+                Assert.That(AssetDatabase.GetAssetPath(renderer.sprite),
+                    Does.EndWith("/devices/dice_block/orientations/o02.png"));
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map); }
+        }
+
         [UnityTest] public IEnumerator DominoAndDiceStagesBindVisualsAndOpenPassages()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
