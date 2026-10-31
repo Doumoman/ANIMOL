@@ -1,0 +1,1 @@
+namespace ANIMOL.Art.EchoRailCartV01 { public static class EchoRailCartPinV01 { public const string Package="ANIMOL_ECHO_THEATER_RAIL_CART_V01"; public const string Sha256="f68465fbf7e0719f84bad43c7f272a316f0be4262f06da3d165c25909e96837e"; public const int SpriteCount=14; public const int ClipCount=12; } }

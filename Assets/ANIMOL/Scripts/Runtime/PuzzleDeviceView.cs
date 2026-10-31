@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
+using ANIMOL.Art.EchoRailCartV01;
 using ANIMOL.Art.V12;
 using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Art.SunsetSanctumV02;
@@ -28,6 +29,8 @@ namespace ANIMOL.Puzzle
         readonly HashSet<string> echoReflectors = new HashSet<string>();
         readonly Dictionary<string, SeatedStarVisual> seatedStars = new Dictionary<string, SeatedStarVisual>();
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
+        readonly Dictionary<string, EchoRailCartVisualV01> railCarts =
+            new Dictionary<string, EchoRailCartVisualV01>(StringComparer.Ordinal);
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
         readonly HashSet<string> pendingRemoval = new HashSet<string>();
         readonly Dictionary<string, AnimolWindRouteRenderer> windRoutes =
@@ -111,6 +114,56 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
+                if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.MovingStage)
+                {
+                    var catalog = session.Map.theme ? session.Map.theme.echoRailCartV01Catalog : null;
+                    string error = null;
+                    if (!catalog || !catalog.Validate(out error))
+                    {
+                        MissingBindings++;
+                        Debug.LogError("Echo rail cart catalog missing or invalid: " + (catalog ? error : d.id), root);
+                        root.SetActive(false);
+                        continue;
+                    }
+                    var legacy = root.GetComponent<DeviceVisualView>();
+                    if (legacy)
+                    {
+                        if (legacy.visual) legacy.visual.enabled = false;
+                        legacy.enabled = false;
+                    }
+                    var visual = root.GetComponentInChildren<EchoRailCartVisualV01>(true);
+                    if (!visual)
+                    {
+                        var child = new GameObject("Rail cart V01 visual");
+                        child.transform.SetParent(root.transform, false);
+                        child.AddComponent<SpriteRenderer>();
+                        visual = child.AddComponent<EchoRailCartVisualV01>();
+                    }
+                    var renderer = visual.GetComponent<SpriteRenderer>();
+                    renderer.enabled = true;
+                    renderer.sortingOrder = 30;
+                    if (!visual.Configure(catalog, out error) || !visual.ShowCart(RailCartHeading(session.States[d.id].direction)))
+                    {
+                        MissingBindings++;
+                        Debug.LogError("Echo rail cart binding failed: " + error, root);
+                        root.SetActive(false);
+                        continue;
+                    }
+                    railCarts.Add(d.id, visual);
+                    for (var i = 0; i < d.cells.Count; i++)
+                    {
+                        if (!EchoRailCartRailTopologyV01.TryKey(d.cells, i, d.direction, out var key) ||
+                            !catalog.TrySprite("rail/" + key, out var railSprite))
+                        { MissingBindings++; Debug.LogError("Echo rail cart route art is invalid: " + d.id, root); continue; }
+                        var rail = new GameObject(d.id + " rail " + i);
+                        rail.transform.SetParent(transform, false);
+                        rail.transform.localPosition = (Vector2)d.cells[i];
+                        var floor = rail.AddComponent<SpriteRenderer>();
+                        floor.sprite = railSprite;
+                        floor.sortingOrder = 15;
+                    }
+                    continue;
+                }
                 // The follower chick keeps its V12 visual and blocking puzzle behavior.
                 if (session.Rules.themeId == "starway" && d.role != PrototypeRole.Chick &&
                     RanchDevicesV13PuzzleBinding.Covers(d))
@@ -263,6 +316,12 @@ namespace ANIMOL.Puzzle
         }
         public void Notify(PrototypeEvent e, string actionId)
         {
+            if (railCarts.TryGetValue(e.actor ?? "", out var cart))
+            {
+                if (e.eventName == "valid_action_stage_move_committed" &&
+                    !cart.ShowCart(RailCartHeading(session.States[e.actor].direction))) MissingBindings++;
+                return;
+            }
             if (ranchV13.TryGetValue(e.actor ?? "", out var ranch))
             {
                 if (!ranch.Notify(e, session.States[e.actor])) MissingBindings++;
@@ -483,6 +542,16 @@ namespace ANIMOL.Puzzle
                 { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
+                if (railCarts.TryGetValue(d.id, out var railCart))
+                {
+                    if (roots.TryGetValue(d.id, out var cartRoot))
+                    {
+                        cartRoot.localPosition = (Vector2)s.cell;
+                        cartRoot.gameObject.SetActive(!s.removed);
+                    }
+                    if (!s.removed && !railCart.ShowCart(RailCartHeading(s.direction))) MissingBindings++;
+                    continue;
+                }
                 if (!roots.TryGetValue(d.id, out var root)) continue;
                 if (echoDice.TryGetValue(d.id, out var faceView))
                 {
@@ -522,6 +591,9 @@ namespace ANIMOL.Puzzle
             { var sum = -b.incoming + b.outgoing; return "beam_" + (sum.x < 0 ? (sum.y > 0 ? "nw" : "sw") : (sum.y > 0 ? "ne" : "se")); }
             return b.terminal ? "beam_terminal_" + PuzzleDeviceSession.Dir(b.outgoing) : "beam_" + (b.outgoing.x == 0 ? "vertical" : "horizontal");
         }
+        static string RailCartHeading(Vector2Int direction) =>
+            direction == Vector2Int.up ? "north" : direction == Vector2Int.right ? "east" :
+            direction == Vector2Int.down ? "south" : direction == Vector2Int.left ? "west" : null;
         public static string Idle(PrototypeDevice d, PrototypeDeviceState s)
         {
             var dir = PuzzleDeviceSession.Dir(s.direction);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ANIMOL.Art.EchoTheaterV03;
+using ANIMOL.Art.EchoRailCartV01;
 using ANIMOL.Art.StarSwellCoastV01;
 using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.RanchConnectedDecorV02;
@@ -682,7 +683,7 @@ namespace ANIMOL.Presentation.Editor
                 case PrototypeRole.CrescentLeap: return "초승달 도약대";
                 case PrototypeRole.Shutter: return "셔터";
                 case PrototypeRole.DepartureSpikes: return "이탈 가시";
-                case PrototypeRole.MovingStage: return "이동 발판";
+                case PrototypeRole.MovingStage: return "레일 카트";
                 case PrototypeRole.Conveyor: return "무빙워크";
                 case PrototypeRole.Bookshelf: return "책장";
                 case PrototypeRole.OneWayGate: return "일방통행 문";
@@ -718,7 +719,8 @@ namespace ANIMOL.Presentation.Editor
             (device.role == PrototypeRole.Bookshelf && device.variant == "plate" ? "책장 발판" : DeviceName(device.role)) +
             ((device.role == PrototypeRole.Bookshelf && device.variant == "plate") || string.IsNullOrEmpty(device.variant)
                 ? "" : " · " + VariantName(device.variant));
-        public static string GridDeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.Bookshelf
+        public static string GridDeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.MovingStage
+            ? "06 카트" : device.role == PrototypeRole.Bookshelf
             ? (device.variant == "plate" ? "발판" : "책장")
             : ((int)device.role).ToString("00") + " " + DeviceFacingName(device);
         static readonly string[] BounceCornerNames = { "왼쪽 위", "오른쪽 위", "오른쪽 아래", "왼쪽 아래" };
@@ -1357,6 +1359,14 @@ namespace ANIMOL.Presentation.Editor
                 var decorationsByCell = map.decorations.ToLookup(d => d.position);
                 var configuredByCell = map.scenario ? map.scenario.devices.ToLookup(d => d.position) :
                     Enumerable.Empty<PrototypeDevice>().ToLookup(d => d.position);
+                var railByCell = new Dictionary<Vector2Int, Sprite>();
+                var railCatalog = map.theme ? map.theme.echoRailCartV01Catalog : null;
+                if (railCatalog && railCatalog.Validate(out _) && map.scenario)
+                    foreach (var stage in map.scenario.devices.Where(d => d.role == PrototypeRole.MovingStage))
+                        for (var i = 0; i < stage.cells.Count; i++)
+                            if (EchoRailCartRailTopologyV01.TryKey(stage.cells, i, stage.direction, out var key) &&
+                                railCatalog.TrySprite("rail/" + key, out var rail))
+                                railByCell[stage.cells[i]] = rail;
                 var nestCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.NestCells) : null;
                 var rewardCells = map.scenario ? new HashSet<Vector2Int>(map.scenario.devices.Where(d =>
                     d.role == PrototypeRole.StarSocket && d.variant == "socket" &&
@@ -1468,6 +1478,7 @@ namespace ANIMOL.Presentation.Editor
                     if (d.kind != DeviceKind.None)
                         GUI.Label(rect, (d.kind == DeviceKind.Portal ? "문" : d.kind == DeviceKind.Conveyor ? "무" :
                             d.kind == DeviceKind.Wind ? "바" : d.kind == DeviceKind.Ice ? "얼" : "멈") + DirectionGlyph(d.direction));
+                    if (railByCell.TryGetValue(p, out var railSprite)) DrawWorldSprite(rect.center, railSprite);
                     foreach (var configured in configuredByCell[p]) DrawDevice(rect, configured);
                     if (!map.Contains(p)) GUI.Label(rect, "/");
                 }
@@ -1638,7 +1649,13 @@ namespace ANIMOL.Presentation.Editor
             d == Vector2Int.down ? "남 S" : d == Vector2Int.left ? "서 W" : "방향 없음";
         void DrawDevice(Rect cell, PrototypeDevice device)
         {
-            if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
+            if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
+            {
+                var cart = DeviceSprite(device);
+                if (cart) DrawWorldSprite(cell.center, cart);
+                else GUI.Label(cell, "카트 그림 없음", EditorStyles.whiteMiniLabel);
+            }
+            else if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
             {
                 if (RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var v13Sprite, out _))
                     DrawWorldSprite(cell.center, v13Sprite);
@@ -1683,6 +1700,15 @@ namespace ANIMOL.Presentation.Editor
         }
         Sprite DeviceSprite(PrototypeDevice device)
         {
+            if (device.role == PrototypeRole.MovingStage && map.theme && map.theme.memorySkyTheater)
+            {
+                var catalog = map.theme.echoRailCartV01Catalog;
+                var direction = device.direction == Vector2Int.up ? "north" :
+                    device.direction == Vector2Int.right ? "east" :
+                    device.direction == Vector2Int.down ? "south" :
+                    device.direction == Vector2Int.left ? "west" : null;
+                return catalog && catalog.TrySprite("cart/" + direction + "/idle", out var cart) ? cart : null;
+            }
             if (RanchDevicesV13EditorPreview.Covers(map.theme, device))
                 return RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var current, out _) ? current : null;
             var prefab = device.visualPrefab;
