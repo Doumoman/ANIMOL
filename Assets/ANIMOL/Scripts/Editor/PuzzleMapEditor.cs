@@ -1771,6 +1771,8 @@ namespace ANIMOL.Presentation.Editor
                 rect = new Rect(rect.x + inset, rect.y + inset, rect.width - inset * 2, rect.height - inset * 2);
             }
             if (sprite) DrawSpriteFitted(rect, sprite);
+            else if (device.role == PrototypeRole.Dice)
+                GUI.Label(rect, "주사위 그림 없음", EditorStyles.whiteMiniLabel);
             else if (device.visualPrefab)
             {
                 var preview = AssetPreview.GetAssetPreview(device.visualPrefab) ?? AssetPreview.GetMiniThumbnail(device.visualPrefab);
@@ -1793,11 +1795,12 @@ namespace ANIMOL.Presentation.Editor
                 return RanchDevicesV13EditorPreview.TryDevice(map.theme, device, out var current, out _) ? current : null;
             var prefab = device.visualPrefab;
             if (!prefab) return null;
-            var cacheKey = prefab.GetInstanceID() + ":" + PreviewState(device);
+            var echoV3Rules = map.scenario && map.scenario.echoTheaterV3Rules;
+            var cacheKey = prefab.GetInstanceID() + ":" + PreviewState(device, echoV3Rules);
             if (legacyDeviceSprites.TryGetValue(cacheKey, out var cached)) return cached;
-            return CacheLegacyDeviceSprite(cacheKey, PrefabPreviewSprite(device));
+            return CacheLegacyDeviceSprite(cacheKey, PrefabPreviewSprite(device, echoV3Rules));
         }
-        static string PreviewState(PrototypeDevice device)
+        static string PreviewState(PrototypeDevice device, bool echoV3Rules = false)
         {
             if (device.role == PrototypeRole.Dice)
             {
@@ -1805,24 +1808,26 @@ namespace ANIMOL.Presentation.Editor
                     return "target_" + device.number + (device.active ? "_on" : "_off");
                 var faces = device.initialDiceFaces;
                 if (faces != null && faces.Length == 6)
-                    return "t" + faces[0] + "_n" + faces[2] + "_e" + faces[4];
+                    return "t" + faces[0] + "_n" + faces[echoV3Rules ? 3 : 2] + "_e" + faces[4];
             }
             if (device.role != PrototypeRole.Bookshelf) return device.initialVisual;
             if (device.variant == "plate") return device.active ? "plate_pressed" : "plate_idle";
             return new[] { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" }
                 [((device.orientation % 4) + 4) % 4];
         }
-        public static Sprite PrefabPreviewSprite(PrototypeDevice device)
+        public static Sprite PrefabPreviewSprite(PrototypeDevice device, bool echoV3Rules = false)
         {
             var prefab = device.visualPrefab;
             if (!prefab) return null;
             var view = prefab.GetComponentInChildren<ANIMOL.Presentation.DeviceVisualView>(true);
-            var stateName = PreviewState(device);
-            var state = view?.states?.FirstOrDefault(candidate => candidate.name == stateName) ??
-                view?.states?.FirstOrDefault(candidate => candidate.name == view.initialState);
+            var stateName = PreviewState(device, echoV3Rules);
+            var state = view?.states?.FirstOrDefault(candidate => candidate.name == stateName);
+            if (state == null && device.role != PrototypeRole.Dice)
+                state = view?.states?.FirstOrDefault(candidate => candidate.name == view.initialState);
             if (state?.sprite) return state.sprite;
             if (state?.sequence && state.sequence.frames != null && state.sequence.frames.Length > 0 && state.sequence.frames[0])
                 return state.sequence.frames[0];
+            if (device.role == PrototypeRole.Dice) return null;
             return prefab.GetComponentsInChildren<SpriteRenderer>(true)
                 .Select(renderer => renderer.sprite).FirstOrDefault(candidate => candidate);
         }

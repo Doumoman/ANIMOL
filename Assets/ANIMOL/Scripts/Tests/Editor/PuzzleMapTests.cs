@@ -265,6 +265,20 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.GridDeviceLabel(target), Is.EqualTo("목표 4"));
             Assert.That(PuzzleMapEditor.DeviceLabel(die), Is.EqualTo("22 굴리는 주사위"));
             Assert.That(PuzzleMapEditor.DeviceLabel(target), Is.EqualTo("22 목표 주사위 4"));
+
+            var v3Map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
+            var v3Die = v3Map.scenario.devices.Single(d => d.role == PrototypeRole.Dice &&
+                d.variant != "target" && d.variant != "socket");
+            Assert.That(v3Map.scenario.echoTheaterV3Rules, Is.True);
+            Assert.That(v3Die.initialDiceFaces[2], Is.EqualTo(2));
+            Assert.That(v3Die.initialDiceFaces[3], Is.EqualTo(5));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(v3Die, true),
+                Is.SameAs(states.Single(s => s.name == "t1_n5_e3").sprite));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(new PrototypeDevice {
+                role = PrototypeRole.Dice, variant = "target", number = 7,
+                visualPrefab = die.visualPrefab }), Is.Null,
+                "An invalid goal must not reuse the rolling die's default picture.");
         }
         [Test] public void BookshelfWingsCanBeSelectedErasedAndBlockNewDeviceStamps()
         {

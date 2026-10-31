@@ -87,7 +87,7 @@ namespace ANIMOL.Tests
             }
         }
 
-        [UnityTest] public IEnumerator DiceGoalAndRollingDieRenderDifferentSpritesAfterReload()
+        [UnityTest] public IEnumerator DiceRollChangesCommittedFacesAndSpriteThenReloadRestoresThem()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
@@ -95,6 +95,8 @@ namespace ANIMOL.Tests
             var controller = host.AddComponent<PuzzlePrototypeController>();
             try
             {
+                Sprite initialSprite = null;
+                int[] initialFaces = null;
                 for (var load = 0; load < 2; load++)
                 {
                     controller.Load(map);
@@ -110,6 +112,37 @@ namespace ANIMOL.Tests
                     Assert.That(targetView.visual.sprite, Is.Not.Null);
                     Assert.That(targetView.visual.sprite, Is.Not.SameAs(dieSprite));
                     Assert.That(AssetDatabase.GetAssetPath(dieSprite), Does.Contain("/dice_block/orientations/"));
+                    var dieState = controller.Session.States[die.id];
+                    if (load == 0)
+                    {
+                        initialSprite = dieSprite;
+                        initialFaces = (int[])dieState.dice.Clone();
+                        var initialCell = dieState.cell;
+                        for (var turn = 0; turn < map.scenario.verificationRoute.Length &&
+                            controller.Session.States[die.id].cell == initialCell; turn++)
+                        {
+                            Assert.That(controller.RequestMove(Heading(map.scenario.verificationRoute[turn])),
+                                Is.True, "ET-05 input " + turn);
+                            while (controller.IsMoving) yield return null;
+                        }
+                        dieState = controller.Session.States[die.id];
+                        Assert.That(dieState.cell, Is.Not.EqualTo(initialCell), "ET-05 must actually roll the die.");
+                        var heading = dieState.cell - initialCell;
+                        Assert.That(heading.sqrMagnitude, Is.EqualTo(1));
+                        var expected = (int[])initialFaces.Clone();
+                        PuzzleDeviceSession.Roll(expected, heading);
+                        Assert.That(dieState.dice, Is.EqualTo(expected));
+                        Assert.That(dieState.dice[0], Is.Not.EqualTo(initialFaces[0]));
+                        yield return new WaitForSecondsRealtime(.2f);
+                        var rolledSprite = controller.Devices.Actor(die.id).GetComponentInChildren<SpriteRenderer>().sprite;
+                        Assert.That(rolledSprite, Is.Not.SameAs(initialSprite));
+                        Assert.That(AssetDatabase.GetAssetPath(rolledSprite), Does.Contain("/dice_block/orientations/"));
+                    }
+                    else
+                    {
+                        Assert.That(dieState.dice, Is.EqualTo(initialFaces));
+                        Assert.That(dieSprite, Is.SameAs(initialSprite));
+                    }
                     yield return null;
                 }
             }
