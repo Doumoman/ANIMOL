@@ -303,7 +303,7 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.PropertyField(goal.FindPropertyRelative("number"), new GUIContent("목표 숫자"));
             }
         }
-        static void DrawScenarioDevices(SerializedProperty devices)
+        void DrawScenarioDevices(SerializedProperty devices)
         {
             devices.isExpanded = EditorGUILayout.Foldout(devices.isExpanded, "배치된 장치 (" + devices.arraySize + ")", true);
             if (!devices.isExpanded) return;
@@ -320,7 +320,7 @@ namespace ANIMOL.Presentation.Editor
                 if (device.isExpanded) DrawDeviceProperties(device);
             }
         }
-        static void DrawDeviceProperties(SerializedProperty device)
+        void DrawDeviceProperties(SerializedProperty device)
         {
             var role = device.FindPropertyRelative("role");
             var roles = Enum.GetValues(typeof(PrototypeRole)).Cast<PrototypeRole>().ToArray();
@@ -366,7 +366,11 @@ namespace ANIMOL.Presentation.Editor
                     device.FindPropertyRelative("active").boolValue = selected != 0;
                 }
             }
-            if (role.intValue != (int)PrototypeRole.MovingStage)
+            var rail = role.intValue == (int)PrototypeRole.MovingStage && map && map.scenario
+                ? map.scenario.RailPathAt(device.FindPropertyRelative("position").vector2IntValue) : null;
+            if (rail != null)
+                EditorGUILayout.LabelField("자동 연결된 레일", rail.id + " · " + rail.cells.Count + "칸");
+            else if (role.intValue != (int)PrototypeRole.MovingStage)
                 DrawVectorArray(device.FindPropertyRelative("cells"), "점유 칸");
             else if (device.FindPropertyRelative("cells").arraySize > 0)
                 DrawVectorArray(device.FindPropertyRelative("cells"), "기존 카트 선로 (독립 레일이 없을 때)");
@@ -780,6 +784,35 @@ namespace ANIMOL.Presentation.Editor
             var existing = target.scenario.RailPathAt(cell);
             if (existing != null) { pathId = existing.id; return true; }
             bool Adjacent(Vector2Int a, Vector2Int b) => (a - b).sqrMagnitude == 1;
+            var legacy = target.scenario.devices.FirstOrDefault(cart =>
+                cart.role == PrototypeRole.MovingStage && cart.cells != null && cart.cells.Count >= 2 &&
+                cart.cells.Contains(cart.position) && target.scenario.RailPathAt(cart.position) == null &&
+                (cart.cells.Contains(cell) || Adjacent(cell, cart.cells[0]) ||
+                    Adjacent(cell, cart.cells[cart.cells.Count - 1])));
+            if (legacy != null)
+            {
+                var cells = legacy.cells;
+                var closed = cells.Count >= 4 && Adjacent(cells[0], cells[cells.Count - 1]);
+                if (!cells.Contains(cell))
+                {
+                    var neighbors = cells.Where(railCell => Adjacent(cell, railCell)).ToArray();
+                    if (closed || neighbors.Length > 1 && !(neighbors.Length == 2 && cells.Count >= 3 &&
+                        neighbors.Contains(cells[0]) && neighbors.Contains(cells[cells.Count - 1])))
+                    { error = "기존 카트 선로의 열린 끝 칸에서 이어 그리세요."; return false; }
+                }
+                if (!EchoRailPathV02.TryCreate(cells.ToArray(), closed, out _, out error) ||
+                    cells.Any(railCell => !target.Walkable(railCell) || target.scenario.water.Contains(railCell) ||
+                        target.scenario.RailPathAt(railCell) != null))
+                { error = "기존 카트 선로를 레일로 옮길 수 없습니다. 경로와 지형을 확인하세요."; return false; }
+                var number = 1;
+                while (target.scenario.railPaths.Any(path => path != null && path.id == "rail_" + number)) number++;
+                var adopted = new PrototypeRailPath { id = "rail_" + number,
+                    cells = new List<Vector2Int>(cells) };
+                target.scenario.railPaths.Add(adopted);
+                legacy.cells.Clear();
+                if (adopted.cells.Contains(cell)) { pathId = adopted.id; return true; }
+                selectedPathId = adopted.id;
+            }
             bool CanExtend(PrototypeRailPath path) => path?.cells != null && path.cells.Count > 0 &&
                 !(path.cells.Count >= 4 && Adjacent(path.cells[0], path.cells[path.cells.Count - 1])) &&
                 (Adjacent(cell, path.cells[0]) || Adjacent(cell, path.cells[path.cells.Count - 1]));
@@ -979,7 +1012,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawRailSettings()
         {
-            EditorGUILayout.HelpBox("레일 칸을 드래그하거나 이웃 칸을 차례로 클릭해 경로를 그리세요. 기존 레일을 클릭하면 그 경로를 이어 그립니다. 오른쪽 클릭은 경로의 끝 칸을 지웁니다. 두 칸 이상 만든 뒤 같은 레일 위에 카트를 놓으세요.", MessageType.Info);
+            EditorGUILayout.HelpBox("레일 칸을 드래그하거나 이웃 칸을 차례로 클릭해 경로를 그리세요. 기존 카트의 2칸 선로를 클릭하거나 끝에서 이어 그리면 전체 경로가 카트에 자동 적용됩니다. 오른쪽 클릭은 경로의 끝 칸을 지웁니다.", MessageType.Info);
             var path = map.scenario.railPaths?.FirstOrDefault(item => item != null && item.id == selectedRailPathId);
             if (path != null) EditorGUILayout.LabelField("선택한 레일", path.id + " · " + path.cells.Count + "칸");
             if (!string.IsNullOrEmpty(railError)) EditorGUILayout.HelpBox(railError, MessageType.Warning);
@@ -2361,8 +2394,9 @@ namespace ANIMOL.Presentation.Editor
                             if (map.scenario.railPaths?.All(path => path.id != selectedRailPathId) == true)
                                 selectedRailPathId = null;
                         }
-                        else if (!TryPlaceRailCell(map, p, selectedRailPathId, out selectedRailPathId, out railError))
-                            ShowNotification(new GUIContent(railError));
+                        else if (TryPlaceRailCell(map, p, selectedRailPathId, out var placedRailId, out railError))
+                            selectedRailPathId = placedRailId;
+                        else ShowNotification(new GUIContent(railError));
                     }
                     else if (remove)
                     {

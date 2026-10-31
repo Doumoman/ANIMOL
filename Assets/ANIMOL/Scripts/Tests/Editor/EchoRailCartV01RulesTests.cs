@@ -192,5 +192,24 @@ namespace ANIMOL.Tests
                 0, true, Vector2Int.right, out var key), Is.True);
             Assert.That(key, Is.EqualTo("ne"));
         }
+
+        [Test] public void PaintingPastLegacyTwoCellCartAutomaticallyExpandsItsRoute()
+        {
+            var map = Room(new Vector2Int(1, 4));
+            var cart = map.scenario.devices.Single(d => d.id == "stage");
+            Assert.That(cart.cells.Count, Is.EqualTo(2));
+            Assert.That(PuzzleMapEditor.TryPlaceRailCell(map, new Vector2Int(3, 3), null,
+                out var pathId, out var error), Is.True, error);
+            Assert.That(pathId, Is.EqualTo("rail_1"));
+            Assert.That(cart.cells, Is.Empty);
+            Assert.That(map.scenario.RailCellsFor(cart).Count, Is.EqualTo(3));
+            Assert.That(map.scenario.RailCellsFor(cart).Last(), Is.EqualTo(new Vector2Int(3, 3)));
+            Assert.That(map.ValidateMap(), Is.Empty);
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(3, 3)));
+            Assert.That(session.States["stage"].direction, Is.EqualTo(Vector2Int.up));
+        }
     }
 }
