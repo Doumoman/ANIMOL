@@ -276,6 +276,46 @@ namespace ANIMOL.Tests
             finally { Object.Destroy(host); }
         }
 
+        [UnityTest] public IEnumerator SelectedEchoTheaterGlassMovesWithPlayerPushAndUndo()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device21_Glass.asset");
+            var theater = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.theme = theater.theme;
+            map.scenario.themeId = "memory_theater";
+            map.scenario.echoTheaterV3Rules = true;
+            var glassArt = theater.scenario.devices.Single(d => d.id == "6_glass");
+            var glassDefinition = map.scenario.devices.Single(d => d.id == "glass");
+            glassDefinition.artTheme = glassArt.artTheme;
+            glassDefinition.visualPrefab = glassArt.visualPrefab;
+            map.InvalidateIndex();
+            var host = new GameObject("Echo Theater glass push test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                var glass = controller.Devices.Actor("glass");
+                Assert.That(glass, Is.Not.Null);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That(controller.Session.States["glass"].cell, Is.EqualTo(new Vector2Int(4, 2)));
+                Assert.That(glass.localPosition, Is.EqualTo(new Vector3(4, 2, 0)));
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(2));
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.States["glass"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(glass.localPosition, Is.EqualTo(new Vector3(3, 2, 0)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+
         [UnityTest] public IEnumerator SelectedEchoTheaterMapRollsDieWhenPushed()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

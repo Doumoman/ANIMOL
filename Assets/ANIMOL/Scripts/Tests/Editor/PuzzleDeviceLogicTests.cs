@@ -344,6 +344,31 @@ namespace ANIMOL.Tests
             session=new PuzzleDeviceSession(map);session.Apply(Vector2Int.up);session.Apply(Vector2Int.up);
             Assert.That(session.WindCells.ContainsKey(new Vector2Int(5,4)),Is.False);
         }
+        [Test] public void EchoTheaterGlassPushesOneCellAndUndoRestoresItsOccupancy()
+        {
+            var map=Clone(21);map.scenario.themeId="memory_theater";map.scenario.echoTheaterV3Rules=true;
+            var session=new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted,Is.True);
+            var push=session.Apply(Vector2Int.right);
+            Assert.That(push.accepted,Is.True);
+            Assert.That(push.events.Any(e=>e.kind==PrototypeEventKind.Move && e.actor=="glass" &&
+                e.from==new Vector2Int(3,2) && e.to==new Vector2Int(4,2)),Is.True);
+            Assert.That(session.States["glass"].cell,Is.EqualTo(new Vector2Int(4,2)));
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(3,2)));
+            Assert.That(session.Cost,Is.EqualTo(2));
+            Assert.That(session.Undo(),Is.True);
+            Assert.That(session.States["glass"].cell,Is.EqualTo(new Vector2Int(3,2)));
+            Assert.That(session.Cell,Is.EqualTo(new Vector2Int(2,2)));
+            Assert.That(session.Cost,Is.EqualTo(1));
+
+            var blocked=Clone(21);blocked.scenario.themeId="memory_theater";blocked.scenario.echoTheaterV3Rules=true;
+            blocked.SetTerrain(new Vector2Int(4,2),TerrainMaterial.Grass,true);
+            var blockedSession=new PuzzleDeviceSession(blocked);
+            Assert.That(blockedSession.Apply(Vector2Int.right).accepted,Is.True);
+            Assert.That(blockedSession.Apply(Vector2Int.right).accepted,Is.False);
+            Assert.That(blockedSession.States["glass"].cell,Is.EqualTo(new Vector2Int(3,2)));
+            Assert.That(blockedSession.Cost,Is.EqualTo(1));
+        }
         [Test] public void RejectedInputShowsExistingDeviceCueWithoutAdvancingPuzzle()
         {
             var session=new PuzzleDeviceSession(Room(21));

@@ -600,7 +600,8 @@ namespace ANIMOL.Puzzle
                 }
                 return true;
             }
-            if (d.role != PrototypeRole.StarSocket && d.role != PrototypeRole.Barrel && d.role != PrototypeRole.Bomb && d.role != PrototypeRole.Dice && d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.MetalCrate) return false;
+            if (d.role != PrototypeRole.StarSocket && d.role != PrototypeRole.Barrel && d.role != PrototypeRole.Bomb && d.role != PrototypeRole.Dice && d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.MetalCrate &&
+                !(d.role == PrototypeRole.Glass && Rules.themeId == "memory_theater")) return false;
             var mismatch = MismatchedSocket(d, s.cell + direction);
             if (mismatch != null) { Visual(mismatch, "socket_reject", "pattern_mismatch_rejected"); return false; }
             if (!Free(s.cell + direction, d.id) || !GateAllows(s.cell, s.cell + direction, direction)) return false;
