@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ANIMOL.Presentation.DiceHintV01
 {
-    // R4: rigid native die + front-lip occlusion + sliding floor lids. Presentation only.
+    // R5: 75% rigid native die + front-lip occlusion + sliding floor lids. Presentation only.
     [DisallowMultipleComponent]
     public sealed class DiceGoalPlatformViewV03 : MonoBehaviour
     {
@@ -19,19 +19,13 @@ namespace ANIMOL.Presentation.DiceHintV01
         Material clipMaterial;
         MaterialPropertyBlock clipProperties;
         bool configured;
-        // The native 320px orientation canvas has a 256px visible die body.
-        // Fit that body inside the authored aperture once, without an animated scale change.
-        const float NativeDieBodyCoverage = 256f / 320f;
-        const float ApertureClearance = .96f;
-        public static float FittedDieCanvasWidth(Vector4 aperture) =>
-            Mathf.Max(0f, aperture.z - aperture.x) * ApertureClearance / NativeDieBodyCoverage;
 
         public bool Configure(DiceGoalPlatformArtV03 artSet, DiceGoalFaceViewV02 faceView,
             SpriteRenderer goalBase, Transform anchor, float size, out string error)
         {
             configured = false; error = null; EnsureOwned(); OnDisable();
             if (artSet == null || faceView == null || goalBase == null || anchor == null || !(size > 0) || float.IsInfinity(size))
-            { error = "Assign R4 platform art, required face, goal renderer, anchor and finite world cell size."; return false; }
+            { error = "Assign R5 platform art, required face, goal renderer, anchor and finite world cell size."; return false; }
             if (!artSet.Validate(out error)) return false;
             if (requiredFace != null) requiredFace.PreviewVisibilityChanged -= OnPreviewVisibilityChanged;
             if (clipMaterial != null) Release(clipMaterial);
@@ -66,14 +60,14 @@ namespace ANIMOL.Presentation.DiceHintV01
             if (leftRoot == null) leftRoot = Owned("__DiceReceiverLeftLid_R4", out left);
             if (rightRoot == null) rightRoot = Owned("__DiceReceiverRightLid_R4", out right);
         }
-        void Put(SpriteRenderer renderer, Sprite sprite, Vector3 center, int order, bool clipped, Vector4 rect,
-            float canvasWidthCells = 320f / 256f)
+        void Put(SpriteRenderer renderer, Sprite sprite, Vector3 center, int order, bool clipped, Vector4 rect)
         {
             renderer.sprite = sprite; renderer.color = Color.white; renderer.gameObject.layer = originalGoalBase.gameObject.layer;
             renderer.sortingLayerID = originalGoalBase.sortingLayerID;
             renderer.sortingOrder = originalGoalBase.sortingOrder + order;
             renderer.sharedMaterial = clipped ? clipMaterial : originalGoalBase.sharedMaterial;
-            DiceFaceLayoutV02.Place(renderer.transform, sprite, center, cellWorldSize, canvasWidthCells);
+            float widthInCells = renderer == die ? DiceVisualSizeV05.CanvasWidthInCells : 320f / 256f;
+            DiceFaceLayoutV02.Place(renderer.transform, sprite, center, cellWorldSize, widthInCells);
             if (clipped)
             { clipProperties.Clear(); clipProperties.SetVector("_ClipRect", rect); renderer.SetPropertyBlock(clipProperties); }
             else renderer.SetPropertyBlock(null);
@@ -96,8 +90,7 @@ namespace ANIMOL.Presentation.DiceHintV01
                 Vector4 bodyRect = new Vector4(center.x - 2 * cellWorldSize, center.y + DiceAbsorbMotionV04.FrontPlaneY * cellWorldSize,
                     center.x + 2 * cellWorldSize, center.y + 2 * cellWorldSize);
                 // Constant scale/aspect and full opacity: only translation and physical clipping change visibility.
-                Put(die, capturedDie, center + Vector3.up * (dieY * cellWorldSize), 2, true, bodyRect,
-                    FittedDieCanvasWidth(art.apertureCells));
+                Put(die, capturedDie, center + Vector3.up * (dieY * cellWorldSize), 2, true, bodyRect);
             }
             // Once the upper body reaches the opening, the side/back bezel also occludes its edges.
             if (-dieY >= .18f || closed > 0)

@@ -30,6 +30,7 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, EchoTheaterDiceFaceView> echoDice = new Dictionary<string, EchoTheaterDiceFaceView>();
         readonly Dictionary<string, DiceRollHintFeedV01> diceFeeds = new Dictionary<string, DiceRollHintFeedV01>();
         readonly Dictionary<string, DiceRollHintViewV01> diceHints = new Dictionary<string, DiceRollHintViewV01>();
+        readonly Dictionary<string, DiceVisualScaleBindingV05> diceGraphics = new Dictionary<string, DiceVisualScaleBindingV05>();
         readonly Dictionary<string, DiceGoalFaceViewV02> diceGoalFaces = new Dictionary<string, DiceGoalFaceViewV02>();
         readonly Dictionary<string, DiceGoalPlatformViewV03> diceGoalPlatforms = new Dictionary<string, DiceGoalPlatformViewV03>();
         readonly List<GoalPress> goalPresses = new List<GoalPress>();
@@ -127,6 +128,13 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
+                if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Dice &&
+                    d.variant != "target" && d.variant != "socket")
+                {
+                    string graphicsError;
+                    if (!BindDiceGraphics(d.id, root, out graphicsError))
+                    { MissingBindings++; Debug.LogError("R5 die graphics: " + graphicsError, root); root.SetActive(false); continue; }
+                }
                 if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Dice &&
                     (d.variant == "target" || d.variant == "socket"))
                 {
@@ -342,6 +350,40 @@ namespace ANIMOL.Puzzle
             { MissingBindings++; Debug.LogError("R3 dice hint binding failed: " + d.id + ": " + error, root); return; }
             diceFeeds.Add(d.id, feed);
             diceHints.Add(d.id, hint);
+        }
+        bool BindDiceGraphics(string id, GameObject root, out string error)
+        {
+            error = null;
+            var visual = root.GetComponent<DeviceVisualView>();
+            var renderer = visual ? visual.visual : null;
+            if (!renderer) { error = "Die visual renderer is missing."; return false; }
+            if (renderer.transform == root.transform)
+            {
+                // Keep the entity and any collider at their original grid scale.
+                var child = new GameObject("__DiceGraphicsV05");
+                child.transform.SetParent(root.transform, false);
+                child.layer = root.layer;
+                var separated = child.AddComponent<SpriteRenderer>();
+                separated.sprite = renderer.sprite;
+                separated.color = renderer.color;
+                separated.sharedMaterial = renderer.sharedMaterial;
+                separated.sortingLayerID = renderer.sortingLayerID;
+                separated.sortingOrder = renderer.sortingOrder;
+                separated.flipX = renderer.flipX;
+                separated.flipY = renderer.flipY;
+                separated.maskInteraction = renderer.maskInteraction;
+                separated.drawMode = renderer.drawMode;
+                separated.size = renderer.size;
+                separated.spriteSortPoint = renderer.spriteSortPoint;
+                separated.enabled = renderer.enabled;
+                renderer.enabled = false;
+                visual.visual = renderer = separated;
+            }
+            var binding = root.GetComponent<DiceVisualScaleBindingV05>();
+            if (!binding) binding = root.AddComponent<DiceVisualScaleBindingV05>();
+            if (!binding.Bind(renderer, out error)) return false;
+            diceGraphics[id] = binding;
+            return true;
         }
         public void InvalidateDiceHints()
         {
@@ -755,6 +797,7 @@ namespace ANIMOL.Puzzle
                 if (ferries.TryGetValue(d.id, out ferry)) { if (!ferry.Present(state)) MissingBindings++; }
                 else if (!view.Present(state)) MissingBindings++;
             }
+            foreach (var binding in diceGraphics.Values) if (binding) binding.Apply();
             player.enabled = string.IsNullOrEmpty(session.BoatId) || coastV01.Count > 0;
             if (beams) beams.Present(session.Beams.Select(b => new BeamVisualCell { position = b.cell, shape = BeamShape(b) }).ToArray());
         }

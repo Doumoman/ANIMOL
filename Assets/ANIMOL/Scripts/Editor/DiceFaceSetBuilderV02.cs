@@ -14,13 +14,13 @@ namespace ANIMOL.Presentation.DiceHintV01.Editor
         static string Absolute(string asset) { return Path.Combine(Directory.GetParent(Application.dataPath).FullName, asset); }
         static string Hash(string path)
         { using (var h = SHA256.Create()) using (var f = File.OpenRead(path)) return BitConverter.ToString(h.ComputeHash(f)).Replace("-", "").ToLowerInvariant(); }
-        [MenuItem("Tools/ANIMOL/Dice face hints R4/Build face platform and animation sets")]
+        [MenuItem("Tools/ANIMOL/Dice face hints R5/Build face platform and animation sets")]
         public static void MenuBuild()
         {
-            string path = EditorUtility.OpenFilePanel("Select R4 faces_manifest.json", Application.dataPath, "json");
+            string path = EditorUtility.OpenFilePanel("Select R5 faces_manifest.json", Application.dataPath, "json");
             if (string.IsNullOrEmpty(path)) return;
             string project = Directory.GetParent(Application.dataPath).FullName.Replace('\\', '/'); path = path.Replace('\\', '/');
-            if (!path.StartsWith(project + "/Assets/", StringComparison.Ordinal)) throw new InvalidOperationException("Install R4 under Assets first.");
+            if (!path.StartsWith(project + "/Assets/", StringComparison.Ordinal)) throw new InvalidOperationException("Install R5 under Assets first.");
             Build(path.Substring(project.Length + 1));
         }
         public static void BuildFromCommandLine()
@@ -32,11 +32,11 @@ namespace ANIMOL.Presentation.DiceHintV01.Editor
         public static void Build(string path)
         {
             if (!path.StartsWith("Assets/", StringComparison.Ordinal) || path.Contains("..") || !path.EndsWith("/ANIMOL_ECHO_THEATER_DICE_HINT_V01/faces_manifest.json", StringComparison.Ordinal))
-                throw new InvalidOperationException("Select the R4 face manifest under this package path.");
+                throw new InvalidOperationException("Select the R5 face manifest under this package path.");
             if (Hash(Absolute(path)) != DiceFacePinV02.Sha256) throw new InvalidOperationException("Wrong face manifest SHA256.");
             Manifest m = JsonUtility.FromJson<Manifest>(File.ReadAllText(Absolute(path)));
-            if (m == null || m.packageId != "ANIMOL_ECHO_THEATER_DICE_HINT_V01" || m.installationRevision != 4 || m.faces == null || m.faces.Length != 6 || m.platforms == null || m.platforms.Length != 4 || m.layers == null || m.layers.Length != 4 || m.apertureCells == null || m.apertureCells.Length != 4)
-                throw new InvalidOperationException("R4 requires faces, platform states and four native animation layers.");
+            if (m == null || m.packageId != "ANIMOL_ECHO_THEATER_DICE_HINT_V01" || m.installationRevision != 5 || m.faces == null || m.faces.Length != 6 || m.platforms == null || m.platforms.Length != 4 || m.layers == null || m.layers.Length != 4 || m.apertureCells == null || m.apertureCells.Length != 4)
+                throw new InvalidOperationException("R5 requires faces, platform states and four native animation layers.");
             string root = path.Substring(0, path.LastIndexOf('/'));
             var seen = new bool[6];
             foreach (var face in m.faces)
@@ -69,7 +69,7 @@ namespace ANIMOL.Presentation.DiceHintV01.Editor
                     throw new InvalidOperationException("Invalid absorption layer.");
             }
             Shader clipShader = AssetDatabase.LoadAssetAtPath<Shader>(root + "/Runtime/DiceReceiverClipV04.shader");
-            if (clipShader == null) throw new InvalidOperationException("R4 rigid clipping shader must import before generation.");
+            if (clipShader == null) throw new InvalidOperationException("R5 rigid clipping shader must import before generation.");
             var sprites = new Sprite[6];
             foreach (var face in m.faces)
             {
@@ -103,7 +103,7 @@ namespace ANIMOL.Presentation.DiceHintV01.Editor
             platform.rigidClipShader = clipShader;
             platform.apertureCells = new Vector4(m.apertureCells[0], m.apertureCells[1], m.apertureCells[2], m.apertureCells[3]);
             if (freshPlatform) AssetDatabase.CreateAsset(platform, platformTarget); else EditorUtility.SetDirty(platform);
-            AssetDatabase.SaveAssets(); Debug.Log("R4 rigid absorption animation assets are ready. Gameplay remains owned by the host.");
+            AssetDatabase.SaveAssets(); Debug.Log("R5 rigid absorption animation assets are ready. Gameplay remains owned by the host.");
         }
         static Sprite ImportPlatform(string asset)
         {

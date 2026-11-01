@@ -15,6 +15,8 @@ namespace ANIMOL.Tests
     {
         static Vector2Int Heading(char c) => c == 'U' ? Vector2Int.up : c == 'D' ? Vector2Int.down :
             c == 'L' ? Vector2Int.left : Vector2Int.right;
+        static float WorldSpriteWidth(SpriteRenderer renderer) =>
+            renderer.sprite.bounds.size.x * renderer.transform.lossyScale.x;
 
         [UnityTest] public IEnumerator AllThirtyFiveStagesLoadVisualBindings()
         {
@@ -42,6 +44,9 @@ namespace ANIMOL.Tests
                         var face = actor.GetComponent<EchoTheaterDiceFaceView>();
                         var sprite = actor.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual.sprite;
                         Assert.That(face, Is.Not.Null, entry.stageId + " " + die.id);
+                        Assert.That(sprite.bounds.size.x * face.GetComponent<ANIMOL.Presentation.DeviceVisualView>()
+                            .visual.transform.lossyScale.x, Is.EqualTo(DiceVisualSizeV05.CanvasWidthInCells)
+                            .Within(.0001f), entry.stageId + " " + die.id);
                         Assert.That(AssetDatabase.GetAssetPath(sprite), Does.Contain(
                             "/ANIMOL_ECHO_THEATER_CARTOON_V03/devices/dice_block/orientations/"),
                             entry.stageId + " " + die.id);
@@ -179,6 +184,16 @@ namespace ANIMOL.Tests
                     Does.EndWith("/Sprites/Faces/face_4.png"));
                 Assert.That(face.RequiredFaceVisible, Is.False);
                 Assert.That(floor.gameObject.activeSelf, Is.False);
+                var actualDie = controller.Devices.Actor("die");
+                var actualRenderer = actualDie.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual;
+                var actualCanvasWidth = WorldSpriteWidth(actualRenderer);
+                Assert.That(actualRenderer.transform, Is.Not.SameAs(actualDie));
+                Assert.That(actualDie.localScale, Is.EqualTo(Vector3.one));
+                Assert.That(actualCanvasWidth, Is.EqualTo(DiceVisualSizeV05.CanvasWidthInCells).Within(.0001f));
+                var captureDirectory = Path.Combine(Application.temporaryCachePath, "animol_r5_dice_qa");
+                Directory.CreateDirectory(captureDirectory);
+                ScreenCapture.CaptureScreenshot(Path.Combine(captureDirectory, "before.png"));
+                yield return null;
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
                 var pressing = goal.transform.Find("__DiceGoalPressCopy_VisualOnly");
                 var deadline = Time.realtimeSinceStartup + 2f;
@@ -188,14 +203,15 @@ namespace ANIMOL.Tests
                 var pressRenderer = pressing.GetComponent<SpriteRenderer>();
                 Assert.That(AssetDatabase.GetAssetPath(pressRenderer.sprite),
                     Does.EndWith("/devices/dice_block/orientations/o01.png"));
-                var aperture = controller.RuntimeMap.theme.diceGoalPlatformArt.apertureCells;
-                var canvasWidth = pressRenderer.sprite.bounds.size.x * pressing.lossyScale.x;
-                Assert.That(canvasWidth * 256f / 320f, Is.LessThan(aperture.z - aperture.x));
+                Assert.That(WorldSpriteWidth(pressRenderer), Is.EqualTo(actualCanvasWidth).Within(.0001f));
                 Assert.That(pressing.lossyScale.x, Is.EqualTo(pressing.lossyScale.y).Within(.0001f));
                 Assert.That(pressRenderer.color.a, Is.EqualTo(1f));
                 Assert.That(pressRenderer.sharedMaterial.shader,
                     Is.SameAs(controller.RuntimeMap.theme.diceGoalPlatformArt.rigidClipShader));
                 Assert.That(goal.Find("__DiceReceiverFrontRim_R4").gameObject.activeSelf, Is.True);
+                ScreenCapture.CaptureScreenshot(Path.Combine(captureDirectory, "press_start.png"));
+                yield return new WaitForSecondsRealtime(.3f);
+                ScreenCapture.CaptureScreenshot(Path.Combine(captureDirectory, "press_mid.png"));
                 var leftLid = goal.Find("__DiceReceiverLeftLid_R4");
                 var sawClosingLid = false;
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.False);
@@ -209,6 +225,7 @@ namespace ANIMOL.Tests
                     yield return null;
                 }
                 Assert.That(sawClosingLid, Is.True);
+                ScreenCapture.CaptureScreenshot(Path.Combine(captureDirectory, "walkable.png"));
                 Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(4));
                 Assert.That(controller.Session.States["die"].removed, Is.True);
                 Assert.That(controller.Session.States["target"].converted, Is.True);
@@ -232,6 +249,7 @@ namespace ANIMOL.Tests
                 Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(1));
                 Assert.That(controller.Session.States["target"].converted, Is.False);
                 Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                Assert.That(WorldSpriteWidth(actualRenderer), Is.EqualTo(actualCanvasWidth).Within(.0001f));
                 Assert.That(face.RequiredFaceVisible, Is.True);
                 controller.RestoreSnapshot(convertedSnapshot);
                 Assert.That(controller.Session.States["target"].converted, Is.True);
@@ -242,9 +260,13 @@ namespace ANIMOL.Tests
                 controller.ResetStage();
                 Assert.That(controller.Session.States["target"].converted, Is.False);
                 Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                Assert.That(WorldSpriteWidth(actualRenderer), Is.EqualTo(actualCanvasWidth).Within(.0001f));
                 controller.Load(map);
                 Assert.That(controller.Session.States["target"].converted, Is.False);
                 Assert.That(controller.Devices.Actor("die").gameObject.activeSelf, Is.True);
+                Assert.That(WorldSpriteWidth(controller.Devices.Actor("die")
+                    .GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual),
+                    Is.EqualTo(actualCanvasWidth).Within(.0001f));
                 Assert.That(controller.Devices.Actor("target").GetComponent<DiceGoalFaceViewV02>()
                     .RequiredFace, Is.EqualTo(4));
                 Assert.That(controller.Devices.Actor("target").Find("__DiceGoalPressCopy_VisualOnly")
