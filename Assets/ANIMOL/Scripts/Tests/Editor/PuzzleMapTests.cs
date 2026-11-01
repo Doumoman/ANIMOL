@@ -482,6 +482,42 @@ namespace ANIMOL.Presentation.Tests
             }
             finally { map.scenario = null; Object.DestroyImmediate(scenario); }
         }
+        [TestCase("starway"), TestCase("memory_theater"), TestCase("letter_observatory"), TestCase("twilight_sea")]
+        public void DeviceFocusRightClickErasesEveryPlacedRoleBeforeRail(string themeId)
+        {
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/" + themeId + "_Theme.asset");
+            Assert.That(map.theme, Is.Not.Null);
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.scenario = scenario;
+                scenario.themeId = themeId;
+                var cell = new Vector2Int(2, 2);
+                var rail = new PrototypeRailPath { id = "rail", cells = new System.Collections.Generic.List<Vector2Int>
+                    { cell, new Vector2Int(3, 2) } };
+                if (themeId == "memory_theater") scenario.railPaths.Add(rail);
+                foreach (PrototypeRole role in System.Enum.GetValues(typeof(PrototypeRole)))
+                {
+                    var device = new PrototypeDevice { id = role.ToString(), role = role, position = cell };
+                    scenario.devices.Add(device);
+                    Assert.That(PuzzleMapEditor.TryEraseDeviceFocusAt(map, cell, true, out var error),
+                        Is.True, themeId + " " + role + " " + error);
+                    Assert.That(scenario.devices, Is.Empty, themeId + " " + role);
+                    if (themeId == "memory_theater") Assert.That(rail.cells.Count, Is.EqualTo(2));
+                }
+                if (themeId == "memory_theater")
+                {
+                    Assert.That(PuzzleMapEditor.TryEraseDeviceFocusAt(map, cell, true, out _), Is.True);
+                    Assert.That(rail.cells, Is.EqualTo(new[] { new Vector2Int(3, 2) }));
+                }
+                scenario.devices.Add(new PrototypeDevice { id = "shelf", role = PrototypeRole.Bookshelf,
+                    position = cell });
+                Assert.That(PuzzleMapEditor.TryEraseDeviceFocusAt(map, new Vector2Int(1, 2), false, out _), Is.True);
+                Assert.That(scenario.devices, Is.Empty);
+            }
+            finally { map.scenario = null; Object.DestroyImmediate(scenario); }
+        }
         [Test] public void PlacedDeviceFocusFindsExistingDeviceAndRanchArtFromOccupiedCells()
         {
             var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();

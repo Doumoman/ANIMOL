@@ -911,7 +911,7 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.HelpBox("장치 시나리오의 테마 저장 ID가 현재 맵 테마와 다릅니다. 시나리오 설정을 확인하세요.", MessageType.Warning);
             inspectDevice = GUILayout.Toggle(inspectDevice, "왼쪽 클릭으로 배치된 장치 선택");
             showConnections = GUILayout.Toggle(showConnections, "연결선과 작동 범위 표시");
-            EditorGUILayout.HelpBox("배치된 장치나 이 맵의 장치 목록을 누르면 설정을 엽니다. 테마 장치 목록에서 고른 장치는 빈 칸에 배치합니다. 지우개를 켜면 왼쪽 클릭으로 지웁니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("배치된 장치나 이 맵의 장치 목록을 누르면 설정을 엽니다. 테마 장치 목록에서 고른 장치는 빈 칸에 배치합니다. 장치 포커스에서는 오른쪽 클릭으로 모든 테마의 배치 장치를 지웁니다. 지우개를 켜면 왼쪽 클릭으로 지웁니다.", MessageType.Info);
             var source = GUILayout.Toolbar(useLibrary ? 0 : 1, new[] { "테마 장치 목록", "이 맵의 장치 선택" });
             if (useLibrary != (source == 0))
             { useLibrary = source == 0; templateIndex = 0; ranchArtBrush = null; prototypeBrush = null; inspectDevice = !useLibrary; }
@@ -1012,7 +1012,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawRailSettings()
         {
-            EditorGUILayout.HelpBox("레일 칸을 드래그하거나 이웃 칸을 차례로 클릭해 경로를 그리세요. 기존 카트의 2칸 선로를 클릭하거나 끝에서 이어 그리면 전체 경로가 카트에 자동 적용됩니다. 오른쪽 클릭은 경로의 끝 칸을 지웁니다.", MessageType.Info);
+            EditorGUILayout.HelpBox("레일 칸을 드래그하거나 이웃 칸을 차례로 클릭해 경로를 그리세요. 기존 카트의 2칸 선로를 클릭하거나 끝에서 이어 그리면 전체 경로가 카트에 자동 적용됩니다. 오른쪽 클릭은 배치 장치를 먼저 지우고, 장치가 없으면 경로의 끝 칸을 지웁니다.", MessageType.Info);
             var path = map.scenario.railPaths?.FirstOrDefault(item => item != null && item.id == selectedRailPathId);
             if (path != null) EditorGUILayout.LabelField("선택한 레일", path.id + " · " + path.cells.Count + "칸");
             if (!string.IsNullOrEmpty(railError)) EditorGUILayout.HelpBox(railError, MessageType.Warning);
@@ -1253,6 +1253,15 @@ namespace ANIMOL.Presentation.Editor
             removed = target.devices.RemoveAll(device => device.position == cell) > 0 || removed;
             if (removed) target.InvalidateIndex();
             return removed;
+        }
+        public static bool TryEraseDeviceFocusAt(PuzzleMap target, Vector2Int cell, bool railBrush,
+            out string error)
+        {
+            error = null;
+            if (!target || !target.Contains(cell)) return false;
+            if (TryFindPlacedDevice(target, cell, out _, out _, out _))
+                return TryEraseDeviceAt(target, cell);
+            return railBrush && TryEraseRailCell(target, cell, out error);
         }
         public static bool TryFindPlacedDevice(PuzzleMap target, Vector2Int cell,
             out PrototypeDevice device, out RanchV13ArtPlacement art, out string label)
@@ -2385,25 +2394,21 @@ namespace ANIMOL.Presentation.Editor
                 if (map.scenario)
                 {
                     Undo.RecordObject(map.scenario, "테마 장치 배치");
-                    if (railBrush)
+                    if (remove)
                     {
-                        if (remove)
-                        {
-                            if (!TryEraseRailCell(map, p, out railError) && !string.IsNullOrEmpty(railError))
-                                ShowNotification(new GUIContent(railError));
-                            if (map.scenario.railPaths?.All(path => path.id != selectedRailPathId) == true)
-                                selectedRailPathId = null;
-                        }
-                        else if (TryPlaceRailCell(map, p, selectedRailPathId, out var placedRailId, out railError))
-                            selectedRailPathId = placedRailId;
-                        else ShowNotification(new GUIContent(railError));
-                    }
-                    else if (remove)
-                    {
-                        TryEraseDeviceAt(map, p);
+                        if (!TryEraseDeviceFocusAt(map, p, railBrush, out railError) &&
+                            !string.IsNullOrEmpty(railError)) ShowNotification(new GUIContent(railError));
+                        if (map.scenario.railPaths?.All(path => path.id != selectedRailPathId) == true)
+                            selectedRailPathId = null;
                         if (selectedRanchArt != null && !map.scenario.ranchV13Art.Contains(selectedRanchArt)) selectedRanchArt = null;
                         if (!map.scenario.devices.Any(device => device.id == selectedDeviceId)) selectedDeviceId = null;
                         selectedSimpleDeviceLabel = null;
+                    }
+                    else if (railBrush)
+                    {
+                        if (TryPlaceRailCell(map, p, selectedRailPathId, out var placedRailId, out railError))
+                            selectedRailPathId = placedRailId;
+                        else ShowNotification(new GUIContent(railError));
                     }
                     else if (ranchArtBrush == "nest")
                     {
