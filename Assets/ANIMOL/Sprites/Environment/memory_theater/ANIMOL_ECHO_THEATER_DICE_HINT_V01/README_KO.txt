@@ -1,39 +1,39 @@
-ANIMOL 잔영 극장 — 전체 면 예고·목표 흡수 발판 V01 수정 R3
+ANIMOL 잔영 극장 — 주사위 흡수 애니메이션 R4
 
-예고는 하나
-지금 밀 수 있는 방향의 도착 칸에 다음 주사위 면 하나만 희미하게 깜빡인다.
-아이콘 여백을 보정해 실제 면 그림이 칸 너비의 약98%를 채운다.
-목표 칸도 예고 중에는 요구 면과 받침을 잠시 숨겨 예고 면 하나만 보인다.
-예고가 사라지면 미완성 목표는 원래 요구 면/받침 표시로 돌아온다.
-막힘·먼 위치·대각·굴림 중·입력 잠금에서는 예고를 숨긴다. 기본 알파.25~.55/1.2초 주기다.
+주사위가 목표 칸에 들어가는 연출을 다시 만들었다.
+주사위의 가로·세로 비율과 불투명도를 유지하며 실제 원본 Sprite를 아래로 이동시킨다.
+앞쪽 금색 테두리의 뒤로 가려지고,완전히 들어간 뒤 두 나무 덮개가 안쪽으로 닫힌다.
+목표 틀의 외곽은 고정되어 흔들리지 않는다. 끝은 평평한 통행 발판이다.
 
-목표에 맞는 주사위가 들어가면
-1. 실제 한 칸 굴림이 확정된 뒤,목표 셀과 실제 윗면의 일치를 검사한다.
-2. 일치하면 그 행동 안에서 주사위를 소비하고 목표를 통행 가능한 발판 상태로 전환한다.
-3. 원래 주사위가 아래로 눌려 들어가고 받침 테두리가 낮아지는 연출을 표시한다.
-4. 마지막은 높은 주사위가 없는 평평한 나무 바닥이다. 플레이어가 다음 입력으로 지나간다.
-다른 면이면 전환하지 않고 주사위가 고체로 남아 다시 굴릴 수 있다.
-완성은 한 판 동안 유지하며 Undo/Reset/로드는 실제 게임 스냅샷에 맞춰 복원한다.
+타임라인 약.80초
+0~12%: 짧은 접촉/자리 잡기.
+12~67%: 주사위를 원래 형태로 아래로 내리고 앞 테두리가 점차 가린다.
+67~94%: 주사위가 완전히 가려진 뒤 좌우 덮개를 닫는다.
+94~100%: 닫힌 나무 발판에 정착한다.
+주사위 자체에 Y축 스쿼시나 소멸 페이드를 적용하지 않는다.
+이 프로젝트에서는 원본 320px 방향 Sprite의 불투명 몸체 256px을 목표 틀의
+안쪽 폭에 4% 여유를 두고 맞춘다. 흡수 중에는 이 균일한 크기를 바꾸지 않는다.
 
-자원
-원래 실제 주사위40 PNG와 면 아이콘6개는 R2와 바이트가 같다.
-새 받침4개: ready / half_pressed / nearly_flush / walkable.
-받침 PNG320×320/PPU256/중앙Pivot,논리 셀256px와 바깥 여백32px.
-완성 발판에는 주사위/점/숫자를 남기지 않아 이동 바닥으로 읽히게 했다.
-기존 극장 금색·버건디·목재·남색 윤곽선에 맞춘 native imagegen 원화다.
+파일
+기존 실제 주사위40 PNG와 예고 면6개는 이전 버전과 바이트가 같다.
+새 목표 틀 원화와 front_rim/closing_rim/lid_left/lid_right 레이어를 사용한다.
+Assets/ANIMOL/Scripts/Runtime/DiceAbsorbMotionV04.cs: 연속 타임라인.
+Runtime/DiceReceiverClipV04.shader: 각 목표의 앞 테두리 뒤에서만 주사위를 가리는 클리핑.
+DiceGoalPlatformViewV03 클래스/API 이름은 유지하지만 내부를 R4 레이어 재생으로 교체했다.
+각 주사위의 실제 확정 Sprite를 받아 사용하므로 원래24방향의 점 배열을 모두 유지한다.
+ShowPressing의 normalizedProgress를 약.80초 동안0→1로 전달한다.
 
-faces_manifest.json revision3. Tools > ANIMOL > Dice face hints R3 > Build face and platform sets로
-DiceFaceSet.asset과 DiceGoalPlatformArt.asset을 실제 생성한다.
-기존 HintView/GoalFaceView/Feed/Source 이름과 설치 경로는 유지한다.
-DiceGoalPlatformViewV03의 ShowReady/ShowPressing/ShowWalkable은 표시만 담당한다.
-주사위 엔티티 소비와 발판의 충돌·지지·통행 판정은 실제 호스트가 원자적으로 갱신해야 한다.
-연출은 Collider가 있는 부모 대신 전용 자식 Renderer에서 수행한다.
-DiceGoalConversionIntentV03은 실제 굴림/목표 셀/윗면 일치의 순수 판단 보조다.
-표시 코드 설치만으로 실제 점유/통행 로직을 구현했다고 보고하지 않는다.
-흡수와 연출은 추가 코스트/장치 턴을 만들지 않는다. 기존3방울 후 출구 승리를 유지한다.
+원본 전달 패키지의 Examples~/Absorb_o01_24Frames: 윗면4 예시의 실제24개 PNG 연속 프레임.
+실제 런타임은 해당 예시를 모든 주사위에 복사하지 않고,확정된 원래 Sprite로 연속 렌더링한다.
+원본 전달 패키지의 Preview 자료는 오프라인 검토용이다.
 
-UNITY_APPLY_PREVIEW_CLI_KO.txt: 호스트 소비/발판 커밋,시각 연결,Undo/Reset/로드 적용 명령.
-Examples~/HostBindingExample.cs.txt: 실제 API로 대응할 연결 예.
-Preview는 큰 예고 하나→굴림→누름→발판→통과라는 오프라인 설명이며 Unity 캡처가 아니다.
-원본 보존/면 대응/큰 예고 크기/누름 상태/PNG/ZIP을 오프라인 검수한다.
-실제 프로젝트가 없어 Unity 컴파일/임포트/게임 로직 적용/EditMode/PlayMode는 NOT_RUN이다.
+이전 사양 유지
+예고는 칸을 거의 채우는 희미한 면 하나만 보인다.
+일치한 주사위는 실제 호스트가 소비하고 통행 가능한 발판으로 바꾼다. 불일치는 그대로 남는다.
+코스트·턴·판정·Undo·Reset은 실제 호스트가 소유한다. 연출 콜백이 게임 판정을 확정하지 않는다.
+R3의 축소/페이드 누름 코드와 병행 재생하지 않는다.
+
+faces_manifest.json revision4의6개 면/4개 목표 상태/4개 레이어를 새 빌더로 생성한다.
+clip shader도 가져오고 새 DiceGoalPlatformArt.asset을 다시 생성해 연결해야 한다.
+현재 저장소에서는 Editor의 Build 메서드로 두 생성 asset을 갱신했다.
+실제 Unity 컴파일·셰이더 임포트·EditMode/PlayMode 결과는 작업 보고를 따른다.

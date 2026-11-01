@@ -185,10 +185,30 @@ namespace ANIMOL.Tests
                 while (controller.IsMoving && !pressing.gameObject.activeSelf && Time.realtimeSinceStartup < deadline)
                     yield return null;
                 Assert.That(pressing.gameObject.activeSelf, Is.True);
-                Assert.That(AssetDatabase.GetAssetPath(pressing.GetComponent<SpriteRenderer>().sprite),
+                var pressRenderer = pressing.GetComponent<SpriteRenderer>();
+                Assert.That(AssetDatabase.GetAssetPath(pressRenderer.sprite),
                     Does.EndWith("/devices/dice_block/orientations/o01.png"));
+                var aperture = controller.RuntimeMap.theme.diceGoalPlatformArt.apertureCells;
+                var canvasWidth = pressRenderer.sprite.bounds.size.x * pressing.lossyScale.x;
+                Assert.That(canvasWidth * 256f / 320f, Is.LessThan(aperture.z - aperture.x));
+                Assert.That(pressing.lossyScale.x, Is.EqualTo(pressing.lossyScale.y).Within(.0001f));
+                Assert.That(pressRenderer.color.a, Is.EqualTo(1f));
+                Assert.That(pressRenderer.sharedMaterial.shader,
+                    Is.SameAs(controller.RuntimeMap.theme.diceGoalPlatformArt.rigidClipShader));
+                Assert.That(goal.Find("__DiceReceiverFrontRim_R4").gameObject.activeSelf, Is.True);
+                var leftLid = goal.Find("__DiceReceiverLeftLid_R4");
+                var sawClosingLid = false;
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.False);
-                while (controller.IsMoving) yield return null;
+                while (controller.IsMoving)
+                {
+                    if (leftLid.gameObject.activeSelf)
+                    {
+                        sawClosingLid = true;
+                        Assert.That(pressing.gameObject.activeSelf, Is.False);
+                    }
+                    yield return null;
+                }
+                Assert.That(sawClosingLid, Is.True);
                 Assert.That(controller.Session.States["die"].dice[0], Is.EqualTo(4));
                 Assert.That(controller.Session.States["die"].removed, Is.True);
                 Assert.That(controller.Session.States["target"].converted, Is.True);

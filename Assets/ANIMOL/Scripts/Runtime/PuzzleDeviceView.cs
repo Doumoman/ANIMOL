@@ -387,31 +387,45 @@ namespace ANIMOL.Puzzle
         {
             if (!diceGoalPlatforms.TryGetValue(e.actor, out var platform)) return;
             Sprite captured = null;
-            if (e.dieId != null && echoDice.TryGetValue(e.dieId, out var face)) captured = face.CommittedSprite;
-            if (!captured && e.dieId != null && views.TryGetValue(e.dieId, out var view) && e.diceAfter != null)
+            if (e.dieId != null && roots.TryGetValue(e.dieId, out var die))
             {
-                var state = session.States[e.dieId];
-                var binding = Array.Find(view.states, item => item.name == state.DiceId);
-                captured = binding != null ? binding.sprite : null;
+                // The roll has finished. Resolve its complete six-face pose on the original renderer
+                // before hiding that entity, then use exactly that sprite for the visual copy.
+                if (echoDice.TryGetValue(e.dieId, out var face) && e.diceAfter != null)
+                    face.ResetToFaces(e.diceAfter);
+                var original = die.GetComponent<DeviceVisualView>();
+                var renderer = original && original.visual ? original.visual : die.GetComponentInChildren<SpriteRenderer>();
+                if (renderer && face && face.CommittedSprite)
+                    renderer.sprite = face.CommittedSprite;
+                else if (renderer && views.TryGetValue(e.dieId, out var legacyView) &&
+                    e.diceAfter != null && TryDiceState(e.diceAfter, out _, out _))
+                {
+                    var state = session.States[e.dieId];
+                    var binding = Array.Find(legacyView.states, item => item.name == state.DiceId);
+                    if (binding != null) renderer.sprite = binding.sprite;
+                }
+                if (renderer) captured = renderer.sprite;
+                die.gameObject.SetActive(false);
             }
-            if (e.dieId != null && roots.TryGetValue(e.dieId, out var die)) die.gameObject.SetActive(false);
             string error = null;
-            if (!captured || !platform.ShowPressing(captured, e.diceAfter[0], 0f, out error))
-            { MissingBindings++; Debug.LogError("R3 dice goal press art failed: " + e.actor + ": " + error, this); platform.ShowWalkable(); return; }
+            if (e.diceAfter == null || e.diceAfter.Length != 6 || !captured ||
+                !platform.ShowPressing(captured, e.diceAfter[0], 0f, out error))
+            { MissingBindings++; Debug.LogError("R4 dice goal press art failed: " + e.actor + ": " + error, this); platform.ShowWalkable(); return; }
             goalPresses.Add(new GoalPress { platform = platform, sprite = captured, top = e.diceAfter[0] });
         }
         public IEnumerator PlayGoalPresses()
         {
             if (goalPresses.Count == 0) yield break;
             var elapsed = 0f;
-            while (elapsed < .42f)
+            while (elapsed < DiceAbsorbMotionV04.DurationSeconds)
             {
                 elapsed += Time.unscaledDeltaTime;
                 foreach (var press in goalPresses)
                 {
                     string error;
-                    if (!press.platform.ShowPressing(press.sprite, press.top, Mathf.Clamp01(elapsed / .42f), out error))
-                    { MissingBindings++; Debug.LogError("R3 dice goal press update failed: " + error, this); }
+                    if (!press.platform.ShowPressing(press.sprite, press.top,
+                        Mathf.Clamp01(elapsed / DiceAbsorbMotionV04.DurationSeconds), out error))
+                    { MissingBindings++; Debug.LogError("R4 dice goal press update failed: " + error, this); }
                 }
                 yield return null;
             }
