@@ -16,8 +16,6 @@ namespace Animol.Art.TheaterRetouch
         [SerializeField] private TheaterPushSpriteContacts contacts;
         [Tooltip("Optional fallback when the current sprite has no handPixel metadata.")]
         [SerializeField] private Transform handSocket;
-        [Tooltip("Play the PUSH sprite frames without moving the character graphics toward the target.")]
-        [SerializeField] private bool animationOnly = true;
 
         [Header("Distances as fractions of one logical tile")]
         [Min(0.001f)] [SerializeField] private float tileWorldSize = 1f;
@@ -50,7 +48,6 @@ namespace Animol.Art.TheaterRetouch
         public bool PoseActive { get { return phase != Phase.Rest && phase != Phase.Recover; } }
         public bool ContactEstablished { get { return phase == Phase.Contact; } }
         public bool IsSettled { get { return phase == Phase.Rest; } }
-        public bool AnimationOnly { get { return animationOnly; } }
 
         public void SetApproachLimit(float fraction)
         {
@@ -173,15 +170,6 @@ namespace Animol.Art.TheaterRetouch
                 ChangePhase(Phase.Contact);
                 return;
             }
-            if (animationOnly)
-            {
-                ResetPresentation();
-                target = pushedObject;
-                targetVisualContactPoint = visualContactPoint;
-                direction = normalizedDirection;
-                phase = Phase.Contact;
-                return;
-            }
             target = pushedObject;
             targetVisualContactPoint = visualContactPoint;
             direction = normalizedDirection;
@@ -194,7 +182,6 @@ namespace Animol.Art.TheaterRetouch
         /// <summary>Call after the existing push animation/interaction completes, is cancelled, or changes state.</summary>
         public void EndPush()
         {
-            if (animationOnly) { ResetPresentation(); return; }
             if (phase != Phase.Rest && phase != Phase.Recover) ChangePhase(Phase.Recover);
         }
 
@@ -355,11 +342,6 @@ namespace Animol.Art.TheaterRetouch
         private void LateUpdate()
         {
             if (!initialized || visualOffsetRoot == null) return;
-            if (animationOnly)
-            {
-                if (offsetLocal.sqrMagnitude > 0.000000000001f) ResetPresentation();
-                return;
-            }
             if (!HasTheaterContactAsset) { ResetPresentation(); return; }
             if (PoseActive && (targetVisualContactPoint != null
                     ? !targetVisualContactPoint.gameObject.activeInHierarchy
