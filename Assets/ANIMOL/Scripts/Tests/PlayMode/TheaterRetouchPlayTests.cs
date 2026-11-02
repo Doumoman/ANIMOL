@@ -43,6 +43,14 @@ namespace ANIMOL.Presentation.Tests
                     contact.position = visual.visual.transform.TransformPoint(anchor.handLocal) + Vector3.right * .2f;
                     visual.BeginPushPresentation(null, Vector2.right, contact);
                     Assert.That(visual.PushPoseActive, Is.True, entry.id);
+                    Assert.That(visual.TheaterPushPresenter.AnimationOnly, Is.True, entry.id);
+                    Assert.That(visual.transform.localPosition, Is.EqualTo(entry.restingLocalPosition), entry.id);
+                    var firstFrame = visual.CurrentFrame;
+                    yield return new WaitForSeconds(.22f);
+                    Assert.That(visual.CurrentFrame, Is.Not.EqualTo(firstFrame), entry.id + " PUSH frame");
+                    Assert.That(visual.transform.localPosition, Is.EqualTo(entry.restingLocalPosition), entry.id);
+                    visual.EndPushPresentation();
+                    Assert.That(visual.transform.localPosition, Is.EqualTo(entry.restingLocalPosition), entry.id);
                     Assert.That(visual.Initialize(starway, "choa"), Is.True);
                     Assert.That(visual.TheaterPushPresenter.isActiveAndEnabled, Is.False);
                     Assert.That(visual.PushPresenter.isActiveAndEnabled, Is.True);
@@ -80,6 +88,9 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(controller.CharacterVisual.State, Is.EqualTo("push"), path);
                 Assert.That(controller.CharacterVisual.TheaterPushPresenter.PoseActive, Is.True, path);
                 Assert.That(controller.CharacterVisual.PushPresenter.isActiveAndEnabled, Is.False, path);
+                yield return new WaitForSeconds(.12f);
+                Assert.That(controller.CharacterVisual.transform.localPosition,
+                    Is.EqualTo(controller.CharacterVisual.catalog.Find("seri").restingLocalPosition), path);
                 var deadline = Time.realtimeSinceStartup + 5f;
                 while (controller.IsMoving && Time.realtimeSinceStartup < deadline) yield return null;
                 Assert.That(controller.IsMoving, Is.False, path);
