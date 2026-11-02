@@ -17,14 +17,14 @@ namespace ANIMOL.Presentation.Tests
         const string Root = "Assets/ANIMOL/Art/AfterimageTheaterCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset";
 
-        [Test] public void NativeManifestConnects360SpritesAnd60ClipsAtSourceSizeAndPivot()
+        [Test] public void RetouchManifestConnects432SpritesAnd72ClipsAtCalibratedSizeAndPivot()
         {
             var manifest = JsonUtility.FromJson<AnimolAfterimageTheaterNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/afterimage_theater_native_animations.json"));
-            Assert.That(manifest.version, Is.EqualTo(5));
+            Assert.That(manifest.version, Is.EqualTo(8));
             Assert.That(manifest.nativeResolution, Is.True);
-            Assert.That(manifest.frames.Length, Is.EqualTo(360));
-            Assert.That(manifest.clips.Length, Is.EqualTo(60));
+            Assert.That(manifest.frames.Length, Is.EqualTo(432));
+            Assert.That(manifest.clips.Length, Is.EqualTo(72));
             var frameMap = manifest.frames.ToDictionary(frame => frame.file);
             var paths = new HashSet<string>();
             foreach (var data in manifest.clips)
@@ -36,6 +36,8 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(clip.legacy, Is.False, clipPath);
                 Assert.That(clip.frameRate, Is.EqualTo(data.fps), clipPath);
                 Assert.That(clip.wrapMode, Is.EqualTo(data.loop ? WrapMode.Loop : WrapMode.Once), clipPath);
+                if (data.state == "push")
+                { Assert.That(data.fps, Is.GreaterThanOrEqualTo(10), clipPath); Assert.That(data.loop, Is.True, clipPath); }
                 var bindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
                 Assert.That(bindings.Length, Is.EqualTo(1), clipPath);
                 Assert.That(bindings[0].path, Is.Empty, clipPath);
@@ -60,7 +62,7 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(sprite.pivot.y, Is.EqualTo(metadata.pivot[1] * metadata.height).Within(.1f), path);
                     Assert.That(importer.textureType, Is.EqualTo(TextureImporterType.Sprite), path);
                     Assert.That(importer.spriteImportMode, Is.EqualTo(SpriteImportMode.Single), path);
-                    Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Point), path);
+                    Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear), path);
                     Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), path);
                     Assert.That(importer.mipmapEnabled, Is.False, path);
                     Assert.That(importer.npotScale, Is.EqualTo(TextureImporterNPOTScale.None), path);
@@ -72,7 +74,7 @@ namespace ANIMOL.Presentation.Tests
                 }
                 Assert.That(keys[6].value, Is.SameAs(keys[5].value), clipPath);
             }
-            Assert.That(paths.Count, Is.EqualTo(360));
+            Assert.That(paths.Count, Is.EqualTo(432));
         }
 
         [Test] public void FourIdsAndLegacyThemeAliasConnectToThemesAndLobby()
@@ -97,7 +99,10 @@ namespace ANIMOL.Presentation.Tests
                 var settings = new TextureImporterSettings();
                 importer.ReadTextureSettings(settings);
                 Assert.That(settings.spriteMeshType, Is.EqualTo(SpriteMeshType.FullRect), path);
-                Assert.That(entry.motions.Length, Is.EqualTo(15), entry.id);
+                Assert.That(entry.motions.Length, Is.EqualTo(18), entry.id);
+                Assert.That(entry.theaterPushContacts, Is.Not.Null, entry.id);
+                Assert.That(entry.theaterPushContacts.entries.Length, Is.EqualTo(18), entry.id);
+                Assert.That(entry.pushContacts, Is.Null, entry.id);
                 foreach (var motion in entry.motions)
                 {
                     Assert.That(motion.clip, Is.Not.Null, entry.id);

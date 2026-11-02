@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using ANIMOL.Presentation;
 using Animol.Art.StarwayRetouch;
+using Animol.Art.TheaterRetouch;
 namespace ANIMOL.Puzzle
 {
     public sealed class PuzzlePrototypeController : MonoBehaviour
@@ -31,7 +32,7 @@ namespace ANIMOL.Puzzle
         void Start() { if (stage && Session == null) Load(stage); }
         public void Load(PuzzleMap data)
         {
-            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
+            if (CharacterVisual) CharacterVisual.ResetPushPresentation();
             if (Devices) Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -106,7 +107,7 @@ namespace ANIMOL.Puzzle
         public bool UndoLast()
         {
             if (Session == null || Strict != null) return false;
-            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
+            if (CharacterVisual) CharacterVisual.ResetPushPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -120,7 +121,7 @@ namespace ANIMOL.Puzzle
         public void ResetStage()
         {
             if (Session == null) return;
-            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
+            if (CharacterVisual) CharacterVisual.ResetPushPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -130,7 +131,7 @@ namespace ANIMOL.Puzzle
         public void RestoreSnapshot(PuzzleDeviceSession snapshot)
         {
             if (Session == null) return;
-            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
+            if (CharacterVisual) CharacterVisual.ResetPushPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -170,6 +171,31 @@ namespace ANIMOL.Puzzle
                 if (consumed.Contains(e)) continue;
                 if (e.kind == PrototypeEventKind.Visual)
                 {
+                    if (!pushStarted && e.eventName == "this_domino_piece_fold_committed" &&
+                        inputDirection != Vector2Int.zero && CharacterVisual &&
+                        CharacterVisual.TheaterPushPresenter && CharacterVisual.TheaterPushPresenter.isActiveAndEnabled &&
+                        Session.Definition(e.actor)?.role == PrototypeRole.Domino &&
+                        Session.States[e.actor].cell == Vector2Int.RoundToInt(Player.position) + inputDirection)
+                    {
+                        CharacterVisual.SetMotion(inputDirection, "push");
+                        pushStarted = CharacterVisual.State == "push";
+                        var domino = Devices.Actor(e.actor);
+                        if (domino)
+                        {
+                            var worldDirection = presentation.TransformVector(
+                                new Vector3(inputDirection.x, inputDirection.y, 0f));
+                            var contact = CreatePushVisualContact(domino, worldDirection);
+                            if (contact)
+                            {
+                                CharacterVisual.BeginPushPresentation(domino.GetComponentInChildren<Collider2D>(),
+                                    worldDirection, contact);
+                                var deadline = Time.time + .14f;
+                                while (CharacterVisual && CharacterVisual.PushPoseActive &&
+                                    !CharacterVisual.PushContactEstablished && Time.time < deadline)
+                                    yield return null;
+                            }
+                        }
+                    }
                     if (e.eventName == "ChickReturned")
                     {
                         var chick = Devices.Actor(e.actor);
@@ -189,7 +215,7 @@ namespace ANIMOL.Puzzle
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
                 if (!actor) actor = view.RanchActor(e.actor);
                 if (!pushStarted && inputDirection != Vector2Int.zero && e.actor != "player" &&
-                    CharacterVisual && CharacterVisual.PushPresenter && CharacterVisual.PushPresenter.enabled &&
+                    CharacterVisual && CharacterVisual.HasActivePushPresenter &&
                     e.from == Vector2Int.RoundToInt(Player.position) + inputDirection &&
                     IsCommittedPlayerPush(result, e, inputDirection))
                 {
@@ -206,14 +232,13 @@ namespace ANIMOL.Puzzle
                         var contact = CreatePushVisualContact(actor, worldDirection);
                         if (contact)
                         {
-                            CharacterVisual.PushPresenter.BeginPush(actor.GetComponentInChildren<Collider2D>(),
+                            CharacterVisual.BeginPushPresentation(actor.GetComponentInChildren<Collider2D>(),
                                 worldDirection, contact);
                             // The session has already committed this move. Let the hand reach the
                             // stationary visual face before animating the object away from its cell.
                             var preparationDeadline = Time.time + .14f;
-                            while (CharacterVisual && CharacterVisual.PushPresenter &&
-                                CharacterVisual.PushPresenter.PoseActive &&
-                                !CharacterVisual.PushPresenter.ContactEstablished &&
+                            while (CharacterVisual && CharacterVisual.PushPoseActive &&
+                                !CharacterVisual.PushContactEstablished &&
                                 Time.time < preparationDeadline)
                                 yield return null;
                         }
@@ -317,7 +342,7 @@ namespace ANIMOL.Puzzle
                 pressingGoal = false;
             }
             Devices.Settle(); view.Present(Session); Player.position = (Vector2)Session.Cell;
-            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.EndPush();
+            if (CharacterVisual) CharacterVisual.EndPushPresentation();
             if (CharacterVisual)
             {
                 if (Session.Won) CharacterVisual.PlayPose(CharacterVisual.Direction, "victory");
@@ -354,10 +379,22 @@ namespace ANIMOL.Puzzle
             if (!CharacterVisual || !CharacterVisual.visual ||
                 !CharacterVisual.catalog || worldHeading.sqrMagnitude < 0.0001f) return null;
             var definition = CharacterVisual.catalog.Find(CharacterVisual.characterId);
-            StarwayPushSpriteContacts.Entry anchor;
-            if (definition == null || !definition.pushContacts ||
-                !definition.pushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
-            var handLocal = anchor.handLocal;
+            if (definition == null) return null;
+            Vector2 handLocal;
+            if (CharacterVisual.TheaterPushPresenter && CharacterVisual.TheaterPushPresenter.isActiveAndEnabled)
+            {
+                TheaterPushSpriteContacts.Entry anchor;
+                if (!definition.theaterPushContacts ||
+                    !definition.theaterPushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
+                handLocal = anchor.handLocal;
+            }
+            else
+            {
+                StarwayPushSpriteContacts.Entry anchor;
+                if (!definition.pushContacts ||
+                    !definition.pushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
+                handLocal = anchor.handLocal;
+            }
             if (CharacterVisual.visual.flipX) handLocal.x = -handLocal.x;
             var handWorld = CharacterVisual.visual.transform.TransformPoint(handLocal);
             var direction = new Vector2(worldHeading.x, worldHeading.y).normalized;

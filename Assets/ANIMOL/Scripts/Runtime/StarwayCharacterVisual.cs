@@ -1,5 +1,6 @@
 using UnityEngine;
 using Animol.Art.StarwayRetouch;
+using Animol.Art.TheaterRetouch;
 
 namespace ANIMOL.Presentation
 {
@@ -14,6 +15,13 @@ namespace ANIMOL.Presentation
         public string costumeId;
         public SpriteRenderer visual;
         public StarwayPushPresentation PushPresenter { get; private set; }
+        public TheaterPushPresentation TheaterPushPresenter { get; private set; }
+        public bool HasActivePushPresenter => PushPresenter && PushPresenter.isActiveAndEnabled ||
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled;
+        public bool PushPoseActive => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.PoseActive ||
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.PoseActive;
+        public bool PushContactEstablished => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.ContactEstablished ||
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.ContactEstablished;
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
         public Sprite Illustration => catalog && catalog.Find(characterId) != null
@@ -51,6 +59,16 @@ namespace ANIMOL.Presentation
             costumeId = selected;
             visual = GetComponent<SpriteRenderer>();
             if (!PushPresenter) PushPresenter = GetComponentInParent<StarwayPushPresentation>();
+            if (!TheaterPushPresenter) TheaterPushPresenter = GetComponentInParent<TheaterPushPresentation>();
+            var theaterContacts = definition.theaterPushContacts;
+            var theaterActive = theaterContacts && theaterContacts.characterId == id &&
+                (id == "seri" || id == "roan" || id == "mion" || id == "piko");
+            if (theaterActive && !TheaterPushPresenter)
+            {
+                TheaterPushPresenter = transform.parent.gameObject.AddComponent<TheaterPushPresentation>();
+                TheaterPushPresenter.enabled = false;
+            }
+            if (TheaterPushPresenter) { TheaterPushPresenter.ResetPresentation(); TheaterPushPresenter.enabled = false; }
             if (PushPresenter)
             {
                 PushPresenter.ResetPresentation();
@@ -59,7 +77,7 @@ namespace ANIMOL.Presentation
                     (id == "choa" || id == "uram" || id == "yeoul" || id == "tori");
                 PushPresenter.enabled = false;
                 transform.localScale = Vector3.one * (active ? RetouchVisualScale : PuzzleVisualScale);
-                transform.localPosition = active ? definition.restingLocalPosition : Vector3.zero;
+                transform.localPosition = active || theaterActive ? definition.restingLocalPosition : Vector3.zero;
                 PushPresenter.SetContacts(active ? contacts : null);
                 if (active)
                 {
@@ -70,7 +88,39 @@ namespace ANIMOL.Presentation
                         definition.restingLocalPosition);
                 }
             }
+            if (TheaterPushPresenter)
+            {
+                TheaterPushPresenter.SetContacts(theaterActive ? theaterContacts : null);
+                if (theaterActive)
+                {
+                    var grid = transform.parent.parent;
+                    var tile = grid ? grid.TransformVector(Vector3.right).magnitude : 1f;
+                    TheaterPushPresenter.SetApproachLimit(definition.pushApproachLimit);
+                    TheaterPushPresenter.Configure(transform, visual, theaterContacts, tile, null,
+                        definition.restingLocalPosition);
+                }
+            }
             return PlayPose("front", "idle");
+        }
+
+        public void BeginPushPresentation(Collider2D target, Vector2 worldDirection, Transform visualContact)
+        {
+            if (PushPresenter && PushPresenter.isActiveAndEnabled)
+                PushPresenter.BeginPush(target, worldDirection, visualContact);
+            else if (TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled)
+                TheaterPushPresenter.BeginPush(target, worldDirection, visualContact);
+        }
+
+        public void EndPushPresentation()
+        {
+            if (PushPresenter && PushPresenter.isActiveAndEnabled) PushPresenter.EndPush();
+            if (TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled) TheaterPushPresenter.EndPush();
+        }
+
+        public void ResetPushPresentation()
+        {
+            if (PushPresenter) PushPresenter.ResetPresentation();
+            if (TheaterPushPresenter) TheaterPushPresenter.ResetPresentation();
         }
 
         public bool SetCostume(string costume)

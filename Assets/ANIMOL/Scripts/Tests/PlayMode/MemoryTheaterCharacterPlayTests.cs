@@ -62,7 +62,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(visual.visual, Is.SameAs(visual.GetComponent<SpriteRenderer>()));
             foreach (var entry in qa.catalog.characters)
                 foreach (var direction in new[] { "front", "back", "side", "left" })
-                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory" })
+                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory", "push" })
                     {
                         Assert.That(qa.Preview(entry.id, direction, state), Is.True, entry.id + "/" + direction + "/" + state);
                         Assert.That(visual.CurrentClip, Is.Not.Null);

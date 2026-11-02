@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Animol.Art.TheaterRetouch;
 
 namespace Animol.Art.AfterimageTheaterNative
 {
@@ -20,14 +21,16 @@ namespace Animol.Art.AfterimageTheaterNative
         // The source character_designs.json lists these four IDs in this order.
         static readonly string[] Ids = { "seri", "roan", "mion", "piko" };
         static readonly string[] Names = { "\uC138\uB9AC", "\uB85C\uC548", "\uBBF8\uC628", "\uD53C\uCF54" };
+        [Serializable] sealed class RetouchCalibrationManifest { public RetouchCalibration projectCalibration; }
+        [Serializable] sealed class RetouchCalibration { public float standingHeightWorld; public float restingOffsetLocalY; }
 
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolAfterimageTheaterNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/afterimage_theater_native_animations.json"));
-            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 360 ||
-                manifest.clips == null || manifest.clips.Length != 60)
-                throw new InvalidDataException("Afterimage Theater native manifest must have 360 frames and 60 clips.");
+            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 432 ||
+                manifest.clips == null || manifest.clips.Length != 72)
+                throw new InvalidDataException("Afterimage Theater retouch manifest must have 432 frames and 72 clips.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
             {
@@ -39,9 +42,20 @@ namespace Animol.Art.AfterimageTheaterNative
             for (var i = 0; i < Ids.Length; i++)
             {
                 var id = Ids[i];
-                var entry = new StarwayCharacterDefinition { id = id, displayName = Names[i] };
+                var calibration = JsonUtility.FromJson<RetouchCalibrationManifest>(File.ReadAllText(
+                    Root + "/theater_" + id + "_retouch_animations.json"));
+                if (calibration?.projectCalibration == null)
+                    throw new InvalidDataException("Missing scene calibration for " + id);
+                var entry = new StarwayCharacterDefinition {
+                    id = id, displayName = Names[i], motions = new StarwayCharacterMotion[18],
+                    theaterPushContacts = AssetDatabase.LoadAssetAtPath<TheaterPushSpriteContacts>(
+                        Root + "/PushContacts/theater_push_contacts_" + id + ".asset"),
+                    restingLocalPosition = new Vector3(0f, calibration.projectCalibration.restingOffsetLocalY, 0f),
+                    calibratedStandingHeight = calibration.projectCalibration.standingHeightWorld,
+                    pushApproachLimit = .22f
+                };
+                if (!entry.theaterPushContacts) throw new InvalidDataException("Missing PUSH contacts for " + id);
                 var illustrationPath = Root + "/Illustrations/animol_memory_theater_" + id + "_illustration.png";
-                ConfigureIllustration(illustrationPath);
                 entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(illustrationPath);
                 if (!entry.illustration) throw new InvalidDataException("Missing illustration: " + id);
                 var index = 0;
@@ -59,7 +73,7 @@ namespace Animol.Art.AfterimageTheaterNative
                     }
                     entry.motions[index++] = motion;
                 }
-                if (index != 15) throw new InvalidDataException("Expected 15 clips for " + id);
+                if (index != 18) throw new InvalidDataException("Expected 18 clips for " + id);
                 catalog.characters[i] = entry;
             }
             EditorUtility.SetDirty(catalog);
@@ -69,13 +83,20 @@ namespace Animol.Art.AfterimageTheaterNative
             {
                 var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(path);
                 if (!theme) throw new FileNotFoundException("Missing Afterimage Theater theme", path);
-                theme.memoryTheaterCharacters = catalog;
-                theme.memoryTheaterCharacterId = catalog.defaultCharacterId;
-                EditorUtility.SetDirty(theme);
+                if (theme.memoryTheaterCharacters != catalog || theme.memoryTheaterCharacterId != catalog.defaultCharacterId)
+                {
+                    theme.memoryTheaterCharacters = catalog;
+                    theme.memoryTheaterCharacterId = catalog.defaultCharacterId;
+                    EditorUtility.SetDirty(theme);
+                    AssetDatabase.SaveAssetIfDirty(theme);
+                }
             }
-            ConnectMainMenu(catalog);
-            AssetDatabase.SaveAssets();
-            Debug.Log("ANIMOL Afterimage Theater native: connected four characters, 60 clips, and four illustrations while preserving the memory_theater save key.");
+            var menu = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(MenuPath);
+            if (!menu || menu.themes == null || menu.themes.Length < 2 || menu.themes[1].gameCharacters != catalog ||
+                menu.themes[1].displayName != "\uC794\uC601 \uADF9\uC7A5")
+                throw new InvalidDataException("Existing theater lobby binding must be reviewed before rebuilding it.");
+            AssetDatabase.SaveAssetIfDirty(catalog);
+            Debug.Log("ANIMOL Afterimage Theater retouch: connected four characters, 72 clips, and four existing illustrations while preserving the memory_theater save key.");
         }
 
         public static void BuildBatch() => Build();
