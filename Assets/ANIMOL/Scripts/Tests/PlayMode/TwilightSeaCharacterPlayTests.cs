@@ -73,7 +73,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(visual.costumeId, Is.EqualTo(appearance.costume));
                 Assert.That(visual.Illustration, Is.SameAs(entry.IllustrationFor(appearance.costume)));
                 foreach (var direction in new[] { "front", "back", "side", "left" })
-                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory" })
+                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory", "push" })
                     {
                         Assert.That(visual.PlayPose(direction, state), Is.True,
                             appearance.character + "/" + appearance.costume + "/" + direction + "/" + state);
@@ -141,7 +141,10 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(puzzle.CharacterVisual, Is.Not.Null);
             Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("haerin"));
             Assert.That(puzzle.Player.localScale, Is.EqualTo(Vector3.one));
-            Assert.That(puzzle.CharacterVisual.transform.localScale.x, Is.EqualTo(.85f).Within(.0001f));
+            var haerin = puzzle.RuntimeMap.theme.twilightSeaCharacters.Find("haerin");
+            Assert.That(puzzle.CharacterVisual.transform.localScale.x,
+                Is.EqualTo(.85f * haerin.coastGraphicsScaleXFactor).Within(.0001f));
+            Assert.That(puzzle.CharacterVisual.transform.localScale.y, Is.EqualTo(.85f).Within(.0001f));
             Assert.That(puzzle.SelectTwilightSeaCharacter("stranger"), Is.True);
             var catalog = puzzle.RuntimeMap.theme.twilightSeaCharacters;
             Assert.That(puzzle.CharacterVisual.visual.sprite,

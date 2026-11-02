@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Animol.Art.CoastRetouch.Editor;
 
 namespace Animol.Art.StarwaveCoastNative
 {
@@ -50,6 +51,11 @@ namespace Animol.Art.StarwaveCoastNative
             string assets = Path.GetFullPath(Application.dataPath).Replace('\\','/').TrimEnd('/');
             if (!root.StartsWith(assets+"/", StringComparison.Ordinal) && root!=assets)
                 throw new ArgumentException("Import folder must be inside this project's Assets folder.");
+            if (File.Exists(Path.Combine(root, "coast_haerin_retouch_animations.json")))
+            {
+                CoastRetouchImporter.ImportAllCharactersFromFolder(root, "");
+                return;
+            }
             string manifestPath = Path.Combine(root,"starwave_coast_native_animations.json");
             Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestPath));
             if (!manifest.nativeResolution || manifest.frames==null || manifest.frames.Length!=450 || manifest.clips==null || manifest.clips.Length!=75)

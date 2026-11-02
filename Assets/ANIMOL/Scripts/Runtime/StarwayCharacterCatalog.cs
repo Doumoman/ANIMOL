@@ -2,6 +2,7 @@ using System;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
 using Animol.Art.SanctumRetouch;
+using Animol.Art.CoastRetouch;
 using UnityEngine;
 
 namespace ANIMOL.Presentation
@@ -22,6 +23,10 @@ namespace ANIMOL.Presentation
         public string assetSet;
         public Sprite illustration;
         public StarwayCharacterMotion[] motions = new StarwayCharacterMotion[15];
+        public CoastPushSpriteContacts coastPushContacts;
+        public Vector3 restingLocalPosition;
+        public float calibratedStandingHeight;
+        public float coastGraphicsScaleXFactor = 1f;
 
         public StarwayCharacterMotion Motion(string direction, string state)
         {
@@ -40,8 +45,10 @@ namespace ANIMOL.Presentation
         public StarwayPushSpriteContacts pushContacts;
         public TheaterPushSpriteContacts theaterPushContacts;
         public SanctumPushSpriteContacts sanctumPushContacts;
+        public CoastPushSpriteContacts coastPushContacts;
         public Vector3 restingLocalPosition;
         public float calibratedStandingHeight;
+        public float coastGraphicsScaleXFactor = 1f;
         [Range(0f, 1f)] public float pushApproachLimit = .22f;
         public string defaultCostumeId;
         public StarwayCharacterCostume[] costumes = Array.Empty<StarwayCharacterCostume>();
@@ -72,6 +79,14 @@ namespace ANIMOL.Presentation
             var costume = Array.Find(costumes ?? Array.Empty<StarwayCharacterCostume>(), item =>
                 item != null && item.id == costumeId);
             return costume != null ? costume.illustration : null;
+        }
+
+        public CoastPushSpriteContacts CoastContactsFor(string costumeId)
+        {
+            if (string.IsNullOrEmpty(costumeId) || costumeId == defaultCostumeId) return coastPushContacts;
+            var costume = Array.Find(costumes ?? Array.Empty<StarwayCharacterCostume>(), item =>
+                item != null && item.id == costumeId);
+            return costume?.coastPushContacts;
         }
 
         public AnimationClip Clip(string direction, string state) => Motion(direction, state)?.clip;

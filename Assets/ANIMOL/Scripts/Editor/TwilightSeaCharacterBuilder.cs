@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Animol.Art.CoastRetouch;
 
 namespace Animol.Art.StarwaveCoastNative
 {
@@ -18,6 +19,15 @@ namespace Animol.Art.StarwaveCoastNative
         const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
         static readonly string[] Ids = { "haerin", "stranger", "danu", "eden" };
         static readonly string[] Names = { "\uD574\uB9B0", "\uC774\uBC29\uC778", "\uB2E8\uC6B0", "\uC774\uB4E0" };
+
+        [Serializable] sealed class RetouchManifest { public Calibration projectCalibration; }
+        [Serializable] sealed class Calibration
+        {
+            public float standingHeightWorld;
+            public float restingOffsetLocalX;
+            public float restingOffsetLocalY;
+            public float graphicsScaleXFactor;
+        }
 
         [Serializable] sealed class EdenCostumeFile
         {
@@ -36,9 +46,9 @@ namespace Animol.Art.StarwaveCoastNative
         {
             var manifest = JsonUtility.FromJson<AnimolStarwaveCoastNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/starwave_coast_native_animations.json"));
-            if (manifest.version != 6 || !manifest.nativeResolution || manifest.frames == null ||
-                manifest.frames.Length != 450 || manifest.clips == null || manifest.clips.Length != 75)
-                throw new InvalidDataException("Starwave Coast native manifest must have 450 frames and 75 clips.");
+            if (manifest.version != 7 || !manifest.nativeResolution || manifest.frames == null ||
+                manifest.frames.Length != 540 || manifest.clips == null || manifest.clips.Length != 90)
+                throw new InvalidDataException("Starwave Coast retouch manifest must have 540 frames and 90 clips.");
             var costumes = JsonUtility.FromJson<EdenCostumeFile>(File.ReadAllText(Root + "/eden_costumes.json"));
             if (costumes == null || costumes.character != "eden" || costumes.@default != "rabbit" ||
                 costumes.costumes == null || costumes.costumes.Length != 2)
@@ -65,16 +75,31 @@ namespace Animol.Art.StarwaveCoastNative
                     displayName = Names[i],
                     defaultCostumeId = id == "eden" ? costumes.@default : "default"
                 };
+                var calibration = ReadCalibration(id);
+                entry.coastPushContacts = LoadContacts(id);
+                entry.restingLocalPosition = new Vector3(calibration.restingOffsetLocalX,
+                    calibration.restingOffsetLocalY, 0f);
+                entry.calibratedStandingHeight = calibration.standingHeightWorld;
+                entry.coastGraphicsScaleXFactor = calibration.graphicsScaleXFactor;
+                entry.pushApproachLimit = .22f;
                 entry.illustration = id == "eden" ? LoadIllustrationPath(rabbit.illustration) : LoadIllustration(id);
                 entry.motions = LoadMotions(manifest, id, id, id == "eden" ? rabbit.clipNames : null);
                 if (id == "eden")
+                {
+                    var puppyCalibration = ReadCalibration(puppy.assetSet);
                     entry.costumes = new[] { new StarwayCharacterCostume
                     {
                         id = puppy.id,
                         assetSet = puppy.assetSet,
                         illustration = LoadIllustrationPath(puppy.illustration),
-                        motions = LoadMotions(manifest, "eden", puppy.assetSet, puppy.clipNames)
+                        motions = LoadMotions(manifest, "eden", puppy.assetSet, puppy.clipNames),
+                        coastPushContacts = LoadContacts(puppy.assetSet),
+                        restingLocalPosition = new Vector3(puppyCalibration.restingOffsetLocalX,
+                            puppyCalibration.restingOffsetLocalY, 0f),
+                        calibratedStandingHeight = puppyCalibration.standingHeightWorld,
+                        coastGraphicsScaleXFactor = puppyCalibration.graphicsScaleXFactor
                     } };
+                }
                 catalog.characters[i] = entry;
             }
             EditorUtility.SetDirty(catalog);
@@ -84,14 +109,41 @@ namespace Animol.Art.StarwaveCoastNative
             {
                 var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(path);
                 if (!theme) throw new FileNotFoundException("Missing Starwave Coast theme", path);
-                theme.twilightSeaCharacters = catalog;
-                theme.twilightSeaCharacterId = "haerin";
-                theme.twilightSeaCostumeId = "default";
-                EditorUtility.SetDirty(theme);
+                if (theme.twilightSeaCharacters != catalog || theme.twilightSeaCharacterId != "haerin" ||
+                    theme.twilightSeaCostumeId != "default")
+                {
+                    theme.twilightSeaCharacters = catalog;
+                    theme.twilightSeaCharacterId = "haerin";
+                    theme.twilightSeaCostumeId = "default";
+                    EditorUtility.SetDirty(theme);
+                    AssetDatabase.SaveAssetIfDirty(theme);
+                }
             }
-            ConnectMainMenu(catalog);
-            AssetDatabase.SaveAssets();
-            Debug.Log("ANIMOL Starwave Coast native: connected four character IDs, five appearance sets, 75 clips, and five illustrations while preserving twilight_sea keys.");
+            var menu = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(MenuPath);
+            if (!menu || menu.themes == null || menu.themes.Length < 4 || menu.themes[3].id != "sea" ||
+                menu.themes[3].resourceId != "starwave_coast" || menu.themes[3].gameCharacters != catalog ||
+                menu.themes[3].displayName != "\uBCC4\uB108\uC6B8 \uD574\uC548")
+                throw new InvalidDataException("Existing Coast lobby binding must be reviewed before rebuilding it.");
+            AssetDatabase.SaveAssetIfDirty(catalog);
+            Debug.Log("ANIMOL Starwave Coast retouch: four character IDs, five appearances, 90 clips, and existing illustrations retain the twilight_sea save key.");
+        }
+
+        static Calibration ReadCalibration(string assetSet)
+        {
+            var manifest = JsonUtility.FromJson<RetouchManifest>(File.ReadAllText(
+                Root + "/coast_" + assetSet + "_retouch_animations.json"));
+            if (manifest?.projectCalibration == null || manifest.projectCalibration.standingHeightWorld <= 0f ||
+                manifest.projectCalibration.graphicsScaleXFactor <= 0f)
+                throw new InvalidDataException("Missing scene calibration for " + assetSet);
+            return manifest.projectCalibration;
+        }
+
+        static CoastPushSpriteContacts LoadContacts(string assetSet)
+        {
+            var path = Root + "/PushContacts/coast_push_contacts_" + assetSet + ".asset";
+            var contacts = AssetDatabase.LoadAssetAtPath<CoastPushSpriteContacts>(path);
+            if (!contacts) throw new FileNotFoundException("Missing Coast PUSH contacts", path);
+            return contacts;
         }
 
         public static void BuildBatch() => Build();
@@ -146,12 +198,12 @@ namespace Animol.Art.StarwaveCoastNative
         static StarwayCharacterMotion[] LoadMotions(AnimolStarwaveCoastNativeImporter.Manifest manifest,
             string characterId, string assetSet, string[] clipNames)
         {
-            var motions = new StarwayCharacterMotion[15];
+            var motions = new StarwayCharacterMotion[18];
             var index = 0;
             var names = clipNames ?? Array.ConvertAll(
                 Array.FindAll(manifest.clips, data => data.character == characterId && data.assetSet == assetSet),
                 data => data.name);
-            if (names.Length != 15) throw new InvalidDataException("Expected 15 clip names for " + assetSet);
+            if (names.Length != 18) throw new InvalidDataException("Expected 18 clip names for " + assetSet);
             foreach (var name in names)
             {
                 var data = Array.Find(manifest.clips, clip => clip.name == name);
@@ -171,7 +223,7 @@ namespace Animol.Art.StarwaveCoastNative
                 }
                 motions[index++] = motion;
             }
-            if (index != 15) throw new InvalidDataException("Expected 15 clips for " + assetSet);
+            if (index != 18) throw new InvalidDataException("Expected 18 clips for " + assetSet);
             return motions;
         }
 
@@ -186,29 +238,6 @@ namespace Animol.Art.StarwaveCoastNative
                 !relativePath.StartsWith("Illustrations/", StringComparison.Ordinal))
                 throw new InvalidDataException("Invalid illustration path: " + relativePath);
             var path = Root + "/" + relativePath;
-            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
-            if (!importer) throw new FileNotFoundException("Missing illustration importer", path);
-            importer.textureType = TextureImporterType.Sprite;
-            importer.spriteImportMode = SpriteImportMode.Single;
-            var settings = new TextureImporterSettings();
-            importer.ReadTextureSettings(settings);
-            settings.spriteMeshType = SpriteMeshType.FullRect;
-            importer.SetTextureSettings(settings);
-            importer.filterMode = FilterMode.Bilinear;
-            importer.textureCompression = TextureImporterCompression.Uncompressed;
-            importer.crunchedCompression = false;
-            importer.mipmapEnabled = false;
-            importer.npotScale = TextureImporterNPOTScale.None;
-            importer.maxTextureSize = 2048;
-            var android = importer.GetPlatformTextureSettings("Android");
-            android.name = "Android";
-            android.overridden = true;
-            android.maxTextureSize = 2048;
-            android.format = TextureImporterFormat.RGBA32;
-            android.textureCompression = TextureImporterCompression.Uncompressed;
-            android.crunchedCompression = false;
-            importer.SetPlatformTextureSettings(android);
-            importer.SaveAndReimport();
             var illustration = AssetDatabase.LoadAssetAtPath<Sprite>(path);
             if (!illustration) throw new InvalidDataException("Missing illustration: " + path);
             return illustration;

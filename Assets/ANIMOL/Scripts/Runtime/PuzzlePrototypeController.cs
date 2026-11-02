@@ -6,6 +6,7 @@ using ANIMOL.Presentation;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
 using Animol.Art.SanctumRetouch;
+using Animol.Art.CoastRetouch;
 namespace ANIMOL.Puzzle
 {
     public sealed class PuzzlePrototypeController : MonoBehaviour
@@ -175,7 +176,8 @@ namespace ANIMOL.Puzzle
                     if (!pushStarted && e.eventName == "this_domino_piece_fold_committed" &&
                         inputDirection != Vector2Int.zero && CharacterVisual &&
                         ((CharacterVisual.TheaterPushPresenter && CharacterVisual.TheaterPushPresenter.isActiveAndEnabled) ||
-                         (CharacterVisual.SanctumPushPresenter && CharacterVisual.SanctumPushPresenter.isActiveAndEnabled)) &&
+                         (CharacterVisual.SanctumPushPresenter && CharacterVisual.SanctumPushPresenter.isActiveAndEnabled) ||
+                         (CharacterVisual.CoastPushPresenter && CharacterVisual.CoastPushPresenter.isActiveAndEnabled)) &&
                         Session.Definition(e.actor)?.role == PrototypeRole.Domino &&
                         Session.States[e.actor].cell == Vector2Int.RoundToInt(Player.position) + inputDirection)
                     {
@@ -395,6 +397,13 @@ namespace ANIMOL.Puzzle
                 SanctumPushSpriteContacts.Entry anchor;
                 if (!definition.sanctumPushContacts ||
                     !definition.sanctumPushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
+                handLocal = anchor.handLocal;
+            }
+            else if (CharacterVisual.CoastPushPresenter && CharacterVisual.CoastPushPresenter.isActiveAndEnabled)
+            {
+                CoastPushSpriteContacts.Entry anchor;
+                var contacts = definition.CoastContactsFor(CharacterVisual.costumeId);
+                if (!contacts || !contacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
                 handLocal = anchor.handLocal;
             }
             else

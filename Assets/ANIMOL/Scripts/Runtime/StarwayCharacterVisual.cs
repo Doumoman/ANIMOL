@@ -2,6 +2,7 @@ using UnityEngine;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
 using Animol.Art.SanctumRetouch;
+using Animol.Art.CoastRetouch;
 
 namespace ANIMOL.Presentation
 {
@@ -18,15 +19,19 @@ namespace ANIMOL.Presentation
         public StarwayPushPresentation PushPresenter { get; private set; }
         public TheaterPushPresentation TheaterPushPresenter { get; private set; }
         public SanctumPushPresentation SanctumPushPresenter { get; private set; }
+        public CoastPushPresentation CoastPushPresenter { get; private set; }
         public bool HasActivePushPresenter => PushPresenter && PushPresenter.isActiveAndEnabled ||
             TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled ||
-            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled;
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled ||
+            CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled;
         public bool PushPoseActive => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.PoseActive ||
             TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.PoseActive ||
-            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.PoseActive;
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.PoseActive ||
+            CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled && CoastPushPresenter.PoseActive;
         public bool PushContactEstablished => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.ContactEstablished ||
             TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.ContactEstablished ||
-            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.ContactEstablished;
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.ContactEstablished ||
+            CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled && CoastPushPresenter.ContactEstablished;
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
         public Sprite Illustration => catalog && catalog.Find(characterId) != null
@@ -66,6 +71,18 @@ namespace ANIMOL.Presentation
             if (!PushPresenter) PushPresenter = GetComponentInParent<StarwayPushPresentation>();
             if (!TheaterPushPresenter) TheaterPushPresenter = GetComponentInParent<TheaterPushPresentation>();
             if (!SanctumPushPresenter) SanctumPushPresenter = GetComponentInParent<SanctumPushPresentation>();
+            if (!CoastPushPresenter) CoastPushPresenter = GetComponentInParent<CoastPushPresentation>();
+            var costumeData = System.Array.Find(definition.costumes ?? System.Array.Empty<StarwayCharacterCostume>(),
+                item => item != null && item.id == selected);
+            var coastContacts = definition.CoastContactsFor(selected);
+            var coastAssetSet = costumeData != null ? costumeData.assetSet : id;
+            var coastActive = coastContacts && coastContacts.characterId == id &&
+                coastContacts.assetSet == coastAssetSet && coastContacts.costume == selected &&
+                (id == "haerin" || id == "stranger" || id == "danu" || id == "eden");
+            var coastRest = coastActive && costumeData != null ? costumeData.restingLocalPosition : definition.restingLocalPosition;
+            var coastX = coastActive ? (costumeData != null ? costumeData.coastGraphicsScaleXFactor :
+                definition.coastGraphicsScaleXFactor) : 1f;
+            if (coastX <= 0f || coastX > 1f) coastX = 1f;
             var theaterContacts = definition.theaterPushContacts;
             var theaterActive = theaterContacts && theaterContacts.characterId == id &&
                 (id == "seri" || id == "roan" || id == "mion" || id == "piko");
@@ -82,8 +99,14 @@ namespace ANIMOL.Presentation
                 SanctumPushPresenter = transform.parent.gameObject.AddComponent<SanctumPushPresentation>();
                 SanctumPushPresenter.enabled = false;
             }
+            if (coastActive && !CoastPushPresenter)
+            {
+                CoastPushPresenter = transform.parent.gameObject.AddComponent<CoastPushPresentation>();
+                CoastPushPresenter.enabled = false;
+            }
             if (TheaterPushPresenter) { TheaterPushPresenter.ResetPresentation(); TheaterPushPresenter.enabled = false; }
             if (SanctumPushPresenter) { SanctumPushPresenter.ResetPresentation(); SanctumPushPresenter.enabled = false; }
+            if (CoastPushPresenter) { CoastPushPresenter.ResetPresentation(); CoastPushPresenter.enabled = false; }
             if (PushPresenter)
             {
                 PushPresenter.ResetPresentation();
@@ -91,8 +114,10 @@ namespace ANIMOL.Presentation
                 var active = contacts && contacts.characterId == id &&
                     (id == "choa" || id == "uram" || id == "yeoul" || id == "tori");
                 PushPresenter.enabled = false;
-                transform.localScale = Vector3.one * (active ? RetouchVisualScale : PuzzleVisualScale);
-                transform.localPosition = active || theaterActive || sanctumActive ? definition.restingLocalPosition : Vector3.zero;
+                var visualScale = active ? RetouchVisualScale : PuzzleVisualScale;
+                transform.localScale = new Vector3(visualScale * coastX, visualScale, visualScale);
+                transform.localPosition = active || theaterActive || sanctumActive || coastActive
+                    ? coastRest : Vector3.zero;
                 PushPresenter.SetContacts(active ? contacts : null);
                 if (active)
                 {
@@ -127,6 +152,17 @@ namespace ANIMOL.Presentation
                         definition.restingLocalPosition);
                 }
             }
+            if (CoastPushPresenter)
+            {
+                CoastPushPresenter.SetContacts(coastActive ? coastContacts : null);
+                if (coastActive)
+                {
+                    var grid = transform.parent.parent;
+                    var tile = grid ? grid.TransformVector(Vector3.right).magnitude : 1f;
+                    CoastPushPresenter.SetApproachLimit(definition.pushApproachLimit);
+                    CoastPushPresenter.Configure(transform, visual, coastContacts, tile, null, coastRest);
+                }
+            }
             return PlayPose("front", "idle");
         }
 
@@ -138,6 +174,8 @@ namespace ANIMOL.Presentation
                 TheaterPushPresenter.BeginPush(target, worldDirection, visualContact);
             else if (SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled)
                 SanctumPushPresenter.BeginPush(target, worldDirection, visualContact);
+            else if (CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled)
+                CoastPushPresenter.BeginPush(target, worldDirection, visualContact);
         }
 
         public void EndPushPresentation()
@@ -145,6 +183,7 @@ namespace ANIMOL.Presentation
             if (PushPresenter && PushPresenter.isActiveAndEnabled) PushPresenter.EndPush();
             if (TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled) TheaterPushPresenter.EndPush();
             if (SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled) SanctumPushPresenter.EndPush();
+            if (CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled) CoastPushPresenter.EndPush();
         }
 
         public void ResetPushPresentation()
@@ -152,12 +191,20 @@ namespace ANIMOL.Presentation
             if (PushPresenter) PushPresenter.ResetPresentation();
             if (TheaterPushPresenter) TheaterPushPresenter.ResetPresentation();
             if (SanctumPushPresenter) SanctumPushPresenter.ResetPresentation();
+            if (CoastPushPresenter) CoastPushPresenter.ResetPresentation();
         }
 
         public bool SetCostume(string costume)
         {
             var definition = catalog ? catalog.Find(characterId) : null;
             if (definition == null || string.IsNullOrEmpty(costume) || !definition.HasCostume(costume)) return false;
+            if (definition.CoastContactsFor(costume))
+            {
+                var previousDirection = Direction;
+                var previousState = State;
+                if (!Initialize(catalog, characterId, costume)) return false;
+                return PlayPose(previousDirection, previousState);
+            }
             var previous = costumeId;
             costumeId = costume;
             if (PlayPose(Direction, State)) return true;
