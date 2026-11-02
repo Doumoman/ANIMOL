@@ -14,7 +14,8 @@ namespace ANIMOL.Menu
         const float HorizontalAmplitude = .02f;
         const float VerticalAmplitude = .009f;
         const float Overscan = 1.052f;
-        const float DockHeight = 148f;
+        const float DockHeight = 120f;
+        const float TopPaperHeight = 62f;
         public const float AppearanceInterval = 5f;
         public const float AppearanceWipeDuration = .45f;
 
@@ -24,10 +25,12 @@ namespace ANIMOL.Menu
         public Canvas canvas;
         public RectTransform safeRoot;
         public RectTransform frame;
+        public RectTransform topPaper;
         public RectTransform artArea;
         public RectTransform scenery;
         public RectTransform backgroundRect;
         public Image backgroundImage;
+        public Sprite[] wideScenery = Array.Empty<Sprite>();
         public RectTransform backgroundTransitionRect;
         public Image backgroundTransitionImage;
         public RectTransform heroRect;
@@ -114,7 +117,7 @@ namespace ANIMOL.Menu
             battleButton.onClick.AddListener(() => SelectMode("battle"));
             settingsButton.onClick.AddListener(OpenSettings);
             if (soundButton) soundButton.onClick.AddListener(OpenSettings);
-            removeAdsButton.onClick.AddListener(() => OpenModal("광고 제거", "구매와 복원 서비스가 연결되지 않았습니다."));
+            if (removeAdsButton) removeAdsButton.onClick.AddListener(() => OpenModal("광고 제거", "구매와 복원 서비스가 연결되지 않았습니다."));
             campaignBackButton.onClick.AddListener(CloseCampaign);
             campaignContinueButton.onClick.AddListener(() =>
             {
@@ -242,7 +245,7 @@ namespace ANIMOL.Menu
             CurrentCharacterId = characterId;
             CurrentArtId = appearance.artId;
             CurrentCostumeId = appearance.costumeId;
-            backgroundImage.sprite = catalog.themes[themeIndex].scenery;
+            backgroundImage.sprite = SceneryFor(themeIndex);
             heroImage.sprite = appearance.illustration;
             transitioning = false;
             appearanceTime = 0;
@@ -260,7 +263,7 @@ namespace ANIMOL.Menu
             CurrentCharacterId = person.characterId;
             CurrentArtId = appearance.artId;
             CurrentCostumeId = appearance.costumeId;
-            backgroundTransitionImage.sprite = catalog.themes[theme].scenery;
+            backgroundTransitionImage.sprite = SceneryFor(theme);
             heroTransitionImage.sprite = appearance.illustration;
             transitionTime = 0;
             transitioning = true;
@@ -342,26 +345,77 @@ namespace ANIMOL.Menu
             screenHeight = Screen.height;
             lastSafeArea = Screen.safeArea;
             if (screenWidth <= 0 || screenHeight <= 0) return;
-            safeRoot.anchorMin = new Vector2(lastSafeArea.xMin / screenWidth, lastSafeArea.yMin / screenHeight);
-            safeRoot.anchorMax = new Vector2(lastSafeArea.xMax / screenWidth, lastSafeArea.yMax / screenHeight);
+            // The illustration reaches the viewport edges; controls use the safe insets.
+            safeRoot.anchorMin = Vector2.zero;
+            safeRoot.anchorMax = Vector2.one;
             safeRoot.offsetMin = safeRoot.offsetMax = Vector2.zero;
             Canvas.ForceUpdateCanvases();
             var width = safeRoot.rect.width;
             var height = safeRoot.rect.height;
             if (width <= 0 || height <= 0) return;
-            var frameWidth = width > height ? Mathf.Min(width, height * 9f / 16f) : width;
-            frame.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, frameWidth);
-            frame.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            dock.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, DockHeight);
-            artArea.offsetMin = new Vector2(0, DockHeight);
+            frame.anchorMin = Vector2.zero;
+            frame.anchorMax = Vector2.one;
+            frame.offsetMin = frame.offsetMax = Vector2.zero;
+            var scale = Mathf.Max(.01f, canvas.scaleFactor);
+            var safeLeft = lastSafeArea.xMin / scale;
+            var safeRight = (screenWidth - lastSafeArea.xMax) / scale;
+            var safeTop = (screenHeight - lastSafeArea.yMax) / scale;
+            var safeBottom = lastSafeArea.yMin / scale;
+            var dockHeight = DockHeight + safeBottom;
+            var paperHeight = TopPaperHeight + safeTop;
+            dock.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, dockHeight);
+            if (topPaper)
+            {
+                topPaper.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, paperHeight);
+                var topBar = topPaper.Find("Top Bar") as RectTransform;
+                if (topBar)
+                {
+                    topBar.offsetMin = new Vector2(safeLeft, topBar.offsetMin.y);
+                    topBar.offsetMax = new Vector2(-safeRight, topBar.offsetMax.y);
+                    topBar.anchoredPosition = new Vector2(topBar.anchoredPosition.x, -safeTop - 10f);
+                }
+            }
+            var campaignMode = campaignButton.GetComponent<RectTransform>();
+            var customMode = customButton.GetComponent<RectTransform>();
+            var play = playButton.GetComponent<RectTransform>();
+            campaignMode.offsetMin = new Vector2(5.5f + safeLeft, campaignMode.offsetMin.y);
+            customMode.offsetMax = new Vector2(-5.5f - safeRight, customMode.offsetMax.y);
+            play.offsetMin = new Vector2(5.5f + safeLeft, play.offsetMin.y);
+            play.offsetMax = new Vector2(-5.5f - safeRight, play.offsetMax.y);
+            artArea.offsetMin = new Vector2(0, dockHeight);
+            artArea.offsetMax = new Vector2(0, -paperHeight);
+            if (campaignPanel)
+            {
+                var campaign = (RectTransform)campaignPanel.transform;
+                var back = campaign.Find("Campaign Back") as RectTransform;
+                var title = campaign.Find("Campaign Title") as RectTransform;
+                var telescope = campaign.Find("Campaign Telescope") as RectTransform;
+                var route = campaign.Find("Campaign Stage Route") as RectTransform;
+                var cards = campaign.Find("Four Theme Cards") as RectTransform;
+                if (back) back.anchoredPosition = new Vector2(safeLeft + 14f, -safeTop - 13f);
+                if (title) title.anchoredPosition = new Vector2((safeLeft - safeRight) * .5f, -safeTop - 15f);
+                if (telescope) telescope.anchoredPosition = new Vector2(-safeRight - 14f, -safeTop - 13f);
+                if (route)
+                {
+                    route.offsetMin = new Vector2(safeLeft + 25f, route.offsetMin.y);
+                    route.offsetMax = new Vector2(-safeRight - 25f, route.offsetMax.y);
+                    route.anchoredPosition = new Vector2(route.anchoredPosition.x, safeBottom + 14f);
+                }
+                if (cards)
+                {
+                    cards.offsetMin = new Vector2(safeLeft + 14f, safeBottom + 88f);
+                    cards.offsetMax = new Vector2(-safeRight - 14f, -safeTop - 77f);
+                }
+            }
             Canvas.ForceUpdateCanvases();
             if (skin)
             {
-                var logoWidth = Mathf.Min(330f, Mathf.Max(120f, artArea.rect.width - 24f));
+                var logoWidth = Mathf.Min(330f, Mathf.Max(120f, artArea.rect.width - safeLeft - safeRight - 24f));
                 logoRect.sizeDelta = new Vector2(logoWidth, logoWidth * 763f / 2060f + 4f);
                 var title = logoRect.Find("William Paradox Title") as RectTransform;
                 if (title) title.sizeDelta = new Vector2(logoWidth, logoWidth * 763f / 2060f);
             }
+            logoRect.anchoredPosition = new Vector2((safeLeft - safeRight) * .5f, -8f);
             FitBackground();
             FitHero();
             FitCampaignCards();
@@ -373,7 +427,7 @@ namespace ANIMOL.Menu
             var area = scenery.rect.size;
             var sprite = backgroundImage.sprite.rect.size;
             if (area.x <= 0 || area.y <= 0 || sprite.x <= 0 || sprite.y <= 0) return;
-            var cover = Mathf.Max(area.x / sprite.x, area.y / sprite.y) * Overscan;
+            var cover = Mathf.Max(area.x * Overscan / sprite.x, area.y * 1.06f / sprite.y);
             backgroundRect.sizeDelta = sprite * cover;
             if (backgroundTransitionRect) backgroundTransitionRect.sizeDelta = backgroundRect.sizeDelta;
             PositionBackground();
@@ -442,6 +496,12 @@ namespace ANIMOL.Menu
         }
 
         public float HeroDisplayedPixels => heroRect && canvas ? heroRect.rect.height * canvas.scaleFactor : 0;
+
+        Sprite SceneryFor(int themeIndex)
+        {
+            return wideScenery != null && themeIndex >= 0 && themeIndex < wideScenery.Length && wideScenery[themeIndex]
+                ? wideScenery[themeIndex] : catalog.themes[themeIndex].scenery;
+        }
 
         public void SetReducedMotion(bool value)
         {

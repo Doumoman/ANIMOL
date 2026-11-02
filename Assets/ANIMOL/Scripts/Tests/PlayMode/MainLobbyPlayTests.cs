@@ -30,7 +30,7 @@ namespace ANIMOL.Menu.Tests
     public class MainLobbyPlayTests
     {
         const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
-        const string Portrait = "Docs/Validation/MainUiV7/Portrait";
+        static readonly string Portrait = Path.Combine(Path.GetTempPath(), "ANIMOL_MainUiV18", "Portrait");
 
 #if UNITY_EDITOR
         static void UseGameView(int width, int height)
@@ -49,6 +49,43 @@ namespace ANIMOL.Menu.Tests
             yield return null;
         }
 #endif
+
+        [UnityTest] public IEnumerator V18PaperTitleAndTelescopeRespectViewportSizes()
+        {
+#if UNITY_EDITOR
+            yield return OpenLobby();
+            var lobby = Object.FindFirstObjectByType<MainLobbyController>();
+            var telescope = lobby.campaignPanel.transform.Find("Campaign Telescope");
+            Assert.That(telescope, Is.Not.Null);
+            Assert.That(telescope.gameObject.activeInHierarchy, Is.False);
+            Assert.That(lobby.dock.Find("Ad Row"), Is.Null);
+            foreach (var size in new[] { new Vector2Int(320, 568), new Vector2Int(360, 800),
+                         new Vector2Int(390, 844), new Vector2Int(414, 896),
+                         new Vector2Int(768, 1024), new Vector2Int(1366, 768) })
+            {
+                UseGameView(size.x, size.y);
+                yield return null;
+                lobby.ForceLayout();
+                Assert.That(lobby.frame.rect.width, Is.EqualTo(lobby.safeRoot.rect.width).Within(.01f), size.ToString());
+                Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True, size.ToString());
+                var bar = (RectTransform)lobby.topPaper.Find("Top Bar");
+                var barCorners = new Vector3[4];
+                bar.GetWorldCorners(barCorners);
+                var barBottom = lobby.topPaper.InverseTransformPoint(barCorners[0]).y;
+                Assert.That(barBottom - lobby.topPaper.rect.yMin, Is.EqualTo(8f).Within(.1f), size.ToString());
+                var titleCorners = new Vector3[4];
+                lobby.logoRect.GetWorldCorners(titleCorners);
+                var titleTop = lobby.topPaper.InverseTransformPoint(titleCorners[1]).y;
+                Assert.That(titleTop, Is.LessThan(lobby.topPaper.rect.yMin), size.ToString());
+            }
+            lobby.OpenCampaign();
+            Assert.That(telescope.gameObject.activeInHierarchy, Is.True);
+            lobby.CloseCampaign();
+            Assert.That(telescope.gameObject.activeInHierarchy, Is.False);
+#else
+            Assert.Ignore("Requires Unity Editor Game View scene loading."); yield break;
+#endif
+        }
 
         [UnityTearDown] public IEnumerator LeaveEmptyScene()
         {
@@ -88,7 +125,7 @@ namespace ANIMOL.Menu.Tests
                         Assert.That(lobby.CurrentCharacterId, Is.EqualTo(person.characterId));
                         Assert.That(lobby.CurrentArtId, Is.EqualTo(appearance.artId));
                         Assert.That(lobby.heroImage.sprite, Is.SameAs(appearance.illustration));
-                        Assert.That(lobby.backgroundImage.sprite, Is.SameAs(theme.value.scenery));
+                        Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.wideScenery[theme.index]));
                         Assert.That(lobby.heroImage.preserveAspect, Is.True);
                         Assert.That(lobby.HeroDisplayedPixels, Is.GreaterThan(0).And.LessThan(1536));
                         foreach (var x in new[] { -1f, 1f })
@@ -113,7 +150,7 @@ namespace ANIMOL.Menu.Tests
             yield return null;
             yield return null;
             lobby.ForceLayout();
-            Assert.That(lobby.frame.rect.width / lobby.frame.rect.height, Is.EqualTo(9f / 16f).Within(.001f));
+            Assert.That(lobby.frame.rect.width, Is.EqualTo(lobby.safeRoot.rect.width).Within(.01f));
             Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
             ScreenCapture.CaptureScreenshot(Portrait + "/pc_window.png");
             yield return new WaitForSecondsRealtime(.2f);
@@ -164,7 +201,8 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.themeCards.Length, Is.EqualTo(4));
             ScreenCapture.CaptureScreenshot(Portrait + "/campaign.png");
             yield return new WaitForSecondsRealtime(.15f);
-            lobby.campaignContinueButton.onClick.Invoke();
+            // The active story bridge owns Continue; exercise the lobby modal pause directly.
+            lobby.OpenModal("QA", "Campaign modal pause");
             Assert.That(lobby.IsModalOpen, Is.True);
             lobby.CloseModal();
             lobby.CloseCampaign();
@@ -323,7 +361,7 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.CurrentThemeIndex, Is.Not.EqualTo(startingTheme));
             Assert.That(lobby.CurrentArtId, Is.Not.EqualTo(startingArt));
             Assert.That(lobby.IsAppearanceTransitioning, Is.False);
-            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.catalog.themes[lobby.CurrentThemeIndex].scenery));
+            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.wideScenery[lobby.CurrentThemeIndex]));
             Assert.That(lobby.heroImage.sprite,
                 Is.SameAs(lobby.catalog.FindPerson(lobby.CurrentThemeIndex, lobby.CurrentCharacterId)
                     .appearances.First(item => item.artId == lobby.CurrentArtId).illustration));

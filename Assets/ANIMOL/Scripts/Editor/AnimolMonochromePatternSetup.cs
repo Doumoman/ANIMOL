@@ -79,14 +79,15 @@ namespace Animol.UI.Pattern.Editor
             var lobby = UnityEngine.Object.FindFirstObjectByType<MainLobbyController>();
             if (!lobby || !lobby.canvas || !lobby.dock || !lobby.campaignPanel || !lobby.modalPanel)
                 throw new InvalidDataException("The active main lobby Canvas is incomplete.");
-            if (lobby.canvas.GetComponentsInChildren<DiagonalPatternBackground>(true).Length > 7)
+            if (lobby.canvas.GetComponentsInChildren<DiagonalPatternBackground>(true).Length > 8)
                 throw new InvalidDataException("Unexpected extra pattern objects in the main lobby.");
 
             // The original panels paint the apricot surface. Patterns are their
             // first children, below existing art, labels, buttons and frames.
-            Ensure(lobby.dock, .18f, new Vector2(2, 2), new Vector2(-2, -2));
+            Ensure(lobby.dock, .085f, new Vector2(2, 2), new Vector2(-2, -2));
+            if (lobby.topPaper) Ensure(lobby.topPaper, .10f, new Vector2(2, 2), new Vector2(-2, -2));
             var campaign = (RectTransform)lobby.campaignPanel.transform;
-            Ensure(campaign, .16f, new Vector2(2, 2), new Vector2(-2, -2));
+            Ensure(campaign, .065f, new Vector2(2, 2), new Vector2(-2, -2));
             foreach (var card in lobby.themeButtons)
             {
                 if (!card) throw new InvalidDataException("Missing campaign card.");
@@ -103,7 +104,7 @@ namespace Animol.UI.Pattern.Editor
             EditorSceneManager.SaveScene(scene);
             AssetDatabase.SaveAssets();
             ValidateInstallation();
-            Debug.Log("Main lobby v10 pattern installed in 7 blank surfaces. Existing catalog, scenery, characters and buttons retained.");
+            Debug.Log("Main lobby pattern installed on existing blank paper surfaces. Existing catalog, scenery, characters and buttons retained.");
         }
 
         private static void Ensure(RectTransform host, float opacity, Vector2 insetMin, Vector2 insetMax)
@@ -229,7 +230,7 @@ namespace Animol.UI.Pattern.Editor
             var lobby = UnityEngine.Object.FindFirstObjectByType<MainLobbyController>();
             if (!lobby) throw new InvalidDataException("Main lobby scene is missing.");
             var patterns = lobby.canvas.GetComponentsInChildren<DiagonalPatternBackground>(true);
-            if (patterns.Length != 7) throw new InvalidDataException("Expected 7 blank-surface patterns, found " + patterns.Length);
+            if (patterns.Length != 8) throw new InvalidDataException("Expected 8 blank-surface patterns, found " + patterns.Length);
             foreach (var pattern in patterns)
             {
                 var data = new SerializedObject(pattern);
@@ -241,7 +242,7 @@ namespace Animol.UI.Pattern.Editor
                     image.uvRect != new Rect(0, 0, 1, 1))
                     throw new InvalidDataException("A pattern is intercepting UI input or has the wrong UV/color.");
             }
-            Debug.Log("Pattern import and 7 main-lobby blank-surface references validated: " + scene.path);
+            Debug.Log("Pattern import and 8 main-lobby blank-surface references validated: " + scene.path);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace ANIMOL.Menu.Tests
             Assert.That(AssetDatabase.FindAssets("t:SpriteAtlas", new[] { Root }), Is.Empty);
         }
 
-        [Test] public void OneRepeatTextureServesSevenBlankSurfacesWithoutInterceptingTouch()
+        [Test] public void OneRepeatTextureServesEightBlankSurfacesWithoutInterceptingTouch()
         {
             var path = Root + "/Textures/CharacterFacesStars_All_2048.png";
             var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
@@ -62,11 +62,11 @@ namespace ANIMOL.Menu.Tests
             var lobby = Object.FindFirstObjectByType<MainLobbyController>();
             Assert.That(lobby, Is.Not.Null);
             var patterns = lobby.canvas.GetComponentsInChildren<DiagonalPatternBackground>(true);
-            Assert.That(patterns.Length, Is.EqualTo(7));
+            Assert.That(patterns.Length, Is.EqualTo(8));
             Assert.That(patterns.Select(p => p.GetComponent<RawImage>().texture).Distinct().Single(), Is.SameAs(texture));
             var opacities = patterns.Select(p => new SerializedObject(p).FindProperty("patternOpacity").floatValue)
                 .OrderBy(value => value).ToArray();
-            Assert.That(opacities, Is.EqualTo(new[] { .10f, .12f, .12f, .12f, .12f, .16f, .18f })
+            Assert.That(opacities, Is.EqualTo(new[] { .065f, .085f, .10f, .10f, .12f, .12f, .12f, .12f })
                 .Within(.0001f));
             foreach (var pattern in patterns)
             {
@@ -86,7 +86,35 @@ namespace ANIMOL.Menu.Tests
                 Assert.That(pattern.VisualVelocity, Is.EqualTo(new Vector2(8, 8)));
             }
             Assert.That(lobby.themeCards.Length, Is.EqualTo(4));
-            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.catalog.themes[0].scenery));
+            Assert.That(lobby.backgroundImage.sprite, Is.SameAs(lobby.wideScenery[0]));
+        }
+
+        [Test] public void V18KeepsTitleOnArtAndTelescopeInsideCampaignOnly()
+        {
+            EditorSceneManager.OpenScene(Scene);
+            var lobby = Object.FindFirstObjectByType<MainLobbyController>();
+            Assert.That(lobby.topPaper, Is.Not.Null);
+            Assert.That(lobby.topPaper.parent, Is.SameAs(lobby.frame));
+            Assert.That(lobby.topPaper.Find("Top Bar"), Is.Not.Null);
+            Assert.That(lobby.logoRect.parent, Is.SameAs(lobby.artArea));
+            Assert.That(lobby.dock.Find("Ad Row"), Is.Null);
+            Assert.That(lobby.removeAdsButton, Is.Null);
+            Assert.That(lobby.frame.GetComponent<RectMask2D>(), Is.Null);
+            Assert.That(lobby.frame.Find("Campaign Telescope"), Is.Null);
+            Assert.That(lobby.campaignPanel.transform.Find("Campaign Telescope"), Is.Not.Null);
+            Assert.That(lobby.campaignPanel.activeSelf, Is.False);
+            Assert.That(lobby.wideScenery.Length, Is.EqualTo(4));
+            for (var i = 0; i < 4; i++)
+            {
+                var sprite = lobby.wideScenery[i];
+                Assert.That(sprite.rect.size, Is.EqualTo(new Vector2(1536, 1024)));
+                Assert.That(sprite, Is.Not.SameAs(lobby.catalog.themes[i].scenery));
+                var importer = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(sprite));
+                Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear));
+                Assert.That(importer.wrapMode, Is.EqualTo(TextureWrapMode.Clamp));
+                Assert.That(importer.mipmapEnabled, Is.False);
+                Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed));
+            }
         }
     }
 }
