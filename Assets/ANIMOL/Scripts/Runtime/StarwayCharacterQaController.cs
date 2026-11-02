@@ -8,7 +8,7 @@ namespace ANIMOL.Presentation
         public StarwayCharacterCatalog catalog;
         public StarwayCharacterVisual character;
         static readonly string[] Directions = { "front", "back", "side", "left" };
-        static readonly string[] States = { "idle", "move", "sliding", "jump", "victory" };
+        static readonly string[] States = { "idle", "move", "sliding", "jump", "victory", "push" };
 
         void Start()
         {
@@ -38,7 +38,7 @@ namespace ANIMOL.Presentation
                 if (GUI.Button(new Rect(30 + i * 255, 160, 240, 65), Directions[i]))
                     Preview(character.characterId, Directions[i], character.State);
             for (var i = 0; i < States.Length; i++)
-                if (GUI.Button(new Rect(30 + i * 205, 240, 190, 65), States[i]))
+                if (GUI.Button(new Rect(30 + i * 170, 240, 160, 65), States[i]))
                     Preview(character.characterId, character.Direction, States[i]);
             GUI.Label(new Rect(30, 320, 650, 45), character.characterId + " / " + character.Direction + " / " + character.State);
             var illustration = character.Illustration;

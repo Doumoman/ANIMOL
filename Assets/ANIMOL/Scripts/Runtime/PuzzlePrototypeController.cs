@@ -188,31 +188,38 @@ namespace ANIMOL.Puzzle
                 if (e.kind != PrototypeEventKind.Move) continue;
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
                 if (!actor) actor = view.RanchActor(e.actor);
-                if (!actor) continue;
                 if (!pushStarted && inputDirection != Vector2Int.zero && e.actor != "player" &&
                     CharacterVisual && CharacterVisual.PushPresenter && CharacterVisual.PushPresenter.enabled &&
                     e.from == Vector2Int.RoundToInt(Player.position) + inputDirection &&
                     IsCommittedPlayerPush(result, e, inputDirection))
                 {
                     CharacterVisual.SetMotion(inputDirection, "push");
-                    var worldDirection = presentation.TransformVector(
-                        new Vector3(inputDirection.x, inputDirection.y, 0f));
-                    var contact = CreatePushVisualContact(actor, worldDirection);
-                    if (contact)
+                    // Keep the committed PUSH clip through the player event even when the
+                    // destination consumes the target and no contact renderer remains.
+                    pushStarted = CharacterVisual.State == "push";
+                    if (pushStarted && !actor)
+                        yield return new WaitForSeconds(secondsPerCell);
+                    if (actor)
                     {
-                        CharacterVisual.PushPresenter.BeginPush(actor.GetComponentInChildren<Collider2D>(),
-                            worldDirection, contact);
-                        pushStarted = true;
-                        // The session has already committed this move. Let the hand reach the
-                        // stationary visual face before animating the object away from its cell.
-                        var preparationDeadline = Time.time + .14f;
-                        while (CharacterVisual && CharacterVisual.PushPresenter &&
-                            CharacterVisual.PushPresenter.PoseActive &&
-                            !CharacterVisual.PushPresenter.ContactEstablished &&
-                            Time.time < preparationDeadline)
-                            yield return null;
+                        var worldDirection = presentation.TransformVector(
+                            new Vector3(inputDirection.x, inputDirection.y, 0f));
+                        var contact = CreatePushVisualContact(actor, worldDirection);
+                        if (contact)
+                        {
+                            CharacterVisual.PushPresenter.BeginPush(actor.GetComponentInChildren<Collider2D>(),
+                                worldDirection, contact);
+                            // The session has already committed this move. Let the hand reach the
+                            // stationary visual face before animating the object away from its cell.
+                            var preparationDeadline = Time.time + .14f;
+                            while (CharacterVisual && CharacterVisual.PushPresenter &&
+                                CharacterVisual.PushPresenter.PoseActive &&
+                                !CharacterVisual.PushPresenter.ContactEstablished &&
+                                Time.time < preparationDeadline)
+                                yield return null;
+                        }
                     }
                 }
+                if (!actor) continue;
                 if (Devices.HasRanchV13Motion(e.actor))
                 {
                     var path = new List<Vector2Int> { e.from };
@@ -337,8 +344,9 @@ namespace ANIMOL.Puzzle
                     case PrototypeRole.Glass:
                         return true;
                 }
-            return action.events.Exists(cue => cue.kind == PrototypeEventKind.Visual &&
-                cue.actor == movement.actor && cue.eventName == "SheepPushed");
+            return movement.to - movement.from == heading && action.events.Exists(cue =>
+                cue.kind == PrototypeEventKind.Visual && cue.actor == movement.actor &&
+                (cue.eventName == "SheepPushed" || cue.eventName == "SheepAteAndRemoved"));
         }
 
         Transform CreatePushVisualContact(Transform actor, Vector3 worldHeading)
@@ -357,7 +365,9 @@ namespace ANIMOL.Puzzle
             var face = float.PositiveInfinity;
             var tangentMin = float.PositiveInfinity;
             var tangentMax = float.NegativeInfinity;
-            foreach (var renderer in actor.GetComponentsInChildren<SpriteRenderer>())
+            // The session may have already marked a stone removed after it entered its socket.
+            // Its starting visual still supplies the contact face for this committed push.
+            foreach (var renderer in actor.GetComponentsInChildren<SpriteRenderer>(true))
             {
                 if (!renderer.enabled || !renderer.sprite) continue;
                 var sprite = renderer.sprite;

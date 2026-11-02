@@ -127,6 +127,59 @@ namespace ANIMOL.Presentation.Tests
 #endif
         }
 
+        [UnityTest] public IEnumerator CompletedStoneAndSheepPushPlayBeforeRemoval()
+        {
+#if UNITY_EDITOR
+            foreach (var stone in new[] { true, false })
+            {
+                var path = stone
+                    ? "Assets/ANIMOL/Data/Puzzle/Prototypes/Device01_StarSocket.asset"
+                    : "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset";
+                var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(path);
+                var map = Object.Instantiate(source);
+                map.scenario = Object.Instantiate(source.scenario);
+                var direction = stone ? Vector2Int.right : Vector2Int.up;
+                if (stone)
+                    map.scenario.devices.Find(device => device.id == "socket").position = new Vector2Int(3, 2);
+                else
+                {
+                    map.start = new Vector2Int(6, 12);
+                    map.scenario.ranchV13Art.Add(new RanchV13ArtPlacement {
+                        family = "tall_grass", instanceId = "push_completion_grass",
+                        position = new Vector2Int(6, 14)
+                    });
+                }
+                var expected = new PuzzleDeviceSession(map);
+                var action = expected.Apply(direction);
+                Assert.That(action.accepted, Is.True, path);
+                Assert.That(action.events.Exists(e => e.eventName == (stone
+                    ? "matching_star_socket_committed" : "SheepAteAndRemoved")), Is.True, path);
+                var host = new GameObject("Completed PUSH QA");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                controller.Load(map);
+                Assert.That(controller.RequestMove(direction), Is.True, path);
+                Assert.That(controller.CharacterVisual.State, Is.EqualTo("push"), path);
+                var pushClip = controller.CharacterVisual.catalog.Find("choa")
+                    .Motion(controller.CharacterVisual.Direction, "push");
+                Assert.That(controller.CharacterVisual.visual.sprite, Is.SameAs(pushClip.frames[0]), path);
+                Assert.That(controller.CharacterVisual.PushPresenter.PoseActive, Is.True, path);
+                for (var frame = 0; frame < 300 && controller.IsMoving; frame++) yield return null;
+                Assert.That(controller.IsMoving, Is.False, path);
+                yield return new WaitForSeconds(.13f);
+                Assert.That(controller.Session.Cell, Is.EqualTo(expected.Cell), path);
+                Assert.That(controller.Session.Cost, Is.EqualTo(expected.Cost), path);
+                Assert.That(controller.CharacterVisual.transform.localPosition,
+                    Is.EqualTo(controller.CharacterVisual.catalog.Find("choa").restingLocalPosition), path);
+                Object.Destroy(host);
+                Object.Destroy(map.scenario);
+                Object.Destroy(map);
+                yield return null;
+            }
+#else
+            Assert.Ignore("Requires Unity Editor asset loader."); yield break;
+#endif
+        }
+
         [UnityTest] public IEnumerator ExistingSheepVisualPushesFromFourDirections()
         {
 #if UNITY_EDITOR
@@ -189,6 +242,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(qa, Is.Not.Null);
             var visual = qa.character;
             Assert.That(visual.transform.name, Is.EqualTo("Visual"));
+            Assert.That(visual.transform.localScale, Is.EqualTo(Vector3.one));
             Assert.That(visual.visual, Is.SameAs(visual.GetComponent<SpriteRenderer>()));
             foreach (var entry in qa.catalog.characters)
                 foreach (var direction in new[] { "front", "back", "side", "left" })
@@ -265,7 +319,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(puzzle.CharacterVisual, Is.Not.Null);
             Assert.That(puzzle.CharacterVisual.characterId, Is.EqualTo("choa"));
             Assert.That(puzzle.Player.localScale, Is.EqualTo(Vector3.one));
-            Assert.That(puzzle.CharacterVisual.transform.localScale.x, Is.EqualTo(.85f).Within(.0001f));
+            Assert.That(puzzle.CharacterVisual.transform.localScale.x, Is.EqualTo(1f).Within(.0001f));
             Directory.CreateDirectory(Portrait);
             ScreenCapture.CaptureScreenshot(Portrait + "/puzzle_choa.png");
             yield return new WaitForSecondsRealtime(.2f);

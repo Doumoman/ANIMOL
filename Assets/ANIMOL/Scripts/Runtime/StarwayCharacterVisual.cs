@@ -8,6 +8,7 @@ namespace ANIMOL.Presentation
     public sealed class StarwayCharacterVisual : MonoBehaviour
     {
         public const float PuzzleVisualScale = .85f;
+        public const float RetouchVisualScale = 1f;
         public StarwayCharacterCatalog catalog;
         public string characterId;
         public string costumeId;
@@ -57,6 +58,7 @@ namespace ANIMOL.Presentation
                 var active = contacts && contacts.characterId == id &&
                     (id == "choa" || id == "uram" || id == "yeoul" || id == "tori");
                 PushPresenter.enabled = false;
+                transform.localScale = Vector3.one * (active ? RetouchVisualScale : PuzzleVisualScale);
                 transform.localPosition = active ? definition.restingLocalPosition : Vector3.zero;
                 PushPresenter.SetContacts(active ? contacts : null);
                 if (active)
