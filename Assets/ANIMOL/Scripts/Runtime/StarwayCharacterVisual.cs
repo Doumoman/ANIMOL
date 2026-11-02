@@ -1,6 +1,7 @@
 using UnityEngine;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
+using Animol.Art.SanctumRetouch;
 
 namespace ANIMOL.Presentation
 {
@@ -16,12 +17,16 @@ namespace ANIMOL.Presentation
         public SpriteRenderer visual;
         public StarwayPushPresentation PushPresenter { get; private set; }
         public TheaterPushPresentation TheaterPushPresenter { get; private set; }
+        public SanctumPushPresentation SanctumPushPresenter { get; private set; }
         public bool HasActivePushPresenter => PushPresenter && PushPresenter.isActiveAndEnabled ||
-            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled;
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled ||
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled;
         public bool PushPoseActive => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.PoseActive ||
-            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.PoseActive;
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.PoseActive ||
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.PoseActive;
         public bool PushContactEstablished => PushPresenter && PushPresenter.isActiveAndEnabled && PushPresenter.ContactEstablished ||
-            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.ContactEstablished;
+            TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.ContactEstablished ||
+            SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.ContactEstablished;
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
         public Sprite Illustration => catalog && catalog.Find(characterId) != null
@@ -60,15 +65,25 @@ namespace ANIMOL.Presentation
             visual = GetComponent<SpriteRenderer>();
             if (!PushPresenter) PushPresenter = GetComponentInParent<StarwayPushPresentation>();
             if (!TheaterPushPresenter) TheaterPushPresenter = GetComponentInParent<TheaterPushPresentation>();
+            if (!SanctumPushPresenter) SanctumPushPresenter = GetComponentInParent<SanctumPushPresentation>();
             var theaterContacts = definition.theaterPushContacts;
             var theaterActive = theaterContacts && theaterContacts.characterId == id &&
                 (id == "seri" || id == "roan" || id == "mion" || id == "piko");
+            var sanctumContacts = definition.sanctumPushContacts;
+            var sanctumActive = sanctumContacts && sanctumContacts.characterId == id &&
+                (id == "sein" || id == "daon" || id == "lumi" || id == "soyul" || id == "doyun");
             if (theaterActive && !TheaterPushPresenter)
             {
                 TheaterPushPresenter = transform.parent.gameObject.AddComponent<TheaterPushPresentation>();
                 TheaterPushPresenter.enabled = false;
             }
+            if (sanctumActive && !SanctumPushPresenter)
+            {
+                SanctumPushPresenter = transform.parent.gameObject.AddComponent<SanctumPushPresentation>();
+                SanctumPushPresenter.enabled = false;
+            }
             if (TheaterPushPresenter) { TheaterPushPresenter.ResetPresentation(); TheaterPushPresenter.enabled = false; }
+            if (SanctumPushPresenter) { SanctumPushPresenter.ResetPresentation(); SanctumPushPresenter.enabled = false; }
             if (PushPresenter)
             {
                 PushPresenter.ResetPresentation();
@@ -77,7 +92,7 @@ namespace ANIMOL.Presentation
                     (id == "choa" || id == "uram" || id == "yeoul" || id == "tori");
                 PushPresenter.enabled = false;
                 transform.localScale = Vector3.one * (active ? RetouchVisualScale : PuzzleVisualScale);
-                transform.localPosition = active || theaterActive ? definition.restingLocalPosition : Vector3.zero;
+                transform.localPosition = active || theaterActive || sanctumActive ? definition.restingLocalPosition : Vector3.zero;
                 PushPresenter.SetContacts(active ? contacts : null);
                 if (active)
                 {
@@ -100,6 +115,18 @@ namespace ANIMOL.Presentation
                         definition.restingLocalPosition);
                 }
             }
+            if (SanctumPushPresenter)
+            {
+                SanctumPushPresenter.SetContacts(sanctumActive ? sanctumContacts : null);
+                if (sanctumActive)
+                {
+                    var grid = transform.parent.parent;
+                    var tile = grid ? grid.TransformVector(Vector3.right).magnitude : 1f;
+                    SanctumPushPresenter.SetApproachLimit(definition.pushApproachLimit);
+                    SanctumPushPresenter.Configure(transform, visual, sanctumContacts, tile, null,
+                        definition.restingLocalPosition);
+                }
+            }
             return PlayPose("front", "idle");
         }
 
@@ -109,18 +136,22 @@ namespace ANIMOL.Presentation
                 PushPresenter.BeginPush(target, worldDirection, visualContact);
             else if (TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled)
                 TheaterPushPresenter.BeginPush(target, worldDirection, visualContact);
+            else if (SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled)
+                SanctumPushPresenter.BeginPush(target, worldDirection, visualContact);
         }
 
         public void EndPushPresentation()
         {
             if (PushPresenter && PushPresenter.isActiveAndEnabled) PushPresenter.EndPush();
             if (TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled) TheaterPushPresenter.EndPush();
+            if (SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled) SanctumPushPresenter.EndPush();
         }
 
         public void ResetPushPresentation()
         {
             if (PushPresenter) PushPresenter.ResetPresentation();
             if (TheaterPushPresenter) TheaterPushPresenter.ResetPresentation();
+            if (SanctumPushPresenter) SanctumPushPresenter.ResetPresentation();
         }
 
         public bool SetCostume(string costume)

@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Animol.Art.SanctumRetouch;
 
 namespace Animol.Art.SunsetSanctumNative
 {
@@ -18,15 +19,23 @@ namespace Animol.Art.SunsetSanctumNative
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
         static readonly string[] Ids = { "sein", "daon", "lumi", "soyul", "doyun" };
+        static readonly string[] RetouchNames = { "\uC138\uC778", "\uB2E4\uC628", "\uB8E8\uBBF8", "\uC18C\uC728", "\uB3C4\uC724" };
+        [Serializable] sealed class RetouchManifest { public Calibration projectCalibration; }
+        [Serializable] sealed class Calibration
+        {
+            public float standingHeightWorld;
+            public float restingOffsetLocalX;
+            public float restingOffsetLocalY;
+        }
         static readonly string[] Names = { "세인", "다온", "루미", "소율", "도윤" };
 
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolSunsetSanctumNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/sunset_sanctum_native_animations.json"));
-            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 450 ||
-                manifest.clips == null || manifest.clips.Length != 75)
-                throw new InvalidDataException("Sunset Sanctum manifest must have 450 frames and 75 clips.");
+            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 540 ||
+                manifest.clips == null || manifest.clips.Length != 90)
+                throw new InvalidDataException("Sunset Sanctum retouch manifest must have 540 frames and 90 clips.");
 
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
@@ -39,9 +48,21 @@ namespace Animol.Art.SunsetSanctumNative
             for (var i = 0; i < Ids.Length; i++)
             {
                 var id = Ids[i];
-                var entry = new StarwayCharacterDefinition { id = id, displayName = Names[i] };
+                var calibration = JsonUtility.FromJson<RetouchManifest>(File.ReadAllText(
+                    Root + "/sanctum_" + id + "_retouch_animations.json"));
+                if (calibration?.projectCalibration == null)
+                    throw new InvalidDataException("Missing scene calibration for " + id);
+                var entry = new StarwayCharacterDefinition {
+                    id = id, displayName = RetouchNames[i], motions = new StarwayCharacterMotion[18],
+                    sanctumPushContacts = AssetDatabase.LoadAssetAtPath<SanctumPushSpriteContacts>(
+                        Root + "/PushContacts/sanctum_push_contacts_" + id + ".asset"),
+                    restingLocalPosition = new Vector3(calibration.projectCalibration.restingOffsetLocalX,
+                        calibration.projectCalibration.restingOffsetLocalY, 0f),
+                    calibratedStandingHeight = calibration.projectCalibration.standingHeightWorld,
+                    pushApproachLimit = .22f
+                };
+                if (!entry.sanctumPushContacts) throw new InvalidDataException("Missing PUSH contacts for " + id);
                 var illustrationPath = Root + "/Illustrations/animol_sunset_sanctum_" + id + "_illustration.png";
-                ConfigureIllustration(illustrationPath);
                 entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(illustrationPath);
                 if (!entry.illustration) throw new InvalidDataException("Missing illustration: " + id);
                 var index = 0;
@@ -62,18 +83,25 @@ namespace Animol.Art.SunsetSanctumNative
                     }
                     entry.motions[index++] = motion;
                 }
-                if (index != 15) throw new InvalidDataException("Expected 15 clips for " + id);
+                if (index != 18) throw new InvalidDataException("Expected 18 clips for " + id);
                 catalog.characters[i] = entry;
             }
             EditorUtility.SetDirty(catalog);
             var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(ThemePath);
             if (!theme) throw new FileNotFoundException("Missing Letter Observatory theme", ThemePath);
-            theme.letterObservatoryCharacters = catalog;
-            theme.letterObservatoryCharacterId = catalog.defaultCharacterId;
-            EditorUtility.SetDirty(theme);
-            ConnectMainMenu(catalog);
-            AssetDatabase.SaveAssets();
-            Debug.Log("ANIMOL Sunset Sanctum: connected five characters, 75 clips, and five illustrations to the legacy letter_observatory theme ID.");
+            if (theme.letterObservatoryCharacters != catalog || theme.letterObservatoryCharacterId != catalog.defaultCharacterId)
+            {
+                theme.letterObservatoryCharacters = catalog;
+                theme.letterObservatoryCharacterId = catalog.defaultCharacterId;
+                EditorUtility.SetDirty(theme);
+                AssetDatabase.SaveAssetIfDirty(theme);
+            }
+            var menu = AssetDatabase.LoadAssetAtPath<MainMenuCatalog>(MenuPath);
+            if (!menu || menu.themes == null || menu.themes.Length < 3 || menu.themes[2].gameCharacters != catalog ||
+                menu.themes[2].displayName != "\uB099\uC77C \uC131\uC18C")
+                throw new InvalidDataException("Existing Sanctum lobby binding must be reviewed before rebuilding it.");
+            AssetDatabase.SaveAssetIfDirty(catalog);
+            Debug.Log("ANIMOL Sunset Sanctum retouch: connected five characters, 90 clips, and five existing illustrations while preserving the letter_observatory save ID.");
         }
 
         public static void BuildBatch() => Build();

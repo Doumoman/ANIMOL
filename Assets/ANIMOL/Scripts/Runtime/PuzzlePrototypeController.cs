@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using ANIMOL.Presentation;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
+using Animol.Art.SanctumRetouch;
 namespace ANIMOL.Puzzle
 {
     public sealed class PuzzlePrototypeController : MonoBehaviour
@@ -173,7 +174,8 @@ namespace ANIMOL.Puzzle
                 {
                     if (!pushStarted && e.eventName == "this_domino_piece_fold_committed" &&
                         inputDirection != Vector2Int.zero && CharacterVisual &&
-                        CharacterVisual.TheaterPushPresenter && CharacterVisual.TheaterPushPresenter.isActiveAndEnabled &&
+                        ((CharacterVisual.TheaterPushPresenter && CharacterVisual.TheaterPushPresenter.isActiveAndEnabled) ||
+                         (CharacterVisual.SanctumPushPresenter && CharacterVisual.SanctumPushPresenter.isActiveAndEnabled)) &&
                         Session.Definition(e.actor)?.role == PrototypeRole.Domino &&
                         Session.States[e.actor].cell == Vector2Int.RoundToInt(Player.position) + inputDirection)
                     {
@@ -386,6 +388,13 @@ namespace ANIMOL.Puzzle
                 TheaterPushSpriteContacts.Entry anchor;
                 if (!definition.theaterPushContacts ||
                     !definition.theaterPushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
+                handLocal = anchor.handLocal;
+            }
+            else if (CharacterVisual.SanctumPushPresenter && CharacterVisual.SanctumPushPresenter.isActiveAndEnabled)
+            {
+                SanctumPushSpriteContacts.Entry anchor;
+                if (!definition.sanctumPushContacts ||
+                    !definition.sanctumPushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
                 handLocal = anchor.handLocal;
             }
             else

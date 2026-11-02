@@ -1,6 +1,7 @@
 using System;
 using Animol.Art.StarwayRetouch;
 using Animol.Art.TheaterRetouch;
+using Animol.Art.SanctumRetouch;
 using UnityEngine;
 
 namespace ANIMOL.Presentation
@@ -38,6 +39,7 @@ namespace ANIMOL.Presentation
         public StarwayCharacterMotion[] motions = new StarwayCharacterMotion[15];
         public StarwayPushSpriteContacts pushContacts;
         public TheaterPushSpriteContacts theaterPushContacts;
+        public SanctumPushSpriteContacts sanctumPushContacts;
         public Vector3 restingLocalPosition;
         public float calibratedStandingHeight;
         [Range(0f, 1f)] public float pushApproachLimit = .22f;

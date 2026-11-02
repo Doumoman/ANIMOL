@@ -4,6 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Animol.Art.SanctumRetouch.Editor;
 
 namespace Animol.Art.SunsetSanctumNative
 {
@@ -50,6 +51,11 @@ namespace Animol.Art.SunsetSanctumNative
             string assets = Path.GetFullPath(Application.dataPath).Replace('\\','/').TrimEnd('/');
             if (!root.StartsWith(assets+"/", StringComparison.Ordinal) && root!=assets)
                 throw new ArgumentException("Import folder must be inside this project's Assets folder.");
+            if (File.Exists(Path.Combine(root, "sanctum_sein_retouch_animations.json")))
+            {
+                SanctumRetouchImporter.ImportAllCharactersFromFolder(root, "");
+                return;
+            }
             string manifestPath = Path.Combine(root,"sunset_sanctum_native_animations.json");
             Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestPath));
             if (!manifest.nativeResolution || manifest.frames==null || manifest.frames.Length!=450 || manifest.clips==null || manifest.clips.Length!=75)
