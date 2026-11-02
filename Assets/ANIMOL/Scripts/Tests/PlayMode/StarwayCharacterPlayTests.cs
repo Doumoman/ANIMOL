@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using ANIMOL.Presentation;
 using ANIMOL.Puzzle;
+using Animol.Art.StarwayRetouch;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -19,6 +20,150 @@ namespace ANIMOL.Presentation.Tests
     public class StarwayCharacterPlayTests
     {
         const string Portrait = "Docs/Validation/StarwayNative/Portrait";
+
+        [UnityTest] public IEnumerator RetouchPushKeepsSizeAndReturnsGraphicsToRest()
+        {
+#if UNITY_EDITOR
+            var catalog = UnityEditor.AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(
+                "Assets/ANIMOL/Data/Art/StarwayCharacters.asset");
+            var host = new GameObject("Retouch play validation");
+            var target = new GameObject("Visual contact target").transform;
+            try
+            {
+                var visual = StarwayCharacterVisual.Create(host.transform, Vector2.zero, 40, catalog, "choa");
+                var logicRoot = visual.transform.parent;
+                var logicStart = logicRoot.position;
+                foreach (var entry in catalog.characters)
+                {
+                    Assert.That(visual.Initialize(catalog, entry.id), Is.True, entry.id);
+                    Assert.That(visual.PushPresenter.enabled, Is.True, entry.id);
+                    Assert.That(visual.visual.sprite.rect.height / visual.visual.sprite.pixelsPerUnit *
+                        visual.transform.lossyScale.y, Is.EqualTo(entry.calibratedStandingHeight).Within(.001f), entry.id);
+                    foreach (var direction in new[] { "front", "back", "side", "left" })
+                        foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory", "push" })
+                        {
+                            Assert.That(visual.PlayPose(direction, state), Is.True, entry.id + "/" + direction + "/" + state);
+                            Assert.That(visual.visual.flipX, Is.EqualTo(direction == "left"));
+                            Assert.That(visual.CurrentClip, Is.Not.Null);
+                            if (state == "push")
+                                Assert.That(entry.pushContacts.TryGet(visual.visual.sprite, out _), Is.True);
+                        }
+                    visual.SetMotion(Vector2Int.right, "push");
+                    Assert.That(entry.pushContacts.TryGet(visual.visual.sprite, out var contact), Is.True);
+                    var hand = visual.visual.transform.TransformPoint(contact.handLocal);
+                    target.position = hand + Vector3.right * .20f;
+                    visual.PushPresenter.BeginPush(null, Vector2.right, target);
+                    yield return new WaitForSeconds(.15f);
+                    Assert.That(visual.PushPresenter.PoseActive, Is.True);
+                    visual.PushPresenter.EndPush();
+                    yield return new WaitForSeconds(.13f);
+                    Assert.That(visual.transform.localPosition, Is.EqualTo(entry.restingLocalPosition));
+                    Assert.That(logicRoot.position, Is.EqualTo(logicStart));
+                }
+            }
+            finally
+            {
+                Object.Destroy(host);
+                Object.Destroy(target.gameObject);
+            }
+#else
+            Assert.Ignore("Requires Unity Editor asset loader."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator ExistingStarstoneAndCratePushKeepSessionResults()
+        {
+#if UNITY_EDITOR
+            foreach (var sample in new[] {
+                ("Assets/ANIMOL/Data/Puzzle/Prototypes/Device01_StarSocket.asset", Vector2Int.right),
+                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW05_MapData.asset", Vector2Int.up) })
+            {
+                var map = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(sample.Item1);
+                var expected = new PuzzleDeviceSession(map);
+                var action = expected.Apply(sample.Item2);
+                Assert.That(action.accepted, Is.True, sample.Item1);
+                var pushed = action.events.Find(e => e.kind == PrototypeEventKind.Move && e.actor != "player" &&
+                    e.from == map.start + sample.Item2);
+                Assert.That(pushed, Is.Not.Null, sample.Item1);
+                var host = new GameObject("Retouch committed push QA");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                controller.Load(map);
+                Assert.That(controller.RequestMove(sample.Item2), Is.True, sample.Item1);
+                Assert.That(controller.CharacterVisual.State, Is.EqualTo("push"), sample.Item1);
+                Assert.That(controller.CharacterVisual.PushPresenter.PoseActive, Is.True, sample.Item1);
+                if (sample.Item1.Contains("Device01_StarSocket"))
+                {
+                    var contactPoint = controller.Devices.Actor(pushed.actor).Find("PushVisualContact");
+                    Assert.That(contactPoint, Is.Not.Null);
+                    var targetRenderer = controller.Devices.Actor(pushed.actor)
+                        .GetComponentInChildren<SpriteRenderer>();
+                    var points = new System.Collections.Generic.List<Vector2>();
+                    var visibleFace = float.PositiveInfinity;
+                    for (var shape = 0; shape < targetRenderer.sprite.GetPhysicsShapeCount(); shape++)
+                    {
+                        points.Clear();
+                        targetRenderer.sprite.GetPhysicsShape(shape, points);
+                        foreach (var point in points)
+                            visibleFace = Mathf.Min(visibleFace,
+                                targetRenderer.transform.TransformPoint(point).x);
+                    }
+                    Assert.That(contactPoint.position.x, Is.EqualTo(visibleFace).Within(.001f),
+                        "Contact point follows the alpha outline, not the transparent rectangle");
+                }
+                for (var frame = 0; frame < 300 && controller.IsMoving; frame++) yield return null;
+                Assert.That(controller.IsMoving, Is.False, sample.Item1);
+                yield return new WaitForSeconds(.13f);
+                Assert.That(controller.Session.Cell, Is.EqualTo(expected.Cell), sample.Item1);
+                Assert.That(controller.Session.Cost, Is.EqualTo(expected.Cost), sample.Item1);
+                Assert.That(controller.Session.States[pushed.actor].cell,
+                    Is.EqualTo(expected.States[pushed.actor].cell), sample.Item1);
+                Assert.That(controller.CharacterVisual.transform.localPosition,
+                    Is.EqualTo(controller.CharacterVisual.catalog.Find(controller.CharacterVisual.characterId).restingLocalPosition));
+                Object.Destroy(host);
+                yield return null;
+            }
+#else
+            Assert.Ignore("Requires Unity Editor asset loader."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator ExistingSheepVisualPushesFromFourDirections()
+        {
+#if UNITY_EDITOR
+            foreach (var sample in new[] {
+                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset", new Vector2Int(6, 12), Vector2Int.up),
+                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset", new Vector2Int(6, 14), Vector2Int.down),
+                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset", new Vector2Int(6, 16), Vector2Int.right),
+                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset", new Vector2Int(8, 16), Vector2Int.left) })
+            {
+                var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(sample.Item1);
+                var map = Object.Instantiate(source);
+                map.start = sample.Item2;
+                var expected = new PuzzleDeviceSession(map);
+                var action = expected.Apply(sample.Item3);
+                Assert.That(action.accepted, Is.True, sample.Item1 + sample.Item3);
+                Assert.That(action.events.Exists(e => e.eventName == "SheepPushed"), Is.True);
+                var host = new GameObject("Retouch sheep contact QA");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                controller.Load(map);
+                Assert.That(controller.RequestMove(sample.Item3), Is.True);
+                Assert.That(controller.CharacterVisual.State, Is.EqualTo("push"));
+                Assert.That(controller.CharacterVisual.PushPresenter.PoseActive, Is.True);
+                for (var frame = 0; frame < 300 && controller.IsMoving; frame++) yield return null;
+                Assert.That(controller.IsMoving, Is.False, sample.Item1 + sample.Item3);
+                yield return new WaitForSeconds(.13f);
+                Assert.That(controller.Session.Cost, Is.EqualTo(expected.Cost));
+                Assert.That(controller.Session.Cell, Is.EqualTo(expected.Cell));
+                Assert.That(controller.CharacterVisual.transform.localPosition,
+                    Is.EqualTo(controller.CharacterVisual.catalog.Find("choa").restingLocalPosition));
+                Object.Destroy(host);
+                Object.Destroy(map);
+                yield return null;
+            }
+#else
+            Assert.Ignore("Requires Unity Editor asset loader."); yield break;
+#endif
+        }
 
         static void UsePortraitGameView()
         {
@@ -47,7 +192,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(visual.visual, Is.SameAs(visual.GetComponent<SpriteRenderer>()));
             foreach (var entry in qa.catalog.characters)
                 foreach (var direction in new[] { "front", "back", "side", "left" })
-                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory" })
+                    foreach (var state in new[] { "idle", "move", "sliding", "jump", "victory", "push" })
                     {
                         Assert.That(qa.Preview(entry.id, direction, state), Is.True, entry.id + "/" + direction + "/" + state);
                         Assert.That(visual.CurrentClip, Is.Not.Null);

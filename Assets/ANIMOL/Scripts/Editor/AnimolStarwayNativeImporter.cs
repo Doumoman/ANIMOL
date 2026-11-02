@@ -50,6 +50,11 @@ namespace Animol.Art.StarwayNative
             string assets = Path.GetFullPath(Application.dataPath).Replace('\\','/').TrimEnd('/');
             if (!root.StartsWith(assets+"/", StringComparison.Ordinal) && root!=assets)
                 throw new ArgumentException("Import folder must be inside this project's Assets folder.");
+            if (File.Exists(Path.Combine(root, "starway_choa_retouch_animations.json")))
+            {
+                Animol.Art.StarwayRetouch.Editor.StarwayRetouchImporter.ImportAllCharactersFromFolder(root, "");
+                return;
+            }
             string manifestPath = Path.Combine(root,"starway_native_animations.json");
             Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestPath));
             if (!manifest.nativeResolution || manifest.frames==null || manifest.frames.Length!=360 || manifest.clips==null || manifest.clips.Length!=60)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Animol.Art.StarwayRetouch;
 
 namespace ANIMOL.Presentation
 {
@@ -11,6 +12,7 @@ namespace ANIMOL.Presentation
         public string characterId;
         public string costumeId;
         public SpriteRenderer visual;
+        public StarwayPushPresentation PushPresenter { get; private set; }
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
         public Sprite Illustration => catalog && catalog.Find(characterId) != null
@@ -32,6 +34,7 @@ namespace ANIMOL.Presentation
             var renderer = child.AddComponent<SpriteRenderer>();
             renderer.sortingOrder = sortingOrder;
             var player = child.AddComponent<StarwayCharacterVisual>();
+            player.PushPresenter = root.AddComponent<StarwayPushPresentation>();
             player.Initialize(source, id, costume);
             return player;
         }
@@ -46,6 +49,25 @@ namespace ANIMOL.Presentation
             characterId = id;
             costumeId = selected;
             visual = GetComponent<SpriteRenderer>();
+            if (!PushPresenter) PushPresenter = GetComponentInParent<StarwayPushPresentation>();
+            if (PushPresenter)
+            {
+                PushPresenter.ResetPresentation();
+                var contacts = definition.pushContacts;
+                var active = contacts && contacts.characterId == id &&
+                    (id == "choa" || id == "uram" || id == "yeoul" || id == "tori");
+                PushPresenter.enabled = false;
+                transform.localPosition = active ? definition.restingLocalPosition : Vector3.zero;
+                PushPresenter.SetContacts(active ? contacts : null);
+                if (active)
+                {
+                    var grid = transform.parent.parent;
+                    var tile = grid ? grid.TransformVector(Vector3.right).magnitude : 1f;
+                    PushPresenter.SetApproachLimit(definition.pushApproachLimit);
+                    PushPresenter.Configure(transform, visual, contacts, tile, null,
+                        definition.restingLocalPosition);
+                }
+            }
             return PlayPose("front", "idle");
         }
 
@@ -67,6 +89,11 @@ namespace ANIMOL.Presentation
             var left = direction == "left";
             var nextDirection = left ? "side" : direction;
             var next = definition.Motion(nextDirection, state, costumeId);
+            if (next == null && state == "push")
+            {
+                next = definition.Motion(nextDirection, "move", costumeId);
+                state = "move";
+            }
             if (next == null || next.frames == null || next.frames.Length != 6 || next.fps <= 0) return false;
             visual.flipX = left;
             Direction = direction;

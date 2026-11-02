@@ -17,13 +17,13 @@ namespace ANIMOL.Presentation.Tests
         const string Root = "Assets/ANIMOL/Art/StarwayCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/StarwayCharacters.asset";
 
-        [Test] public void NativeManifestConnects360SpritesAnd60ClipsAtSourceSizeAndPivot()
+        [Test] public void RetouchManifestConnects432SpritesAnd72ClipsAtCalibratedSizeAndPivot()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/starway_native_animations.json"));
             Assert.That(manifest.nativeResolution, Is.True);
-            Assert.That(manifest.frames.Length, Is.EqualTo(360));
-            Assert.That(manifest.clips.Length, Is.EqualTo(60));
+            Assert.That(manifest.frames.Length, Is.EqualTo(432));
+            Assert.That(manifest.clips.Length, Is.EqualTo(72));
             var frameMap = manifest.frames.ToDictionary(frame => frame.file);
             var paths = new HashSet<string>();
             foreach (var data in manifest.clips)
@@ -58,7 +58,7 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(sprite.pivot.y, Is.EqualTo(metadata.pivot[1] * metadata.height).Within(.1f), spritePath);
                     Assert.That(importer.textureType, Is.EqualTo(TextureImporterType.Sprite), spritePath);
                     Assert.That(importer.spriteImportMode, Is.EqualTo(SpriteImportMode.Single), spritePath);
-                    Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Point), spritePath);
+                    Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear), spritePath);
                     Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), spritePath);
                     Assert.That(importer.mipmapEnabled, Is.False, spritePath);
                     Assert.That(importer.npotScale, Is.EqualTo(TextureImporterNPOTScale.None), spritePath);
@@ -70,7 +70,7 @@ namespace ANIMOL.Presentation.Tests
                 }
                 Assert.That(keys[6].value, Is.SameAs(keys[5].value), path);
             }
-            Assert.That(paths.Count, Is.EqualTo(360));
+            Assert.That(paths.Count, Is.EqualTo(432));
         }
 
         [Test] public void FourIdsAndIsolDisplayNameConnectToThemesAndLobby()
@@ -82,11 +82,13 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(catalog.defaultCharacterId, Is.EqualTo("choa"));
             Assert.That(catalog.characters.Select(entry => entry.id),
                 Is.EqualTo(new[] { "choa", "uram", "yeoul", "tori" }));
-            Assert.That(catalog.Find("uram").displayName, Is.EqualTo("이솔"));
+            Assert.That(catalog.Find("uram").displayName, Is.EqualTo("\uC774\uC194"));
             foreach (var entry in catalog.characters)
             {
                 Assert.That(entry.illustration, Is.Not.Null, entry.id);
-                Assert.That(entry.motions.Length, Is.EqualTo(15), entry.id);
+                Assert.That(entry.pushContacts, Is.Not.Null, entry.id);
+                Assert.That(entry.pushContacts.entries.Length, Is.EqualTo(18), entry.id);
+                Assert.That(entry.motions.Length, Is.EqualTo(18), entry.id);
                 foreach (var motion in entry.motions)
                 {
                     Assert.That(motion.clip, Is.Not.Null, entry.id);

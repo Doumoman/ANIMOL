@@ -1,4 +1,5 @@
 using System;
+using Animol.Art.StarwayRetouch;
 using UnityEngine;
 
 namespace ANIMOL.Presentation
@@ -34,6 +35,10 @@ namespace ANIMOL.Presentation
         public string displayName;
         public Sprite illustration;
         public StarwayCharacterMotion[] motions = new StarwayCharacterMotion[15];
+        public StarwayPushSpriteContacts pushContacts;
+        public Vector3 restingLocalPosition;
+        public float calibratedStandingHeight;
+        [Range(0f, 1f)] public float pushApproachLimit = .22f;
         public string defaultCostumeId;
         public StarwayCharacterCostume[] costumes = Array.Empty<StarwayCharacterCostume>();
 

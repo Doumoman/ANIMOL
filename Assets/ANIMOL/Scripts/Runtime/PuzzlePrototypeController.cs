@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ANIMOL.Presentation;
+using Animol.Art.StarwayRetouch;
 namespace ANIMOL.Puzzle
 {
     public sealed class PuzzlePrototypeController : MonoBehaviour
@@ -30,6 +31,7 @@ namespace ANIMOL.Puzzle
         void Start() { if (stage && Session == null) Load(stage); }
         public void Load(PuzzleMap data)
         {
+            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
             if (Devices) Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -99,11 +101,12 @@ namespace ANIMOL.Puzzle
             IsMoving = true;
             pressingGoal = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
-            StartCoroutine(Animate(result, eventPrefix, presentationGeneration)); return true;
+            StartCoroutine(Animate(result, eventPrefix, presentationGeneration, direction)); return true;
         }
         public bool UndoLast()
         {
             if (Session == null || Strict != null) return false;
+            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -117,6 +120,7 @@ namespace ANIMOL.Puzzle
         public void ResetStage()
         {
             if (Session == null) return;
+            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -126,6 +130,7 @@ namespace ANIMOL.Puzzle
         public void RestoreSnapshot(PuzzleDeviceSession snapshot)
         {
             if (Session == null) return;
+            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.ResetPresentation();
             Devices.InvalidateDiceHints();
             presentationGeneration++;
             StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
@@ -151,11 +156,12 @@ namespace ANIMOL.Puzzle
             if (!result.accepted) { Devices.PublishDiceHints(true); return; }
             IsMoving = true;
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
-            StartCoroutine(Animate(result, eventPrefix, presentationGeneration));
+            StartCoroutine(Animate(result, eventPrefix, presentationGeneration, Vector2Int.zero));
         }
-        IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation)
+        IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation, Vector2Int inputDirection)
         {
             var consumed = new HashSet<PrototypeEvent>();
+            var pushStarted = false;
             int dominoPanelsRemaining = result.events.FindAll(e =>
                 e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
@@ -183,6 +189,30 @@ namespace ANIMOL.Puzzle
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
                 if (!actor) actor = view.RanchActor(e.actor);
                 if (!actor) continue;
+                if (!pushStarted && inputDirection != Vector2Int.zero && e.actor != "player" &&
+                    CharacterVisual && CharacterVisual.PushPresenter && CharacterVisual.PushPresenter.enabled &&
+                    e.from == Vector2Int.RoundToInt(Player.position) + inputDirection &&
+                    IsCommittedPlayerPush(result, e, inputDirection))
+                {
+                    CharacterVisual.SetMotion(inputDirection, "push");
+                    var worldDirection = presentation.TransformVector(
+                        new Vector3(inputDirection.x, inputDirection.y, 0f));
+                    var contact = CreatePushVisualContact(actor, worldDirection);
+                    if (contact)
+                    {
+                        CharacterVisual.PushPresenter.BeginPush(actor.GetComponentInChildren<Collider2D>(),
+                            worldDirection, contact);
+                        pushStarted = true;
+                        // The session has already committed this move. Let the hand reach the
+                        // stationary visual face before animating the object away from its cell.
+                        var preparationDeadline = Time.time + .14f;
+                        while (CharacterVisual && CharacterVisual.PushPresenter &&
+                            CharacterVisual.PushPresenter.PoseActive &&
+                            !CharacterVisual.PushPresenter.ContactEstablished &&
+                            Time.time < preparationDeadline)
+                            yield return null;
+                    }
+                }
                 if (Devices.HasRanchV13Motion(e.actor))
                 {
                     var path = new List<Vector2Int> { e.from };
@@ -212,7 +242,8 @@ namespace ANIMOL.Puzzle
                     else actor.localPosition = (Vector2)final.cell;
                     continue;
                 }
-                if (e.actor == "player" && CharacterVisual) CharacterVisual.SetMotion(e.to - e.from, "move");
+                if (e.actor == "player" && CharacterVisual && !pushStarted)
+                    CharacterVisual.SetMotion(e.to - e.from, "move");
                 var pondCue = e.actor == "player" ? result.events.Find(p =>
                     p.kind == PrototypeEventKind.Visual && p.eventName == "PondCrossed" &&
                     p.from == e.from && p.to == e.to && !consumed.Contains(p)) : null;
@@ -279,6 +310,7 @@ namespace ANIMOL.Puzzle
                 pressingGoal = false;
             }
             Devices.Settle(); view.Present(Session); Player.position = (Vector2)Session.Cell;
+            if (CharacterVisual && CharacterVisual.PushPresenter) CharacterVisual.PushPresenter.EndPush();
             if (CharacterVisual)
             {
                 if (Session.Won) CharacterVisual.PlayPose(CharacterVisual.Direction, "victory");
@@ -290,6 +322,87 @@ namespace ANIMOL.Puzzle
             ContinueWind();
             if (!IsMoving) Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
         }
+        bool IsCommittedPlayerPush(PrototypeAction action, PrototypeEvent movement, Vector2Int heading)
+        {
+            var device = Session.Definition(movement.actor);
+            if (device != null && movement.to - movement.from == heading)
+                switch (device.role)
+                {
+                    case PrototypeRole.StarSocket:
+                    case PrototypeRole.WoodCrate:
+                    case PrototypeRole.MetalCrate:
+                    case PrototypeRole.Barrel:
+                    case PrototypeRole.Bomb:
+                    case PrototypeRole.Dice:
+                    case PrototypeRole.Glass:
+                        return true;
+                }
+            return action.events.Exists(cue => cue.kind == PrototypeEventKind.Visual &&
+                cue.actor == movement.actor && cue.eventName == "SheepPushed");
+        }
+
+        Transform CreatePushVisualContact(Transform actor, Vector3 worldHeading)
+        {
+            if (!CharacterVisual || !CharacterVisual.visual ||
+                !CharacterVisual.catalog || worldHeading.sqrMagnitude < 0.0001f) return null;
+            var definition = CharacterVisual.catalog.Find(CharacterVisual.characterId);
+            StarwayPushSpriteContacts.Entry anchor;
+            if (definition == null || !definition.pushContacts ||
+                !definition.pushContacts.TryGet(CharacterVisual.visual.sprite, out anchor)) return null;
+            var handLocal = anchor.handLocal;
+            if (CharacterVisual.visual.flipX) handLocal.x = -handLocal.x;
+            var handWorld = CharacterVisual.visual.transform.TransformPoint(handLocal);
+            var direction = new Vector2(worldHeading.x, worldHeading.y).normalized;
+            var tangent = new Vector2(-direction.y, direction.x);
+            var face = float.PositiveInfinity;
+            var tangentMin = float.PositiveInfinity;
+            var tangentMax = float.NegativeInfinity;
+            foreach (var renderer in actor.GetComponentsInChildren<SpriteRenderer>())
+            {
+                if (!renderer.enabled || !renderer.sprite) continue;
+                var sprite = renderer.sprite;
+                var vertices = new List<Vector2>();
+                var shapeCount = sprite.GetPhysicsShapeCount();
+                for (var shape = 0; shape < shapeCount; shape++)
+                {
+                    vertices.Clear();
+                    sprite.GetPhysicsShape(shape, vertices);
+                    foreach (var vertex in vertices)
+                    {
+                        var local = new Vector3(renderer.flipX ? -vertex.x : vertex.x,
+                            renderer.flipY ? -vertex.y : vertex.y, 0f);
+                        var corner = (Vector2)renderer.transform.TransformPoint(local);
+                        face = Mathf.Min(face, Vector2.Dot(corner, direction));
+                        var projection = Vector2.Dot(corner, tangent);
+                        tangentMin = Mathf.Min(tangentMin, projection);
+                        tangentMax = Mathf.Max(tangentMax, projection);
+                    }
+                }
+                if (shapeCount != 0) continue;
+                // A few procedural sprites have no generated alpha outline.
+                var bounds = renderer.bounds;
+                foreach (var x in new[] { bounds.min.x, bounds.max.x })
+                    foreach (var y in new[] { bounds.min.y, bounds.max.y })
+                    {
+                        var corner = new Vector2(x, y);
+                        face = Mathf.Min(face, Vector2.Dot(corner, direction));
+                        var projection = Vector2.Dot(corner, tangent);
+                        tangentMin = Mathf.Min(tangentMin, projection);
+                        tangentMax = Mathf.Max(tangentMax, projection);
+                    }
+            }
+            if (float.IsInfinity(face)) return null;
+            var alongFace = Mathf.Clamp(Vector2.Dot(handWorld, tangent), tangentMin, tangentMax);
+            var point = actor.Find("PushVisualContact");
+            if (!point)
+            {
+                point = new GameObject("PushVisualContact").transform;
+                point.SetParent(actor, false);
+            }
+            point.position = direction * face + tangent * alongFace;
+            return point;
+        }
+
         void LateUpdate()
         {
             if (!hud || Session == null) return;

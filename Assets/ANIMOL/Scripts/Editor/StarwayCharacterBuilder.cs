@@ -3,6 +3,7 @@ using System.IO;
 using ANIMOL.Presentation;
 using ANIMOL.Puzzle;
 using ANIMOL.Menu;
+using Animol.Art.StarwayRetouch;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -16,15 +17,18 @@ namespace Animol.Art.StarwayNative
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity";
         static readonly string[] Ids = { "choa", "uram", "yeoul", "tori" };
-        static readonly string[] Names = { "초아", "이솔", "여울", "토리" };
+        static readonly string[] Names = { "\uCD08\uC544", "\uC774\uC194", "\uC5EC\uC6B8", "\uD1A0\uB9AC" };
+
+        [Serializable] sealed class RetouchCalibrationManifest { public RetouchCalibration projectCalibration; }
+        [Serializable] sealed class RetouchCalibration { public float standingHeightWorld; public float restingOffsetLocalY; }
 
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
                 File.ReadAllText(Root + "/starway_native_animations.json"));
-            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 360 ||
-                manifest.clips == null || manifest.clips.Length != 60)
-                throw new InvalidDataException("Starway native manifest must have 360 frames and 60 clips.");
+            if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 432 ||
+                manifest.clips == null || manifest.clips.Length != 72)
+                throw new InvalidDataException("Starway retouch manifest must have 432 frames and 72 clips.");
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             if (!catalog)
             {
@@ -36,7 +40,19 @@ namespace Animol.Art.StarwayNative
             for (var i = 0; i < Ids.Length; i++)
             {
                 var id = Ids[i];
-                var entry = new StarwayCharacterDefinition { id = id, displayName = Names[i] };
+                var calibration = JsonUtility.FromJson<RetouchCalibrationManifest>(File.ReadAllText(
+                    Root + "/starway_" + id + "_retouch_animations.json"));
+                if (calibration?.projectCalibration == null)
+                    throw new InvalidDataException("Missing scene calibration for " + id);
+                var entry = new StarwayCharacterDefinition {
+                    id = id, displayName = Names[i], motions = new StarwayCharacterMotion[18],
+                    pushContacts = AssetDatabase.LoadAssetAtPath<StarwayPushSpriteContacts>(
+                        Root + "/PushContacts/starway_push_contacts_" + id + ".asset"),
+                    restingLocalPosition = new Vector3(0f, calibration.projectCalibration.restingOffsetLocalY, 0f),
+                    calibratedStandingHeight = calibration.projectCalibration.standingHeightWorld,
+                    pushApproachLimit = .35f
+                };
+                if (!entry.pushContacts) throw new InvalidDataException("Missing PUSH contacts for " + id);
                 var illustrationPath = Root + "/Illustrations/animol_starway_" + id + "_illustration.png";
                 ConfigureIllustration(illustrationPath);
                 entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(illustrationPath);
@@ -57,7 +73,7 @@ namespace Animol.Art.StarwayNative
                     entry.motions[index] = motion;
                     index++;
                 }
-                if (index != 15) throw new InvalidDataException("Expected 15 clips for " + id);
+                if (index != 18) throw new InvalidDataException("Expected 18 clips for " + id);
                 catalog.characters[i] = entry;
             }
             EditorUtility.SetDirty(catalog);
@@ -67,16 +83,21 @@ namespace Animol.Art.StarwayNative
             {
                 var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(path);
                 if (!theme) throw new FileNotFoundException("Missing starway theme", path);
-                theme.starwayCharacters = catalog;
-                theme.starwayCharacterId = catalog.defaultCharacterId;
                 // Other theme previews copy this historical static fallback. Runtime uses the catalog Visual.
-                theme.player = AssetDatabase.LoadAssetAtPath<Sprite>(
+                var playerSprite = AssetDatabase.LoadAssetAtPath<Sprite>(
                     "Assets/ANIMOL/Sprites/Player/rabbit/Frames/spr_player_rabbit_idle_s.png");
-                EditorUtility.SetDirty(theme);
+                if (theme.starwayCharacters != catalog || theme.starwayCharacterId != catalog.defaultCharacterId ||
+                    theme.player != playerSprite)
+                {
+                    theme.starwayCharacters = catalog;
+                    theme.starwayCharacterId = catalog.defaultCharacterId;
+                    theme.player = playerSprite;
+                    EditorUtility.SetDirty(theme);
+                }
             }
             ConnectMainMenu(catalog);
             AssetDatabase.SaveAssets();
-            Debug.Log("ANIMOL Starway native: connected four characters, 60 clips, and four illustrations; uram save ID displays as 이솔.");
+            Debug.Log("ANIMOL Starway retouch: connected four characters, 72 clips and four PUSH contact assets; uram displays as \uC774\uC194.");
         }
 
         public static void BuildBatch() => Build();
@@ -87,6 +108,16 @@ namespace Animol.Art.StarwayNative
             if (!menu || menu.themes == null || menu.themes.Length < 1 || menu.themes[0].id != "starway")
                 throw new InvalidDataException("Missing existing Starway lobby entry");
             var entry = menu.themes[0];
+            if (entry.gameCharacters == catalog && entry.people != null && entry.people.Length == Ids.Length)
+            {
+                var current = true;
+                for (var i = 0; i < Ids.Length; i++)
+                    current &= entry.people[i] != null && entry.people[i].characterId == Ids[i] &&
+                        entry.people[i].appearances != null && entry.people[i].appearances.Length == 1 &&
+                        entry.people[i].appearances[0] != null &&
+                        entry.people[i].appearances[0].illustration == catalog.Find(Ids[i]).illustration;
+                if (current) return;
+            }
             entry.gameCharacters = catalog;
             entry.people = new MainMenuPerson[Ids.Length];
             for (var i = 0; i < Ids.Length; i++)
