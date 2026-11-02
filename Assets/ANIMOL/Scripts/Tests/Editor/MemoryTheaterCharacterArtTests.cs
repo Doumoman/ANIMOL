@@ -6,6 +6,7 @@ using ANIMOL.Menu;
 using ANIMOL.Presentation;
 using ANIMOL.Puzzle;
 using Animol.Art.AfterimageTheaterNative;
+using Animol.Art.TheaterRetouch.Editor;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -133,6 +134,78 @@ namespace ANIMOL.Presentation.Tests
             foreach (var entry in catalog.characters)
                 Assert.That(lobby.FindPerson(1, entry.id).appearances[0].illustration,
                     Is.SameAs(entry.illustration), entry.id);
+        }
+
+        [Test] public void IdleFeetStayRegisteredAcrossAllFramesAndDirections()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
+            var idle = new[] { "seri", "roan", "mion", "piko" }.SelectMany(character =>
+                JsonUtility.FromJson<TheaterRetouchImporter.Manifest>(File.ReadAllText(
+                    Root + "/theater_" + character + "_retouch_animations.json")).frames
+                    .Where(frame => frame.state == "idle")).ToArray();
+            Assert.That(idle.Length, Is.EqualTo(72));
+            foreach (var character in new[] { "seri", "roan", "mion", "piko" })
+            {
+                var allFeet = new List<Vector2>();
+                foreach (var direction in new[] { "front", "back", "side" })
+                {
+                    var feet = new List<Vector2>();
+                    var silhouettes = new List<Vector2>();
+                    foreach (var frame in idle.Where(item => item.character == character && item.direction == direction))
+                    {
+                        var path = Root + "/" + frame.file;
+                        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+                        var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                        try
+                        {
+                            Assert.That(texture.LoadImage(File.ReadAllBytes(path)), Is.True, path);
+                            var pixels = texture.GetPixels32();
+                            var width = texture.width;
+                            var minY = texture.height;
+                            var maxY = -1;
+                            var minX = width;
+                            var maxX = -1;
+                            for (var index = 0; index < pixels.Length; index++)
+                                if (pixels[index].a > 64)
+                                {
+                                    var x = index % width;
+                                    var y = index / width;
+                                    minX = Math.Min(minX, x);
+                                    maxX = Math.Max(maxX, x);
+                                    minY = Math.Min(minY, y);
+                                    maxY = Math.Max(maxY, y);
+                                }
+                            Assert.That(maxY, Is.GreaterThanOrEqualTo(0), path);
+                            var band = Math.Max(8, Mathf.RoundToInt((maxY - minY + 1) * .1f));
+                            double sumX = 0;
+                            var count = 0;
+                            for (var y = minY; y < Math.Min(texture.height, minY + band); y++)
+                                for (var x = 0; x < width; x++)
+                                    if (pixels[y * width + x].a > 64) { sumX += x; count++; }
+                            Assert.That(count, Is.GreaterThan(0), path);
+                            feet.Add(new Vector2(
+                                ((float)(sumX / count) - sprite.pivot.x) * .85f / sprite.pixelsPerUnit,
+                                (minY - sprite.pivot.y) * .85f / sprite.pixelsPerUnit));
+                            silhouettes.Add(new Vector2(
+                                ((minX + maxX + 1) * .5f - sprite.pivot.x) * .85f / sprite.pixelsPerUnit,
+                                ((minY + maxY + 1) * .5f - sprite.pivot.y) * .85f / sprite.pixelsPerUnit));
+                        }
+                        finally { UnityEngine.Object.DestroyImmediate(texture); }
+                    }
+                    Assert.That(feet.Count, Is.EqualTo(6), character + "/" + direction);
+                    Assert.That(feet.Max(foot => foot.x) - feet.Min(foot => foot.x), Is.LessThan(.002f),
+                        character + "/" + direction + " foot X");
+                    Assert.That(silhouettes.Max(center => center.x) - silhouettes.Min(center => center.x),
+                        Is.LessThan(.04f), character + "/" + direction + " silhouette X");
+                    Assert.That(silhouettes.Max(center => center.y) - silhouettes.Min(center => center.y),
+                        Is.LessThan(.04f), character + "/" + direction + " silhouette Y");
+                    allFeet.AddRange(feet);
+                }
+                Assert.That(allFeet.Max(foot => foot.y) - allFeet.Min(foot => foot.y), Is.LessThan(.002f),
+                    character + " foot Y");
+                var restY = catalog.Find(character).restingLocalPosition.y;
+                Assert.That(Mathf.Abs(allFeet[0].y + restY), Is.LessThan(.02f), character + " world foot Y");
+            }
         }
     }
 }
