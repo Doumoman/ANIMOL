@@ -1,0 +1,43 @@
+using System;
+using UnityEngine;
+
+namespace William.NotebookUI
+{
+    [Serializable] public sealed class NotebookTheme
+    {
+        public string id, name, productId;
+        public bool paid;
+        public int chapter, startY, height;
+    }
+    [Serializable] public sealed class NotebookStage
+    {
+        public string id, themeId, label, sceneName;
+        public int order;
+        public float x, y;
+    }
+    [Serializable] public sealed class NotebookEdge
+    {
+        public string from, to, sprite;
+        public float x, y, width, height;
+    }
+    [Serializable] public sealed class NotebookCatalog
+    {
+        public int referenceWidth = 1080, referenceHeight = 1920, chapterHeight = 1180, mapContentHeight = 4720;
+        public int stageEntryCost = 1, telescopeCapacity = 10, recoverySeconds = 180, rewardedAdAmount = 5;
+        public bool stageLayoutIsExample, requiredStagePolicyIsExample;
+        public string[] battleRequiredStageIds = Array.Empty<string>();
+        public NotebookTheme[] themes = Array.Empty<NotebookTheme>();
+        public NotebookStage[] stages = Array.Empty<NotebookStage>();
+        public NotebookEdge[] edges = Array.Empty<NotebookEdge>();
+        public NotebookStage FindStage(string id) => Array.Find(stages, item => item.id == id);
+        public NotebookTheme FindTheme(string id) => Array.Find(themes, item => item.id == id);
+        public static NotebookCatalog Parse(TextAsset asset)
+        {
+            if (!asset) throw new ArgumentNullException(nameof(asset));
+            NotebookCatalog result = JsonUtility.FromJson<NotebookCatalog>(asset.text);
+            if (result == null || result.telescopeCapacity <= 0 || result.recoverySeconds <= 0 || result.stageEntryCost < 0)
+                throw new InvalidOperationException("Invalid Notebook UI catalog.");
+            return result;
+        }
+    }
+}

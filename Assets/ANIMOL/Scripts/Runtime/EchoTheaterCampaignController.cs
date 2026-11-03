@@ -41,7 +41,7 @@ namespace ANIMOL.Puzzle
             if (GUI.Button(new Rect(18, 43, 74, 32), "Stages")) stageMenu = !stageMenu;
             if (GUI.Button(new Rect(96, 43, 60, 32), "Reset")) puzzle.ResetStage();
             if (GUI.Button(new Rect(160, 43, 60, 32), "Next")) SelectStage((selected + 1) % mapSet.maps.Count);
-            if (GUI.Button(new Rect(224, 43, 65, 32), "Lobby")) SceneManager.LoadScene("ANIMOL_Main");
+            if (GUI.Button(new Rect(224, 43, 65, 32), "Lobby")) SceneManager.LoadScene("NotebookUI");
             if (!stageMenu) return;
             GUI.Box(new Rect(10, 90, 355, 258), "Select stage");
             for (var i = 0; i < mapSet.maps.Count; i++)

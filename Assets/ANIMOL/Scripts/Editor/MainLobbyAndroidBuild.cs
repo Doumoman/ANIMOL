@@ -19,15 +19,15 @@ namespace ANIMOL.Menu.Editor
                 EditorUserBuildSettings.buildAppBundle = false;
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
-                    scenes = new[] { "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity" },
+                    scenes = new[] { "Assets/WilliamNotebookUI/Generated/NotebookUI.unity" },
                     locationPathName = output,
                     target = BuildTarget.Android,
                     options = BuildOptions.None
                 });
                 if (report.summary.result != BuildResult.Succeeded)
-                    throw new InvalidOperationException("Main lobby Android build: " + report.summary.result +
+                    throw new InvalidOperationException("Notebook UI Android build: " + report.summary.result +
                         ", errors=" + report.summary.totalErrors);
-                UnityEngine.Debug.Log("Main lobby Android validation build succeeded: " + output +
+                UnityEngine.Debug.Log("Notebook UI Android validation build succeeded: " + output +
                     ", bytes=" + report.summary.totalSize);
             }
             finally { EditorUserBuildSettings.buildAppBundle = previousBundle; }
