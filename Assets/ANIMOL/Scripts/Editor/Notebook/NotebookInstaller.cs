@@ -17,7 +17,7 @@ namespace William.NotebookUI.Editor
 {
     public static class NotebookInstaller
     {
-        private const string Root = "Assets/ANIMOL/", Data = Root + "Data/UI/Notebook/", MainTex = Root + "Art/UI/Main/Textures/", MapTex = Root + "Art/UI/ConstellationMap/Textures/", SettingsTex = Root + "Art/UI/Settings/Textures/", GeneratedPrefab = Root + "Prefabs/UI/Main/NotebookCanvas.prefab", GeneratedScene = Root + "Scenes/Main/NotebookUI.unity", GeneratedFont = Root + "Fonts/Notebook/Galmuri14.asset";
+        private const string Root = "Assets/ANIMOL/", Data = Root + "Data/UI/Notebook/", MainTex = Root + "Art/UI/Main/Textures/", MapTex = Root + "Art/UI/ConstellationMap/Textures/", SettingsTex = Root + "Art/UI/Settings/Textures/", ModalTex = Root + "Art/UI/Common/Textures/", GeneratedPrefab = Root + "Prefabs/UI/Main/NotebookCanvas.prefab", GeneratedScene = Root + "Scenes/Main/NotebookUI.unity", GeneratedFont = Root + "Fonts/Notebook/Galmuri14.asset";
         private static TMP_FontAsset font;
         private static readonly Color Ink = new Color32(41, 38, 59, 255);
         private static readonly Color SkyText = new Color32(255, 235, 197, 255);
@@ -58,6 +58,7 @@ namespace William.NotebookUI.Editor
             NotebookRoot ui = design.gameObject.AddComponent<NotebookRoot>(); ui.catalogJson = AssetDatabase.LoadAssetAtPath<TextAsset>(Data + "catalog.json"); ui.patternMotion = motion;
             ui.gateway = design.gameObject.AddComponent<NotebookProjectGateway>();
             ui.mainScreen = Screen(design, "Main").gameObject; ui.settingsScreen = Screen(design, "Settings").gameObject; ui.stageScreen = Screen(design, "Constellation Only").gameObject;
+            ui.mainInputGroup = ui.mainScreen.AddComponent<CanvasGroup>();
             BuildMain(ui, catalog); BuildSettings(ui); BuildMap(ui, catalog); BuildModal(ui, design);
             ui.toggleOn = Load("Controls/Toggle_On"); ui.toggleOff = Load("Controls/Toggle_Off");
             ui.starAvailable = Load("Map/Star_Available"); ui.starCurrent = Load("Map/Star_Current"); ui.starDone = Load("Map/Star_Done"); ui.starLocked = Load("Map/Star_Locked");
@@ -106,21 +107,25 @@ namespace William.NotebookUI.Editor
         private static void BuildSettings(NotebookRoot ui)
         {
             RectTransform host = (RectTransform)ui.settingsScreen.transform;
-            ui.settingsBack = Button(host, "Back", "Utility", 48, 18, 132, 132, "", 1); Icon(ui.settingsBack.transform, "back", 33, 33, 66, 66);
+            RectTransform backdrop = Rect(host, "Plain Gray Settings Backdrop"); Stretch(backdrop, 0, 0, 0, 0);
+            ui.GetComponentInParent<NotebookCanvasLayout>().fullScreenSettingsBackdrop = backdrop;
+            Image scrim = backdrop.gameObject.AddComponent<Image>(); scrim.color = new Color(40f / 255, 40f / 255, 44f / 255, .58f); scrim.raycastTarget = true;
+            ui.settingsBack = Button(host, "Back", "Utility", 48, 18, 132, 132, "", 1, true); Icon(ui.settingsBack.transform, "back", 33, 33, 66, 66);
+            Image titlePlaque = Picture(host, "Settings Title Static Plaque", "Modal/Utility_Normal", true); At(titlePlaque.rectTransform, 192, 24, 260, 144);
             Text(host, "Settings Title", "설정", 214, 52, 700, 92, 66);
-            Image panel = Picture(host, "Ruled Notebook Panel", "Paper/SettingsPanel", true); Stretch(panel.rectTransform, 48, 210, 48, 90);
+            Image panel = Picture(host, "Settings Face Pattern Popup", "Modal/PanelBase", true); Stretch(panel.rectTransform, 48, 210, 48, 90);
+            panel.raycastTarget = true; ui.settingsPatternMotion = AddPanelFaces(panel.transform);
             RectTransform viewport = Rect(panel.transform, "Settings Viewport"); Stretch(viewport, 104, 60, 64, 40); viewport.gameObject.AddComponent<RectMask2D>();
-            RectTransform content = Rect(viewport, "Settings Content"); At(content, 0, 0, 816, 1400);
+            RectTransform content = Rect(viewport, "Settings Content"); At(content, 0, 0, 816, 1264);
             ScrollRect scroll = panel.gameObject.AddComponent<ScrollRect>(); scroll.viewport = viewport; scroll.content = content; scroll.horizontal = false; scroll.vertical = true; scroll.movementType = ScrollRect.MovementType.Clamped;
             Text(content, "Audio Heading", "소리와 플레이", 0, 8, 816, 70, 50);
             ui.bgmSlider = Slider(content, "BGM", "배경 음악", 106, out ui.bgmValue);
             ui.sfxSlider = Slider(content, "SFX", "효과음", 316, out ui.sfxValue);
             ui.soundToggle = Toggle(content, "Sound", "전체 소리", 526);
             ui.hapticToggle = Toggle(content, "Haptic", "진동", 662);
-            ui.scrollToggle = Toggle(content, "Original Pattern Motion", "얼굴 배경 스크롤", 798);
-            Text(content, "Account Heading", "계정과 구매", 0, 1006, 816, 70, 50);
-            ui.accountButton = Button(content, "Account", "Button", 0, 1108, 816, 124, "게스트 계정", 42); MoveText(ui.accountButton, 40, 0, 650, 124, TextAlignmentOptions.MidlineLeft); Icon(ui.accountButton.transform, "arrow", 710, 29, 66, 66);
-            ui.restoreButton = Button(content, "Restore Purchases", "Button", 0, 1252, 816, 124, "구매 내역 복원", 42); MoveText(ui.restoreButton, 40, 0, 650, 124, TextAlignmentOptions.MidlineLeft); Icon(ui.restoreButton.transform, "arrow", 710, 29, 66, 66);
+            Text(content, "Account Heading", "계정과 구매", 0, 870, 816, 70, 50);
+            ui.accountButton = Button(content, "Account", "Button", 0, 972, 816, 124, "게스트 계정", 42, true); MoveText(ui.accountButton, 40, 0, 650, 124, TextAlignmentOptions.MidlineLeft); Icon(ui.accountButton.transform, "arrow", 710, 29, 66, 66);
+            ui.restoreButton = Button(content, "Restore Purchases", "Button", 0, 1116, 816, 124, "구매 내역 복원", 42, true); MoveText(ui.restoreButton, 40, 0, 650, 124, TextAlignmentOptions.MidlineLeft); Icon(ui.restoreButton.transform, "arrow", 710, 29, 66, 66);
         }
         private static Slider Slider(RectTransform parent, string name, string label, float top, out TMP_Text value)
         {
@@ -231,26 +236,44 @@ namespace William.NotebookUI.Editor
         private static void BuildModal(NotebookRoot ui, RectTransform design)
         {
             RectTransform overlay = Screen(design, "Modal"); ui.modal = overlay.gameObject;
-            Image dim = Picture(overlay, "Static Dim", "Paper/ModalDim"); Stretch(dim.rectTransform, -3000, -3000, -3000, -3000); dim.raycastTarget = true;
-            Image panel = Picture(overlay, "Notebook Modal", "Paper/Panel", true); RectTransform p = panel.rectTransform; p.anchorMin = p.anchorMax = p.pivot = new Vector2(.5f, .5f); p.sizeDelta = new Vector2(984, 1280);
-            panel.raycastTarget = true;
-            ui.modalClose = Button(p, "Close", "Utility", 828, 24, 132, 132, "", 1); Icon(ui.modalClose.transform, "close", 43, 43, 46, 46);
+            RectTransform dimRect = Rect(overlay, "Plain Gray Popup Backdrop"); Stretch(dimRect, 0, 0, 0, 0);
+            ui.GetComponentInParent<NotebookCanvasLayout>().fullScreenModalBackdrop = dimRect;
+            Image dim = dimRect.gameObject.AddComponent<Image>(); dim.color = new Color(40f / 255, 40f / 255, 44f / 255, .58f); dim.raycastTarget = true;
+            Image panel = Picture(overlay, "Clean Face Pattern Popup", "Modal/PanelBase", true); RectTransform p = panel.rectTransform; p.anchorMin = p.anchorMax = p.pivot = new Vector2(.5f, .5f); p.sizeDelta = new Vector2(984, 1280);
+            panel.raycastTarget = true; ui.popupPatternMotion = AddPanelFaces(panel.transform);
+            ui.modalClose = Button(p, "Close", "Utility", 828, 24, 132, 132, "", 1, true); Icon(ui.modalClose.transform, "close", 43, 43, 46, 46);
             ui.modalIcon = Picture(p, "Icon", "Icons/telescope"); At(ui.modalIcon.rectTransform, 392, 86, 200, 180); ui.modalIcon.preserveAspect = true;
             ui.modalTitle = Text(p, "Title", "", 60, 300, 864, 90, 61, TextAlignmentOptions.Center);
             ui.modalCopy = Text(p, "Copy", "", 70, 416, 844, 200, 40, TextAlignmentOptions.Center);
             ui.modalNote = Text(p, "Note", "", 70, 630, 844, 126, 32, TextAlignmentOptions.Center);
-            ui.modalPrimary = Button(p, "Primary", "Primary", 70, 794, 844, 130, "확인", 42); ui.modalPrimaryText = LabelOf(ui.modalPrimary);
-            ui.modalSecondary = Button(p, "Secondary", "Button", 70, 946, 844, 130, "", 42); ui.modalSecondaryText = LabelOf(ui.modalSecondary);
+            ui.modalPrimary = Button(p, "Primary", "Primary", 70, 794, 844, 130, "확인", 42, true); ui.modalPrimaryText = LabelOf(ui.modalPrimary);
+            ui.modalSecondary = Button(p, "Secondary", "Button", 70, 946, 844, 130, "", 42, true); ui.modalSecondaryText = LabelOf(ui.modalSecondary);
             ui.modalStatus = Text(p, "Status", "", 70, 1100, 844, 128, 31, TextAlignmentOptions.Center);
+        }
+        private static AnimolPatternMotion AddPanelFaces(Transform panel)
+        {
+            RectTransform clip = Rect(panel, "Original Face Pattern Clip 24px"); Stretch(clip, 24, 24, 24, 24);
+            clip.gameObject.AddComponent<RectMask2D>();
+            RectTransform faces = Rect(clip, "Unchanged Faces Inside Popup Only"); Stretch(faces, 0, 0, 0, 0);
+            RawImage raw = faces.gameObject.AddComponent<RawImage>(); raw.color = Color.white; raw.raycastTarget = false;
+            Texture2D pattern = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ANIMOL/Art/UI/Main/Pattern/Textures/CharacterFacesStars_All_2048.png");
+            Shader shader = AssetDatabase.LoadAssetAtPath<Shader>("Assets/ANIMOL/Art/UI/Main/Pattern/Shaders/UI_AnimolMonochromePattern.shader");
+            if (!pattern || !shader) throw new InvalidOperationException("The unchanged original face texture and shader are required.");
+            DiagonalPatternBackground effect = faces.gameObject.AddComponent<DiagonalPatternBackground>(); effect.Configure(shader, pattern);
+            effect.SetAppearance(pattern, Color.clear, new Color32(166, 110, 72, 255), .16f); effect.VisualVelocity = new Vector2(8, 8);
+            SerializedObject appearance = new SerializedObject(effect); appearance.FindProperty("tileSize").vector2Value = new Vector2(1080, 1080);
+            appearance.FindProperty("useUnscaledTime").boolValue = true; appearance.ApplyModifiedPropertiesWithoutUndo();
+            AnimolPatternMotion motion = faces.gameObject.AddComponent<AnimolPatternMotion>();
+            Image frame = Picture(panel, "Static Clean Popup Edge", "Modal/PanelFrame", true); Stretch(frame.rectTransform, 0, 0, 0, 0);
+            return motion;
         }
         private static void ImportArt()
         {
-            foreach (string path in Directory.GetFiles(MainTex, "*.png", SearchOption.AllDirectories)) ImportSprite(path.Replace('\\', '/'));
-            foreach (string path in Directory.GetFiles(MapTex, "*.png", SearchOption.AllDirectories)) ImportSprite(path.Replace('\\', '/'));
-            foreach (string path in Directory.GetFiles(SettingsTex, "*.png", SearchOption.AllDirectories)) ImportSprite(path.Replace('\\', '/'));
-            string patternPath = "Assets/ANIMOL/Art/UI/Main/Pattern/Textures/CharacterFacesStars_All_2048.png";
-            var importer = AssetImporter.GetAtPath(patternPath) as TextureImporter;
-            if (importer) { importer.textureType = TextureImporterType.Default; importer.wrapMode = TextureWrapMode.Repeat; importer.filterMode = FilterMode.Bilinear; importer.mipmapEnabled = false; importer.alphaIsTransparency = true; importer.textureCompression = TextureImporterCompression.Uncompressed; importer.npotScale = TextureImporterNPOTScale.None; importer.maxTextureSize = 2048; importer.SaveAndReimport(); }
+            // Existing main/map/settings art and the original pattern are already imported.
+            // Only the newly installed clean popup sprites need import changes here.
+            foreach (string path in Directory.GetFiles(ModalTex, "*.png", SearchOption.AllDirectories)) ImportSprite(path.Replace('\\', '/'));
+            if (!AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ANIMOL/Art/UI/Main/Pattern/Textures/CharacterFacesStars_All_2048.png"))
+                throw new InvalidOperationException("The unchanged original face texture is required.");
         }
         private static void ImportSprite(string path)
         {
@@ -258,7 +281,7 @@ namespace William.NotebookUI.Editor
             importer.textureType = TextureImporterType.Sprite; importer.spriteImportMode = SpriteImportMode.Single;
             TextureImporterSettings settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings); settings.spriteMeshType = SpriteMeshType.FullRect; importer.SetTextureSettings(settings);
             importer.alphaIsTransparency = true; importer.mipmapEnabled = false; importer.filterMode = FilterMode.Bilinear; importer.textureCompression = TextureImporterCompression.Uncompressed; importer.npotScale = TextureImporterNPOTScale.None; importer.maxTextureSize = 4096; importer.spritePixelsPerUnit = 100;
-            bool sliced = path.Contains("/Controls/Button_") || path.Contains("/Controls/Primary_") || path.Contains("/Controls/Utility_") || path.Contains("/Paper/Panel.") || path.Contains("/Paper/SettingsPanel.") || path.Contains("/Paper/ChapterLabel.");
+            bool sliced = path.Contains("/Controls/Button_") || path.Contains("/Controls/Primary_") || path.Contains("/Controls/Utility_") || path.Contains("/Paper/Panel.") || path.Contains("/Paper/SettingsPanel.") || path.Contains("/Paper/ChapterLabel.") || path.Contains("/Modal/");
             importer.spriteBorder = sliced ? Vector4.one * 36 : Vector4.zero; importer.SaveAndReimport();
         }
         private static TMP_FontAsset EnsureFont()
@@ -277,7 +300,8 @@ namespace William.NotebookUI.Editor
         private static void EnsureFolder(string path) { Directory.CreateDirectory(path); AssetDatabase.Refresh(); }
         private static Sprite Load(string relative)
         {
-            string textureRoot = (relative.StartsWith("Map/", StringComparison.Ordinal) || relative.StartsWith("Constellations/", StringComparison.Ordinal) || relative.StartsWith("ConstellationLines/", StringComparison.Ordinal)) ? MapTex
+            string textureRoot = relative.StartsWith("Modal/", StringComparison.Ordinal) ? ModalTex
+                : (relative.StartsWith("Map/", StringComparison.Ordinal) || relative.StartsWith("Constellations/", StringComparison.Ordinal) || relative.StartsWith("ConstellationLines/", StringComparison.Ordinal)) ? MapTex
                 : relative.StartsWith("Controls/Slider", StringComparison.Ordinal) || relative.StartsWith("Controls/Toggle", StringComparison.Ordinal) || relative == "Paper/SettingsPanel" ? SettingsTex
                 : MainTex;
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(textureRoot + relative + ".png");
@@ -300,11 +324,12 @@ namespace William.NotebookUI.Editor
         {
             RectTransform r = Rect(parent, name); At(r, x, y, width, height); TextMeshProUGUI label = r.gameObject.AddComponent<TextMeshProUGUI>(); label.font = font; label.fontSize = size; label.fontStyle = FontStyles.Normal; label.text = text; label.color = Ink; label.alignment = align; label.raycastTarget = false; label.enableAutoSizing = false; label.enableWordWrapping = true; return label;
         }
-        private static Button Button(Transform parent, string name, string role, float x, float y, float width, float height, string text, float fontSize)
+        private static Button Button(Transform parent, string name, string role, float x, float y, float width, float height, string text, float fontSize, bool popup = false)
         {
-            Image image = Picture(parent, name, "Controls/" + role + "_Normal", true); At(image.rectTransform, x, y, width, height); image.raycastTarget = true;
+            string spriteRoot = popup ? "Modal/" : "Controls/";
+            Image image = Picture(parent, name, spriteRoot + role + "_Normal", true); At(image.rectTransform, x, y, width, height); image.raycastTarget = true;
             Button button = image.gameObject.AddComponent<Button>(); button.targetGraphic = image; button.transition = Selectable.Transition.SpriteSwap;
-            button.spriteState = new SpriteState { highlightedSprite = Load("Controls/" + role + "_Highlighted"), pressedSprite = Load("Controls/" + role + "_Pressed"), selectedSprite = Load("Controls/" + role + "_Highlighted"), disabledSprite = Load("Controls/" + role + "_Disabled") };
+            button.spriteState = new SpriteState { highlightedSprite = Load(spriteRoot + role + "_Highlighted"), pressedSprite = Load(spriteRoot + role + "_Pressed"), selectedSprite = Load(spriteRoot + role + "_Highlighted"), disabledSprite = Load(spriteRoot + role + "_Disabled") };
             TMP_Text label = Text(image.transform, "Label", text, 20, 0, width - 40, height, fontSize, TextAlignmentOptions.Center); return button;
         }
         private static TMP_Text LabelOf(Button button) => button.GetComponentInChildren<TMP_Text>(true);

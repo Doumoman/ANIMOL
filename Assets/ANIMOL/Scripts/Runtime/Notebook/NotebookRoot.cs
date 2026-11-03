@@ -5,6 +5,7 @@ using Animol.UI.Pattern;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace William.NotebookUI
@@ -29,6 +30,8 @@ namespace William.NotebookUI
         public string bgmMixerParameter = "BGM", sfxMixerParameter = "SFX";
         public GameObject mainScreen, settingsScreen, stageScreen, modal;
         public AnimolPatternMotion patternMotion;
+        public AnimolPatternMotion settingsPatternMotion, popupPatternMotion;
+        public CanvasGroup mainInputGroup;
         public Image worldImage, characterImage, battleLock, muteIcon;
         public Sprite soundOnIcon, soundOffIcon;
         public NotebookWorldArt[] worlds;
@@ -36,7 +39,7 @@ namespace William.NotebookUI
         public Button settingsBack, mapBack, telescopeButton, launchButton, restoreButton, accountButton;
         public TMP_Text walletText, recoveryText, stageRegion, stageName, stageState, launchText, bgmValue, sfxValue;
         public Slider bgmSlider, sfxSlider;
-        public Button soundToggle, hapticToggle, scrollToggle;
+        public Button soundToggle, hapticToggle;
         public Sprite toggleOn, toggleOff, starAvailable, starCurrent, starDone, starLocked;
         public NotebookNodeView[] nodes;
         public NotebookEdgeView[] edges;
@@ -65,6 +68,7 @@ namespace William.NotebookUI
             model = new NotebookBmModel(catalog, state, Now);
             try { if (PlayerPrefs.HasKey(PrefsKey)) preferences = JsonUtility.FromJson<NotebookPreferences>(PlayerPrefs.GetString(PrefsKey)); } catch (ArgumentException) { }
             preferences = preferences ?? new NotebookPreferences();
+            // JsonUtility ignores the old scroll value; face motion is no longer a saved setting.
             selectedStage = catalog.stages.FirstOrDefault(s => model.CanEnter(s.id) && !model.IsCleared(s.id))?.id ?? catalog.stages.FirstOrDefault()?.id;
             campaignButton.onClick.AddListener(OpenStages);
             battleButton.onClick.AddListener(OpenBattle);
@@ -77,7 +81,6 @@ namespace William.NotebookUI
             restoreButton.onClick.AddListener(Restore); accountButton.onClick.AddListener(OpenAccount);
             soundToggle.onClick.AddListener(() => { preferences.sound = !preferences.sound; ApplyPreferences(); Save(); });
             hapticToggle.onClick.AddListener(() => { preferences.haptic = !preferences.haptic; ApplyPreferences(); Save(); });
-            scrollToggle.onClick.AddListener(() => { preferences.scroll = !preferences.scroll; ApplyPreferences(); Save(); });
             bgmSlider.onValueChanged.AddListener(v => { preferences.bgm = v; ApplyPreferences(); Save(); });
             sfxSlider.onValueChanged.AddListener(v => { preferences.sfx = v; ApplyPreferences(); Save(); });
             modalPrimary.onClick.AddListener(() => primaryAction?.Invoke());
@@ -114,7 +117,6 @@ namespace William.NotebookUI
             bgmValue.text = Mathf.RoundToInt(preferences.bgm * 100) + "%"; sfxValue.text = Mathf.RoundToInt(preferences.sfx * 100) + "%";
             soundToggle.image.sprite = preferences.sound ? toggleOn : toggleOff;
             hapticToggle.image.sprite = preferences.haptic ? toggleOn : toggleOff;
-            scrollToggle.image.sprite = preferences.scroll ? toggleOn : toggleOff;
             if (muteIcon) muteIcon.sprite = preferences.sound ? soundOnIcon : soundOffIcon;
             AudioListener.volume = preferences.sound ? 1 : 0;
             if (audioMixer)
@@ -122,7 +124,6 @@ namespace William.NotebookUI
                 audioMixer.SetFloat(bgmMixerParameter, preferences.bgm <= .0001f ? -80 : Mathf.Log10(preferences.bgm) * 20);
                 audioMixer.SetFloat(sfxMixerParameter, preferences.sfx <= .0001f ? -80 : Mathf.Log10(preferences.sfx) * 20);
             }
-            if (patternMotion) patternMotion.SetReducedMotion(!preferences.scroll);
             if (gateway) gateway.ApplyPreferences(preferences);
         }
         public void OpenMain() => ShowPage(mainScreen);
@@ -142,7 +143,19 @@ namespace William.NotebookUI
         private void ShowPage(GameObject target)
         {
             if (!string.IsNullOrEmpty(pendingId)) return;
-            CloseModal(); mainScreen.SetActive(target == mainScreen); settingsScreen.SetActive(target == settingsScreen); stageScreen.SetActive(target == stageScreen);
+            bool openingSettings = target == settingsScreen;
+            bool leavingSettings = settingsScreen.activeSelf && !openingSettings;
+            CloseModal();
+            mainScreen.SetActive(target == mainScreen || openingSettings);
+            settingsScreen.SetActive(openingSettings); stageScreen.SetActive(target == stageScreen);
+            if (mainInputGroup)
+            {
+                mainInputGroup.interactable = !openingSettings;
+                mainInputGroup.blocksRaycasts = !openingSettings;
+            }
+            if (patternMotion) patternMotion.gameObject.SetActive(!openingSettings);
+            if (EventSystem.current && (openingSettings || leavingSettings))
+                EventSystem.current.SetSelectedGameObject(openingSettings ? settingsBack.gameObject : target == mainScreen ? settingsButton.gameObject : null);
         }
         private void RefreshWallet()
         {
@@ -209,12 +222,17 @@ namespace William.NotebookUI
             modalKind = kind; modal.SetActive(true); modalTitle.text = title; modalCopy.text = copy; modalIcon.sprite = icon;
             modalNote.text = modalStatus.text = ""; modalPrimary.gameObject.SetActive(true); modalPrimary.interactable = true;
             modalSecondary.gameObject.SetActive(false); modalSecondary.interactable = true; modalClose.interactable = true;
-            primaryAction = CloseModal; secondaryAction = null; patternMotion.SetModalOpen(true);
+            primaryAction = CloseModal; secondaryAction = null;
+            if (patternMotion) { patternMotion.SetModalOpen(true); patternMotion.gameObject.SetActive(false); }
+            if (settingsPatternMotion) settingsPatternMotion.SetModalOpen(true);
+            if (popupPatternMotion) popupPatternMotion.SetModalOpen(false);
         }
         private void CloseModal()
         {
             if (!string.IsNullOrEmpty(pendingId)) return;
-            modal.SetActive(false); modalKind = ""; if (patternMotion) patternMotion.SetModalOpen(false);
+            modal.SetActive(false); modalKind = "";
+            if (patternMotion) { patternMotion.SetModalOpen(false); patternMotion.gameObject.SetActive(!settingsScreen.activeSelf); }
+            if (settingsPatternMotion) settingsPatternMotion.SetModalOpen(false);
         }
         private void Notice(string title, string copy, Sprite icon) { OpenModal("notice", title, copy, icon); modalPrimaryText.text = "확인"; }
         private string BeginOperation()

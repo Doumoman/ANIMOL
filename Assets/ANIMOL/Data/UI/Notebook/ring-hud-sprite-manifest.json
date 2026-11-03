@@ -1,0 +1,839 @@
+{
+  "schemaVersion": 1,
+  "runtimeDrawing": false,
+  "textBaked": false,
+  "costDigitsAreSprites": true,
+  "rollbackDesign": "original interwoven ring HUD",
+  "blackCentralDisk": true,
+  "sourceImagePreserved": true,
+  "sourceSha256": "dd9f2397f1712067a2ac5d5427bab82caf7d1be5bfc9991b2ff633b8974dc4fd",
+  "starDockPattern": "StarDock_{required}_{filled}",
+  "starGoalRange": [
+    1,
+    4
+  ],
+  "pauseGlyph": "Gameplay/PauseGlyph",
+  "digitPattern": "Digits/Digit_{0..9}",
+  "digitsAppearance": "original-flat-cream-Galmuri14",
+  "digitArea": {
+    "referenceCostSize": [
+      300,
+      300
+    ],
+    "screenRect": [
+      84,
+      126,
+      180,
+      96
+    ],
+    "rectConvention": "left,bottom,width,height",
+    "maxHeight": 96,
+    "gap": 3
+  },
+  "sprites": [
+    {
+      "id": "Gameplay/CostMedallion",
+      "path": "Textures/Gameplay/CostMedallion.png",
+      "width": 1254,
+      "height": 1254,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "dd9f2397f1712067a2ac5d5427bab82caf7d1be5bfc9991b2ff633b8974dc4fd",
+      "role": "original-ring-cost-medallion",
+      "generatedSourcePreserved": true,
+      "rollbackSource": "SourceArt/Historical/CostMedallion_Ring.png"
+    },
+    {
+      "id": "Gameplay/StarDock_1_0",
+      "path": "Textures/Gameplay/StarDock_1_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "552a000a7b71e79bdfc262ccd6eb74e77bec7501a80646f8ef33bbf8ad19eed3",
+      "capacity": 1,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          216,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_1_1",
+      "path": "Textures/Gameplay/StarDock_1_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a04f671c05ced87b9864cc4e8e13ffb4148e3bc28b9b400b9a11a1f94ce0f955",
+      "capacity": 1,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          216,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_0",
+      "path": "Textures/Gameplay/StarDock_2_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "da536d2d135a200692b0515380f8224394f6d9b219f1f9572d6ffeac8fc71dfb",
+      "capacity": 2,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_1",
+      "path": "Textures/Gameplay/StarDock_2_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "03aba3d0e7456b2b62a285ae4ab23a7c192aaadf740a68a27cb73f781e7028e6",
+      "capacity": 2,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_2",
+      "path": "Textures/Gameplay/StarDock_2_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3f0a53ac4447fb6c1d34108e605da63a4da88e14ffc81199dbb39c7be12a6696",
+      "capacity": 2,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_0",
+      "path": "Textures/Gameplay/StarDock_3_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0e512040a92674fad8c81423e4a3bf6deb15840f52ab3f7240eaff4b65ab44a5",
+      "capacity": 3,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_1",
+      "path": "Textures/Gameplay/StarDock_3_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "b06f8d779bc74f6f1447246a33767f00643180554abe48dde0d595b9793ff3c5",
+      "capacity": 3,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_2",
+      "path": "Textures/Gameplay/StarDock_3_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "de71b78f141961abfa8051e2d2a6f5df43f89a70f58beb2a32932b214612313a",
+      "capacity": 3,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_3",
+      "path": "Textures/Gameplay/StarDock_3_3.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "811abb03074b102d3b4cfdbc82c23b31026befe76df5a52502ded812904b6d1c",
+      "capacity": 3,
+      "filled": 3,
+      "collected": 3,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_0",
+      "path": "Textures/Gameplay/StarDock_4_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a69e7f8f5b9864ca43a5583060d6f52ef8e499017087522a8cfe32a75acb33d1",
+      "capacity": 4,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_1",
+      "path": "Textures/Gameplay/StarDock_4_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "19eb8694855aac6d4dba5da530176930956ed5ca37d31685756f7891283ebc97",
+      "capacity": 4,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_2",
+      "path": "Textures/Gameplay/StarDock_4_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "ded80b231533fae22129d209a42a357c9869aec2170158429fcc80fcae166899",
+      "capacity": 4,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_3",
+      "path": "Textures/Gameplay/StarDock_4_3.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0d0ba7e181f60cb4873d5e8b68d0cbdaade8a824428caeff77200c4f9f954883",
+      "capacity": 4,
+      "filled": 3,
+      "collected": 3,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_4",
+      "path": "Textures/Gameplay/StarDock_4_4.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "540846200b4876cb9c4c05ec63b9e0ca0a07e2bffcc75ff79e50b95a87259586",
+      "capacity": 4,
+      "filled": 4,
+      "collected": 4,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Normal",
+      "path": "Textures/Gameplay/PauseOrnament_Normal.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "efed2257b14c1dddf85430b3efbee5dce2ecb6e7fe7b781f3da6ed882b0a1b28",
+      "role": "original-ring-pause-ornament",
+      "state": "Normal"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Highlighted",
+      "path": "Textures/Gameplay/PauseOrnament_Highlighted.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8ffb5eb6e4f713015104cc54d922430ab3a8834b274195cc00d278de55c227dd",
+      "role": "original-ring-pause-ornament",
+      "state": "Highlighted"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Pressed",
+      "path": "Textures/Gameplay/PauseOrnament_Pressed.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a0d293028cd993c4db399652c2d2d11916af5233d52435b3cb98ef2c20beee1a",
+      "role": "original-ring-pause-ornament",
+      "state": "Pressed"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Disabled",
+      "path": "Textures/Gameplay/PauseOrnament_Disabled.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "bfa384230452e98c1200cfbac1ae0a46e4804a4d44f11082a7e0121182267b8a",
+      "role": "original-ring-pause-ornament",
+      "state": "Disabled"
+    },
+    {
+      "id": "Gameplay/PauseGlyph",
+      "path": "Textures/Gameplay/PauseGlyph.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8f2b1f7d6443577fee86061849c605f84167f9c81463d45996e3875a37dded85",
+      "role": "original-cream-pause-glyph"
+    },
+    {
+      "id": "Gameplay/Digits/Digit_0",
+      "path": "Textures/Gameplay/Digits/Digit_0.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "4d63dadd41d137e702eecbc7a5129227b459723cf61b5338308a165e28a4c19e",
+      "role": "cost-digit",
+      "digit": 0,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_1",
+      "path": "Textures/Gameplay/Digits/Digit_1.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "07fe1c8e2b8a6c71933aa203959176b48039502c1c3ef141972de3bd7712c2cf",
+      "role": "cost-digit",
+      "digit": 1,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_2",
+      "path": "Textures/Gameplay/Digits/Digit_2.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "e15ebeffbc4e0f92469e992af5c150bf4faedf6da8b7fdb03c11a3bceb2d4677",
+      "role": "cost-digit",
+      "digit": 2,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_3",
+      "path": "Textures/Gameplay/Digits/Digit_3.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "698bc357721960d59443ebdc6596c68f801a5f12e9170752f8da698cb459f495",
+      "role": "cost-digit",
+      "digit": 3,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_4",
+      "path": "Textures/Gameplay/Digits/Digit_4.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a0c1dc9d42f51d006bc7e0b33e0be0a2e28fcaeda86532f31cf8ff20f985bf02",
+      "role": "cost-digit",
+      "digit": 4,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_5",
+      "path": "Textures/Gameplay/Digits/Digit_5.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0bcfbfbc31a59749e9b64dd393b0d4b94a3c59f2019df4840456de7b16af7549",
+      "role": "cost-digit",
+      "digit": 5,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_6",
+      "path": "Textures/Gameplay/Digits/Digit_6.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "9bea1917b4de4b51a8de09d3cd051fb3f295ecf9ba12bcf85013c26fc9ffbc5b",
+      "role": "cost-digit",
+      "digit": 6,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_7",
+      "path": "Textures/Gameplay/Digits/Digit_7.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a4857703c6756b0225728322d4f75221f2fe7fb159b61759ce4e0532111c74da",
+      "role": "cost-digit",
+      "digit": 7,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_8",
+      "path": "Textures/Gameplay/Digits/Digit_8.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "be9ce36b0fd7c782d35c6d0264e35ca5143f6fcf1340d346de9c12c66283204b",
+      "role": "cost-digit",
+      "digit": 8,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_9",
+      "path": "Textures/Gameplay/Digits/Digit_9.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "415593c047a1c601020a0fea9fd5a57155e23a41511b9168fac3ef19ab12a350",
+      "role": "cost-digit",
+      "digit": 9,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    }
+  ]
+}

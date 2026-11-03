@@ -89,6 +89,27 @@ namespace ANIMOL.Puzzle
             map.DecorationsChanged += DecorationsUpdated;
             Rebuild();
         }
+        public void UseNotebookCollectibleVisual(GameObject visualPrefab)
+        {
+            if (!visualPrefab || !visualPrefab.GetComponent<William.NotebookUI.NotebookGameplayWorldStar>()) return;
+            foreach (var cell in bubbleViews.Keys.ToArray())
+            {
+                var old = bubbleViews[cell];
+                var replacement = Instantiate(visualPrefab, old.transform.parent);
+                replacement.name = old.name;
+                replacement.transform.localPosition = old.transform.localPosition;
+                replacement.transform.localRotation = old.transform.localRotation;
+                var renderer = replacement.GetComponent<SpriteRenderer>();
+                if (renderer && renderer.sprite)
+                {
+                    var fitted = .65f / Mathf.Max(renderer.sprite.bounds.size.x, renderer.sprite.bounds.size.y);
+                    replacement.transform.localScale = Vector3.one * fitted;
+                    renderer.sortingOrder = 25;
+                }
+                bubbleViews[cell] = replacement;
+                Remove(old);
+            }
+        }
         void Unbind() { if (!map) return; map.TerrainChanged -= RefreshNeighborhood; map.Resized -= Rebuild; map.DecorationsChanged -= DecorationsUpdated; }
         void DecorationsUpdated()
         {

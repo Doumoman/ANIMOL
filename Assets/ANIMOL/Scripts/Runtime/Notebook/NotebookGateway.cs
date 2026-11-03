@@ -15,7 +15,7 @@ namespace William.NotebookUI
     [Serializable] public sealed class NotebookPreferences
     {
         public float bgm = .7f, sfx = .85f;
-        public bool sound = true, haptic = true, scroll = true;
+        public bool sound = true, haptic = true;
     }
 
     /// <summary>

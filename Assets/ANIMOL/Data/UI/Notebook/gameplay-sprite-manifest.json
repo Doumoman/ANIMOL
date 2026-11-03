@@ -1,0 +1,1336 @@
+{
+  "runtimeDrawing": false,
+  "paletteFixed": true,
+  "uiLabelsBaked": false,
+  "costDigitsAreSprites": true,
+  "costDesign": "original-interwoven-ring",
+  "costDigitStyle": "original-flat-cream-Galmuri14",
+  "headerStrip": false,
+  "collectionTargetRange": [
+    1,
+    4
+  ],
+  "starDockPattern": "StarDock_{required}_{filled}",
+  "digitPattern": "Digits/Digit_{0..9}",
+  "retryGaugeCapacity": 5,
+  "retryGaugePattern": "TelescopeRetry_{remaining}",
+  "retryAnchor": "bottom-right-safe-area",
+  "clearPresentation": "success-only",
+  "originalFacePatternPreserved": true,
+  "facePatternScope": "inside-popup-only",
+  "modalManifest": "modal-sprite-manifest.json",
+  "animation": {
+    "sequence": "CollectibleStar",
+    "fps": 4,
+    "frames": 4,
+    "loopSeconds": 1
+  },
+  "sprites": [
+    {
+      "id": "Gameplay/CollectibleStar_0",
+      "path": "Textures/Gameplay/CollectibleStar_0.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "f91bf7a53b5a5a394f2a986ffc50273a27b06eac247248447dddf07afd497411",
+      "sequence": "collectible-turn",
+      "frame": 0,
+      "fps": 4,
+      "loopSeconds": 1
+    },
+    {
+      "id": "Gameplay/CollectibleStar_1",
+      "path": "Textures/Gameplay/CollectibleStar_1.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8e5b2cafd94abc673bc2ab7e554b5ba36bd796123e86bf526faabaa900c8044b",
+      "sequence": "collectible-turn",
+      "frame": 1,
+      "fps": 4,
+      "loopSeconds": 1
+    },
+    {
+      "id": "Gameplay/CollectibleStar_2",
+      "path": "Textures/Gameplay/CollectibleStar_2.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "ebb03169a9ad34e1f0d1d713b01fd1261fb369f97f2684276b07a4d73e66c10e",
+      "sequence": "collectible-turn",
+      "frame": 2,
+      "fps": 4,
+      "loopSeconds": 1
+    },
+    {
+      "id": "Gameplay/CollectibleStar_3",
+      "path": "Textures/Gameplay/CollectibleStar_3.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "ba20e32dd7928e1ce6743893ae7fdeaf51261591136f1e7deb6c2e03c992579b",
+      "sequence": "collectible-turn",
+      "frame": 3,
+      "fps": 4,
+      "loopSeconds": 1
+    },
+    {
+      "id": "Gameplay/Trail_0",
+      "path": "Textures/Gameplay/Trail_0.png",
+      "width": 320,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "c738e98c22a70c335e70b446daa4b299af6345dac97a8225781aeb0cf829e434",
+      "sequence": "pickup-trail",
+      "frame": 0,
+      "headPivot": [
+        0.84375,
+        0.5
+      ]
+    },
+    {
+      "id": "Gameplay/Trail_1",
+      "path": "Textures/Gameplay/Trail_1.png",
+      "width": 320,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "5e679bffa045ceabd83404a89f59d1416fd35b8e8caa8823c72bf6ab77be6263",
+      "sequence": "pickup-trail",
+      "frame": 1,
+      "headPivot": [
+        0.84375,
+        0.5
+      ]
+    },
+    {
+      "id": "Gameplay/Trail_2",
+      "path": "Textures/Gameplay/Trail_2.png",
+      "width": 320,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "6b4eb9eee8f26d0792882cf5a49526081639420ee7414372dcd298f288e1080f",
+      "sequence": "pickup-trail",
+      "frame": 2,
+      "headPivot": [
+        0.84375,
+        0.5
+      ]
+    },
+    {
+      "id": "Gameplay/PauseIcon",
+      "path": "Textures/Gameplay/PauseIcon.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "c04311bb83d334b2ebbfcae757cdd6f154eb1f431db9138aed039413c5bec6f5"
+    },
+    {
+      "id": "Gameplay/ResumeIcon",
+      "path": "Textures/Gameplay/ResumeIcon.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3438f2aade849cea30b3dcc98c198ddc7010da48a7d27420e7497fceb3c87c5c"
+    },
+    {
+      "id": "Gameplay/RetryIcon",
+      "path": "Textures/Gameplay/RetryIcon.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "d199b52e0a3f30db9e798052402ca036a4fd583ab20e3333c1678c9869784ca0"
+    },
+    {
+      "id": "Gameplay/MapIcon",
+      "path": "Textures/Gameplay/MapIcon.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "49249f44eb94aba8c715d236fca4c37973ffebbfbf735e5d682bc5ed444deb28"
+    },
+    {
+      "id": "Gameplay/NextIcon",
+      "path": "Textures/Gameplay/NextIcon.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "d16f6406f33c3a4bb79343e7c7de19571b50b1169f4f3230af930f55582d23f7"
+    },
+    {
+      "id": "Gameplay/CostMedallion",
+      "path": "Textures/Gameplay/CostMedallion.png",
+      "width": 1254,
+      "height": 1254,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "dd9f2397f1712067a2ac5d5427bab82caf7d1be5bfc9991b2ff633b8974dc4fd",
+      "role": "original-ring-cost-medallion",
+      "generatedSourcePreserved": true,
+      "rollbackSource": "SourceArt/Historical/CostMedallion_Ring.png"
+    },
+    {
+      "id": "Gameplay/StarDock_1_0",
+      "path": "Textures/Gameplay/StarDock_1_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "552a000a7b71e79bdfc262ccd6eb74e77bec7501a80646f8ef33bbf8ad19eed3",
+      "capacity": 1,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          216,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_1_1",
+      "path": "Textures/Gameplay/StarDock_1_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a04f671c05ced87b9864cc4e8e13ffb4148e3bc28b9b400b9a11a1f94ce0f955",
+      "capacity": 1,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          216,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_0",
+      "path": "Textures/Gameplay/StarDock_2_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "da536d2d135a200692b0515380f8224394f6d9b219f1f9572d6ffeac8fc71dfb",
+      "capacity": 2,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_1",
+      "path": "Textures/Gameplay/StarDock_2_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "03aba3d0e7456b2b62a285ae4ab23a7c192aaadf740a68a27cb73f781e7028e6",
+      "capacity": 2,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_2_2",
+      "path": "Textures/Gameplay/StarDock_2_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3f0a53ac4447fb6c1d34108e605da63a4da88e14ffc81199dbb39c7be12a6696",
+      "capacity": 2,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_0",
+      "path": "Textures/Gameplay/StarDock_3_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0e512040a92674fad8c81423e4a3bf6deb15840f52ab3f7240eaff4b65ab44a5",
+      "capacity": 3,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_1",
+      "path": "Textures/Gameplay/StarDock_3_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "b06f8d779bc74f6f1447246a33767f00643180554abe48dde0d595b9793ff3c5",
+      "capacity": 3,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_2",
+      "path": "Textures/Gameplay/StarDock_3_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "de71b78f141961abfa8051e2d2a6f5df43f89a70f58beb2a32932b214612313a",
+      "capacity": 3,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_3_3",
+      "path": "Textures/Gameplay/StarDock_3_3.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "811abb03074b102d3b4cfdbc82c23b31026befe76df5a52502ded812904b6d1c",
+      "capacity": 3,
+      "filled": 3,
+      "collected": 3,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          108,
+          72
+        ],
+        [
+          216,
+          72
+        ],
+        [
+          324,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_0",
+      "path": "Textures/Gameplay/StarDock_4_0.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a69e7f8f5b9864ca43a5583060d6f52ef8e499017087522a8cfe32a75acb33d1",
+      "capacity": 4,
+      "filled": 0,
+      "collected": 0,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_1",
+      "path": "Textures/Gameplay/StarDock_4_1.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "19eb8694855aac6d4dba5da530176930956ed5ca37d31685756f7891283ebc97",
+      "capacity": 4,
+      "filled": 1,
+      "collected": 1,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_2",
+      "path": "Textures/Gameplay/StarDock_4_2.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "ded80b231533fae22129d209a42a357c9869aec2170158429fcc80fcae166899",
+      "capacity": 4,
+      "filled": 2,
+      "collected": 2,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_3",
+      "path": "Textures/Gameplay/StarDock_4_3.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0d0ba7e181f60cb4873d5e8b68d0cbdaade8a824428caeff77200c4f9f954883",
+      "capacity": 4,
+      "filled": 3,
+      "collected": 3,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/StarDock_4_4",
+      "path": "Textures/Gameplay/StarDock_4_4.png",
+      "width": 432,
+      "height": 144,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "540846200b4876cb9c4c05ec63b9e0ca0a07e2bffcc75ff79e50b95a87259586",
+      "capacity": 4,
+      "filled": 4,
+      "collected": 4,
+      "role": "original-ring-star-dock",
+      "isRating": false,
+      "centres": [
+        [
+          54,
+          72
+        ],
+        [
+          162,
+          72
+        ],
+        [
+          270,
+          72
+        ],
+        [
+          378,
+          72
+        ]
+      ],
+      "cellSize": [
+        108,
+        108
+      ],
+      "starRadius": 26,
+      "emptyMode": "original-outline-star"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Normal",
+      "path": "Textures/Gameplay/PauseOrnament_Normal.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "efed2257b14c1dddf85430b3efbee5dce2ecb6e7fe7b781f3da6ed882b0a1b28",
+      "role": "original-ring-pause-ornament",
+      "state": "Normal"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Highlighted",
+      "path": "Textures/Gameplay/PauseOrnament_Highlighted.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8ffb5eb6e4f713015104cc54d922430ab3a8834b274195cc00d278de55c227dd",
+      "role": "original-ring-pause-ornament",
+      "state": "Highlighted"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Pressed",
+      "path": "Textures/Gameplay/PauseOrnament_Pressed.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a0d293028cd993c4db399652c2d2d11916af5233d52435b3cb98ef2c20beee1a",
+      "role": "original-ring-pause-ornament",
+      "state": "Pressed"
+    },
+    {
+      "id": "Gameplay/PauseOrnament_Disabled",
+      "path": "Textures/Gameplay/PauseOrnament_Disabled.png",
+      "width": 160,
+      "height": 160,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "bfa384230452e98c1200cfbac1ae0a46e4804a4d44f11082a7e0121182267b8a",
+      "role": "original-ring-pause-ornament",
+      "state": "Disabled"
+    },
+    {
+      "id": "Gameplay/PauseGlyph",
+      "path": "Textures/Gameplay/PauseGlyph.png",
+      "width": 96,
+      "height": 96,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8f2b1f7d6443577fee86061849c605f84167f9c81463d45996e3875a37dded85",
+      "role": "original-cream-pause-glyph"
+    },
+    {
+      "id": "Gameplay/Digits/Digit_0",
+      "path": "Textures/Gameplay/Digits/Digit_0.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "4d63dadd41d137e702eecbc7a5129227b459723cf61b5338308a165e28a4c19e",
+      "role": "cost-digit",
+      "digit": 0,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_1",
+      "path": "Textures/Gameplay/Digits/Digit_1.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "07fe1c8e2b8a6c71933aa203959176b48039502c1c3ef141972de3bd7712c2cf",
+      "role": "cost-digit",
+      "digit": 1,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_2",
+      "path": "Textures/Gameplay/Digits/Digit_2.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "e15ebeffbc4e0f92469e992af5c150bf4faedf6da8b7fdb03c11a3bceb2d4677",
+      "role": "cost-digit",
+      "digit": 2,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_3",
+      "path": "Textures/Gameplay/Digits/Digit_3.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "698bc357721960d59443ebdc6596c68f801a5f12e9170752f8da698cb459f495",
+      "role": "cost-digit",
+      "digit": 3,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_4",
+      "path": "Textures/Gameplay/Digits/Digit_4.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a0c1dc9d42f51d006bc7e0b33e0be0a2e28fcaeda86532f31cf8ff20f985bf02",
+      "role": "cost-digit",
+      "digit": 4,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_5",
+      "path": "Textures/Gameplay/Digits/Digit_5.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "0bcfbfbc31a59749e9b64dd393b0d4b94a3c59f2019df4840456de7b16af7549",
+      "role": "cost-digit",
+      "digit": 5,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_6",
+      "path": "Textures/Gameplay/Digits/Digit_6.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "9bea1917b4de4b51a8de09d3cd051fb3f295ecf9ba12bcf85013c26fc9ffbc5b",
+      "role": "cost-digit",
+      "digit": 6,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_7",
+      "path": "Textures/Gameplay/Digits/Digit_7.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "a4857703c6756b0225728322d4f75221f2fe7fb159b61759ce4e0532111c74da",
+      "role": "cost-digit",
+      "digit": 7,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_8",
+      "path": "Textures/Gameplay/Digits/Digit_8.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "be9ce36b0fd7c782d35c6d0264e35ca5143f6fcf1340d346de9c12c66283204b",
+      "role": "cost-digit",
+      "digit": 8,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/Digits/Digit_9",
+      "path": "Textures/Gameplay/Digits/Digit_9.png",
+      "width": 220,
+      "height": 280,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "415593c047a1c601020a0fea9fd5a57155e23a41511b9168fac3ef19ab12a350",
+      "role": "cost-digit",
+      "digit": 9,
+      "baseline": 255,
+      "numberTextBakedAsPaths": true,
+      "depthPlanes": 1,
+      "appearance": "original-flat-cream-Galmuri14",
+      "fontSource": "Assets/WilliamNotebookUI/Fonts/Galmuri14.ttf",
+      "fontSha256": "d3818c0f2898a3b2d79ccd04ec1e4de5e8940aa26abee261f73e315a44ce8df9",
+      "outline": false
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_0",
+      "path": "Textures/Gameplay/TelescopeRetry_0.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "95071c6aff733d2b59cc0e670259ce37764314d860f48ded0960d707ccf40253",
+      "role": "retry-telescope-gauge",
+      "remaining": 0,
+      "capacity": 5,
+      "coloredBands": 0,
+      "monochromeBands": 5,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_0",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_0.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3cd1e5a35ab20d3e0afa404a7b956c3adc5cbab8f926c975f48baf661770bb44",
+      "role": "retry-telescope-gauge",
+      "remaining": 0,
+      "capacity": 5,
+      "coloredBands": 0,
+      "monochromeBands": 5,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_1",
+      "path": "Textures/Gameplay/TelescopeRetry_1.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "eac40f8df368e72318c676d20d14dde8b19e87adc458b951a3adbdf8673eb3c4",
+      "role": "retry-telescope-gauge",
+      "remaining": 1,
+      "capacity": 5,
+      "coloredBands": 1,
+      "monochromeBands": 4,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_1",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_1.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "8b540e9e817582bd3f572c857ef7384f63ab7745d785d3d032ceaa5cf0eb0870",
+      "role": "retry-telescope-gauge",
+      "remaining": 1,
+      "capacity": 5,
+      "coloredBands": 1,
+      "monochromeBands": 4,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_2",
+      "path": "Textures/Gameplay/TelescopeRetry_2.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "6d5480f7b231f74634bbf4347bbf0e98e5dc84ba2545de211db92c9dcf048166",
+      "role": "retry-telescope-gauge",
+      "remaining": 2,
+      "capacity": 5,
+      "coloredBands": 2,
+      "monochromeBands": 3,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_2",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_2.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "9cba70e850b1ea85c468d88220078bd03472bc5ee93325414f2bd51c2102074e",
+      "role": "retry-telescope-gauge",
+      "remaining": 2,
+      "capacity": 5,
+      "coloredBands": 2,
+      "monochromeBands": 3,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_3",
+      "path": "Textures/Gameplay/TelescopeRetry_3.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "b14bc220e18cdd2156f659aa7c496460381f32f3408f6bc0f06aa299d233f481",
+      "role": "retry-telescope-gauge",
+      "remaining": 3,
+      "capacity": 5,
+      "coloredBands": 3,
+      "monochromeBands": 2,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_3",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_3.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "3c44d5dd0e5ff8261a6d2de38269d600757d6927d6c2e8114ed5d3ae032f6fc0",
+      "role": "retry-telescope-gauge",
+      "remaining": 3,
+      "capacity": 5,
+      "coloredBands": 3,
+      "monochromeBands": 2,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_4",
+      "path": "Textures/Gameplay/TelescopeRetry_4.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "ad2d7d858b9774e0cbce3541596af98cd210e6817b1e6daaa9d1ea4e0eeb8124",
+      "role": "retry-telescope-gauge",
+      "remaining": 4,
+      "capacity": 5,
+      "coloredBands": 4,
+      "monochromeBands": 1,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_4",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_4.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "417ffb36e293dbd9cf5cde03bea6f613c75db671d2a32f3c8cd3c7297a906b63",
+      "role": "retry-telescope-gauge",
+      "remaining": 4,
+      "capacity": 5,
+      "coloredBands": 4,
+      "monochromeBands": 1,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetry_5",
+      "path": "Textures/Gameplay/TelescopeRetry_5.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "29b437677456930b4da61f1474ed825b8bd370218fe6011cdd59f35b8d2dee16",
+      "role": "retry-telescope-gauge",
+      "remaining": 5,
+      "capacity": 5,
+      "coloredBands": 5,
+      "monochromeBands": 0,
+      "state": "Normal",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        15,
+        5,
+        247,
+        258
+      ]
+    },
+    {
+      "id": "Gameplay/TelescopeRetryPressed_5",
+      "path": "Textures/Gameplay/TelescopeRetryPressed_5.png",
+      "width": 264,
+      "height": 264,
+      "border": 0,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sha256": "baf0af8efbcbb5f32583ab781db7422e5521d08c383a4e3de69656556fd88dac",
+      "role": "retry-telescope-gauge",
+      "remaining": 5,
+      "capacity": 5,
+      "coloredBands": 5,
+      "monochromeBands": 0,
+      "state": "Pressed",
+      "gaugeOrder": "left-to-right",
+      "resetCue": "integrated-counterclockwise-orbit-arrow",
+      "sourceIllustrationHash": "23a7f629e46d28d0df0049dd943ab19cf6b3cf845275853b52b0cde2b9600b4d",
+      "visibleBounds": [
+        22,
+        12,
+        240,
+        250
+      ]
+    }
+  ]
+}

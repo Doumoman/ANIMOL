@@ -21,8 +21,10 @@ namespace ANIMOL.Puzzle
         public StarwayCharacterVisual CharacterVisual { get; private set; }
         public PuzzleFollowCamera FollowCamera { get; private set; }
         public PuzzleDeviceView Devices { get; private set; }
+        public PuzzleMapView View => view;
         public bool IsMoving { get; private set; }
         public bool BlocksInput => false;
+        public bool UiPaused { get; private set; }
         public string Status { get; private set; }
         int rejectedVisualSerial;
         int presentationGeneration, committedActionSerial;
@@ -37,7 +39,7 @@ namespace ANIMOL.Puzzle
             if (CharacterVisual) CharacterVisual.ResetPushPresentation();
             if (Devices) Devices.InvalidateDiceHints();
             presentationGeneration++;
-            StopAllCoroutines(); IsMoving = pressingGoal = false; queuedInput = Vector2Int.zero;
+            StopAllCoroutines(); IsMoving = pressingGoal = UiPaused = false; queuedInput = Vector2Int.zero;
             if (presentation) { presentation.gameObject.SetActive(false); Destroy(presentation.gameObject); }
             if (RuntimeMap) Destroy(RuntimeMap);
             RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data; Session = new PuzzleDeviceSession(RuntimeMap);
@@ -81,7 +83,7 @@ namespace ANIMOL.Puzzle
         }
         public bool RequestMove(Vector2Int direction)
         {
-            if (Session == null || Session.Won || Session.Failed || Strict != null && Strict.Failed ||
+            if (UiPaused || Session == null || Session.Won || Session.Failed || Strict != null && Strict.Failed ||
                 !PuzzleSession.IsCardinal(direction)) return false;
             if (IsMoving) { if (pressingGoal) return false; queuedInput = direction; return true; }
             Devices.InvalidateDiceHints();
@@ -105,6 +107,11 @@ namespace ANIMOL.Puzzle
             pressingGoal = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
             StartCoroutine(Animate(result, eventPrefix, presentationGeneration, direction)); return true;
+        }
+        public void SetUiPaused(bool paused)
+        {
+            UiPaused = paused;
+            if (paused) queuedInput = Vector2Int.zero;
         }
         public bool UndoLast()
         {

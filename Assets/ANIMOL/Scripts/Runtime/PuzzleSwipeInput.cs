@@ -8,6 +8,7 @@ namespace ANIMOL.Puzzle
     {
         [Range(.02f, .2f)] public float minimumScreenWidthFraction = .06f;
         PuzzleController controller;
+        public William.NotebookUI.NotebookGameplayHud gameplayHud;
         System.Func<Vector2Int, bool> receiver;
         public void SetReceiver(System.Func<Vector2Int, bool> move) { receiver = move; CancelGesture(); }
         Vector2 start;
@@ -21,6 +22,7 @@ namespace ANIMOL.Puzzle
         }
         public bool OverUI(Vector2 point)
         {
+            if (gameplayHud && gameplayHud.IsScreenPointOverHud(point)) return true;
             if (!EventSystem.current) return false;
             hits.Clear(); EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current) { position = point }, hits); return hits.Count > 0;
         }
