@@ -474,7 +474,9 @@ namespace ANIMOL.Puzzle
                     if (body != null)
                     {
                         if (!Push(body, Direction)) return false;
-                        if (body.role == PrototypeRole.Domino || body.role == PrototypeRole.WoodCrate ||
+                        // Echo Theater pushes move the device one cell while the player braces in place.
+                        if (Rules.echoTheaterV3Rules || body.role == PrototypeRole.Domino ||
+                            body.role == PrototypeRole.WoodCrate ||
                             body.role == PrototypeRole.MetalCrate ||
                             body.role == PrototypeRole.StarSocket && body.variant != "socket")
                         {

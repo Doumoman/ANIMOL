@@ -276,7 +276,7 @@ namespace ANIMOL.Tests
             finally { Object.Destroy(host); }
         }
 
-        [UnityTest] public IEnumerator SelectedEchoTheaterGlassMovesWithPlayerPushAndUndo()
+        [UnityTest] public IEnumerator SelectedEchoTheaterGlassMovesWhilePlayerStaysAndUndoRestores()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/Prototypes/Device21_Glass.asset");
@@ -301,15 +301,21 @@ namespace ANIMOL.Tests
                 Assert.That(glass, Is.Not.Null);
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
                 while (controller.IsMoving) yield return null;
+                var pushCell = controller.Session.Cell;
                 Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
-                while (controller.IsMoving) yield return null;
+                while (controller.IsMoving)
+                {
+                    Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)pushCell));
+                    yield return null;
+                }
                 Assert.That(controller.Session.States["glass"].cell, Is.EqualTo(new Vector2Int(4, 2)));
                 Assert.That(glass.localPosition, Is.EqualTo(new Vector3(4, 2, 0)));
-                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(controller.Session.Cell, Is.EqualTo(pushCell));
                 Assert.That(controller.Session.Cost, Is.EqualTo(2));
                 Assert.That(controller.UndoLast(), Is.True);
                 Assert.That(controller.Session.States["glass"].cell, Is.EqualTo(new Vector2Int(3, 2)));
                 Assert.That(glass.localPosition, Is.EqualTo(new Vector3(3, 2, 0)));
+                Assert.That(controller.Session.Cell, Is.EqualTo(pushCell));
                 Assert.That(controller.Session.Cost, Is.EqualTo(1));
                 Assert.That(controller.Devices.MissingBindings, Is.Zero);
             }
@@ -321,7 +327,7 @@ namespace ANIMOL.Tests
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-01_MapData.asset");
             var map = Object.Instantiate(source);
-            map.start = new Vector2Int(11, 7);
+            map.start = new Vector2Int(11, 8);
             map.InvalidateIndex();
             var host = new GameObject("ET-01 map editor preview dice test");
             var preview = host.AddComponent<PuzzleController>();
@@ -337,8 +343,13 @@ namespace ANIMOL.Tests
                 var renderer = die.GetComponent<ANIMOL.Presentation.DeviceVisualView>().visual;
                 var before = renderer.sprite;
                 Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
-                while (controller.IsMoving) yield return null;
+                while (controller.IsMoving)
+                {
+                    Assert.That((Vector2)controller.Player.position, Is.EqualTo(new Vector2(11, 8)));
+                    yield return null;
+                }
                 yield return new WaitForSecondsRealtime(.3f);
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(11, 8)));
                 Assert.That(controller.Session.States["dice_1"].dice[0], Is.EqualTo(2));
                 Assert.That(renderer.sprite, Is.Not.SameAs(before));
                 Assert.That(AssetDatabase.GetAssetPath(renderer.sprite),

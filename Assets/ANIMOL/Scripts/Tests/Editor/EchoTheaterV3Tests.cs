@@ -80,6 +80,42 @@ namespace ANIMOL.Puzzle.Tests
             Assert.That(seen.Count, Is.EqualTo(24));
         }
 
+        [TestCase(PrototypeRole.Dice)]
+        [TestCase(PrototypeRole.Glass)]
+        public void DirectTheaterPushMovesOnlyTheObjectAndCanBeUndone(PrototypeRole role)
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.Resize(6, 5); map.scenario = rules;
+                map.start = new Vector2Int(1, 2); map.exit = new Vector2Int(5, 2);
+                map.targetBubbles = 0;
+                for (var x = 1; x <= 5; x++)
+                    map.SetTerrain(new Vector2Int(x, 2), TerrainMaterial.Grass);
+                rules.themeId = "memory_theater"; rules.echoTheaterV3Rules = true;
+                rules.devices.Add(new PrototypeDevice { id = "pushed", role = role,
+                    position = new Vector2Int(2, 2) });
+                var session = new PuzzleDeviceSession(map);
+                var action = session.Apply(Vector2Int.right);
+                Assert.That(action.accepted, Is.True);
+                Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+                Assert.That(session.States["pushed"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(session.Cost, Is.EqualTo(1));
+                Assert.That(action.events.Any(e => e.actor == "player" && e.kind == PrototypeEventKind.Move), Is.False);
+                Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+                Assert.That(session.Cell, Is.EqualTo(new Vector2Int(2, 2)));
+                Assert.That(session.States["pushed"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(session.Undo(), Is.True);
+                Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+                Assert.That(session.States["pushed"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(session.Undo(), Is.True);
+                Assert.That(session.Cell, Is.EqualTo(new Vector2Int(1, 2)));
+                Assert.That(session.States["pushed"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            }
+            finally { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
+        }
+
         [Test] public void WrongFaceAndEntryRejectWholeInputAndSocketUndoReset()
         {
             var source = Map("ET-05");
