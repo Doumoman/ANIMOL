@@ -1,0 +1,48 @@
+현재 Unity 프로젝트의 AGENTS.md와 잔영 극장 교대 셔터의 실제 시각 바인딩을 읽고,
+한 타일 셔터 수정 패키지를 적용하라.
+
+목표: 셔터의 완전한 외곽(가면/장식/기둥/커튼/그림자)을 실제1타일 안에 표시한다.
+기존 가로2×1·세로1×2 아트 규격을 다시 늘려서 쓰지 않는다. 기존 게임 판정과 교대 규칙은 유지한다.
+
+1. ANIMOL_ECHO_THEATER_SHUTTER_1TILE_V01 폴더를 Assets 안에 설치한다.
+   V03 전체 폴더나 manifest.json/카탈로그 fingerprint를 이 작은 패키지로 덮어쓰지 않는다.
+   주사위,카트,다른 장치와 장식에 적용된 개별 수정본도 보존한다.
+2. Tools > ANIMOL > One tile shutter > Build art set에서 새 shutter_one_tile_manifest.json을 고른다.
+   _Generated/ShutterOneTileArt.asset을 실제 생성한다.
+   수동 연결을 택한다면 Sprites/horizontal과vertical의frame_00~03을 같은 순서로 사용한다.
+3. 모든 프레임은256×256,PPU256,Pivot(0.5,0.5),Single/FullRect/Bilinear/무압축/Mipmap Off/Clamp다.
+   정지 별칭closed.png/open.png를 직접 사용할 때도 같은 임포트 설정을 적용한다.
+   플랫폼별 다운스케일/압축 오버라이드가 있다면 이8프레임에 대해서만 해제한다.
+4. 실제 셔터 엔티티의 Collider/점유 루트를 축소하지 말고 별도 시각 자식 SpriteRenderer를 사용한다.
+   기존 셔터 Sprite writer/Animator/V03AnimatedVisual 중 이 Renderer를 덮어쓰는 경로만 비활성화한다.
+   sortingLayer/order/material/카메라 layer는 실제 셔터 기준을 유지하고 중복Renderer를 남기지 않는다.
+5. 실제 셀 중앙 앵커와 월드1칸 크기로 다음처럼 연결한다.
+
+using ANIMOL.Presentation.ShutterOneTileV01;
+shutterView.Configure(oneTileArt, shutterVisualChild, actualCellAnchor, actualCellWorldSize, out error);
+shutterView.ShowState(actualHeadingIsVertical, actualShutterIsOpen);
+
+   ShowState는 정지/로드/Undo/Reset/풀 재사용 시 실제 모델 상태로 호출한다.
+   Configure는 상태를 임의 결정하지 않으므로 직후 ShowState를 반드시 호출한다.
+6. 이미 확정된 열림/닫힘 연출은 호스트의 정규화 진행률로 표시한다.
+   열림: ShowOpenProgress(isVertical, progress0To1).
+   닫힘: ShowOpenProgress(isVertical, 1-progress0To1).
+   기본 원화는4프레임10fps(.4초),기존 행동 연출 시간이 있으면 그 시간을 우선한다.
+   재생 종료는 실제 모델의 최종 상태를 ShowState로 다시 표시한다.
+   View는 입력/턴/콜라이더/교대 위상/닫힘 보류/압착/점유 변경을 처리하지 않는다.
+7. H/V는 실제 기존 방향 enum에서 정확히 매핑한다. 새 패키지의H/V 키를 이동벡터로 추측하지 않는다.
+   세로형은 별도 원화이므로 가로형을90도 회전하거나2배 늘리지 않는다.
+   모든 프레임의 캔버스는1×1이다. 이전 logicalRect[32,48,512,256] 또는[48,32,256,512]를 재사용하지 않는다.
+8. 새 View의 크기 배치는 절대값 계산이며 매번1타일에 맞춘다. 현재 scale에 계속 곱하지 않는다.
+   외부에서 시각 자식에 이전2칸용 스케일/tween을 다시 적용하지 않게 한다.
+   부모가0스케일이거나 기울어진 비균일 스케일이면 실제 타일 정렬 기준으로 시각 부모부터 정리한다.
+9. 실제 GameView에서 가로/세로 각각 닫힘/열림/중간 상태가1타일 경계를 넘지 않는지 확인한다.
+   금색 틀의 크기/중심 튐,막힌/열린 상태와 통행 판정 불일치,동시Sprite writer,풀 재사용 누적 스케일을 점검한다.
+   점유된 셔터의 닫힘 보류와 교대 위상은 프로젝트의 이미 확정된 규칙을 보존한다.
+10. 실제 변경 파일,시각 바인딩,임포트 설정,C#컴파일과 PlayMode 결과를 보고한다.
+    오프라인 GIF/PNG를 실제 Unity 플레이 검증으로 보고하지 않는다.
+
+선택적 asset 생성 CLI:
+"<Unity Editor>" -batchmode -quit -projectPath "<project>" -executeMethod ANIMOL.Presentation.ShutterOneTileV01.Editor.ShutterOneTileBuilderV01.BuildFromCommandLine -oneTileShutterRoot "Assets/<path>/ANIMOL_ECHO_THEATER_SHUTTER_1TILE_V01" -logFile "<one-tile-shutter-build.log>"
+
+이 전달 환경의 실제 Unity/C#컴파일/임포트/호스트 연결/PlayMode 결과는 NOT_RUN이다.

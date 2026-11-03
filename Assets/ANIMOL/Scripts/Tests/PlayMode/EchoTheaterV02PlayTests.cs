@@ -47,10 +47,20 @@ namespace ANIMOL.Presentation.Tests
             Assert.AreEqual(120, skyImages.Count(r => r.name.Contains("_dot_") || r.name.Contains("_star_")));
             Assert.IsEmpty(background.GetComponentsInChildren<Collider2D>());
             Assert.Greater(Camera.main.farClipPlane, 120);
-            var expectedRoles = new[] { PrototypeRole.Shutter, PrototypeRole.MovingStage,
+            var shutter = game.Session.Devices.First(d => d.role == PrototypeRole.Shutter);
+            var shutterActor = game.Devices.Actor(shutter.id);
+            var shutterLegacy = shutterActor.GetComponent<DeviceVisualView>();
+            Assert.That(shutterLegacy.enabled, Is.False);
+            Assert.That(shutterActor.GetComponent<ShutterOneTileV01.ShutterOneTileViewV01>(), Is.Not.Null);
+            var shutterFrames = shutter.direction.x == 0
+                ? game.RuntimeMap.theme.oneTileShutterArt.vertical
+                : game.RuntimeMap.theme.oneTileShutterArt.horizontal;
+            Assert.That(shutterLegacy.visual.sprite,
+                Is.SameAs(shutterFrames[game.Session.States[shutter.id].active ? 3 : 0]));
+            var expectedRoles = new[] {
                 PrototypeRole.Conveyor, PrototypeRole.Bookshelf, PrototypeRole.OneWayGate,
-                PrototypeRole.Domino, PrototypeRole.Statue, PrototypeRole.Bounce,
-                PrototypeRole.Brake, PrototypeRole.Dice, PrototypeRole.CowardDoll };
+                PrototypeRole.Domino, PrototypeRole.Statue, PrototypeRole.Brake,
+                PrototypeRole.CowardDoll };
             foreach (var role in expectedRoles)
             {
                 var device = game.Session.Devices.FirstOrDefault(d => d.role == role &&

@@ -210,6 +210,8 @@ namespace ANIMOL.Puzzle
                     }
                     var ranchSeconds = view.PlayRanchCue(e);
                     Devices.Notify(e, Session.Cost + ":" + e.group);
+                    if (Devices.HasOneTileShutterCue(e))
+                        yield return Devices.PlayOneTileShutterCue(e, secondsPerCell);
                     if (ranchSeconds > 0) yield return new WaitForSeconds(ranchSeconds);
                     if (e.eventName == "this_domino_piece_fold_committed" && --dominoPanelsRemaining > 0)
                         yield return new WaitForSeconds(Mathf.Min(.1f, secondsPerCell * .5f));

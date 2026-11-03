@@ -9,6 +9,7 @@ using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Art.SunsetSanctumV02;
 using ANIMOL.Art.StarSwellCoastV01;
 using ANIMOL.Presentation.DiceHintV01;
+using ANIMOL.Presentation.ShutterOneTileV01;
 using ANIMOL.Presentation;
 using UnityEngine;
 namespace ANIMOL.Puzzle
@@ -41,6 +42,8 @@ namespace ANIMOL.Puzzle
         readonly Dictionary<string, FerryVisualView> ferries = new Dictionary<string, FerryVisualView>();
         readonly Dictionary<string, EchoRailCartVisualV01> railCarts =
             new Dictionary<string, EchoRailCartVisualV01>(StringComparer.Ordinal);
+        readonly Dictionary<string, ShutterOneTileViewV01> oneTileShutters =
+            new Dictionary<string, ShutterOneTileViewV01>(StringComparer.Ordinal);
         readonly Dictionary<string, string> pendingIdle = new Dictionary<string, string>();
         readonly HashSet<string> pendingRemoval = new HashSet<string>();
         readonly Dictionary<string, AnimolWindRouteRenderer> windRoutes =
@@ -128,6 +131,11 @@ namespace ANIMOL.Puzzle
                 }
                 if (!d.visualPrefab) { MissingBindings++; continue; }
                 var root = Instantiate(d.visualPrefab, transform); root.name = d.id; root.transform.localPosition = (Vector2)session.States[d.id].cell; roots[d.id] = root.transform;
+                if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Shutter)
+                {
+                    if (!BindOneTileShutter(d, root)) root.SetActive(false);
+                    continue;
+                }
                 if (session.Rules.themeId == "memory_theater" && d.role == PrototypeRole.Dice &&
                     d.variant != "target" && d.variant != "socket")
                 {
@@ -298,6 +306,41 @@ namespace ANIMOL.Puzzle
             { beams = Instantiate(session.Rules.beamPrefab, transform).GetComponent<BeamPathView>(); beams.sortingOrder = 24; }
             Settle();
         }
+        bool BindOneTileShutter(PrototypeDevice d, GameObject root)
+        {
+            var art = session.Map.theme ? session.Map.theme.oneTileShutterArt : null;
+            var legacy = root.GetComponent<DeviceVisualView>();
+            var renderer = legacy ? legacy.visual : null;
+            if (!art || !renderer || renderer.transform == root.transform ||
+                !PuzzleSession.IsCardinal(d.direction))
+            {
+                MissingBindings++;
+                Debug.LogError("One tile shutter art, child renderer or heading is missing: " + d.id, root);
+                return false;
+            }
+            legacy.enabled = false;
+            var v03 = root.GetComponent<EchoTheaterV03AnimatedVisual>();
+            if (v03) v03.enabled = false;
+            var animator = root.GetComponent<Animator>();
+            if (animator) animator.enabled = false;
+            animator = renderer.GetComponent<Animator>();
+            if (animator) animator.enabled = false;
+            renderer.sortingOrder = 30;
+            var shutter = root.GetComponent<ShutterOneTileViewV01>();
+            if (!shutter) shutter = root.AddComponent<ShutterOneTileViewV01>();
+            string error;
+            if (!shutter.Configure(art, renderer, root.transform, 1f, out error) ||
+                !shutter.ShowState(ShutterIsVertical(d), session.States[d.id].active))
+            {
+                MissingBindings++;
+                Debug.LogError("One tile shutter binding failed: " + d.id + ": " + error, root);
+                return false;
+            }
+            oneTileShutters.Add(d.id, shutter);
+            return true;
+        }
+        static bool ShutterIsVertical(PrototypeDevice d) =>
+            d.direction == Vector2Int.up || d.direction == Vector2Int.down;
         bool CreateRailTrack(string name, IReadOnlyList<Vector2Int> cells, EchoRailCartArtCatalogV01 catalog)
         {
             if (!catalog || cells == null || cells.Count < 2)
@@ -514,6 +557,7 @@ namespace ANIMOL.Puzzle
         public void Notify(PrototypeEvent e, string actionId)
         {
             if (e.eventName == "dice_goal_absorbed") { BeginGoalPress(e); return; }
+            if (oneTileShutters.ContainsKey(e.actor ?? "")) return;
             if (railCarts.TryGetValue(e.actor ?? "", out var cart))
             {
                 if (e.eventName == "valid_action_stage_move_committed" &&
@@ -573,6 +617,32 @@ namespace ANIMOL.Puzzle
             { if (!view.Notify(actionId, e.eventName, e.state)) MissingBindings++; }
             else if (!view.Notify(actionId, e.eventName, e.state) && !view.Present(e.state, true)) MissingBindings++;
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
+        }
+        public bool HasOneTileShutterCue(PrototypeEvent e) =>
+            e != null && e.kind == PrototypeEventKind.Visual &&
+            oneTileShutters.ContainsKey(e.actor ?? "");
+        public IEnumerator PlayOneTileShutterCue(PrototypeEvent e, float actionSeconds)
+        {
+            if (!HasOneTileShutterCue(e)) yield break;
+            var shutter = oneTileShutters[e.actor];
+            var definition = session.Definition(e.actor);
+            var isVertical = ShutterIsVertical(definition);
+            bool opening = e.eventName == "shutter_open_committed";
+            bool closing = e.eventName == "shutter_close_committed_only_if_empty";
+            if (opening || closing)
+            {
+                var duration = Mathf.Max(.001f, actionSeconds);
+                var elapsed = 0f;
+                while (elapsed < duration)
+                {
+                    var progress = Mathf.Clamp01(elapsed / duration);
+                    if (!shutter.ShowOpenProgress(isVertical, opening ? progress : 1f - progress))
+                    { MissingBindings++; yield break; }
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+            }
+            if (!shutter.ShowState(isVertical, session.States[e.actor].active)) MissingBindings++;
         }
         static bool TryDiceState(int[] faces, out EchoTheaterV03DiceOrientation.State state, out string error)
         {
@@ -743,6 +813,13 @@ namespace ANIMOL.Puzzle
                 { if (!coast.Settle(s, session.Cell, session.Cost, windFeedbackDuration)) MissingBindings++; continue; }
                 if (sanctumV02.TryGetValue(d.id, out var sanctum))
                 { if (!sanctum.Settle(s)) MissingBindings++; continue; }
+                if (oneTileShutters.TryGetValue(d.id, out var shutter))
+                {
+                    roots[d.id].localPosition = (Vector2)s.cell;
+                    roots[d.id].gameObject.SetActive(!s.removed);
+                    if (!s.removed && !shutter.ShowState(ShutterIsVertical(d), s.active)) MissingBindings++;
+                    continue;
+                }
                 if (diceGoalPlatforms.TryGetValue(d.id, out var goalPlatform))
                 {
                     roots[d.id].localPosition = (Vector2)s.cell;
