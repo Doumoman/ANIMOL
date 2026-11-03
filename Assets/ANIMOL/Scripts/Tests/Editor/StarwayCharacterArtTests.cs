@@ -14,13 +14,13 @@ namespace ANIMOL.Presentation.Tests
 {
     public class StarwayCharacterArtTests
     {
-        const string Root = "Assets/ANIMOL/Art/StarwayCharacters";
+        const string DataRoot = "Assets/ANIMOL/Data/StarwayRanch/ArtCatalogs/StarwayCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/StarwayCharacters.asset";
 
         [Test] public void RetouchManifestConnects432SpritesAnd72ClipsAtCalibratedSizeAndPivot()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
-                File.ReadAllText(Root + "/starway_native_animations.json"));
+                File.ReadAllText(DataRoot + "/starway_native_animations.json"));
             Assert.That(manifest.nativeResolution, Is.True);
             Assert.That(manifest.frames.Length, Is.EqualTo(432));
             Assert.That(manifest.clips.Length, Is.EqualTo(72));
@@ -29,7 +29,7 @@ namespace ANIMOL.Presentation.Tests
             foreach (var data in manifest.clips)
             {
                 Assert.That(data.frames.Length, Is.EqualTo(6), data.name);
-                var path = Root + "/Animations/" + data.character + "/" + data.name + ".anim";
+                var path = StarwayCharacterBuilder.ClipAssetPath(data);
                 var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
                 Assert.That(clip, Is.Not.Null, path);
                 Assert.That(clip.frameRate, Is.EqualTo(data.fps), path);
@@ -44,7 +44,7 @@ namespace ANIMOL.Presentation.Tests
                 for (var index = 0; index < 6; index++)
                 {
                     var relative = data.frames[index];
-                    var spritePath = Root + "/" + relative;
+                    var spritePath = StarwayCharacterBuilder.FrameAssetPath(relative);
                     Assert.That(paths.Add(spritePath), Is.True, spritePath);
                     var metadata = frameMap[relative];
                     var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(spritePath);
@@ -77,7 +77,7 @@ namespace ANIMOL.Presentation.Tests
         {
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayCharacterCatalog>(CatalogPath);
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
-                File.ReadAllText(Root + "/starway_native_animations.json"));
+                File.ReadAllText(DataRoot + "/starway_native_animations.json"));
             Assert.That(catalog, Is.Not.Null);
             Assert.That(catalog.defaultCharacterId, Is.EqualTo("choa"));
             Assert.That(catalog.characters.Select(entry => entry.id),
@@ -100,7 +100,7 @@ namespace ANIMOL.Presentation.Tests
                     Assert.That(motion.frames.Length, Is.EqualTo(6), data.name);
                     for (var index = 0; index < 6; index++)
                         Assert.That(motion.frames[index], Is.SameAs(AssetDatabase.LoadAssetAtPath<Sprite>(
-                            Root + "/" + data.frames[index])), data.name + "/" + index);
+                            StarwayCharacterBuilder.FrameAssetPath(data.frames[index]))), data.name + "/" + index);
                 }
             }
             foreach (var path in new[] {

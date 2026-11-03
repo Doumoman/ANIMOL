@@ -5,10 +5,10 @@
 ```text
 Assets/ANIMOL/
   Art/
-    Characters/<theme>/<character>/{Animations/<state>,Illustrations}/
+    Characters/<theme>/<character>/{Animations/<direction>/<state>,Illustrations,Sheets}/
     Story/<theme>/<scene>/          # 현재 빌드에서 쓰는 스토리 원화 없음
     UI/{InGame,Main,ConstellationMap,Settings}/
-    Maps/<theme>/{Tiles,Devices,Decorations,Markers}/
+    Maps/<theme>/{Tiles,Devices,Decorations,Markers,Backgrounds,Effects}/
     Shaders/
   Data/Puzzle/MapData/<theme>/
   StarwayMapPack/                 # original map package and metas

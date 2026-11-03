@@ -94,10 +94,10 @@ namespace ANIMOL.Presentation.Editor
             }
             // Rails remain a separate fixed renderer; the stage's visual root has no baked displacement.
             var rail=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Prefab("d06_moving_stage/rail_horizontal_static")));rail.transform.position=masters.First(v=>v.deviceId=="06").transform.position;rail.GetComponent<DeviceVisualView>().visual.sortingOrder=0;views.Add(rail.GetComponent<DeviceVisualView>());
-            foreach(var id in new[]{"rabbit_front","soap_bubble_pink","exit_visual_root","hud_visual"})
+            foreach(var id in new[]{"choa_front","soap_bubble_pink","exit_visual_root","hud_visual"})
             {
-                var go=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/"+id+".prefab"));
-                if(id!="hud_visual")go.transform.position=new Vector3(id=="rabbit_front"?-2:id=="soap_bubble_pink"?0:3,-8,0);
+                var go=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/"+id+".prefab"));
+                if(id!="hud_visual")go.transform.position=new Vector3(id=="choa_front"?-2:id=="soap_bubble_pink"?0:3,-8,0);
             }
             var all=m.animations.Select(a=>Prefab(a.id)).Concat(m.assets.Select(a=>Prefab(a.id+"_static"))).ToArray();
             for(int i=0;i<all.Length;i++)

@@ -88,7 +88,7 @@ namespace ANIMOL.Presentation.Editor
                 var view=go.GetComponent<DeviceVisualView>();masters.Add(view);views.Add(view);
             }
             foreach(var id in new[]{"foundation/lantern_idle","foundation/seagrass_idle"})add(id,new Vector3(id.Contains("lantern")?-6:6,8,0));
-            foreach(var id in new[]{"rabbit_front","soap_bubble_pink","exit_visual_root","hud_visual"}){var go=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/"+id+".prefab"));if(id!="hud_visual")go.transform.position=new Vector3(id=="rabbit_front"?-2:id=="soap_bubble_pink"?0:3,-9.5f,0);}
+            foreach(var id in new[]{"choa_front","soap_bubble_pink","exit_visual_root","hud_visual"}){var go=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/"+id+".prefab"));if(id!="hud_visual")go.transform.position=new Vector3(id=="choa_front"?-2:id=="soap_bubble_pink"?0:3,-9.5f,0);}
             var all=m.animations.Select(a=>a.id).Concat(m.assets.Select(a=>a.id+"_static")).ToArray();
             for(int i=0;i<all.Length;i++){int page=1+i/24,cell=i%24;var go=add(all[i],new Vector3(page*24-4.5f+(cell%4)*3,5.5f-(cell/4)*3,0));if(go.name=="foundation_twilight_backdrop_static")go.transform.position=new Vector3(page*24,0,2);}
             // Explicit art fixture cells, not a puzzle level or a claimed blast radius.
@@ -155,10 +155,10 @@ namespace ANIMOL.Presentation.Editor
             clock.states=m.animations.Where(c=>c.deviceId=="11"&&m.animations.Any(r=>r.id==c.id+"_rear")).Select(c=>State(c,m)).ToArray();clock.initialState="idle_e";
             var ferry=go.AddComponent<FerryVisualView>();ferry.clock=clock;
             Func<string,int,SpriteRenderer> layer=(name,order)=>{var child=new GameObject(name);child.transform.SetParent(go.transform,false);var r=child.AddComponent<SpriteRenderer>();r.sortingOrder=order;return r;};
-            ferry.wake=layer("Wake",5);ferry.rear=layer("Rear",10);ferry.passenger=layer("Existing rabbit visual",15);ferry.front=layer("Front",20);
+            ferry.wake=layer("Wake",5);ferry.rear=layer("Rear",10);ferry.passenger=layer("Choa passenger visual",15);ferry.front=layer("Front",20);
             ferry.wakeClear=Load(m.assets.First(a=>a.id=="d11_pilot_boat/wake_clear_e").path);
-            ferry.passenger.sprite=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/rabbit_front.prefab").GetComponentInChildren<SpriteRenderer>().sprite;
-            // Existing rabbit foot pivot y=8px matches its alpha bottom y=152 of height160.
+            ferry.passenger.sprite=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/choa_front.prefab").GetComponentInChildren<SpriteRenderer>().sprite;
+            // Keep the existing ferry passenger anchor when using Choa's sprite.
             ferry.passengerFootToPivot=Vector2.zero;
             var source=JsonUtility.FromJson<SeaSource>(File.ReadAllText(Root+"/Data/twilight_sea_import_manifest.json").Replace("\"event\":","\"eventName\":"));
             ferry.pairs=clock.states.Select(s=>{

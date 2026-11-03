@@ -83,7 +83,9 @@ namespace ANIMOL.Presentation.Editor
         public const string Root="Assets/ANIMOL";
         public const string ScenePath=Root+"/Scenes/QA/ANIMOL_Starway_Art_QA.unity";
         public static ImportManifest Read()=>JsonUtility.FromJson<ImportManifest>(File.ReadAllText(Root+"/Data/art_import_manifest.json"));
-        static Sprite Sprite(string id)=>AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/"+Read().assets.First(a=>a.id==id).path);
+        static Sprite Sprite(string id)=>id=="choa_front"
+            ? AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/Art/Characters/StarwayRanch/choa/Animations/front/idle/Frames/animol_starway_choa_front_idle_00.png")
+            : AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/"+Read().assets.First(a=>a.id==id).path);
         static SpriteFrameSequence Frames(string id)=>AssetDatabase.LoadAssetAtPath<SpriteFrameSequence>(Root+"/Data/AnimationSequences/"+id+".asset");
         static GameObject Visual(string id,Vector3 position,Transform parent=null)
         {
@@ -102,7 +104,7 @@ namespace ANIMOL.Presentation.Editor
         }
         public static void Build()
         {
-            foreach(var name in new[]{"Data/AnimationSequences","Prefabs","Scenes","Materials"}) Directory.CreateDirectory(Root+"/"+name);
+            foreach(var name in new[]{"Data/AnimationSequences","Prefabs/Gameplay","Scenes","Materials"}) Directory.CreateDirectory(Root+"/"+name);
             AssetDatabase.Refresh(); var manifest=Read();
             foreach(var row in manifest.animations)
             {
@@ -121,19 +123,22 @@ namespace ANIMOL.Presentation.Editor
             }
             foreach(var row in manifest.assets)
             {
-                var go=Visual(row.id,Vector3.zero);PrefabUtility.SaveAsPrefabAsset(go,Root+"/Prefabs/"+row.id+".prefab");UnityEngine.Object.DestroyImmediate(go);
+                var go=Visual(row.id,Vector3.zero);PrefabUtility.SaveAsPrefabAsset(go,Root+"/Prefabs/Gameplay/"+row.id+".prefab");UnityEngine.Object.DestroyImmediate(go);
             }
+            var choa=Visual("choa_front",Vector3.zero);
+            PrefabUtility.SaveAsPrefabAsset(choa,Root+"/Prefabs/Gameplay/choa_front.prefab");
+            UnityEngine.Object.DestroyImmediate(choa);
             var fx=Visual("soap_bubble_pink",Vector3.zero);fx.name="bubble_collect_fx";
             var effect=fx.GetComponent<SpriteFramePlayer>();effect.touch=Frames("bubble_collect");effect.returnToPool=true;
-            PrefabUtility.SaveAsPrefabAsset(fx,Root+"/Prefabs/bubble_collect_fx.prefab");UnityEngine.Object.DestroyImmediate(fx);
+            PrefabUtility.SaveAsPrefabAsset(fx,Root+"/Prefabs/Gameplay/bubble_collect_fx.prefab");UnityEngine.Object.DestroyImmediate(fx);
             var exit=new GameObject("exit_visual_root"); Visual("exit_arch",Vector3.zero,exit.transform);
             Visual("exit_steps",new Vector3(0,-.5f,0),exit.transform);
             var arch=manifest.assets.First(a=>a.id=="exit_arch");
             Visual("exit_star",new Vector3((112-arch.pivotX*arch.width)/80f,((1-arch.pivotY)*arch.height-82)/80f,0),exit.transform);
-            PrefabUtility.SaveAsPrefabAsset(exit,Root+"/Prefabs/exit_visual_root.prefab");UnityEngine.Object.DestroyImmediate(exit);
+            PrefabUtility.SaveAsPrefabAsset(exit,Root+"/Prefabs/Gameplay/exit_visual_root.prefab");UnityEngine.Object.DestroyImmediate(exit);
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var qa=new GameObject("Art QA controls - no puzzle logic").AddComponent<ArtQaController>();
-            qa.collectionFx=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/bubble_collect_fx.prefab"));qa.collectionFx.transform.position=new Vector3(5,4,0);qa.collectionFx.SetActive(false);
+            qa.collectionFx=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/bubble_collect_fx.prefab"));qa.collectionFx.transform.position=new Vector3(5,4,0);qa.collectionFx.SetActive(false);
             var cam=new GameObject("QA Camera").AddComponent<Camera>();cam.orthographic=true;cam.orthographicSize=12;cam.transform.position=new Vector3(0,0,-10);cam.backgroundColor=new Color(.12f,.14f,.2f);cam.clearFlags=CameraClearFlags.SolidColor;
             for(int background=0;background<3;background++)
             {
@@ -158,9 +163,10 @@ namespace ANIMOL.Presentation.Editor
             // Remaining imported assets are actually visible in a separate gallery, not hidden mock gameplay.
             int i=0;foreach(var row in manifest.assets.Where(a=>!a.id.StartsWith("vine")))
             { Visual(row.id,new Vector3(9+(i%6)*3,8-(i/6)*3,0));i++; }
+            Visual("choa_front",new Vector3(9+(i%6)*3,8-(i/6)*3,0));
             var sky=new GameObject("Pack night sky - runtime background, not reference image").AddComponent<SpriteRenderer>();
             sky.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(Root+"/"+manifest.background);sky.sortingOrder=-10;sky.transform.position=new Vector3(23,0,2);sky.transform.localScale=Vector3.one*2.6f;
-            var exitInstance=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/exit_visual_root.prefab"));exitInstance.transform.position=new Vector3(12,-9,0);
+            var exitInstance=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/exit_visual_root.prefab"));exitInstance.transform.position=new Vector3(12,-9,0);
             BuildHud();
             EditorSceneManager.SaveScene(scene,ScenePath);AssetDatabase.SaveAssets();
             Validate();
@@ -177,7 +183,7 @@ namespace ANIMOL.Presentation.Editor
             hud.normal=Sprite("pause_normal");hud.press=Sprite("pause_press");hud.release=Sprite("pause_release");hud.disabled=Sprite("pause_disabled");hud.pause.sprite=hud.disabled;
             var p=pauseObject.GetComponent<RectTransform>();p.anchorMin=p.anchorMax=new Vector2(0,1);p.pivot=new Vector2(0,1);p.anchoredPosition=new Vector2(28,-28);p.sizeDelta=new Vector2(132,132);
             hud.cost=HudPanel("cost_panel_blank","COST --",safe.transform,new Vector2(300,-30));hud.bubbles=HudPanel("bubble_counter_blank","--/--",safe.transform,new Vector2(730,-30));
-            PrefabUtility.SaveAsPrefabAsset(canvasObject,Root+"/Prefabs/hud_visual.prefab");
+            PrefabUtility.SaveAsPrefabAsset(canvasObject,Root+"/Prefabs/Gameplay/hud_visual.prefab");
         }
         static TMP_Text HudPanel(string sprite,string value,Transform parent,Vector2 position)
         {

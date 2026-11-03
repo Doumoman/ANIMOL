@@ -119,10 +119,10 @@ namespace ANIMOL.Presentation.Editor
                 go.transform.position=new Vector3(72-7+masters.Count*2,-6,0);var view=go.GetComponent<DeviceVisualView>();masters.Add(view);views.Add(view);
             }
             controls.masters=masters.ToArray();
-            foreach(var id in new[]{"rabbit_front","soap_bubble_pink","exit_visual_root"})
+            foreach(var id in new[]{"choa_front","soap_bubble_pink","exit_visual_root"})
             {
-                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/"+id+".prefab");
-                if(prefab){var go=(GameObject)PrefabUtility.InstantiatePrefab(prefab);go.transform.position=new Vector3(72-4+Array.IndexOf(new[]{"rabbit_front","soap_bubble_pink","exit_visual_root"},id)*4,-12,0);}
+                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Gameplay/"+id+".prefab");
+                if(prefab){var go=(GameObject)PrefabUtility.InstantiatePrefab(prefab);go.transform.position=new Vector3(72-4+Array.IndexOf(new[]{"choa_front","soap_bubble_pink","exit_visual_root"},id)*4,-12,0);}
             }
             controls.views=views.ToArray();EditorSceneManager.SaveScene(scene,ScenePath);AssetDatabase.SaveAssets();
             return $"52 static sprites, 402 frames, 59 sequences/clips, 119 prefabs, {views.Count} QA views";

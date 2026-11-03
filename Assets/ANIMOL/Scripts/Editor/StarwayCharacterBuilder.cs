@@ -12,7 +12,8 @@ namespace Animol.Art.StarwayNative
 {
     public static class StarwayCharacterBuilder
     {
-        const string Root = "Assets/ANIMOL/Art/StarwayCharacters";
+        const string Root = "Assets/ANIMOL/Art/Characters/StarwayRanch";
+        const string DataRoot = "Assets/ANIMOL/Data/StarwayRanch/ArtCatalogs/StarwayCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/StarwayCharacters.asset";
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
         const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity";
@@ -25,7 +26,7 @@ namespace Animol.Art.StarwayNative
         public static void Build()
         {
             var manifest = JsonUtility.FromJson<AnimolStarwayNativeImporter.Manifest>(
-                File.ReadAllText(Root + "/starway_native_animations.json"));
+                File.ReadAllText(DataRoot + "/starway_native_animations.json"));
             if (!manifest.nativeResolution || manifest.frames == null || manifest.frames.Length != 432 ||
                 manifest.clips == null || manifest.clips.Length != 72)
                 throw new InvalidDataException("Starway retouch manifest must have 432 frames and 72 clips.");
@@ -41,19 +42,19 @@ namespace Animol.Art.StarwayNative
             {
                 var id = Ids[i];
                 var calibration = JsonUtility.FromJson<RetouchCalibrationManifest>(File.ReadAllText(
-                    Root + "/starway_" + id + "_retouch_animations.json"));
+                    DataRoot + "/starway_" + id + "_retouch_animations.json"));
                 if (calibration?.projectCalibration == null)
                     throw new InvalidDataException("Missing scene calibration for " + id);
                 var entry = new StarwayCharacterDefinition {
                     id = id, displayName = Names[i], motions = new StarwayCharacterMotion[18],
                     pushContacts = AssetDatabase.LoadAssetAtPath<StarwayPushSpriteContacts>(
-                        Root + "/PushContacts/starway_push_contacts_" + id + ".asset"),
+                        DataRoot + "/PushContacts/starway_push_contacts_" + id + ".asset"),
                     restingLocalPosition = new Vector3(0f, calibration.projectCalibration.restingOffsetLocalY, 0f),
                     calibratedStandingHeight = calibration.projectCalibration.standingHeightWorld,
                     pushApproachLimit = .35f
                 };
                 if (!entry.pushContacts) throw new InvalidDataException("Missing PUSH contacts for " + id);
-                var illustrationPath = Root + "/Illustrations/animol_starway_" + id + "_illustration.png";
+                var illustrationPath = Root + "/" + id + "/Illustrations/animol_starway_" + id + "_illustration.png";
                 ConfigureIllustration(illustrationPath);
                 entry.illustration = AssetDatabase.LoadAssetAtPath<Sprite>(illustrationPath);
                 if (!entry.illustration) throw new InvalidDataException("Missing illustration: " + id);
@@ -61,13 +62,13 @@ namespace Animol.Art.StarwayNative
                 foreach (var data in manifest.clips)
                 {
                     if (data.character != id) continue;
-                    var path = Root + "/Animations/" + id + "/" + data.name + ".anim";
+                    var path = ClipAssetPath(data);
                     var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
                     if (!clip) throw new InvalidDataException("Missing playable clip: " + path);
                     var motion = new StarwayCharacterMotion { clip = clip, fps = data.fps, loop = data.loop };
                     for (var frame = 0; frame < 6; frame++)
                     {
-                        motion.frames[frame] = AssetDatabase.LoadAssetAtPath<Sprite>(Root + "/" + data.frames[frame]);
+                        motion.frames[frame] = AssetDatabase.LoadAssetAtPath<Sprite>(FrameAssetPath(data.frames[frame]));
                         if (!motion.frames[frame]) throw new InvalidDataException("Missing frame: " + data.name + "/" + frame);
                     }
                     entry.motions[index] = motion;
@@ -83,9 +84,7 @@ namespace Animol.Art.StarwayNative
             {
                 var theme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>(path);
                 if (!theme) throw new FileNotFoundException("Missing starway theme", path);
-                // Other theme previews copy this historical static fallback. Runtime uses the catalog Visual.
-                var playerSprite = AssetDatabase.LoadAssetAtPath<Sprite>(
-                    "Assets/ANIMOL/Art/Characters/StarwayRanch/Rabbit/Animations/rabbit/Frames/spr_player_rabbit_idle_s.png");
+                var playerSprite = catalog.Find("choa").FirstFrame("front", "idle");
                 if (theme.starwayCharacters != catalog || theme.starwayCharacterId != catalog.defaultCharacterId ||
                     theme.player != playerSprite)
                 {
@@ -101,6 +100,17 @@ namespace Animol.Art.StarwayNative
         }
 
         public static void BuildBatch() => Build();
+
+        public static string ClipAssetPath(AnimolStarwayNativeImporter.Clip data)
+            => Root + "/" + data.character + "/Animations/" + data.direction + "/" + data.state + "/" + data.name + ".anim";
+
+        public static string FrameAssetPath(string relative)
+        {
+            var parts = relative.Replace('\\', '/').Split('/');
+            if (parts.Length != 7 || parts[0] != "Sprites" || parts[1] != "Player" || parts[2] != "Starway")
+                throw new InvalidDataException("Unexpected Starway character frame path: " + relative);
+            return Root + "/" + parts[3] + "/Animations/" + parts[4] + "/" + parts[5] + "/Frames/" + parts[6];
+        }
 
         static void ConnectMainMenu(StarwayCharacterCatalog catalog)
         {
