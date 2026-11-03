@@ -50,7 +50,7 @@ namespace ANIMOL.Menu.Tests
         }
 #endif
 
-        [UnityTest] public IEnumerator V18PaperTitleAndTelescopeRespectViewportSizes()
+        [UnityTest] public IEnumerator V19PaperTitleAndTelescopeRespectViewportSizes()
         {
 #if UNITY_EDITOR
             yield return OpenLobby();
@@ -61,7 +61,7 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.dock.Find("Ad Row"), Is.Null);
             foreach (var size in new[] { new Vector2Int(320, 568), new Vector2Int(360, 800),
                          new Vector2Int(390, 844), new Vector2Int(414, 896),
-                         new Vector2Int(768, 1024), new Vector2Int(1366, 768) })
+                         new Vector2Int(768, 1024), new Vector2Int(1080, 2400) })
             {
                 UseGameView(size.x, size.y);
                 yield return null;
@@ -72,7 +72,8 @@ namespace ANIMOL.Menu.Tests
                 var barCorners = new Vector3[4];
                 bar.GetWorldCorners(barCorners);
                 var barBottom = lobby.topPaper.InverseTransformPoint(barCorners[0]).y;
-                Assert.That(barBottom - lobby.topPaper.rect.yMin, Is.EqualTo(8f).Within(.1f), size.ToString());
+                Assert.That(barBottom - lobby.topPaper.rect.yMin,
+                    Is.EqualTo(24f * 414f / 1080f).Within(.1f), size.ToString());
                 var titleCorners = new Vector3[4];
                 lobby.logoRect.GetWorldCorners(titleCorners);
                 var titleTop = lobby.topPaper.InverseTransformPoint(titleCorners[1]).y;
@@ -90,6 +91,7 @@ namespace ANIMOL.Menu.Tests
         [UnityTearDown] public IEnumerator LeaveEmptyScene()
         {
 #if UNITY_EDITOR
+            UseGameView(1080, 1920);
             var previous = SceneManager.GetActiveScene();
             var empty = SceneManager.CreateScene("Main lobby test cleanup");
             SceneManager.SetActiveScene(empty);
@@ -146,13 +148,13 @@ namespace ANIMOL.Menu.Tests
                         count++;
                     }
             Assert.That(count, Is.EqualTo(18));
-            UseGameView(1440, 900);
+            UseGameView(768, 1024);
             yield return null;
             yield return null;
             lobby.ForceLayout();
             Assert.That(lobby.frame.rect.width, Is.EqualTo(lobby.safeRoot.rect.width).Within(.01f));
             Assert.That(lobby.BackgroundCovers(-1, -1) && lobby.BackgroundCovers(1, 1), Is.True);
-            ScreenCapture.CaptureScreenshot(Portrait + "/pc_window.png");
+            ScreenCapture.CaptureScreenshot(Portrait + "/portrait_768x1024.png");
             yield return new WaitForSecondsRealtime(.2f);
             UseGameView(1080, 2400);
             yield return null;
@@ -303,7 +305,7 @@ namespace ANIMOL.Menu.Tests
                     Assert.That(lobby.diagonalLineImage.gameObject.activeSelf, Is.False);
                     lobby.AdvanceAppearance(1f);
                     Assert.That(lobby.AppearanceTransitionProgress, Is.EqualTo(heldProgress));
-                    UseGameView(1440, 900);
+                    UseGameView(1080, 2400);
                     yield return null;
                     lobby.ForceLayout();
                     lobby.CloseModal();

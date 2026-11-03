@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ANIMOL.UI.StyleV19;
 using Animol.UI.Pattern;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -16,11 +17,13 @@ namespace ANIMOL.Menu
         const float Overscan = 1.052f;
         const float DockHeight = 120f;
         const float TopPaperHeight = 62f;
+        const float V19Scale = 1080f / 414f;
         public const float AppearanceInterval = 5f;
         public const float AppearanceWipeDuration = .45f;
 
         public MainMenuCatalog catalog;
         public MainMenuSkin skin;
+        public AnimolUiV19Bindings uiV19;
         public MonoBehaviour requiredStageProgress;
         public Canvas canvas;
         public RectTransform safeRoot;
@@ -341,14 +344,26 @@ namespace ANIMOL.Menu
         public void ForceLayout()
         {
             if (!canvas || !safeRoot || !frame || !artArea) return;
+            var useV19 = uiV19 && uiV19.skin;
             screenWidth = Screen.width;
             screenHeight = Screen.height;
             lastSafeArea = Screen.safeArea;
             if (screenWidth <= 0 || screenHeight <= 0) return;
             // The illustration reaches the viewport edges; controls use the safe insets.
-            safeRoot.anchorMin = Vector2.zero;
-            safeRoot.anchorMax = Vector2.one;
-            safeRoot.offsetMin = safeRoot.offsetMax = Vector2.zero;
+            if (useV19)
+            {
+                safeRoot.anchorMin = safeRoot.anchorMax = new Vector2(.5f, .5f);
+                safeRoot.pivot = new Vector2(.5f, .5f);
+                safeRoot.anchoredPosition = Vector2.zero;
+                safeRoot.localScale = Vector3.one * V19Scale;
+                safeRoot.sizeDelta = ((RectTransform)canvas.transform).rect.size / V19Scale;
+            }
+            else
+            {
+                safeRoot.anchorMin = Vector2.zero;
+                safeRoot.anchorMax = Vector2.one;
+                safeRoot.offsetMin = safeRoot.offsetMax = Vector2.zero;
+            }
             Canvas.ForceUpdateCanvases();
             var width = safeRoot.rect.width;
             var height = safeRoot.rect.height;
@@ -357,12 +372,13 @@ namespace ANIMOL.Menu
             frame.anchorMax = Vector2.one;
             frame.offsetMin = frame.offsetMax = Vector2.zero;
             var scale = Mathf.Max(.01f, canvas.scaleFactor);
-            var safeLeft = lastSafeArea.xMin / scale;
-            var safeRight = (screenWidth - lastSafeArea.xMax) / scale;
-            var safeTop = (screenHeight - lastSafeArea.yMax) / scale;
-            var safeBottom = lastSafeArea.yMin / scale;
-            var dockHeight = DockHeight + safeBottom;
-            var paperHeight = TopPaperHeight + safeTop;
+            var unitScale = scale * (useV19 ? V19Scale : 1f);
+            var safeLeft = lastSafeArea.xMin / unitScale;
+            var safeRight = (screenWidth - lastSafeArea.xMax) / unitScale;
+            var safeTop = (screenHeight - lastSafeArea.yMax) / unitScale;
+            var safeBottom = lastSafeArea.yMin / unitScale;
+            var dockHeight = (useV19 ? AnimolUiV19ChromeLayout.Footer / V19Scale : DockHeight) + safeBottom;
+            var paperHeight = (useV19 ? AnimolUiV19ChromeLayout.Header / V19Scale : TopPaperHeight) + safeTop;
             dock.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, dockHeight);
             if (topPaper)
             {
@@ -375,13 +391,17 @@ namespace ANIMOL.Menu
                     topBar.anchoredPosition = new Vector2(topBar.anchoredPosition.x, -safeTop - 10f);
                 }
             }
-            var campaignMode = campaignButton.GetComponent<RectTransform>();
-            var customMode = customButton.GetComponent<RectTransform>();
-            var play = playButton.GetComponent<RectTransform>();
-            campaignMode.offsetMin = new Vector2(5.5f + safeLeft, campaignMode.offsetMin.y);
-            customMode.offsetMax = new Vector2(-5.5f - safeRight, customMode.offsetMax.y);
-            play.offsetMin = new Vector2(5.5f + safeLeft, play.offsetMin.y);
-            play.offsetMax = new Vector2(-5.5f - safeRight, play.offsetMax.y);
+            if (useV19) LayoutV19Controls(safeLeft, safeRight, safeTop, safeBottom);
+            else
+            {
+                var campaignMode = campaignButton.GetComponent<RectTransform>();
+                var customMode = customButton.GetComponent<RectTransform>();
+                var play = playButton.GetComponent<RectTransform>();
+                campaignMode.offsetMin = new Vector2(5.5f + safeLeft, campaignMode.offsetMin.y);
+                customMode.offsetMax = new Vector2(-5.5f - safeRight, customMode.offsetMax.y);
+                play.offsetMin = new Vector2(5.5f + safeLeft, play.offsetMin.y);
+                play.offsetMax = new Vector2(-5.5f - safeRight, play.offsetMax.y);
+            }
             artArea.offsetMin = new Vector2(0, dockHeight);
             artArea.offsetMax = new Vector2(0, -paperHeight);
             if (campaignPanel)
@@ -419,6 +439,65 @@ namespace ANIMOL.Menu
             FitBackground();
             FitHero();
             FitCampaignCards();
+        }
+
+        void LayoutV19Controls(float safeLeft, float safeRight, float safeTop, float safeBottom)
+        {
+            float inset = AnimolUiV19ChromeLayout.Inset / V19Scale;
+            float gap = AnimolUiV19ChromeLayout.Gap / V19Scale;
+            float control = AnimolUiV19ChromeLayout.Control / V19Scale;
+            float primary = AnimolUiV19ChromeLayout.Primary / V19Scale;
+            float contentWidth = Mathf.Min(AnimolUiV19ChromeLayout.MaxContent / V19Scale,
+                Mathf.Max(1, frame.rect.width - safeLeft - safeRight - 2 * inset));
+            float left = (frame.rect.width - contentWidth + safeLeft - safeRight) * .5f;
+            var topBar = topPaper ? topPaper.Find("Top Bar") as RectTransform : null;
+            if (topBar)
+            {
+                topBar.anchorMin = new Vector2(0, 1);
+                topBar.anchorMax = new Vector2(1, 1);
+                topBar.pivot = new Vector2(.5f, 1);
+                topBar.offsetMin = new Vector2(left, topBar.offsetMin.y);
+                topBar.offsetMax = new Vector2(left + contentWidth - frame.rect.width, topBar.offsetMax.y);
+                topBar.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, control);
+                topBar.anchoredPosition = new Vector2(topBar.anchoredPosition.x, -safeTop - inset);
+                PlaceTopControl(topBar.Find("Guest") as RectTransform, true, 0, 276f / V19Scale, control);
+                PlaceTopControl(settingsButton ? settingsButton.transform as RectTransform : null,
+                    false, 0, control, control);
+                PlaceTopControl(soundButton ? soundButton.transform as RectTransform : null,
+                    false, control + gap, control, control);
+            }
+            float modeWidth = Mathf.Max(1, (contentWidth - 2 * gap) / 3);
+            var modes = new[] { campaignButton, battleButton, customButton };
+            for (int i = 0; i < modes.Length; i++)
+            {
+                var rect = modes[i] ? modes[i].transform as RectTransform : null;
+                if (!rect) continue;
+                rect.anchorMin = rect.anchorMax = new Vector2(0, 1);
+                rect.pivot = new Vector2(0, 1);
+                rect.anchoredPosition = new Vector2(left + i * (modeWidth + gap), -inset);
+                rect.sizeDelta = new Vector2(modeWidth, control);
+                rect.localScale = Vector3.one;
+            }
+            var play = playButton ? playButton.transform as RectTransform : null;
+            if (play)
+            {
+                play.anchorMin = play.anchorMax = Vector2.zero;
+                play.pivot = Vector2.zero;
+                play.anchoredPosition = new Vector2(left, safeBottom + inset);
+                play.sizeDelta = new Vector2(contentWidth, primary);
+                play.localScale = Vector3.one;
+            }
+        }
+
+        static void PlaceTopControl(RectTransform rect, bool left, float offset, float width, float height)
+        {
+            if (!rect) return;
+            float anchor = left ? 0 : 1;
+            rect.anchorMin = rect.anchorMax = new Vector2(anchor, .5f);
+            rect.pivot = new Vector2(anchor, .5f);
+            rect.anchoredPosition = new Vector2(left ? offset : -offset, 0);
+            rect.sizeDelta = new Vector2(width, height);
+            rect.localScale = Vector3.one;
         }
 
         void FitBackground()
@@ -495,7 +574,8 @@ namespace ANIMOL.Menu
                 offset.y + size.y / 2 >= area.yMax - .001f;
         }
 
-        public float HeroDisplayedPixels => heroRect && canvas ? heroRect.rect.height * canvas.scaleFactor : 0;
+        public float HeroDisplayedPixels => heroRect && canvas
+            ? heroRect.rect.height * canvas.scaleFactor * (uiV19 && uiV19.skin ? V19Scale : 1f) : 0;
 
         Sprite SceneryFor(int themeIndex)
         {
@@ -566,6 +646,13 @@ namespace ANIMOL.Menu
 
         void ApplyModeSkin()
         {
+            if (uiV19 && uiV19.skin)
+            {
+                uiV19.SetActive(campaignButton, mode == "campaign");
+                uiV19.SetActive(customButton, mode == "custom");
+                uiV19.SetActive(battleButton, mode == "battle" && BattleUnlocked);
+                return;
+            }
             if (skin)
             {
                 SetModeButton(campaignButton, mode == "campaign", false);

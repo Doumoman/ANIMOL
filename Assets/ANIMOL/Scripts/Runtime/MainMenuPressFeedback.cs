@@ -20,7 +20,12 @@ namespace ANIMOL.Menu
             if (rect) rest = rect.anchoredPosition;
         }
 
-        public void OnPointerDown(PointerEventData _) { if (button && button.IsInteractable()) SetPressed(true); }
+        public void OnPointerDown(PointerEventData _)
+        {
+            if (!button || !button.IsInteractable()) return;
+            if (rect && !pressed) rest = rect.anchoredPosition;
+            SetPressed(true);
+        }
         public void OnPointerUp(PointerEventData _) => SetPressed(false);
         public void OnPointerExit(PointerEventData _) => SetPressed(false);
         void OnDisable() => SetPressed(false);

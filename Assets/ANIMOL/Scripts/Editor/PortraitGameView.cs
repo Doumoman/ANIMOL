@@ -17,6 +17,8 @@ namespace ANIMOL.Presentation.Editor
 
         public static void SelectFixedResolution(int width, int height, string label)
         {
+            if (width <= 0 || height <= width)
+                throw new ArgumentOutOfRangeException(nameof(width), "ANIMOL Game View QA requires a portrait resolution.");
             var editorAssembly = typeof(EditorWindow).Assembly;
             var sizesType = editorAssembly.GetType("UnityEditor.GameViewSizes", true);
             var sizeType = editorAssembly.GetType("UnityEditor.GameViewSize", true);

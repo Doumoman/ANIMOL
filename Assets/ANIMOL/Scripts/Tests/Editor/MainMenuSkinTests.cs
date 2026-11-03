@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using ANIMOL.Menu;
+using ANIMOL.UI.StyleV19;
 using NUnit.Framework;
 using TMPro;
 using UnityEditor;
@@ -48,7 +49,7 @@ namespace ANIMOL.Menu.Tests
             Assert.That(titleImporter.maxTextureSize, Is.GreaterThanOrEqualTo(4096));
         }
 
-        [Test] public void ExistingLobbyUsesOneSkinAndEditableTmpLabels()
+        [Test] public void ExistingLobbyUsesV19ButtonsAndEditableTmpLabels()
         {
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             MainLobbyController lobby = null;
@@ -63,11 +64,20 @@ namespace ANIMOL.Menu.Tests
             Assert.That(lobby.skin, Is.Not.Null);
             Assert.That(lobby.skin.font, Is.Not.Null);
             Assert.That(lobby.catalog.themes.Length, Is.EqualTo(4));
-            Assert.That(lobby.playButton.GetComponent<Image>().sprite, Is.SameAs(lobby.skin.primary));
-            Assert.That(((RectTransform)lobby.playButton.transform).sizeDelta,
-                Is.EqualTo(new Vector2(-11, 55)));
+            Assert.That(lobby.uiV19, Is.Not.Null);
+            Assert.That(lobby.uiV19.skin, Is.Not.Null);
+            Assert.That(lobby.uiV19.buttons.Count, Is.EqualTo(9));
+            Assert.That(lobby.playButton.GetComponent<Image>().sprite,
+                Is.SameAs(lobby.uiV19.skin.primary.normal));
+            Assert.That(lobby.playButton.transition, Is.EqualTo(Selectable.Transition.SpriteSwap));
+            Assert.That(lobby.topPaper.GetComponent<Image>().sprite,
+                Is.SameAs(lobby.dock.GetComponent<Image>().sprite));
+            Assert.That(lobby.topPaper.GetComponent<Image>().sprite,
+                Is.SameAs(lobby.uiV19.skin.paperStrip));
+            Assert.That(lobby.canvas.GetComponent<CanvasScaler>().referenceResolution,
+                Is.EqualTo(new Vector2(1080, 1920)));
             Assert.That(lobby.campaignButton.GetComponent<RectTransform>().rect.height,
-                Is.EqualTo(44).Within(.1f));
+                Is.EqualTo(132f * 414f / 1080f).Within(.1f));
             Assert.That(lobby.soundButton, Is.Not.Null);
             Assert.That(lobby.themeChecks.Length, Is.EqualTo(4));
             foreach (var node in lobby.canvas.GetComponentsInChildren<Transform>(true))
@@ -88,6 +98,34 @@ namespace ANIMOL.Menu.Tests
             var title = lobby.logoRect.Find("William Paradox Title").GetComponent<Image>();
             Assert.That(title.sprite, Is.SameAs(lobby.skin.title));
             Assert.That(title.raycastTarget, Is.False);
+        }
+
+        [Test] public void V19FramesHaveSharedSliceImportRules()
+        {
+            var skin = AssetDatabase.LoadAssetAtPath<AnimolUiV19Skin>(
+                "Assets/ANIMOL/UI/StyleV19/Generated/ANIMOL_UI_V19.asset");
+            Assert.That(skin, Is.Not.Null);
+            foreach (var set in new[] { skin.mode, skin.primary, skin.utility, skin.profile })
+            foreach (var sprite in new[] { set.normal, set.highlighted, set.pressed, set.disabled, set.active })
+                CheckV19Frame(sprite);
+            CheckV19Frame(skin.paperStrip);
+            CheckV19Frame(skin.paperPanel);
+            Assert.That(skin.paperStrip, Is.Not.SameAs(skin.paperPanel));
+        }
+
+        static void CheckV19Frame(Sprite sprite)
+        {
+            Assert.That(sprite, Is.Not.Null);
+            Assert.That(sprite.border, Is.EqualTo(new Vector4(36, 36, 36, 36)), sprite.name);
+            Assert.That(sprite.pixelsPerUnit, Is.EqualTo(100), sprite.name);
+            var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(sprite)) as TextureImporter;
+            Assert.That(importer, Is.Not.Null, sprite.name);
+            Assert.That(importer.textureType, Is.EqualTo(TextureImporterType.Sprite), sprite.name);
+            Assert.That(importer.spriteImportMode, Is.EqualTo(SpriteImportMode.Single), sprite.name);
+            Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear), sprite.name);
+            Assert.That(importer.wrapMode, Is.EqualTo(TextureWrapMode.Clamp), sprite.name);
+            Assert.That(importer.mipmapEnabled, Is.False, sprite.name);
+            Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), sprite.name);
         }
     }
 }

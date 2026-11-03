@@ -88,6 +88,7 @@ namespace ANIMOL.Menu.Tests
         [UnityTest] public IEnumerator CampaignPatternCrossesTileAndResumesInPlaceAroundModalAndReducedMotion()
         {
 #if UNITY_EDITOR
+            UseGameView(1080, 1920);
             EditorSceneManager.LoadSceneInPlayMode(ScenePath, new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;
