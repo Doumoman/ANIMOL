@@ -127,7 +127,18 @@ namespace William.NotebookUI
         }
         public void OpenMain() => ShowPage(mainScreen);
         public void OpenSettings() => ShowPage(settingsScreen);
-        public void OpenStages() { ShowPage(stageScreen); RefreshMap(); }
+        public void OpenStages()
+        {
+            ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
+            NotebookConstellationArtwork artwork = Array.Find(model.Catalog.artworks,
+                a => a.stageIds != null && Array.IndexOf(a.stageIds, selectedStage) >= 0);
+            NotebookStage stage = model.Catalog.FindStage(selectedStage);
+            if (artwork == null || !mapScroll || !mapScroll.content || !mapScroll.viewport) return;
+            float y = stage != null && stage.order == 1
+                ? model.Catalog.FindTheme(stage.themeId).startY : Mathf.Max(0, artwork.y - 95);
+            float max = Mathf.Max(0, model.Catalog.mapContentHeight - mapScroll.viewport.rect.height);
+            mapScroll.content.anchoredPosition = new Vector2(0, Mathf.Clamp(y, 0, max));
+        }
         private void ShowPage(GameObject target)
         {
             if (!string.IsNullOrEmpty(pendingId)) return;
@@ -155,8 +166,8 @@ namespace William.NotebookUI
                 NotebookStage s = model.Catalog.FindStage(v.stageId); bool available = model.CanEnter(s.id) && CanLaunch(s), done = model.IsCleared(s.id);
                 v.star.sprite = done ? starDone : available ? (selectedStage == s.id ? starCurrent : starAvailable) : starLocked;
                 v.selection.gameObject.SetActive(selectedStage == s.id);
-                v.number.gameObject.SetActive(available); v.number.text = s.order.ToString("00");
-                v.locked.gameObject.SetActive(!available); v.label.text = s.label + (done ? " ✓" : "");
+                v.number.gameObject.SetActive(done || available); v.number.text = s.order.ToString("00");
+                v.locked.gameObject.SetActive(!done && !available); v.label.text = s.label + (done ? " 완료" : "");
             }
             foreach (NotebookEdgeView e in edges) e.image.sprite = model.IsCleared(e.from) && model.IsCleared(e.to) ? e.cleared : e.future;
             foreach (NotebookChapterView v in chapters)
@@ -232,7 +243,13 @@ namespace William.NotebookUI
                 if (!string.IsNullOrEmpty(localized)) { modalPrimaryText.text = localized + " · 구매로 해금"; primaryAction = () => Purchase(themeId); }
                 else { modalPrimaryText.text = "가격 다시 확인"; modalStatus.text = "스토어에서 가격을 불러오지 못했어요."; primaryAction = () => OpenPurchase(themeId); }
             };
-            if (gateway && !string.IsNullOrEmpty(theme.productId)) gateway.GetLocalizedPrice(theme.id, theme.productId, price); else price(null);
+            if (gateway && !string.IsNullOrEmpty(theme.productId)) gateway.GetLocalizedPrice(theme.id, theme.productId, price);
+            else
+            {
+                modalPrimaryText.text = "구매 서비스 미연결";
+                modalPrimary.interactable = false;
+                modalStatus.text = "실제 상품 ID와 결제 서비스가 연결되지 않았어요.";
+            }
         }
         private void Purchase(string themeId)
         {

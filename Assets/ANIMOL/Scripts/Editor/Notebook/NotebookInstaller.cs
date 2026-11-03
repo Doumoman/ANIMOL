@@ -23,9 +23,13 @@ namespace William.NotebookUI.Editor
         private static readonly Color SkyText = new Color32(255, 235, 197, 255);
 
         [MenuItem("ANIMOL/New Notebook UI/Build Fresh Scene")]
-        public static void BuildFreshScene()
+        public static void BuildFreshScene() => BuildFreshSceneInternal(true);
+
+        public static void BuildFreshSceneForAutomation() => BuildFreshSceneInternal(false);
+
+        private static void BuildFreshSceneInternal(bool confirmCurrentScene)
         {
-            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            if (confirmCurrentScene && !Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
             ImportArt(); EnsureFolder("Assets/ANIMOL/Prefabs/UI/Main"); EnsureFolder("Assets/ANIMOL/Scenes/Main"); font = EnsureFont();
             NotebookCatalog catalog = NotebookCatalog.Parse(AssetDatabase.LoadAssetAtPath<TextAsset>(Data + "catalog.json"));
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
@@ -145,8 +149,8 @@ namespace William.NotebookUI.Editor
             Image hit = viewport.gameObject.AddComponent<Image>(); hit.color = Color.clear; hit.raycastTarget = true;
             RectTransform content = Rect(viewport, "Four Regions One Map"); At(content, 0, 0, 1080, catalog.mapContentHeight);
             ui.mapScroll = viewport.gameObject.AddComponent<ScrollRect>(); ui.mapScroll.viewport = viewport; ui.mapScroll.content = content; ui.mapScroll.horizontal = false; ui.mapScroll.vertical = true; ui.mapScroll.movementType = ScrollRect.MovementType.Clamped;
-            // Each finished PNG retains its original picture proportions in a pinned viewport.
-            // A region clip scope pushes the previous picture out as the next region enters.
+            // One finished night-sky PNG keeps the same palette in every region.
+            // Illustrated constellation figures scroll separately beneath their star nodes.
             var backdropWindows = new List<NotebookMapBackdropWindow>();
             foreach (NotebookTheme t in catalog.themes)
             {
@@ -154,7 +158,7 @@ namespace William.NotebookUI.Editor
                 At(region, 0, t.startY, 1080, t.height); region.gameObject.AddComponent<RectMask2D>();
                 RectTransform window = Rect(region, "Pinned Illustration Window");
                 At(window, 0, 0, 1080, 1356); window.gameObject.AddComponent<RectMask2D>();
-                Image illustration = Picture(window, "Static Region Illustration " + t.id, "Map/Region_" + t.id);
+                Image illustration = Picture(window, "Static Night Sky " + t.id, "Map/NightSky");
                 Stretch(illustration.rectTransform, 0, 0, 0, 0);
                 var pictureFit = illustration.gameObject.AddComponent<AspectRatioFitter>();
                 pictureFit.aspectRatio = illustration.sprite.rect.width / illustration.sprite.rect.height;
@@ -163,6 +167,23 @@ namespace William.NotebookUI.Editor
             }
             NotebookMapBackdropLayout backdropLayout = viewport.gameObject.AddComponent<NotebookMapBackdropLayout>();
             backdropLayout.scroll = ui.mapScroll; backdropLayout.windows = backdropWindows.ToArray(); backdropLayout.RefreshLayout();
+            // These are supplied transparent PNG illustrations, not runtime-generated drawings.
+            // Stage links and clickable nodes are created afterward so they remain in front.
+            foreach (NotebookConstellationArtwork art in catalog.artworks ?? Array.Empty<NotebookConstellationArtwork>())
+            {
+                if (string.IsNullOrEmpty(art.sprite) || art.width <= 0 || art.height <= 0)
+                    throw new InvalidOperationException("Invalid constellation artwork: " + art.id);
+                Image figure = Picture(content, "Constellation Figure " + art.id, art.sprite);
+                At(figure.rectTransform, art.x, art.y, art.width, art.height);
+                figure.preserveAspect = true;
+                // Picture() fixes White Tint and disables raycasts. Names/meanings stay in the catalog.
+                if (!string.IsNullOrEmpty(art.wireSprite))
+                {
+                    Image wire = Picture(content, "Static Constellation Wire " + art.id, art.wireSprite);
+                    At(wire.rectTransform, art.x, art.y, art.width, art.height);
+                    wire.preserveAspect = true;
+                }
+            }
             ui.edges = catalog.edges.Select(e => { Image im = Picture(content, e.from + " to " + e.to, e.sprite + "_Future"); At(im.rectTransform, e.x, e.y, e.width, e.height); return new NotebookEdgeView { from = e.from, to = e.to, image = im, future = Load(e.sprite + "_Future"), cleared = Load(e.sprite + "_Cleared") }; }).ToArray();
             var chapterViews = new List<NotebookChapterView>();
             foreach (NotebookTheme t in catalog.themes)
@@ -199,7 +220,7 @@ namespace William.NotebookUI.Editor
             Text(header.transform, "Map Title", "별자리 지도", 206, 52, 510, 80, 55);
             ui.telescopeButton = Button(header.transform, "Telescope", "Button", 742, 24, 300, 112, "", 1); Icon(ui.telescopeButton.transform, "telescope", 30, 23, 66, 66);
             ui.walletText = Text(ui.telescopeButton.transform, "Balance", "10 / 10", 112, 0, 174, 112, 46, TextAlignmentOptions.Center);
-            Text(header.transform, "Map Caption", "별을 골라 여정을 이어가세요", 56, 164, 650, 42, 30);
+            Text(header.transform, "Map Caption", "큰 별을 골라 여정을 이어가세요", 56, 164, 650, 42, 30);
             ui.recoveryText = Text(header.transform, "Recharge", "", 690, 164, 340, 42, 30, TextAlignmentOptions.MidlineRight);
             Image footer = Picture(host, "Selected Stage Footer", "Paper/Panel", true); Bottom(footer.rectTransform, 0, 0, 1080, 324);
             ui.stageRegion = Text(footer.transform, "Theme", "", 650, 35, 376, 45, 30, TextAlignmentOptions.MidlineRight);
@@ -256,7 +277,7 @@ namespace William.NotebookUI.Editor
         private static void EnsureFolder(string path) { Directory.CreateDirectory(path); AssetDatabase.Refresh(); }
         private static Sprite Load(string relative)
         {
-            string textureRoot = relative.StartsWith("Map/", StringComparison.Ordinal) ? MapTex
+            string textureRoot = (relative.StartsWith("Map/", StringComparison.Ordinal) || relative.StartsWith("Constellations/", StringComparison.Ordinal) || relative.StartsWith("ConstellationLines/", StringComparison.Ordinal)) ? MapTex
                 : relative.StartsWith("Controls/Slider", StringComparison.Ordinal) || relative.StartsWith("Controls/Toggle", StringComparison.Ordinal) || relative == "Paper/SettingsPanel" ? SettingsTex
                 : MainTex;
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(textureRoot + relative + ".png");

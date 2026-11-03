@@ -20,15 +20,23 @@ namespace William.NotebookUI
         public string from, to, sprite;
         public float x, y, width, height;
     }
+    /// <summary>Authoring metadata for a static illustration behind the playable stars.</summary>
+    [Serializable] public sealed class NotebookConstellationArtwork
+    {
+        public string id, themeId, sprite, wireSprite;
+        public float x, y, width, height;
+        public string[] stageIds = Array.Empty<string>();
+    }
     [Serializable] public sealed class NotebookCatalog
     {
         public int referenceWidth = 1080, referenceHeight = 1920, chapterHeight = 1180, mapContentHeight = 4720;
         public int stageEntryCost = 1, telescopeCapacity = 10, recoverySeconds = 180, rewardedAdAmount = 5;
-        public bool stageLayoutIsExample, requiredStagePolicyIsExample;
+        public bool stageLayoutIsExample, stageBindingsPending, requiredStagePolicyIsExample;
         public string[] battleRequiredStageIds = Array.Empty<string>();
         public NotebookTheme[] themes = Array.Empty<NotebookTheme>();
         public NotebookStage[] stages = Array.Empty<NotebookStage>();
         public NotebookEdge[] edges = Array.Empty<NotebookEdge>();
+        public NotebookConstellationArtwork[] artworks = Array.Empty<NotebookConstellationArtwork>();
         public NotebookStage FindStage(string id) => Array.Find(stages, item => item.id == id);
         public NotebookTheme FindTheme(string id) => Array.Find(themes, item => item.id == id);
         public static NotebookCatalog Parse(TextAsset asset)
