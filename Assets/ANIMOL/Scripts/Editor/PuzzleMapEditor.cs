@@ -227,7 +227,22 @@ namespace ANIMOL.Presentation.Editor
         {
             if (layer == Layer.Terrain)
             {
-                material = (TerrainMaterial)EditorGUILayout.IntPopup("배치할 지형 타일", (int)material, new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
+                if (map.theme && map.theme.memorySkyTheater && map.theme.memorySkyTheater.v02)
+                {
+                    if (!EchoTheaterTerrain.IsAuthored(material)) material = TerrainMaterial.TheaterStageFloor;
+                    material = (TerrainMaterial)EditorGUILayout.IntPopup("배치할 지형 타일", (int)material,
+                        new[] { "무대 바닥", "레드카펫", "나무 보행로" },
+                        new[] { (int)TerrainMaterial.TheaterStageFloor,
+                            (int)TerrainMaterial.TheaterVelvetCarpet,
+                            (int)TerrainMaterial.TheaterWoodCatwalk });
+                    EditorGUILayout.HelpBox("선택한 종류가 맵 지형 데이터에 저장됩니다. 기존 맵의 외형 마스크는 예전 지형 칸에만 적용됩니다.", MessageType.Info);
+                }
+                else
+                {
+                    if (EchoTheaterTerrain.IsAuthored(material)) material = TerrainMaterial.Grass;
+                    material = (TerrainMaterial)EditorGUILayout.IntPopup("배치할 지형 타일", (int)material,
+                        new[] { "풀", "돌", "모래" }, new[] { 0, 1, 2 });
+                }
                 blocked = EditorGUILayout.Toggle("통행 금지 칸", blocked);
                 EditorGUILayout.HelpBox("왼쪽 드래그로 지형을 칠하고 오른쪽 드래그로 지웁니다. 지우개를 켜면 왼쪽 드래그도 지웁니다. 빈 칸은 지나갈 수 없으며 다른 레이어는 보존됩니다.", MessageType.Info);
             }
@@ -1414,15 +1429,9 @@ namespace ANIMOL.Presentation.Editor
         }
         public static string[] TheaterTerrainRows(PuzzleMap data)
         {
-            var occupancy = new bool[data.Width, data.Height];
-            for (var y = 0; y < data.Height; y++) for (var x = 0; x < data.Width; x++)
-                occupancy[x, y] = data.TryTerrain(new Vector2Int(x, data.Height - 1 - y), out _);
             var layout = data.theme.memorySkyTheater.defaultLayout;
-            var deck = layout ? new HashSet<Vector2Int>(layout.visualDeck) : new HashSet<Vector2Int>();
-            var carpet = layout ? new HashSet<Vector2Int>(layout.velvet) : new HashSet<Vector2Int>();
-            return EchoTheaterV03MaterialSelector.BuildVisualMaterialRows(occupancy,
-                (x, y) => deck.Contains(new Vector2Int(x, data.Height - 1 - y)),
-                (x, y) => carpet.Contains(new Vector2Int(x, data.Height - 1 - y)));
+            return EchoTheaterTerrain.VisualRows(data,
+                layout ? layout.visualDeck : null, layout ? layout.velvet : null);
         }
         public static string[] StarwayTerrainRows(PuzzleMap data)
         {

@@ -3,9 +3,57 @@
 using System;
 using NUnit.Framework;
 using ANIMOL.Art.EchoTheaterV03;
+using ANIMOL.Puzzle;
+using UnityEngine;
 
 public sealed class EchoTheaterV03TerrainTests
 {
+    [Test]
+    public void AuthoredTerrainOverridesLegacyMasksAndNeverCreatesFloor()
+    {
+        var map = ScriptableObject.CreateInstance<PuzzleMap>();
+        try
+        {
+            map.Resize(5, 1);
+            for (int x = 0; x < 5; x++) map.SetTerrain(new Vector2Int(x, 0), TerrainMaterial.Grass);
+            map.SetTerrain(new Vector2Int(2, 0), TerrainMaterial.TheaterStageFloor);
+            map.SetTerrain(new Vector2Int(3, 0), TerrainMaterial.TheaterVelvetCarpet);
+            map.SetTerrain(new Vector2Int(4, 0), TerrainMaterial.TheaterWoodCatwalk);
+            var deck = new[] { new Vector2Int(0, 0), new Vector2Int(2, 0), new Vector2Int(3, 0) };
+            var velvet = new[] { new Vector2Int(1, 0), new Vector2Int(2, 0), new Vector2Int(4, 0) };
+            var rows = EchoTheaterTerrain.VisualRows(map, deck, velvet);
+            Assert.That(rows, Is.EqualTo(new[] { "WSGSW" }));
+            Assert.That(EchoTheaterV03MaterialSelector.GetTopSpritePath(rows, 2, 0), Does.Contain("stage_floor"));
+            Assert.That(EchoTheaterV03MaterialSelector.GetTopSpritePath(rows, 3, 0), Does.Contain("velvet_carpet"));
+            Assert.That(EchoTheaterV03MaterialSelector.GetTopSpritePath(rows, 4, 0), Does.Contain("wood_catwalk"));
+            Assert.That(map.terrain, Has.Count.EqualTo(5));
+            Assert.That(map.Walkable(new Vector2Int(3, 0)), Is.True);
+            map.RemoveTerrain(new Vector2Int(4, 0));
+            Assert.That(EchoTheaterTerrain.VisualRows(map, deck, velvet), Is.EqualTo(new[] { "WSGS0" }));
+        }
+        finally { UnityEngine.Object.DestroyImmediate(map); }
+    }
+
+    [Test]
+    public void MapEditorPreviewUsesThePaintedTheaterSprite()
+    {
+        var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+            "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-03_MapData.asset");
+        Assert.That(source, Is.Not.Null);
+        var map = UnityEngine.Object.Instantiate(source);
+        try
+        {
+            var cell = map.terrain[0].position;
+            map.SetTerrain(cell, TerrainMaterial.TheaterVelvetCarpet);
+            var rows = ANIMOL.Presentation.Editor.PuzzleMapEditor.TheaterTerrainRows(map);
+            var path = EchoTheaterV03MaterialSelector.GetTopSpritePath(rows, cell.x, map.Height - 1 - cell.y);
+            Assert.That(path, Does.Contain("velvet_carpet"));
+            Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.TerrainPreviewSprite(map, cell),
+                Is.EqualTo(map.theme.memorySkyTheater.v02.Find(path)));
+        }
+        finally { UnityEngine.Object.DestroyImmediate(map); }
+    }
+
     [Test]
     public void CarpetPaintCannotCreateFloorOccupancy()
     {

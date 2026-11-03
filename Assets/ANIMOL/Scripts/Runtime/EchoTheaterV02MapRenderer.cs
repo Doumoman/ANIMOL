@@ -50,13 +50,7 @@ namespace ANIMOL.Puzzle
             }
             artwork = new GameObject("Echo Theater V03 artwork").transform;
             artwork.SetParent(transform, false);
-            var occupancy = new bool[map.Width, map.Height];
-            for (var y = 0; y < map.Height; y++)
-                for (var x = 0; x < map.Width; x++)
-                    occupancy[x, y] = map.TryTerrain(new Vector2Int(x, map.Height - 1 - y), out _);
-            var rows = EchoTheaterV03MaterialSelector.BuildVisualMaterialRows(occupancy,
-                (x, y) => catwalk.Contains(new Vector2Int(x, map.Height - 1 - y)),
-                (x, y) => carpet.Contains(new Vector2Int(x, map.Height - 1 - y)));
+            var rows = EchoTheaterTerrain.VisualRows(map, catwalk, carpet);
 
             // Full-map planning preserves diagonal neighbors, hole classification and span grouping.
             var finishes = EchoTheaterV03MaterialSelector.GetBottomFinishes(rows, 0, 0, 0);

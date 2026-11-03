@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace ANIMOL.Puzzle
 {
-    public enum TerrainMaterial { Grass, Stone, Sand }
+    public enum TerrainMaterial
+    {
+        Grass = 0, Stone = 1, Sand = 2,
+        TheaterStageFloor = 3, TheaterVelvetCarpet = 4, TheaterWoodCatwalk = 5
+    }
     public enum DeviceKind { None, Conveyor, Wind, Ice, Brake, Portal }
     [Serializable] public struct TerrainCell
     {
@@ -13,6 +17,39 @@ namespace ANIMOL.Puzzle
         public TerrainMaterial material;
         public bool blocked;
         public TerrainCell(Vector2Int p, TerrainMaterial m, bool b = false) { position = p; material = m; blocked = b; }
+    }
+    // Theater-only authored materials override its older visual layout masks.
+    // Legacy Grass cells still read those masks, so existing maps keep their appearance.
+    public static class EchoTheaterTerrain
+    {
+        public static bool IsAuthored(TerrainMaterial material) =>
+            material == TerrainMaterial.TheaterStageFloor ||
+            material == TerrainMaterial.TheaterVelvetCarpet ||
+            material == TerrainMaterial.TheaterWoodCatwalk;
+
+        public static string[] VisualRows(PuzzleMap map, IEnumerable<Vector2Int> visualDeck,
+            IEnumerable<Vector2Int> velvet)
+        {
+            if (!map) throw new ArgumentNullException(nameof(map));
+            var deck = new HashSet<Vector2Int>(visualDeck ?? Enumerable.Empty<Vector2Int>());
+            var carpet = new HashSet<Vector2Int>(velvet ?? Enumerable.Empty<Vector2Int>());
+            var rows = new string[map.Height];
+            for (int y = 0; y < map.Height; y++)
+            {
+                var cells = new char[map.Width];
+                for (int x = 0; x < map.Width; x++)
+                {
+                    var position = new Vector2Int(x, map.Height - 1 - y);
+                    if (!map.TryTerrain(position, out var tile)) { cells[x] = '0'; continue; }
+                    cells[x] = tile.material == TerrainMaterial.TheaterStageFloor ? 'G' :
+                        tile.material == TerrainMaterial.TheaterVelvetCarpet ? 'S' :
+                        tile.material == TerrainMaterial.TheaterWoodCatwalk ? 'W' :
+                        deck.Contains(position) ? 'W' : carpet.Contains(position) ? 'S' : 'G';
+                }
+                rows[y] = new string(cells);
+            }
+            return rows;
+        }
     }
     [Serializable] public struct DeviceCell
     {

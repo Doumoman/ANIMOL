@@ -18,6 +18,40 @@ namespace ANIMOL.Tests
         static float WorldSpriteWidth(SpriteRenderer renderer) =>
             renderer.sprite.bounds.size.x * renderer.transform.lossyScale.x;
 
+        [UnityTest] public IEnumerator PaintedTheaterTerrainUpdatesRuntimeArtWithoutChangingWalkability()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-03_MapData.asset");
+            Assert.That(source, Is.Not.Null);
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var host = new GameObject("Theater terrain paint test");
+            try
+            {
+                map.Resize(3, 1); map.theme = source.theme;
+                for (int x = 0; x < 3; x++)
+                    map.SetTerrain(new Vector2Int(x, 0), TerrainMaterial.TheaterStageFloor);
+                var renderer = host.AddComponent<EchoTheaterV02MapRenderer>();
+                var art = map.theme.memorySkyTheater;
+                renderer.Bind(map, art.v02, art.defaultLayout);
+                yield return null;
+                var cell = new Vector2Int(1, 0);
+                foreach (var material in new[] { TerrainMaterial.TheaterVelvetCarpet,
+                    TerrainMaterial.TheaterWoodCatwalk, TerrainMaterial.TheaterStageFloor })
+                {
+                    map.SetTerrain(cell, material);
+                    var floor = host.GetComponentsInChildren<SpriteRenderer>()
+                        .Single(view => view.name == "Floor 1,0");
+                    var rows = EchoTheaterTerrain.VisualRows(map,
+                        art.defaultLayout.visualDeck, art.defaultLayout.velvet);
+                    var path = ANIMOL.Art.EchoTheaterV03.EchoTheaterV03MaterialSelector
+                        .GetTopSpritePath(rows, 1, 0);
+                    Assert.That(floor.sprite, Is.EqualTo(art.v02.Find(path)), material.ToString());
+                    Assert.That(map.Walkable(cell), Is.True, material.ToString());
+                }
+            }
+            finally { Object.Destroy(host); Object.Destroy(map); }
+        }
+
         [UnityTest] public IEnumerator AllThirtyFiveStagesLoadVisualBindings()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
