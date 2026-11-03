@@ -11,20 +11,33 @@ namespace William.NotebookUI
     }
     [Serializable] public sealed class NotebookStage
     {
-        public string id, themeId, label, sceneName;
-        public int order;
+        public string id, themeId, label, sceneName, artworkId;
+        public int order, wireVertexIndex;
         public float x, y;
+    }
+    [Serializable] public sealed class NotebookMapPoint
+    {
+        public float x, y;
+    }
+    [Serializable] public sealed class NotebookWireVertex
+    {
+        public float u, v, x, y;
+        public string stageId;
     }
     [Serializable] public sealed class NotebookEdge
     {
-        public string from, to, sprite;
+        public string from, to, sprite, kind, artworkId;
         public float x, y, width, height;
+        public NotebookMapPoint[] points = Array.Empty<NotebookMapPoint>();
     }
     /// <summary>Authoring metadata for a static illustration behind the playable stars.</summary>
     [Serializable] public sealed class NotebookConstellationArtwork
     {
         public string id, themeId, sprite, wireSprite;
         public float x, y, width, height;
+        public float sourceWidth, sourceHeight, renderX, renderY, renderWidth, renderHeight;
+        public NotebookWireVertex[] wireVertices = Array.Empty<NotebookWireVertex>();
+        public int[] wirePath = Array.Empty<int>(), stageRouteIndices = Array.Empty<int>();
         public string[] stageIds = Array.Empty<string>();
     }
     [Serializable] public sealed class NotebookCatalog

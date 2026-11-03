@@ -69,6 +69,14 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(clearedNode.locked.gameObject.activeSelf, Is.False);
                 Assert.That(clearedNode.number.gameObject.activeSelf, Is.True);
                 Assert.That(clearedNode.label.text, Does.Contain("완료"));
+                var firstEdge = root.edges.First(e => e.from == "SW01" && e.to == "SW02");
+                Assert.That(firstEdge.image.sprite, Is.EqualTo(firstEdge.future));
+                model.State.clearedStageIds.Add("SW02");
+                typeof(NotebookRoot).GetMethod("RefreshMap", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .Invoke(root, null);
+                Assert.That(firstEdge.image.sprite, Is.EqualTo(firstEdge.cleared));
+                var secondEdge = root.edges.First(e => e.from == "SW02" && e.to == "SW03");
+                Assert.That(secondEdge.image.sprite, Is.EqualTo(secondEdge.future));
             }
             finally
             {

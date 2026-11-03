@@ -44,8 +44,10 @@ namespace ANIMOL.Presentation.Tests
             var images = root.GetComponentsInChildren<Image>(true);
             Assert.That(images.Count(i => i.name.StartsWith("Constellation Figure ")), Is.EqualTo(32));
             Assert.That(images.Count(i => i.name.StartsWith("Static Constellation Wire ")), Is.EqualTo(32));
-            Assert.That(images.Where(i => i.name.StartsWith("Constellation Figure ") ||
-                i.name.StartsWith("Static Constellation Wire ")).All(i => i.preserveAspect && i.color == Color.white), Is.True);
+            Assert.That(images.Where(i => i.name.StartsWith("Constellation Figure "))
+                .All(i => i.preserveAspect && i.color == Color.white), Is.True);
+            Assert.That(images.Where(i => i.name.StartsWith("Static Constellation Wire "))
+                .All(i => !i.preserveAspect && i.color == Color.white), Is.True);
             var skies = images.Where(i => i.name.StartsWith("Static Night Sky ")).ToArray();
             Assert.That(skies.Length, Is.EqualTo(4));
             Assert.That(skies.All(i => AssetDatabase.GetAssetPath(i.sprite) == MapTextures + "Map/NightSky.png"), Is.True);
@@ -55,8 +57,43 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(AssetDatabase.LoadAssetAtPath<Sprite>(MapTextures + art.sprite + ".png"), Is.Not.Null, art.id);
                 Assert.That(AssetDatabase.LoadAssetAtPath<Sprite>(MapTextures + art.wireSprite + ".png"), Is.Not.Null, art.id);
                 Assert.That(art.stageIds.All(id => catalog.FindStage(id) != null), Is.True, art.id);
+                Assert.That(art.stageRouteIndices.Length, Is.EqualTo(art.stageIds.Length), art.id);
+                var figure = images.Single(i => i.name == "Constellation Figure " + art.id);
+                var wire = images.Single(i => i.name == "Static Constellation Wire " + art.id);
+                Assert.That(wire.rectTransform.anchoredPosition, Is.EqualTo(figure.rectTransform.anchoredPosition), art.id);
+                Assert.That(wire.rectTransform.sizeDelta, Is.EqualTo(figure.rectTransform.sizeDelta), art.id);
+                for (int i = 0; i < art.stageIds.Length; i++)
+                {
+                    var stage = catalog.FindStage(art.stageIds[i]);
+                    int vertexIndex = art.wirePath[art.stageRouteIndices[i]];
+                    var vertex = art.wireVertices[vertexIndex];
+                    var node = root.nodes.Single(n => n.stageId == stage.id);
+                    var box = (RectTransform)node.star.rectTransform.parent;
+                    Assert.That(stage.artworkId, Is.EqualTo(art.id));
+                    Assert.That(stage.wireVertexIndex, Is.EqualTo(vertexIndex));
+                    Assert.That(vertex.stageId, Is.EqualTo(stage.id));
+                    Assert.That(stage.x, Is.EqualTo(vertex.x).Within(.02f), stage.id);
+                    Assert.That(stage.y, Is.EqualTo(vertex.y).Within(.02f), stage.id);
+                    Assert.That(stage.x, Is.EqualTo(art.renderX + vertex.u * art.renderWidth).Within(.02f), stage.id);
+                    Assert.That(stage.y, Is.EqualTo(art.renderY + vertex.v * art.renderHeight).Within(.02f), stage.id);
+                    Assert.That(box.anchoredPosition.x + node.star.rectTransform.rect.width * .5f,
+                        Is.EqualTo(stage.x).Within(.02f), stage.id);
+                    Assert.That(-box.anchoredPosition.y + node.star.rectTransform.rect.height * .5f,
+                        Is.EqualTo(stage.y).Within(.02f), stage.id);
+                }
             }
             Assert.That(catalog.artworks.Sum(a => a.stageIds.Length), Is.EqualTo(110));
+            Assert.That(catalog.edges.Count(e => e.kind == "constellation"), Is.EqualTo(78));
+            Assert.That(catalog.edges.Count(e => e.kind == "transition"), Is.EqualTo(28));
+            foreach (var edge in catalog.edges)
+            {
+                var from = catalog.FindStage(edge.from); var to = catalog.FindStage(edge.to);
+                Assert.That(edge.points.Length, Is.GreaterThanOrEqualTo(2), edge.sprite);
+                Assert.That(edge.points[0].x, Is.EqualTo(from.x).Within(.02f), edge.sprite);
+                Assert.That(edge.points[0].y, Is.EqualTo(from.y).Within(.02f), edge.sprite);
+                Assert.That(edge.points[edge.points.Length - 1].x, Is.EqualTo(to.x).Within(.02f), edge.sprite);
+                Assert.That(edge.points[edge.points.Length - 1].y, Is.EqualTo(to.y).Within(.02f), edge.sprite);
+            }
             Assert.That(images.Where(i => i.sprite && AssetDatabase.GetAssetPath(i.sprite).StartsWith("Assets/ANIMOL/Art/UI/"))
                 .All(i => i.color == Color.white), Is.True);
         }

@@ -181,7 +181,7 @@ namespace William.NotebookUI.Editor
                 {
                     Image wire = Picture(content, "Static Constellation Wire " + art.id, art.wireSprite);
                     At(wire.rectTransform, art.x, art.y, art.width, art.height);
-                    wire.preserveAspect = true;
+                    wire.preserveAspect = false;
                 }
             }
             ui.edges = catalog.edges.Select(e => { Image im = Picture(content, e.from + " to " + e.to, e.sprite + "_Future"); At(im.rectTransform, e.x, e.y, e.width, e.height); return new NotebookEdgeView { from = e.from, to = e.to, image = im, future = Load(e.sprite + "_Future"), cleared = Load(e.sprite + "_Cleared") }; }).ToArray();
