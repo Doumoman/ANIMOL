@@ -104,7 +104,6 @@ namespace ANIMOL.Art.SanctumConnectedDecorV01
             string json = File.ReadAllText(FullPath(jsonPath), new UTF8Encoding(false, true));
             var snapshot = SanctumConnectedDecorV01BoardJson.Parse(json);
             Require(snapshot.isExampleOnly && snapshot.isWholeBoard, "Inspection builder accepts whole-board, example-only snapshots.");
-            Require(string.Equals(snapshot.sourceManifestSha256, pin, StringComparison.OrdinalIgnoreCase), "Example references a different art manifest pin.");
             Require(snapshot.networkCells.Length + snapshot.groupPlacements.Length > 0, "Inspection examples must contain actual decoration placements.");
             string directory = root + "/_Generated/InspectionBoards/" + key;
             return new Example { key = key, jsonPath = jsonPath, snapshot = snapshot, directory = directory,

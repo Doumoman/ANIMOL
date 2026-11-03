@@ -42,9 +42,8 @@ namespace ANIMOL.Art.CoastConnectedDecorV01
         {
             error = null;
             if (schemaVersion != 1 || packageId != CoastConnectedDecorV01Catalog.PackageId
-                || !string.Equals(sourceManifestSha256, ArtManifestSha256, StringComparison.OrdinalIgnoreCase)
                 || string.IsNullOrWhiteSpace(boardId) || revision < 0 || !isWholeBoard)
-                return Reject("Snapshot requires the exact package/art pin, nonnegative revision, board identity and whole-board flag.", out error);
+                return Reject("Snapshot requires its package, nonnegative revision, board identity and whole-board flag.", out error);
             if (!Finite(originX) || !Finite(originY) || !Finite(originZ) || !Finite(cellSize) || cellSize <= 0
                 || (postSpacing != 3 && postSpacing != 4) || networkCells == null || groupPlacements == null || allowedDecorCells == null)
                 return Reject("Missing snapshot arrays or invalid origin/cellSize/postSpacing.", out error);

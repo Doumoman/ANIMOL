@@ -30,9 +30,9 @@ namespace ANIMOL.Puzzle
         public static Mapping SourceMapping(PuzzleTheme theme, Sprite sprite)
         {
             if (!theme || !theme.memorySkyTheater || !theme.memorySkyTheater.v02 || !sprite ||
-                !theme.theaterConnectedDecorV01Catalog || !theme.theaterConnectedDecorV01ManifestPin) return null;
+                !theme.theaterConnectedDecorV01Catalog) return null;
             var catalog = theme.theaterConnectedDecorV01Catalog;
-            var pin = theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+            var pin = theme.theaterConnectedDecorV01Catalog.SourceManifestSha256;
             foreach (var family in TheaterConnectedDecorV01Planner.NetworkFamilies)
                 if (catalog.TryGetExact(TheaterConnectedDecorV01Planner.NetworkFile(family, 0), pin,
                     out var art, out _) && art.Sprite == sprite)
@@ -74,10 +74,9 @@ namespace ANIMOL.Puzzle
             out TheaterConnectedDecorV01BoardSnapshot snapshot, out string error)
         {
             snapshot = null; error = null;
-            if (!IsTheater(map) || !map.theme.theaterConnectedDecorV01Catalog ||
-                !map.theme.theaterConnectedDecorV01ManifestPin)
-            { error = "The theater map needs its exact connected decoration catalog and art pin."; return false; }
-            var pin = map.theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+            if (!IsTheater(map) || !map.theme.theaterConnectedDecorV01Catalog)
+            { error = "The theater map needs a connected decoration catalog."; return false; }
+            var pin = map.theme.theaterConnectedDecorV01Catalog.SourceManifestSha256;
             if (!map.theme.theaterConnectedDecorV01Catalog.ValidateIntegrity(pin, out error)) return false;
             var networks = new List<TheaterDecorNetworkCell>();
             var groups = new List<TheaterDecorGroupPlacement>();

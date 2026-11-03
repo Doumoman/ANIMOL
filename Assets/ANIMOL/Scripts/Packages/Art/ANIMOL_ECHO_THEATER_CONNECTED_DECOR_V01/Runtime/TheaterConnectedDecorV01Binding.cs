@@ -69,7 +69,7 @@ namespace ANIMOL.Art.TheaterConnectedDecorV01
         { if (subscribedSource != null) subscribedSource.Changed -= OnSourceChanged; subscribedSource = null; }
         private void OnSourceChanged()
         {
-            if (!isActiveAndEnabled) return;
+            if (!this || !isActiveAndEnabled) return;
             if (refreshing) { refreshRequested = true; return; }
             string ignored; RefreshNow(out ignored);
         }
@@ -99,8 +99,8 @@ namespace ANIMOL.Art.TheaterConnectedDecorV01
                 return Fail("Binding requires its own enabled same-GameObject Controller.", null, out error);
             if (source == null || !source.enabled || (isActiveAndEnabled && !source.isActiveAndEnabled))
                 return Fail("Snapshot source is missing or disabled.", null, out error);
-            if (catalog == null || !string.Equals(expectedManifestSha256, TheaterConnectedDecorV01BoardSnapshot.ArtManifestSha256, StringComparison.OrdinalIgnoreCase))
-                return Fail("Binding requires the current catalog and exact art manifest pin.", null, out error);
+            if (catalog == null)
+                return Fail("Binding requires a connected decoration catalog.", null, out error);
             bool layerExists = false;
             foreach (SortingLayer layer in SortingLayer.layers) if (layer.name == sortingLayerName) layerExists = true;
             if (!layerExists) return Fail("Select an existing actual decoration Sorting Layer explicitly.", null, out error);

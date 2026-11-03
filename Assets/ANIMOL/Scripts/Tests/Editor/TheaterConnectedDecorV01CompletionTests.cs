@@ -71,9 +71,9 @@ public sealed class TheaterConnectedDecorV01CompletionTests
         var data = Piano(); data.groupPlacements[0].heightKey = 1; string error;
         Assert.IsFalse(data.TryValidate(out error));
     }
-    [Test] public void WrongPinPartialBoardAndWorldOverflowFail()
+    [Test] public void DifferentArtPinIsAllowedButPartialBoardAndWorldOverflowFail()
     {
-        string error; var data = Piano(); data.sourceManifestSha256 = new string('0', 64); Assert.IsFalse(data.TryValidate(out error));
+        string error; var data = Piano(); data.sourceManifestSha256 = new string('0', 64); Assert.IsTrue(data.TryValidate(out error), error);
         data = Piano(); data.isWholeBoard = false; Assert.IsFalse(data.TryValidate(out error));
         data = Piano(); data.cellSize = float.MaxValue; Assert.IsFalse(data.TryValidate(out error));
     }
@@ -196,7 +196,8 @@ public sealed class TheaterConnectedDecorV01CompletionTests
             source.enabled = false; Assert.AreEqual(0, controller.OwnedVisualCount);
             source.enabled = true; Assert.AreEqual(1, controller.OwnedVisualCount);
             node.SetActive(false); Assert.AreEqual(0, controller.OwnedVisualCount);
-            node.SetActive(true); Assert.AreEqual(1, controller.OwnedVisualCount);
+            node.SetActive(true); Assert.IsTrue(binding.RefreshNow(out error), error);
+            Assert.AreEqual(1, controller.OwnedVisualCount);
         }
         finally { UnityEngine.Object.DestroyImmediate(node); UnityEngine.Object.DestroyImmediate(asset); }
     }

@@ -104,14 +104,11 @@ namespace ANIMOL.Art.RanchConnectedDecorV01
         public bool ValidateIntegrity(string expectedManifestSha256, out string error)
         {
             error = null;
-            if (!IsHash(expectedManifestSha256, 64) || !string.Equals(expectedManifestSha256, sourceManifestSha256, StringComparison.OrdinalIgnoreCase))
-                return Error("Missing/mismatching current manifest SHA pin.", out error);
+            // Art may be moved or revised without invalidating serialized Sprite GUIDs.
+            // Validate the records used by the planner, not a package pin or fingerprint.
             if (validated) return true;
-            if (packageId != PackageId || !IsHash(sourceRootGuid, 32) || string.IsNullOrEmpty(sourceRootPath)
-                || !sourceRootPath.StartsWith("Assets/", StringComparison.Ordinal) || !sourceRootPath.EndsWith("/" + PackageId, StringComparison.Ordinal)
-                || sprites == null || sprites.Length == 0 || groups == null || groups.Length == 0 || !IsHash(fingerprint, 64))
-                return Error("Missing or incompatible latest decor catalog.", out error);
-            if (!string.Equals(ComputeFingerprint(), fingerprint, StringComparison.Ordinal)) return Error("Current catalog fingerprint differs.", out error);
+            if (sprites == null || sprites.Length == 0 || groups == null)
+                return Error("Decoration catalog has no sprite or group records.", out error);
             var files = new Dictionary<string, SpriteRecord>(StringComparer.Ordinal);
             var caseFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (SpriteRecord row in sprites)

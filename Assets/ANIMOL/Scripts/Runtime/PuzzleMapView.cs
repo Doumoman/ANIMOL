@@ -200,8 +200,7 @@ namespace ANIMOL.Puzzle
             }
             visible = default; SyncViewport(true);
             foreach (var d in map.devices) if (map.Contains(d.position)) DrawDevice(d);
-            if (map.theme && map.theme.starwayRanch && map.theme.ranchConnectedDecorV02Catalog &&
-                map.theme.ranchConnectedDecorV02ManifestPin)
+            if (map.theme && map.theme.starwayRanch && map.theme.ranchConnectedDecorV02Catalog)
             {
                 var node = new GameObject("Ranch connected decoration V02");
                 node.SetActive(false); node.transform.SetParent(objectsRoot, false);
@@ -209,7 +208,7 @@ namespace ANIMOL.Puzzle
                 ranchDecorSource = node.AddComponent<RanchConnectedDecorV02PublishedSnapshotSource>();
                 ranchDecorBinding = node.AddComponent<RanchConnectedDecorV02Binding>();
                 PublishRanchDecor();
-                var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+                var pin = map.theme.ranchConnectedDecorV02Catalog.SourceManifestSha256;
                 if (!ranchDecorBinding.Bind(connectedDecor, map.theme.ranchConnectedDecorV02Catalog,
                     pin, "Default", ranchDecorSource, out var error))
                     Debug.LogError("Ranch decoration binding rejected: " + error, this);
@@ -217,9 +216,8 @@ namespace ANIMOL.Puzzle
             }
             else if (map.theme && map.theme.starwayRanch && map.decorations.Any(d =>
                 !string.IsNullOrEmpty(d.visualFamily) || RanchConnectedDecorV02Host.TryMap(map, d, out _)))
-                Debug.LogError("Ranch connected decoration catalog or manifest pin is missing.", this);
-            if (TheaterConnectedDecorHost.IsTheater(map) && map.theme.theaterConnectedDecorV01Catalog &&
-                map.theme.theaterConnectedDecorV01ManifestPin)
+                Debug.LogError("Ranch connected decoration catalog is missing.", this);
+            if (TheaterConnectedDecorHost.IsTheater(map) && map.theme.theaterConnectedDecorV01Catalog)
             {
                 var node = new GameObject("Theater connected decoration V01");
                 node.SetActive(false); node.transform.SetParent(objectsRoot, false);
@@ -227,7 +225,7 @@ namespace ANIMOL.Puzzle
                 theaterDecorSource = node.AddComponent<TheaterConnectedDecorV01PublishedSnapshotSource>();
                 theaterDecorBinding = node.AddComponent<TheaterConnectedDecorV01Binding>();
                 PublishTheaterDecor();
-                var pin = map.theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+                var pin = map.theme.theaterConnectedDecorV01Catalog.SourceManifestSha256;
                 if (!theaterDecorBinding.Bind(theaterConnectedDecor, map.theme.theaterConnectedDecorV01Catalog,
                     pin, "Default", theaterDecorSource, out var error))
                     Debug.LogError("Theater decoration binding rejected: " + error, this);
@@ -235,9 +233,8 @@ namespace ANIMOL.Puzzle
             }
             else if (TheaterConnectedDecorHost.IsTheater(map) && map.decorations.Any(d =>
                 TheaterConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
-                Debug.LogError("Theater connected decoration catalog or manifest pin is missing.", this);
-            if (SanctumConnectedDecorHost.IsSanctum(map) && map.theme.sanctumConnectedDecorV01Catalog &&
-                map.theme.sanctumConnectedDecorV01ManifestPin)
+                Debug.LogError("Theater connected decoration catalog is missing.", this);
+            if (SanctumConnectedDecorHost.IsSanctum(map) && map.theme.sanctumConnectedDecorV01Catalog)
             {
                 var node = new GameObject("Sanctum connected decoration V01");
                 node.SetActive(false); node.transform.SetParent(objectsRoot, false);
@@ -245,7 +242,7 @@ namespace ANIMOL.Puzzle
                 sanctumDecorSource = node.AddComponent<SanctumConnectedDecorV01PublishedSnapshotSource>();
                 sanctumDecorBinding = node.AddComponent<SanctumConnectedDecorV01Binding>();
                 PublishSanctumDecor();
-                var pin = map.theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
+                var pin = map.theme.sanctumConnectedDecorV01Catalog.SourceManifestSha256;
                 if (!sanctumDecorBinding.Bind(sanctumConnectedDecor, map.theme.sanctumConnectedDecorV01Catalog,
                     pin, "Default", sanctumDecorSource, out var error))
                     Debug.LogError("Sanctum decoration binding rejected: " + error, this);
@@ -253,9 +250,8 @@ namespace ANIMOL.Puzzle
             }
             else if (SanctumConnectedDecorHost.IsSanctum(map) && map.decorations.Any(d =>
                 SanctumConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
-                Debug.LogError("Sanctum connected decoration catalog or manifest pin is missing.", this);
-            if (CoastConnectedDecorHost.IsCoast(map) && map.theme.coastConnectedDecorV01Catalog &&
-                map.theme.coastConnectedDecorV01ManifestPin)
+                Debug.LogError("Sanctum connected decoration catalog is missing.", this);
+            if (CoastConnectedDecorHost.IsCoast(map) && map.theme.coastConnectedDecorV01Catalog)
             {
                 var node = new GameObject("Coast connected decoration V01");
                 node.SetActive(false); node.transform.SetParent(objectsRoot, false);
@@ -263,7 +259,7 @@ namespace ANIMOL.Puzzle
                 coastDecorSource = node.AddComponent<CoastConnectedDecorV01PublishedSnapshotSource>();
                 coastDecorBinding = node.AddComponent<CoastConnectedDecorV01Binding>();
                 PublishCoastDecor();
-                var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
+                var pin = map.theme.coastConnectedDecorV01Catalog.SourceManifestSha256;
                 if (!coastDecorBinding.Bind(coastConnectedDecor, map.theme.coastConnectedDecorV01Catalog,
                     pin, "Default", coastDecorSource, out var error))
                     Debug.LogError("Coast decoration binding rejected: " + error, this);
@@ -271,7 +267,7 @@ namespace ANIMOL.Puzzle
             }
             else if (CoastConnectedDecorHost.IsCoast(map) && map.decorations.Any(d =>
                 CoastConnectedDecorHost.IsDeclaredKey(d.visualFamily)))
-                Debug.LogError("Coast connected decoration catalog or manifest pin is missing.", this);
+                Debug.LogError("Coast connected decoration catalog is missing.", this);
             foreach (var d in map.decorations) if (map.Contains(d.position) &&
                 !TheaterConnectedDecorHost.IsTheater(map) && !SanctumConnectedDecorHost.IsSanctum(map) &&
                 !CoastConnectedDecorHost.IsCoast(map))

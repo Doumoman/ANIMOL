@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public sealed class RanchConnectedDecorV02PlayTests
     {
-        const string InspectionRoot = "Assets/ANIMOL/Art/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02/_Generated/InspectionBoards/";
+        const string InspectionRoot = "Assets/ANIMOL/Scenes/QA/ArtPackages/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02/_Generated/InspectionBoards/";
 
         [UnityTest]
         public IEnumerator StageAndAll26ScenesRenderImportedSprites()
@@ -40,7 +40,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.GreaterOrEqual(renderers.Length, row.Network + row.Groups);
                 Assert.IsTrue(renderers.All(r => r.enabled && r.gameObject.activeInHierarchy && r.sprite &&
                     Mathf.Abs(r.sprite.pixelsPerUnit - 256) < .001f &&
-                    UnityEditor.AssetDatabase.GetAssetPath(r.sprite).Contains("ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02")));
+                    UnityEditor.AssetDatabase.GetAssetPath(r.sprite).Contains("Art/Maps/StarwayRanch/Decorations/Connected/")));
                 Assert.IsTrue(binding.LastReport.success, binding.LastDiagnostic);
             }
 #else

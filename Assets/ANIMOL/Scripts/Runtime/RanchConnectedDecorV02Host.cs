@@ -70,10 +70,9 @@ namespace ANIMOL.Puzzle
                 if (map.theme.starwayRanch.Find(legacy.sourceId) == sprite) return legacy;
 
             var catalog = map.theme.ranchConnectedDecorV02Catalog;
-            var pinAsset = map.theme.ranchConnectedDecorV02ManifestPin;
-            if (catalog && pinAsset)
+            if (catalog)
             {
-                var pin = pinAsset.text.Trim();
+                var pin = catalog.SourceManifestSha256;
                 foreach (var family in RanchConnectedDecorV02Planner.NetworkFamilies)
                     if (catalog.TryGetExact(RanchConnectedDecorV02Planner.NetworkFile(family, 0), pin,
                         out var art, out _) && art.Sprite == sprite)
@@ -143,11 +142,10 @@ namespace ANIMOL.Puzzle
             out RanchConnectedDecorV02BoardSnapshot snapshot, out string error)
         {
             snapshot = null; error = null;
-            if (!IsRanch(map) || !map.theme.ranchConnectedDecorV02Catalog ||
-                !map.theme.ranchConnectedDecorV02ManifestPin)
-            { error = "The Ranch map needs its exact V02 catalog and manifest pin."; return false; }
+            if (!IsRanch(map) || !map.theme.ranchConnectedDecorV02Catalog)
+            { error = "The Ranch map needs a connected decoration catalog."; return false; }
             var catalog = map.theme.ranchConnectedDecorV02Catalog;
-            var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+            var pin = catalog.SourceManifestSha256;
             if (!catalog.ValidateIntegrity(pin, out error)) return false;
             var networks = new List<RanchDecorNetworkCell>();
             var groups = new List<RanchDecorGroupPlacement>();

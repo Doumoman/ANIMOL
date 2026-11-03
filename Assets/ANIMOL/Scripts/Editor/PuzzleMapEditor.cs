@@ -496,10 +496,9 @@ namespace ANIMOL.Presentation.Editor
             switch (ThemeId(theme))
             {
                 case "starway":
-                    if (!theme.starwayRanch || !theme.ranchConnectedDecorV02Catalog ||
-                        !theme.ranchConnectedDecorV02ManifestPin) return Array.Empty<DecorationChoice>();
+                    if (!theme.starwayRanch || !theme.ranchConnectedDecorV02Catalog) return Array.Empty<DecorationChoice>();
                     var ranchCatalog = theme.ranchConnectedDecorV02Catalog;
-                    var ranchPin = theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+                    var ranchPin = theme.ranchConnectedDecorV02Catalog.SourceManifestSha256;
                     var ranchChoices = new List<DecorationChoice>();
                     foreach (var family in RanchConnectedDecorV02Planner.NetworkFamilies)
                         if (ranchCatalog.TryGetExact(RanchConnectedDecorV02Planner.NetworkFile(family, 0),
@@ -516,10 +515,10 @@ namespace ANIMOL.Presentation.Editor
                         preview = theme.starwayRanch.Find("props/windmill.png") });
                     return ranchChoices.ToArray();
                 case "memory_theater":
-                    if (!theme.theaterConnectedDecorV01Catalog || !theme.theaterConnectedDecorV01ManifestPin)
+                    if (!theme.theaterConnectedDecorV01Catalog)
                         return Array.Empty<DecorationChoice>();
                     var theaterCatalog = theme.theaterConnectedDecorV01Catalog;
-                    var theaterPin = theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+                    var theaterPin = theme.theaterConnectedDecorV01Catalog.SourceManifestSha256;
                     var theaterNetworkLabels = new[] { "벨벳 객석 통로 울타리", "조각 무대 난간", "연결 소품 진열대",
                         "벨벳 장막 파티션", "황동 무대 발치등", "덩굴 화분 띠" };
                     var theaterGroupLabels = new[] { "그랜드피아노 무대", "객석 벤치", "매표소", "무대 의상 행거",
@@ -540,10 +539,10 @@ namespace ANIMOL.Presentation.Editor
                                 sourceId = "theater:" + groupKeys[i], sprite = art.Sprite, preview = art.Sprite });
                     return theaterChoices.ToArray();
                 case "letter_observatory":
-                    if (!theme.sanctumConnectedDecorV01Catalog || !theme.sanctumConnectedDecorV01ManifestPin)
+                    if (!theme.sanctumConnectedDecorV01Catalog)
                         return Array.Empty<DecorationChoice>();
                     var sanctumCatalog = theme.sanctumConnectedDecorV01Catalog;
-                    var sanctumPin = theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
+                    var sanctumPin = theme.sanctumConnectedDecorV01Catalog.SourceManifestSha256;
                     var sanctumChoices = new List<DecorationChoice>();
                     foreach (var family in SanctumConnectedDecorV01Planner.NetworkFamilies)
                         if (sanctumCatalog.TryGetExact(SanctumConnectedDecorV01Planner.NetworkFile(family, 0),
@@ -556,10 +555,10 @@ namespace ANIMOL.Presentation.Editor
                                 sourceId = "sanctum:" + key, sprite = art.Sprite, preview = art.Sprite });
                     return sanctumChoices.ToArray();
                 case "twilight_sea":
-                    if (!theme.coastConnectedDecorV01Catalog || !theme.coastConnectedDecorV01ManifestPin)
+                    if (!theme.coastConnectedDecorV01Catalog)
                         return Array.Empty<DecorationChoice>();
                     var coastCatalog = theme.coastConnectedDecorV01Catalog;
-                    var coastPin = theme.coastConnectedDecorV01ManifestPin.text.Trim();
+                    var coastPin = theme.coastConnectedDecorV01Catalog.SourceManifestSha256;
                     var coastChoices = new List<DecorationChoice>();
                     foreach (var family in CoastConnectedDecorV01Planner.NetworkFamilies)
                         if (coastCatalog.TryGetExact(CoastConnectedDecorV01Planner.NetworkFile(family, 0),
@@ -623,8 +622,8 @@ namespace ANIMOL.Presentation.Editor
             var selectedCoastMapping = CoastConnectedDecorHost.SourceMapping(map.theme, decoration);
             if (selectedMapping != null || selectedTheaterMapping != null || selectedSanctumMapping != null || selectedCoastMapping != null)
             {
-                if (selectedMapping != null && (!map.theme.ranchConnectedDecorV02Catalog || !map.theme.ranchConnectedDecorV02ManifestPin))
-                    EditorGUILayout.HelpBox("새 목장 장식 catalog와 manifest pin이 연결되지 않았습니다.", MessageType.Error);
+                if (selectedMapping != null && !map.theme.ranchConnectedDecorV02Catalog)
+                    EditorGUILayout.HelpBox("목장 장식 catalog가 연결되지 않았습니다.", MessageType.Error);
                 var width = selectedTheaterMapping != null ? selectedTheaterMapping.width :
                     selectedSanctumMapping != null ? selectedSanctumMapping.width :
                     selectedCoastMapping != null ? selectedCoastMapping.width : selectedMapping.occupiedWidth;
@@ -2131,10 +2130,9 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
         {
-            if (!RanchConnectedDecorV02Host.IsRanch(map) || !map.theme.ranchConnectedDecorV02Catalog ||
-                !map.theme.ranchConnectedDecorV02ManifestPin) return;
+            if (!RanchConnectedDecorV02Host.IsRanch(map) || !map.theme.ranchConnectedDecorV02Catalog) return;
             var catalog = map.theme.ranchConnectedDecorV02Catalog;
-            var pin = map.theme.ranchConnectedDecorV02ManifestPin.text.Trim();
+            var pin = map.theme.ranchConnectedDecorV02Catalog.SourceManifestSha256;
             if (!previewCacheValid)
             {
                 if (RanchConnectedDecorV02Host.TryCreateSnapshot(map, map.decorations,
@@ -2177,10 +2175,9 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawTheaterConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
         {
-            if (!TheaterConnectedDecorHost.IsTheater(map) || !map.theme.theaterConnectedDecorV01Catalog ||
-                !map.theme.theaterConnectedDecorV01ManifestPin) return;
+            if (!TheaterConnectedDecorHost.IsTheater(map) || !map.theme.theaterConnectedDecorV01Catalog) return;
             var catalog = map.theme.theaterConnectedDecorV01Catalog;
-            var pin = map.theme.theaterConnectedDecorV01ManifestPin.text.Trim();
+            var pin = map.theme.theaterConnectedDecorV01Catalog.SourceManifestSha256;
             if (!previewCacheValid)
             {
                 if (TheaterConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
@@ -2218,10 +2215,9 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawSanctumConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
         {
-            if (!SanctumConnectedDecorHost.IsSanctum(map) || !map.theme.sanctumConnectedDecorV01Catalog ||
-                !map.theme.sanctumConnectedDecorV01ManifestPin) return;
+            if (!SanctumConnectedDecorHost.IsSanctum(map) || !map.theme.sanctumConnectedDecorV01Catalog) return;
             var catalog = map.theme.sanctumConnectedDecorV01Catalog;
-            var pin = map.theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
+            var pin = map.theme.sanctumConnectedDecorV01Catalog.SourceManifestSha256;
             if (!previewCacheValid)
             {
                 if (SanctumConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
@@ -2259,10 +2255,9 @@ namespace ANIMOL.Presentation.Editor
         }
         void DrawCoastConnectedDecorPreview(int shownHeight, Vector2 origin, Rect visible)
         {
-            if (!CoastConnectedDecorHost.IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog ||
-                !map.theme.coastConnectedDecorV01ManifestPin) return;
+            if (!CoastConnectedDecorHost.IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog) return;
             var catalog = map.theme.coastConnectedDecorV01Catalog;
-            var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
+            var pin = map.theme.coastConnectedDecorV01Catalog.SourceManifestSha256;
             if (!previewCacheValid)
             {
                 if (CoastConnectedDecorHost.TryCreateSnapshot(map, map.decorations,
@@ -2529,8 +2524,8 @@ namespace ANIMOL.Presentation.Editor
             if (mapped)
             {
                 var theme = target.theme;
-                if (!theme.ranchConnectedDecorV02Catalog || !theme.ranchConnectedDecorV02ManifestPin)
-                { error = "새 목장 장식 catalog 또는 manifest pin이 없습니다."; return false; }
+                if (!theme.ranchConnectedDecorV02Catalog)
+                { error = "목장 장식 catalog가 없습니다."; return false; }
                 var candidate = new List<DecorationCell>(target.decorations) { cellToAdd };
                 if (!RanchConnectedDecorV02Host.TryCreateSnapshot(target, candidate,
                     new Vector3(-.5f, -.5f), 1, 0, out _, out error)) return false;

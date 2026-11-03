@@ -227,7 +227,7 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void BookshelfAndItsPlateHaveDifferentMapEditorPreviews()
         {
             var stage = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-04_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
             Assert.That(stage, Is.Not.Null);
             var shelf = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant != "plate");
             var plate = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant == "plate");
@@ -267,7 +267,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.DeviceLabel(target), Is.EqualTo("22 목표 주사위 4"));
 
             var v3Map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-05_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
             var v3Die = v3Map.scenario.devices.Single(d => d.role == PrototypeRole.Dice &&
                 d.variant != "target" && d.variant != "socket");
             Assert.That(v3Map.scenario.echoTheaterV3Rules, Is.True);
@@ -283,7 +283,7 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void BookshelfWingsCanBeSelectedErasedAndBlockNewDeviceStamps()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-04_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
             var map = Object.Instantiate(source);
             map.scenario = Object.Instantiate(source.scenario);
             try
@@ -354,7 +354,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[i], out var sprite, out var key), Is.True);
                 Assert.That(key, Is.EqualTo(keys[i]));
                 Assert.That(AssetDatabase.GetAssetPath(sprite).Replace('\\', '/'),
-                    Does.StartWith("Assets/ANIMOL/Art/ANIMOL_STARWAY_RANCH_DEVICES_V13/Sprites/"));
+                    Does.StartWith("Assets/ANIMOL/Art/Maps/StarwayRanch/Devices/"));
             }
             devices[0].variant = "socket";
             Assert.That(RanchDevicesV13EditorPreview.TryDevice(theme, devices[0], out _, out var socketKey), Is.True);
@@ -674,11 +674,11 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(choices.All(choice => {
                     var path = AssetDatabase.GetAssetPath(choice.sprite).Replace('\\', '/');
                     return id == "starway" ?
-                        path.Contains("/ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02/decor/") ||
+                        path.Contains("/Art/Maps/StarwayRanch/Decorations/Connected/") ||
                         path.EndsWith("/props/windmill_body.png") :
-                        id == "memory_theater" ? path.Contains("/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/decor/") :
-                        id == "letter_observatory" ? path.Contains("/ANIMOL_SUNSET_SANCTUM_CONNECTED_DECOR_V01/decor/") :
-                        path.Contains("/ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01/decor/");
+                        id == "memory_theater" ? path.Contains("/Art/Maps/EchoTheater/Decorations/") :
+                        id == "letter_observatory" ? path.Contains("/Art/Maps/SunsetSanctum/Decorations/Connected/") :
+                        path.Contains("/Art/Maps/StarSwellCoast/Decorations/Connected/");
                 }), Is.True, id);
                 if (id == "starway") Assert.That(choices.Count(choice => choice.sourceId.StartsWith("ranch:")), Is.EqualTo(26));
                 if (id == "memory_theater") Assert.That(choices.Length, Is.EqualTo(26));

@@ -4,6 +4,7 @@ using UnityEngine;
 namespace ANIMOL.Art.TheaterConnectedDecorV01
 {
     /// <summary>Capture is a pure defensive read; Changed means a committed full snapshot or availability change.</summary>
+    [ExecuteAlways]
     public abstract class TheaterConnectedDecorV01SnapshotSource : MonoBehaviour
     {
         public event Action Changed;

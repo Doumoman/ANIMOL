@@ -70,9 +70,9 @@ public sealed class SanctumConnectedDecorV01CompletionTests
         var data = Altar(); data.groupPlacements[0].heightKey = 1; string error;
         Assert.IsFalse(data.TryValidate(out error));
     }
-    [Test] public void WrongPinPartialBoardAndWorldOverflowFail()
+    [Test] public void DifferentArtPinIsAllowedButPartialBoardAndWorldOverflowFail()
     {
-        string error; var data = Altar(); data.sourceManifestSha256 = new string('0', 64); Assert.IsFalse(data.TryValidate(out error));
+        string error; var data = Altar(); data.sourceManifestSha256 = new string('0', 64); Assert.IsTrue(data.TryValidate(out error), error);
         data = Altar(); data.isWholeBoard = false; Assert.IsFalse(data.TryValidate(out error));
         data = Altar(); data.cellSize = float.MaxValue; Assert.IsFalse(data.TryValidate(out error));
     }

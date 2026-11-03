@@ -27,9 +27,9 @@ namespace ANIMOL.Puzzle
         public static Mapping SourceMapping(PuzzleTheme theme, Sprite sprite)
         {
             if (!theme || !theme.starSwellCoastV01Catalog || !sprite ||
-                !theme.coastConnectedDecorV01Catalog || !theme.coastConnectedDecorV01ManifestPin) return null;
+                !theme.coastConnectedDecorV01Catalog) return null;
             var catalog = theme.coastConnectedDecorV01Catalog;
-            var pin = theme.coastConnectedDecorV01ManifestPin.text.Trim();
+            var pin = theme.coastConnectedDecorV01Catalog.SourceManifestSha256;
             foreach (var family in CoastConnectedDecorV01Planner.NetworkFamilies)
                 if (catalog.TryGetExact(CoastConnectedDecorV01Planner.NetworkFile(family, 0), pin,
                     out var art, out _) && art.Sprite == sprite)
@@ -88,10 +88,9 @@ namespace ANIMOL.Puzzle
             out CoastConnectedDecorV01BoardSnapshot snapshot, out string error)
         {
             snapshot = null; error = null;
-            if (!IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog ||
-                !map.theme.coastConnectedDecorV01ManifestPin)
-            { error = "The Coast map needs its exact connected decoration catalog and art pin."; return false; }
-            var pin = map.theme.coastConnectedDecorV01ManifestPin.text.Trim();
+            if (!IsCoast(map) || !map.theme.coastConnectedDecorV01Catalog)
+            { error = "The Coast map needs a connected decoration catalog."; return false; }
+            var pin = map.theme.coastConnectedDecorV01Catalog.SourceManifestSha256;
             if (!map.theme.coastConnectedDecorV01Catalog.ValidateIntegrity(pin, out error)) return false;
             var networks = new List<CoastDecorNetworkCell>();
             var groups = new List<CoastDecorGroupPlacement>();

@@ -27,9 +27,9 @@ namespace ANIMOL.Puzzle
         public static Mapping SourceMapping(PuzzleTheme theme, Sprite sprite)
         {
             if (!theme || !theme.sunsetSanctumV02Catalog || !sprite ||
-                !theme.sanctumConnectedDecorV01Catalog || !theme.sanctumConnectedDecorV01ManifestPin) return null;
+                !theme.sanctumConnectedDecorV01Catalog) return null;
             var catalog = theme.sanctumConnectedDecorV01Catalog;
-            var pin = theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
+            var pin = theme.sanctumConnectedDecorV01Catalog.SourceManifestSha256;
             foreach (var family in SanctumConnectedDecorV01Planner.NetworkFamilies)
                 if (catalog.TryGetExact(SanctumConnectedDecorV01Planner.NetworkFile(family, 0), pin,
                     out var art, out _) && art.Sprite == sprite)
@@ -85,10 +85,9 @@ namespace ANIMOL.Puzzle
             out SanctumConnectedDecorV01BoardSnapshot snapshot, out string error)
         {
             snapshot = null; error = null;
-            if (!IsSanctum(map) || !map.theme.sanctumConnectedDecorV01Catalog ||
-                !map.theme.sanctumConnectedDecorV01ManifestPin)
-            { error = "The Sanctum map needs its exact connected decoration catalog and art pin."; return false; }
-            var pin = map.theme.sanctumConnectedDecorV01ManifestPin.text.Trim();
+            if (!IsSanctum(map) || !map.theme.sanctumConnectedDecorV01Catalog)
+            { error = "The Sanctum map needs a connected decoration catalog."; return false; }
+            var pin = map.theme.sanctumConnectedDecorV01Catalog.SourceManifestSha256;
             if (!map.theme.sanctumConnectedDecorV01Catalog.ValidateIntegrity(pin, out error)) return false;
             var networks = new List<SanctumDecorNetworkCell>();
             var groups = new List<SanctumDecorGroupPlacement>();

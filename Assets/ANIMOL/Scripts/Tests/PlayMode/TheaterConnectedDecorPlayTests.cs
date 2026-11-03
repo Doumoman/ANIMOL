@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Tests
 {
     public sealed class TheaterConnectedDecorPlayTests
     {
-        const string Base = "Assets/ANIMOL/Art/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/_Generated/InspectionBoards/";
+        const string Base = "Assets/ANIMOL/Scenes/QA/ArtPackages/ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01/_Generated/InspectionBoards/";
 
         [UnityTest]
         public IEnumerator ExistingTheaterPrototypeUsesThePublishedSourceWithoutChargingTurns()
@@ -92,7 +92,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.GreaterOrEqual(renderers.Length, pair.Network + pair.Groups);
                 Assert.IsTrue(renderers.All(r => r.enabled && r.gameObject.activeInHierarchy && r.sprite &&
                     Mathf.Abs(r.sprite.pixelsPerUnit - 256) < .001f &&
-                    UnityEditor.AssetDatabase.GetAssetPath(r.sprite).Contains("ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01")));
+                    UnityEditor.AssetDatabase.GetAssetPath(r.sprite).Contains("Art/Maps/EchoTheater/Decorations/")));
                 Assert.IsTrue(binding.LastReport.success, binding.LastDiagnostic);
             }
 #else
