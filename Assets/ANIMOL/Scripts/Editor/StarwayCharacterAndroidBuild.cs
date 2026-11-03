@@ -21,7 +21,7 @@ namespace Animol.Art.Starway160
                 var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                 {
                     scenes = new[] {
-                        "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity",
+                        "Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity",
                         "Assets/ANIMOL/Scenes/Prototype/ANIMOL_starway_Prototype.unity",
                         "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Character_QA.unity" },
                     locationPathName = output,

@@ -62,12 +62,12 @@ namespace ANIMOL.Tests
                 id = "corner", role = PrototypeRole.Bounce, position = new Vector2Int(3, 4),
                 direction = Vector2Int.right, orientation = 2,
                 visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-                    "Assets/ANIMOL/Prefabs/Themes/starway/d18_bounce_corner.prefab")
+                    "Assets/ANIMOL/Prefabs/Maps/StarwayRanch/d18_bounce_corner.prefab")
             });
             map.scenario.devices.Add(new PrototypeDevice {
                 id = "qa_wood", role = PrototypeRole.WoodCrate, position = new Vector2Int(2, 4),
                 direction = Vector2Int.right,
-                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/crate_wood.prefab")
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/crate_wood.prefab")
             });
             try
             {

@@ -13,7 +13,7 @@ namespace ANIMOL.Menu.Editor
     // Updates the existing scene without rebuilding its catalog or character references.
     public static class MainLobbyV18Applier
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         const string Art = "Assets/ANIMOL/Sprites/UI/Main";
         static readonly string[] Themes = { "starway", "theater", "observatory", "sea" };
 

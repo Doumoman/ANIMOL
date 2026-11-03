@@ -76,7 +76,7 @@ namespace ANIMOL.Presentation.Tests
 #if UNITY_EDITOR
             foreach (var sample in new[] {
                 ("Assets/ANIMOL/Data/Puzzle/Prototypes/Device01_StarSocket.asset", Vector2Int.right),
-                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW05_MapData.asset", Vector2Int.up) })
+                ("Assets/ANIMOL/Data/StarwayRanch/Maps/SW05_MapData.asset", Vector2Int.up) })
             {
                 var map = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(sample.Item1);
                 var expected = new PuzzleDeviceSession(map);
@@ -134,7 +134,7 @@ namespace ANIMOL.Presentation.Tests
             {
                 var path = stone
                     ? "Assets/ANIMOL/Data/Puzzle/Prototypes/Device01_StarSocket.asset"
-                    : "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset";
+                    : "Assets/ANIMOL/Data/StarwayRanch/Maps/SW02_MapData.asset";
                 var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(path);
                 var map = Object.Instantiate(source);
                 map.scenario = Object.Instantiate(source.scenario);
@@ -184,10 +184,10 @@ namespace ANIMOL.Presentation.Tests
         {
 #if UNITY_EDITOR
             foreach (var sample in new[] {
-                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset", new Vector2Int(6, 12), Vector2Int.up),
-                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW02_MapData.asset", new Vector2Int(6, 14), Vector2Int.down),
-                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset", new Vector2Int(6, 16), Vector2Int.right),
-                ("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset", new Vector2Int(8, 16), Vector2Int.left) })
+                ("Assets/ANIMOL/Data/StarwayRanch/Maps/SW02_MapData.asset", new Vector2Int(6, 12), Vector2Int.up),
+                ("Assets/ANIMOL/Data/StarwayRanch/Maps/SW02_MapData.asset", new Vector2Int(6, 14), Vector2Int.down),
+                ("Assets/ANIMOL/Data/StarwayRanch/Maps/SW03_MapData.asset", new Vector2Int(6, 16), Vector2Int.right),
+                ("Assets/ANIMOL/Data/StarwayRanch/Maps/SW03_MapData.asset", new Vector2Int(8, 16), Vector2Int.left) })
             {
                 var source = UnityEditor.AssetDatabase.LoadAssetAtPath<PuzzleMap>(sample.Item1);
                 var map = Object.Instantiate(source);
@@ -310,7 +310,7 @@ namespace ANIMOL.Presentation.Tests
             UsePortraitGameView();
             yield return null;
             yield return null;
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;

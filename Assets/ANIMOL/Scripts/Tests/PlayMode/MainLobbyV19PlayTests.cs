@@ -28,7 +28,7 @@ namespace ANIMOL.Menu.Tests
                 .First(type => type != null);
             portrait.GetMethod("Use1080x1920", BindingFlags.Static | BindingFlags.Public)
                 .Invoke(null, null);
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Archive/PreviousMain.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null;
             yield return null;

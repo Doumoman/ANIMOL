@@ -46,7 +46,7 @@ namespace ANIMOL.Presentation.Tests
         }
         [Test] public void CosmeticThemeSwitchPreservesElapsedPauseAndConsumedActionId()
         {
-            var go=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Devices/d09_one_way_gate.prefab"));try{var v=go.GetComponent<DeviceVisualView>();v.ResetVisual();var s=v.states.First(a=>a.name=="open_e");Assert.True(v.Notify("one",s.eventName,s.name));v.Advance(.04f);v.paused=true;foreach(var theme in new[]{"twilight_sea","letter_observatory","memory_theater"}){Assert.True(AssetDatabase.LoadAssetAtPath<DeviceThemeCatalog>("Assets/ANIMOL/Data/Themes/"+theme+".asset").Apply(v,"09"));Assert.AreEqual(.04f,v.Elapsed);Assert.True(v.paused);Assert.False(v.Notify("one",s.eventName,s.name));}}finally{UnityEngine.Object.DestroyImmediate(go);}
+            var go=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Maps/StarwayRanch/Devices/d09_one_way_gate.prefab"));try{var v=go.GetComponent<DeviceVisualView>();v.ResetVisual();var s=v.states.First(a=>a.name=="open_e");Assert.True(v.Notify("one",s.eventName,s.name));v.Advance(.04f);v.paused=true;foreach(var theme in new[]{"twilight_sea","letter_observatory","memory_theater"}){Assert.True(AssetDatabase.LoadAssetAtPath<DeviceThemeCatalog>("Assets/ANIMOL/Data/Themes/"+theme+".asset").Apply(v,"09"));Assert.AreEqual(.04f,v.Elapsed);Assert.True(v.paused);Assert.False(v.Notify("one",s.eventName,s.name));}}finally{UnityEngine.Object.DestroyImmediate(go);}
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void AllImportsAndExactClipTimesAreValid()=>Assert.DoesNotThrow(()=>DeviceArtBuilder.Validate());
         static DeviceVisualView View(string id)
         {
-            var go=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Devices/"+id+".prefab"));var view=go.GetComponent<DeviceVisualView>();view.ResetVisual();return view;
+            var go=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Maps/StarwayRanch/Devices/"+id+".prefab"));var view=go.GetComponent<DeviceVisualView>();view.ResetVisual();return view;
         }
         [Test] public void GateOpenHoldsUntilExplicitClearAndPausePreservesPose()
         {

@@ -35,7 +35,7 @@ namespace ANIMOL.Presentation.Editor
             camera.GetComponent<Camera>().orthographic = true;
             var light = new GameObject("Main Light", typeof(Light)); light.GetComponent<Light>().type = LightType.Directional;
             var controller = new GameObject("Puzzle").AddComponent<PuzzleController>(); controller.stage = map;
-            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/hud_visual.prefab"); return controller;
+            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/hud_visual.prefab"); return controller;
         }
         static void Restore(PlayModeStateChange state)
         {

@@ -227,7 +227,7 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void BookshelfAndItsPlateHaveDifferentMapEditorPreviews()
         {
             var stage = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-04_MapData.asset");
             Assert.That(stage, Is.Not.Null);
             var shelf = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant != "plate");
             var plate = stage.scenario.devices.Single(device => device.role == PrototypeRole.Bookshelf && device.variant == "plate");
@@ -267,7 +267,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.DeviceLabel(target), Is.EqualTo("22 목표 주사위 4"));
 
             var v3Map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-05_MapData.asset");
             var v3Die = v3Map.scenario.devices.Single(d => d.role == PrototypeRole.Dice &&
                 d.variant != "target" && d.variant != "socket");
             Assert.That(v3Map.scenario.echoTheaterV3Rules, Is.True);
@@ -283,7 +283,7 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void BookshelfWingsCanBeSelectedErasedAndBlockNewDeviceStamps()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-04_MapData.asset");
             var map = Object.Instantiate(source);
             map.scenario = Object.Instantiate(source.scenario);
             try

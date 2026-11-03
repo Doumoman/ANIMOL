@@ -46,7 +46,7 @@ namespace ANIMOL.Presentation.Editor
         public const string Props = "Assets/ANIMOL/Sprites/Props/letter_observatory/ClockDome";
         public const string Backgrounds = "Assets/ANIMOL/Sprites/Background/letter_observatory/ClockDome";
         public const string Data = "Assets/ANIMOL/Data/Art/ClockDome";
-        public const string Prefabs = "Assets/ANIMOL/Prefabs/Environment/ClockDome";
+        public const string Prefabs = "Assets/ANIMOL/Prefabs/Maps/SunsetSanctum/Environment";
         public const string Catalog = Data + "/EnvironmentArt.asset";
         public const string InspectionScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_ClockDome_Environment_QA.unity";
         public const string PreviewScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_ClockDome_Puzzle_QA.unity";
@@ -72,7 +72,7 @@ namespace ANIMOL.Presentation.Editor
             art.parts = manifest.parts.Select(p => new TheaterProp { id = p.name, sprite = Sprite(p.file) }).ToArray();
             art.far = Sprite("backgrounds/far_repeat_960.png"); art.mid = Sprite("backgrounds/mid_repeat_960.png"); art.near = Sprite("backgrounds/near_repeat_960.png");
             art.parallax = new Vector3(.15f, .30f, .45f);
-            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Materials/SkyIslandComposite.mat");
+            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Art/Shaders/SkyIslandComposite.mat");
             var animation = manifest.animations.Single(); var seq = Asset<SpriteFrameSequence>(Data + "/pendulum_idle.asset");
             seq.frames = animation.frames.Select(f => Sprite(f.file)).ToArray(); seq.durations = animation.frames.Select(f => f.durationMs / 1000f).ToArray(); seq.loop = animation.loop; art.pendulum = seq; EditorUtility.SetDirty(seq);
             foreach (var rows in new[] { 0, 4, 12 })
@@ -126,7 +126,7 @@ namespace ANIMOL.Presentation.Editor
             var original = AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzleBuilder.Data + "/Maps/Small.asset"); var map = UnityEngine.Object.Instantiate(original); map.name = "ClockDomePreview";
             var theme = UnityEngine.Object.Instantiate(original.theme); theme.name = "ClockDome"; theme.skyIsland = null; theme.memorySkyTheater = null; theme.clockDome = art;
             AssetDatabase.CreateAsset(theme, Data + "/PuzzleTheme.asset"); map.theme = theme; AssetDatabase.CreateAsset(map, Data + "/PreviewMap.asset");
-            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
+            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
             var scene = EditorSceneManager.OpenScene(PreviewScene); UnityEngine.Object.FindFirstObjectByType<PuzzleController>().stage = map; EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         }
         static void ApplyExistingQa(ClockDomeArt art)

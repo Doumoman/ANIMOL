@@ -12,7 +12,7 @@ namespace ANIMOL.Presentation.Editor
     {
         public const string Data = "Assets/ANIMOL/Data/Puzzle";
         public const string Art = "Assets/ANIMOL/Sprites/Tiles/Puzzle";
-        public const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity";
+        public const string ScenePath = "Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity";
         public static void Build()
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Stop Play mode before building maps.");
@@ -30,13 +30,13 @@ namespace ANIMOL.Presentation.Editor
                 for (var corner = 0; corner < 4; corner++) set.inner[corner] = Tile(m, 0, corner);
                 theme.terrain[m] = set;
             }
-            theme.player = Sprite("Assets/ANIMOL/Sprites/Player/rabbit/Frames/spr_player_rabbit_idle_s.png");
+            theme.player = Sprite("Assets/ANIMOL/Art/Characters/StarwayRanch/Rabbit/Animations/rabbit/Frames/spr_player_rabbit_idle_s.png");
             theme.bubble = FindSprite("soap_bubble_pink");
             theme.exit = FindSprite("exit_arch"); if (!theme.exit) theme.exit = Token("exit", new Color(.96f, .78f, .35f), false);
             theme.decoration = FindSprite("clover_idle_f00");
-            theme.far = Sprite("Assets/ANIMOL/Sprites/Background/ranch/Far/spr_bg_ranch_far_night_sky_idle.png");
-            theme.mid = Sprite("Assets/ANIMOL/Sprites/Background/ranch/Mid/spr_bg_ranch_mid_cloud_small_idle.png");
-            theme.near = Sprite("Assets/ANIMOL/Sprites/Background/ranch/Far/spr_bg_ranch_far_star_large_idle.png");
+            theme.far = Sprite("Assets/ANIMOL/Art/Maps/StarwayRanch/Decorations/ranch/Far/spr_bg_ranch_far_night_sky_idle.png");
+            theme.mid = Sprite("Assets/ANIMOL/Art/Maps/StarwayRanch/Decorations/ranch/Mid/spr_bg_ranch_mid_cloud_small_idle.png");
+            theme.near = Sprite("Assets/ANIMOL/Art/Maps/StarwayRanch/Decorations/ranch/Far/spr_bg_ranch_far_star_large_idle.png");
             if (!theme.bubble) theme.bubble = Token("bubble", new Color(.55f, .88f, 1), true);
             EditorUtility.SetDirty(theme);
             }

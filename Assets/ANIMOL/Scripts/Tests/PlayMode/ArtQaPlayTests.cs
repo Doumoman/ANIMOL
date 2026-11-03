@@ -26,7 +26,7 @@ namespace ANIMOL.Presentation.Tests
             var positions=new Vector3[vines.Length];for(int i=0;i<vines.Length;i++){positions[i]=vines[i].transform.position;vines[i].PlayTouch();}
             yield return new WaitForSecondsRealtime(.5f);
             for(int i=0;i<vines.Length;i++){Assert.That(vines[i].IsTouching,Is.False);Assert.That(vines[i].transform.position,Is.EqualTo(positions[i]));}
-            var fx=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/bubble_collect_fx.prefab"));fx.GetComponent<SpriteFramePlayer>().PlayTouch();yield return new WaitForSecondsRealtime(.3f);Assert.That(fx.activeSelf,Is.False);
+            var fx=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/bubble_collect_fx.prefab"));fx.GetComponent<SpriteFramePlayer>().PlayTouch();yield return new WaitForSecondsRealtime(.3f);Assert.That(fx.activeSelf,Is.False);
             fx.SetActive(true);Assert.That(fx.GetComponent<SpriteFramePlayer>().visual.enabled,Is.True);UnityEngine.Object.Destroy(fx);
             var hud=UnityEngine.Object.FindFirstObjectByType<PuzzleHudView>();Assert.That(hud.cost.text,Is.EqualTo("COST --"));hud.Present(17,2,3,true);Assert.That(hud.cost.text,Is.EqualTo("COST 17"));Assert.That(hud.bubbles.text,Is.EqualTo("2/3"));
             int requests=0;hud.PauseRequested=()=>requests++;hud.OnPointerDown(null);Assert.That(hud.pause.sprite,Is.EqualTo(hud.press));hud.OnPointerUp(null);Assert.That(hud.pause.sprite,Is.EqualTo(hud.release));Assert.That(requests,Is.EqualTo(1));hud.OnPointerExit(null);Assert.That(hud.pause.sprite,Is.EqualTo(hud.normal));hud.Unbind();Assert.That(hud.pause.sprite,Is.EqualTo(hud.disabled));

@@ -62,3 +62,11 @@
 - 과거 연출 정책과 V7 배경 기준은 복원 시의 참고이며, 그 이유로 이전 프로젝트를 활성 Assets에 다시 넣지 않는다. 현재 표현 역시 입력을 차단하거나 게임 로직을 확정하지 않는다.
 - 이전 CommercialPolishPolicyTests와 로비 테스트는 보관본에 있다. 현재 검수 대상은 ArtAssetTests / ArtQaPlayTests다. 이전 테스트의 미실행과 새 테스트의 실제 실행을 구분한다.
 - 기존 사용자 변경은 이동 후에도 미커밋 상태로 보존한다. 이동 커밋에 기존 수정 내용을 섞지 않는다.
+
+
+## 5. 2026-11-03 활성 자산 정리 기준
+
+- 사용자의 새 분류 요청에 따라 4절의 `Sprites` 중심 경로 설명은 과거 기록이다. 현재 활성 구조는 `Docs/ANIMOL_ACTIVE_PROJECT_LAYOUT.md` 맨 앞의 2026-11-03 구조를 따른다.
+- 현재 사용 아트의 기준은 Unity Build Settings에서 켜진 세 씬에서 GUID로 이어지는 참조다. 그 밖의 아트는 `Archive/UnusedArt`에 원본과 `.meta`를 보관한다. 보관 아트를 활성 폴더에 무조건 복원하지 않는다.
+- 메인 씬은 `Assets/ANIMOL/Scenes/Main/NotebookUI.unity`이고, 생성기는 `Assets/ANIMOL/Scripts/Editor/Notebook/NotebookInstaller.cs`다. QA와 프로토타입 전용 자료는 빌드 참조에 속하지 않으면 보관 대상이다.
+- 파일 이동 검증에는 현재 빌드 씬 의존성, `ArtAssetTests`, 세로 GameView의 `ArtQaPlayTests`, `Docs/ART_PRESERVATION.json` 해시를 사용한다. 이전 전체 아트 매니페스트는 보관 아트까지 활성으로 가정하므로 현재 사용 범위의 검증 기준이 아니다.

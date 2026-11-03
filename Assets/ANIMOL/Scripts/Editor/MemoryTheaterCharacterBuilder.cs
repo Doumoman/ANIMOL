@@ -16,7 +16,7 @@ namespace Animol.Art.AfterimageTheaterNative
         const string Root = "Assets/ANIMOL/Art/AfterimageTheaterCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/MemoryTheaterCharacters.asset";
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
-        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         const string QaScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Character_QA.unity";
         // The source character_designs.json lists these four IDs in this order.
         static readonly string[] Ids = { "seri", "roan", "mion", "piko" };

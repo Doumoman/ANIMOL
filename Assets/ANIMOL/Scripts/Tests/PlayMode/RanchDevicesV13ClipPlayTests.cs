@@ -14,7 +14,7 @@ namespace ANIMOL.Presentation.Tests
         public IEnumerator SuppliedDirectionalAndStateClipsAdvanceOnAnInspectionRenderer()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<RanchDevicesV13Catalog>(
-                "Assets/ANIMOL/Art/ANIMOL_STARWAY_RANCH_DEVICES_V13/_GeneratedV13/RanchDevicesV13Catalog.asset");
+                "Assets/ANIMOL/Data/StarwayRanch/ArtCatalogs/ANIMOL_STARWAY_RANCH_DEVICES_V13/_GeneratedV13/RanchDevicesV13Catalog.asset");
             Assert.That(catalog, Is.Not.Null);
             var keys = new List<string>();
             foreach (var direction in new[] { "south", "east", "north", "west" })

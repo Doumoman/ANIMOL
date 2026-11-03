@@ -58,7 +58,7 @@ namespace ANIMOL.Art.V12
             art.v12Animations = catalog;
             art.v12ManifestSha256 = catalog.SourceManifestSha256;
             art.windRouteMaterial = AssetDatabase.LoadAssetAtPath<Material>(
-                "Assets/ANIMOL/Materials/VividWindRoute.mat");
+                "Assets/ANIMOL/Art/Shaders/VividWindRoute.mat");
             if (!art.windRouteMaterial || !art.windRouteMaterial.shader ||
                 !art.windRouteMaterial.shader.isSupported || ShaderUtil.ShaderHasError(art.windRouteMaterial.shader))
                 throw new InvalidDataException("P01 wind route material is missing or failed compilation.");
@@ -148,7 +148,7 @@ namespace ANIMOL.Art.V12
                 "d09_one_way_gate", "d18_bounce_corner", "d19_brake_pad", "d20_wind_corridor", "d24_follower_chick" };
             for (int i = 0; i < names.Length; ++i)
             {
-                var source = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Themes/starway/" + names[i] + ".prefab");
+                var source = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Maps/StarwayRanch/" + names[i] + ".prefab");
                 if (!source) throw new InvalidDataException("Missing V12 ranch device prefab " + names[i]);
                 var go = (GameObject)PrefabUtility.InstantiatePrefab(source, scene);
                 go.transform.SetParent(root.transform, false);

@@ -85,7 +85,7 @@ namespace Animol.Art.StarwayNative
                 if (!theme) throw new FileNotFoundException("Missing starway theme", path);
                 // Other theme previews copy this historical static fallback. Runtime uses the catalog Visual.
                 var playerSprite = AssetDatabase.LoadAssetAtPath<Sprite>(
-                    "Assets/ANIMOL/Sprites/Player/rabbit/Frames/spr_player_rabbit_idle_s.png");
+                    "Assets/ANIMOL/Art/Characters/StarwayRanch/Rabbit/Animations/rabbit/Frames/spr_player_rabbit_idle_s.png");
                 if (theme.starwayCharacters != catalog || theme.starwayCharacterId != catalog.defaultCharacterId ||
                     theme.player != playerSprite)
                 {

@@ -53,7 +53,7 @@ namespace ANIMOL.Presentation.Editor
         public const string Props = "Assets/ANIMOL/Sprites/Props/memory_theater/SkyTheater";
         public const string Backgrounds = "Assets/ANIMOL/Sprites/Background/memory_theater/SkyTheater";
         public const string Data = "Assets/ANIMOL/Data/Art/MemorySkyTheater";
-        public const string Prefabs = "Assets/ANIMOL/Prefabs/Environment/MemoryTheater";
+        public const string Prefabs = "Assets/ANIMOL/Prefabs/Maps/EchoTheater/Environment";
         public const string InspectionScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Environment_QA.unity";
         public const string PreviewScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_MemoryTheater_Puzzle_QA.unity";
         public const string Catalog = Data + "/EnvironmentArt.asset";
@@ -80,7 +80,7 @@ namespace ANIMOL.Presentation.Editor
             }).ToArray();
             art.props = manifest.props.Select(p => new TheaterProp { id = p.name, sprite = Sprite(p.file) }).ToArray();
             art.far = Sprite("backgrounds/far_repeat_960.png"); art.mid = Sprite("backgrounds/mid_repeat_960.png"); art.near = Sprite("backgrounds/near_repeat_960.png");
-            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Materials/SkyIslandComposite.mat");
+            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Art/Shaders/SkyIslandComposite.mat");
             foreach (var anim in manifest.animations)
             {
                 var seq = Asset<SpriteFrameSequence>(Data + "/" + anim.name + ".asset"); seq.frames = anim.frames.Select(f => Sprite(f.file)).ToArray();
@@ -169,7 +169,7 @@ namespace ANIMOL.Presentation.Editor
             var map = UnityEngine.Object.Instantiate(original); map.name = "MemoryTheaterPreview";
             var theme = UnityEngine.Object.Instantiate(original.theme); theme.name = "MemoryTheater"; theme.skyIsland = null; theme.memorySkyTheater = art;
             AssetDatabase.CreateAsset(theme, Data + "/PuzzleTheme.asset"); map.theme = theme; AssetDatabase.CreateAsset(map, Data + "/PreviewMap.asset");
-            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
+            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
             var scene = EditorSceneManager.OpenScene(PreviewScene); var controller = UnityEngine.Object.FindFirstObjectByType<PuzzleController>(); controller.stage = map;
             EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         }

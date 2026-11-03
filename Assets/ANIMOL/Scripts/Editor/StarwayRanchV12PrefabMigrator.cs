@@ -12,8 +12,8 @@ namespace ANIMOL.Art.V12
     // Copies only ranch device visuals. Shared device prefabs stay bound to the other themes.
     public static class StarwayRanchV12PrefabMigrator
     {
-        const string Source = "Assets/ANIMOL/Prefabs/Devices";
-        const string Target = "Assets/ANIMOL/Prefabs/Themes/starway";
+        const string Source = "Assets/ANIMOL/Prefabs/Maps/StarwayRanch/Devices";
+        const string Target = "Assets/ANIMOL/Prefabs/Maps/StarwayRanch";
         const string Sequences = StarwayRanchV12ProjectBuilder.Root + "/_Generated/Sequences";
         static readonly string[] Names = { "d01_star_socket", "d02_pressure_vine_bridge", "d07_conveyor",
             "d09_one_way_gate", "d18_bounce_corner", "d19_brake_pad", "d20_wind_corridor", "d24_follower_chick" };
@@ -40,7 +40,7 @@ namespace ANIMOL.Art.V12
             StarwayRanchV12AnimationBuilder.ValidateBuiltCatalog(catalog);
             var clips = Enumerable.Range(0, catalog.ClipCount).Select(catalog.GetClipAt)
                 .ToDictionary(c => c.Key, StringComparer.Ordinal);
-            if (!AssetDatabase.IsValidFolder("Assets/ANIMOL/Prefabs/Themes/starway"))
+            if (!AssetDatabase.IsValidFolder("Assets/ANIMOL/Prefabs/Maps/StarwayRanch"))
                 AssetDatabase.CreateFolder("Assets/ANIMOL/Prefabs/Themes", "starway");
             if (!AssetDatabase.IsValidFolder(Sequences)) AssetDatabase.CreateFolder(root + "/_Generated", "Sequences");
             var generated = new Dictionary<string, SpriteFrameSequence>(StringComparer.Ordinal);

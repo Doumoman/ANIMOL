@@ -114,7 +114,7 @@ namespace ANIMOL.Menu.Tests
 
         [Test] public void LobbyIsTheFirstBuildSceneWithoutRemovingPriorQaScene()
         {
-            Assert.That(EditorBuildSettings.scenes[0].path, Is.EqualTo("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity"));
+            Assert.That(EditorBuildSettings.scenes[0].path, Is.EqualTo("Assets/ANIMOL/Scenes/Archive/PreviousMain.unity"));
             Assert.That(EditorBuildSettings.scenes[0].enabled, Is.True);
             Assert.That(EditorBuildSettings.scenes.Any(s => s.path == "Assets/ANIMOL/Scenes/QA/ANIMOL_Starway_Art_QA.unity"), Is.True);
         }

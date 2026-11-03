@@ -14,8 +14,8 @@ namespace ANIMOL.Art.DevicePatch01.Editor
     // Rebind only the five changed device families. Other themed prefabs retain their art.
     public static class DevicePatchP01PrefabBinder
     {
-        const string Ranch = "Assets/ANIMOL/Prefabs/Themes/starway";
-        const string Theater = "Assets/ANIMOL/Prefabs/Themes/memory_theater";
+        const string Ranch = "Assets/ANIMOL/Prefabs/Maps/StarwayRanch";
+        const string Theater = "Assets/ANIMOL/Prefabs/Maps/EchoTheater";
 
         public static string Bind()
         {

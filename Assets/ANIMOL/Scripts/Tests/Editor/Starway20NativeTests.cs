@@ -12,7 +12,7 @@ namespace ANIMOL.Puzzle.Tests
         [Test]
         public void CampaignContainsImportedFirstMapAndAllShiftedStages()
         {
-            const string root = "Assets/ANIMOL/Data/Puzzle/MapData/starway/";
+            const string root = "Assets/ANIMOL/Data/StarwayRanch/Maps/";
             var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(root + "Starway21MapSet.asset");
             Assert.That(set, Is.Not.Null);
             Assert.That(set.maps.Count, Is.EqualTo(21));
@@ -45,7 +45,7 @@ namespace ANIMOL.Puzzle.Tests
         [TestCase("SW04", 43)]
         public void RevisedNativeMapReplaysSavedVerificationRoute(string id, int expectedCost)
         {
-            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/StarwayRanch/Maps/" + id + "_MapData.asset");
             Assert.That(map, Is.Not.Null);
             Assert.That(map.ValidateMap(), Is.Empty);
             Assert.That(map.scenario.goals, Is.Empty);
@@ -76,7 +76,7 @@ namespace ANIMOL.Puzzle.Tests
         [TestCase("SW04")]
         public void RevisedMapEditorUsesTheRanchTilesForEveryFloor(string id)
         {
-            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
+            var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/StarwayRanch/Maps/" + id + "_MapData.asset");
             var rows = ANIMOL.Presentation.Editor.PuzzleMapEditor.StarwayTerrainRows(map);
             foreach (var tile in map.terrain)
             {
@@ -106,7 +106,7 @@ namespace ANIMOL.Puzzle.Tests
         public void StarwayBlankRowsControlCameraHeadroomAndFootroom()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW03_MapData.asset");
+                "Assets/ANIMOL/Data/StarwayRanch/Maps/SW03_MapData.asset");
             var map = Object.Instantiate(source);
             var cameraObject = new GameObject("Starway camera focus test", typeof(Camera), typeof(PuzzleFollowCamera));
             var playerObject = new GameObject("Starway camera target test");

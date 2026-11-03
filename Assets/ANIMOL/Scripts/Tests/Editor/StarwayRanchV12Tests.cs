@@ -70,7 +70,7 @@ namespace ANIMOL.Presentation.Tests
         {
             var catalog = AssetDatabase.LoadAssetAtPath<StarwayRanchV12VisualCatalog>(
                 Root + "/_Generated/StarwayRanchV12VisualCatalog.asset");
-            var prefabs = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/ANIMOL/Prefabs/Themes/starway" });
+            var prefabs = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/ANIMOL/Prefabs/Maps/StarwayRanch" });
             Assert.That(prefabs.Length, Is.EqualTo(8));
             foreach (var guid in prefabs)
             {

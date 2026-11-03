@@ -47,7 +47,7 @@ namespace ANIMOL.Presentation.Tests
         {
             var catalog=AssetDatabase.LoadAssetAtPath<DeviceThemeCatalog>(MemoryTheaterArtBuilder.CatalogPath);
             foreach(var id in new[]{"07","09","18","19"})Assert.AreEqual(PrefabAssetType.Variant,PrefabUtility.GetPrefabAssetType(catalog.devices.First(e=>e.deviceId==id).prefab));
-            var go=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Devices/d07_conveyor.prefab"));try
+            var go=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Maps/StarwayRanch/Devices/d07_conveyor.prefab"));try
             {
                 var v=go.GetComponent<DeviceVisualView>();v.ResetVisual();Assert.True(v.Notify("action_1","conveyor_visual_running","run_e"));v.Advance(.12f);go.transform.position=new Vector3(3,4,0);v.paused=true;
                 for(int i=0;i<3;i++){Assert.True(catalog.Apply(v,"07"));Assert.AreEqual("run_e",v.CurrentState);Assert.True(v.paused);Assert.AreEqual(new Vector3(3,4,0),go.transform.position);Assert.AreEqual(1,go.GetComponents<DeviceVisualView>().Length);Assert.AreEqual(1,go.GetComponentsInChildren<SpriteRenderer>().Length);}

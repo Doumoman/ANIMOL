@@ -11,7 +11,7 @@ namespace ANIMOL.Art.EchoTheaterV03
     /// <summary>Rebinds only theater device prefabs; the puzzle role, ID and authority stay intact.</summary>
     public static class EchoTheaterV03PrefabMigrator
     {
-        const string Prefabs = "Assets/ANIMOL/Prefabs/Themes/memory_theater";
+        const string Prefabs = "Assets/ANIMOL/Prefabs/Maps/EchoTheater";
         const string Sequences = EchoTheaterV03ProjectBuilder.Root + "/_Generated/Sequences";
         [Serializable] sealed class DiceDocument { public Orientation[] orientations; public Roll[] rolls; }
         [Serializable] sealed class Orientation

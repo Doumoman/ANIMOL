@@ -20,7 +20,7 @@ namespace ANIMOL.Menu.Tests
 {
     public class MainLobbyPatternPlayTests
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
 
 #if UNITY_EDITOR
         static void UseGameView(int width, int height)

@@ -19,7 +19,7 @@ namespace ANIMOL.Tests
             var cameraObject = new GameObject("Main Camera", typeof(Camera)); cameraObject.tag = "MainCamera";
             var host = new GameObject("Starway V3 test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
-            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/hud_visual.prefab");
+            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/hud_visual.prefab");
             controller.secondsPerCell = .001f;
             try
             {
@@ -52,7 +52,7 @@ namespace ANIMOL.Tests
             var cameraObject = new GameObject("Main Camera", typeof(Camera)); cameraObject.tag = "MainCamera";
             var host = new GameObject("Starway V3 strict test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
-            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/hud_visual.prefab");
+            controller.hudPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/hud_visual.prefab");
             controller.secondsPerCell = .001f;
             try
             {

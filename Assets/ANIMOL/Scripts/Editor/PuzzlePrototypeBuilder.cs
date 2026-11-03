@@ -104,7 +104,7 @@ namespace ANIMOL.Presentation.Editor
         }
         static GameObject Art(PrototypeDevice d)
         {
-            if(d.role==PrototypeRole.Boat)return AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Presentation/twilight_sea_ferry_occupied.prefab");
+            if(d.role==PrototypeRole.Boat)return AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Maps/StarSwellCoast/Presentation/twilight_sea_ferry_occupied.prefab");
             var theme=d.artTheme;var role=(int)d.role;string state=null;
             if(role>=100)
             {
@@ -119,7 +119,7 @@ namespace ANIMOL.Presentation.Editor
             var prefix=row.id.Split('/')[0];
             string folder=theme=="starway"
                 ? (state==null && new[]{1,2,7,9,18,19,20,24}.Contains(role)
-                    ? "Assets/ANIMOL/Prefabs/Themes/starway" : "Assets/ANIMOL/Prefabs/Devices")
+                    ? "Assets/ANIMOL/Prefabs/Maps/StarwayRanch" : "Assets/ANIMOL/Prefabs/Maps/StarwayRanch/Devices")
                 : "Assets/ANIMOL/Prefabs/Themes/"+theme;
             var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(folder+"/"+(state!=null && d.role!=PrototypeRole.MetalCrate?row.id.Replace('/','_')+"_static":prefix)+".prefab");
             if(!prefab)throw new Exception("Missing art prefab "+row.id+" in "+folder);
@@ -208,7 +208,7 @@ namespace ANIMOL.Presentation.Editor
                 var manifestName=name=="starway"?"device_art":name;
                 manifests[name]=JsonUtility.FromJson<DeviceManifest>(File.ReadAllText("Assets/ANIMOL/Data/"+manifestName+"_import_manifest.json").Replace("\"event\":","\"eventName\":"));
             }
-            beam=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Puzzle/OpticsBeam.prefab");
+            beam=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/OpticsBeam.prefab");
             if(!beam)throw new Exception("Missing optics beam prefab.");
             for(int i=0;i<ThemedNames.Length;i++)Persist(Combine(ThemedNames[i],ThemedRoles[i]),ThemedNames[i],true);
             AssetDatabase.SaveAssets();
@@ -227,7 +227,7 @@ namespace ANIMOL.Presentation.Editor
             }
             var go=new GameObject("Prototype optics beam");var path=go.AddComponent<BeamPathView>();
             path.sprites=manifests["letter_observatory"].assets.Where(a=>a.id.StartsWith("d10_optics/beam_")).Select(a=>new BeamVisualSprite { shape=a.id.Split('/')[1],sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/ANIMOL/"+a.path) }).ToArray();
-            beam=PrefabUtility.SaveAsPrefabAsset(go,"Assets/ANIMOL/Prefabs/Puzzle/OpticsBeam.prefab");UnityEngine.Object.DestroyImmediate(go);
+            beam=PrefabUtility.SaveAsPrefabAsset(go,"Assets/ANIMOL/Prefabs/Gameplay/OpticsBeam.prefab");UnityEngine.Object.DestroyImmediate(go);
             for(int i=1;i<=24;i++)Persist(Room(i),"Device"+i.ToString("00")+"_"+(PrototypeRole)i);
             for(int i=0;i<4;i++)
             {

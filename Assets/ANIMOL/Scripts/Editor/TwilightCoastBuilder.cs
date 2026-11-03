@@ -47,7 +47,7 @@ namespace ANIMOL.Presentation.Editor
         public const string Props = "Assets/ANIMOL/Sprites/Props/twilight_sea/TwilightCoast";
         public const string Backgrounds = "Assets/ANIMOL/Sprites/Background/twilight_sea/TwilightCoast";
         public const string Data = "Assets/ANIMOL/Data/Art/TwilightCoast";
-        public const string Prefabs = "Assets/ANIMOL/Prefabs/Environment/TwilightCoast";
+        public const string Prefabs = "Assets/ANIMOL/Prefabs/Maps/StarSwellCoast/Environment";
         public const string Catalog = Data + "/EnvironmentArt.asset";
         public const string InspectionScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Environment_QA.unity";
         public const string PreviewScene = "Assets/ANIMOL/Scenes/QA/ANIMOL_TwilightCoast_Puzzle_QA.unity";
@@ -73,7 +73,7 @@ namespace ANIMOL.Presentation.Editor
             art.props = manifest.props.Select(p => new TheaterProp { id = p.name, sprite = Sprite(p.file) }).ToArray();
             art.far = Sprite("backgrounds/far_repeat_960.png"); art.mid = Sprite("backgrounds/mid_repeat_960.png"); art.near = Sprite("backgrounds/near_repeat_960.png");
             art.parallax = new Vector3(.12f, .30f, .50f);
-            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Materials/SkyIslandComposite.mat");
+            art.compositor = AssetDatabase.LoadAssetAtPath<Material>("Assets/ANIMOL/Art/Shaders/SkyIslandComposite.mat");
             foreach (var file in new[] { "horizon_core_960x320", "horizon_without_sun_960x320", "horizon_side_left_repeat_80x320", "horizon_side_right_repeat_80x320" }) Copy("backgrounds/"+file+".png");
             AssetDatabase.Refresh();
             art.horizonCore=Sprite("backgrounds/horizon_core_960x320.png"); art.horizonWithoutSun=Sprite("backgrounds/horizon_without_sun_960x320.png");
@@ -135,7 +135,7 @@ namespace ANIMOL.Presentation.Editor
             var original = AssetDatabase.LoadAssetAtPath<PuzzleMap>(PuzzleBuilder.Data + "/Maps/Small.asset"); var map = UnityEngine.Object.Instantiate(original); map.name = "TwilightCoastPreview";
             var theme = UnityEngine.Object.Instantiate(original.theme); theme.name = "TwilightCoast"; theme.skyIsland = null; theme.memorySkyTheater = null; theme.clockDome = null; theme.twilightCoast = art;
             AssetDatabase.CreateAsset(theme, Data + "/PuzzleTheme.asset"); map.theme = theme; AssetDatabase.CreateAsset(map, Data + "/PreviewMap.asset");
-            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
+            var originalScene = EditorSceneManager.OpenScene("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity"); EditorSceneManager.SaveScene(originalScene, PreviewScene, true);
             var scene = EditorSceneManager.OpenScene(PreviewScene); UnityEngine.Object.FindFirstObjectByType<PuzzleController>().stage = map; EditorSceneManager.SaveScene(scene); AssetDatabase.SaveAssets();
         }
         static void ApplyExistingQa(TwilightCoastArt art)

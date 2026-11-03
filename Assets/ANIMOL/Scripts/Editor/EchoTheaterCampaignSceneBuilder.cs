@@ -10,7 +10,7 @@ namespace ANIMOL.Puzzle.Editor
 {
     public static class EchoTheaterCampaignSceneBuilder
     {
-        public const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Echo_Theater.unity";
+        public const string ScenePath = "Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Echo_Theater.unity";
 
         public static void Build()
         {

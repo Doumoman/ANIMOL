@@ -1,3 +1,27 @@
+# 2026-11-03 현재 활성 구조
+
+현재 기준은 [자산 정리 결과](ANIMOL_ASSET_REORGANIZATION_20261103.md)다. 아래의 이전 경로 설명은 과거 작업 기록이며 현재 파일 경로로 사용하지 않는다.
+
+```text
+Assets/ANIMOL/
+  Art/
+    Characters/<theme>/<character>/{Animations/<state>,Illustrations}/
+    Story/<theme>/<scene>/          # 현재 빌드에서 쓰는 스토리 원화 없음
+    UI/{InGame,Main,ConstellationMap,Settings}/
+    Maps/<theme>/{Tiles,Devices,Decorations,Markers}/
+    Shaders/
+  Data/<theme>/Maps/
+  Prefabs/{Gameplay,Maps,UI}/
+  Scenes/{Main,Gameplay,QA,Prototype,Archive}/
+  Scripts/{Runtime,Editor,Tests,Packages}/
+  Fonts/
+Archive/UnusedArt/               # 실제 빌드 씬 밖의 아트와 제작 자료
+```
+
+빌드 씬은 `Scenes/Main/NotebookUI.unity`, `Scenes/QA/ANIMOL_Starway_Art_QA.unity`, `Scenes/Gameplay/ANIMOL_Echo_Theater.unity` 세 개다. `Assets/TextMesh Pro`는 외부 의존성으로 유지한다.
+
+---
+
 # 현재 프로젝트 파일 구조
 
 **2026-10-18 씬 분류:** `Assets/ANIMOL/Scenes/Runtime`에는 실제 진입 씬 `ANIMOL_Main`과 플레이 씬 `ANIMOL_Puzzle`을 둔다. `Scenes/Prototype`에는 테마별 장치 프로토타입 4개, `Scenes/QA`에는 아트·환경·캐릭터·퍼즐 검수 씬 14개를 둔다. 씬 이름과 GUID는 유지했으며 빌드 목록의 메인/Starway QA 경로, Editor 제작기, 테스트, 검수 도구의 참조를 새 위치로 갱신했다. QA 조작을 정식 퍼즐 진행으로 취급하지 않는다.

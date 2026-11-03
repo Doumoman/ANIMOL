@@ -51,7 +51,7 @@ namespace ANIMOL.Presentation.Editor
             Directory.CreateDirectory(Data); AssetDatabase.Refresh();
             var manifest = JsonUtility.FromJson<IslandManifest>(File.ReadAllText(Source + "/manifest.json"));
             var art = Asset<SkyIslandArt>(Catalog);
-            var materialPath = "Assets/ANIMOL/Materials/SkyIslandComposite.mat";
+            var materialPath = "Assets/ANIMOL/Art/Shaders/SkyIslandComposite.mat";
             var composite = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
             if (!composite) { composite = new Material(Shader.Find("ANIMOL/SkyIslandComposite")); AssetDatabase.CreateAsset(composite, materialPath); }
             art.compositorMaterial = composite;

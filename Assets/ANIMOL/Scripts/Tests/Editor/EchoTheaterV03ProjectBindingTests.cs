@@ -14,7 +14,7 @@ namespace ANIMOL.Presentation.Tests
     {
         const string Root = EchoTheaterV03ProjectBuilder.Root;
         const string Environment = "Assets/ANIMOL/Data/Art/MemorySkyTheater/Environment/EnvironmentArt.asset";
-        const string Prefabs = "Assets/ANIMOL/Prefabs/Themes/memory_theater/";
+        const string Prefabs = "Assets/ANIMOL/Prefabs/Maps/EchoTheater/";
 
         [Test] public void GeneratedCatalogAndExistingEnvironmentUseVerifiedV03Assets()
         {

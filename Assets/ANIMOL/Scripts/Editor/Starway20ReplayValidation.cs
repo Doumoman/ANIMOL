@@ -65,7 +65,7 @@ namespace ANIMOL.Puzzle.Editor
             var differences = new List<string>();
             var details = new List<string>();
             var windAudit = JObject.Parse(AssetDatabase.LoadAssetAtPath<TextAsset>(
-                "Assets/ANIMOL/StarwayMapPack/Editor/Data/WindAuditV7.json").text);
+                "Assets/ANIMOL/Data/StarwayRanch/Maps/MapPack/Editor/Data/WindAuditV7.json").text);
             var passed = 0;
             foreach (var source in StarwayPackCommands.RequireSources())
             {

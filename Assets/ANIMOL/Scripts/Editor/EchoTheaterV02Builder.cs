@@ -102,7 +102,7 @@ namespace ANIMOL.Art.EchoTheaterV02
             var count = 0;
             foreach (var device in matches)
             {
-                var path = "Assets/ANIMOL/Prefabs/Themes/memory_theater/" + device.Key + ".prefab";
+                var path = "Assets/ANIMOL/Prefabs/Maps/EchoTheater/" + device.Key + ".prefab";
                 var root = PrefabUtility.LoadPrefabContents(path);
                 try
                 {

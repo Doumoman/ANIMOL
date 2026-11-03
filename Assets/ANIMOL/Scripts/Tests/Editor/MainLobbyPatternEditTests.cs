@@ -12,7 +12,7 @@ namespace ANIMOL.Menu.Tests
     public class MainLobbyPatternEditTests
     {
         const string Root = "Assets/ANIMOL/Sprites/UI/Pattern";
-        const string Scene = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string Scene = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
 
         [Test] public void SixteenIndependentFacesAndStarKeepTheirTransparentCanvas()
         {

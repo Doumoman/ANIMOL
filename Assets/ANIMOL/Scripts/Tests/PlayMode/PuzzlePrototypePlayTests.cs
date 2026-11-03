@@ -21,7 +21,7 @@ namespace ANIMOL.Tests
         [UnityTearDown] public IEnumerator Cleanup(){Object.Destroy(host);Object.Destroy(camera);yield return null;}
         [UnityTest] public IEnumerator AllFourThemedStagesClearThroughSwipeInputWithExistingHudAndArt()
         {
-            controller.hudPrefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/hud_visual.prefab");
+            controller.hudPrefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/hud_visual.prefab");
             foreach(var name in new[]{"starway","memory_theater","letter_observatory","twilight_sea"})
             {
                 var map=AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root+name+".asset");controller.Load(map);yield return null;
@@ -57,7 +57,7 @@ namespace ANIMOL.Tests
             scenario.devices.First(d => d.id == "metal").position = new Vector2Int(7, 4);
             scenario.devices.Add(new PrototypeDevice { id = "idle_wood", role = PrototypeRole.WoodCrate,
                 position = new Vector2Int(2, 4), direction = Vector2Int.right, artTheme = "starway",
-                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/crate_wood.prefab") });
+                visualPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/crate_wood.prefab") });
             try
             {
                 controller.Load(map);

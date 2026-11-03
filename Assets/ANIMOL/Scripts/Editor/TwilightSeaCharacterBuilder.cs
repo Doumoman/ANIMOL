@@ -16,7 +16,7 @@ namespace Animol.Art.StarwaveCoastNative
         const string Root = "Assets/ANIMOL/Art/StarwaveCoastCharacters";
         const string CatalogPath = "Assets/ANIMOL/Data/Art/TwilightSeaCharacters.asset";
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
-        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         static readonly string[] Ids = { "haerin", "stranger", "danu", "eden" };
         static readonly string[] Names = { "\uD574\uB9B0", "\uC774\uBC29\uC778", "\uB2E8\uC6B0", "\uC774\uB4E0" };
 

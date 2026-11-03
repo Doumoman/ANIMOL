@@ -29,7 +29,7 @@ namespace ANIMOL.Menu.Tests
 
     public class MainLobbyPlayTests
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         static readonly string Portrait = Path.Combine(Path.GetTempPath(), "ANIMOL_MainUiV18", "Portrait");
 
 #if UNITY_EDITOR

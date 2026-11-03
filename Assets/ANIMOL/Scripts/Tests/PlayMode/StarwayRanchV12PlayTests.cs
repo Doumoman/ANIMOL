@@ -31,7 +31,7 @@ namespace ANIMOL.Presentation.Tests
             var art = UnityEditor.AssetDatabase.LoadAssetAtPath<StarwayRanchArt>(
                 "Assets/ANIMOL/Data/Art/StarwayRanch/StarwayRanchArt.asset");
             var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/ANIMOL/Prefabs/Themes/starway/d07_conveyor.prefab");
+                "Assets/ANIMOL/Prefabs/Maps/StarwayRanch/d07_conveyor.prefab");
             var go = Object.Instantiate(prefab);
             try
             {
@@ -101,7 +101,7 @@ namespace ANIMOL.Presentation.Tests
             var art = UnityEditor.AssetDatabase.LoadAssetAtPath<StarwayRanchArt>(
                 "Assets/ANIMOL/Data/Art/StarwayRanch/StarwayRanchArt.asset");
             var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/ANIMOL/Prefabs/Themes/starway/d07_conveyor.prefab");
+                "Assets/ANIMOL/Prefabs/Maps/StarwayRanch/d07_conveyor.prefab");
             var go = Object.Instantiate(prefab);
             try
             {
@@ -135,7 +135,7 @@ namespace ANIMOL.Presentation.Tests
 
         [UnityTest] public IEnumerator CampaignWindmillRotatesOnlyTheRotorAndStopsAtPause()
         {
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null; yield return null; yield return null;
             var motion = Object.FindFirstObjectByType<StarwayRanchV12RotorVisual>();
@@ -162,7 +162,7 @@ namespace ANIMOL.Presentation.Tests
 
         [UnityTest] public IEnumerator CampaignDeviceCellsResolveToLatestDirectionalV12Renderers()
         {
-            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Runtime/ANIMOL_Puzzle.unity",
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Puzzle.unity",
                 new LoadSceneParameters(LoadSceneMode.Single));
             yield return null; yield return null; yield return null;
             var puzzle = Object.FindFirstObjectByType<PuzzleController>();

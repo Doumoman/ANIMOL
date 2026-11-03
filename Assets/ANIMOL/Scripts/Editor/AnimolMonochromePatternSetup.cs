@@ -15,7 +15,7 @@ namespace Animol.UI.Pattern.Editor
         private const string Root = "Assets/ANIMOL/Sprites/UI/Pattern/";
         private const string ShaderPath = "Assets/ANIMOL/Materials/UI_AnimolMonochromePattern.shader";
         private const string TexturePath = Root + "Textures/CharacterFacesStars_All_2048.png";
-        private const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        private const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         private static readonly Color Ink = new Color(166f / 255f, 110f / 255f, 72f / 255f, 1f);
         private static bool importsConfigured;
 

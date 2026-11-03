@@ -14,7 +14,7 @@ namespace ANIMOL.Menu.Editor
     // Applies the independent menu skin to the existing lobby. It never rebuilds the catalog.
     public static class MainMenuSkinInstaller
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         const string SpriteRoot = "Assets/ANIMOL/Sprites/UI/Main";
         const string ManifestPath = "Assets/ANIMOL/Data/UI/MainMenuSpriteManifest.json";
         const string SkinPath = "Assets/ANIMOL/Data/UI/MainMenuSkin.asset";

@@ -79,7 +79,7 @@ namespace ANIMOL.Tests
             }
 
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
-                "Assets/ANIMOL/Prefabs/Themes/memory_theater/d06_moving_stage.prefab");
+                "Assets/ANIMOL/Prefabs/Maps/EchoTheater/d06_moving_stage.prefab");
             var visual = prefab.GetComponentInChildren<EchoRailCartVisualV01>(true);
             Assert.That(visual, Is.Not.Null);
             Assert.That(prefab.GetComponent<ANIMOL.Presentation.DeviceVisualView>().enabled, Is.False);
@@ -103,7 +103,7 @@ namespace ANIMOL.Tests
         [Test] public void MapEditorShowsCatalogCartForExistingM06()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-06_MapData.asset");
             var stage = System.Linq.Enumerable.First(map.scenario.devices,
                 d => d.role == PrototypeRole.MovingStage);
             var window = ScriptableObject.CreateInstance<PuzzleMapEditor>();

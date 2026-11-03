@@ -17,7 +17,7 @@ namespace Animol.Art.SunsetSanctumNative
         const string CatalogPath = "Assets/ANIMOL/Data/Art/LetterObservatoryCharacters.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/letter_observatory_Theme.asset";
         const string MenuPath = "Assets/ANIMOL/Data/UI/MainMenuCatalog.asset";
-        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string LobbyScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         static readonly string[] Ids = { "sein", "daon", "lumi", "soyul", "doyun" };
         static readonly string[] RetouchNames = { "\uC138\uC778", "\uB2E4\uC628", "\uB8E8\uBBF8", "\uC18C\uC728", "\uB3C4\uC724" };
         [Serializable] sealed class RetouchManifest { public Calibration projectCalibration; }

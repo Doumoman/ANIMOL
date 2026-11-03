@@ -21,7 +21,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator AllThirtyFiveStagesLoadVisualBindings()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterMapSet.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/EchoTheaterMapSet.asset");
             var host = new GameObject("Echo Theater load sweep");
             var controller = host.AddComponent<PuzzlePrototypeController>();
             try
@@ -96,7 +96,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator DiceRollChangesCommittedFacesAndSpriteThenReloadRestoresThem()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-05_MapData.asset");
             var host = new GameObject("Echo Theater dice distinction test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
             try
@@ -325,7 +325,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator SelectedEchoTheaterMapRollsDieWhenPushed()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-01_MapData.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-01_MapData.asset");
             var map = Object.Instantiate(source);
             map.start = new Vector2Int(11, 8);
             map.InvalidateIndex();
@@ -406,7 +406,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator DominoAndDiceStagesBindVisualsAndOpenPassages()
         {
             var catalog = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
-                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterMapSet.asset");
+                "Assets/ANIMOL/Data/EchoTheater/Maps/EchoTheaterMapSet.asset");
             Assert.That(catalog, Is.Not.Null);
             var host = new GameObject("Echo Theater V3 PlayMode test");
             var controller = host.AddComponent<PuzzlePrototypeController>();

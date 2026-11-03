@@ -15,7 +15,7 @@ namespace ANIMOL.Menu.Tests
 {
     public class MainMenuSkinTests
     {
-        const string ScenePath = "Assets/ANIMOL/Scenes/Runtime/ANIMOL_Main.unity";
+        const string ScenePath = "Assets/ANIMOL/Scenes/Archive/PreviousMain.unity";
         const string Root = "Assets/ANIMOL/Sprites/UI/Main";
 
         [Serializable] sealed class Manifest { public Spec[] sprites; }
@@ -103,7 +103,7 @@ namespace ANIMOL.Menu.Tests
         [Test] public void V19FramesHaveSharedSliceImportRules()
         {
             var skin = AssetDatabase.LoadAssetAtPath<AnimolUiV19Skin>(
-                "Assets/ANIMOL/UI/StyleV19/Generated/ANIMOL_UI_V19.asset");
+                "Assets/ANIMOL/Data/UI/Legacy/StyleV19/Generated/ANIMOL_UI_V19.asset");
             Assert.That(skin, Is.Not.Null);
             foreach (var set in new[] { skin.mode, skin.primary, skin.utility, skin.profile })
             foreach (var sprite in new[] { set.normal, set.highlighted, set.pressed, set.disabled, set.active })
