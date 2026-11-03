@@ -15,7 +15,7 @@
 | UI 아트 | `Assets/ANIMOL/Art/UI/{InGame,Main,ConstellationMap,Settings}` |
 | 맵 아트 | `Assets/ANIMOL/Art/Maps/<theme>/{Tiles,Devices,Decorations}`; 사용되는 표식이 생기면 `Markers` |
 | 셰이더·머티리얼 | `Assets/ANIMOL/Art/Shaders` |
-| 지도 데이터 | `Assets/ANIMOL/Data/<theme>/Maps` |
+| 지도 데이터 | `Assets/ANIMOL/Data/Puzzle/MapData/<theme>` |
 | 프리팹 | `Assets/ANIMOL/Prefabs/{Gameplay,Maps,UI}` |
 | 메인 씬 | `Assets/ANIMOL/Scenes/Main/NotebookUI.unity` |
 | 스크립트 | `Assets/ANIMOL/Scripts`; 기존 어셈블리 경계와 Editor 구분은 유지 |
@@ -33,3 +33,8 @@
 ## 보관 자산의 제한
 
 기존 QA·프로토타입 씬과 제작기에서만 사용하던 아트는 현재 Unity `Assets` 밖에 있다. 해당 씬 또는 제작기를 다시 쓰려면 필요한 원화와 `.meta`를 보관 위치에서 복원하고 참조를 다시 검증해야 한다. 현재 빌드 씬의 참조만 보존한다는 사용자 선택에 따른 범위다.
+
+
+## 2026-11-03 맵 데이터 경로 복원
+
+사용자 요청으로 지도 데이터 58개와 `StarwayMapPack` 전체 자료·스크립트 120개를 원래 `Assets/ANIMOL/Data/Puzzle/MapData` 및 `Assets/ANIMOL/StarwayMapPack` 경로로 되돌렸다. 파일·`.meta`·원래 폴더 `.meta`를 함께 복원했고, 이동 전후 371개 파일의 SHA-256이 같았다. 맵 파일과 기존 미커밋 수정은 새 분류 대상에서 제외한다.

@@ -23,7 +23,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator AuthoredTheaterStageUsesTheOneTileShutterRenderer()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-16_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-16_MapData.asset");
             var shutter = map.scenario.devices.Single(d => d.role == PrototypeRole.Shutter);
             var sourceRenderer = shutter.visualPrefab.GetComponent<DeviceVisualView>().visual;
             var host = new GameObject("ET-16 shutter binding QA");

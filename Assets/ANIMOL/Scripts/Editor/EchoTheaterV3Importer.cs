@@ -11,7 +11,7 @@ namespace ANIMOL.Puzzle.Editor
 {
     public static class EchoTheaterV3Importer
     {
-        public const string Root = "Assets/ANIMOL/Data/EchoTheater/Maps";
+        public const string Root = "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater";
         public const string SourceRoot = "Assets/ANIMOL/Scripts/Editor/EchoTheaterV3Data";
         public const string SetPath = Root + "/EchoTheaterMapSet.asset";
         const string TemplatePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/memory_theater_Scenario.asset";

@@ -10,7 +10,8 @@ Assets/ANIMOL/
     UI/{InGame,Main,ConstellationMap,Settings}/
     Maps/<theme>/{Tiles,Devices,Decorations,Markers}/
     Shaders/
-  Data/<theme>/Maps/
+  Data/Puzzle/MapData/<theme>/
+  StarwayMapPack/                 # original map package and metas
   Prefabs/{Gameplay,Maps,UI}/
   Scenes/{Main,Gameplay,QA,Prototype,Archive}/
   Scripts/{Runtime,Editor,Tests,Packages}/

@@ -103,7 +103,7 @@ namespace ANIMOL.Tests
         [Test] public void MapEditorShowsCatalogCartForExistingM06()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-06_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset");
             var stage = System.Linq.Enumerable.First(map.scenario.devices,
                 d => d.role == PrototypeRole.MovingStage);
             var window = ScriptableObject.CreateInstance<PuzzleMapEditor>();

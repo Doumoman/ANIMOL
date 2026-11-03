@@ -10,7 +10,7 @@ namespace ANIMOL.Tests
         [Test] public void AllMapDataStagesOwnTheirScenarioWithoutSeparateFiles()
         {
             const string root = "Assets/ANIMOL/Data/Puzzle/MapData";
-            foreach (var theme in new[] { (folder: "starway", count: 20),
+            foreach (var theme in new[] { (folder: "starway", count: 21),
                 (folder: "memory_theater", count: 35) })
             {
                 var paths = AssetDatabase.FindAssets("t:PuzzleMap", new[] { root + "/" + theme.folder })

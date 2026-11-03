@@ -51,7 +51,7 @@ namespace ANIMOL.Tests
         [Test] public void Et06UsesItsRegisteredCartAsAOneCellBlocker()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-06_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset");
             var session = new PuzzleDeviceSession(map);
             var cart = session.Devices.Single(d => d.role == PrototypeRole.MovingStage);
             Assert.That(cart.id, Is.EqualTo("platform_1"));

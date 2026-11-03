@@ -11,7 +11,7 @@ namespace ANIMOL.Puzzle.Editor
 {
     public sealed class Starway20ProjectAdapter : StarwayNativeAdapter
     {
-        public const string Root = "Assets/ANIMOL/Data/StarwayRanch/Maps";
+        public const string Root = "Assets/ANIMOL/Data/Puzzle/MapData/starway";
         public const string SetPath = Root + "/Starway20MapSet.asset";
         public const string ActiveSetPath = Root + "/Starway21MapSet.asset";
         const string ThemePath = "Assets/ANIMOL/Data/Puzzle/Prototypes/starway_Theme.asset";

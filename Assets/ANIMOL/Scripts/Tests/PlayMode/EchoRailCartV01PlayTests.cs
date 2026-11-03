@@ -92,7 +92,7 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator M06UsesCartAndFloorRailsAfterMoveAndReload()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
-                "Assets/ANIMOL/Data/EchoTheater/Maps/ET-06_MapData.asset");
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset");
             var host = new GameObject("M06 rail cart visual test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
             try
