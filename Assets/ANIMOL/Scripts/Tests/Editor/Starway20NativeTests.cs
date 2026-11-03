@@ -119,38 +119,31 @@ namespace ANIMOL.Puzzle.Tests
                 var originalRows = map.cameraSettings.visibleRows;
                 Assert.That(map.cameraSettings.bottomBlankRows, Is.EqualTo(2));
                 map.cameraSettings.topBlankRows = 2;
-                var bounds = PuzzleFollowCamera.StarwayFollowBounds(map);
-                var center = StarwayCameraMath.ClampCenter(map.start, bounds,
-                    StarwayCameraMath.FocusWorldSize(Vector2.one));
-                Assert.That(center.y, Is.EqualTo(15f).Within(.001f));
-                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, map.start).center.y,
-                    Is.EqualTo(15f).Within(.001f));
                 playerObject.transform.position = (Vector2)map.start;
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(15f).Within(.001f));
+                var follow = cameraObject.GetComponent<PuzzleFollowCamera>();
+                var lens = cameraObject.GetComponent<Camera>();
+                follow.Configure(map, playerObject.transform);
+                Assert.That(lens.rect, Is.EqualTo(new Rect(0f, 0f, 1f, 1f)));
+                Assert.That(lens.orthographicSize * 2f * lens.aspect, Is.GreaterThanOrEqualTo(7f - .001f));
+                var twoTop = cameraObject.transform.position.y;
                 map.cameraSettings.topBlankRows = 4;
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(17f).Within(.001f));
-                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, map.start).center.y,
-                    Is.EqualTo(17f).Within(.001f));
+                follow.Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(twoTop + 2f).Within(.001f));
                 map.cameraSettings.topBlankRows = 0;
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(13f).Within(.001f));
+                follow.Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(twoTop - 2f).Within(.001f));
 
                 map.cameraSettings.topBlankRows = 2;
                 playerObject.transform.position = new Vector2(-100, -100);
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(8f).Within(.001f));
-                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, playerObject.transform.position).center.y,
-                    Is.EqualTo(8f).Within(.001f));
+                follow.Configure(map, playerObject.transform);
+                var twoBottom = cameraObject.transform.position.y;
+                Assert.That(twoBottom - lens.orthographicSize, Is.EqualTo(2.5f).Within(.001f));
                 map.cameraSettings.bottomBlankRows = 4;
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(6f).Within(.001f));
-                Assert.That(ANIMOL.Presentation.Editor.PuzzleMapEditor.CameraBounds(map, playerObject.transform.position).center.y,
-                    Is.EqualTo(6f).Within(.001f));
+                follow.Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(twoBottom - 2f).Within(.001f));
                 map.cameraSettings.bottomBlankRows = 0;
-                cameraObject.GetComponent<PuzzleFollowCamera>().Configure(map, playerObject.transform);
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(10f).Within(.001f));
+                follow.Configure(map, playerObject.transform);
+                Assert.That(cameraObject.transform.position.y, Is.EqualTo(twoBottom + 2f).Within(.001f));
                 Assert.That(map.cameraSettings.topInset, Is.EqualTo(originalInset));
                 Assert.That(map.cameraSettings.visibleRows, Is.EqualTo(originalRows));
             }

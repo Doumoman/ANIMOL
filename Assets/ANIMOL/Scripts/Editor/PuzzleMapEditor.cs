@@ -1411,20 +1411,30 @@ namespace ANIMOL.Presentation.Editor
         }
         public static Rect CameraBounds(PuzzleMap data, Vector2 focus)
         {
+            const float portraitAspect = 540f / 960f;
             if (data.scenario && data.scenario.themeId == "starway" &&
                 data.name.StartsWith("SW", StringComparison.Ordinal) && data.terrain.Count > 0)
             {
-                var size = StarwayCameraMath.FocusWorldSize(Vector2.one);
+                var minimum = StarwayCameraMath.FocusWorldSize(Vector2.one);
+                var height = PuzzleFollowCamera.FullScreenRows(minimum.y, minimum.x, portraitAspect);
+                var size = new Vector2(height * portraitAspect, height);
                 var starwayCenter = StarwayCameraMath.ClampCenter(focus, PuzzleFollowCamera.StarwayFollowBounds(data), size);
                 return new Rect(starwayCenter - size * .5f, size);
             }
             var settings = data.cameraSettings ?? new PuzzleCameraSettings();
-            var rows = Mathf.Clamp(settings.visibleRows, 5, 25);
-            var aspect = 540f / (960f - Mathf.Clamp(settings.topInset, 0, 150) -
-                Mathf.Clamp(settings.bottomInset, 0, 300));
+            var rows = settings.fitWholeBoard
+                ? Mathf.Max(data.Height + 1f, (data.Width + 1f) / portraitAspect)
+                : Mathf.Clamp(settings.visibleRows, 5, 80);
+            if (!settings.fitWholeBoard)
+            {
+                var referenceHeight = 960f - Mathf.Clamp(settings.topInset, 0, 150)
+                    - Mathf.Clamp(settings.bottomInset, 0, 300);
+                rows = PuzzleFollowCamera.FullScreenRows(rows,
+                    rows * 540f / Mathf.Max(1f, referenceHeight), portraitAspect);
+            }
             var halfHeight = rows * .5f;
-            var halfWidth = halfHeight * aspect;
-            var center = PuzzleFollowCamera.Clamp(focus, data.Width, data.Height, halfHeight, aspect);
+            var halfWidth = halfHeight * portraitAspect;
+            var center = PuzzleFollowCamera.Clamp(focus, data.Width, data.Height, halfHeight, portraitAspect);
             return new Rect(center.x - halfWidth, center.y - halfHeight, halfWidth * 2, rows);
         }
         public static string[] TheaterTerrainRows(PuzzleMap data)

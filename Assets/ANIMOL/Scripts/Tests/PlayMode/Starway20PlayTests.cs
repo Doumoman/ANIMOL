@@ -26,13 +26,12 @@ namespace ANIMOL.Tests
                 var follow = cameraObject.GetComponent<PuzzleFollowCamera>();
                 follow.Configure(map, target.transform);
                 yield return null;
-                Assert.That(cameraObject.transform.position.y, Is.EqualTo(8f).Within(.001f));
                 Assert.That(cameraObject.transform.position.y - cameraObject.GetComponent<Camera>().orthographicSize,
                     Is.EqualTo(2.5f).Within(.001f));
             }
             finally { Object.Destroy(cameraObject); Object.Destroy(target); Object.Destroy(map); }
         }
-        [UnityTest] public IEnumerator AllTwentyOneStagesLoadWithHudVisualsAndSevenByElevenCamera()
+        [UnityTest] public IEnumerator AllTwentyOneStagesLoadWithHudVisualsAndFullScreenCamera()
         {
             var set = AssetDatabase.LoadAssetAtPath<StarwayV3MapSet>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/starway/Starway21MapSet.asset");
@@ -52,7 +51,10 @@ namespace ANIMOL.Tests
                     Assert.That(controller.Session.Collected, Is.Zero, entry.sourceId);
                     Assert.That(controller.GetComponentInChildren<PuzzleHudView>().bubbles.text, Is.EqualTo("0/3"), entry.sourceId);
                     Assert.That(controller.RuntimeMap.targetBubbles, Is.EqualTo(3), entry.sourceId);
-                    Assert.That(controller.FollowCamera.GetComponent<Camera>().orthographicSize, Is.EqualTo(5.5f).Within(.001f), entry.sourceId);
+                    var lens = controller.FollowCamera.GetComponent<Camera>();
+                    Assert.That(lens.rect, Is.EqualTo(new Rect(0f, 0f, 1f, 1f)), entry.sourceId);
+                    Assert.That(lens.orthographicSize * 2f, Is.GreaterThanOrEqualTo(11f - .001f), entry.sourceId);
+                    Assert.That(lens.orthographicSize * 2f * lens.aspect, Is.GreaterThanOrEqualTo(7f - .001f), entry.sourceId);
                     Assert.That(controller.Session.Cell, Is.EqualTo(entry.map.start), entry.sourceId);
                 }
             }

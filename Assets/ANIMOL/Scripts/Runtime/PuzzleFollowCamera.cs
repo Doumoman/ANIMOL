@@ -28,6 +28,10 @@ namespace ANIMOL.Puzzle
             bounds.yMin -= Mathf.Clamp(data.cameraSettings.bottomBlankRows, 0, 8);
             return bounds;
         }
+        public static float FullScreenRows(float preferredRows, float minimumWidth, float aspect)
+        {
+            return Mathf.Max(preferredRows, minimumWidth / Mathf.Max(.01f, aspect));
+        }
         public void Configure(PuzzleMap data, Transform target)
         {
             map = data; player = target; lens = GetComponent<Camera>(); lens.orthographic = true;
@@ -39,26 +43,31 @@ namespace ANIMOL.Puzzle
         }
         void ApplyLens()
         {
-            var safe = Screen.safeArea; var scale = Mathf.Min(Screen.width / 540f, Screen.height / 960f);
-            var top = Mathf.Min(map.cameraSettings.topInset * scale, safe.height * .25f);
-            var bottom = Mathf.Min(map.cameraSettings.bottomInset * scale, safe.height * .4f);
+            // The HUD already handles the safe area. Reserving pixels in the world camera
+            // exposes the camera clear color as a strip above the game on portrait screens.
+            lens.rect = new Rect(0f, 0f, 1f, 1f);
             if (starway20)
             {
-                var available = new Rect(safe.x, safe.y + bottom, safe.width, safe.height - top - bottom);
                 var focus = StarwayCameraMath.FocusWorldSize(Vector2.one);
-                lens.rect = StarwayCameraMath.NormalizePixels(
-                    StarwayCameraMath.FitInsidePixels(available, focus.x / focus.y), Screen.width, Screen.height);
-                lens.orthographicSize = focus.y * .5f;
+                lens.orthographicSize = FullScreenRows(focus.y, focus.x, lens.aspect) * .5f;
                 return;
             }
-            lens.rect = new Rect(safe.x / Screen.width, (safe.y + bottom) / Screen.height, safe.width / Screen.width, (safe.height - top - bottom) / Screen.height);
             var rows = map.cameraSettings.fitWholeBoard
                 ? Mathf.Max(map.Height + 1f, (map.Width + 1f) / Mathf.Max(.1f, lens.aspect))
                 : Mathf.Clamp(map.cameraSettings.visibleRows, 5, 80);
+            if (!map.cameraSettings.fitWholeBoard)
+            {
+                // Preserve at least the authored portrait view's horizontal span while
+                // allowing taller and wider displays to reveal additional world area.
+                var referenceHeight = 960f - Mathf.Clamp(map.cameraSettings.topInset, 0f, 150f)
+                    - Mathf.Clamp(map.cameraSettings.bottomInset, 0f, 300f);
+                rows = FullScreenRows(rows, rows * 540f / Mathf.Max(1f, referenceHeight), lens.aspect);
+            }
             lens.orthographicSize = rows * .5f;
         }
         Vector2 Bounded(Vector2 p) => starway20
-            ? StarwayCameraMath.ClampCenter(p, starwayBounds, StarwayCameraMath.FocusWorldSize(Vector2.one))
+            ? StarwayCameraMath.ClampCenter(p, starwayBounds,
+                new Vector2(lens.orthographicSize * 2f * lens.aspect, lens.orthographicSize * 2f))
             : Clamp(p, map.Width, map.Height, lens.orthographicSize, lens.aspect);
         public void Cut()
         { if (!lens || !map || !player) return; ApplyLens(); var p = Bounded(player.position); transform.position = new Vector3(p.x, p.y, -10); }

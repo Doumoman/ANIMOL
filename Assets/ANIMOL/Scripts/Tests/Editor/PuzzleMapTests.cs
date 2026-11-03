@@ -100,15 +100,25 @@ namespace ANIMOL.Presentation.Tests
                 Assert.AreEqual(39.5f - 5.5f * aspect, max.x, .001f); Assert.AreEqual(34, max.y, .001f);
             }
         }
-        [Test] public void CameraPreviewBoundsUseInsetsAndRuntimeClamp()
+        [Test] public void FullScreenCameraPreservesHorizontalViewAcrossPortraitAndWideDisplays()
+        {
+            foreach (var aspect in new[] { 360f / 640f, 445f / 773f, 390f / 844f, 16f / 9f })
+            {
+                var rows = PuzzleFollowCamera.FullScreenRows(11f, 7f, aspect);
+                Assert.That(rows, Is.GreaterThanOrEqualTo(11f));
+                Assert.That(rows * aspect + .001f, Is.GreaterThanOrEqualTo(7f));
+            }
+        }
+        [Test] public void CameraPreviewBoundsUseFullPortraitViewportAndRuntimeClamp()
         {
             map.cameraSettings.visibleRows = 11;
             map.cameraSettings.topInset = 90;
             map.cameraSettings.bottomInset = 30;
             var preview = PuzzleMapEditor.CameraBounds(map, new Vector2(50, -20));
-            var aspect = 540f / (960 - 90 - 30);
-            Assert.That(preview.width, Is.EqualTo(11 * aspect).Within(.001f));
-            Assert.That(preview.height, Is.EqualTo(11).Within(.001f));
+            var aspect = 540f / 960f;
+            var rows = PuzzleFollowCamera.FullScreenRows(11f, 11f * 540f / (960 - 90 - 30), aspect);
+            Assert.That(preview.width, Is.EqualTo(rows * aspect).Within(.001f));
+            Assert.That(preview.height, Is.EqualTo(rows).Within(.001f));
             Assert.That(preview.center, Is.EqualTo(new Vector2(2, 2)));
             map.Resize(40, 30);
             preview = PuzzleMapEditor.CameraBounds(map, Vector2.zero);
