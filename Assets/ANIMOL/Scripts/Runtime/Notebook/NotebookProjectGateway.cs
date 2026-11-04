@@ -20,16 +20,34 @@ namespace William.NotebookUI
         readonly Dictionary<string, PuzzleMap> approvedEntries = new Dictionary<string, PuzzleMap>();
         GameObject replayInstance;
 
-        public static bool IsStarwayCleared(string stageId) =>
-            PlayerPrefs.GetInt("ANIMOL.Starway.Cleared." + stageId, 0) == 1;
+        public static bool TryStarwayMapId(string stageId, out string mapId)
+        {
+            mapId = null;
+            if (string.IsNullOrEmpty(stageId) || stageId.Length != 4 ||
+                !stageId.StartsWith("SW", StringComparison.Ordinal) ||
+                !int.TryParse(stageId.Substring(2), out int stageNumber) ||
+                stageNumber < 1 || stageNumber > 20) return false;
+            mapId = "SW" + (stageNumber - 1).ToString("00");
+            return true;
+        }
+
+        public static string MapClearKey(string mapId) => "ANIMOL.Starway.MapCleared." + mapId;
+
+        public static bool IsStarwayCleared(string stageId)
+        {
+            if (!TryStarwayMapId(stageId, out string mapId)) return false;
+            return PlayerPrefs.GetInt(MapClearKey(mapId), 0) == 1 ||
+                // Existing clears belong to the original source map, now one stage later.
+                (mapId != "SW00" && PlayerPrefs.GetInt("ANIMOL.Starway.Cleared." + mapId, 0) == 1);
+        }
 
         public override bool CanOpenStage(string stageId) => FindStarwayMap(stageId);
 
         PuzzleMap FindStarwayMap(string stageId)
         {
-            if (string.IsNullOrEmpty(stageId) || starwayMaps == null) return null;
+            if (!TryStarwayMapId(stageId, out string mapId) || starwayMaps == null) return null;
             foreach (PuzzleMap map in starwayMaps)
-                if (map && map.name == stageId) return map;
+                if (map && (map.name == mapId || map.name == mapId + "_MapData")) return map;
             return null;
         }
 
@@ -72,7 +90,7 @@ namespace William.NotebookUI
         {
             if (!approvedEntries.TryGetValue(operationId, out PuzzleMap map)) return;
             approvedEntries.Remove(operationId);
-            if (!map || map.name != stageId) return;
+            if (!map || FindStarwayMap(stageId) != map) return;
             NotebookRoot notebook = GetComponent<NotebookRoot>();
             Canvas notebookCanvas = notebook ? notebook.GetComponentInParent<Canvas>() : null;
             if (!notebookCanvas || !gameplayCanvasPrefab) return;
@@ -89,6 +107,7 @@ namespace William.NotebookUI
                 var liveGateway = session.AddComponent<NotebookStarwaySessionGateway>();
                 var bridge = session.AddComponent<NotebookMapDataPreviewBridge>();
                 bridge.sourceMap = map;
+                bridge.stageIdOverride = stageId;
                 bridge.puzzle = controller;
                 bridge.hud = hud;
                 bridge.gateway = liveGateway;

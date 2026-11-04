@@ -37,6 +37,7 @@ namespace ANIMOL.Presentation.Editor
         [SerializeField] PuzzleTheme newMapTheme;
         [SerializeField] string newMapName = "NewMap";
         [SerializeField] int newMapWidth = 12, newMapHeight = 18;
+        [SerializeField] int shortestPathStateLimit = 1000000;
         Layer layer;
         Marker marker;
         TerrainMaterial material;
@@ -95,6 +96,7 @@ namespace ANIMOL.Presentation.Editor
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; }
         }
         void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
+        void OnInspectorUpdate() { if (PuzzleShortestPathSolver.Active != null) Repaint(); }
         void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
         void Select(PuzzleMap data)
         {
@@ -196,6 +198,7 @@ namespace ANIMOL.Presentation.Editor
                     scenario.ApplyModifiedProperties();
                 }
             }
+            DrawShortestPathRecord();
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("배치 검사", EditorStyles.boldLabel);
             RefreshValidation();
@@ -222,6 +225,70 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.LabelField("540×960 화면 기준", EditorStyles.miniLabel);
             }
             if (cameraSerialized.ApplyModifiedProperties()) map.InvalidateIndex();
+        }
+        void DrawShortestPathRecord()
+        {
+            if (!map || !AssetDatabase.GetAssetPath(map).StartsWith(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/", StringComparison.Ordinal)) return;
+            string id = PuzzleShortestPathRecord.MapId(map);
+            if (id.Length != 4 || !id.StartsWith("SW", StringComparison.Ordinal) ||
+                !int.TryParse(id.Substring(2), out int number) || number < 0 || number > 19) return;
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("별길 목장 최단 경로", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("맵 순서", (number + 1) + " / 20 (" + id + ")");
+            var record = PuzzleShortestPathRecord.Find(map);
+            if (PuzzleShortestPathSolver.SourceIsDirty(map))
+                EditorGUILayout.HelpBox("맵 데이터를 저장한 뒤 최단 경로를 탐색할 수 있습니다.", MessageType.Warning);
+            if (record == null) EditorGUILayout.HelpBox("아직 전수 탐색 기록이 없습니다.", MessageType.Info);
+            else if (!PuzzleShortestPathRecord.IsCurrent(map, record))
+                EditorGUILayout.HelpBox("맵 데이터 또는 탐색 규칙이 변경되었습니다. 다시 탐색해야 합니다.", MessageType.Warning);
+            else if (record.status == "solved")
+            {
+                EditorGUILayout.LabelField("최단 입력 수", record.distance.ToString());
+                EditorGUILayout.LabelField("경로 (N↑ / E→ / S↓ / W←)");
+                EditorGUILayout.LabelField(". = 바람 1회 대기 · 입력 비용 0", EditorStyles.miniLabel);
+                if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind))
+                    EditorGUILayout.HelpBox("연속 방향은 이동 중 다음 입력을 예약합니다. .은 바람 자동 이동 1회를 기다립니다.", MessageType.Info);
+                var routeStyle = new GUIStyle(EditorStyles.textArea) { wordWrap = true };
+                const float routeWidth = 280f; // The settings scroll view is 320px wide.
+                EditorGUILayout.SelectableLabel(record.route, routeStyle,
+                    GUILayout.Height(Mathf.Max(48f, routeStyle.CalcHeight(new GUIContent(record.route), routeWidth))));
+                EditorGUILayout.LabelField("탐색 상태 수", record.visited.ToString());
+            }
+            else if (record.status == "limit")
+                EditorGUILayout.HelpBox(record.visited.ToString("N0") + "개 상태까지 탐색했지만 최단 거리는 미확정입니다. 더 계산하려면 탐색 상한을 높이세요.", MessageType.Warning);
+            else if (record.status == "unreachable")
+                EditorGUILayout.HelpBox("모든 도달 상태를 검사했으며 클리어 경로가 없습니다.", MessageType.Warning);
+            else EditorGUILayout.HelpBox(record.status + ": " + record.detail, MessageType.Warning);
+            if (PuzzleShortestPathSolver.Active != null)
+            {
+                var search = PuzzleShortestPathSolver.Active;
+                EditorGUILayout.LabelField("탐색 중", search.MapName);
+                EditorGUILayout.LabelField("입력 깊이", search.SearchDepth.ToString());
+                EditorGUILayout.LabelField("확인 상태", search.Expanded.ToString("N0"));
+                EditorGUILayout.LabelField("발견 상태", search.Visited.ToString("N0"));
+                EditorGUILayout.LabelField("대기 상태", search.FrontierCount.ToString("N0"));
+                if (GUILayout.Button("최단 경로 탐색 중단"))
+                {
+                    if (StarwayShortestPathBatch.Running) StarwayShortestPathBatch.Cancel();
+                    else PuzzleShortestPathSolver.Cancel();
+                }
+            }
+            else
+            {
+                shortestPathStateLimit = Mathf.Max(1000, EditorGUILayout.IntField("탐색 상한", shortestPathStateLimit));
+                using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode ||
+                    PuzzleShortestPathSolver.SourceIsDirty(map)))
+                {
+                    if (GUILayout.Button("이 맵 상하좌우 전수 탐색"))
+                        PuzzleShortestPathSolver.Start(map, result => {
+                            if (result.status != "cancelled" && result.status != "stale")
+                                PuzzleShortestPathRecord.Save(result);
+                            if (this) Repaint();
+                        }, shortestPathStateLimit);
+                    if (GUILayout.Button("SW00~SW19 전체 전수 탐색")) StarwayShortestPathBatch.Start(shortestPathStateLimit);
+                }
+            }
         }
         void DrawActiveLayerSettings()
         {

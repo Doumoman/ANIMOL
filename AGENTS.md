@@ -70,3 +70,10 @@
 - 현재 사용 아트의 기준은 Unity Build Settings에서 켜진 세 씬에서 GUID로 이어지는 참조다. 그 밖의 아트는 `Archive/UnusedArt`에 원본과 `.meta`를 보관한다. 보관 아트를 활성 폴더에 무조건 복원하지 않는다.
 - 메인 씬은 `Assets/ANIMOL/Scenes/Main/NotebookUI.unity`이고, 생성기는 `Assets/ANIMOL/Scripts/Editor/Notebook/NotebookInstaller.cs`다. QA와 프로토타입 전용 자료는 빌드 참조에 속하지 않으면 보관 대상이다.
 - 파일 이동 검증에는 현재 빌드 씬 의존성, `ArtAssetTests`, 세로 GameView의 `ArtQaPlayTests`, `Docs/ART_PRESERVATION.json` 해시를 사용한다. 이전 전체 아트 매니페스트는 보관 아트까지 활성으로 가정하므로 현재 사용 범위의 검증 기준이 아니다.
+
+## 6. 2026-11-05 별길 목장 첫 맵 보존
+
+- `Assets/ANIMOL/Data/Puzzle/MapData/starway/SW00_MapData.asset`는 사용자가 직접 추가한 첫 맵 원본이다. 사용자가 이 맵의 편집을 명시적으로 요청하지 않는 한 생성기·정리·경로 계산으로 내용이나 `.meta` GUID를 덮어쓰거나 삭제하지 않는다.
+- 별길 목장의 화면상 1~20번 스테이지(`SW01`~`SW20`)는 원본 맵 `SW00`~`SW19`에 순서대로 연결한다. 화면상 순서와 원본 맵 ID를 구분하고, 기존 클리어 기록은 원본 맵에 귀속시킨다.
+- 최단 경로 증거는 같은 폴더의 `StarwayShortestPaths.json`에 별도로 기록한다. 계산 때문에 원본 맵이나 작성된 `verificationRoute`를 수정하지 않는다.
+- 실제 이동 판정과 무료 바람 이동·예약 입력 순서를 반영하고, 최단성이 확정된 경로만 최단 거리로 표시한다. 취소·상한 도달은 도달 불가나 최단 경로로 보고하지 않는다. 맵 또는 탐색 규칙이 바뀌면 이전 기록을 재검증한다.

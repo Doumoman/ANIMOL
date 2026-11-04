@@ -10,6 +10,7 @@ namespace William.NotebookUI
     public sealed class NotebookMapDataPreviewBridge : MonoBehaviour
     {
         public PuzzleMap sourceMap;
+        public string stageIdOverride;
         public PuzzleController puzzle;
         public NotebookGameplayHud hud;
         public NotebookGameplayGateway gateway;
@@ -76,8 +77,9 @@ namespace William.NotebookUI
             observedSession = session;
             observedMap = prototype.RuntimeMap;
             observedCost = session.Cost;
-            stageId = sourceMap.name.EndsWith("_MapData", System.StringComparison.Ordinal)
-                ? sourceMap.name.Substring(0, sourceMap.name.Length - "_MapData".Length) : sourceMap.name;
+            stageId = !string.IsNullOrEmpty(stageIdOverride) ? stageIdOverride :
+                sourceMap.name.EndsWith("_MapData", System.StringComparison.Ordinal)
+                    ? sourceMap.name.Substring(0, sourceMap.name.Length - "_MapData".Length) : sourceMap.name;
             presentedCollected = session.Collected;
             clearPresented = false;
             presentedCells.Clear();

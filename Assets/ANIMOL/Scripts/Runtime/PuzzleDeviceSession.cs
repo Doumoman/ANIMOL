@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using ANIMOL.Art.DevicePatch01;
 using ANIMOL.Gameplay.RanchDevicesR2;
 using UnityEngine;
@@ -101,10 +102,82 @@ namespace ANIMOL.Puzzle
         PuzzleDeviceSession(PuzzleDeviceSession source)
         {
             Map = source.Map; definitions = source.definitions; CopyFrom(source);
+#if UNITY_EDITOR
+            searchUnlabelledCrates = source.searchUnlabelledCrates;
+#endif
             foreach (var entry in source.ranchPondCells) ranchPondCells.Add(entry.Key, entry.Value);
             ranchGrassPositions.UnionWith(source.ranchGrassPositions);
         }
         public PuzzleDeviceSession Copy() => new PuzzleDeviceSession(this);
+#if UNITY_EDITOR
+        HashSet<string> searchUnlabelledCrates;
+        // Search expands disposable copies. This invokes the same resolver as Apply without building Undo history.
+        public bool SearchStep(Vector2Int direction) => Resolve(direction).accepted;
+
+        // A canonical gameplay-state key for editor search. The solver tracks the lowest input cost
+        // separately; PortalCuts and visual events do not affect future decisions.
+        public string SearchStateKey()
+        {
+            var key = new StringBuilder(256);
+            void Point(Vector2Int p) { key.Append(p.x).Append(',').Append(p.y).Append(';'); }
+            if (searchUnlabelledCrates == null)
+                searchUnlabelledCrates = new HashSet<string>(definitions.Where(d =>
+                    d.role == PrototypeRole.MetalCrate && !Rules.goals.Any(g => g.deviceId == d.id) &&
+                    !definitions.Any(link => link.socketBridgeId == d.id)).Select(d => d.id), StringComparer.Ordinal);
+            var crates = searchUnlabelledCrates.Count > 1 ? new List<string>() : null;
+            // Resolve assigns Direction from the next input before reading it; settled states share it safely.
+            Point(Cell); key.Append(BoatId ?? "").Append('|');
+            foreach (var d in definitions)
+            {
+                var s = states[d.id];
+                if (crates != null && searchUnlabelledCrates.Contains(d.id))
+                {
+                    // Metal crates ignore wind and have identical rules unless a goal/link names one.
+                    // Keep their complete nonvisual state, but remove their arbitrary instance order.
+                    crates.Add(s.cell.x + "," + s.cell.y + ";" + s.active + ":" + s.removed + ":" +
+                        s.locked + ":" + s.converted + ":" + s.phase + ":" + s.timer);
+                    continue;
+                }
+                Point(s.cell);
+                // Movable-body headings select visual cues. Dice orientation, chick trails,
+                // positions, timers and other gameplay state remain in the key.
+                if (d.role != PrototypeRole.Chick && d.role != PrototypeRole.MetalCrate &&
+                    d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.StarSocket &&
+                    d.role != PrototypeRole.Barrel && d.role != PrototypeRole.Bomb && d.role != PrototypeRole.Dice)
+                    Point(s.direction);
+                // lookDirection is used only by doll presentation events.
+                key.Append(s.active ? '1' : '0').Append(s.removed ? '1' : '0')
+                    .Append(s.locked ? '1' : '0').Append(s.converted ? '1' : '0')
+                    .Append(':').Append(s.phase).Append(':').Append(s.timer).Append(':');
+                foreach (int face in s.dice) key.Append(face).Append(',');
+                key.Append(':');
+                foreach (var cell in s.trail) Point(cell);
+                key.Append('|');
+            }
+            key.Append('#');
+            if (crates != null)
+                foreach (string crate in crates.OrderBy(value => value, StringComparer.Ordinal))
+                    key.Append(crate).Append('|');
+            foreach (var sheep in ranchSheep.OrderBy(p => p.Key, StringComparer.Ordinal))
+            {
+                // Sheep heading is used by the view, while position and pond/grass state drive rules.
+                key.Append(sheep.Key).Append(':'); Point(sheep.Value);
+            }
+            key.Append('|');
+            foreach (var pond in ranchPonds.OrderBy(p => p.Key, StringComparer.Ordinal))
+                key.Append(pond.Key).Append(pond.Value ? '1' : '0').Append(';');
+            key.Append('|');
+            foreach (var cell in consumedRanchGrass.OrderBy(p => p.x).ThenBy(p => p.y)) Point(cell);
+            key.Append('|');
+            foreach (var cell in consumedNests.OrderBy(p => p.x).ThenBy(p => p.y)) Point(cell);
+            key.Append('|');
+            foreach (var cell in collected.OrderBy(p => p.x).ThenBy(p => p.y)) Point(cell);
+            key.Append('|');
+            foreach (var cell in Rules.goals.Where(g => g.kind == PrototypeGoalKind.Visited)
+                .Select(g => g.cell).Where(visited.Contains).OrderBy(p => p.x).ThenBy(p => p.y)) Point(cell);
+            return key.ToString();
+        }
+#endif
         public bool Undo()
         {
             if (undo.Count == 0) return false;

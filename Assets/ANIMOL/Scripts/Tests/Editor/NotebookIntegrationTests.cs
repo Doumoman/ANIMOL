@@ -18,6 +18,43 @@ namespace ANIMOL.Presentation.Tests
         const string ScenePath = "Assets/ANIMOL/Scenes/Main/NotebookUI.unity";
         const string MapTextures = "Assets/ANIMOL/Art/UI/ConstellationMap/Textures/";
 
+        [Test] public void StarwayStageOrderPreservesSourceMapProgress()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var gateway = prefab.GetComponentInChildren<NotebookProjectGateway>(true);
+            Assert.That(gateway.starwayMaps.Length, Is.EqualTo(20));
+            for (int i = 0; i < 20; i++)
+            {
+                string mapId = "SW" + i.ToString("00");
+                Assert.That(gateway.starwayMaps[i].name,
+                    Is.EqualTo(mapId).Or.EqualTo(mapId + "_MapData"));
+                Assert.That(gateway.CanOpenStage("SW" + (i + 1).ToString("00")), Is.True);
+            }
+
+            const string oldKey = "ANIMOL.Starway.Cleared.SW01";
+            string firstKey = NotebookProjectGateway.MapClearKey("SW00");
+            string secondKey = NotebookProjectGateway.MapClearKey("SW01");
+            bool hadOld = PlayerPrefs.HasKey(oldKey), hadFirst = PlayerPrefs.HasKey(firstKey),
+                hadSecond = PlayerPrefs.HasKey(secondKey);
+            int oldValue = PlayerPrefs.GetInt(oldKey), firstValue = PlayerPrefs.GetInt(firstKey),
+                secondValue = PlayerPrefs.GetInt(secondKey);
+            try
+            {
+                PlayerPrefs.SetInt(oldKey, 1);
+                PlayerPrefs.DeleteKey(firstKey);
+                PlayerPrefs.DeleteKey(secondKey);
+                Assert.That(NotebookProjectGateway.IsStarwayCleared("SW01"), Is.False);
+                Assert.That(NotebookProjectGateway.IsStarwayCleared("SW02"), Is.True);
+            }
+            finally
+            {
+                if (hadOld) PlayerPrefs.SetInt(oldKey, oldValue); else PlayerPrefs.DeleteKey(oldKey);
+                if (hadFirst) PlayerPrefs.SetInt(firstKey, firstValue); else PlayerPrefs.DeleteKey(firstKey);
+                if (hadSecond) PlayerPrefs.SetInt(secondKey, secondValue); else PlayerPrefs.DeleteKey(secondKey);
+                PlayerPrefs.Save();
+            }
+        }
+
         [Test] public void ActiveSceneUsesFreshNightMapWith32FiguresAnd110RealIds()
         {
             var catalog = NotebookCatalog.Parse(AssetDatabase.LoadAssetAtPath<TextAsset>(CatalogPath));

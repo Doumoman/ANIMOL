@@ -108,10 +108,28 @@ namespace ANIMOL.Puzzle
         public event Action DecorationsChanged;
         Dictionary<Vector2Int, TerrainCell> terrainIndex;
         Dictionary<Vector2Int, DeviceCell> deviceIndex;
+#if UNITY_EDITOR
+        Dictionary<Vector2Int, bool> editorSearchDecorationCache;
+        public void BeginReadOnlySearch() => editorSearchDecorationCache = new Dictionary<Vector2Int, bool>();
+        public void EndReadOnlySearch() => editorSearchDecorationCache = null;
+#endif
 
         public bool Contains(Vector2Int p) => p.x >= 0 && p.y >= 0 && p.x < width && p.y < height;
-        public void InvalidateIndex() { terrainIndex = null; deviceIndex = null; }
-        public void NotifyDecorationsChanged() { DecorationsChanged?.Invoke(); }
+        public void InvalidateIndex()
+        {
+            terrainIndex = null;
+            deviceIndex = null;
+#if UNITY_EDITOR
+            editorSearchDecorationCache?.Clear();
+#endif
+        }
+        public void NotifyDecorationsChanged()
+        {
+#if UNITY_EDITOR
+            editorSearchDecorationCache?.Clear();
+#endif
+            DecorationsChanged?.Invoke();
+        }
         void Index()
         {
             if (terrainIndex != null) return;
@@ -122,8 +140,19 @@ namespace ANIMOL.Puzzle
         }
         public bool TryTerrain(Vector2Int p, out TerrainCell cell)
         { Index(); cell = default; return Contains(p) && terrainIndex.TryGetValue(p, out cell); }
-        public bool DecorationAt(Vector2Int p) => Contains(p) &&
-            decorations.Any(cell => RanchConnectedDecorV02Host.Occupies(this, cell, p));
+        public bool DecorationAt(Vector2Int p)
+        {
+            if (!Contains(p)) return false;
+#if UNITY_EDITOR
+            if (editorSearchDecorationCache != null && editorSearchDecorationCache.TryGetValue(p, out bool cached))
+                return cached;
+#endif
+            bool occupied = decorations.Any(cell => RanchConnectedDecorV02Host.Occupies(this, cell, p));
+#if UNITY_EDITOR
+            if (editorSearchDecorationCache != null) editorSearchDecorationCache[p] = occupied;
+#endif
+            return occupied;
+        }
         public bool Walkable(Vector2Int p) => TryTerrain(p, out var t) && !t.blocked && !DecorationAt(p);
         public DeviceCell DeviceAt(Vector2Int p)
         { Index(); return Contains(p) && deviceIndex.TryGetValue(p, out var d) ? d : default; }

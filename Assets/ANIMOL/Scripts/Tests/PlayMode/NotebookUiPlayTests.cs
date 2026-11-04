@@ -473,7 +473,7 @@ namespace ANIMOL.Presentation.Tests
         [UnityTest] public IEnumerator ClearedStarwayReplayAndEntryUseRealAssetsWithoutReplayCharges()
         {
 #if UNITY_EDITOR
-            const string clearKey = "ANIMOL.Starway.Cleared.SW01";
+            const string clearKey = "ANIMOL.Starway.MapCleared.SW00";
             const string walletKey = "WilliamNotebookUI.Wallet";
             const string storyKey = "WilliamParadox.Story.V14.william-paradox.ranch.dialogue-preview";
             bool hadClear = PlayerPrefs.HasKey(clearKey), hadWallet = PlayerPrefs.HasKey(walletKey);
@@ -492,7 +492,9 @@ namespace ANIMOL.Presentation.Tests
                 var gateway = root.gateway as NotebookProjectGateway;
                 Assert.That(gateway, Is.Not.Null);
                 Assert.That(gateway.starwayMaps.Length, Is.EqualTo(20));
+                Assert.That(gateway.starwayMaps[0].name, Is.EqualTo("SW00_MapData"));
                 Assert.That(gateway.CanOpenStage("SW01"), Is.True);
+                Assert.That(gateway.CanOpenStage("SW20"), Is.True);
                 Assert.That(gateway.CanOpenStage("SW21"), Is.False);
                 var model = (NotebookBmModel)typeof(NotebookRoot)
                     .GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(root);
@@ -538,7 +540,8 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(bridge, Is.Not.Null);
                 for (int i = 0; i < 30 && !bridge.Ready; i++) yield return null;
                 Assert.That(bridge.Ready, Is.True);
-                Assert.That(bridge.sourceMap.name, Is.EqualTo("SW01"));
+                Assert.That(bridge.sourceMap.name, Is.EqualTo("SW00_MapData"));
+                Assert.That(bridge.StageId, Is.EqualTo("SW01"));
                 Assert.That(notebookCanvas.gameObject.activeSelf, Is.False);
                 Assert.That(root.gameObject.activeInHierarchy, Is.False);
                 Assert.That(notebookCanvas.GetComponentsInChildren<UnityEngine.UI.Image>(true)

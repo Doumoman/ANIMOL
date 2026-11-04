@@ -20,8 +20,10 @@ namespace William.NotebookUI
             if (!puzzle || !puzzle.Session.Won || puzzle.IsMoving ||
                 puzzle.Session.Cell != puzzle.RuntimeMap.exit) return;
             string stageId = bridge.StageId;
-            if (string.IsNullOrEmpty(stageId) || bridge.sourceMap.name != stageId) return;
-            PlayerPrefs.SetInt("ANIMOL.Starway.Cleared." + stageId, 1);
+            if (!NotebookProjectGateway.TryStarwayMapId(stageId, out string mapId) ||
+                !bridge.sourceMap ||
+                (bridge.sourceMap.name != mapId && bridge.sourceMap.name != mapId + "_MapData")) return;
+            PlayerPrefs.SetInt(NotebookProjectGateway.MapClearKey(mapId), 1);
             PlayerPrefs.Save();
             clearSaved = true;
         }
