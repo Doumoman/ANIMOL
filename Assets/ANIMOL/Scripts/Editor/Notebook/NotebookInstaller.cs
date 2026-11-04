@@ -92,7 +92,13 @@ namespace William.NotebookUI.Editor
             var fit = ui.worldImage.gameObject.AddComponent<AspectRatioFitter>(); fit.aspectRatio = 1024f / 1536f; fit.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
             Image title = Picture(hero, "Preserved Title", "Brand/title"); At(title.rectTransform, 48, 32, 984, 360); title.preserveAspect = true;
             RectTransform person = Rect(hero, "Character Contain Area"); Stretch(person, 60, 392, 60, 24);
-            ui.characterImage = Picture(person, "Full Character No Cropping", "Characters/choa"); Stretch(ui.characterImage.rectTransform, 0, 0, 0, 0); ui.characterImage.preserveAspect = true;
+            RectTransform portrait = Rect(person, "Full Character No Cropping");
+            ui.characterImage = portrait.gameObject.AddComponent<Image>();
+            Stretch(portrait, 0, 0, 0, 0);
+            ui.characterImage.sprite = LoadIllustration("starway", "choa");
+            ui.characterImage.color = Color.white;
+            ui.characterImage.raycastTarget = false;
+            ui.characterImage.preserveAspect = true;
             RectTransform footer = Rect(host, "Main Footer"); Bottom(footer, 0, 0, 1080, 346);
             Image divider = Picture(footer, "Static Divider", "Paper/Divider"); At(divider.rectTransform, 0, 0, 1080, 12);
             ui.campaignButton = Button(footer, "Campaign Direct To Constellation", "Primary", 48, 24, 984, 150, "캠페인 시작", 60);
@@ -101,7 +107,7 @@ namespace William.NotebookUI.Editor
             ui.customButton = Button(footer, "Custom", "Button", 552, 190, 480, 132, "커스텀", 42); Icon(ui.customButton.transform, "custom", 63, 33, 66, 66); MoveText(ui.customButton, 136, 0, 300, 132);
             var roster = JsonUtility.FromJson<Roster>(File.ReadAllText(Data + "roster.json"));
             string[][] people = { roster.starway, roster.theater, roster.observatory, roster.sea };
-            ui.worlds = catalog.themes.Select((t, i) => new NotebookWorldArt { themeId = t.id, background = Load("Worlds/" + t.id), characters = people[i].Select(p => Load("Characters/" + p)).ToArray() }).ToArray();
+            ui.worlds = catalog.themes.Select((t, i) => new NotebookWorldArt { themeId = t.id, background = Load("Worlds/" + t.id), characters = people[i].Select(p => LoadIllustration(t.id, p)).ToArray() }).ToArray();
         }
         [Serializable] private sealed class Roster { public string[] starway, theater, observatory, sea; }
 
@@ -315,6 +321,22 @@ namespace William.NotebookUI.Editor
                 : MainTex;
             Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(textureRoot + relative + ".png");
             if (!sprite) throw new InvalidOperationException("Missing static UI sprite: " + relative); return sprite;
+        }
+        private static Sprite LoadIllustration(string themeId, string characterId)
+        {
+            string folder, prefix;
+            switch (themeId)
+            {
+                case "starway": folder = "StarwayRanch"; prefix = "animol_starway_"; break;
+                case "theater": folder = "EchoTheater"; prefix = "animol_memory_theater_"; break;
+                case "observatory": folder = "SunsetSanctum"; prefix = "animol_sunset_sanctum_"; break;
+                case "sea": folder = "StarwaveCoast"; prefix = "animol_twilight_sea_"; break;
+                default: throw new InvalidOperationException("Unknown illustration theme: " + themeId);
+            }
+            string path = Root + "Art/Characters/" + folder + "/" + characterId + "/Illustrations/" + prefix + characterId + "_illustration.png";
+            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            if (!sprite) throw new InvalidOperationException("Missing character illustration: " + path);
+            return sprite;
         }
         private static RectTransform Rect(Transform parent, string name)
         {

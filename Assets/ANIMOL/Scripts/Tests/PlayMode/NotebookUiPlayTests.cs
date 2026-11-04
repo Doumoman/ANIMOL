@@ -18,6 +18,72 @@ namespace ANIMOL.Presentation.Tests
 {
     public sealed class NotebookUiPlayTests
     {
+        [UnityTest] public IEnumerator MainArtworkSwipesThroughCharacterIllustrationsEveryFiveVisibleSeconds()
+        {
+#if UNITY_EDITOR
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+                new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null; yield return null;
+            var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+            Assert.That(root, Is.Not.Null);
+            Assert.That(root.worlds.Length, Is.EqualTo(4));
+            foreach (var art in root.worlds)
+                foreach (var character in art.characters)
+                    StringAssert.Contains("Assets/ANIMOL/Art/Characters/", AssetDatabase.GetAssetPath(character));
+            var timer = typeof(NotebookRoot).GetField("mainArtworkElapsed", BindingFlags.Instance | BindingFlags.NonPublic);
+            var incoming = typeof(NotebookRoot).GetField("incomingWorldImage", BindingFlags.Instance | BindingFlags.NonPublic);
+            typeof(NotebookRoot).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { true });
+            timer.SetValue(root, 0f);
+            int first = Array.FindIndex(root.worlds, art => art.background == root.worldImage.sprite);
+            Assert.That(first, Is.GreaterThanOrEqualTo(0));
+            Assert.That(root.worlds[first].characters, Does.Contain(root.characterImage.sprite));
+            Sprite firstCharacter = root.characterImage.sprite;
+            float previousTimeScale = Time.timeScale;
+            Time.timeScale = 0f;
+            try
+            {
+                yield return new WaitForSecondsRealtime(4.75f);
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[first].background));
+                Assert.That(root.characterImage.sprite, Is.EqualTo(firstCharacter));
+                yield return new WaitForSecondsRealtime(.45f);
+                int second = (first + 1) % root.worlds.Length;
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[first].background));
+                Assert.That((UnityEngine.UI.Image)incoming.GetValue(root), Is.Not.Null);
+                Assert.That(((UnityEngine.UI.Image)incoming.GetValue(root)).sprite, Is.EqualTo(root.worlds[second].background));
+                Assert.That(root.worldImage.rectTransform.anchoredPosition.x, Is.LessThan(0f));
+                yield return new WaitForSecondsRealtime(.5f);
+                Assert.That(incoming.GetValue(root), Is.Null);
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[second].background));
+                Assert.That(root.worlds[second].characters, Does.Contain(root.characterImage.sprite));
+                Assert.That(root.characterImage.sprite, Is.Not.EqualTo(firstCharacter));
+
+                timer.SetValue(root, 4.9f);
+                root.OpenStages();
+                yield return new WaitForSecondsRealtime(.35f);
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[second].background));
+                root.OpenMain();
+                yield return new WaitForSecondsRealtime(.75f);
+                int third = (second + 1) % root.worlds.Length;
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[third].background));
+                Assert.That(root.worlds[third].characters, Does.Contain(root.characterImage.sprite));
+
+                timer.SetValue(root, 4.9f);
+                root.OpenSettings();
+                yield return new WaitForSecondsRealtime(.35f);
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[third].background));
+                root.OpenMain();
+                yield return new WaitForSecondsRealtime(.8f);
+                int fourth = (third + 1) % root.worlds.Length;
+                Assert.That(root.worldImage.sprite, Is.EqualTo(root.worlds[fourth].background));
+                Assert.That(root.worlds[fourth].characters, Does.Contain(root.characterImage.sprite));
+            }
+            finally { Time.timeScale = previousTimeScale; }
+#else
+            Assert.Ignore("Unity Editor Play Mode is required."); yield break;
+#endif
+        }
+
         [UnityTest] public IEnumerator ActivePortraitSceneOpensSingleMapPurchaseAndSettings()
         {
 #if UNITY_EDITOR

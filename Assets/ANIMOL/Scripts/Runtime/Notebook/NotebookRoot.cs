@@ -69,6 +69,14 @@ namespace William.NotebookUI
         private string selectedStage, pendingId, modalKind, purchaseTheme;
         private Action primaryAction, secondaryAction;
         private long lastTick;
+        private const float MainArtworkIntervalSeconds = 5f;
+        private const float MainArtworkSwipeSeconds = .42f;
+        private float mainArtworkElapsed;
+        private float mainArtworkSwipeElapsed, mainArtworkSwipeWidth;
+        private int currentWorldIndex = -1;
+        private int[] nextCharacterByWorld;
+        private Image incomingWorldImage, incomingCharacterImage;
+        private Vector2 worldImageRest, characterImageRest;
         private bool started, selectionTouched, mapSelectionVisible, reducedMotion, replayPending;
         private Coroutine sheetRoutine;
         private int mapEpoch;
@@ -123,14 +131,18 @@ namespace William.NotebookUI
         private void Start() => RefreshVerifiedProgress();
         private void Update()
         {
-            if (model == null || lastTick == Now) return;
-            lastTick = Now; model.Tick(lastTick); RefreshWallet();
+            if (model == null) return;
+            UpdateMainArtwork();
+            long now = Now;
+            if (lastTick == now) return;
+            lastTick = now; model.Tick(now); RefreshWallet();
         }
-        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; if (paused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
-        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; if (!focused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); }
+        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; if (paused) SettleMainArtworkSwipe(); if (paused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
+        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; if (!focused) SettleMainArtworkSwipe(); if (!focused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); }
         private void OnApplicationQuit() => Save();
         private void OnDisable()
         {
+            SettleMainArtworkSwipe();
             if (campaignSkyTransition) campaignSkyTransition.Cancel();
             StopSettingsTransition();
             ResetMapStarSpin();
@@ -144,12 +156,103 @@ namespace William.NotebookUI
             PlayerPrefs.SetString(WalletKey, JsonUtility.ToJson(model.State));
             PlayerPrefs.SetString(PrefsKey, JsonUtility.ToJson(preferences)); PlayerPrefs.Save();
         }
-        private void PickArtwork()
+        private void PickArtwork(bool swipe = false)
         {
-            if (worlds == null || worlds.Length == 0) return;
-            NotebookWorldArt art = worlds[UnityEngine.Random.Range(0, worlds.Length)];
-            worldImage.sprite = art.background;
-            if (art.characters != null && art.characters.Length > 0) characterImage.sprite = art.characters[UnityEngine.Random.Range(0, art.characters.Length)];
+            if (!worldImage || !characterImage || worlds == null || worlds.Length == 0) return;
+            if (nextCharacterByWorld == null || nextCharacterByWorld.Length != worlds.Length)
+            {
+                nextCharacterByWorld = new int[worlds.Length];
+                for (int i = 0; i < worlds.Length; i++)
+                    if (worlds[i]?.characters != null && worlds[i].characters.Length > 0)
+                        nextCharacterByWorld[i] = UnityEngine.Random.Range(0, worlds[i].characters.Length);
+            }
+            int start = currentWorldIndex < 0 ? UnityEngine.Random.Range(0, worlds.Length) : (currentWorldIndex + 1) % worlds.Length;
+            for (int offset = 0; offset < worlds.Length; offset++)
+            {
+                int index = (start + offset) % worlds.Length;
+                NotebookWorldArt art = worlds[index];
+                if (art == null || !art.background || art.characters == null || art.characters.Length == 0) continue;
+                int characterIndex = nextCharacterByWorld[index] % art.characters.Length;
+                if (!art.characters[characterIndex]) continue;
+                if (swipe && !reducedMotion && mainScreen.activeInHierarchy)
+                    BeginMainArtworkSwipe(art.background, art.characters[characterIndex]);
+                else
+                {
+                    worldImage.sprite = art.background;
+                    characterImage.sprite = art.characters[characterIndex];
+                }
+                nextCharacterByWorld[index] = (characterIndex + 1) % art.characters.Length;
+                currentWorldIndex = index;
+                return;
+            }
+        }
+        private void UpdateMainArtwork()
+        {
+            if (!mainScreen || !mainScreen.activeInHierarchy || settingsScreen.activeSelf || stageScreen.activeSelf
+                || modal.activeSelf || CampaignTransitionRunning || mapStarAppPaused || !mapStarAppFocused)
+            {
+                SettleMainArtworkSwipe();
+                return;
+            }
+            mainArtworkElapsed += Time.unscaledDeltaTime;
+            if (incomingWorldImage)
+            {
+                AdvanceMainArtworkSwipe();
+                return;
+            }
+            if (mainArtworkElapsed < MainArtworkIntervalSeconds) return;
+            mainArtworkElapsed = Mathf.Repeat(mainArtworkElapsed, MainArtworkIntervalSeconds);
+            PickArtwork(true);
+        }
+        private void BeginMainArtworkSwipe(Sprite nextWorld, Sprite nextCharacter)
+        {
+            SettleMainArtworkSwipe();
+            RectTransform hero = worldImage.rectTransform.parent as RectTransform;
+            float width = hero ? hero.rect.width : 0f;
+            if (width <= 0f || !hero.GetComponent<RectMask2D>())
+            {
+                worldImage.sprite = nextWorld;
+                characterImage.sprite = nextCharacter;
+                return;
+            }
+            mainArtworkSwipeWidth = width;
+            mainArtworkSwipeElapsed = 0f;
+            worldImageRest = worldImage.rectTransform.anchoredPosition;
+            characterImageRest = characterImage.rectTransform.anchoredPosition;
+            incomingWorldImage = Instantiate(worldImage, worldImage.transform.parent);
+            incomingWorldImage.name = "Incoming World Artwork";
+            incomingWorldImage.transform.SetSiblingIndex(worldImage.transform.GetSiblingIndex() + 1);
+            incomingWorldImage.sprite = nextWorld;
+            incomingWorldImage.raycastTarget = false;
+            incomingWorldImage.rectTransform.anchoredPosition = worldImageRest + Vector2.right * width;
+            incomingCharacterImage = Instantiate(characterImage, characterImage.transform.parent);
+            incomingCharacterImage.name = "Incoming Character Illustration";
+            incomingCharacterImage.sprite = nextCharacter;
+            incomingCharacterImage.raycastTarget = false;
+            incomingCharacterImage.rectTransform.anchoredPosition = characterImageRest + Vector2.right * width;
+        }
+        private void AdvanceMainArtworkSwipe()
+        {
+            mainArtworkSwipeElapsed += Time.unscaledDeltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(mainArtworkSwipeElapsed / MainArtworkSwipeSeconds));
+            float offset = mainArtworkSwipeWidth * t;
+            worldImage.rectTransform.anchoredPosition = worldImageRest + Vector2.left * offset;
+            characterImage.rectTransform.anchoredPosition = characterImageRest + Vector2.left * offset;
+            incomingWorldImage.rectTransform.anchoredPosition = worldImageRest + Vector2.right * (mainArtworkSwipeWidth - offset);
+            incomingCharacterImage.rectTransform.anchoredPosition = characterImageRest + Vector2.right * (mainArtworkSwipeWidth - offset);
+            if (mainArtworkSwipeElapsed >= MainArtworkSwipeSeconds) SettleMainArtworkSwipe();
+        }
+        private void SettleMainArtworkSwipe()
+        {
+            if (!incomingWorldImage) return;
+            worldImage.sprite = incomingWorldImage.sprite;
+            characterImage.sprite = incomingCharacterImage.sprite;
+            worldImage.rectTransform.anchoredPosition = worldImageRest;
+            characterImage.rectTransform.anchoredPosition = characterImageRest;
+            Destroy(incomingWorldImage.gameObject);
+            Destroy(incomingCharacterImage.gameObject);
+            incomingWorldImage = incomingCharacterImage = null;
+            mainArtworkSwipeElapsed = 0f;
         }
         private void ApplyPreferences()
         {
@@ -260,6 +363,7 @@ namespace William.NotebookUI
         {
             if (CampaignTransitionRunning || !string.IsNullOrEmpty(pendingId)) return;
             if (!mainScreen || !mainScreen.activeSelf || settingsScreen.activeSelf || modal.activeSelf) return;
+            SettleMainArtworkSwipe();
             if (!reducedMotion && mapStarAppFocused && !mapStarAppPaused && campaignSkyTransition
                 && campaignSkyTransition.Play(worldImage ? worldImage.sprite : null, CommitCampaignMap, SettleCampaignMap)) return;
             OpenStages();
@@ -293,6 +397,7 @@ namespace William.NotebookUI
         {
             if (CampaignTransitionRunning && !committingCampaignMap) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            if (target != mainScreen) SettleMainArtworkSwipe();
             if (target != settingsScreen) StopSettingsTransition();
             CancelReplay();
             bool openingSettings = target == settingsScreen;
@@ -369,6 +474,7 @@ namespace William.NotebookUI
         public void SetReducedMotion(bool enabled)
         {
             if (enabled && CampaignTransitionRunning) campaignSkyTransition.CompleteImmediately();
+            if (enabled) SettleMainArtworkSwipe();
             bool motionChanged = reducedMotion != enabled;
             reducedMotion = enabled;
             if (enabled && settingsTransition != null)
