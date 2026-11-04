@@ -8,7 +8,8 @@ namespace William.NotebookUI
     {
         public CanvasScaler scaler;
         public RectTransform design;
-        public RectTransform fullScreenSettingsBackdrop, fullScreenModalBackdrop;
+        public RectTransform fullScreenSettingsBackdrop, fullScreenModalBackdrop, fullScreenMapBackdrop;
+        public RectTransform mapScreen;
         private Rect previousSafe;
         private int previousWidth, previousHeight;
         private void OnEnable() => Reflow();
@@ -16,6 +17,7 @@ namespace William.NotebookUI
         {
             if (Screen.width != previousWidth || Screen.height != previousHeight || Screen.safeArea != previousSafe) Reflow();
         }
+        public void RefreshLayout() => Reflow();
         private void Reflow()
         {
             if (!scaler || !design || Screen.width <= 0 || Screen.height <= 0) return;
@@ -27,6 +29,13 @@ namespace William.NotebookUI
             design.sizeDelta = new Vector2(1080, safe.height / scale);
             Vector2 screenCenter = new Vector2(Screen.width, Screen.height) * .5f;
             design.anchoredPosition = (safe.center - screenCenter) / scale;
+            if (mapScreen)
+            {
+                mapScreen.anchorMin = mapScreen.anchorMax = mapScreen.pivot = new Vector2(.5f, .5f);
+                mapScreen.sizeDelta = new Vector2(safe.width / scale, safe.height / scale);
+                mapScreen.anchoredPosition = Vector2.zero;
+            }
+            FitBackdrop(fullScreenMapBackdrop, safe, screenCenter, scale);
             FitBackdrop(fullScreenSettingsBackdrop, safe, screenCenter, scale);
             FitBackdrop(fullScreenModalBackdrop, safe, screenCenter, scale);
             previousSafe = safe; previousWidth = Screen.width; previousHeight = Screen.height;

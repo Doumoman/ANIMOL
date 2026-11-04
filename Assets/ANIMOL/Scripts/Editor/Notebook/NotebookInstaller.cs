@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 namespace William.NotebookUI.Editor
 {
-    public static class NotebookInstaller
+    public static partial class NotebookInstaller
     {
         private const string Root = "Assets/ANIMOL/", Data = Root + "Data/UI/Notebook/", MainTex = Root + "Art/UI/Main/Textures/", MapTex = Root + "Art/UI/ConstellationMap/Textures/", SettingsTex = Root + "Art/UI/Settings/Textures/", ModalTex = Root + "Art/UI/Common/Textures/", GeneratedPrefab = Root + "Prefabs/UI/Main/NotebookCanvas.prefab", GeneratedScene = Root + "Scenes/Main/NotebookUI.unity", GeneratedFont = Root + "Fonts/Notebook/Galmuri14.asset";
         private static TMP_FontAsset font;

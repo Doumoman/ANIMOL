@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using Animol.UI.Pattern;
@@ -36,14 +37,23 @@ namespace William.NotebookUI
         public Sprite soundOnIcon, soundOffIcon;
         public NotebookWorldArt[] worlds;
         public Button campaignButton, battleButton, customButton, settingsButton, muteButton, profileButton;
-        public Button settingsBack, mapBack, telescopeButton, launchButton, restoreButton, accountButton;
-        public TMP_Text walletText, recoveryText, stageRegion, stageName, stageState, launchText, bgmValue, sfxValue;
+        public Button settingsBack, mapBack, telescopeButton, launchButton, storyReplayButton, restoreButton, accountButton;
+        public RectTransform stageSheet;
+        public Image launchIcon;
+        public Sprite mapEntryIcon, mapLockIcon;
+        public TMP_Text walletText, stageRegion, stageName, bgmValue, sfxValue;
+        // Kept for the existing fresh-scene builder and older serialized canvases.
+        public TMP_Text recoveryText, stageState, launchText;
         public Slider bgmSlider, sfxSlider;
         public Button soundToggle, hapticToggle;
         public Sprite toggleOn, toggleOff, starAvailable, starCurrent, starDone, starLocked;
+        // State (Available, Current, Done, Locked), then variant 0..2, then frame 0..3.
+        public Sprite[] mapStarFrames = Array.Empty<Sprite>();
+        public const int MapStarVariantCount = 3, MapStarFrameCount = 4;
+        public const float MapStarFramesPerSecond = 4f;
         public NotebookNodeView[] nodes;
         public NotebookEdgeView[] edges;
-        public NotebookChapterView[] chapters;
+        public NotebookChapterView[] chapters = Array.Empty<NotebookChapterView>();
         public ScrollRect mapScroll;
         public Image modalIcon;
         public Sprite iconLock, iconTelescope, iconCheck, iconBattle, iconCustom, iconProfile;
@@ -56,7 +66,15 @@ namespace William.NotebookUI
         private string selectedStage, pendingId, modalKind, purchaseTheme;
         private Action primaryAction, secondaryAction;
         private long lastTick;
-        private bool started, selectionTouched;
+        private bool started, selectionTouched, mapSelectionVisible, reducedMotion, replayPending;
+        private Coroutine sheetRoutine;
+        private int mapEpoch;
+        private NotebookNodeView spinningMapStar;
+        private int spinningMapStarState, spinningMapStarVariant, mapStarFrame;
+        private float mapStarElapsed;
+        private bool mapStarAppPaused, mapStarAppFocused = true;
+        public bool MapSelectionVisible => mapSelectionVisible;
+        public string SelectedStageId => selectedStage;
         private int progressEpoch, modalEpoch;
         private static long Now => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -78,6 +96,7 @@ namespace William.NotebookUI
             muteButton.onClick.AddListener(() => { preferences.sound = !preferences.sound; ApplyPreferences(); Save(); });
             settingsBack.onClick.AddListener(OpenMain); mapBack.onClick.AddListener(OpenMain);
             telescopeButton.onClick.AddListener(OpenTelescope); launchButton.onClick.AddListener(LaunchStage);
+            if (storyReplayButton) storyReplayButton.onClick.AddListener(ReplaySelectedStory);
             restoreButton.onClick.AddListener(Restore); accountButton.onClick.AddListener(OpenAccount);
             soundToggle.onClick.AddListener(() => { preferences.sound = !preferences.sound; ApplyPreferences(); Save(); });
             hapticToggle.onClick.AddListener(() => { preferences.haptic = !preferences.haptic; ApplyPreferences(); Save(); });
@@ -86,8 +105,11 @@ namespace William.NotebookUI
             modalPrimary.onClick.AddListener(() => primaryAction?.Invoke());
             modalSecondary.onClick.AddListener(() => secondaryAction?.Invoke()); modalClose.onClick.AddListener(CloseModal);
             foreach (NotebookNodeView view in nodes) { string id = view.stageId; view.button.onClick.AddListener(() => SelectStage(id)); }
-            foreach (NotebookChapterView view in chapters) { string id = view.themeId; view.button.onClick.AddListener(() => { if (!model.Owns(id)) OpenPurchase(id); else { selectionTouched = true; selectedStage = catalog.stages.FirstOrDefault(s => s.themeId == id && model.CanEnter(s.id) && !model.IsCleared(s.id))?.id ?? catalog.stages.First(s => s.themeId == id).id; RefreshMap(); } }); }
             ApplyPreferences(); PickArtwork(); OpenMain(); started = true;
+        }
+        private void OnEnable()
+        {
+            if (started) { HideStageSheet(); RefreshMap(); }
         }
         private void Start() => RefreshVerifiedProgress();
         private void Update()
@@ -95,9 +117,16 @@ namespace William.NotebookUI
             if (model == null || lastTick == Now) return;
             lastTick = Now; model.Tick(lastTick); RefreshWallet();
         }
-        private void OnApplicationPause(bool paused) { if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
+        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
+        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; ResetMapStarSpin(); }
         private void OnApplicationQuit() => Save();
-        private void OnDisable() { if (started) Save(); }
+        private void OnDisable()
+        {
+            ResetMapStarSpin();
+            mapEpoch++; StopSheetAnimation();
+            CancelReplay();
+            if (started) Save();
+        }
         private void Save()
         {
             if (model == null) return;
@@ -130,22 +159,25 @@ namespace William.NotebookUI
         public void OpenSettings() => ShowPage(settingsScreen);
         public void OpenStages()
         {
-            ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
-            NotebookConstellationArtwork artwork = Array.Find(model.Catalog.artworks,
-                a => a.stageIds != null && Array.IndexOf(a.stageIds, selectedStage) >= 0);
+            if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            HideStageSheet(); ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
+            NotebookConstellationArtwork art = Array.Find(model.Catalog.artworks, a => a.stageIds != null && Array.IndexOf(a.stageIds, selectedStage) >= 0);
             NotebookStage stage = model.Catalog.FindStage(selectedStage);
-            if (artwork == null || !mapScroll || !mapScroll.content || !mapScroll.viewport) return;
-            float y = stage != null && stage.order == 1
-                ? model.Catalog.FindTheme(stage.themeId).startY : Mathf.Max(0, artwork.y - 95);
-            float max = Mathf.Max(0, model.Catalog.mapContentHeight - mapScroll.viewport.rect.height);
-            mapScroll.content.anchoredPosition = new Vector2(0, Mathf.Clamp(y, 0, max));
+            if (art != null && mapScroll && mapScroll.content && mapScroll.viewport)
+            {
+                float y = stage != null && stage.order == 1 ? model.Catalog.FindTheme(stage.themeId).startY : Mathf.Max(0, art.y - 95);
+                mapScroll.content.anchoredPosition = new Vector2(0, Mathf.Clamp(y, 0, Mathf.Max(0, model.Catalog.mapContentHeight - mapScroll.viewport.rect.height)));
+            }
         }
         private void ShowPage(GameObject target)
         {
-            if (!string.IsNullOrEmpty(pendingId)) return;
+            if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            CancelReplay();
             bool openingSettings = target == settingsScreen;
+            if (target != stageScreen) HideStageSheet();
             bool leavingSettings = settingsScreen.activeSelf && !openingSettings;
             CloseModal();
+            // Settings is an overlay: retain the actual main artwork underneath the plain gray scrim.
             mainScreen.SetActive(target == mainScreen || openingSettings);
             settingsScreen.SetActive(openingSettings); stageScreen.SetActive(target == stageScreen);
             if (mainInputGroup)
@@ -153,15 +185,14 @@ namespace William.NotebookUI
                 mainInputGroup.interactable = !openingSettings;
                 mainInputGroup.blocksRaycasts = !openingSettings;
             }
-            if (patternMotion) patternMotion.gameObject.SetActive(!openingSettings);
+            // The panel owns its unchanged face layer; no scrolling faces cover the gray scrim.
+            if (patternMotion) patternMotion.gameObject.SetActive(!openingSettings && target != stageScreen);
             if (EventSystem.current && (openingSettings || leavingSettings))
                 EventSystem.current.SetSelectedGameObject(openingSettings ? settingsBack.gameObject : target == mainScreen ? settingsButton.gameObject : null);
         }
         private void RefreshWallet()
         {
             walletText.text = model.State.balance + " / " + model.Catalog.telescopeCapacity;
-            long seconds = model.SecondsUntilRecovery(Now);
-            recoveryText.text = seconds == 0 ? "가득 찼어요" : "다음 충전 " + seconds / 60 + ":" + (seconds % 60).ToString("00");
             battleLock.gameObject.SetActive(!model.BattleUnlocked());
             if (modalKind == "telescope" && string.IsNullOrEmpty(pendingId))
             {
@@ -174,38 +205,167 @@ namespace William.NotebookUI
         }
         private void RefreshMap()
         {
+            ResetMapStarSpin();
             foreach (NotebookNodeView v in nodes)
             {
-                NotebookStage s = model.Catalog.FindStage(v.stageId); bool available = model.CanEnter(s.id) && CanLaunch(s), done = model.IsCleared(s.id);
-                v.star.sprite = done ? starDone : available ? (selectedStage == s.id ? starCurrent : starAvailable) : starLocked;
-                v.selection.gameObject.SetActive(selectedStage == s.id);
+                NotebookStage s = model.Catalog.FindStage(v.stageId); bool available = model.CanEnter(s.id), done = model.IsCleared(s.id);
+                bool isSelected = mapSelectionVisible && selectedStage == s.id;
+                int state = done ? 2 : available ? (isSelected ? 1 : 0) : 3;
+                v.star.sprite = MapStarSprite(state, MapStarVariant(s.id), 0);
+                v.selection.gameObject.SetActive(mapSelectionVisible && selectedStage == s.id);
                 v.number.gameObject.SetActive(done || available); v.number.text = s.order.ToString("00");
-                v.locked.gameObject.SetActive(!done && !available); v.label.text = s.label + (done ? " 완료" : "");
+                v.locked.gameObject.SetActive(!done && !available); v.label.text = s.label;
             }
             foreach (NotebookEdgeView e in edges) e.image.sprite = model.IsCleared(e.from) && model.IsCleared(e.to) ? e.cleared : e.future;
-            foreach (NotebookChapterView v in chapters)
-            {
-                NotebookTheme t = model.Catalog.FindTheme(v.themeId); NotebookStage[] list = Array.FindAll(model.Catalog.stages, s => s.themeId == t.id);
-                v.progress.text = list.Count(s => model.IsCleared(s.id)) + " / " + list.Length + " 클리어";
-                v.access.text = model.Owns(t.id) ? "" : "구매로 해금"; v.locked.gameObject.SetActive(!model.Owns(t.id));
-                if (v.note) v.note.text = model.Owns(t.id) ? "클리어한 별이 이어져 별자리를 완성해요" : "구매 후 이 지역의 스테이지를 이용할 수 있어요";
-            }
             NotebookStage selected = model.Catalog.FindStage(selectedStage);
             if (selected != null)
             {
-                stageRegion.text = model.Catalog.FindTheme(selected.themeId).name; stageName.text = "STAGE " + selected.label;
-                stageState.text = !model.Owns(selected.themeId) ? "지역 구매가 필요해요" : string.IsNullOrEmpty(selected.sceneName) ? "이 스테이지의 게임 연결을 준비 중이에요" : !gateway || !gateway.CanApproveStageEntry ? "입장 승인 서비스가 연결되지 않았어요" : model.IsCleared(selected.id) ? "완성한 별 · 다시 도전할 수 있어요" : model.CanEnter(selected.id) ? "새로운 별을 이어보세요" : "앞 스테이지 클리어 후 열려요";
-                launchText.text = !model.Owns(selected.themeId) ? "구매로 지역 열기" : CanLaunch(selected) ? "스테이지 시작 · 망원경 " + model.Catalog.stageEntryCost + "개" : "입장 준비 중";
-                launchButton.interactable = string.IsNullOrEmpty(pendingId) && (!model.Owns(selected.themeId) || (model.CanEnter(selected.id) && CanLaunch(selected)));
+                stageRegion.text = model.Catalog.FindTheme(selected.themeId).name; stageName.text = selected.id;
+                bool available = string.IsNullOrEmpty(pendingId);
+                bool owned = model.Owns(selected.themeId), unlocked = model.CanEnter(selected.id);
+                launchButton.interactable = available && (!owned || (unlocked && CanLaunch(selected)));
+                if (launchIcon) launchIcon.sprite = owned && unlocked ? mapEntryIcon : mapLockIcon;
+                if (storyReplayButton)
+                {
+                    // No disabled placeholder before a real, verified clear.
+                    storyReplayButton.gameObject.SetActive(mapSelectionVisible && model.IsCleared(selected.id));
+                    storyReplayButton.interactable = available && gateway;
+                }
             }
             RefreshWallet();
         }
         private void SelectStage(string id)
         {
-            NotebookStage stage = model.Catalog.FindStage(id);
-            if (!model.Owns(stage.themeId)) { OpenPurchase(stage.themeId); return; }
-            selectionTouched = true; selectedStage = id; RefreshMap();
-            if (!model.CanEnter(id)) Notice("아직 이어지지 않은 별", "앞 스테이지를 클리어하면\n다음 별이 열려요.", iconLock);
+            if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            CancelReplay();
+            NotebookStage stage = model.Catalog.FindStage(id); if (stage == null) return;
+            selectionTouched = true; selectedStage = id;
+            ShowStageSheet(); RefreshMap();
+        }
+        public void SetReducedMotion(bool enabled)
+        {
+            bool motionChanged = reducedMotion != enabled;
+            reducedMotion = enabled;
+            if (motionChanged || enabled) ResetMapStarSpin();
+            if (patternMotion) patternMotion.SetReducedMotion(enabled);
+            if (settingsPatternMotion) settingsPatternMotion.SetReducedMotion(enabled);
+            if (popupPatternMotion) popupPatternMotion.SetReducedMotion(enabled);
+            if (enabled && sheetRoutine != null) { StopSheetAnimation(); SetSheetBottom(24); }
+        }
+        private void ShowStageSheet()
+        {
+            bool wasVisible = mapSelectionVisible; mapSelectionVisible = true;
+            if (!stageSheet) return;
+            stageSheet.gameObject.SetActive(true);
+            if (wasVisible) return;
+            StopSheetAnimation();
+            if (reducedMotion) SetSheetBottom(24);
+            else sheetRoutine = StartCoroutine(RaiseStageSheet());
+        }
+        private IEnumerator RaiseStageSheet()
+        {
+            float elapsed = 0; SetSheetBottom(-264);
+            while (elapsed < .2f)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / .2f), eased = 1 - Mathf.Pow(1 - t, 3);
+                SetSheetBottom(Mathf.LerpUnclamped(-264, 24, eased)); yield return null;
+            }
+            SetSheetBottom(24); sheetRoutine = null;
+        }
+        private void SetSheetBottom(float y)
+        {
+            if (stageSheet) stageSheet.anchoredPosition = new Vector2(0, y);
+        }
+        private void StopSheetAnimation()
+        {
+            if (sheetRoutine != null) StopCoroutine(sheetRoutine);
+            sheetRoutine = null;
+        }
+        public void HideStageSheet()
+        {
+            ResetMapStarSpin();
+            mapEpoch++; mapSelectionVisible = false; StopSheetAnimation(); SetSheetBottom(24);
+            CancelReplay();
+            if (stageSheet) stageSheet.gameObject.SetActive(false);
+        }
+        private void CancelReplay()
+        {
+            if (!replayPending) return;
+            replayPending = false;
+            pendingId = null;
+            if (modalPrimary) modalPrimary.interactable = true;
+            if (modalSecondary) modalSecondary.interactable = true;
+            if (modalClose) modalClose.interactable = true;
+        }
+        private void ReplaySelectedStory()
+        {
+            NotebookStage stage = model.Catalog.FindStage(selectedStage);
+            if (stage == null || !mapSelectionVisible || !model.IsCleared(stage.id) || !string.IsNullOrEmpty(pendingId)) return;
+            if (!gateway) { Notice("스토리", "이야기를 불러올 수 없어요.", iconProfile); return; }
+            string operation = BeginOperation(); if (operation == null) return;
+            int token = mapEpoch; NotebookGateway provider = gateway; string requestedStage = stage.id;
+            replayPending = true; RefreshMap();
+            // Story viewing never enters a puzzle and never touches the telescope ledger.
+            Action<bool> completed = opened =>
+            {
+                if (!this || pendingId != operation) return;
+                bool current = isActiveAndEnabled && token == mapEpoch && gateway == provider
+                    && mapSelectionVisible && selectedStage == requestedStage && model.IsCleared(requestedStage);
+                replayPending = false;
+                if (!EndOperation(operation)) return;
+                RefreshMap();
+                if (current && !opened) Notice("스토리", "이야기를 불러올 수 없어요.", iconProfile);
+            };
+            try { provider.RequestStoryReplay(requestedStage, operation, completed); }
+            catch (Exception) { completed(false); }
+        }
+        /// <summary>Stable across sessions and runtimes; never use randomized string.GetHashCode().</summary>
+        public static int MapStarVariant(string stageId)
+        {
+            int variant = 0;
+            foreach (char codeUnit in stageId ?? string.Empty) variant = (variant + codeUnit) % MapStarVariantCount;
+            return variant;
+        }
+        private Sprite MapStarSprite(int state, int variant, int frame)
+        {
+            int index = (state * MapStarVariantCount + variant) * MapStarFrameCount + frame;
+            if (mapStarFrames != null && index >= 0 && index < mapStarFrames.Length && mapStarFrames[index]) return mapStarFrames[index];
+            // Older prefabs remain readable until their map is refreshed by the dedicated editor menu.
+            return state == 2 ? starDone : state == 3 ? starLocked : state == 1 ? starCurrent : starAvailable;
+        }
+        private bool CanSpinMapStar()
+        {
+            return isActiveAndEnabled && model != null && mapSelectionVisible && !reducedMotion
+                && !mapStarAppPaused && mapStarAppFocused
+                && stageScreen && stageScreen.activeInHierarchy && stageSheet && stageSheet.gameObject.activeInHierarchy
+                && (!modal || !modal.activeInHierarchy);
+        }
+        // Kept separate from the one-second wallet Update. Exactly one selected Image changes sprites.
+        private void LateUpdate()
+        {
+            if (!CanSpinMapStar()) { ResetMapStarSpin(); return; }
+            if (spinningMapStar == null)
+            {
+                spinningMapStar = Array.Find(nodes, view => view != null && view.stageId == selectedStage);
+                if (spinningMapStar == null || !spinningMapStar.star) { spinningMapStar = null; return; }
+                spinningMapStarState = model.IsCleared(selectedStage) ? 2 : model.CanEnter(selectedStage) ? 1 : 3;
+                spinningMapStarVariant = MapStarVariant(selectedStage);
+                mapStarElapsed = 0; mapStarFrame = 0;
+                spinningMapStar.star.sprite = MapStarSprite(spinningMapStarState, spinningMapStarVariant, 0);
+                return;
+            }
+            mapStarElapsed = Mathf.Repeat(mapStarElapsed + Time.unscaledDeltaTime, 1f);
+            int frame = Mathf.Min(MapStarFrameCount - 1, Mathf.FloorToInt(mapStarElapsed * MapStarFramesPerSecond));
+            if (frame == mapStarFrame) return;
+            mapStarFrame = frame;
+            if (spinningMapStar.star) spinningMapStar.star.sprite = MapStarSprite(spinningMapStarState, spinningMapStarVariant, frame);
+        }
+        private void ResetMapStarSpin()
+        {
+            if (spinningMapStar != null && spinningMapStar.star)
+                spinningMapStar.star.sprite = MapStarSprite(spinningMapStarState, spinningMapStarVariant, 0);
+            spinningMapStar = null; mapStarElapsed = 0; mapStarFrame = 0;
         }
         private void OpenBattle()
         {
@@ -214,10 +374,13 @@ namespace William.NotebookUI
             else Notice("대전", "지금은 대전에 입장할 수 없어요.\n잠시 후 다시 시도해 주세요.", iconBattle);
         }
         private void OpenAccount() { if (gateway && gateway.CanLogin) gateway.Login(); else Notice("게스트 계정", "계정 연결은 게임의 로그인 기능에서 진행해요.", iconProfile); }
-        private bool CanLaunch(NotebookStage stage) => stage != null && !string.IsNullOrEmpty(stage.sceneName) && gateway && gateway.CanApproveStageEntry;
+        private bool CanLaunch(NotebookStage stage) => stage != null && gateway &&
+            (gateway.CanOpenStage(stage.id) || (!string.IsNullOrEmpty(stage.sceneName) && gateway.CanApproveStageEntry));
         private void OpenModal(string kind, string title, string copy, Sprite icon)
         {
-            if (!string.IsNullOrEmpty(pendingId)) return;
+            if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            CancelReplay();
+            ResetMapStarSpin();
             modalEpoch++;
             modalKind = kind; modal.SetActive(true); modalTitle.text = title; modalCopy.text = copy; modalIcon.sprite = icon;
             modalNote.text = modalStatus.text = ""; modalPrimary.gameObject.SetActive(true); modalPrimary.interactable = true;
@@ -231,7 +394,7 @@ namespace William.NotebookUI
         {
             if (!string.IsNullOrEmpty(pendingId)) return;
             modal.SetActive(false); modalKind = "";
-            if (patternMotion) { patternMotion.SetModalOpen(false); patternMotion.gameObject.SetActive(!settingsScreen.activeSelf); }
+            if (patternMotion) { patternMotion.SetModalOpen(false); patternMotion.gameObject.SetActive(!settingsScreen.activeSelf && !stageScreen.activeSelf); }
             if (settingsPatternMotion) settingsPatternMotion.SetModalOpen(false);
         }
         private void Notice(string title, string copy, Sprite icon) { OpenModal("notice", title, copy, icon); modalPrimaryText.text = "확인"; }
@@ -331,7 +494,7 @@ namespace William.NotebookUI
             model.Tick(Now);
             if (model.State.balance < model.Catalog.stageEntryCost) { OpenTelescope(); return; }
             if (!gateway) { Notice("입장할 수 없어요", "잠시 후 다시 시도해 주세요.\n망원경은 소모되지 않았어요.", iconTelescope); return; }
-            string id = BeginOperation(); launchButton.interactable = false; launchText.text = "입장 확인 중";
+            string id = BeginOperation(); RefreshMap();
             gateway.RequestStageEntry(stage.id, model.Catalog.stageEntryCost, id, approved =>
             {
                 if (!EndOperation(id)) return;
@@ -345,7 +508,7 @@ namespace William.NotebookUI
         {
             if (model.AcceptVerifiedClear(stageId, true)) { progressEpoch++; Save(); RefreshMap(); }
         }
-        public void BindGateway(NotebookGateway value) { gateway = value; if (started) { ApplyPreferences(); RefreshVerifiedProgress(); } }
+        public void BindGateway(NotebookGateway value) { CancelReplay(); gateway = value; if (started) { ApplyPreferences(); RefreshVerifiedProgress(); } }
         private void RefreshVerifiedProgress()
         {
             if (!gateway) return;

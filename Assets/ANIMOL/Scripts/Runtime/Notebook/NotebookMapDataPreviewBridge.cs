@@ -12,7 +12,7 @@ namespace William.NotebookUI
         public PuzzleMap sourceMap;
         public PuzzleController puzzle;
         public NotebookGameplayHud hud;
-        public NotebookMapDataPreviewGateway gateway;
+        public NotebookGameplayGateway gateway;
         public GameObject collectibleStarPrefab;
 
         PuzzlePrototypeController prototype;

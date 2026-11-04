@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using William.NotebookUI;
 
@@ -41,15 +43,16 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(root.gateway, Is.TypeOf<NotebookProjectGateway>());
             Assert.That(root.nodes.Length, Is.EqualTo(110));
             Assert.That(root.edges.Length, Is.EqualTo(106));
-            var images = root.GetComponentsInChildren<Image>(true);
+            Assert.That(root.stageScreen.name, Is.EqualTo("Constellation Neon Map"));
+            var images = root.stageScreen.GetComponentsInChildren<Image>(true);
             Assert.That(images.Count(i => i.name.StartsWith("Constellation Figure ")), Is.EqualTo(32));
             Assert.That(images.Count(i => i.name.StartsWith("Static Constellation Wire ")), Is.EqualTo(32));
             Assert.That(images.Where(i => i.name.StartsWith("Constellation Figure "))
                 .All(i => i.preserveAspect && i.color == Color.white), Is.True);
             Assert.That(images.Where(i => i.name.StartsWith("Static Constellation Wire "))
                 .All(i => !i.preserveAspect && i.color == Color.white), Is.True);
-            var skies = images.Where(i => i.name.StartsWith("Static Night Sky ")).ToArray();
-            Assert.That(skies.Length, Is.EqualTo(4));
+            var skies = images.Where(i => i.name == "Static Night Sky").ToArray();
+            Assert.That(skies.Length, Is.EqualTo(1));
             Assert.That(skies.All(i => AssetDatabase.GetAssetPath(i.sprite) == MapTextures + "Map/NightSky.png"), Is.True);
             foreach (var art in catalog.artworks)
             {
@@ -85,6 +88,11 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(catalog.artworks.Sum(a => a.stageIds.Length), Is.EqualTo(110));
             Assert.That(catalog.edges.Count(e => e.kind == "constellation"), Is.EqualTo(78));
             Assert.That(catalog.edges.Count(e => e.kind == "transition"), Is.EqualTo(28));
+            Assert.That(root.mapStarFrames.Length, Is.EqualTo(48));
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
+            Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.False);
+            Assert.That(root.chapters, Is.Empty);
+            Assert.That(images.Any(i => i.name == "Map Header" || i.name == "Selected Stage Footer"), Is.False);
             foreach (var edge in catalog.edges)
             {
                 var from = catalog.FindStage(edge.from); var to = catalog.FindStage(edge.to);
@@ -121,7 +129,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(settings.spriteMeshType, Is.EqualTo(SpriteMeshType.FullRect), path);
             }
             var root = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath).GetComponentInChildren<NotebookRoot>(true);
-            foreach (var button in new[] { root.campaignButton, root.settingsButton, root.launchButton, root.modalPrimary })
+            foreach (var button in new[] { root.campaignButton, root.settingsButton, root.modalPrimary })
             {
                 Assert.That(button.transition, Is.EqualTo(Selectable.Transition.SpriteSwap), button.name);
                 Assert.That(button.image.color, Is.EqualTo(Color.white), button.name);
@@ -130,6 +138,80 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(button.spriteState.disabledSprite, Is.Not.Null, button.name);
                 var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(button.image.sprite)) as TextureImporter;
                 Assert.That(importer.spriteBorder, Is.EqualTo(Vector4.one * 36), button.name);
+            }
+            foreach (var button in new[] { root.mapBack, root.telescopeButton, root.storyReplayButton, root.launchButton })
+            {
+                Assert.That(button.transition, Is.EqualTo(Selectable.Transition.SpriteSwap), button.name);
+                Assert.That(button.image.color, Is.EqualTo(Color.white), button.name);
+                var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(button.image.sprite)) as TextureImporter;
+                Assert.That(importer.spriteBorder, Is.EqualTo(Vector4.one * 32), button.name);
+            }
+            Assert.That(((TextureImporter)AssetImporter.GetAtPath(MapTextures + "MapNeon/PanelFrame.png")).spriteBorder,
+                Is.EqualTo(Vector4.one * 36));
+            string[] states = { "Available", "Current", "Done", "Locked" };
+            for (int state = 0; state < states.Length; state++)
+                for (int variant = 0; variant < 3; variant++)
+                    for (int frame = 0; frame < 4; frame++)
+                    {
+                        int index = (state * 3 + variant) * 4 + frame;
+                        string path = MapTextures + "Map/Stars/Star_" + states[state] + "_V" + variant + "_F" + frame + ".png";
+                        Assert.That(AssetDatabase.GetAssetPath(root.mapStarFrames[index]), Is.EqualTo(path));
+                        var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+                        Assert.That(importer.spritePixelsPerUnit, Is.EqualTo(100), path);
+                        Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear), path);
+                        Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), path);
+                        Assert.That(importer.mipmapEnabled, Is.False, path);
+                        Assert.That(importer.spriteBorder, Is.EqualTo(Vector4.zero), path);
+                        Assert.That(root.mapStarFrames[index].rect.width, Is.EqualTo(160), path);
+                        Assert.That(root.mapStarFrames[index].rect.height, Is.EqualTo(160), path);
+                    }
+            foreach (var node in root.nodes)
+            {
+                int variant = NotebookRoot.MapStarVariant(node.stageId);
+                Assert.That(variant, Is.InRange(0, 2), node.stageId);
+                Assert.That(NotebookRoot.MapStarVariant(node.stageId), Is.EqualTo(variant), node.stageId);
+                Assert.That(node.star.transform.localRotation, Is.EqualTo(Quaternion.identity), node.stageId);
+            }
+        }
+
+        [Test] public void NeonMapMenuRestoresSelectedSceneObjectWhenArtworkIsMissing()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var scene = EditorSceneManager.NewPreviewScene();
+            TextAsset brokenCatalog = null;
+            try
+            {
+                var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
+                var root = instance.GetComponentInChildren<NotebookRoot>(true);
+                var oldMap = root.stageScreen;
+                oldMap.name = "Temporary Map For Failure Recovery";
+                var oldMain = root.mainScreen;
+                var oldSettings = root.settingsScreen;
+                var oldModal = root.modal;
+                var oldGateway = root.gateway;
+                var oldLayout = root.GetComponentInParent<NotebookCanvasLayout>();
+                var oldMapScreen = oldLayout.mapScreen;
+                int childCount = oldMap.transform.parent.childCount;
+                var catalog = NotebookCatalog.Parse(root.catalogJson);
+                brokenCatalog = new TextAsset(root.catalogJson.text.Replace(catalog.artworks[0].sprite,
+                    "Constellations/Missing_Neon_Map_Artwork"));
+                root.catalogJson = brokenCatalog;
+                Selection.activeGameObject = root.gameObject;
+                Assert.Throws<InvalidOperationException>(() =>
+                    William.NotebookUI.Editor.NotebookInstaller.ApplyNeonMapToSelectedNotebook());
+                Assert.That(root.stageScreen, Is.EqualTo(oldMap));
+                Assert.That(oldMap.transform.parent.childCount, Is.EqualTo(childCount));
+                Assert.That(root.mainScreen, Is.EqualTo(oldMain));
+                Assert.That(root.settingsScreen, Is.EqualTo(oldSettings));
+                Assert.That(root.modal, Is.EqualTo(oldModal));
+                Assert.That(root.gateway, Is.EqualTo(oldGateway));
+                Assert.That(oldLayout.mapScreen, Is.EqualTo(oldMapScreen));
+            }
+            finally
+            {
+                Selection.activeGameObject = null;
+                EditorSceneManager.ClosePreviewScene(scene);
+                if (brokenCatalog) UnityEngine.Object.DestroyImmediate(brokenCatalog);
             }
         }
 

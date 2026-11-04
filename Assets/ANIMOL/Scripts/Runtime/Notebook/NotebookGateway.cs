@@ -31,6 +31,7 @@ namespace William.NotebookUI
         public virtual bool CanLogin => false;
         public virtual bool CanShowRewardedAd => false;
         public virtual bool CanRestorePurchases => false;
+        public virtual bool CanOpenStage(string stageId) => false;
         public abstract void GetLocalizedPrice(string themeId, string productId, Action<string> completed);
         public abstract void Purchase(string themeId, string productId, string operationId, Action<NotebookPurchaseResult> completed);
         public abstract void Restore(string operationId, Action<NotebookRestoreResult> completed);
@@ -41,6 +42,7 @@ namespace William.NotebookUI
         public abstract void OpenBattle(string[] allFourThemes);
         public abstract void OpenCustom();
         public abstract void Login();
+        public virtual void RequestStoryReplay(string stageId, string operationId, Action<bool> completed) => completed?.Invoke(false);
         public virtual void ApplyPreferences(NotebookPreferences preferences) { }
     }
 }

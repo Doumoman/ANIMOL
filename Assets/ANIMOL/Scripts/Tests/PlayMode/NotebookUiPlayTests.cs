@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using William.NotebookUI;
+using WilliamParadox.Story;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -36,7 +38,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(root.mainScreen.activeSelf, Is.True);
             Assert.That(root.nodes.Length, Is.EqualTo(110));
             foreach (var size in new[] { new Vector2Int(360, 640), new Vector2Int(445, 773),
-                new Vector2Int(390, 844), new Vector2Int(1280, 720) })
+                new Vector2Int(390, 844), new Vector2Int(1440, 900) })
             {
                 if (size.x < size.y)
                     setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
@@ -54,7 +56,68 @@ namespace ANIMOL.Presentation.Tests
             root.campaignButton.onClick.Invoke();
             Assert.That(root.stageScreen.activeSelf, Is.True);
             Assert.That(root.mainScreen.activeSelf, Is.False);
+            Assert.That(root.MapSelectionVisible, Is.False);
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
             Assert.That(root.mapScroll.content.anchoredPosition.y, Is.GreaterThanOrEqualTo(0));
+            AssertOnScreen(root.mapBack.GetComponent<RectTransform>(), new Vector2Int(Screen.width, Screen.height), "map back");
+            AssertOnScreen(root.telescopeButton.GetComponent<RectTransform>(), new Vector2Int(Screen.width, Screen.height), "telescope");
+            root.nodes.First(v => v.stageId == "SW01").button.onClick.Invoke();
+            Assert.That(root.MapSelectionVisible, Is.True);
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.True);
+            Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.False);
+            var selectedNode = root.nodes.First(v => v.stageId == "SW01");
+            var secondNode = root.nodes.First(v => v.stageId == "SW02");
+            Assert.That(selectedNode.star.sprite, Is.EqualTo(root.mapStarFrames[(1 * 3 + NotebookRoot.MapStarVariant("SW01")) * 4]));
+            yield return new WaitForSecondsRealtime(.22f);
+            AssertOnScreen(root.stageSheet, new Vector2Int(Screen.width, Screen.height), "stage sheet");
+            typeof(NotebookRoot).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { true });
+            yield return new WaitForSecondsRealtime(.28f);
+            Assert.That(selectedNode.star.sprite, Is.EqualTo(root.mapStarFrames[(1 * 3 + NotebookRoot.MapStarVariant("SW01")) * 4 + 1]));
+            Assert.That(secondNode.star.sprite, Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("SW02")) * 4]));
+            secondNode.button.onClick.Invoke();
+            Assert.That(root.modal.activeSelf, Is.False);
+            Assert.That(selectedNode.star.sprite, Is.EqualTo(root.mapStarFrames[(0 * 3 + NotebookRoot.MapStarVariant("SW01")) * 4]));
+            Assert.That(secondNode.star.sprite, Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("SW02")) * 4]));
+            root.SetReducedMotion(true);
+            yield return new WaitForSecondsRealtime(.3f);
+            Assert.That(secondNode.star.sprite, Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("SW02")) * 4]));
+            foreach (var size in new[] { new Vector2Int(360, 640), new Vector2Int(390, 844),
+                new Vector2Int(445, 773), new Vector2Int(1440, 900) })
+            {
+                if (size.x < size.y)
+                    setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                        .Invoke(null, new object[] { size.x, size.y, "Neon map QA" });
+                else SelectWidePcResolution(size.x, size.y);
+                yield return null; yield return null;
+                Canvas.ForceUpdateCanvases();
+                AssertOnScreen(root.mapBack.GetComponent<RectTransform>(), size, "map back");
+                AssertOnScreen(root.telescopeButton.GetComponent<RectTransform>(), size, "telescope");
+                AssertOnScreen(root.stageSheet, size, "neon selection sheet");
+                Assert.That(root.mapScroll.viewport.rect.height,
+                    Is.EqualTo(root.stageScreen.GetComponent<RectTransform>().rect.height).Within(1f));
+                string folder = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Docs", "NeonMap_QA");
+                Directory.CreateDirectory(folder);
+                ScreenCapture.CaptureScreenshot(Path.Combine(folder, "Map_" + size.x + "x" + size.y + ".png"));
+                yield return null;
+            }
+            root.mapScroll.verticalNormalizedPosition = 0f;
+            yield return null; yield return null;
+            Canvas.ForceUpdateCanvases();
+            AssertOnScreen(root.nodes.First(v => v.stageId == "sea-30").button.GetComponent<RectTransform>(),
+                new Vector2Int(Screen.width, Screen.height), "last constellation star");
+            root.mapScroll.verticalNormalizedPosition = 1f;
+            root.SetReducedMotion(false);
+            typeof(NotebookRoot).GetMethod("OnApplicationPause", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { true });
+            Assert.That(secondNode.star.sprite, Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("SW02")) * 4]));
+            typeof(NotebookRoot).GetMethod("OnApplicationPause", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { false });
+            typeof(NotebookRoot).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { false });
+            Assert.That(secondNode.star.sprite, Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("SW02")) * 4]));
+            typeof(NotebookRoot).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(root, new object[] { true });
             var model = (NotebookBmModel)typeof(NotebookRoot)
                 .GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(root);
             var savedClears = model.State.clearedStageIds.ToArray();
@@ -65,10 +128,12 @@ namespace ANIMOL.Presentation.Tests
                 typeof(NotebookRoot).GetMethod("RefreshMap", BindingFlags.Instance | BindingFlags.NonPublic)
                     .Invoke(root, null);
                 var clearedNode = root.nodes.First(v => v.stageId == "SW01");
-                Assert.That(clearedNode.star.sprite, Is.EqualTo(root.starDone));
+                Assert.That(clearedNode.star.sprite, Is.EqualTo(root.mapStarFrames[(2 * 3 + NotebookRoot.MapStarVariant("SW01")) * 4]));
                 Assert.That(clearedNode.locked.gameObject.activeSelf, Is.False);
                 Assert.That(clearedNode.number.gameObject.activeSelf, Is.True);
-                Assert.That(clearedNode.label.text, Does.Contain("완료"));
+                Assert.That(clearedNode.label.text, Is.EqualTo("1-01"));
+                selectedNode.button.onClick.Invoke();
+                Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.True);
                 var firstEdge = root.edges.First(e => e.from == "SW01" && e.to == "SW02");
                 Assert.That(firstEdge.image.sprite, Is.EqualTo(firstEdge.future));
                 model.State.clearedStageIds.Add("SW02");
@@ -86,7 +151,12 @@ namespace ANIMOL.Presentation.Tests
                     .Invoke(root, null);
             }
             root.nodes.First(v => v.stageId == "ET-01").button.onClick.Invoke();
+            Assert.That(root.modal.activeSelf, Is.False);
+            Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.False);
+            root.launchButton.onClick.Invoke();
             Assert.That(root.modal.activeSelf, Is.True);
+            Assert.That(root.nodes.First(v => v.stageId == "ET-01").star.sprite,
+                Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("ET-01")) * 4]));
             Assert.That(root.modalPrimary.interactable, Is.False);
             Assert.That(root.gateway.CanRestorePurchases, Is.False);
             Assert.That(root.gateway.CanShowRewardedAd, Is.False);
@@ -105,6 +175,98 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(root.mainScreen.activeSelf, Is.True);
 #else
             Assert.Ignore("Unity Editor scene and portrait GameView are required."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator ClearedStarwayReplayAndEntryUseRealAssetsWithoutReplayCharges()
+        {
+#if UNITY_EDITOR
+            const string clearKey = "ANIMOL.Starway.Cleared.SW01";
+            const string walletKey = "WilliamNotebookUI.Wallet";
+            const string storyKey = "WilliamParadox.Story.V14.william-paradox.ranch.dialogue-preview";
+            bool hadClear = PlayerPrefs.HasKey(clearKey), hadWallet = PlayerPrefs.HasKey(walletKey);
+            int oldClear = PlayerPrefs.GetInt(clearKey);
+            string oldWallet = PlayerPrefs.GetString(walletKey);
+            bool hadStory = PlayerPrefs.HasKey(storyKey);
+            string oldStory = PlayerPrefs.GetString(storyKey);
+            try
+            {
+                PlayerPrefs.SetInt(clearKey, 1);
+                EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+                    new LoadSceneParameters(LoadSceneMode.Single));
+                yield return null; yield return null;
+                var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+                Assert.That(root, Is.Not.Null);
+                var gateway = root.gateway as NotebookProjectGateway;
+                Assert.That(gateway, Is.Not.Null);
+                Assert.That(gateway.starwayMaps.Length, Is.EqualTo(20));
+                Assert.That(gateway.CanOpenStage("SW01"), Is.True);
+                Assert.That(gateway.CanOpenStage("SW21"), Is.False);
+                var model = (NotebookBmModel)typeof(NotebookRoot)
+                    .GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(root);
+                model.State.balance = 10;
+                root.OpenStages();
+                root.nodes.First(node => node.stageId == "SW01").button.onClick.Invoke();
+                Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.True);
+                int before = model.State.balance;
+                GameObject storyPrefab = gateway.ranchStoryPrefab;
+                gateway.ranchStoryPrefab = null;
+                root.storyReplayButton.onClick.Invoke();
+                Assert.That(root.modal.activeSelf, Is.True);
+                Assert.That(model.State.balance, Is.EqualTo(before));
+                root.modalClose.onClick.Invoke();
+                gateway.ranchStoryPrefab = storyPrefab;
+                root.storyReplayButton.onClick.Invoke();
+                root.storyReplayButton.onClick.Invoke();
+                Assert.That(UnityEngine.Object.FindObjectsByType<StoryRunner>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
+                root.nodes.First(node => node.stageId == "SW02").button.onClick.Invoke();
+                yield return null; yield return null;
+                Assert.That(root.SelectedStageId, Is.EqualTo("SW02"));
+                Assert.That(root.modal.activeSelf, Is.False);
+                Assert.That(UnityEngine.Object.FindObjectsByType<StoryRunner>(FindObjectsSortMode.None), Is.Empty);
+                root.nodes.First(node => node.stageId == "SW01").button.onClick.Invoke();
+                root.storyReplayButton.onClick.Invoke();
+                yield return null; yield return null;
+                var runner = UnityEngine.Object.FindFirstObjectByType<StoryRunner>();
+                Assert.That(runner, Is.Not.Null);
+                Assert.That(runner.Package, Is.Not.Null);
+                Assert.That(runner.persistProgress, Is.False);
+                Assert.That(model.State.balance, Is.EqualTo(before));
+                Assert.That(PlayerPrefs.GetInt(clearKey), Is.EqualTo(1));
+                Assert.That(PlayerPrefs.HasKey(storyKey), Is.EqualTo(hadStory));
+                if (hadStory) Assert.That(PlayerPrefs.GetString(storyKey), Is.EqualTo(oldStory));
+                gateway.CloseReplay();
+                yield return null;
+                Assert.That(root.launchButton.interactable, Is.True);
+                root.launchButton.onClick.Invoke();
+                yield return null; yield return null;
+                var bridge = UnityEngine.Object.FindFirstObjectByType<NotebookMapDataPreviewBridge>();
+                Assert.That(bridge, Is.Not.Null);
+                for (int i = 0; i < 30 && !bridge.Ready; i++) yield return null;
+                Assert.That(bridge.Ready, Is.True);
+                Assert.That(bridge.sourceMap.name, Is.EqualTo("SW01"));
+                Assert.That(root.gameObject.activeSelf, Is.False);
+                var sessionGateway = bridge.GetComponent<NotebookStarwaySessionGateway>();
+                bool approved = false;
+                sessionGateway.RequestNavigation(NotebookGameplayDestination.Map, "SW01", "", "return-test", value => approved = value);
+                Assert.That(approved, Is.True);
+                sessionGateway.OpenApprovedNavigation(NotebookGameplayDestination.Map, "SW01", "", "return-test");
+                yield return null; yield return null;
+                var returned = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+                Assert.That(returned, Is.Not.Null);
+                var returnedModel = (NotebookBmModel)typeof(NotebookRoot)
+                    .GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(returned);
+                Assert.That(returnedModel.State.balance, Is.EqualTo(before - 1));
+            }
+            finally
+            {
+                if (hadClear) PlayerPrefs.SetInt(clearKey, oldClear); else PlayerPrefs.DeleteKey(clearKey);
+                if (hadWallet) PlayerPrefs.SetString(walletKey, oldWallet); else PlayerPrefs.DeleteKey(walletKey);
+                if (hadStory) PlayerPrefs.SetString(storyKey, oldStory); else PlayerPrefs.DeleteKey(storyKey);
+                PlayerPrefs.Save();
+            }
+#else
+            Assert.Ignore("Unity Editor scene is required."); yield break;
 #endif
         }
 

@@ -17,6 +17,7 @@ namespace WilliamParadox.Story
         public string presentationResourcePath = "WilliamParadox/V14/Story/story_presentation";
         public StoryView view;
         public bool restoreOnStart = true;
+        public bool persistProgress = true;
         public bool reducedMotion;
         [Tooltip("Legacy ranch behavior. The theater settles visual effects and advances with one accepted next input.")]
         public bool finishLegacyCueBeforeAdvancing = true;
@@ -210,7 +211,7 @@ namespace WilliamParadox.Story
         }
         public void RestartStory()
         {
-            if (graph != null) StorySaveStore.Delete(graph.Package.packageId);
+            if (persistProgress && graph != null) StorySaveStore.Delete(graph.Package.packageId);
             StartStory(false);
         }
         public bool JumpTo(string nodeId)
@@ -249,7 +250,7 @@ namespace WilliamParadox.Story
         }
         public void SaveCheckpoint()
         {
-            if (session == null || errors.Count > 0) return;
+            if (!persistProgress || session == null || errors.Count > 0) return;
             var save = new StorySaveData
             {
                 packageId = graph.Package.packageId, contentVersion = graph.Package.contentVersion,
