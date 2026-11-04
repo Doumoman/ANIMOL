@@ -35,3 +35,9 @@
 
 - 실제 노치 기기 Safe Area, 물리 터치 및 실제 광고/IAP 공급자 연동은 실행하지 못했다. 네 가지 고정 GameView 해상도와 Unity Play Mode만 확인했다.
 - 다른 세 지역의 실제 구매·광고 승인과 플레이 입장, 별길 목장의 단계별 서로 다른 스토리 재생은 해당 공급자/매핑이 없어 실행하지 못했다.
+
+## 인게임 살구색 배경 수정
+
+- 지도에서 `SW01`로 입장할 때 `NotebookRoot`만 비활성화되어, 같은 `William Notebook UI` Canvas의 형제인 전체 화면 `Static Paper Base`가 퍼즐 카메라 위에 남아 있었다.
+- 승인된 퍼즐 세션이 생성되면 Notebook Canvas 전체를 비활성화한다. 게임 HUD Canvas는 별도이므로 그대로 표시되고, 지도 복귀 시 기존 `NotebookUI` 씬을 다시 로드한다.
+- 열린 Unity Editor의 실제 Play Mode에서 수정 전 살구색 화면을 재현하고, 수정 후 `SW01` 월드와 HUD가 함께 보이는 것을 확인했다. `NotebookUiPlayTests.ClearedStarwayReplayAndEntryUseRealAssetsWithoutReplayCharges`는 Canvas와 Paper Base가 비활성인지 검사하며 통과했다. 수정 후 화면: `Docs/NeonMap_QA/Gameplay_SW01_after.png`.

@@ -238,6 +238,8 @@ namespace ANIMOL.Presentation.Tests
                 gateway.CloseReplay();
                 yield return null;
                 Assert.That(root.launchButton.interactable, Is.True);
+                var notebookCanvas = root.GetComponentInParent<Canvas>();
+                Assert.That(notebookCanvas, Is.Not.Null);
                 root.launchButton.onClick.Invoke();
                 yield return null; yield return null;
                 var bridge = UnityEngine.Object.FindFirstObjectByType<NotebookMapDataPreviewBridge>();
@@ -245,7 +247,13 @@ namespace ANIMOL.Presentation.Tests
                 for (int i = 0; i < 30 && !bridge.Ready; i++) yield return null;
                 Assert.That(bridge.Ready, Is.True);
                 Assert.That(bridge.sourceMap.name, Is.EqualTo("SW01"));
-                Assert.That(root.gameObject.activeSelf, Is.False);
+                Assert.That(notebookCanvas.gameObject.activeSelf, Is.False);
+                Assert.That(root.gameObject.activeInHierarchy, Is.False);
+                Assert.That(notebookCanvas.GetComponentsInChildren<UnityEngine.UI.Image>(true)
+                    .Single(image => image.name == "Static Paper Base").gameObject.activeInHierarchy, Is.False);
+                var gameplayHud = UnityEngine.Object.FindFirstObjectByType<NotebookGameplayHud>();
+                Assert.That(gameplayHud, Is.Not.Null);
+                Assert.That(gameplayHud.GetComponentInParent<Canvas>().gameObject.activeInHierarchy, Is.True);
                 var sessionGateway = bridge.GetComponent<NotebookStarwaySessionGateway>();
                 bool approved = false;
                 sessionGateway.RequestNavigation(NotebookGameplayDestination.Map, "SW01", "", "return-test", value => approved = value);

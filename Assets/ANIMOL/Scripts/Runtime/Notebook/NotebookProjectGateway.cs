@@ -58,6 +58,7 @@ namespace William.NotebookUI
         {
             PuzzleMap map = FindStarwayMap(stageId);
             bool valid = map && map.scenario && map.theme && gameplayCanvasPrefab &&
+                GetComponentInParent<Canvas>() &&
                 gameplayCanvasPrefab.GetComponentInChildren<NotebookGameplayHud>(true) &&
                 !string.IsNullOrEmpty(operationId) && telescopeCost == 1 &&
                 map.ValidateMap().Count == 0;
@@ -73,7 +74,8 @@ namespace William.NotebookUI
             approvedEntries.Remove(operationId);
             if (!map || map.name != stageId) return;
             NotebookRoot notebook = GetComponent<NotebookRoot>();
-            if (!notebook || !gameplayCanvasPrefab) return;
+            Canvas notebookCanvas = notebook ? notebook.GetComponentInParent<Canvas>() : null;
+            if (!notebookCanvas || !gameplayCanvasPrefab) return;
             GameObject session = null, canvas = null;
             try
             {
@@ -92,7 +94,9 @@ namespace William.NotebookUI
                 bridge.gateway = liveGateway;
                 bridge.collectibleStarPrefab = collectibleStarPrefab;
                 liveGateway.bridge = bridge;
-                notebook.gameObject.SetActive(false);
+                // The full-screen paper base is a sibling of NotebookRoot on this Canvas.
+                // Hide the whole menu Canvas so it cannot cover the puzzle camera.
+                notebookCanvas.gameObject.SetActive(false);
             }
             catch (Exception error)
             {
