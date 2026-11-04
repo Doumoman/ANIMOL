@@ -169,6 +169,77 @@ namespace ANIMOL.Tests
             finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
         }
 
+        [TestCase("SW02")]
+        [TestCase("SW16")]
+        [TestCase("SW17")]
+        [TestCase("SW18")]
+        public void NoWindSheepPermutationKeepsTheSameSuccessors(string id)
+        {
+            var map = Load(id);
+            if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind))
+                Assert.Ignore("This authored map now has wind, so sheep identity is retained.");
+            var session = new PuzzleDeviceSession(map);
+            var random = new System.Random(911);
+            for (int sample = 0; sample < 64; sample++)
+            {
+                var equivalent = session.Copy();
+                var sheep = (Dictionary<string, Vector2Int>)equivalent.RanchSheep;
+                var ids = sheep.Keys.OrderBy(value => value).ToArray();
+                var positions = ids.Select(key => sheep[key]).Reverse().ToArray();
+                for (int i = 0; i < ids.Length; i++) sheep[ids[i]] = positions[i];
+                AssertEquivalent(session, equivalent);
+                foreach (var direction in Directions)
+                {
+                    var a = session.Copy(); var b = equivalent.Copy();
+                    Assert.That(b.Apply(direction).accepted, Is.EqualTo(a.Apply(direction).accepted));
+                    AssertEquivalent(a, b);
+                }
+                session.Apply(Directions[random.Next(4)]);
+                if (session.Won || session.Failed) session = new PuzzleDeviceSession(map);
+            }
+        }
+
+        [Test] public void SheepPermutationStillMatchesAfterGrassConsumptionAndRemoval()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.theme = Load("SW00").theme; map.scenario = rules; rules.themeId = "starway";
+                map.targetBubbles = 0; map.start = new Vector2Int(0, 1); map.exit = new Vector2Int(4, 2);
+                for (int x = 0; x < 5; x++) for (int y = 0; y < 3; y++)
+                    map.terrain.Add(new TerrainCell(new Vector2Int(x, y), TerrainMaterial.Grass));
+                for (int i = 0; i < 2; i++)
+                {
+                    rules.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", instanceId = "s" + i,
+                        position = new Vector2Int(1 + i * 2, 1) });
+                    rules.ranchV13Art.Add(new RanchV13ArtPlacement { family = "tall_grass", instanceId = "g" + i,
+                        position = new Vector2Int(2 + i * 2, 1) });
+                }
+                var a = new PuzzleDeviceSession(map); var b = a.Copy();
+                var sheep = (Dictionary<string, Vector2Int>)b.RanchSheep;
+                var position = sheep["s0"]; sheep["s0"] = sheep["s1"]; sheep["s1"] = position;
+                for (int i = 0; i < 4; i++)
+                {
+                    Assert.That(a.Apply(Vector2Int.right).accepted, Is.True);
+                    Assert.That(b.Apply(Vector2Int.right).accepted, Is.True);
+                    AssertEquivalent(a, b);
+                    if (i == 0) Assert.That(a.RanchSheep.Count, Is.EqualTo(1));
+                }
+                Assert.That(a.RanchSheep.Count, Is.Zero);
+            }
+            finally { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
+        }
+
+        [Test] public void WindKeepsSheepIterationIdentityInTheSearchKey()
+        {
+            var a = new PuzzleDeviceSession(Load("SW09")); var b = a.Copy();
+            var sheep = (Dictionary<string, Vector2Int>)b.RanchSheep;
+            var ids = sheep.Keys.Take(2).ToArray();
+            var position = sheep[ids[0]]; sheep[ids[0]] = sheep[ids[1]]; sheep[ids[1]] = position;
+            Assert.That(b.SearchStateKey(), Is.Not.EqualTo(a.SearchStateKey()));
+        }
+
         [Test] public void RecordedSolvedRoutesReplayAgainstTheirMatchingSourceAssets()
         {
             foreach (var record in PuzzleShortestPathRecord.Read().maps.Where(r => r.status == "solved"))

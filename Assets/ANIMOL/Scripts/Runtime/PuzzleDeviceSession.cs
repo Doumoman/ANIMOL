@@ -94,6 +94,11 @@ namespace ANIMOL.Puzzle
                 { ranchPonds.Add(art.Id, art.rightState); ranchPondCells.Add(art.position, art); ranchPondCells.Add(art.PondB, art); }
                 if (art.family == "tall_grass") ranchGrassPositions.Add(art.position);
             }
+#if UNITY_EDITOR
+            searchSheepOrderMatters = definitions.Any(d => d.role == PrototypeRole.Wind);
+            searchSheepIds = ranchSheep.Keys.OrderBy(id => id, StringComparer.Ordinal).ToArray();
+            searchPondIds = ranchPonds.Keys.OrderBy(id => id, StringComparer.Ordinal).ToArray();
+#endif
             Cell = map.start;
             if (RanchWet(Cell) || ranchSheep.Values.Contains(Cell) || RanchGrassPresent(Cell))
                 throw new ArgumentException("Player starts on an occupied ranch cell.");
@@ -104,6 +109,9 @@ namespace ANIMOL.Puzzle
             Map = source.Map; definitions = source.definitions; CopyFrom(source);
 #if UNITY_EDITOR
             searchUnlabelledCrates = source.searchUnlabelledCrates;
+            searchSheepOrderMatters = source.searchSheepOrderMatters;
+            searchSheepIds = source.searchSheepIds;
+            searchPondIds = source.searchPondIds;
 #endif
             foreach (var entry in source.ranchPondCells) ranchPondCells.Add(entry.Key, entry.Value);
             ranchGrassPositions.UnionWith(source.ranchGrassPositions);
@@ -111,6 +119,8 @@ namespace ANIMOL.Puzzle
         public PuzzleDeviceSession Copy() => new PuzzleDeviceSession(this);
 #if UNITY_EDITOR
         HashSet<string> searchUnlabelledCrates;
+        bool searchSheepOrderMatters;
+        string[] searchSheepIds, searchPondIds;
         // Search expands disposable copies. This invokes the same resolver as Apply without building Undo history.
         public bool SearchStep(Vector2Int direction) => Resolve(direction).accepted;
 
@@ -158,14 +168,21 @@ namespace ANIMOL.Puzzle
             if (crates != null)
                 foreach (string crate in crates.OrderBy(value => value, StringComparer.Ordinal))
                     key.Append(crate).Append('|');
-            foreach (var sheep in ranchSheep.OrderBy(p => p.Key, StringComparer.Ordinal))
+            if (searchSheepOrderMatters)
             {
-                // Sheep heading is used by the view, while position and pond/grass state drive rules.
-                key.Append(sheep.Key).Append(':'); Point(sheep.Value);
+                // Fixed ID slots retain the wind iteration priority without repeating GUID strings.
+                foreach (string id in searchSheepIds)
+                {
+                    bool present = ranchSheep.TryGetValue(id, out var position);
+                    key.Append(present ? '1' : '0');
+                    if (present) Point(position);
+                }
             }
+            else
+                // Player pushes select the sheep at a cell; without wind, their instance IDs are visual only.
+                foreach (var position in ranchSheep.Values.OrderBy(p => p.x).ThenBy(p => p.y)) Point(position);
             key.Append('|');
-            foreach (var pond in ranchPonds.OrderBy(p => p.Key, StringComparer.Ordinal))
-                key.Append(pond.Key).Append(pond.Value ? '1' : '0').Append(';');
+            foreach (string id in searchPondIds) key.Append(ranchPonds[id] ? '1' : '0');
             key.Append('|');
             foreach (var cell in consumedRanchGrass.OrderBy(p => p.x).ThenBy(p => p.y)) Point(cell);
             key.Append('|');
