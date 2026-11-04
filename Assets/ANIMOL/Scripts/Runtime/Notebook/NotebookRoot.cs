@@ -33,6 +33,7 @@ namespace William.NotebookUI
         public AnimolPatternMotion patternMotion;
         public AnimolPatternMotion settingsPatternMotion, popupPatternMotion;
         public CanvasGroup mainInputGroup;
+        public NotebookCampaignSkyTransition campaignSkyTransition;
         public Image worldImage, characterImage, battleLock, muteIcon;
         public Sprite soundOnIcon, soundOffIcon;
         public NotebookWorldArt[] worlds;
@@ -75,9 +76,11 @@ namespace William.NotebookUI
         private int spinningMapStarState, spinningMapStarVariant, mapStarFrame;
         private float mapStarElapsed;
         private bool mapStarAppPaused, mapStarAppFocused = true;
+        private bool committingCampaignMap;
         private Vector2 settingsPanelRest;
         private Coroutine settingsTransition;
         private bool settingsClosing;
+        public bool CampaignTransitionRunning => campaignSkyTransition && campaignSkyTransition.IsPlaying;
         public bool MapSelectionVisible => mapSelectionVisible;
         public string SelectedStageId => selectedStage;
         private int progressEpoch, modalEpoch;
@@ -93,7 +96,7 @@ namespace William.NotebookUI
             preferences = preferences ?? new NotebookPreferences();
             // JsonUtility ignores the old scroll value; face motion is no longer a saved setting.
             selectedStage = catalog.stages.FirstOrDefault(s => model.CanEnter(s.id) && !model.IsCleared(s.id))?.id ?? catalog.stages.FirstOrDefault()?.id;
-            campaignButton.onClick.AddListener(OpenStages);
+            campaignButton.onClick.AddListener(OpenCampaign);
             battleButton.onClick.AddListener(OpenBattle);
             customButton.onClick.AddListener(() => { if (gateway && gateway.CanOpenCustom) gateway.OpenCustom(); else Notice("커스텀", "커스텀 모드는 게임 연결 후 이용할 수 있어요.", iconCustom); });
             settingsButton.onClick.AddListener(OpenSettings);
@@ -123,11 +126,12 @@ namespace William.NotebookUI
             if (model == null || lastTick == Now) return;
             lastTick = Now; model.Tick(lastTick); RefreshWallet();
         }
-        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
-        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; ResetMapStarSpin(); }
+        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; if (paused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
+        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; if (!focused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); }
         private void OnApplicationQuit() => Save();
         private void OnDisable()
         {
+            if (campaignSkyTransition) campaignSkyTransition.Cancel();
             StopSettingsTransition();
             ResetMapStarSpin();
             mapEpoch++; StopSheetAnimation();
@@ -164,6 +168,7 @@ namespace William.NotebookUI
         }
         public void OpenMain()
         {
+            if (CampaignTransitionRunning) return;
             if (started && settingsScreen.activeSelf && settingsPanel && !reducedMotion)
             {
                 if (settingsClosing || (!string.IsNullOrEmpty(pendingId) && !replayPending)) return;
@@ -179,6 +184,7 @@ namespace William.NotebookUI
         }
         public void OpenSettings()
         {
+            if (CampaignTransitionRunning) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
             if (settingsScreen.activeSelf && !settingsClosing) return;
             StopSettingsTransition();
@@ -249,8 +255,30 @@ namespace William.NotebookUI
             if (settingsPanelGroup) settingsPanelGroup.alpha = 1;
             if (settingsScreenGroup) settingsScreenGroup.blocksRaycasts = true;
         }
+        /// <summary>Only the explicit main campaign action animates; game returns still open the map directly.</summary>
+        public void OpenCampaign()
+        {
+            if (CampaignTransitionRunning || !string.IsNullOrEmpty(pendingId)) return;
+            if (!mainScreen || !mainScreen.activeSelf || settingsScreen.activeSelf || modal.activeSelf) return;
+            if (!reducedMotion && mapStarAppFocused && !mapStarAppPaused && campaignSkyTransition
+                && campaignSkyTransition.Play(worldImage ? worldImage.sprite : null, CommitCampaignMap, SettleCampaignMap)) return;
+            OpenStages();
+        }
+        private void CommitCampaignMap()
+        {
+            if (!this || !isActiveAndEnabled) return;
+            committingCampaignMap = true;
+            try { OpenStages(); }
+            finally { committingCampaignMap = false; }
+        }
+        private void SettleCampaignMap()
+        {
+            if (this && isActiveAndEnabled && stageScreen.activeInHierarchy && !modal.activeSelf && mapBack && EventSystem.current)
+                EventSystem.current.SetSelectedGameObject(mapBack.gameObject);
+        }
         public void OpenStages()
         {
+            if (CampaignTransitionRunning && !committingCampaignMap) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
             HideStageSheet(); ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
             NotebookConstellationArtwork art = Array.Find(model.Catalog.artworks, a => a.stageIds != null && Array.IndexOf(a.stageIds, selectedStage) >= 0);
@@ -263,6 +291,7 @@ namespace William.NotebookUI
         }
         private void ShowPage(GameObject target)
         {
+            if (CampaignTransitionRunning && !committingCampaignMap) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
             if (target != settingsScreen) StopSettingsTransition();
             CancelReplay();
@@ -330,6 +359,7 @@ namespace William.NotebookUI
         }
         private void SelectStage(string id)
         {
+            if (CampaignTransitionRunning) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
             CancelReplay();
             NotebookStage stage = model.Catalog.FindStage(id); if (stage == null) return;
@@ -338,6 +368,7 @@ namespace William.NotebookUI
         }
         public void SetReducedMotion(bool enabled)
         {
+            if (enabled && CampaignTransitionRunning) campaignSkyTransition.CompleteImmediately();
             bool motionChanged = reducedMotion != enabled;
             reducedMotion = enabled;
             if (enabled && settingsTransition != null)
@@ -478,6 +509,7 @@ namespace William.NotebookUI
             (gateway.CanOpenStage(stage.id) || (!string.IsNullOrEmpty(stage.sceneName) && gateway.CanApproveStageEntry));
         private void OpenModal(string kind, string title, string copy, Sprite icon)
         {
+            if (CampaignTransitionRunning) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
             CancelReplay();
             ResetMapStarSpin();

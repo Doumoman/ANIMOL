@@ -53,7 +53,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(root.characterImage.preserveAspect, Is.True);
                 AssertOnScreen(root.characterImage.rectTransform, size, "full character area");
             }
-            root.campaignButton.onClick.Invoke();
+            root.OpenStages();
             Assert.That(root.stageScreen.activeSelf, Is.True);
             Assert.That(root.mainScreen.activeSelf, Is.False);
             Assert.That(root.MapSelectionVisible, Is.False);
@@ -215,6 +215,192 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(root.settingsScreen.activeSelf, Is.False);
 #else
             Assert.Ignore("Unity Editor scene and portrait GameView are required."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator CampaignSkyTransitionUsesActiveButtonAndSettlesAcrossInterruptions()
+        {
+#if UNITY_EDITOR
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+                new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null; yield return null;
+            var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+            Assert.That(root, Is.Not.Null);
+            var model = (NotebookBmModel)typeof(NotebookRoot).GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(root);
+            var entryIds = model.State.entryIds.ToArray();
+            var rewardIds = model.State.rewardIds.ToArray();
+            var clearedIds = model.State.clearedStageIds.ToArray();
+            var ownedThemes = model.State.ownedThemes.ToArray();
+            int startingBalance = model.State.balance;
+            var transition = root.campaignSkyTransition;
+            Assert.That(transition, Is.Not.Null);
+            Assert.That(root.stageScreen.name, Is.EqualTo("Constellation Neon Map"));
+            Assert.That(root.mapStarFrames.Length, Is.EqualTo(48));
+            Assert.That(root.campaignButton.onClick.GetPersistentEventCount(), Is.Zero);
+            Assert.That(transition.destinationTexture, Is.Not.Null);
+            Assert.That(transition.transitionShader, Is.Not.Null);
+            Assert.That(transition.transitionShader.isSupported, Is.True);
+            var overlay = transition.GetComponent<UnityEngine.UI.RawImage>();
+            var canvas = root.GetComponentInParent<Canvas>().rootCanvas;
+            var scope = root.GetComponent<CanvasGroup>();
+            Assert.That(transition.transform.parent, Is.EqualTo(canvas.transform));
+            Assert.That(transition.GetComponent<RectTransform>().anchorMin, Is.EqualTo(Vector2.zero));
+            Assert.That(transition.GetComponent<RectTransform>().anchorMax, Is.EqualTo(Vector2.one));
+            Assert.That(overlay.enabled, Is.False);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            var focus = typeof(NotebookRoot).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic);
+            focus.Invoke(root, new object[] { true });
+
+            root.campaignButton.onClick.Invoke();
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.CampaignTransitionRunning, Is.True);
+            Assert.That(root.mainScreen.activeSelf, Is.True);
+            Assert.That(root.stageScreen.activeSelf, Is.False);
+            Assert.That(scope.interactable || scope.blocksRaycasts, Is.False);
+            Assert.That(overlay.enabled && overlay.raycastTarget, Is.True);
+            root.OpenSettings(); root.OpenStages();
+            Assert.That(root.settingsScreen.activeSelf || root.stageScreen.activeSelf, Is.False);
+            yield return new WaitForSecondsRealtime(.24f);
+            Assert.That(transition.Progress, Is.LessThan(NotebookCampaignSkyTransition.MapCommitProgress));
+            Assert.That(root.stageScreen.activeSelf, Is.False);
+            yield return new WaitForSecondsRealtime(.52f);
+            Assert.That(transition.HasCommitted, Is.True);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(root.MapSelectionVisible, Is.False);
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
+            Assert.That(overlay.enabled, Is.True);
+            focus.Invoke(root, new object[] { false });
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(overlay.enabled || overlay.raycastTarget, Is.False);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            Assert.That(typeof(NotebookCampaignSkyTransition).GetField("ownedMaterial", BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetValue(transition), Is.Null);
+            focus.Invoke(root, new object[] { true });
+            root.mapBack.onClick.Invoke();
+            Assert.That(root.mainScreen.activeSelf, Is.True);
+
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.CampaignTransitionRunning, Is.True);
+            focus.Invoke(root, new object[] { false });
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.mainScreen.activeSelf, Is.True);
+            Assert.That(root.stageScreen.activeSelf, Is.False);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            focus.Invoke(root, new object[] { true });
+
+            var shader = transition.transitionShader;
+            transition.transitionShader = null;
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            transition.transitionShader = shader;
+            root.OpenMain();
+            root.SetReducedMotion(true);
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            root.SetReducedMotion(false);
+            root.OpenMain();
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.CampaignTransitionRunning, Is.True);
+            transition.transitionShader = null;
+            yield return null;
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            transition.transitionShader = shader;
+            root.OpenMain();
+            root.campaignButton.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(1.18f);
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(root.mainScreen.activeSelf, Is.False);
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
+            Assert.That(overlay.enabled || overlay.raycastTarget, Is.False);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            root.OpenMain();
+            var destination = transition.destinationTexture;
+            transition.destinationTexture = null;
+            root.campaignButton.onClick.Invoke();
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            transition.destinationTexture = destination;
+            root.OpenMain();
+            var pause = typeof(NotebookRoot).GetMethod("OnApplicationPause", BindingFlags.Instance | BindingFlags.NonPublic);
+            root.campaignButton.onClick.Invoke();
+            pause.Invoke(root, new object[] { true });
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.mainScreen.activeSelf, Is.True);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            pause.Invoke(root, new object[] { false });
+            root.campaignButton.onClick.Invoke();
+            yield return new WaitForSecondsRealtime(.75f);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            pause.Invoke(root, new object[] { true });
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.stageScreen.activeSelf, Is.True);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            pause.Invoke(root, new object[] { false });
+            root.OpenMain();
+            root.campaignButton.onClick.Invoke();
+            root.enabled = false;
+            Assert.That(root.CampaignTransitionRunning, Is.False);
+            Assert.That(root.mainScreen.activeSelf, Is.True);
+            Assert.That(scope.interactable && scope.blocksRaycasts, Is.True);
+            root.enabled = true;
+            CollectionAssert.AreEqual(entryIds, model.State.entryIds);
+            CollectionAssert.AreEqual(rewardIds, model.State.rewardIds);
+            CollectionAssert.AreEqual(clearedIds, model.State.clearedStageIds);
+            CollectionAssert.AreEqual(ownedThemes, model.State.ownedThemes);
+            Assert.That(model.State.balance, Is.GreaterThanOrEqualTo(startingBalance));
+#else
+            Assert.Ignore("Unity Editor Play Mode is required."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator CampaignSkyOverlayCoversPhysicalCanvasAtPortraitAndWideSizes()
+        {
+#if UNITY_EDITOR
+            EditorSceneManager.LoadSceneInPlayMode("Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+                new LoadSceneParameters(LoadSceneMode.Single));
+            yield return null; yield return null;
+            var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+            Assert.That(root, Is.Not.Null);
+            var setup = AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetType("ANIMOL.Presentation.Editor.PortraitGameView"))
+                .FirstOrDefault(t => t != null);
+            var overlay = root.campaignSkyTransition.GetComponent<RectTransform>();
+            string folder = Path.Combine(Directory.GetParent(Application.dataPath).FullName, "Temp", "CampaignSkyQA");
+            Directory.CreateDirectory(folder);
+            foreach (var size in new[] { new Vector2Int(360, 640), new Vector2Int(390, 844),
+                new Vector2Int(445, 773), new Vector2Int(1440, 900) })
+            {
+                if (size.x < size.y)
+                    setup.GetMethod("SelectFixedResolution", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+                        .Invoke(null, new object[] { size.x, size.y, "Campaign sky overlay" });
+                else SelectWidePcResolution(size.x, size.y);
+                yield return null; yield return null;
+                Canvas.ForceUpdateCanvases();
+                Assert.That(Screen.width, Is.EqualTo(size.x)); Assert.That(Screen.height, Is.EqualTo(size.y));
+                var corners = new Vector3[4]; overlay.GetWorldCorners(corners);
+                Vector2 bottomLeft = RectTransformUtility.WorldToScreenPoint(null, corners[0]);
+                Vector2 topRight = RectTransformUtility.WorldToScreenPoint(null, corners[2]);
+                Assert.That(bottomLeft.x, Is.EqualTo(0).Within(1));
+                Assert.That(bottomLeft.y, Is.EqualTo(0).Within(1));
+                Assert.That(topRight.x, Is.EqualTo(size.x).Within(1));
+                Assert.That(topRight.y, Is.EqualTo(size.y).Within(1));
+                root.campaignButton.onClick.Invoke();
+                yield return new WaitForSecondsRealtime(.27f);
+                Assert.That(root.CampaignTransitionRunning, Is.True);
+                Assert.That(root.stageScreen.activeSelf, Is.False);
+                ScreenCapture.CaptureScreenshot(Path.Combine(folder, "Sky_" + size.x + "x" + size.y + ".png"));
+                yield return null;
+                root.campaignSkyTransition.Cancel();
+                Assert.That(root.mainScreen.activeSelf, Is.True);
+                Assert.That(root.GetComponent<CanvasGroup>().blocksRaycasts, Is.True);
+            }
+#else
+            Assert.Ignore("Unity Editor GameView is required."); yield break;
 #endif
         }
 

@@ -44473,6 +44473,94 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2109081018147333892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2475114739002344011}
+  - component: {fileID: 8529687116633430069}
+  - component: {fileID: 6982086005149278135}
+  - component: {fileID: 3042881865927127405}
+  m_Layer: 0
+  m_Name: Campaign Sky Transition Overlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2475114739002344011
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109081018147333892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4831718679492662458}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8529687116633430069
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109081018147333892}
+  m_CullTransparentMesh: 1
+--- !u!114 &6982086005149278135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109081018147333892}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &3042881865927127405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109081018147333892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4d21c8ffce9714f99fb7e7c2f35192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ANIMOL.Presentation::William.NotebookUI.NotebookCampaignSkyTransition
+  transitionShader: {fileID: 4800000, guid: b1df31b2119bbbc43afec60a8c09d43a, type: 3}
+  destinationTexture: {fileID: 2800000, guid: 14f2556ddebcdcf44adda2a281537b2f, type: 3}
+  inputScope: {fileID: 944283721469067218}
 --- !u!1 &2118528066845126465
 GameObject:
   m_ObjectHideFlags: 0
@@ -85379,6 +85467,7 @@ GameObject:
   - component: {fileID: 4454148885161761982}
   - component: {fileID: 4820419145234856604}
   - component: {fileID: 8925656161022467604}
+  - component: {fileID: 944283721469067218}
   m_Layer: 0
   m_Name: Design 1080 Safe Area
   m_TagString: Untagged
@@ -85435,6 +85524,7 @@ MonoBehaviour:
   settingsPatternMotion: {fileID: 4835273502764585434}
   popupPatternMotion: {fileID: 897346060944059835}
   mainInputGroup: {fileID: 8965660981683430313}
+  campaignSkyTransition: {fileID: 3042881865927127405}
   worldImage: {fileID: 8924610688109341039}
   characterImage: {fileID: 5476608956819179484}
   battleLock: {fileID: 3982809110719544317}
@@ -86914,6 +87004,18 @@ MonoBehaviour:
   gameplayCanvasPrefab: {fileID: 3485221901847667905, guid: c230a544381c24f4985170930da8eacf, type: 3}
   collectibleStarPrefab: {fileID: 7619555599849712661, guid: 1e42cb694c93d8342a88dce4446a7067, type: 3}
   ranchStoryPrefab: {fileID: 1936652663357747493, guid: da99f509c70d5d042836af7cfd5a8d6d, type: 3}
+--- !u!225 &944283721469067218
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4122184968127164187}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4128997315967699208
 GameObject:
   m_ObjectHideFlags: 0
@@ -140586,6 +140688,7 @@ RectTransform:
   - {fileID: 6215359800062287781}
   - {fileID: 6750349488504136368}
   - {fileID: 4454148885161761982}
+  - {fileID: 2475114739002344011}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

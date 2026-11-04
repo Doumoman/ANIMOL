@@ -60,6 +60,7 @@ namespace William.NotebookUI.Editor
             ui.mainScreen = Screen(design, "Main").gameObject; ui.settingsScreen = Screen(design, "Settings").gameObject; ui.stageScreen = Screen(design, "Constellation Only").gameObject;
             ui.mainInputGroup = ui.mainScreen.AddComponent<CanvasGroup>();
             BuildMain(ui, catalog); BuildSettings(ui); BuildMap(ui, catalog); BuildModal(ui, design);
+            BuildCampaignSkyTransition(ui, canvas, null);
             ui.toggleOn = Load("Controls/Toggle_On"); ui.toggleOff = Load("Controls/Toggle_Off");
             ui.starAvailable = Load("Map/Star_Available"); ui.starCurrent = Load("Map/Star_Current"); ui.starDone = Load("Map/Star_Done"); ui.starLocked = Load("Map/Star_Locked");
             ui.iconLock = Load("Icons/lock"); ui.iconTelescope = Load("Icons/telescope"); ui.iconCheck = Load("Icons/check"); ui.iconBattle = Load("Icons/battle"); ui.iconCustom = Load("Icons/custom"); ui.iconProfile = Load("Icons/profile");
