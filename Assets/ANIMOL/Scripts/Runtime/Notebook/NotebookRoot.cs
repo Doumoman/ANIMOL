@@ -38,6 +38,8 @@ namespace William.NotebookUI
         public NotebookWorldArt[] worlds;
         public Button campaignButton, battleButton, customButton, settingsButton, muteButton, profileButton;
         public Button settingsBack, mapBack, telescopeButton, launchButton, storyReplayButton, restoreButton, accountButton;
+        public RectTransform settingsPanel;
+        public CanvasGroup settingsScreenGroup, settingsPanelGroup;
         public RectTransform stageSheet;
         public Image launchIcon;
         public Sprite mapEntryIcon, mapLockIcon;
@@ -73,6 +75,9 @@ namespace William.NotebookUI
         private int spinningMapStarState, spinningMapStarVariant, mapStarFrame;
         private float mapStarElapsed;
         private bool mapStarAppPaused, mapStarAppFocused = true;
+        private Vector2 settingsPanelRest;
+        private Coroutine settingsTransition;
+        private bool settingsClosing;
         public bool MapSelectionVisible => mapSelectionVisible;
         public string SelectedStageId => selectedStage;
         private int progressEpoch, modalEpoch;
@@ -105,6 +110,7 @@ namespace William.NotebookUI
             modalPrimary.onClick.AddListener(() => primaryAction?.Invoke());
             modalSecondary.onClick.AddListener(() => secondaryAction?.Invoke()); modalClose.onClick.AddListener(CloseModal);
             foreach (NotebookNodeView view in nodes) { string id = view.stageId; view.button.onClick.AddListener(() => SelectStage(id)); }
+            if (settingsPanel) settingsPanelRest = settingsPanel.anchoredPosition;
             ApplyPreferences(); PickArtwork(); OpenMain(); started = true;
         }
         private void OnEnable()
@@ -122,6 +128,7 @@ namespace William.NotebookUI
         private void OnApplicationQuit() => Save();
         private void OnDisable()
         {
+            StopSettingsTransition();
             ResetMapStarSpin();
             mapEpoch++; StopSheetAnimation();
             CancelReplay();
@@ -155,8 +162,93 @@ namespace William.NotebookUI
             }
             if (gateway) gateway.ApplyPreferences(preferences);
         }
-        public void OpenMain() => ShowPage(mainScreen);
-        public void OpenSettings() => ShowPage(settingsScreen);
+        public void OpenMain()
+        {
+            if (started && settingsScreen.activeSelf && settingsPanel && !reducedMotion)
+            {
+                if (settingsClosing || (!string.IsNullOrEmpty(pendingId) && !replayPending)) return;
+                if (settingsTransition != null) StopCoroutine(settingsTransition);
+                settingsTransition = null;
+                settingsClosing = true;
+                if (settingsScreenGroup) settingsScreenGroup.blocksRaycasts = false;
+                if (mainInputGroup) { mainInputGroup.interactable = true; mainInputGroup.blocksRaycasts = true; }
+                settingsTransition = StartCoroutine(AnimateSettingsClose());
+                return;
+            }
+            ShowPage(mainScreen);
+        }
+        public void OpenSettings()
+        {
+            if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            if (settingsScreen.activeSelf && !settingsClosing) return;
+            StopSettingsTransition();
+            ShowPage(settingsScreen);
+            if (settingsPanel && !reducedMotion)
+                settingsTransition = StartCoroutine(AnimateSettingsOpen());
+        }
+        private IEnumerator AnimateSettingsOpen()
+        {
+            const float duration = .22f;
+            float elapsed = 0;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                float lift = t < .78f
+                    ? Mathf.Lerp(64f, -6f, EaseOut(Mathf.Clamp01(t / .78f)))
+                    : Mathf.Lerp(-6f, 0f, Mathf.SmoothStep(0f, 1f, (t - .78f) / .22f));
+                SetSettingsPanelLift(lift);
+                if (settingsPanelGroup) settingsPanelGroup.alpha = Mathf.Lerp(.94f, 1f, t);
+                yield return null;
+            }
+            SetSettingsPanelLift(0);
+            if (settingsPanelGroup) settingsPanelGroup.alpha = 1;
+            settingsTransition = null;
+        }
+        private IEnumerator AnimateSettingsClose()
+        {
+            const float liftDuration = .08f, dropDuration = .16f;
+            float startLift = settingsPanel.anchoredPosition.y - settingsPanelRest.y;
+            float startAlpha = settingsPanelGroup ? settingsPanelGroup.alpha : 1f;
+            float elapsed = 0;
+            while (elapsed < liftDuration + dropDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                if (elapsed < liftDuration)
+                {
+                    float t = EaseOut(Mathf.Clamp01(elapsed / liftDuration));
+                    SetSettingsPanelLift(Mathf.Lerp(startLift, 18f, t));
+                    if (settingsPanelGroup) settingsPanelGroup.alpha = Mathf.Lerp(startAlpha, 1f, t);
+                }
+                else
+                {
+                    float t = Mathf.Clamp01((elapsed - liftDuration) / dropDuration);
+                    SetSettingsPanelLift(Mathf.Lerp(18f, -90f, t * t));
+                    if (settingsPanelGroup) settingsPanelGroup.alpha = 1f - t;
+                }
+                yield return null;
+            }
+            settingsTransition = null;
+            settingsClosing = false;
+            SetSettingsPanelLift(0);
+            if (settingsPanelGroup) settingsPanelGroup.alpha = 1;
+            if (settingsScreenGroup) settingsScreenGroup.blocksRaycasts = true;
+            ShowPage(mainScreen);
+        }
+        private static float EaseOut(float t) => 1f - Mathf.Pow(1f - t, 3f);
+        private void SetSettingsPanelLift(float y)
+        {
+            if (settingsPanel) settingsPanel.anchoredPosition = settingsPanelRest + new Vector2(0f, y);
+        }
+        private void StopSettingsTransition()
+        {
+            if (settingsTransition != null) StopCoroutine(settingsTransition);
+            settingsTransition = null;
+            settingsClosing = false;
+            SetSettingsPanelLift(0);
+            if (settingsPanelGroup) settingsPanelGroup.alpha = 1;
+            if (settingsScreenGroup) settingsScreenGroup.blocksRaycasts = true;
+        }
         public void OpenStages()
         {
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
@@ -172,6 +264,7 @@ namespace William.NotebookUI
         private void ShowPage(GameObject target)
         {
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
+            if (target != settingsScreen) StopSettingsTransition();
             CancelReplay();
             bool openingSettings = target == settingsScreen;
             if (target != stageScreen) HideStageSheet();
@@ -180,6 +273,7 @@ namespace William.NotebookUI
             // Settings is an overlay: retain the actual main artwork underneath the plain gray scrim.
             mainScreen.SetActive(target == mainScreen || openingSettings);
             settingsScreen.SetActive(openingSettings); stageScreen.SetActive(target == stageScreen);
+            if (profileButton) profileButton.gameObject.SetActive(!openingSettings);
             if (mainInputGroup)
             {
                 mainInputGroup.interactable = !openingSettings;
@@ -246,6 +340,12 @@ namespace William.NotebookUI
         {
             bool motionChanged = reducedMotion != enabled;
             reducedMotion = enabled;
+            if (enabled && settingsTransition != null)
+            {
+                bool wasClosing = settingsClosing;
+                StopSettingsTransition();
+                if (wasClosing) ShowPage(mainScreen);
+            }
             if (motionChanged || enabled) ResetMapStarSpin();
             if (patternMotion) patternMotion.SetReducedMotion(enabled);
             if (settingsPatternMotion) settingsPatternMotion.SetReducedMotion(enabled);

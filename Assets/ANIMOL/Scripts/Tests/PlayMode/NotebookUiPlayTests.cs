@@ -163,8 +163,26 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(root.gateway.CanApproveStageEntry, Is.False);
             root.modalClose.onClick.Invoke();
             root.mapBack.onClick.Invoke();
+            Vector2 settingsRest = root.settingsPanel.anchoredPosition;
             root.settingsButton.onClick.Invoke();
             Assert.That(root.settingsScreen.activeSelf, Is.True);
+            Assert.That(root.profileButton.gameObject.activeSelf, Is.False);
+            Assert.That(root.settingsScreen.transform.Find("Settings Title Static Plaque"), Is.Null);
+            Assert.That(root.settingsScreen.transform.Find("Settings Title"), Is.Null);
+            Assert.That(root.settingsPanel.anchoredPosition.y, Is.GreaterThan(settingsRest.y));
+            yield return new WaitForSecondsRealtime(.27f);
+            Assert.That(root.settingsPanel.anchoredPosition.y, Is.EqualTo(settingsRest.y).Within(.1f));
+            foreach (var slider in new[] { root.bgmSlider, root.sfxSlider })
+            {
+                Assert.That(slider.handleRect.name, Is.EqualTo("Slider Handle Anchor"));
+                Assert.That(slider.handleRect.rect.width, Is.EqualTo(76f).Within(.1f));
+                Assert.That(slider.handleRect.rect.height, Is.EqualTo(76f).Within(.1f));
+                var thumb = slider.targetGraphic as UnityEngine.UI.Image;
+                Assert.That(thumb, Is.Not.Null);
+                Assert.That(thumb.rectTransform.parent, Is.EqualTo(slider.handleRect));
+                Assert.That(thumb.rectTransform.rect.size, Is.EqualTo(new Vector2(76f, 76f)));
+                Assert.That(thumb.preserveAspect, Is.True);
+            }
             float originalBgm = root.bgmSlider.value;
             float changedBgm = originalBgm > .5f ? .25f : .75f;
             root.bgmSlider.value = changedBgm;
@@ -172,7 +190,29 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(saved.bgm, Is.EqualTo(changedBgm).Within(.001f));
             root.bgmSlider.value = originalBgm;
             root.settingsBack.onClick.Invoke();
+            Assert.That(root.settingsScreen.activeSelf, Is.True);
+            Assert.That(root.settingsScreenGroup.blocksRaycasts, Is.False);
+            Assert.That(root.mainInputGroup.blocksRaycasts, Is.True);
+            yield return new WaitForSecondsRealtime(.065f);
+            Assert.That(root.settingsPanel.anchoredPosition.y, Is.GreaterThan(settingsRest.y));
+            yield return new WaitForSecondsRealtime(.11f);
+            Assert.That(root.settingsPanel.anchoredPosition.y, Is.LessThan(settingsRest.y));
+            yield return new WaitForSecondsRealtime(.11f);
             Assert.That(root.mainScreen.activeSelf, Is.True);
+            Assert.That(root.settingsScreen.activeSelf, Is.False);
+            Assert.That(root.profileButton.gameObject.activeSelf, Is.True);
+            Assert.That(root.settingsPanel.anchoredPosition, Is.EqualTo(settingsRest));
+            root.SetReducedMotion(true);
+            root.OpenSettings();
+            Assert.That(root.settingsPanel.anchoredPosition, Is.EqualTo(settingsRest));
+            root.OpenMain();
+            Assert.That(root.settingsScreen.activeSelf, Is.False);
+            root.SetReducedMotion(false);
+            root.OpenSettings();
+            root.OpenMain();
+            Assert.That(root.settingsPanel.anchoredPosition.y, Is.GreaterThan(settingsRest.y));
+            yield return new WaitForSecondsRealtime(.27f);
+            Assert.That(root.settingsScreen.activeSelf, Is.False);
 #else
             Assert.Ignore("Unity Editor scene and portrait GameView are required."); yield break;
 #endif

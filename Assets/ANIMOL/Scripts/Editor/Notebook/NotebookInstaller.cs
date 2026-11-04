@@ -110,10 +110,11 @@ namespace William.NotebookUI.Editor
             RectTransform backdrop = Rect(host, "Plain Gray Settings Backdrop"); Stretch(backdrop, 0, 0, 0, 0);
             ui.GetComponentInParent<NotebookCanvasLayout>().fullScreenSettingsBackdrop = backdrop;
             Image scrim = backdrop.gameObject.AddComponent<Image>(); scrim.color = new Color(40f / 255, 40f / 255, 44f / 255, .58f); scrim.raycastTarget = true;
+            ui.settingsScreenGroup = host.gameObject.AddComponent<CanvasGroup>();
             ui.settingsBack = Button(host, "Back", "Utility", 48, 18, 132, 132, "", 1, true); Icon(ui.settingsBack.transform, "back", 33, 33, 66, 66);
-            Image titlePlaque = Picture(host, "Settings Title Static Plaque", "Modal/Utility_Normal", true); At(titlePlaque.rectTransform, 192, 24, 260, 144);
-            Text(host, "Settings Title", "설정", 214, 52, 700, 92, 66);
             Image panel = Picture(host, "Settings Face Pattern Popup", "Modal/PanelBase", true); Stretch(panel.rectTransform, 48, 210, 48, 90);
+            ui.settingsPanel = panel.rectTransform;
+            ui.settingsPanelGroup = panel.gameObject.AddComponent<CanvasGroup>();
             panel.raycastTarget = true; ui.settingsPatternMotion = AddPanelFaces(panel.transform);
             RectTransform viewport = Rect(panel.transform, "Settings Viewport"); Stretch(viewport, 104, 60, 64, 40); viewport.gameObject.AddComponent<RectMask2D>();
             RectTransform content = Rect(viewport, "Settings Content"); At(content, 0, 0, 816, 1264);
@@ -134,8 +135,15 @@ namespace William.NotebookUI.Editor
             Image hit = box.gameObject.AddComponent<Image>(); hit.color = Color.clear; hit.raycastTarget = true;
             Image track = Picture(box, "Static Track", "Controls/SliderTrack", true); At(track.rectTransform, 0, 50, 816, 36); track.raycastTarget = true;
             RectTransform area = Rect(box, "Handle Area"); Stretch(area, 38, 30, 38, 30);
-            Image handle = Picture(area, "Static Thumb", "Controls/SliderThumb"); handle.rectTransform.sizeDelta = new Vector2(76, 76); handle.raycastTarget = true;
-            Slider slider = box.gameObject.AddComponent<Slider>(); slider.minValue = 0; slider.maxValue = 1; slider.handleRect = handle.rectTransform; slider.targetGraphic = handle; slider.transition = Selectable.Transition.None; return slider;
+            RectTransform handleAnchor = Rect(area, "Slider Handle Anchor");
+            handleAnchor.anchorMin = new Vector2(.5f, 0f); handleAnchor.anchorMax = new Vector2(.5f, 1f);
+            handleAnchor.pivot = new Vector2(.5f, .5f); handleAnchor.anchoredPosition = Vector2.zero;
+            handleAnchor.sizeDelta = new Vector2(76f, 0f);
+            Image handle = Picture(handleAnchor, "Static Thumb", "Controls/SliderThumb");
+            handle.rectTransform.anchorMin = handle.rectTransform.anchorMax = handle.rectTransform.pivot = new Vector2(.5f, .5f);
+            handle.rectTransform.anchoredPosition = Vector2.zero; handle.rectTransform.sizeDelta = new Vector2(76, 76);
+            handle.preserveAspect = true; handle.raycastTarget = true;
+            Slider slider = box.gameObject.AddComponent<Slider>(); slider.minValue = 0; slider.maxValue = 1; slider.handleRect = handleAnchor; slider.targetGraphic = handle; slider.transition = Selectable.Transition.None; return slider;
         }
         private static Button Toggle(RectTransform parent, string name, string label, float top)
         {
