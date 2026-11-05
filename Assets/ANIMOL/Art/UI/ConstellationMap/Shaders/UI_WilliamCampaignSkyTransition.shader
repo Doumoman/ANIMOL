@@ -12,6 +12,14 @@ Shader "UI/WilliamCampaignSkyTransition"
         _DestinationAspect ("Destination Aspect", Float) = 0.666667
         _ViewAspect ("Physical View Aspect", Float) = 0.5625
         _Progress ("Sequence Progress", Range(0,1)) = 0
+        _Link0 ("Entry Link 0", Vector) = (-0.42,0.15,-0.25,0.34)
+        _Link1 ("Entry Link 1", Vector) = (-0.25,0.34,-0.05,0.25)
+        _Link2 ("Entry Link 2", Vector) = (-0.05,0.25,0.13,0.42)
+        _Link3 ("Entry Link 3", Vector) = (0.13,0.42,0.32,0.31)
+        _Link4 ("Entry Link 4", Vector) = (-0.24,-0.35,0.02,-0.19)
+        _Link5 ("Entry Link 5", Vector) = (0.02,-0.19,0.23,-0.3)
+        _Link6 ("Entry Link 6", Vector) = (0.23,-0.3,0.42,-0.05)
+        _Link7 ("Entry Link 7", Vector) = (3.97,0.49,-0.51,0.4)
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
         _StencilOp ("Stencil Operation", Float) = 0
@@ -42,6 +50,7 @@ Shader "UI/WilliamCampaignSkyTransition"
             struct v2f { float4 vertex:SV_POSITION; fixed4 color:COLOR; float2 uv:TEXCOORD0; float4 worldPosition:TEXCOORD1; UNITY_VERTEX_OUTPUT_STEREO };
             sampler2D _SourceTex, _DestinationTex;
             float4 _SourceUvRect, _DestinationUvRect, _ClipRect;
+            float4 _Link0, _Link1, _Link2, _Link3, _Link4, _Link5, _Link6, _Link7;
             fixed4 _Color;
             float _Progress, _SourceAspect, _DestinationAspect, _ViewAspect;
             v2f vert(appdata v)
@@ -56,7 +65,7 @@ Shader "UI/WilliamCampaignSkyTransition"
                 float2 scale=float2(min(1,aspect/image),min(1,image/aspect));
                 return (uv-.5)*scale+.5;
             }
-            // Authored points. Two recognisable partial constellations plus a quiet depth field.
+            // Preserved authored stars. A new set of short links is supplied once per entry.
             float2 starPoint(int i)
             {
                 if(i==0)return float2(-.42,.15); if(i==1)return float2(-.25,.34); if(i==2)return float2(-.05,.25);
@@ -80,9 +89,15 @@ Shader "UI/WilliamCampaignSkyTransition"
             {
                 float2 ab=b-a; float t=saturate(dot(p-a,ab)/max(dot(ab,ab),.000001)); return length(p-a-ab*t);
             }
-            float link(float2 p,int a,int b,float travel,float gaze,float aa)
+            float link(float2 p,float4 edge,float travel,float gaze,float aa)
             {
-                return 1-smoothstep(.00065,.00065+aa,segment(p,projectPoint(a,travel,gaze),projectPoint(b,travel,gaze)));
+                // CPU stores the common depth layer in the first x coordinate (x + 2*layer).
+                // Decode it without per-pixel indexed star lookups or additional uniforms.
+                float layer=floor((edge.x+1)*.5), z=max(.38,.90+.46*layer-travel*.43);
+                float2 scale=float2(max(.01,_ViewAspect),1)/z;
+                float2 a=float2(edge.x-2*layer,edge.y)*scale, b=edge.zw*scale;
+                a.y+=.12-.15*gaze; b.y+=.12-.15*gaze;
+                return 1-smoothstep(.00065,.00065+aa,segment(p,a,b));
             }
             fixed4 frag(v2f i):SV_Target
             {
@@ -103,10 +118,10 @@ Shader "UI/WilliamCampaignSkyTransition"
                 float2 view=(i.uv-.5)*float2(max(.01,_ViewAspect),1);
                 float aa=1.15/max(1,_ScreenParams.y);
                 float lines=0;
-                lines+=link(view,0,1,travel,gaze,aa); lines+=link(view,1,2,travel,gaze,aa);
-                lines+=link(view,2,3,travel,gaze,aa); lines+=link(view,3,4,travel,gaze,aa);
-                lines+=link(view,5,6,travel,gaze,aa); lines+=link(view,6,7,travel,gaze,aa);
-                lines+=link(view,7,8,travel,gaze,aa); lines+=link(view,2,6,travel,gaze,aa);
+                lines+=link(view,_Link0,travel,gaze,aa); lines+=link(view,_Link1,travel,gaze,aa);
+                lines+=link(view,_Link2,travel,gaze,aa); lines+=link(view,_Link3,travel,gaze,aa);
+                lines+=link(view,_Link4,travel,gaze,aa); lines+=link(view,_Link5,travel,gaze,aa);
+                lines+=link(view,_Link6,travel,gaze,aa); lines+=link(view,_Link7,travel,gaze,aa);
                 color=lerp(color,float3(.74,.77,.94),saturate(lines)*envelope*.46);
                 [unroll] for(int n=0;n<27;n++)
                 {

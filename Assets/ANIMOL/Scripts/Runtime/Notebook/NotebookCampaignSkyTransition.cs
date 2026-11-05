@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +24,19 @@ namespace William.NotebookUI
         private static readonly int SourceAspectId = Shader.PropertyToID("_SourceAspect");
         private static readonly int DestinationAspectId = Shader.PropertyToID("_DestinationAspect");
         private static readonly int ViewAspectId = Shader.PropertyToID("_ViewAspect");
+        private static readonly int[] LinkIds = {
+            Shader.PropertyToID("_Link0"), Shader.PropertyToID("_Link1"), Shader.PropertyToID("_Link2"), Shader.PropertyToID("_Link3"),
+            Shader.PropertyToID("_Link4"), Shader.PropertyToID("_Link5"), Shader.PropertyToID("_Link6"), Shader.PropertyToID("_Link7")
+        };
+        // These coordinates mirror the preserved 27 shader stars, solely to choose clean short links.
+        private static readonly Vector2[] LinkStars = {
+            new Vector2(-.42f,.15f), new Vector2(-.25f,.34f), new Vector2(-.05f,.25f), new Vector2(.13f,.42f), new Vector2(.32f,.31f),
+            new Vector2(-.24f,-.35f), new Vector2(.02f,-.19f), new Vector2(.23f,-.30f), new Vector2(.42f,-.05f),
+            new Vector2(-.48f,.62f), new Vector2(.12f,.70f), new Vector2(.44f,.52f), new Vector2(-.34f,-.58f), new Vector2(.39f,-.55f),
+            new Vector2(-.08f,.06f), new Vector2(.27f,.03f), new Vector2(-.50f,-.06f), new Vector2(.03f,-.73f),
+            new Vector2(-.18f,.78f), new Vector2(.52f,.82f), new Vector2(-.48f,-.80f), new Vector2(.49f,-.86f), new Vector2(-.03f,.49f),
+            new Vector2(.53f,.13f), new Vector2(-.51f,.40f), new Vector2(.04f,-.47f), new Vector2(.26f,.91f)
+        };
 
         private RawImage overlay;
         private Material ownedMaterial;
@@ -30,8 +44,10 @@ namespace William.NotebookUI
         private bool playing, committed, scopeCaptured, oldInteractable, oldBlocksRaycasts;
         private float elapsed;
         private GameObject previousSelection;
+        private string linkSignature = string.Empty;
         public bool IsPlaying => playing;
         public bool HasCommitted => committed;
+        public string LinkSignature => linkSignature;
         public float Progress => playing ? Mathf.Clamp01(elapsed / DurationSeconds) : 0f;
 
         private void Awake()
@@ -68,6 +84,7 @@ namespace William.NotebookUI
                 ownedMaterial.SetFloat(SourceAspectId, source.rect.width / Mathf.Max(1f, source.rect.height));
                 ownedMaterial.SetFloat(DestinationAspectId, destinationTexture.width / Mathf.Max(1f, destinationTexture.height));
                 ownedMaterial.SetFloat(ProgressId, 0);
+                ConfigureEntryLinks();
                 overlay.texture = Texture2D.whiteTexture; overlay.material = ownedMaterial; overlay.color = Color.white;
                 oldInteractable = inputScope.interactable; oldBlocksRaycasts = inputScope.blocksRaycasts; scopeCaptured = true;
                 previousSelection = EventSystem.current ? EventSystem.current.currentSelectedGameObject : null;
@@ -108,6 +125,87 @@ namespace William.NotebookUI
             if (!ownedMaterial || !overlay) return;
             Rect rect = overlay.rectTransform.rect;
             ownedMaterial.SetFloat(ViewAspectId, Mathf.Max(1f, rect.width) / Mathf.Max(1f, rect.height));
+        }
+
+        private void ConfigureEntryLinks()
+        {
+            Rect rect = overlay.rectTransform.rect;
+            float aspect = Mathf.Clamp(Mathf.Max(1f, rect.width) / Mathf.Max(1f, rect.height), .25f, 4f);
+            uint seed = BitConverter.ToUInt32(Guid.NewGuid().ToByteArray(), 0);
+            List<Vector2Int> links = GenerateEntryLinks(aspect, seed, linkSignature);
+            var ids = new List<int>(links.Count);
+            for (int i = 0; i < links.Count; i++)
+            {
+                Vector2Int pair = links[i];
+                ownedMaterial.SetVector(LinkIds[i], new Vector4(LinkStars[pair.x].x + 2 * (pair.x / 9), LinkStars[pair.x].y, LinkStars[pair.y].x, LinkStars[pair.y].y));
+                ids.Add(pair.x * 27 + pair.y);
+            }
+            ids.Sort(); linkSignature = string.Join(",", ids);
+        }
+
+        // A local RNG avoids consuming UnityEngine.Random state used by gameplay or artwork selection.
+        private static uint NextLinkRandom(ref uint state)
+        {
+            if (state == 0) state = 0x6D2B79F5u;
+            state ^= state << 13; state ^= state >> 17; state ^= state << 5; return state;
+        }
+        private static Vector2 LinkProjection(int index, float travel, float aspect)
+        {
+            float depth = .90f + .46f * (index / 9) - travel * .43f;
+            return new Vector2(LinkStars[index].x * aspect, LinkStars[index].y) / depth;
+        }
+        private static float LinkOrientation(Vector2 a, Vector2 b, Vector2 c)
+            => (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+        private static bool LinksCross(Vector2Int a, Vector2Int b, float aspect)
+        {
+            if (a.x == b.x || a.x == b.y || a.y == b.x || a.y == b.y) return false;
+            for (int sample = 0; sample < 3; sample++)
+            {
+                float travel = sample * .5f;
+                Vector2 p = LinkProjection(a.x, travel, aspect), q = LinkProjection(a.y, travel, aspect);
+                Vector2 r = LinkProjection(b.x, travel, aspect), s = LinkProjection(b.y, travel, aspect);
+                if (LinkOrientation(p, q, r) * LinkOrientation(p, q, s) < -1e-9f
+                    && LinkOrientation(r, s, p) * LinkOrientation(r, s, q) < -1e-9f) return true;
+            }
+            return false;
+        }
+        private static List<Vector2Int> GenerateEntryLinks(float aspect, uint seed, string previousSignature)
+        {
+            var candidates = new List<Vector2Int>();
+            float maxLength = Mathf.Max(.68f, .45f * aspect);
+            for (int a = 0; a < 27; a++)
+                for (int b = a + 1; b < 27; b++)
+                {
+                    // Links stay within a depth layer so their endpoints share the same motion.
+                    if (a / 9 != b / 9) continue;
+                    float initialLength = Vector2.Distance(LinkProjection(a, 0, aspect), LinkProjection(b, 0, aspect));
+                    float finalLength = Vector2.Distance(LinkProjection(a, 1, aspect), LinkProjection(b, 1, aspect));
+                    if (initialLength >= .08f && finalLength <= maxLength) candidates.Add(new Vector2Int(a, b));
+                }
+            for (int attempt = 0; attempt < 64; attempt++)
+            {
+                var pool = new List<Vector2Int>(candidates);
+                for (int i = pool.Count - 1; i > 0; i--)
+                {
+                    int other = (int)(NextLinkRandom(ref seed) % (uint)(i + 1));
+                    Vector2Int temp = pool[i]; pool[i] = pool[other]; pool[other] = temp;
+                }
+                var chosen = new List<Vector2Int>(8); var degree = new int[27];
+                foreach (Vector2Int pair in pool)
+                {
+                    if (degree[pair.x] >= 2 || degree[pair.y] >= 2) continue;
+                    bool crosses = false;
+                    foreach (Vector2Int existing in chosen) if (LinksCross(pair, existing, aspect)) { crosses = true; break; }
+                    if (crosses) continue;
+                    chosen.Add(pair); degree[pair.x]++; degree[pair.y]++;
+                    if (chosen.Count == 8) break;
+                }
+                if (chosen.Count != 8) continue;
+                var ids = new List<int>(8); foreach (Vector2Int pair in chosen) ids.Add(pair.x * 27 + pair.y); ids.Sort();
+                if (string.Join(",", ids) != previousSignature) return chosen;
+            }
+            // An invalid layout must use the controller's immediate-map fallback, never a partial/duplicated pattern.
+            throw new InvalidOperationException("A fresh set of eight short constellation links could not be generated.");
         }
 
         private bool CommitOnce()
