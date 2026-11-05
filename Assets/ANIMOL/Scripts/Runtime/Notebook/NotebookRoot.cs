@@ -42,6 +42,7 @@ namespace William.NotebookUI
         public RectTransform settingsPanel;
         public CanvasGroup settingsScreenGroup, settingsPanelGroup;
         public RectTransform stageSheet;
+        public NotebookMapThemeNavigation mapThemeNavigation;
         public Image launchIcon;
         public Sprite mapEntryIcon, mapLockIcon;
         public TMP_Text walletText, stageRegion, stageName, bgmValue, sfxValue;
@@ -91,6 +92,9 @@ namespace William.NotebookUI
         public bool CampaignTransitionRunning => campaignSkyTransition && campaignSkyTransition.IsPlaying;
         public bool MapSelectionVisible => mapSelectionVisible;
         public string SelectedStageId => selectedStage;
+        public bool CanNavigateMapThemes => isActiveAndEnabled && stageScreen && stageScreen.activeInHierarchy
+            && !mapSelectionVisible && !CampaignTransitionRunning && string.IsNullOrEmpty(pendingId)
+            && mapStarAppFocused && !mapStarAppPaused && (!modal || !modal.activeInHierarchy);
         private int progressEpoch, modalEpoch;
         private static long Now => DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -122,6 +126,7 @@ namespace William.NotebookUI
             modalSecondary.onClick.AddListener(() => secondaryAction?.Invoke()); modalClose.onClick.AddListener(CloseModal);
             foreach (NotebookNodeView view in nodes) { string id = view.stageId; view.button.onClick.AddListener(() => SelectStage(id)); }
             if (settingsPanel) settingsPanelRest = settingsPanel.anchoredPosition;
+            if (mapThemeNavigation) mapThemeNavigation.Initialize(this, model.Catalog);
             ApplyPreferences(); PickArtwork(); OpenMain(); started = true;
         }
         private void OnEnable()
@@ -137,14 +142,15 @@ namespace William.NotebookUI
             if (lastTick == now) return;
             lastTick = now; model.Tick(now); RefreshWallet();
         }
-        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; if (paused) SettleMainArtworkSwipe(); if (paused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
-        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; if (!focused) SettleMainArtworkSwipe(); if (!focused && campaignSkyTransition) campaignSkyTransition.Cancel(); ResetMapStarSpin(); }
+        private void OnApplicationPause(bool paused) { mapStarAppPaused = paused; if (paused) SettleMainArtworkSwipe(); if (paused && campaignSkyTransition) campaignSkyTransition.Cancel(); if (paused) SettleMapPresentation(); ResetMapStarSpin(); if (paused) Save(); else if (started) { model.Tick(Now); RefreshWallet(); RefreshVerifiedProgress(); } }
+        private void OnApplicationFocus(bool focused) { mapStarAppFocused = focused; if (!focused) SettleMainArtworkSwipe(); if (!focused && campaignSkyTransition) campaignSkyTransition.Cancel(); if (!focused) SettleMapPresentation(); ResetMapStarSpin(); }
         private void OnApplicationQuit() => Save();
         private void OnDisable()
         {
             SettleMainArtworkSwipe();
             if (campaignSkyTransition) campaignSkyTransition.Cancel();
             StopSettingsTransition();
+            if (mapThemeNavigation) mapThemeNavigation.HideForExit();
             ResetMapStarSpin();
             mapEpoch++; StopSheetAnimation();
             CancelReplay();
@@ -384,7 +390,7 @@ namespace William.NotebookUI
         {
             if (CampaignTransitionRunning && !committingCampaignMap) return;
             if (!string.IsNullOrEmpty(pendingId) && !replayPending) return;
-            HideStageSheet(); ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
+            HideStageSheetInternal(false); ShowPage(stageScreen); RefreshMap(); Canvas.ForceUpdateCanvases();
             NotebookConstellationArtwork art = Array.Find(model.Catalog.artworks, a => a.stageIds != null && Array.IndexOf(a.stageIds, selectedStage) >= 0);
             NotebookStage stage = model.Catalog.FindStage(selectedStage);
             if (art != null && mapScroll && mapScroll.content && mapScroll.viewport)
@@ -392,6 +398,7 @@ namespace William.NotebookUI
                 float y = stage != null && stage.order == 1 ? model.Catalog.FindTheme(stage.themeId).startY : Mathf.Max(0, art.y - 95);
                 mapScroll.content.anchoredPosition = new Vector2(0, Mathf.Clamp(y, 0, Mathf.Max(0, model.Catalog.mapContentHeight - mapScroll.viewport.rect.height)));
             }
+            if (mapThemeNavigation) mapThemeNavigation.ShowRail(false);
         }
         private void ShowPage(GameObject target)
         {
@@ -401,12 +408,13 @@ namespace William.NotebookUI
             if (target != settingsScreen) StopSettingsTransition();
             CancelReplay();
             bool openingSettings = target == settingsScreen;
-            if (target != stageScreen) HideStageSheet();
+            if (target != stageScreen) HideStageSheetInternal(false);
             bool leavingSettings = settingsScreen.activeSelf && !openingSettings;
             CloseModal();
             // Settings is an overlay: retain the actual main artwork underneath the plain gray scrim.
             mainScreen.SetActive(target == mainScreen || openingSettings);
             settingsScreen.SetActive(openingSettings); stageScreen.SetActive(target == stageScreen);
+            if (target != stageScreen && mapThemeNavigation) mapThemeNavigation.HideForExit();
             if (profileButton) profileButton.gameObject.SetActive(!openingSettings);
             if (mainInputGroup)
             {
@@ -477,6 +485,7 @@ namespace William.NotebookUI
             if (enabled) SettleMainArtworkSwipe();
             bool motionChanged = reducedMotion != enabled;
             reducedMotion = enabled;
+            if (mapThemeNavigation) mapThemeNavigation.SetReducedMotion(enabled);
             if (enabled && settingsTransition != null)
             {
                 bool wasClosing = settingsClosing;
@@ -492,12 +501,23 @@ namespace William.NotebookUI
         private void ShowStageSheet()
         {
             bool wasVisible = mapSelectionVisible; mapSelectionVisible = true;
-            if (!stageSheet) return;
-            stageSheet.gameObject.SetActive(true);
-            if (wasVisible) return;
+            if (!stageSheet || wasVisible) return;
             StopSheetAnimation();
-            if (reducedMotion) SetSheetBottom(24);
+            stageSheet.gameObject.SetActive(false);
+            if (mapThemeNavigation) mapThemeNavigation.HideForSelection(PresentStageSheet);
+            else PresentStageSheet();
+        }
+        private void PresentStageSheet()
+        {
+            if (!isActiveAndEnabled || !mapSelectionVisible || !stageSheet || !stageScreen.activeInHierarchy) return;
+            stageSheet.gameObject.SetActive(true);
+            if (reducedMotion || !mapStarAppFocused || mapStarAppPaused) SetSheetBottom(24);
             else sheetRoutine = StartCoroutine(RaiseStageSheet());
+        }
+        private void SettleMapPresentation()
+        {
+            if (mapThemeNavigation) mapThemeNavigation.CompleteMotion();
+            if (sheetRoutine != null) { StopSheetAnimation(); SetSheetBottom(24); }
         }
         private IEnumerator RaiseStageSheet()
         {
@@ -519,12 +539,18 @@ namespace William.NotebookUI
             if (sheetRoutine != null) StopCoroutine(sheetRoutine);
             sheetRoutine = null;
         }
-        public void HideStageSheet()
+        public void HideStageSheet() => HideStageSheetInternal(true);
+        private void HideStageSheetInternal(bool restoreTabs)
         {
             ResetMapStarSpin();
             mapEpoch++; mapSelectionVisible = false; StopSheetAnimation(); SetSheetBottom(24);
             CancelReplay();
             if (stageSheet) stageSheet.gameObject.SetActive(false);
+            if (mapThemeNavigation)
+            {
+                if (restoreTabs && stageScreen && stageScreen.activeInHierarchy) mapThemeNavigation.ShowRail(true);
+                else mapThemeNavigation.HideForExit();
+            }
         }
         private void CancelReplay()
         {

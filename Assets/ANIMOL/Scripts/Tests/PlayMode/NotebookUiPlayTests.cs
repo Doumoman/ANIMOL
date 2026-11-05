@@ -129,6 +129,8 @@ namespace ANIMOL.Presentation.Tests
             AssertOnScreen(root.telescopeButton.GetComponent<RectTransform>(), new Vector2Int(Screen.width, Screen.height), "telescope");
             root.nodes.First(v => v.stageId == "SW01").button.onClick.Invoke();
             Assert.That(root.MapSelectionVisible, Is.True);
+            Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
+            yield return new WaitForSecondsRealtime(.30f);
             Assert.That(root.stageSheet.gameObject.activeSelf, Is.True);
             Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.False);
             var selectedNode = root.nodes.First(v => v.stageId == "SW01");
