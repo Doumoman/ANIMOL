@@ -65,7 +65,11 @@ namespace WilliamParadox.Story
             }
             if (string.IsNullOrWhiteSpace(p.startNodeId) || !nodeIds.Contains(p.startNodeId)) errors.Add("Unknown startNodeId.");
             var kinds = new HashSet<string> { "line", "cue", "gate", "credits", "end" };
-            var cueKinds = new HashSet<string> { "dim", "zoom", "shake", "popup", "transition", "inset", "hideInset", "swapArt" };
+            var cueKinds = new HashSet<string> { "dim", "zoom", "shake", "popup", "transition", "inset", "hideInset", "swapArt", "ranchCut" };
+            var aliasIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var alias in p.saveNodeAliases ?? Array.Empty<StorySaveNodeAlias>())
+                if (alias == null || string.IsNullOrWhiteSpace(alias.oldId) || nodeIds.Contains(alias.oldId) || !aliasIds.Add(alias.oldId) || !nodeIds.Contains(alias.nodeId ?? ""))
+                    errors.Add("Invalid or duplicate save node alias.");
             foreach (var n in ns)
             {
                 if (n == null) continue;
@@ -84,6 +88,8 @@ namespace WilliamParadox.Story
                 {
                     if (c == null) { errors.Add(n.id + ": null cue."); continue; }
                     if (!cueKinds.Contains(c.type ?? "")) errors.Add(n.id + ": unknown cue type " + c.type);
+                    if (c.type == "ranchCut" && !RanchStoryStage.IsKnownCue(c.eventId)) errors.Add(n.id + ": unknown ranch event " + c.eventId);
+                    if (c.type == "ranchCut" && Math.Abs(c.duration - RanchStoryCuePolicy.Duration(c.eventId)) > 0.001f) errors.Add(n.id + ": ranch event duration differs from policy.");
                     if (!Finite(c.duration, c.delay, c.amount, c.x, c.y, c.scale) || c.duration < 0 || c.delay < 0) errors.Add(n.id + ": invalid cue timing/value.");
                     if (!string.IsNullOrEmpty(c.target) && c.target != "artwork" && c.target != "inset") errors.Add(n.id + ": unknown cue target " + c.target);
                     if ((c.type == "dim" || c.type == "transition") && c.target == "inset") errors.Add(n.id + ": dim/transition target must be artwork.");
@@ -185,14 +191,18 @@ namespace WilliamParadox.Story
         }
         public bool Restore(StorySaveData save)
         {
-            if (save == null || save.schemaVersion != StoryGraph.SchemaVersion || save.packageId != Graph.Package.packageId || save.contentVersion != Graph.Package.contentVersion || Graph.Node(save.nodeId) == null) return false;
-            var expected = Graph.ExpectedFlagsAt(save.nodeId);
+            if (save == null || save.schemaVersion != StoryGraph.SchemaVersion || save.packageId != Graph.Package.packageId || save.contentVersion != Graph.Package.contentVersion) return false;
+            string nodeId = save.nodeId;
+            if (Graph.Node(nodeId) == null)
+                nodeId = (Graph.Package.saveNodeAliases ?? Array.Empty<StorySaveNodeAlias>()).FirstOrDefault(a => a.oldId == nodeId)?.nodeId;
+            if (Graph.Node(nodeId) == null) return false;
+            var expected = Graph.ExpectedFlagsAt(nodeId);
             var supplied = new HashSet<string>(save.flags ?? Array.Empty<string>(), StringComparer.Ordinal);
             if (expected == null || !expected.SetEquals(supplied)) return false;
             if (!StoryGraph.Finite(save.artScale, save.dimAlpha, save.insetX, save.insetY, save.insetScale, save.creditsPosition, save.creditsHold) || save.artScale <= 0 || save.insetScale <= 0 || save.dimAlpha < 0 || save.dimAlpha > 1 || save.creditsHold < 0 || save.creditsParagraph < 0) return false;
             if (save.insetVisible && Graph.Asset(save.insetAssetId) == null) return false;
             flags.Clear(); flags.UnionWith(supplied);
-            Current = Graph.Node(save.nodeId);
+            Current = Graph.Node(nodeId);
             return CanEnter(Current);
         }
     }

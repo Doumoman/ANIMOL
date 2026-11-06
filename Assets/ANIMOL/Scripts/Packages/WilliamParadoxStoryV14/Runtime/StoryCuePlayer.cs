@@ -13,6 +13,7 @@ namespace WilliamParadox.Story
             public float elapsed, startValue;
             public Vector2 startPosition;
             public bool started;
+            public bool reducedMotion;
         }
         private readonly StoryView view;
         private readonly List<Job> jobs = new List<Job>();
@@ -23,7 +24,7 @@ namespace WilliamParadox.Story
         {
             FinishAll();
             foreach (var cue in cues ?? Array.Empty<StoryCue>())
-                if (cue != null && cue.type != "shake" && cue.type != "popup") jobs.Add(new Job { cue = cue });
+                if (cue != null && cue.type != "shake" && cue.type != "popup") jobs.Add(new Job { cue = cue, reducedMotion = reducedMotion });
             if (reducedMotion) FinishAll(); else Tick(0);
         }
         public void RestoreSettled(StoryCue[] cues, StorySaveData saved)
@@ -81,6 +82,7 @@ namespace WilliamParadox.Story
             float eased = t * t * (3 - 2 * t);
             switch (c.type)
             {
+                case "ranchCut": view.ranchStage?.Sample(c.eventId, eased, j.reducedMotion); break;
                 case "swapArt": if (t >= 1) view.SetArtwork(c.assetId); break;
                 case "dim": view.SetDim(Mathf.Lerp(j.startValue, c.amount, eased)); break;
                 case "zoom": if (target != null) target.localScale = Vector3.one * Mathf.Lerp(j.startValue, c.amount, eased); break;

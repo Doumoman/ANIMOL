@@ -1,0 +1,794 @@
+{
+  "schemaVersion": 1,
+  "scope": "별길 목장 R01~R17 제작 큐",
+  "sourceDoc": "https://docs.google.com/document/d/1fSE2hnjMi-oE08uvpZa1-DFBFXw608_VeJGHmdiy79M/edit?tab=t.9nifikdtkjyt",
+  "canvas": {
+    "width": 1080,
+    "height": 1920,
+    "orientation": "portrait",
+    "referenceAspect": "9:16"
+  },
+  "cueContract": {
+    "purpose": "기존 대사 실행기에 연결하는 연출 큐 참고 데이터",
+    "timingUnit": "seconds",
+    "separateDialogueCanvas": true,
+    "dialoguePanel": "투명 남색·청록/분홍 네온",
+    "runtimeText": true,
+    "chapterControls": "원안의 본편 대사·퍼즐·저장 규칙 유지",
+    "assets": "PNG에는 글자·대사·런타임 효과를 굽지 않으며 경로는 이 패키지 기준",
+    "reducedMotion": "팝업·시차·점멸은 정지 컷과 디졸브로 대체",
+    "inputDoesNotAdvanceErosion": true
+  },
+  "scenes": [
+    {
+      "id": "R01",
+      "title": "축제가 끝난 뒤",
+      "artPath": "art/R01.png",
+      "next": "R02",
+      "set": "open_hilltop",
+      "pov": "group",
+      "action": "별하늘이 열린 잔디 언덕, 둥근 찻상과 네 잔 앞의 편한 대화",
+      "events": [
+        {
+          "event": "enter",
+          "fx": "fade",
+          "seconds": 0.35
+        },
+        {
+          "event": "speaker",
+          "fx": "portrait_bounce",
+          "seconds": 0.2,
+          "speakerOnly": true,
+          "optional": true
+        },
+        {
+          "event": "final_line",
+          "sfx": "teacup_tail"
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "title": "손이 닿기 전에",
+      "artPath": "art/R02.png",
+      "next": "R03",
+      "set": "open_hilltop",
+      "pov": "objective",
+      "action": "손끝과 발밑의 깊이 어긋남 → 닿지 않는 손 → 세 친구의 공포와 당황",
+      "events": [
+        {
+          "event": "cup_set_down",
+          "sfx": "teacup_cutoff"
+        },
+        {
+          "event": "fingertip_fades",
+          "fx": "spatial_depth_shift",
+          "seconds": 0.7
+        },
+        {
+          "event": "contact_fails",
+          "sfx": "spatial_distance_drop"
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R03",
+      "title": "아직 안쪽에 있어",
+      "artPath": "art/R03.png",
+      "next": "R04",
+      "set": "open_hilltop",
+      "pov": "objective",
+      "action": "세 친구의 얼굴과 눈동자가 멀어지는 이솔을 향함, 잔디와 별길의 거리 확대",
+      "events": [
+        {
+          "event": "distance_stretches",
+          "sfx": "spatial_distance_drop"
+        },
+        {
+          "event": "isol_answers_farther",
+          "fx": "memory_match_cut",
+          "seconds": 0.25,
+          "waitForInput": true
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R04",
+      "title": "내 푸딩은 누가 먹었어",
+      "artPath": "art/R04.png",
+      "next": "R05",
+      "set": "family_kitchen",
+      "pov": "choa_memory",
+      "action": "초아가 빈 컵을 본 뒤 동생에게 시선, 동생은 컵·초아, 부모는 초아를 봄",
+      "events": [
+        {
+          "event": "empty_cup",
+          "sfx": "spoon_scrape"
+        },
+        {
+          "event": "parents_reply",
+          "audio": "music_duck"
+        },
+        {
+          "event": "choa_exits",
+          "fx": "direction_match_cut"
+        }
+      ]
+    },
+    {
+      "id": "R05",
+      "title": "또 나를 찾는 줄 알았어",
+      "artPath": "art/R05.png",
+      "next": "R06",
+      "set": "mound_night",
+      "pov": "choa_memory",
+      "action": "둔덕의 거리",
+      "events": [
+        {
+          "event": "enter",
+          "sfx": "night_wind"
+        },
+        {
+          "event": "isol_sits",
+          "waitForInput": true
+        }
+      ]
+    },
+    {
+      "id": "R06",
+      "title": "바보 둘이 앉아 있지",
+      "artPath": "art/R06.png",
+      "next": "R07",
+      "set": "mound_night",
+      "pov": "choa_memory",
+      "action": "나란히 앉아 웃음",
+      "events": [
+        {
+          "event": "noodle_anecdote",
+          "shot": "R06B",
+          "fx": "comic_insert",
+          "waitForInput": true
+        },
+        {
+          "event": "return_to_hill",
+          "shot": "R06"
+        },
+        {
+          "event": "laugh_tail",
+          "fx": "sound_match_cut",
+          "sfx": "spatial_distance_drop"
+        }
+      ]
+    },
+    {
+      "id": "R07",
+      "title": "대답이 끊기기 전에",
+      "artPath": "art/R07.png",
+      "next": "R08",
+      "set": "open_hilltop",
+      "pov": "isol_over_shoulder",
+      "action": "이솔 어깨 너머 겁먹은 세 친구, 특히 여울의 눈동자와 얼굴이 전경 이솔을 향함",
+      "events": [
+        {
+          "event": "enter",
+          "sfx": "spatial_distance_drop"
+        },
+        {
+          "event": "yeoul_follows_gesture",
+          "fx": "memory_match_cut",
+          "seconds": 0.25,
+          "waitForInput": true
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R08",
+      "title": "그날 내가 본 것",
+      "artPath": "art/R08.png",
+      "next": "R09",
+      "set": "village",
+      "pov": "yeoul_memory",
+      "action": "난장판 마을, 어린 여울 정면, 이솔이 가까운 전경을 왼쪽에서 오른쪽으로 질주",
+      "events": [
+        {
+          "event": "beam_breaks",
+          "sfx": "old_beam_snap"
+        },
+        {
+          "event": "isol_crosses_foreground",
+          "fx": "foreground_cross",
+          "direction": "left_to_right",
+          "seconds": 0.34
+        },
+        {
+          "event": "reverse",
+          "shot": "R08B",
+          "direction": "left_to_right",
+          "fx": "hard_cut"
+        },
+        {
+          "event": "isol_reaches_bell",
+          "sfx": "bell_single"
+        },
+        {
+          "event": "testimony_and_evidence",
+          "waitForInput": true
+        }
+      ]
+    },
+    {
+      "id": "R09",
+      "title": "마주하기 어려운 사람",
+      "artPath": "art/R09.png",
+      "next": "R10",
+      "set": "wind_tower",
+      "pov": "yeoul_memory",
+      "action": "발판과 간극, 뻗은 손",
+      "events": [
+        {
+          "event": "platform_fails",
+          "sfx": "wood_crack"
+        },
+        {
+          "event": "isol_reaches",
+          "sfx": "footstep_then_breath"
+        },
+        {
+          "event": "rescue",
+          "waitForInput": true
+        }
+      ]
+    },
+    {
+      "id": "R10",
+      "title": "내 편이 하나 더",
+      "artPath": "art/R10.png",
+      "next": "R11",
+      "set": "wind_tower",
+      "pov": "yeoul_memory",
+      "action": "안전 발판, 숨 고른 뒤 사과",
+      "events": [
+        {
+          "event": "both_safe",
+          "sfx": "breath_settles"
+        },
+        {
+          "event": "apology",
+          "waitForInput": true
+        },
+        {
+          "event": "hands_release",
+          "fx": "hand_match_cut"
+        }
+      ]
+    },
+    {
+      "id": "R11",
+      "title": "이번엔 내가 잡을게",
+      "artPath": "art/R11.png",
+      "next": "R12",
+      "set": "open_hilltop",
+      "pov": "objective",
+      "action": "여울이 갈라진 잔디 끝에서 이솔에게 손을 뻗지만 거리가 다시 늘어남",
+      "events": [
+        {
+          "event": "enter",
+          "sfx": "spatial_distance_drop"
+        },
+        {
+          "event": "yeoul_calls",
+          "waitForInput": true
+        },
+        {
+          "event": "tori_sees_isol_gesture",
+          "fx": "memory_match_cut",
+          "seconds": 0.25
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R12",
+      "title": "공터에서 둘이 달리던 날",
+      "artPath": "art/R12.png",
+      "next": "R13",
+      "set": "clearing_day",
+      "pov": "tori_memory",
+      "action": "수풀 눈빛 → 멧돼지 돌진을 이솔과 토리가 울타리 쪽에서 막음",
+      "events": [
+        {
+          "event": "rustle",
+          "sfx": "bush_rustle"
+        },
+        {
+          "event": "eyes_glint",
+          "fx": "localized_glint",
+          "seconds": 0.12
+        },
+        {
+          "event": "reactions",
+          "fx": "face_bubble_popup",
+          "actors": [
+            "이솔",
+            "토리"
+          ],
+          "separateCanvas": true
+        },
+        {
+          "event": "tori_spots_boar",
+          "speaker": "토리",
+          "text": "수풀 안에 뭐가 있어.",
+          "waitForInput": true
+        },
+        {
+          "event": "isol_calls_tori",
+          "speaker": "이솔",
+          "text": "멧돼지야. 토리, 울타리 쪽으로 돌아!",
+          "waitForInput": true
+        },
+        {
+          "event": "capture",
+          "shot": "R12B",
+          "fx": "darken_background",
+          "seconds": 0.16,
+          "keepDialogueReadable": true
+        },
+        {
+          "event": "safe_clearing_meal_and_tag",
+          "shot": "R12",
+          "fx": "fade_back",
+          "seconds": 0.35,
+          "waitForInput": true
+        }
+      ],
+      "visibleCast": [
+        "이솔",
+        "토리",
+        "멧돼지"
+      ]
+    },
+    {
+      "id": "R13",
+      "title": "사냥꾼의 한 그릇",
+      "artPath": "art/R13.png",
+      "next": "R14",
+      "set": "clearing_day",
+      "pov": "tori_memory",
+      "action": "붉은 귀 표식과 빈 솥을 본 사냥꾼의 격한 꾸중; 두 소년은 시선을 낮추고 사과",
+      "events": [
+        {
+          "event": "hunter_recognizes_tag",
+          "speaker": "사냥꾼",
+          "text": "이 붉은 귀 표식이 안 보였어? 내가 기르던 놈이야!",
+          "waitForInput": true
+        },
+        {
+          "event": "hunter_reprimands",
+          "speaker": "사냥꾼",
+          "text": "위험해서 막았다 쳐. 주인도 안 찾아보고 멋대로 먹어 치워?!",
+          "waitForInput": true
+        },
+        {
+          "event": "apology",
+          "speaker": "이솔",
+          "text": "죄송합니다. 주인부터 찾았어야 했어요.",
+          "waitForInput": true
+        },
+        {
+          "event": "tori_offers_repair",
+          "speaker": "토리",
+          "text": "…망가뜨린 우리도 고치겠습니다.",
+          "waitForInput": true
+        },
+        {
+          "event": "hunter_orders_dawn_repair",
+          "speaker": "사냥꾼",
+          "text": "내일 해 뜨자마자 와서 울타리부터 고쳐!",
+          "waitForInput": true
+        },
+        {
+          "event": "next_day",
+          "shot": "R13B",
+          "fx": "fade",
+          "seconds": 0.35
+        },
+        {
+          "event": "repair_checks_latch",
+          "speaker": "이솔",
+          "text": "마지막 못까지 박았어. 빗장 걸어 봐.",
+          "waitForInput": true
+        },
+        {
+          "event": "latch_seats",
+          "sfx": "latch_seat"
+        },
+        {
+          "event": "repair_banter_1",
+          "speaker": "토리",
+          "text": "이제 웬만한 고함에도 안 흔들리겠네.",
+          "waitForInput": true
+        },
+        {
+          "event": "repair_banter_2",
+          "speaker": "이솔",
+          "text": "어제 네 무릎보단 튼튼하겠다.",
+          "waitForInput": true
+        },
+        {
+          "event": "repair_banter_3",
+          "speaker": "토리",
+          "text": "…네 것도 꽤 흔들렸거든.",
+          "waitForInput": true
+        },
+        {
+          "event": "laugh_tail",
+          "fx": "sound_match_cut",
+          "sfx": "spatial_distance_drop"
+        }
+      ],
+      "visibleCast": [
+        "이솔",
+        "토리",
+        "사냥꾼"
+      ]
+    },
+    {
+      "id": "R14",
+      "title": "이번엔 놓치지 마",
+      "artPath": "art/R14.png",
+      "next": "R15",
+      "set": "open_hilltop",
+      "pov": "isol_side_low",
+      "action": "토리가 따라가려 내딛어도 잔디와 별길의 길이가 늘어남, 세 친구가 겁먹고 함께 호명",
+      "events": [
+        {
+          "event": "enter",
+          "sfx": "spatial_distance_drop"
+        },
+        {
+          "event": "tori_signals",
+          "waitForInput": true
+        },
+        {
+          "event": "three_friends_brace",
+          "fx": "hard_cut"
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R15",
+      "title": "여기 있다고",
+      "artPath": "art/R15.png",
+      "next": "R16",
+      "set": "eroded_hilltop_depth",
+      "pov": "isol_first_person",
+      "action": "이솔 1인칭 손 너머 길게 늘어난 별길, 공포와 당황 속에 멀어지는 세 친구",
+      "events": [
+        {
+          "event": "enter",
+          "fx": "constellation_depth",
+          "seconds": 2.3,
+          "depthOrder": [
+            "isol_hand",
+            "near_star_paths",
+            "friends",
+            "far_stars"
+          ],
+          "fallback": "still_depth_dissolve"
+        },
+        {
+          "event": "distance_increases",
+          "audio": "friends_voice_recede"
+        },
+        {
+          "event": "memory_echoes",
+          "referenceScenes": [
+            "R06",
+            "R10",
+            "R13"
+          ],
+          "overlayOnly": true
+        },
+        {
+          "event": "current_calls_return",
+          "audio": "friends_call_distinct",
+          "saveFlag": "CURRENT_CALLS_DONE",
+          "waitForInput": true
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol_camera",
+      "layeredPreview": {
+        "background": "layers/R15_BG.png",
+        "friends": "layers/R15_Friends.png",
+        "handSource": "layers/R15_IsolHand.png",
+        "note": "가까운 이솔 손은 유지하고 세 친구만 축소·이동"
+      }
+    },
+    {
+      "id": "R16",
+      "title": "꺼내 줘",
+      "artPath": "art/R16.png",
+      "next": "R17",
+      "set": "open_hilltop",
+      "pov": "isol_to_objective",
+      "action": "요청과 등불 차폐 뒤 이공간의 거리가 줄고 처음 실제로 닿는 손",
+      "events": [
+        {
+          "event": "enter_distance",
+          "shot": "R15",
+          "keepDistance": true
+        },
+        {
+          "event": "isol_asks_to_return",
+          "saveFlag": "ISOL_WANTS_RETURN",
+          "waitForInput": true
+        },
+        {
+          "event": "block_lamp",
+          "input": "explicit_lamp_action",
+          "saveFlag": "PLAYER_BLOCKS_LAMP",
+          "requiredFlags": [
+            "CURRENT_CALLS_DONE",
+            "ISOL_WANTS_RETURN"
+          ]
+        },
+        {
+          "event": "distance_returns_and_grasp",
+          "shot": "R16",
+          "requiredFlags": [
+            "PLAYER_BLOCKS_LAMP"
+          ],
+          "fx": "spatial_depth_return",
+          "seconds": 0.42,
+          "sfx": "breath_close",
+          "saveFlag": "RETURN_PATH_USED"
+        }
+      ],
+      "emotion": "frightened_and_confused",
+      "gazeTarget": "isol"
+    },
+    {
+      "id": "R17",
+      "title": "놓지 마",
+      "artPath": "art/R17.png",
+      "next": null,
+      "set": "open_hilltop",
+      "pov": "objective",
+      "action": "열린 별하늘 아래 같은 잔디 공터에 주저앉은 네 친구, 귀환 응답 뒤 기록책",
+      "events": [
+        {
+          "event": "isol_present",
+          "saveFlag": "ISOL_PRESENT",
+          "waitForInput": true
+        },
+        {
+          "event": "hands_hold",
+          "waitForInput": true
+        },
+        {
+          "event": "epilogue",
+          "shot": "R17B",
+          "fx": "slow_fade",
+          "seconds": 1
+        },
+        {
+          "event": "chronicle_finished",
+          "saveFlag": "RANCH_RULE_EPILOGUE_SEEN"
+        },
+        {
+          "event": "continue",
+          "input": "explicit_continue",
+          "saveFlag": "CHAPTER_R_COMPLETE"
+        }
+      ]
+    }
+  ],
+  "inserts": [
+    {
+      "id": "R06B",
+      "parent": "R06",
+      "artPath": "art/R06B.png",
+      "name": "칼국수집 일화",
+      "type": "comic_memory_insert",
+      "action": "마지막 그릇을 가져간 아이와 빈손인 이솔",
+      "returnTo": "R06"
+    },
+    {
+      "id": "R08B",
+      "parent": "R08",
+      "artPath": "art/R08B.png",
+      "name": "여울 뒤에서 본 마을 길",
+      "type": "reverse_shot",
+      "action": "뒤집힌 수레·무너진 차양·흩어진 물건을 유지, 여울 뒤에서 같은 방향으로 종을 향해 멀어지는 이솔",
+      "screenDirection": "left_to_right",
+      "returnTo": "R08"
+    },
+    {
+      "id": "R12B",
+      "parent": "R12",
+      "artPath": "art/R12B.png",
+      "name": "멧돼지 제압 암전",
+      "type": "dark_action_insert",
+      "action": "이솔과 토리의 대사와 세 지점의 충격으로 멧돼지의 제압을 간접 전달",
+      "keepDialogueReadable": true,
+      "cues": [
+        {
+          "position01": [
+            0.26,
+            0.49
+          ],
+          "speaker": "이솔",
+          "text": "토리, 왼쪽 막아!",
+          "sfx": "impact_low",
+          "event": "line_1"
+        },
+        {
+          "position01": [
+            0.72,
+            0.61
+          ],
+          "speaker": "토리",
+          "text": "막았어! 지금이야!",
+          "sfx": "impact_scrape",
+          "event": "line_2"
+        },
+        {
+          "position01": [
+            0.57,
+            0.32
+          ],
+          "speaker": "이솔",
+          "text": "같이 밀어!",
+          "sfx": "latch_and_impact",
+          "event": "line_3"
+        }
+      ],
+      "returnTo": "R12",
+      "afterImpact": {
+        "speaker": "토리",
+        "text": "멈췄어…… 이솔, 다친 데 없어?"
+      },
+      "visibleCast": [
+        "이솔",
+        "토리",
+        "멧돼지"
+      ]
+    },
+    {
+      "id": "R13B",
+      "parent": "R13",
+      "artPath": "art/R13B.png",
+      "name": "다음날 울타리 수리",
+      "type": "next_day_insert",
+      "action": "이솔과 토리만 우리를 수리한다. 마지막 못과 빗장을 확인한 후 상대의 긴장을 짧게 놀린다.",
+      "returnTo": "R13",
+      "visibleCast": [
+        "이솔",
+        "토리"
+      ],
+      "dialogue": [
+        {
+          "event": "repair_checks_latch",
+          "speaker": "이솔",
+          "text": "마지막 못까지 박았어. 빗장 걸어 봐.",
+          "waitForInput": true
+        },
+        {
+          "event": "repair_banter_1",
+          "speaker": "토리",
+          "text": "이제 웬만한 고함에도 안 흔들리겠네.",
+          "waitForInput": true
+        },
+        {
+          "event": "repair_banter_2",
+          "speaker": "이솔",
+          "text": "어제 네 무릎보단 튼튼하겠다.",
+          "waitForInput": true
+        },
+        {
+          "event": "repair_banter_3",
+          "speaker": "토리",
+          "text": "…네 것도 꽤 흔들렸거든.",
+          "waitForInput": true
+        }
+      ]
+    },
+    {
+      "id": "R17B",
+      "parent": "R17",
+      "artPath": "art/R17B.png",
+      "name": "글자 없는 펼친 역사책",
+      "type": "epilogue_background",
+      "action": "책 원화와 카메라 고정, 밝은 별도 UI의 역사문만 상향",
+      "hideDialogue": true,
+      "textLayer": "R_UI_CHRONICLE_ROLL",
+      "textMask": "R_UI_CHRONICLE_MASK",
+      "scrollPxPerSecond": 36,
+      "finalHoldSeconds": 3,
+      "continueRequiresInput": true,
+      "records": [
+        "아스테르인은 오래 밤하늘을 바라보거나 별빛 아래 머무르면 침식된다는 것을 알았다. 그래서 하늘을 보는 일을 금기로 삼았다.",
+        "누군가는 별의 벌이라 했고, 누군가는 자연의 빛이라 했다. 그러나 그 밤 이솔은 같은 공터에 있으면서도 점점 다른 공간으로 멀어졌고, 네 친구는 침식의 끝을 처음 눈으로 보았다.",
+        "곁에서 돌아오기를 간절히 바라는 세 사람이 있으면, 멀어진 영혼도 그 세 마음을 따라 돌아올 수 있었다.",
+        "그 밤 초아와 여울, 토리는 이솔 곁을 떠나지 않았다. 금기를 넘었던 세 타락천사는 친구를 되찾았다.",
+        "네 명이 한 조를 이루면, 한 사람이 침식되어 멀어져도 남은 세 사람이 그 귀환을 바랄 수 있었다. 서로를 지킬 규칙은 그렇게 발견되었다.",
+        "별이 스스로 선택한 일인지 끝내 알 수 없었다. 다만 그 밤, 남은 세 사람은 친구의 이름을 놓지 않았다."
+      ]
+    }
+  ],
+  "lore": [
+    {
+      "id": "LORE_CLOCK",
+      "name": "멈춘 분침",
+      "visualMark": "종이 가장자리 기계기름",
+      "showIndex": false,
+      "mainQuestGate": false,
+      "fragments": [
+        "장을 끝낸 딸이 아버지와의 저녁 약속을 또 놓친 날, 나는 시계가 한 번쯤 기다리는 사람 편을 들어 주기를 바랐다.",
+        "그 뒤로 늦는 사람이 있으면 내가 고친 시계의 분침이 약속 시간에서 멈췄다.",
+        "그다음 저녁, 딸은 늦게 도착했는데도 멈춘 분침 아래에서 아버지와 함께 밥을 먹었다.",
+        "돌아오지 않은 아들을 기다리는 집에서는, 사흘째 시계가 저녁 종을 울리지 않았다.",
+        "오늘은 내 시계가 잊어버린 약속 시간에 멈췄고, 아직 기다리는 사람이 누구였는지 떠오르지 않는다."
+      ]
+    },
+    {
+      "id": "LORE_ROOM",
+      "name": "남은 방",
+      "visualMark": "종이 모서리 열쇠 모양",
+      "showIndex": false,
+      "mainQuestGate": false,
+      "fragments": [
+        "아무도 이름을 기억하지 못한 손님이 떠난 날, 나는 우리 여관에 묵고 간 사람을 한 명도 잊지 않기로 했다.",
+        "봄에 떠난 손님의 이름을 장부에 다시 쓰자, 빈 방의 베개에 그날의 머리 자국이 생겼다.",
+        "떠난 가족의 이름을 써 달라던 사람들은 닫힌 문 너머의 숨소리를 듣고 한참 자리를 뜨지 않았다.",
+        "오늘은 손님이 한 명도 들지 않았는데, 장부의 이름에 내어 준 방을 빼고 나니 빈 방이 없었다.",
+        "여관을 닫고 떠나려던 아침, 처음 보는 글씨가 내 이름 옆에 ‘아직 묵는 중’이라고 적어 두었다."
+      ]
+    }
+  ],
+  "artVersion": "0.25",
+  "visualDirection": {
+    "rendering": "clean_solid_color_cel",
+    "surfaceTexture": "none",
+    "primaryFinishReference": "animol_starway_choa_illustration(2).png",
+    "currentSet": {
+      "id": "open_hilltop",
+      "sky": "unobstructed_stars",
+      "ground": "open_grass",
+      "landmarks": [
+        "low_round_tea_table",
+        "four_cups",
+        "teapot",
+        "small_lantern_ground_left",
+        "distant_village_only"
+      ],
+      "enclosingStructure": false
+    },
+    "erosion": "spatial_distance_and_star_path",
+    "dangerEmotion": "frightened_and_confused",
+    "dangerScenes": [
+      "R02",
+      "R03",
+      "R07",
+      "R11",
+      "R14",
+      "R15",
+      "R16"
+    ],
+    "referenceEyelines": {
+      "R03": "all_friends_to_isol_center_right",
+      "R04": "choa_cup_then_siblings;family_to_choa",
+      "R07": "all_friends_to_isol_foreground;yeoul_head_and_pupils_aligned"
+    }
+  }
+}

@@ -52,10 +52,17 @@ namespace WilliamParadox.Story
         {
             skipPresentationTick = true;
             inputReadyAt = Time.unscaledTime + 0.15f;
+            if (CurrentNode != null && view != null && view.ranchStage != null)
+                view.ranchStage.Present(CurrentNode, reducedMotion, true);
         }
         private void OnDisable()
         {
             if (audioFeedback != null) audioFeedback.StopFeedback();
+            if (view != null && view.ranchStage != null)
+            {
+                cuePlayer?.FinishAll();
+                view.ranchStage.Clear();
+            }
             SaveCheckpoint();
         }
         private void Start() { StartStory(restoreOnStart); }
@@ -203,6 +210,7 @@ namespace WilliamParadox.Story
         public void SetReducedMotion(bool value)
         {
             reducedMotion = value;
+            if (view != null && view.ranchStage != null) view.ranchStage.SetReducedMotion(value);
             if (cuePlayer != null && value) cuePlayer.FinishAll();
             if (presentationPlayer != null && value) presentationPlayer.FinishAll();
             if (creditsPlayer != null) creditsPlayer.SetReducedMotion(value);
@@ -235,9 +243,14 @@ namespace WilliamParadox.Story
                 if (book != null) { creditsPlayer.Begin(book.credits, reducedMotion, saved); creditsPlayer.Stop(true); }
             }
             var cues = StoryPresentationIndex.FilterLegacyCues(node.cues, presentationPlayer.HasPresentation);
+            if (view.ranchStage != null)
+            {
+                presentationPlayer.Present(node, reducedMotion, saved != null);
+                view.ranchStage.Present(node, reducedMotion, saved != null);
+            }
             if (saved == null) cuePlayer.Begin(cues, reducedMotion);
             else cuePlayer.RestoreSettled(cues, saved);
-            presentationPlayer.Present(node, reducedMotion, saved != null);
+            if (view.ranchStage == null) presentationPlayer.Present(node, reducedMotion, saved != null);
             if (audioFeedback != null) audioFeedback.PlayNode(node.id, saved != null);
             SaveCheckpoint(); // In R17 the return cue is committed before the credits node is reachable.
             onNodeChanged.Invoke(node.id);

@@ -15,6 +15,20 @@ namespace WilliamParadox.Story.Tests.PlayMode
     public sealed class RanchStoryPreviewPlayTests
     {
         private const string ScenePath = "Assets/WilliamParadoxStoryV14/Scenes/RanchStoryPreview.unity";
+        private string priorSave;
+        private bool hadSave;
+        private const string PackageId = "william-paradox.ranch.dialogue-preview";
+        [SetUp] public void PreservePlayerCheckpoint()
+        {
+            hadSave = PlayerPrefs.HasKey(StorySaveStore.Key(PackageId));
+            priorSave = PlayerPrefs.GetString(StorySaveStore.Key(PackageId));
+        }
+        [TearDown] public void RestorePlayerCheckpoint()
+        {
+            foreach (var runner in UnityEngine.Object.FindObjectsByType<StoryRunner>(FindObjectsInactive.Include, FindObjectsSortMode.None)) runner.persistProgress = false;
+            if (hadSave) PlayerPrefs.SetString(StorySaveStore.Key(PackageId), priorSave); else PlayerPrefs.DeleteKey(StorySaveStore.Key(PackageId));
+            PlayerPrefs.Save();
+        }
 
         [UnityTest]
         public IEnumerator PreviewButtonsPreserveRescueOrderAndBookResume()
@@ -41,6 +55,7 @@ namespace WilliamParadox.Story.Tests.PlayMode
             Assert.That(runner.view.artImage.GetComponent<StoryCoverImage>(), Is.Not.Null);
 
             // One click settles a running cue; it cannot also consume the line.
+            yield return new WaitForSecondsRealtime(0.18f); // Respect the existing focus/entry input debounce.
             runner.view.advanceButton.onClick.Invoke();
             Assert.That(runner.CurrentNodeId, Is.EqualTo("R01_B1_L001"));
             yield return new WaitForSecondsRealtime(0.18f);
@@ -72,10 +87,11 @@ namespace WilliamParadox.Story.Tests.PlayMode
                 Focus(runner, true);
                 Assert.That(runner.IsPaused, Is.False, runner.CurrentNodeId);
                 var node = runner.CurrentNode;
-                if (node.id == "R04_B1_L001") sawWorkyard = node.artId == "BG14_workyard_day";
-                if (node.id == "R04_B2_L001") sawPudding = node.artId == "BG14_home_pudding";
+                // No separated workyard/full-pudding source is supplied in the new package.
+                if (node.id == "R04_B1_L001") sawWorkyard = node.artId == "R04";
+                if (node.id == "R04_B2_L001") sawPudding = node.artId == "R04";
                 if (node.id == "R04_B3_L001") sawEmptyCup = node.artId == "R04";
-                if (node.id == "R06_B2_L007") sawNoodle = runner.view.CurrentInsetId == "noodle_01";
+                if (node.id == "R06_B2_L007") sawNoodle = node.artId == "R06B" && runner.view.CurrentInsetId == null;
                 if (node.id == "R16_B3_WISH_CONFIRMED")
                     Assert.That(runner.HasFlag("ISOL_WANTS_RETURN"), Is.True);
                 if (node.id == "R16_B3_BLOCK_LAMP")
@@ -176,6 +192,8 @@ namespace WilliamParadox.Story.Tests.PlayMode
 
         private static void Focus(StoryRunner runner, bool value)
         {
+            // A real focus callback occurs on a change, not before every test click.
+            if ((bool)typeof(StoryRunner).GetField("hasFocus", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(runner) == value) return;
             typeof(StoryRunner).GetMethod("OnApplicationFocus", BindingFlags.Instance | BindingFlags.NonPublic)
                 .Invoke(runner, new object[] { value });
         }

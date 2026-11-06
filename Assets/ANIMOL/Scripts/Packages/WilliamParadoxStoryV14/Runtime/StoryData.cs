@@ -12,7 +12,11 @@ namespace WilliamParadox.Story
         public string startNodeId;
         public StoryAsset[] assets;
         public StoryNode[] nodes;
+        public StorySaveNodeAlias[] saveNodeAliases;
     }
+
+    // Presentation revisions may retire dialogue nodes without invalidating a player's checkpoint.
+    [Serializable] public sealed class StorySaveNodeAlias { public string oldId, nodeId; }
 
     [Serializable]
     public sealed class StoryAsset
@@ -58,6 +62,7 @@ namespace WilliamParadox.Story
         public string target;
         public float duration, delay, amount;
         public string assetId;
+        public string eventId;
         public float x, y;
         public float scale = 1f;
     }

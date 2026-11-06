@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace WilliamParadox.Story
 {
+    [Serializable] public sealed class StorySpriteBinding { public string id; public Sprite sprite; }
     public sealed class StoryView : MonoBehaviour
     {
         public RectTransform artworkRoot;
@@ -25,6 +26,8 @@ namespace WilliamParadox.Story
         public TMP_Text creditsText;
         public Toggle reducedMotionToggle;
         public bool showPreviewStatus = true;
+        public RanchStoryStage ranchStage;
+        public StorySpriteBinding[] spriteBindings;
 
         private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
         private readonly List<Sprite> ownedSprites = new List<Sprite>();
@@ -40,6 +43,8 @@ namespace WilliamParadox.Story
         {
             foreach (var sprite in ownedSprites) if (sprite != null) Destroy(sprite);
             ownedSprites.Clear(); sprites.Clear();
+            foreach (var binding in spriteBindings ?? Array.Empty<StorySpriteBinding>())
+                if (binding != null && !string.IsNullOrEmpty(binding.id) && binding.sprite != null) sprites[binding.id] = binding.sprite;
             graph = value;
             if (insetRoot != null && !insetHomeCaptured) { insetHome = insetRoot.anchoredPosition; insetHomeCaptured = true; }
             if (artImage != null) artImage.raycastTarget = false;
@@ -161,7 +166,7 @@ namespace WilliamParadox.Story
         {
             if (advanceButton != null) advanceButton.interactable = !paused;
             if (gateButton != null) gateButton.interactable = !paused;
-            if (creditsContinueButton != null) creditsContinueButton.interactable = !paused;
+            if (creditsContinueButton != null) creditsContinueButton.interactable = !paused && creditsContinueButton.gameObject.activeSelf;
             if (pauseButtonLabel != null) pauseButtonLabel.text = paused ? "재개" : "일시정지";
             if (statusText != null) statusText.text = showPreviewStatus && paused ? "일시정지 · 화면 밖에서도 시간이 흐르지 않습니다." : normalStatus;
             RefreshStatusVisibility();
@@ -195,6 +200,14 @@ namespace WilliamParadox.Story
                 bodyText.ForceMeshUpdate();
                 dialoguePage = Mathf.Clamp(s.dialoguePage, 1, Mathf.Max(1, bodyText.textInfo.pageCount));
                 bodyText.pageToDisplay = dialoguePage;
+            }
+            // Old ranch saves can contain a sliced comic inset, dim or zoom from the previous art.
+            // Keep the dialogue page; rebuild the new composition from its authored node instead.
+            if (ranchStage != null)
+            {
+                if (artworkRoot != null) { artworkRoot.localScale = Vector3.one; artworkRoot.anchoredPosition = Vector2.zero; }
+                if (artworkGroup != null) artworkGroup.alpha = 1;
+                SetDim(0); SetInsetVisible(false); return;
             }
             if (artworkRoot != null) { artworkRoot.localScale = Vector3.one * s.artScale; artworkRoot.anchoredPosition = Vector2.zero; }
             if (artworkGroup != null) artworkGroup.alpha = 1;
