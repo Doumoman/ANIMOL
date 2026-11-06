@@ -1,6 +1,6 @@
 {
   "chapter": "별길 목장",
-  "version": "0.25",
+  "version": "0.27",
   "canvas": [
     1080,
     1920
@@ -119,12 +119,28 @@
       "sha256": "ba5d371a39caf836b440f800f6a1607fc6f861ef18f88d96cce0726e28af56fb"
     },
     {
+      "path": "art/R12A.png",
+      "width": 941,
+      "height": 1672,
+      "transparent": false,
+      "frame": "cover",
+      "sha256": "a78f937e4e4645dbdf5546b5e1cc05a203b1fd650e58e62d91443b11adc58b16"
+    },
+    {
       "path": "art/R12B.png",
       "width": 941,
       "height": 1672,
       "transparent": false,
       "frame": "cover",
       "sha256": "613e881577cef0c183925155cacc31ee665f0dba1dedcd22c73c63d2e574248b"
+    },
+    {
+      "path": "art/R12C.png",
+      "width": 941,
+      "height": 1672,
+      "transparent": false,
+      "frame": "cover",
+      "sha256": "2720ff57b2ab4994baf1cf82ab8826467fb2148ce2cb991fbd5aeddce57c5650"
     },
     {
       "path": "art/R13.png",
@@ -172,7 +188,7 @@
       "height": 1672,
       "transparent": false,
       "frame": "cover",
-      "sha256": "67ed1d48ef565e52e0cbeee5913dea2312f75177b53f5c8e85c833a8806ed3a7"
+      "sha256": "38fa8acdc108f6a8b4206342d7b57460d6db2f522cc034a65526a11f36bfd4b2"
     },
     {
       "path": "art/R17B.png",
@@ -197,6 +213,14 @@
       "transparent": true,
       "frame": "sprite",
       "sha256": "f44ba520faa5666e3d47f6b774b4114746bfc7c18a4a75f03a808e7ea8d4c620"
+    },
+    {
+      "path": "layers/R12_BoarRush.png",
+      "width": 1254,
+      "height": 1254,
+      "transparent": true,
+      "frame": "sprite",
+      "sha256": "f55f392396991200816a0991833a4a1902c73c7792f9047ebe0599f5f435afe8"
     },
     {
       "path": "layers/R12_IsolReaction.png",
@@ -232,10 +256,10 @@
     },
     {
       "path": "layers/R15_IsolHand.png",
-      "transparent": true,
-      "frame": "sprite",
       "width": 1024,
       "height": 1536,
+      "transparent": true,
+      "frame": "sprite",
       "sha256": "7155f30b4cd3f9547159b0c57bdcfbbe06bab30bae4091153299df6b0ac25ac9"
     }
   ],
@@ -271,6 +295,30 @@
       "sourceAttachment": "animol_starway_yeoul_illustration(1).png",
       "role": "yeoul_identity",
       "sha256": "f32872d51b9e88b7e424fe92efbe626917d0718100666f25b444268d66e9e576"
+    },
+    {
+      "character": null,
+      "path": "references/StoryUI_Reference.png",
+      "sourceAttachment": "image(20261106-143017).png",
+      "role": "thin_neon_story_ui",
+      "sha256": "27c644a19dd8912a990aba32fe17d93384740c399ecd7de72c78086e24f4c7bd"
     }
-  ]
+  ],
+  "changes": {
+    "artUnchanged": 32,
+    "ui": [
+      "미리보기.html",
+      "preview.css",
+      "preview.js",
+      "Unity/StoryDialogueView.cs",
+      "Unity/Editor/CreateStoryDialoguePrefab.cs"
+    ],
+    "fonts": [
+      "fonts/Galmuri14.ttf",
+      "fonts/Galmuri14.woff2"
+    ]
+  },
+  "artVersion": "0.26",
+  "uiVersion": "0.27",
+  "fontSource": "fonts/SOURCE.json"
 }

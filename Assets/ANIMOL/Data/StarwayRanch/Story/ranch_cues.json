@@ -12,12 +12,16 @@
     "purpose": "기존 대사 실행기에 연결하는 연출 큐 참고 데이터",
     "timingUnit": "seconds",
     "separateDialogueCanvas": true,
-    "dialoguePanel": "투명 남색·청록/분홍 네온",
+    "dialoguePanel": "얇은 #ECEEE7 네온 테두리·#0D152B 73% 투명 바탕·균일한 작은 둥근 모서리",
     "runtimeText": true,
-    "chapterControls": "원안의 본편 대사·퍼즐·저장 규칙 유지",
+    "chapterControls": "임시 대사 JSON 순서 사용; 퍼즐·저장과 명시적 입력은 기존 프로젝트 컨트롤러에 연결",
     "assets": "PNG에는 글자·대사·런타임 효과를 굽지 않으며 경로는 이 패키지 기준",
     "reducedMotion": "팝업·시차·점멸은 정지 컷과 디졸브로 대체",
-    "inputDoesNotAdvanceErosion": true
+    "inputDoesNotAdvanceErosion": true,
+    "effectsNeverAutoAdvanceDialogue": true,
+    "fontFamily": "Galmuri14",
+    "skip": "current_scene_until_required_action",
+    "sceneBadgeVisible": false
   },
   "scenes": [
     {
@@ -45,6 +49,29 @@
           "event": "final_line",
           "sfx": "teacup_tail"
         }
+      ],
+      "dialogueLineIds": [
+        "R01_001",
+        "R01_002",
+        "R01_003",
+        "R01_004",
+        "R01_005",
+        "R01_006",
+        "R01_007",
+        "R01_008",
+        "R01_009",
+        "R01_010",
+        "R01_011",
+        "R01_012",
+        "R01_013",
+        "R01_014",
+        "R01_015",
+        "R01_016",
+        "R01_017",
+        "R01_018",
+        "R01_019",
+        "R01_020",
+        "R01_021"
       ]
     },
     {
@@ -71,7 +98,16 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R02_001",
+        "R02_002",
+        "R02_003",
+        "R02_004",
+        "R02_005",
+        "R02_006",
+        "R02_007"
+      ]
     },
     {
       "id": "R03",
@@ -94,7 +130,16 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R03_001",
+        "R03_002",
+        "R03_003",
+        "R03_004",
+        "R03_005",
+        "R03_006",
+        "R03_007"
+      ]
     },
     {
       "id": "R04",
@@ -117,6 +162,20 @@
           "event": "choa_exits",
           "fx": "direction_match_cut"
         }
+      ],
+      "dialogueLineIds": [
+        "R04_001",
+        "R04_002",
+        "R04_003",
+        "R04_004",
+        "R04_005",
+        "R04_006",
+        "R04_007",
+        "R04_008",
+        "R04_009",
+        "R04_010",
+        "R04_011",
+        "R04_012"
       ]
     },
     {
@@ -136,6 +195,18 @@
           "event": "isol_sits",
           "waitForInput": true
         }
+      ],
+      "dialogueLineIds": [
+        "R05_001",
+        "R05_002",
+        "R05_003",
+        "R05_004",
+        "R05_005",
+        "R05_006",
+        "R05_007",
+        "R05_008",
+        "R05_009",
+        "R05_010"
       ]
     },
     {
@@ -162,6 +233,30 @@
           "fx": "sound_match_cut",
           "sfx": "spatial_distance_drop"
         }
+      ],
+      "dialogueLineIds": [
+        "R06_001",
+        "R06_002",
+        "R06_003",
+        "R06_004",
+        "R06_005",
+        "R06_006",
+        "R06_007",
+        "R06_008",
+        "R06_009",
+        "R06_010",
+        "R06_011",
+        "R06_012",
+        "R06_013",
+        "R06_014",
+        "R06_015",
+        "R06_016",
+        "R06_017",
+        "R06_018",
+        "R06_019",
+        "R06_020",
+        "R06_021",
+        "R06_022"
       ]
     },
     {
@@ -185,7 +280,14 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R07_001",
+        "R07_002",
+        "R07_003",
+        "R07_004",
+        "R07_005"
+      ]
     },
     {
       "id": "R08",
@@ -220,6 +322,22 @@
           "event": "testimony_and_evidence",
           "waitForInput": true
         }
+      ],
+      "dialogueLineIds": [
+        "R08_001",
+        "R08_002",
+        "R08_003",
+        "R08_004",
+        "R08_005",
+        "R08_006",
+        "R08_007",
+        "R08_008",
+        "R08_009",
+        "R08_010",
+        "R08_011",
+        "R08_012",
+        "R08_013",
+        "R08_014"
       ]
     },
     {
@@ -243,6 +361,16 @@
           "event": "rescue",
           "waitForInput": true
         }
+      ],
+      "dialogueLineIds": [
+        "R09_001",
+        "R09_002",
+        "R09_003",
+        "R09_004",
+        "R09_005",
+        "R09_006",
+        "R09_007",
+        "R09_008"
       ]
     },
     {
@@ -266,6 +394,22 @@
           "event": "hands_release",
           "fx": "hand_match_cut"
         }
+      ],
+      "dialogueLineIds": [
+        "R10_001",
+        "R10_002",
+        "R10_003",
+        "R10_004",
+        "R10_005",
+        "R10_006",
+        "R10_007",
+        "R10_008",
+        "R10_009",
+        "R10_010",
+        "R10_011",
+        "R10_012",
+        "R10_013",
+        "R10_014"
       ]
     },
     {
@@ -292,59 +436,70 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R11_001",
+        "R11_002",
+        "R11_003",
+        "R11_004",
+        "R11_005"
+      ]
     },
     {
       "id": "R12",
       "title": "공터에서 둘이 달리던 날",
-      "artPath": "art/R12.png",
+      "artPath": "art/R12A.png",
       "next": "R13",
       "set": "clearing_day",
       "pov": "tori_memory",
-      "action": "수풀 눈빛 → 멧돼지 돌진을 이솔과 토리가 울타리 쪽에서 막음",
+      "action": "R12A 수풀 전조 → R12 눈빛·얼굴 팝업 → 돌진 → R12B 세 지점 타격 → R12C 숨 고르기",
       "events": [
         {
           "event": "rustle",
-          "sfx": "bush_rustle"
+          "lineId": "R12_001",
+          "shot": "R12A",
+          "waitForInput": true
         },
         {
           "event": "eyes_glint",
-          "fx": "localized_glint",
-          "seconds": 0.12
-        },
-        {
-          "event": "reactions",
-          "fx": "face_bubble_popup",
-          "actors": [
-            "이솔",
-            "토리"
-          ],
-          "separateCanvas": true
-        },
-        {
-          "event": "tori_spots_boar",
-          "speaker": "토리",
-          "text": "수풀 안에 뭐가 있어.",
+          "lineId": "R12_002",
+          "shot": "R12A",
           "waitForInput": true
         },
         {
-          "event": "isol_calls_tori",
-          "speaker": "이솔",
-          "text": "멧돼지야. 토리, 울타리 쪽으로 돌아!",
-          "waitForInput": true
-        },
-        {
-          "event": "capture",
-          "shot": "R12B",
-          "fx": "darken_background",
-          "seconds": 0.16,
-          "keepDialogueReadable": true
-        },
-        {
-          "event": "safe_clearing_meal_and_tag",
+          "event": "boar_reveal",
+          "lineId": "R12_003",
           "shot": "R12",
-          "fx": "fade_back",
-          "seconds": 0.35,
+          "waitForInput": true
+        },
+        {
+          "event": "boar_charge",
+          "lineId": "R12_005",
+          "shot": "R12B",
+          "waitForInput": true
+        },
+        {
+          "event": "impact_left",
+          "lineId": "R12_006",
+          "shot": "R12B",
+          "waitForInput": true
+        },
+        {
+          "event": "impact_right",
+          "lineId": "R12_008",
+          "shot": "R12B",
+          "waitForInput": true
+        },
+        {
+          "event": "impact_final",
+          "lineId": "R12_010",
+          "shot": "R12B",
+          "waitForInput": true
+        },
+        {
+          "event": "boar_settle",
+          "lineId": "R12_011",
+          "shot": "R12C",
           "waitForInput": true
         }
       ],
@@ -352,7 +507,24 @@
         "이솔",
         "토리",
         "멧돼지"
-      ]
+      ],
+      "dialogueLineIds": [
+        "R12_001",
+        "R12_002",
+        "R12_003",
+        "R12_004",
+        "R12_005",
+        "R12_006",
+        "R12_007",
+        "R12_008",
+        "R12_009",
+        "R12_010",
+        "R12_011",
+        "R12_012",
+        "R12_013",
+        "R12_014"
+      ],
+      "rushLayer": "layers/R12_BoarRush.png"
     },
     {
       "id": "R13",
@@ -364,79 +536,82 @@
       "action": "붉은 귀 표식과 빈 솥을 본 사냥꾼의 격한 꾸중; 두 소년은 시선을 낮추고 사과",
       "events": [
         {
-          "event": "hunter_recognizes_tag",
-          "speaker": "사냥꾼",
-          "text": "이 붉은 귀 표식이 안 보였어? 내가 기르던 놈이야!",
+          "event": "line",
+          "lineId": "R13_001",
+          "shot": "R13",
           "waitForInput": true
         },
         {
-          "event": "hunter_reprimands",
-          "speaker": "사냥꾼",
-          "text": "위험해서 막았다 쳐. 주인도 안 찾아보고 멋대로 먹어 치워?!",
+          "event": "line",
+          "lineId": "R13_002",
+          "shot": "R13",
           "waitForInput": true
         },
         {
-          "event": "apology",
-          "speaker": "이솔",
-          "text": "죄송합니다. 주인부터 찾았어야 했어요.",
+          "event": "line",
+          "lineId": "R13_003",
+          "shot": "R13",
           "waitForInput": true
         },
         {
-          "event": "tori_offers_repair",
-          "speaker": "토리",
-          "text": "…망가뜨린 우리도 고치겠습니다.",
+          "event": "line",
+          "lineId": "R13_004",
+          "shot": "R13",
           "waitForInput": true
         },
         {
-          "event": "hunter_orders_dawn_repair",
-          "speaker": "사냥꾼",
-          "text": "내일 해 뜨자마자 와서 울타리부터 고쳐!",
+          "event": "line",
+          "lineId": "R13_005",
+          "shot": "R13",
           "waitForInput": true
         },
         {
-          "event": "next_day",
+          "event": "line",
+          "lineId": "R13_006",
+          "shot": "R13",
+          "waitForInput": true
+        },
+        {
+          "event": "line",
+          "lineId": "R13_007",
           "shot": "R13B",
-          "fx": "fade",
-          "seconds": 0.35
-        },
-        {
-          "event": "repair_checks_latch",
-          "speaker": "이솔",
-          "text": "마지막 못까지 박았어. 빗장 걸어 봐.",
           "waitForInput": true
         },
         {
-          "event": "latch_seats",
-          "sfx": "latch_seat"
-        },
-        {
-          "event": "repair_banter_1",
-          "speaker": "토리",
-          "text": "이제 웬만한 고함에도 안 흔들리겠네.",
+          "event": "line",
+          "lineId": "R13_008",
+          "shot": "R13B",
           "waitForInput": true
         },
         {
-          "event": "repair_banter_2",
-          "speaker": "이솔",
-          "text": "어제 네 무릎보단 튼튼하겠다.",
+          "event": "line",
+          "lineId": "R13_009",
+          "shot": "R13B",
           "waitForInput": true
         },
         {
-          "event": "repair_banter_3",
-          "speaker": "토리",
-          "text": "…네 것도 꽤 흔들렸거든.",
+          "event": "line",
+          "lineId": "R13_010",
+          "shot": "R13B",
           "waitForInput": true
-        },
-        {
-          "event": "laugh_tail",
-          "fx": "sound_match_cut",
-          "sfx": "spatial_distance_drop"
         }
       ],
       "visibleCast": [
         "이솔",
         "토리",
         "사냥꾼"
+      ],
+      "dialogueLineIds": [
+        "R13_001",
+        "R13_002",
+        "R13_003",
+        "R13_004",
+        "R13_005",
+        "R13_006",
+        "R13_007",
+        "R13_008",
+        "R13_009",
+        "R13_010"
       ]
     },
     {
@@ -462,7 +637,15 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R14_001",
+        "R14_002",
+        "R14_003",
+        "R14_004",
+        "R14_005",
+        "R14_006"
+      ]
     },
     {
       "id": "R15",
@@ -512,7 +695,17 @@
         "friends": "layers/R15_Friends.png",
         "handSource": "layers/R15_IsolHand.png",
         "note": "가까운 이솔 손은 유지하고 세 친구만 축소·이동"
-      }
+      },
+      "dialogueLineIds": [
+        "R15_001",
+        "R15_002",
+        "R15_003",
+        "R15_004",
+        "R15_005",
+        "R15_006",
+        "R15_007",
+        "R15_008"
+      ]
     },
     {
       "id": "R16",
@@ -555,7 +748,17 @@
         }
       ],
       "emotion": "frightened_and_confused",
-      "gazeTarget": "isol"
+      "gazeTarget": "isol",
+      "dialogueLineIds": [
+        "R16_001",
+        "R16_002",
+        "R16_003",
+        "R16_004",
+        "R16_005",
+        "R16_006",
+        "R16_007",
+        "R16_008"
+      ]
     },
     {
       "id": "R17",
@@ -590,7 +793,28 @@
           "input": "explicit_continue",
           "saveFlag": "CHAPTER_R_COMPLETE"
         }
-      ]
+      ],
+      "dialogueLineIds": [
+        "R17_001",
+        "R17_002",
+        "R17_003",
+        "R17_004",
+        "R17_005",
+        "R17_006",
+        "R17_007",
+        "R17_008",
+        "R17_009",
+        "R17_010",
+        "R17_011",
+        "R17_012",
+        "R17_013"
+      ],
+      "emotionByActor": {
+        "초아": "tearful_relief",
+        "여울": "tearful_relief",
+        "이솔": "exhausted_relief",
+        "토리": "relieved_no_tears"
+      }
     }
   ],
   "inserts": [
@@ -621,48 +845,13 @@
       "type": "dark_action_insert",
       "action": "이솔과 토리의 대사와 세 지점의 충격으로 멧돼지의 제압을 간접 전달",
       "keepDialogueReadable": true,
-      "cues": [
-        {
-          "position01": [
-            0.26,
-            0.49
-          ],
-          "speaker": "이솔",
-          "text": "토리, 왼쪽 막아!",
-          "sfx": "impact_low",
-          "event": "line_1"
-        },
-        {
-          "position01": [
-            0.72,
-            0.61
-          ],
-          "speaker": "토리",
-          "text": "막았어! 지금이야!",
-          "sfx": "impact_scrape",
-          "event": "line_2"
-        },
-        {
-          "position01": [
-            0.57,
-            0.32
-          ],
-          "speaker": "이솔",
-          "text": "같이 밀어!",
-          "sfx": "latch_and_impact",
-          "event": "line_3"
-        }
-      ],
-      "returnTo": "R12",
-      "afterImpact": {
-        "speaker": "토리",
-        "text": "멈췄어…… 이솔, 다친 데 없어?"
-      },
+      "returnTo": "R12C",
       "visibleCast": [
         "이솔",
         "토리",
         "멧돼지"
-      ]
+      ],
+      "dialogueFrom": "data/ranch_dialogue.json#R12"
     },
     {
       "id": "R13B",
@@ -671,37 +860,12 @@
       "name": "다음날 울타리 수리",
       "type": "next_day_insert",
       "action": "이솔과 토리만 우리를 수리한다. 마지막 못과 빗장을 확인한 후 상대의 긴장을 짧게 놀린다.",
-      "returnTo": "R13",
+      "returnTo": "R14",
       "visibleCast": [
         "이솔",
         "토리"
       ],
-      "dialogue": [
-        {
-          "event": "repair_checks_latch",
-          "speaker": "이솔",
-          "text": "마지막 못까지 박았어. 빗장 걸어 봐.",
-          "waitForInput": true
-        },
-        {
-          "event": "repair_banter_1",
-          "speaker": "토리",
-          "text": "이제 웬만한 고함에도 안 흔들리겠네.",
-          "waitForInput": true
-        },
-        {
-          "event": "repair_banter_2",
-          "speaker": "이솔",
-          "text": "어제 네 무릎보단 튼튼하겠다.",
-          "waitForInput": true
-        },
-        {
-          "event": "repair_banter_3",
-          "speaker": "토리",
-          "text": "…네 것도 꽤 흔들렸거든.",
-          "waitForInput": true
-        }
-      ]
+      "dialogueFrom": "data/ranch_dialogue.json#R13"
     },
     {
       "id": "R17B",
@@ -710,20 +874,52 @@
       "name": "글자 없는 펼친 역사책",
       "type": "epilogue_background",
       "action": "책 원화와 카메라 고정, 밝은 별도 UI의 역사문만 상향",
-      "hideDialogue": true,
+      "hideDialogue": false,
       "textLayer": "R_UI_CHRONICLE_ROLL",
       "textMask": "R_UI_CHRONICLE_MASK",
       "scrollPxPerSecond": 36,
       "finalHoldSeconds": 3,
       "continueRequiresInput": true,
       "records": [
-        "아스테르인은 오래 밤하늘을 바라보거나 별빛 아래 머무르면 침식된다는 것을 알았다. 그래서 하늘을 보는 일을 금기로 삼았다.",
-        "누군가는 별의 벌이라 했고, 누군가는 자연의 빛이라 했다. 그러나 그 밤 이솔은 같은 공터에 있으면서도 점점 다른 공간으로 멀어졌고, 네 친구는 침식의 끝을 처음 눈으로 보았다.",
-        "곁에서 돌아오기를 간절히 바라는 세 사람이 있으면, 멀어진 영혼도 그 세 마음을 따라 돌아올 수 있었다.",
-        "그 밤 초아와 여울, 토리는 이솔 곁을 떠나지 않았다. 금기를 넘었던 세 타락천사는 친구를 되찾았다.",
-        "네 명이 한 조를 이루면, 한 사람이 침식되어 멀어져도 남은 세 사람이 그 귀환을 바랄 수 있었다. 서로를 지킬 규칙은 그렇게 발견되었다.",
-        "별이 스스로 선택한 일인지 끝내 알 수 없었다. 다만 그 밤, 남은 세 사람은 친구의 이름을 놓지 않았다."
-      ]
+        "아스테르인들은 오래 별을 바라보거나\n별빛 아래 머문 이가 침식되는 것을 알았다.\n그 까닭은 알지 못했다.",
+        "그날 네 친구가 있던 공터는 하나였으나,\n이솔에게 닿는 길만 끝없이 멀어졌다.\n그는 친구들과 함께 있기를 바랐다.",
+        "초아와 여울과 토리는 그를 불렀다.\n돌아오기를 바라는 세 마음이\n멀어진 한 사람에게 닿았다.",
+        "후대의 어떤 기록은 세 친구를\n타락한 천사라 불렀다.\n금기를 넘은 이들이 한 사람을 구했으므로.",
+        "이후 네 명이 한 조를 이루었다.\n한 사람이 침식되면 남은 세 사람이\n그의 귀환을 진심으로 바라도록.",
+        "별의 적의인지, 마음에 응한 현상인지는\n끝내 밝혀지지 않았다.\n다만 그날, 네 친구는 함께 돌아왔다."
+      ],
+      "previewMode": "input_paged_record",
+      "productionMode": "optional_text_roll"
+    },
+    {
+      "id": "R12A",
+      "parent": "R12",
+      "artPath": "art/R12A.png",
+      "name": "수풀 속 기척",
+      "type": "anticipation",
+      "eyes01": [
+        [
+          0.70271,
+          0.33914
+        ],
+        [
+          0.7634,
+          0.33364
+        ]
+      ],
+      "returnTo": "R12"
+    },
+    {
+      "id": "R12C",
+      "parent": "R12",
+      "artPath": "art/R12C.png",
+      "name": "숨 고르기",
+      "type": "aftermath",
+      "visibleCast": [
+        "이솔",
+        "토리"
+      ],
+      "returnTo": "R13"
     }
   ],
   "lore": [
@@ -756,7 +952,7 @@
       ]
     }
   ],
-  "artVersion": "0.25",
+  "artVersion": "0.26",
   "visualDirection": {
     "rendering": "clean_solid_color_cel",
     "surfaceTexture": "none",
@@ -789,6 +985,10 @@
       "R03": "all_friends_to_isol_center_right",
       "R04": "choa_cup_then_siblings;family_to_choa",
       "R07": "all_friends_to_isol_foreground;yeoul_head_and_pupils_aligned"
-    }
-  }
+    },
+    "reunionTori": "dry_eyes_small_relieved_smile"
+  },
+  "dialogueSource": "data/ranch_dialogue.json",
+  "dialogueStatus": "draft",
+  "uiVersion": "0.27"
 }

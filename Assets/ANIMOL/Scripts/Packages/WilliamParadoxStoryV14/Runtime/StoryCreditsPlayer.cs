@@ -15,6 +15,7 @@ namespace WilliamParadox.Story
         private int paragraph;
         public bool Active { get; private set; }
         public bool CanContinue { get { return Active && reachedEnd && hold >= LastParagraphHoldSeconds; } }
+        public int Paragraph => paragraph;
         public StoryCreditsPlayer(StoryView storyView) { view = storyView; }
 
         public void Begin(string[] text, bool reducedMotion, StorySaveData saved = null)
@@ -81,6 +82,12 @@ namespace WilliamParadox.Story
             }
             else localPaused = !localPaused;
             Present();
+        }
+        public void SkipToLastParagraph()
+        {
+            if (!Active) return;
+            paragraph = Mathf.Max(0, paragraphs.Length - 1); reduced = true; reachedEnd = true;
+            localPaused = false; hold = 0; Layout(true); Present();
         }
         public void SetReducedMotion(bool value)
         {

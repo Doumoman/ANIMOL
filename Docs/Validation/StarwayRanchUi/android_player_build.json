@@ -1,0 +1,110 @@
+{
+  "status": "completed",
+  "buildId": "build_d2340672f8cd",
+  "result": "Failed",
+  "platform": "Android",
+  "outputPath": "C:/Users/user/Documents/GitHub/ANIMOL/.utmp/ranch-art-v027/ANIMOL-story-ui.apk",
+  "totalSizeBytes": 0,
+  "buildTimeMs": 3005,
+  "buildStartedAt": "2026-11-06T08:53:46.9409536Z",
+  "buildEndedAt": "2026-11-06T08:53:49.9469267Z",
+  "totalWarnings": 1,
+  "totalErrors": 10,
+  "buildSteps": [
+    {
+      "name": "Build player",
+      "durationMs": 3005,
+      "depth": 0,
+      "messages": [
+        {
+          "type": "Error",
+          "content": "Error building Player: 9 errors"
+        }
+      ]
+    },
+    {
+      "name": "Preprocess Player",
+      "durationMs": 2928,
+      "depth": 1,
+      "messages": [
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Latest theater decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\\manifest.json\"."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Latest sanctum decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_SUNSET_SANCTUM_CONNECTED_DECOR_V01\\manifest.json\"."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Latest ranch decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02\\manifest.json\"."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Latest ranch decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01\\manifest.json\"."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Latest coast decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01\\manifest.json\"."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Echo Theater V03 latest catalog failed: Wrong/missing latest source root or manifest."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Starway Ranch V12 latest catalog failed: Wrong/missing latest source root or manifest."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Sunset Sanctum V02 latest catalog failed: Wrong/missing latest source root or manifest."
+        },
+        {
+          "type": "Error",
+          "content": "BuildFailedException: Star Swell Coast V01 latest catalog failed: Wrong/missing latest source root or manifest."
+        },
+        {
+          "type": "Warning",
+          "content": "Pipeline: No RuntimePipelineConfig asset found (Project Settings > Pipeline > Runtime). Pipeline will be disabled in Player builds."
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "message": "Error building Player: 9 errors"
+    },
+    {
+      "message": "BuildFailedException: Latest theater decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_ECHO_THEATER_CONNECTED_DECOR_V01\\manifest.json\"."
+    },
+    {
+      "message": "BuildFailedException: Latest sanctum decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_SUNSET_SANCTUM_CONNECTED_DECOR_V01\\manifest.json\"."
+    },
+    {
+      "message": "BuildFailedException: Latest ranch decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V02\\manifest.json\"."
+    },
+    {
+      "message": "BuildFailedException: Latest ranch decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STARWAY_RANCH_CONNECTED_DECOR_V01\\manifest.json\"."
+    },
+    {
+      "message": "BuildFailedException: Latest coast decoration catalog failed: Could not find a part of the path \"C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Art\\ANIMOL_STAR_SWELL_COAST_CONNECTED_DECOR_V01\\manifest.json\"."
+    },
+    {
+      "message": "BuildFailedException: Echo Theater V03 latest catalog failed: Wrong/missing latest source root or manifest."
+    },
+    {
+      "message": "BuildFailedException: Starway Ranch V12 latest catalog failed: Wrong/missing latest source root or manifest."
+    },
+    {
+      "message": "BuildFailedException: Sunset Sanctum V02 latest catalog failed: Wrong/missing latest source root or manifest."
+    },
+    {
+      "message": "BuildFailedException: Star Swell Coast V01 latest catalog failed: Wrong/missing latest source root or manifest."
+    }
+  ],
+  "warnings": [
+    {
+      "message": "Pipeline: No RuntimePipelineConfig asset found (Project Settings > Pipeline > Runtime). Pipeline will be disabled in Player builds."
+    }
+  ]
+}

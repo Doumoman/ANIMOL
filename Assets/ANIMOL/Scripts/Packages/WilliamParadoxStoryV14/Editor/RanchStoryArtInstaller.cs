@@ -71,7 +71,7 @@ namespace WilliamParadox.Story.Editor
                 EditorSceneManager.CloseScene(scene, true);
                 if (previous.IsValid()) UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
             }
-            return "Imported 29 verified PNGs; updated existing ranch prefab and preview scene. Notebook scene untouched.";
+            return "Imported " + bindings.bindings.Length + " verified PNGs; updated existing ranch prefab and preview scene. Notebook scene untouched.";
         }
 
         private static void Configure(GameObject root)
@@ -79,13 +79,19 @@ namespace WilliamParadox.Story.Editor
             var view = root.GetComponent<StoryView>();
             var runner = root.GetComponent<StoryRunner>();
             if (view == null || runner == null) throw new InvalidDataException("Existing story entry is incomplete.");
+            // Reapplying may replace the nested dialogue prefab. Use the retained host
+            // labels for legacy setup/lore cloning until the new UI is rebound below.
+            var canvas = root.GetComponentInChildren<Canvas>(true);
+            var legacyDialogue = canvas.transform.Find("SafeArea/DialogueRoot");
+            view.dialogueGroup = legacyDialogue.GetComponent<CanvasGroup>();
+            view.bodyText = legacyDialogue.Find("Dialogue").GetComponent<TMP_Text>();
+            view.speakerText = legacyDialogue.Find("Speaker").GetComponent<TMP_Text>();
             // Keep every imported story PNG in the existing build-scene GUID dependency chain.
             var bindings = JsonUtility.FromJson<Bindings>(File.ReadAllText(DataRoot + "/ArtBindings.json"));
             view.spriteBindings = bindings.bindings.Select(b => new StorySpriteBinding { id = b.assetId, sprite = Sprite(b.assetId) })
                 .Concat(new[] { new StorySpriteBinding { id = "BG14_epilogue_book", sprite = Sprite("R17B") } }).ToArray();
             foreach (var old in root.GetComponentsInChildren<RanchStoryStage>(true)) UnityEngine.Object.DestroyImmediate(old.gameObject);
             foreach (var old in root.GetComponentsInChildren<RanchOptionalLore>(true)) UnityEngine.Object.DestroyImmediate(old.gameObject);
-            var canvas = root.GetComponentInChildren<Canvas>(true);
             canvas.GetComponent<CanvasScaler>().referenceResolution = new Vector2(1080, 1920);
             var stageRoot = Rect("Ranch Cut Driver", view.artworkRoot);
             var stage = stageRoot.gameObject.AddComponent<RanchStoryStage>(); view.ranchStage = stage; stage.view = view;
@@ -107,6 +113,13 @@ namespace WilliamParadox.Story.Editor
             stage.distanceBackground = Sprite("R15_BG"); stage.frontPlate = Sprite("R08_FrontPlate");
             stage.reverseShot = Sprite("R08B"); stage.runSprite = Sprite("R08_IsolRun");
             var worldFx = Rect("World FX", stageRoot);
+            stage.boarRush = Picture("Boar Foreground Rush", worldFx, Sprite("R12_BoarRush"));
+            Place(stage.boarRush.rectTransform, new Vector2(0.5f, 0.53f), new Vector2(1080, 1620));
+            stage.leftEye = Picture("Left Local Eye Glint", worldFx);
+            stage.rightEye = Picture("Right Local Eye Glint", worldFx);
+            Place(stage.leftEye.rectTransform, new Vector2(0.704f, 0.662f), new Vector2(16, 8));
+            Place(stage.rightEye.rectTransform, new Vector2(0.761f, 0.668f), new Vector2(16, 8));
+            stage.leftEye.color = stage.rightEye.color = new Color(1, 0.93f, 0.60f, 0.75f);
             stage.isolReaction = Picture("Isol Reaction", worldFx, Sprite("R12_IsolReaction"));
             stage.toriReaction = Picture("Tori Reaction", worldFx, Sprite("R12_ToriReaction"));
             Place(stage.isolReaction.rectTransform, new Vector2(0.27f, 0.61f), new Vector2(320, 320));
@@ -132,12 +145,13 @@ namespace WilliamParadox.Story.Editor
             // Lower the panel slightly to leave the foreground hand and faces clear at 9:16.
             var dialogueRect = (RectTransform)dialogue; dialogueRect.offsetMin = new Vector2(24, 118); dialogueRect.offsetMax = new Vector2(-24, 480);
             BuildLore(root, runner, view);
+            if (File.Exists(DataRoot + "/ranch_dialogue.json")) RanchStoryUiInstaller.Configure(root);
             EditorUtility.SetDirty(view); EditorUtility.SetDirty(runner);
         }
 
         private static void BuildLore(GameObject root, StoryRunner runner, StoryView view)
         {
-            var safe = view.dialogueGroup.transform.parent;
+            var safe = root.GetComponentInChildren<Canvas>(true).transform.Find("SafeArea");
             var rect = Rect("Optional Environment Reading", safe);
             var reader = rect.gameObject.AddComponent<RanchOptionalLore>(); reader.runner = runner;
             reader.catalog = AssetDatabase.LoadAssetAtPath<TextAsset>(DataRoot + "/ranch_cues.json");

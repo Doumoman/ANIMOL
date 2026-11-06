@@ -49,6 +49,7 @@ namespace WilliamParadox.Story
         public string id, sceneId, beatId;
         public string kind;
         public string speaker, text, artId, nextId;
+        public string dialogueId;
         public StoryCue[] cues;
         public string[] setFlags, requiredFlags;
         public string gateId, gateLabel;

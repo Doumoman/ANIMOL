@@ -53,6 +53,7 @@ namespace WilliamParadox.Story
             foreach (var job in jobs) { if (!job.started) Start(job); Apply(job, 1); }
             jobs.Clear();
         }
+        public void CancelAll() { jobs.Clear(); }
         private RectTransform Target(StoryCue c) { return c.target == "inset" ? view.insetRoot : view.artworkRoot; }
         private void Start(Job j)
         {

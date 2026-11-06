@@ -16,14 +16,13 @@ namespace WilliamParadox.Story.Tests
             Assert.That(StoryGraph.TryCreate(JsonUtility.FromJson<StoryPackage>(text.text), out var graph, out var errors), Is.True, string.Join("\n", errors));
             return graph;
         }
-        [Test] public void OpeningTwentyOneUtterancesAreUnchanged()
+        [Test] public void OpeningTwentyOneUtterancesMatchTemporaryDialogue()
         {
-            var opening = Graph().Package.nodes.Where(n => n.sceneId == "R01").ToArray();
+            var text = System.IO.File.ReadAllText("Assets/ANIMOL/Data/StarwayRanch/Story/ranch_dialogue.json");
+            var data = JsonUtility.FromJson<Animol.Starway.StoryDialogueData>(text);
+            var opening = Graph().Package.nodes.Where(n => n.sceneId == "R01" && n.kind == "line").ToArray();
             Assert.That(opening.Length, Is.EqualTo(21));
-            string text = string.Join("\n", opening.Select(n => n.id + "\0" + n.speaker + "\0" + n.text));
-            using (var hash = SHA256.Create())
-                Assert.That(BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(text))).Replace("-", "").ToLowerInvariant(),
-                    Is.EqualTo("6e17c0b02e7d8189c1be0f0f3880c04449f036324f3a818198d39e73b72818f7"));
+            CollectionAssert.AreEqual(data.scenes[0].lines.Select(l => l.speaker + "\0" + l.text), opening.Select(n => n.speaker + "\0" + n.text));
         }
         [Test] public void ReprimandPrecedesRepairAndLatchPrecedesEveryJoke()
         {
@@ -32,9 +31,9 @@ namespace WilliamParadox.Story.Tests
             {
                 var n = session.Current;
                 if (new[] { "R12", "R12B", "R13", "R13B" }.Contains(n.sceneId) && n.kind == "line")
-                    Assert.That(new[] { "이솔", "토리", "사냥꾼" }.Contains(n.speaker), Is.True, n.id);
-                if (n.text == "내일 해 뜨자마자 와서 울타리부터 고쳐!") reprimand = true;
-                if (n.sceneId == "R13B") Assert.That(reprimand, Is.True);
+                    Assert.That(new[] { "이솔", "토리", "사냥꾼" }.Contains(n.speaker) || n.dialogueId == "R13_001" && n.speaker == "기록", Is.True, n.id);
+                if (n.dialogueId == "R13_006") reprimand = true;
+                if (n.artId == "R13B") Assert.That(reprimand, Is.True);
                 if (n.id == "R13B_LATCH_SEATED") latch = true;
                 if (n.text != null && n.text.Contains("고함에도")) Assert.That(latch, Is.True);
                 if (n.kind == "gate") session.ActivateGate(); else if (n.kind == "credits") session.ContinueCredits(); else session.Acknowledge();
@@ -44,16 +43,19 @@ namespace WilliamParadox.Story.Tests
         [Test] public void EveryRetiredCheckpointRestoresWithoutInventingAFlag()
         {
             var graph = Graph();
-            foreach (var alias in graph.Package.saveNodeAliases)
+            var fixture = JsonUtility.FromJson<CheckpointFixture>(System.IO.File.ReadAllText("Docs/Validation/StarwayRanchUi/checkpoint_compatibility.json"));
+            foreach (var alias in fixture.cases)
             {
                 var session = new StorySession(graph);
-                var saved = new StorySaveData { packageId = graph.Package.packageId, contentVersion = graph.Package.contentVersion, nodeId = alias.oldId, flags = Array.Empty<string>() };
+                var saved = new StorySaveData { packageId = graph.Package.packageId, contentVersion = graph.Package.contentVersion, nodeId = alias.oldId, flags = alias.flags };
                 Assert.That(session.Restore(saved), Is.True, alias.oldId);
-                Assert.That(session.Current.id, Is.EqualTo(alias.nodeId)); Assert.That(session.Flags, Is.Empty);
-                saved.flags = new[] { "PLAYER_BLOCKS_LAMP" };
+                Assert.That(session.Current.id, Is.EqualTo(alias.nodeId)); CollectionAssert.AreEquivalent(session.Flags, alias.flags);
+                saved.flags = alias.flags.Concat(new[] { "UNKNOWN_INJECTED" }).ToArray();
                 Assert.That(new StorySession(graph).Restore(saved), Is.False);
             }
         }
+        [Serializable] private sealed class CheckpointFixture { public CheckpointCase[] cases; }
+        [Serializable] private sealed class CheckpointCase { public string oldId, nodeId; public string[] flags; }
         [Test] public void FullRoutePreservesExplicitLampAndSeparateChronicleCompletion()
         {
             var graph = Graph(); var session = new StorySession(graph);

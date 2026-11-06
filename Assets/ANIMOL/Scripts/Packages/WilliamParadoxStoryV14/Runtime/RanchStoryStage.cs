@@ -20,6 +20,11 @@ namespace WilliamParadox.Story
                 case "distance_returns_and_grasp": return 0.42f;
                 case "isol_crosses_foreground": return 1;
                 case "reactions": return 0.3f;
+                case "foreground_cross": return 0.35f;
+                case "runner_reverse": return 0.65f;
+                case "rustle": case "eyes_glint": return 0.12f;
+                case "boar_charge": return 0.35f;
+                case "boar_settle": return 0.2f;
                 case "impact_left": case "impact_right": case "impact_center": return 0.1f;
                 case "latch_seats": return 0.2f;
                 default: return -1;
@@ -32,6 +37,7 @@ namespace WilliamParadox.Story
         public StoryView view;
         public RectTransform composition;
         public Image background, friends, hand, runnerImage, isolReaction, toriReaction, impact;
+        public Image boarRush, leftEye, rightEye;
         public RanchConstellationOverlay farStars, nearStars;
         public Sprite distanceBackground, frontPlate, reverseShot, runSprite;
         public AudioSource soundSource;
@@ -67,7 +73,6 @@ namespace WilliamParadox.Story
                 // Reading subsequent lines does not increase distance. Only the entry shot animates it.
                 SetDistance(node.id == "R15_B1_L001" && !restoring && !reducedMotion ? 0 : 1, 0);
             }
-            if (node.id == "R08_B4_HOLD") Sample("isol_crosses_foreground", restoring || reducedMotion ? 1 : 0, reducedMotion);
         }
 
         public void Sample(string eventId, float progress, bool reducedMotion)
@@ -76,11 +81,35 @@ namespace WilliamParadox.Story
             bool reduced = reducedMotion || ReducedMotion;
             switch (eventId)
             {
+                case "foreground_cross":
+                    composition.gameObject.SetActive(t < 1 && !reduced);
+                    view.artImage.enabled = t >= 1 || reduced;
+                    background.enabled = true; background.sprite = frontPlate;
+                    runnerImage.enabled = t < 1 && !reduced;
+                    runnerImage.sprite = runSprite; runnerImage.color = new Color(0.12f, 0.10f, 0.22f, 1);
+                    runnerImage.rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(-1000, 1000, t), -60);
+                    if (t >= 1 || reduced) view.SetArtwork("R08_FrontPlate");
+                    break;
+                case "runner_reverse": break; // Baked distant Isol: an honest static reverse shot.
+                case "rustle": break; // No separated shrub/recorded rustle in this package.
+                case "eyes_glint":
+                    if (leftEye != null) leftEye.enabled = t < 1 && !reduced;
+                    if (rightEye != null) rightEye.enabled = t < 1 && !reduced;
+                    break;
+                case "boar_charge":
+                    if (boarRush != null)
+                    {
+                        boarRush.enabled = t < 1 && !reduced;
+                        boarRush.transform.localScale = Vector3.one * Mathf.Lerp(0.75f, 1.45f, t);
+                    }
+                    view.SetDim(t >= 1 || reduced ? 0 : Mathf.Clamp01((t - 0.7f) / 0.3f) * 0.9f);
+                    break;
+                case "boar_settle": break; // Shot change is driven by the dialogue line, not a timer.
                 case "distance_increases":
                 case "enter_distance": SetDistance(reduced ? 1 : t, 0); break;
                 case "distance_returns_and_grasp":
                     if (distanceActive) SetDistance(1, reduced ? 1 : t);
-                    if (t >= 1 || reduced) Clear();
+                    if (t >= 1 || reduced) { Clear(); SetDialogueTop(true); }
                     break;
                 case "isol_crosses_foreground":
                     // R08B contains a painted distant Isol. Do not add a second moving Isol to it.
@@ -144,8 +173,11 @@ namespace WilliamParadox.Story
             if (value)
             {
                 if (distanceActive) SetDistance(1, returning ? 1 : 0);
-                if (returning) Clear();
+                if (returning) { Clear(); SetDialogueTop(true); }
                 isolReaction.enabled = toriReaction.enabled = impact.enabled = false;
+                if (boarRush != null) boarRush.enabled = false;
+                if (leftEye != null) leftEye.enabled = false;
+                if (rightEye != null) rightEye.enabled = false;
             }
         }
 
@@ -154,10 +186,11 @@ namespace WilliamParadox.Story
             farStars?.ClearCue(); nearStars?.ClearCue();
             distanceActive = false;
             if (composition != null) composition.gameObject.SetActive(false);
-            foreach (var image in new[] { background, friends, hand, runnerImage, isolReaction, toriReaction, impact })
+            foreach (var image in new[] { background, friends, hand, runnerImage, isolReaction, toriReaction, impact, boarRush, leftEye, rightEye })
                 if (image != null) image.enabled = false;
             if (view != null && view.artImage != null) view.artImage.enabled = true;
             if (soundSource != null) soundSource.Stop();
+            if (view != null) view.SetDim(0);
             SetDialogueTop(false);
         }
         private void SetDialogueTop(bool top)
@@ -166,6 +199,16 @@ namespace WilliamParadox.Story
             var rect = (RectTransform)view.dialogueGroup.transform;
             rect.anchorMin = new Vector2(0, top ? 1 : 0); rect.anchorMax = new Vector2(1, top ? 1 : 0);
             rect.pivot = new Vector2(0.5f, top ? 1 : 0);
+            if (view.dialogueBridge != null)
+            {
+                rect.offsetMin = new Vector2(44, top ? -464 : 54);
+                rect.offsetMax = new Vector2(-44, top ? -42 : 476);
+                var action = (RectTransform)view.dialogueBridge.dialogue.ActionButton.transform;
+                action.anchorMin = action.anchorMax = new Vector2(0.5f, top ? 1 : 0);
+                action.pivot = new Vector2(0.5f, top ? 1 : 0);
+                action.anchoredPosition = new Vector2(0, top ? -490 : 500);
+                return;
+            }
             rect.offsetMin = new Vector2(24, top ? -470 : 118);
             rect.offsetMax = new Vector2(-24, top ? -130 : 480);
         }

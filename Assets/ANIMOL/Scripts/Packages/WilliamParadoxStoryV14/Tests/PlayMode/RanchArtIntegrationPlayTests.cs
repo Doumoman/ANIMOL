@@ -17,7 +17,7 @@ namespace WilliamParadox.Story.Tests.PlayMode
 {
     public sealed class RanchArtIntegrationPlayTests
     {
-        private const string Output = "Docs/Validation/StarwayRanchArt";
+        private const string Output = "Docs/Validation/StarwayRanchUi";
         private StoryRunner runner;
         private string priorSave;
         private bool hadSave;
@@ -54,18 +54,18 @@ namespace WilliamParadox.Story.Tests.PlayMode
                 Assert.That(runner.JumpTo(node.id), Is.True, scene);
                 Assert.That(runner.view.artImage.sprite, Is.Not.Null, scene);
             }
-            Assert.That(runner.JumpTo("R08_B4_HOLD"), Is.True);
-            stage.Sample("isol_crosses_foreground", 0.15f, false);
+            Assert.That(runner.JumpTo("R08_B1_L001"), Is.True);
+            stage.Sample("foreground_cross", 0.15f, false);
             Assert.That(stage.runnerImage.enabled, Is.True);
             Assert.That(stage.runnerImage.color.a, Is.EqualTo(1));
-            stage.Sample("isol_crosses_foreground", 1, false);
+            stage.Sample("foreground_cross", 1, false);
             Assert.That(stage.runnerImage.enabled, Is.False);
-            Assert.That(runner.view.artImage.sprite.name, Is.EqualTo("R08B"));
+            Assert.That(runner.view.artImage.sprite.name, Is.EqualTo("R08_FrontPlate"));
             Assert.That(runner.JumpTo("R12_B1_L001"), Is.True);
             stage.Sample("reactions", 0.5f, false);
             Assert.That(stage.isolReaction.enabled && stage.toriReaction.enabled, Is.True);
-            Assert.That(runner.JumpTo("R13_B2_L003"), Is.True); // Repair, after all five scolding lines.
-            Assert.That(runner.CurrentNode.sceneId, Is.EqualTo("R13B"));
+            Assert.That(runner.JumpTo("R13_007"), Is.True); // Repair, after all five scolding lines.
+            Assert.That(runner.CurrentNode.artId, Is.EqualTo("R13B"));
             Settle(); yield return Capture("R13B");
 
             runner.SetReducedMotion(false); Assert.That(runner.JumpTo("R15_B1_L001"), Is.True);
@@ -118,8 +118,9 @@ namespace WilliamParadox.Story.Tests.PlayMode
         {
             ((StoryCuePlayer)typeof(StoryRunner).GetField("cuePlayer", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(runner)).FinishAll();
         }
-        private static IEnumerator Capture(string name)
+        private IEnumerator Capture(string name)
         {
+            runner.view.dialogueBridge.dialogue.SetReducedMotion(true);
             Canvas.ForceUpdateCanvases(); yield return null; yield return new WaitForEndOfFrame();
             var texture = ScreenCapture.CaptureScreenshotAsTexture();
             File.WriteAllBytes(Output + "/" + name + ".png", texture.EncodeToPNG()); UnityEngine.Object.Destroy(texture);
@@ -153,6 +154,18 @@ namespace WilliamParadox.Story.Tests.PlayMode
                 Assert.That(outside, Is.Zero, stencil ? "Mask" : "RectMask2D");
                 overlay.SetCue(1, 1, Vector2.one, 1, false); Canvas.ForceUpdateCanvases(); camera.Render();
                 Assert.That(Read(target).Count(c => c.a > 2), Is.Zero, "Return blend must fade the whole star layer.");
+                rect.gameObject.SetActive(false);
+                var panelRect = new GameObject("Neon Panel", typeof(RectTransform)).GetComponent<RectTransform>();
+                panelRect.SetParent(maskRect, false); panelRect.sizeDelta = new Vector2(256, 256); panelRect.gameObject.layer = 29;
+                panelRect.gameObject.AddComponent<StoryNeonPanel>();
+                var group = panelRect.gameObject.AddComponent<CanvasGroup>(); group.alpha = 0.5f;
+                yield return null; Canvas.ForceUpdateCanvases(); camera.Render(); pixels = Read(target); outside = 0;
+                for (int y = 0; y < 256; y++) for (int x = 0; x < 256; x++)
+                    if (pixels[y * 256 + x].a > 2 && (x < 63 || x > 192 || y < 63 || y > 192)) outside++;
+                Assert.That(outside, Is.Zero, "Neon panel mask boundary");
+                Assert.That(pixels[128 * 256 + 128].a, Is.InRange(60, 140), "Neon panel respects CanvasGroup alpha");
+                group.alpha = 0; Canvas.ForceUpdateCanvases(); camera.Render();
+                Assert.That(Read(target).Count(c => c.a > 2), Is.Zero);
                 UnityEngine.Object.Destroy(root); UnityEngine.Object.Destroy(cameraObject); target.Release(); UnityEngine.Object.Destroy(target);
                 yield return null;
             }

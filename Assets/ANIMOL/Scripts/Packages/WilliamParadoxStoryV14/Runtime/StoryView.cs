@@ -27,6 +27,7 @@ namespace WilliamParadox.Story
         public Toggle reducedMotionToggle;
         public bool showPreviewStatus = true;
         public RanchStoryStage ranchStage;
+        public RanchStoryDialogueBridge dialogueBridge;
         public StorySpriteBinding[] spriteBindings;
 
         private readonly Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
@@ -164,6 +165,7 @@ namespace WilliamParadox.Story
         public void SetInsetVisible(bool show) { SetGroup(insetGroup, show); }
         public void SetPaused(bool paused)
         {
+            if (dialogueBridge != null) dialogueBridge.RefreshControls();
             if (advanceButton != null) advanceButton.interactable = !paused;
             if (gateButton != null) gateButton.interactable = !paused;
             if (creditsContinueButton != null) creditsContinueButton.interactable = !paused && creditsContinueButton.gameObject.activeSelf;
