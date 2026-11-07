@@ -21,12 +21,12 @@ namespace ANIMOL.Puzzle
             Index data;
             try { data = JsonUtility.FromJson<Index>(catalog.text); }
             catch (ArgumentException) { return false; }
-            if (data == null || data.formatVersion != 4 || data.maps == null) return false;
+            if (data == null || data.formatVersion != 5 || data.maps == null) return false;
             string id = source.name.EndsWith("_MapData", StringComparison.Ordinal)
                 ? source.name.Substring(0, source.name.Length - "_MapData".Length) : source.name;
             foreach (var entry in data.maps)
             {
-                if (entry == null || entry.mapId != id || entry.status != "solved" || entry.solverVersion != 4 || entry.distance <= 0) continue;
+                if (entry == null || entry.mapId != id || entry.status != "solved" || entry.solverVersion != 5 || entry.distance <= 0) continue;
                 try { if (PuzzleRouteNotation.InputCount(entry.route) != entry.distance) return false; }
                 catch (ArgumentException) { return false; }
                 catch (FormatException) { return false; }

@@ -35,7 +35,7 @@ namespace ANIMOL.Tests
                 else
                 {
                     Assert.That(PuzzleRouteNotation.TryDirection(action, out var direction), Is.True);
-                    Assert.That(session.Apply(direction).accepted, Is.True);
+                    Assert.That(session.ReplayRuntimeInput(direction), Is.True);
                 }
             }
         }

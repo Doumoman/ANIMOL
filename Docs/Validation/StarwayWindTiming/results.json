@@ -1,0 +1,65 @@
+{
+  "date": "2026-11-07",
+  "unity": "6000.3.8f1",
+  "status": "passed",
+  "mapId": "SW19",
+  "displayStage": 20,
+  "previousDistance": 50,
+  "correctedDistance": 54,
+  "ruleVersion": 5,
+  "cause": "Blower phase changes have no movement event. Animate completes synchronously and calls ContinueWind before another input can be queued. The old search incorrectly allowed two further phase changes before that mandatory wind.",
+  "correction": "SearchStep and ReplayRuntimeInput include the first free wind pulse after accepted actions with no movement event. Gameplay Apply, controller queueing, wind rules, original MapData and scenario assets are unchanged.",
+  "exactProof": {
+    "file": "SW19.json",
+    "sourceLinked": "PuzzleDeviceSession with corrected search input timing",
+    "visited": 1306689,
+    "expanded": 1143808,
+    "seconds": 69.3350902,
+    "limitReached": false
+  },
+  "guide": "A different witness at the same proven optimum permits waiting for all automatic movement before every next direction. One free wind wait marker follows input 39. All 54 directions play through the actual controller.",
+  "validation": {
+    "editMode": {
+      "passed": 43,
+      "failed": 0,
+      "file": "editmode_tests.json"
+    },
+    "playMode": {
+      "passed": 2,
+      "failed": 0,
+      "file": "playmode_tests.json"
+    },
+    "actualController": {
+      "directions": 54,
+      "won": true,
+      "cost": 54,
+      "remaining": 0,
+      "queueingUsed": false,
+      "coroutinesStopped": false,
+      "file": "animated_replay.json"
+    },
+    "allSolvedBudgetsAndReset": 19,
+    "otherShortestProofsRetained": 18,
+    "unreachableProofRetained": 1,
+    "dotNetBuild": {
+      "warnings": 0,
+      "errors": 0
+    },
+    "portableVerification": {
+      "states": 1400,
+      "edges": 7000,
+      "file": "verification.json"
+    }
+  },
+  "preserved": {
+    "sourceMapAndMetaFiles": 44,
+    "hashesUnchanged": true,
+    "authoredVerificationRoutes": true,
+    "preExistingChanges": true,
+    "gameplayProgressWrites": false
+  },
+  "warning": "PlayMode logs existing PUSH visual contact range warnings. They do not affect grid authority or the verified clear; no art/collider changes were made.",
+  "inactiveTests": "Archived CommercialPolishPolicyTests were not run; no feedback effects changed.",
+  "inputEvidence": "../StarwayShortestPathsExpanded/input.json.gz",
+  "fixtureEvidence": "../StarwayShortestPathsExpanded/fixtures.json.gz"
+}

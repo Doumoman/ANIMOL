@@ -21,6 +21,28 @@ namespace ANIMOL.Tests
         [UnityTest] public IEnumerator QueuedInputPrecedesTheNextFreeWindPulse() => SearchSmallBoard(true, true);
         [UnityTest] public IEnumerator OldUpdateCannotCompleteOrCancelTheNextSearch() => SearchSmallBoard(false, false, true);
 
+        [Test] public void Sw19SynchronousBlowerInputIncludesImmediateFreeWind()
+        {
+            var map = Load("SW19");
+            var session = new PuzzleDeviceSession(map); session.AdvanceWind();
+            foreach (char action in "WSSWNW")
+            {
+                Assert.That(PuzzleRouteNotation.TryDirection(action, out var direction), Is.True);
+                Assert.That(session.ReplayRuntimeInput(direction), Is.True);
+            }
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(13, 9)));
+            Assert.That(session.States["wind_1"].phase, Is.Zero);
+            var raw = session.Copy(); var actionResult = raw.Apply(Vector2Int.down);
+            Assert.That(actionResult.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(raw.Cell, Is.EqualTo(new Vector2Int(13, 9)));
+            var searched = session.Copy(); Assert.That(searched.SearchStep(Vector2Int.down), Is.True);
+            Assert.That(session.ReplayRuntimeInput(Vector2Int.down), Is.True);
+            Assert.That(searched.Cell, Is.EqualTo(new Vector2Int(11, 9)));
+            Assert.That(searched.SearchStateKey(), Is.EqualTo(session.SearchStateKey()));
+            Assert.That(session.Cost, Is.EqualTo(7)); // The immediate wind is free.
+            Assert.That(session.States["wind_1"].phase, Is.EqualTo(1));
+        }
+
         static IEnumerator SearchSmallBoard(bool wind, bool queued = false, bool checkOldUpdate = false)
         {
             Assert.That(PuzzleShortestPathSolver.Active, Is.Null);
@@ -259,7 +281,7 @@ namespace ANIMOL.Tests
                         continue;
                     }
                     Assert.That(PuzzleRouteNotation.TryDirection(action, out var direction), Is.True);
-                    Assert.That(session.Apply(direction).accepted, Is.True, record.mapId);
+                    Assert.That(session.ReplayRuntimeInput(direction), Is.True, record.mapId);
                     Assert.That(session.Failed, Is.False, record.mapId);
                 }
                 Assert.That(session.Won, Is.True, record.mapId);

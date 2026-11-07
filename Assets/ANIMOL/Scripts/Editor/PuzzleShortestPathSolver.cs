@@ -132,7 +132,8 @@ namespace ANIMOL.Presentation.Editor
                     }
                     if (hasWind)
                     {
-                        // A queued next input takes priority over ContinueWind; waiting is an optional edge.
+                        // Movement permits a queued input before ContinueWind. SearchStep
+                        // already includes the mandatory pulse after synchronous actions.
                         var waiting = session.Copy();
                         if (waiting.AdvanceWind().accepted && !waiting.Failed &&
                             !Enqueue(waiting, current.index, '.', true)) return;

@@ -121,14 +121,28 @@ namespace ANIMOL.Puzzle
         HashSet<string> searchUnlabelledCrates;
         bool searchSheepOrderMatters;
         string[] searchSheepIds, searchPondIds;
-        // Search expands disposable copies. This invokes the same resolver as Apply without building Undo history.
+        // A no-movement action finishes Animate synchronously. ContinueWind therefore
+        // commits its first pulse before a player can submit another queued input.
+        void CompleteSynchronousInput(PrototypeAction action)
+        {
+            if (action.accepted && !action.events.Any(e => e.kind == PrototypeEventKind.Move)) AdvanceWind();
+        }
+        public bool ReplayRuntimeInput(Vector2Int direction)
+        {
+            var action = Apply(direction);
+            CompleteSynchronousInput(action);
+            return action.accepted;
+        }
+        // Search expands disposable copies without building Undo history, including
+        // the controller's mandatory wind after actions with no movement animation.
         public bool SearchStep(Vector2Int direction)
         {
-            bool accepted = Resolve(direction).accepted;
+            var action = Resolve(direction);
+            CompleteSynchronousInput(action);
             // The resolver has finished using its visual event list. A queued
             // search state needs gameplay data, without retaining presentation objects.
             events.Clear();
-            return accepted;
+            return action.accepted;
         }
 
         // A canonical gameplay-state key for editor search. The solver tracks the lowest input cost

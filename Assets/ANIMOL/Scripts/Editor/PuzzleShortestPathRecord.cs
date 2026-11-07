@@ -12,8 +12,8 @@ namespace ANIMOL.Presentation.Editor
     /// <summary>Editor-only search evidence stored separately so authored MapData stays intact.</summary>
     public static class PuzzleShortestPathRecord
     {
-        public const int SolverVersion = 4;
-        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; optional wind pulse (○) costs 0; initial Load wind pulse included";
+        public const int SolverVersion = 5;
+        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous no-movement input wind and initial Load pulse included; queued input only during movement";
         public const string Path = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] public sealed class Entry
         {
@@ -98,7 +98,7 @@ namespace ANIMOL.Presentation.Editor
                         throw new InvalidDataException("Recorded wind wait was rejected.");
                     continue;
                 }
-                if (!PuzzleRouteNotation.TryDirection(action, out var heading) || !session.Apply(heading).accepted || session.Failed)
+                if (!PuzzleRouteNotation.TryDirection(action, out var heading) || !session.ReplayRuntimeInput(heading) || session.Failed)
                     throw new InvalidDataException("Shortest path replay rejected at input " + session.Cost);
             }
             if (!session.Won || session.Cost != expectedDistance)

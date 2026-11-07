@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "states": 1400,
+  "edges": 7000,
+  "engine": "Source-linked PuzzleDeviceSession",
+  "compactParityPassed": true,
+  "compactChecks": [
+    {
+      "map": "SW02",
+      "passed": true,
+      "states": 25000,
+      "uniqueStates": 1938,
+      "edges": 100000,
+      "acceptedEdges": 55842
+    },
+    {
+      "map": "SW17",
+      "passed": true,
+      "states": 25000,
+      "uniqueStates": 1270,
+      "edges": 100000,
+      "acceptedEdges": 66172
+    }
+  ],
+  "compactSelfTests": [
+    {
+      "test": 0,
+      "passed": true,
+      "expectedDistance": 14,
+      "actualDistance": 14,
+      "authoritySearchDistance": 14,
+      "publicReplayWon": true,
+      "limitRemainedIncomplete": true,
+      "sourceChangeRejected": true,
+      "parity": {
+        "map": "CompactTest0",
+        "passed": true,
+        "states": 1000,
+        "uniqueStates": 67,
+        "edges": 4000,
+        "acceptedEdges": 2942
+      }
+    },
+    {
+      "test": 1,
+      "passed": true,
+      "expectedDistance": 14,
+      "actualDistance": 14,
+      "authoritySearchDistance": 14,
+      "publicReplayWon": true,
+      "limitRemainedIncomplete": true,
+      "sourceChangeRejected": true,
+      "parity": {
+        "map": "CompactTest1",
+        "passed": true,
+        "states": 1000,
+        "uniqueStates": 56,
+        "edges": 4000,
+        "acceptedEdges": 3132
+      }
+    }
+  ],
+  "sourceHashes": {
+    "Source.Adapters.cs": "dda0862c824204b5981fe01365b9e0a2b6544794f1795b54f419a6f7aff9c498",
+    "Source.AnimolWindRoute.cs": "90fad449d095c27127c12b9564b1d6a85eaf4b7c49d198b67c7262c8b4092c5c",
+    "Source.CompactRanchSolver.cs": "f96cb2a6f77736c70cdec5b1019cb885a93d23580468d07b4801ac8fd82e3666",
+    "Source.CompactRanchTests.cs": "571742f9e0a38bbe4aa8b51c34024a121c5bb380a3657fe23f169e6ca25fdcad",
+    "Source.OneCellGateRules.cs": "4b7433a49aa21d5cd2d527892659440792296b56ec22c41a39f52d3bc2f199be",
+    "Source.Program.cs": "1e4878e93b50e672e48b46e9520cd2baaa2a3b5e7c3dd21cdd40e5465594b4a4",
+    "Source.PuzzleChickSearchLowerBound.cs": "1f8a8b2539f41d1787c7c20f1f5d9a550db49d1119bf27b4b21d8407e4b17731",
+    "Source.PuzzleDeviceSearchSnapshot.cs": "89059e10e81a68e223b296b505104dbe5ac5c2c45b2bba20918532c703610397",
+    "Source.PuzzleDeviceSession.cs": "ba23ac33dd16a8782c88afa1900982b214c992a7a5e77e2af2ea9b490177290a",
+    "Source.PuzzleRouteNotation.cs": "8a1befe516a0bca4e814afdc635c5d743c4f81b661cae5963de573a62b9eae80",
+    "Source.PuzzleScenario.cs": "be320bb9b58eece5f1aa4adcfac63ae19f7a365614ccca64fc7f27d59f66b425",
+    "Source.PuzzleSearchKeyCodec.cs": "946e74605044a6e14d02d467ffcd14dc2d8799ce4bd64e091fcefe7cf35213fd",
+    "Source.PuzzleSearchLowerBound.cs": "516a82b5dce49ed39ef68ee841189c1caa91a6426e467a1abf32f2ecd2228c00",
+    "Source.PuzzleShortestPathSolver.cs": "1f2fe87da9cdae81fecb6ebd9cb204db4dd6bb2b01116beab4590e0a8aff3445",
+    "Source.RanchDeviceRulesR2.cs": "f6bb4ab8bd7805f7e0b0ad96429d9fb4afa9ffefac996584b088aef761bcbd4e",
+    "Source.RanchPondPresentationR3.cs": "be99c1eb590c01fd114e414f3c76385be578ed86b909c102b31d2ddf1ac318e9"
+  },
+  "inputSha256": "f87793161339ee611ddf147d3f694f537cf0062c0f7072e2ba0a6be86d8404fe",
+  "fixtureSha256": "41555f8b0d40aafe8c78089df0bd1f1dc82c3a05c00882bdff3e7217d82870fc"
+}

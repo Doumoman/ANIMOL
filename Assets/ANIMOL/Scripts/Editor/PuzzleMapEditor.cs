@@ -248,7 +248,7 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.LabelField("경로 (↑ → ↓ ←)");
                 EditorGUILayout.LabelField("○ = 바람 1회 대기 · 코스트 0", EditorStyles.miniLabel);
                 if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind))
-                    EditorGUILayout.HelpBox("연속 화살표는 이동 중 다음 입력을 예약합니다. ○는 바람 자동 이동 1회를 기다립니다.", MessageType.Info);
+                    EditorGUILayout.HelpBox("이동 중 다음 화살표를 예약할 수 있습니다. 풍차 단계 변경은 즉시 바람을 적용합니다. ○에서는 바람 이동이 끝날 때까지 기다립니다.", MessageType.Info);
                 var routeStyle = new GUIStyle(EditorStyles.textArea) { wordWrap = true };
                 string displayedRoute = PuzzleRouteNotation.Display(record.route);
                 const float routeWidth = 280f; // The settings scroll view is 320px wide.
