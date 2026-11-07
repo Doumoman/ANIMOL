@@ -256,7 +256,13 @@ namespace ANIMOL.Presentation.Editor
                 EditorGUILayout.LabelField("탐색 상태 수", record.visited.ToString());
             }
             else if (record.status == "limit")
-                EditorGUILayout.HelpBox(record.visited.ToString("N0") + "개 상태까지 탐색했지만 최단 거리는 미확정입니다. 더 계산하려면 탐색 상한을 높이세요.", MessageType.Warning);
+            {
+                bool memoryLimit = !string.IsNullOrEmpty(record.detail) &&
+                    record.detail.IndexOf("memory budget", System.StringComparison.OrdinalIgnoreCase) >= 0;
+                EditorGUILayout.HelpBox(memoryLimit
+                    ? "메모리 상한에 도달해 " + record.visited.ToString("N0") + "개 상태에서 중단했습니다. 최단 거리는 미확정입니다."
+                    : record.visited.ToString("N0") + "개 상태까지 탐색했지만 최단 거리는 미확정입니다. 더 계산하려면 탐색 상한을 높이세요.", MessageType.Warning);
+            }
             else if (record.status == "unreachable")
                 EditorGUILayout.HelpBox("모든 도달 상태를 검사했으며 클리어 경로가 없습니다.", MessageType.Warning);
             else EditorGUILayout.HelpBox(record.status + ": " + record.detail, MessageType.Warning);
