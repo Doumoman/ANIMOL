@@ -212,5 +212,63 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(shadowed.RanchSheep["sheep"], Is.EqualTo(new Vector2Int(4, 2)));
             Assert.That(shadowed.Cost, Is.EqualTo(1));
         }
+
+        [Test] public void SheepCannotBePushedIntoReflectorWithoutSpendingCost()
+        {
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            var session = new PuzzleDeviceSession(map);
+            var before = session.SearchStateKey();
+            var result = session.Apply(Vector2Int.right);
+            Assert.That(result.accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+            Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
+        }
+
+        [TestCase(PrototypeRole.WoodCrate)] [TestCase(PrototypeRole.MetalCrate)]
+        public void CratesCannotEnterReflectorFromAnySide(PrototypeRole role)
+        {
+            var reflector = new Vector2Int(3, 2);
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = 2 });
+            var box = new PrototypeDevice { id = "box", role = role }; scenario.devices.Add(box);
+            foreach (var direction in new[] { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left })
+            {
+                map.start = reflector - direction * 2; box.position = reflector - direction;
+                var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+                Assert.That(session.Apply(direction).accepted, Is.False, direction.ToString());
+                Assert.That(session.Cost, Is.Zero);
+                Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+            }
+        }
+
+        [TestCase(true)] [TestCase(false)]
+        public void WindCarriedSheepAndWoodStopBeforeReflector(bool sheep)
+        {
+            map.start = new Vector2Int(1, 0);
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
+                position = new Vector2Int(0, 2), direction = Vector2Int.right, orientation = 2, active = true });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(4, 2), orientation = 2 });
+            if (sheep) scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "body" });
+            else scenario.devices.Add(new PrototypeDevice { id = "body", role = PrototypeRole.WoodCrate, position = new Vector2Int(2, 2) });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.AdvanceWind().accepted, Is.True);
+            Assert.That(sheep ? session.RanchSheep["body"] : session.States["body"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.AdvanceWind().accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero);
+        }
+
+        [Test] public void PlayerAndWindStillPassThroughAndTurnAtReflector()
+        {
+            map.start = new Vector2Int(2, 2);
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
+                position = new Vector2Int(0, 2), direction = Vector2Int.right, orientation = 2, active = true });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(4, 2), orientation = 2 });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.WindCells[new Vector2Int(4, 2)], Is.EqualTo(Vector2Int.up));
+            Assert.That(session.AdvanceWind().accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 4)));
+            Assert.That(session.Cost, Is.Zero);
+        }
     }
 }

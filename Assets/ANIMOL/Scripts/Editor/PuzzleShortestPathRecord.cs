@@ -12,8 +12,8 @@ namespace ANIMOL.Presentation.Editor
     /// <summary>Editor-only search evidence stored separately so authored MapData stays intact.</summary>
     public static class PuzzleShortestPathRecord
     {
-        public const int SolverVersion = 5;
-        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous no-movement input wind and initial Load pulse included; queued input only during movement";
+        public const int SolverVersion = 6;
+        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous-input wind included; sheep and crates cannot enter reflectors";
         public const string Path = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] public sealed class Entry
         {

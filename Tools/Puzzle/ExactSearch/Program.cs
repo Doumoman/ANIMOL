@@ -34,7 +34,8 @@ class Program
         if(map.scenario.themeId!="starway" || map.scenario.echoTheaterV3Rules || map.scenario.railPaths.Count!=0 ||
             map.scenario.devices.Any(d=>d.role!=PrototypeRole.Chick && d.role!=PrototypeRole.MetalCrate &&
                 d.role!=PrototypeRole.WoodCrate && d.role!=PrototypeRole.StarSocket &&
-                d.role!=PrototypeRole.Wind && d.role!=PrototypeRole.Bounce && d.role!=PrototypeRole.Conveyor))
+                d.role!=PrototypeRole.Wind && d.role!=PrototypeRole.Bounce && d.role!=PrototypeRole.Conveyor &&
+                d.role!=PrototypeRole.OneWayGate))
             throw new NotSupportedException("Unsupported board in portable runner");
         return map;
     }

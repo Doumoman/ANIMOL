@@ -2,11 +2,11 @@
 
 기본 경로는 Unity의 `PuzzleDeviceSession`, 상태 체크포인트, 장치 규칙, 하한, A* / 0-1 BFS 소스를 링크하는 .NET 10 콘솔 도구다. 제한된 목장 규칙에는 별도의 작은 상태 표현과 빠른 전이 구현도 제공한다. 최종 증거에는 모든 후속 상태를 원래 판정 코드로 생성하는 `authority` 모드를 사용할 수 있다. Unity Editor와 실제 게임 진행·저장은 별개로 유지한다.
 
-`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
+`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
 
 ## 실행
 
-작업 폴더는 저장소 루트다. Unity Edit Mode에서 `Export.cs.txt`의 본문을 Unity MCP `execute_code`로 실행한다. 원본을 저장하거나 수정하지 않으며, 현재 맵 검증·미저장 변경 검사 후 `Temp/exact_search_export.json`과 공개 API 전이 7,000개의 `Temp/exact_search_fixtures.json`을 만든다.
+작업 폴더는 저장소 루트다. Unity Edit Mode에서 `Export.cs.txt`의 본문을 Unity MCP `execute_code`로 실행한다. 원본을 저장하거나 수정하지 않으며, 현재 맵 검증·미저장 변경 검사 후 `Temp/exact_search_export.json`과 8개 맵의 공개 API 전이 8,000개가 담긴 `Temp/exact_search_fixtures.json`을 만든다.
 
 ```powershell
 dotnet build Tools/Puzzle/ExactSearch/ExactPuzzleSearch.csproj -c Release -o Temp/ExactSearchBuild
@@ -19,6 +19,8 @@ dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json
 상태 상한은 검증 보고서 앞의 인수다. 추가 관리 메모리 예산은 기본 3,072 MiB이며, 마지막에 선택적으로 MiB 값을 붙여 조절할 수 있다. 실제 적용한 두 상한도 결과에 남긴다. `limit`과 `cancelled`는 미확정이다. `unreachable`은 대기열 소진일 때만 나오며 `solved`는 A* / 0-1 BFS 순서로 클리어를 꺼냈을 때만 나온다. 여러 프로세스를 실행하면 총 메모리 예산도 그만큼 늘어나므로 실제 사용량을 확인한다.
 
 기록 규칙 5부터 이동 이벤트가 없는 풍차 단계 변경 뒤의 즉시 무료 바람을 방향 입력에 포함한다. 실제 컨트롤러는 이 경우 프레임 대기 없이 ContinueWind를 호출하므로 다음 입력으로 바람을 가로챌 수 없다. 이동 애니메이션 중 예약 입력과 그 뒤의 선택적 바람 대기는 유지한다. SW19의 기존 50입력 기록은 이 구분을 놓친 오류이며, 재계산한 최단값은 54다. [수정 경로와 실제 컨트롤러 재생](../../../Docs/STARWAY_SHORTEST_PATHS.md#sw19-바람-입력-타이밍-정정).
+
+규칙 6은 반사판 칸으로 양·나무 박스·금속 박스가 진입하는 것을 막는다. 직접 밀기뿐 아니라 바람으로 운반될 때도 반사판 바로 앞에서 멈춘다. 캐릭터와 바람의 반사는 유지한다. SW19의 규칙 5 당시 54입력은 현재 규칙에 사용할 수 없다. 점유 범위를 줄인 현재 SW19도 .NET A*와 Unity 0-1 BFS가 같은 500,454개 상태를 소진하여 도달 불가를 확인했다. [최신 재검증](../../../Docs/STARWAY_SHORTEST_PATHS.md#반사판-진입-금지와-sw19-재검증).
 
 ## 제한된 목장 상태
 

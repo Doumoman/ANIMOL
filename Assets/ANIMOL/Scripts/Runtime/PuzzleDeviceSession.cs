@@ -309,10 +309,17 @@ namespace ANIMOL.Puzzle
             var moving = Definition(movingId);
             return moving != null && moving.role == PrototypeRole.Dice && moving.variant != "target" && moving.variant != "socket";
         }
+        bool CrateReflectorPassable(Vector2Int p, string movingId)
+        {
+            var moving = Definition(movingId);
+            return moving == null || moving.role != PrototypeRole.WoodCrate && moving.role != PrototypeRole.MetalCrate ||
+                At(p, d => d.role == PrototypeRole.Bounce) == null;
+        }
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
             (!NestPresent(p) || Definition(except)?.role == PrototypeRole.Chick) &&
-            StarSocketPassable(p, except) && DiceSocketPassable(p, except) && (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
+            StarSocketPassable(p, except) && DiceSocketPassable(p, except) && CrateReflectorPassable(p, except) &&
+            (ignorePlayer || Cell != p) && At(p, Solid, except) == null &&
             At(p, d => d.role == PrototypeRole.Boat, except) == null && !ranchSheep.Values.Contains(p);
         static GateCell GatePoint(Vector2Int p) => new GateCell(p.x, p.y);
         static GateHeading GateDirection(Vector2Int p)
@@ -441,7 +448,10 @@ namespace ANIMOL.Puzzle
             foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
                 board.ponds.Add(art.PondPair(ranchPonds[art.Id]));
             foreach (var sheep in ranchSheep) board.sheep.Add(sheep.Key, RanchCell(sheep.Value));
-            foreach (var device in definitions.Where(d => !states[d.id].removed && (Solid(d) || d.role == PrototypeRole.Boat)))
+            // Reflectors remain traversable by the player/wind, but are occupied
+            // destinations for sheep in both manual pushes and wind carriage.
+            foreach (var device in definitions.Where(d => !states[d.id].removed &&
+                (Solid(d) || d.role == PrototypeRole.Boat || d.role == PrototypeRole.Bounce)))
                 foreach (var p in Footprint(device))
                     if (p == Cell) board.floodPolicyHolds.Add(RanchCell(p));
                     else board.solidOccupants.Add(RanchCell(p));

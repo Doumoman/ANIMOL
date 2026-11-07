@@ -67,7 +67,7 @@ namespace ANIMOL.Tests
                 }
                 finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
             }
-            Assert.That(configured, Is.EqualTo(19));
+            Assert.That(configured, Is.EqualTo(18));
         }
         [Test] public void StaleCatalogDoesNotApplyAChangedProof()
         {

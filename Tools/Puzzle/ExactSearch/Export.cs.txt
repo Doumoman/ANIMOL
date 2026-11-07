@@ -7,7 +7,7 @@ var fixtures = new System.Collections.Generic.List<object>();
 var random = new System.Random(110782);
 var dirs = new[] { UnityEngine.Vector2Int.up, UnityEngine.Vector2Int.right,
     UnityEngine.Vector2Int.down, UnityEngine.Vector2Int.left };
-foreach (var id in new[] { "SW02", "SW09", "SW10", "SW16", "SW17", "SW18", "SW19" })
+foreach (var id in new[] { "SW02", "SW06", "SW09", "SW10", "SW16", "SW17", "SW18", "SW19" })
 {
     var map = UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Puzzle.PuzzleMap>(
         "Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
@@ -49,4 +49,4 @@ foreach (var id in new[] { "SW02", "SW09", "SW10", "SW16", "SW17", "SW18", "SW19
 System.IO.Directory.CreateDirectory("Temp");
 System.IO.File.WriteAllText("Temp/exact_search_export.json", Newtonsoft.Json.JsonConvert.SerializeObject(maps));
 System.IO.File.WriteAllText("Temp/exact_search_fixtures.json", Newtonsoft.Json.JsonConvert.SerializeObject(fixtures));
-return new { exported = maps.Count, states = 1400, edges = 7000 };
+return new { exported = maps.Count, states = fixtures.Count * 200, edges = fixtures.Count * 200 * 5 };

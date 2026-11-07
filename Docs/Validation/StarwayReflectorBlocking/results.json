@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-07",
+  "ruleVersion": 6,
+  "status": "passed",
+  "rule": "Sheep, wood crates and metal crates cannot enter Bounce reflector cells, including manual pushes, sliding, conveyors and wind carriage. Rejected manual pushes spend zero cost. Player/wind reflection remains enabled.",
+  "userRevision": {
+    "mapId": "SW19",
+    "sourceSha256": "6bbaecb4bdf76cfa23c802ec6102e49f7b5fd704fbaec1e022e2f65ae3ce18b9",
+    "change": "User replaced the two-cell workbench at (13,12) with a one-cell tool basket at (14,12). This existing editor change was saved to compute against the current layout.",
+    "sourceFileExcludedFromAgentCommit": true
+  },
+  "SW19": {
+    "currentLayout": {
+      "status": "unreachable",
+      "distance": -1,
+      "route": "",
+      "dotNetAStar": {
+        "visited": 500454,
+        "expanded": 500454,
+        "seconds": 35.2281811,
+        "evidence": "SW19.json"
+      },
+      "unityBfs": {
+        "visited": 500454,
+        "expanded": 500454,
+        "seconds": 479.9195917,
+        "evidence": "SW19_unity_bfs.json"
+      },
+      "limitsReached": false,
+      "previous54CostBudgetApplied": false
+    },
+    "priorLayout": {
+      "status": "unreachable",
+      "visited": 452556,
+      "evidence": "SW19_prior_layout.json"
+    },
+    "actualInputRejection": {
+      "oldRouteInput": 15,
+      "direction": "↓",
+      "player": [
+        11,
+        9
+      ],
+      "sheep": [
+        11,
+        8
+      ],
+      "reflector": [
+        11,
+        7
+      ],
+      "spentCostBefore": 14,
+      "spentCostAfter": 14,
+      "evidence": "actual_rejection.json"
+    }
+  },
+  "SW06": {
+    "status": "unreachable",
+    "visited": 571312,
+    "evidence": "SW06.json",
+    "portableRunner": "OneWayGate source-linked support added; public successors verified against Unity."
+  },
+  "retainedShortestMaps": 18,
+  "retainedReason": "The other source maps contain no reflectors, so transitions and previously proven optima are unchanged. All retained routes and budgets were replayed.",
+  "validation": {
+    "unity": "6000.3.8f1",
+    "editorCompile": "passed",
+    "editMode": {
+      "passed": 66,
+      "failed": 0,
+      "evidence": "editmode_tests.json"
+    },
+    "playMode": {
+      "passed": 2,
+      "failed": 0,
+      "evidence": "playmode_tests.json"
+    },
+    "dotNetBuild": {
+      "warnings": 0,
+      "errors": 0
+    },
+    "unityPortableComparison": {
+      "states": 1600,
+      "publicTransitions": 8000,
+      "evidence": "verification.json"
+    },
+    "compiledSources": {
+      "count": 16,
+      "hashesMatched": true,
+      "evidence": "provenance.json"
+    }
+  },
+  "preservation": {
+    "unchangedSourceFiles": 43,
+    "userEditedMapFiles": 1,
+    "allMetaGuidsUnchanged": true,
+    "SW00Unchanged": true,
+    "authoredVerificationRoutesPreserved": true,
+    "preExistingWorkingTreeChangesPreserved": true,
+    "progressOrRewardWrites": false
+  },
+  "inactiveTests": "Archived CommercialPolishPolicyTests were not run; no feedback effects changed.",
+  "note": "The source map's user change remains in the working tree. The proof records and code commit do not include it. Hypothetical candidate-map exploration was canceled, changed no source asset, and is not classified as unreachable or shortest."
+}

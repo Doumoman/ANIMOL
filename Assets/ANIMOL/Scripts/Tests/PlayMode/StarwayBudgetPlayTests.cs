@@ -13,8 +13,13 @@ namespace ANIMOL.Tests
     {
         [System.Serializable] sealed class CatalogData { public CatalogEntry[] maps; }
         [System.Serializable] sealed class CatalogEntry { public string mapId, mapAsset, status, route; public int distance; }
-        [System.Serializable] sealed class ReplayTrace { public string mapId = "SW19"; public int budget; public List<ReplayStep> steps = new List<ReplayStep>(); }
-        [System.Serializable] sealed class ReplayStep { public int input, cost, x, y, windPhase, collected; public string arrow; public bool won; }
+        [System.Serializable] sealed class RejectionTrace
+        {
+            public string mapId = "SW19", recordStatus, reason;
+            public bool accepted;
+            public int costBefore, costAfter, runtimeCostLimit;
+            public Vector2Int player, sheep, reflector;
+        }
 
         static IEnumerator WaitForRest(PuzzlePrototypeController controller)
         {
@@ -23,7 +28,7 @@ namespace ANIMOL.Tests
             Assert.That(controller.IsMoving, Is.False, "Automatic movement did not settle.");
         }
 
-        [UnityTest] public IEnumerator Sw19ImmediateWindAndFullRouteUseActualControllerAnimations()
+        [UnityTest] public IEnumerator Sw19ImmediateWindAndReflectorRejectionUseActualControllerAnimations()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW19_MapData.asset");
             var host = new GameObject("SW19 actual input timing test");
@@ -50,23 +55,31 @@ namespace ANIMOL.Tests
                 yield return WaitForRest(controller);
                 controller.ResetStage(); yield return WaitForRest(controller);
                 var entry = JsonUtility.FromJson<CatalogData>(controller.shortestPathCatalog.text).maps.Single(e => e.mapId == "SW19");
-                var trace = new ReplayTrace { budget = entry.distance };
-                foreach (char arrow in entry.route)
+                Assert.That(entry.status, Is.EqualTo("unreachable"));
+                Assert.That(entry.distance, Is.EqualTo(-1));
+                Assert.That(entry.route, Is.Empty);
+                Assert.That(controller.RuntimeMap.scenario.costLimit, Is.EqualTo(source.scenario.costLimit));
+                foreach (char arrow in "←↓↓←↑←←→↓←←←↑←")
                 {
-                    if (PuzzleRouteNotation.IsWait(arrow)) { yield return WaitForRest(controller); continue; }
-                    Assert.That(PuzzleRouteNotation.TryDirection(arrow, out var direction), Is.True, "SW19 guide must use arrows and explicit automatic-wind waits.");
-                    Assert.That(controller.RequestMove(direction), Is.True, "Rejected input " + (trace.steps.Count + 1));
+                    Assert.That(PuzzleRouteNotation.TryDirection(arrow, out var direction), Is.True);
+                    Assert.That(controller.RequestMove(direction), Is.True);
                     yield return WaitForRest(controller);
-                    trace.steps.Add(new ReplayStep { input = trace.steps.Count + 1, arrow = arrow.ToString(), cost = controller.Session.Cost,
-                        x = controller.Session.Cell.x, y = controller.Session.Cell.y, windPhase = controller.Session.States["wind_1"].phase,
-                        collected = controller.Session.Collected, won = controller.Session.Won });
-                    Assert.That(controller.Session.Failed, Is.False, "Input " + trace.steps.Count);
-                    Assert.That(Vector2.Distance(controller.Player.position, controller.Session.Cell), Is.LessThan(.001f));
                 }
-                Assert.That(controller.Session.Won, Is.True);
-                Assert.That(controller.Session.Cost, Is.EqualTo(entry.distance));
-                Assert.That(controller.RuntimeMap.scenario.costLimit - controller.Session.Cost, Is.Zero);
-                System.IO.File.WriteAllText("Temp/sw19_animated_replay.json", JsonUtility.ToJson(trace, true));
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(11, 9)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(14));
+                Assert.That(controller.Session.RanchSheep.Values, Does.Contain(new Vector2Int(11, 8)));
+                var before = controller.Session.SearchStateKey();
+                int costBefore = controller.Session.Cost;
+                bool accepted = controller.RequestMove(Vector2Int.down);
+                Assert.That(accepted, Is.False, "The old route tried to push sheep onto reflector (11,7).");
+                Assert.That(controller.Session.Cost, Is.EqualTo(costBefore));
+                Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                Assert.That(controller.IsMoving, Is.False);
+                System.IO.File.WriteAllText("Temp/sw19_reflector_rejection.json", JsonUtility.ToJson(new RejectionTrace {
+                    recordStatus = entry.status, accepted = accepted, reason = controller.Status,
+                    costBefore = costBefore, costAfter = controller.Session.Cost, runtimeCostLimit = controller.RuntimeMap.scenario.costLimit,
+                    player = controller.Session.Cell, sheep = new Vector2Int(11, 8), reflector = new Vector2Int(11, 7)
+                }, true));
             }
             finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
         }
@@ -109,7 +122,7 @@ namespace ANIMOL.Tests
                     Assert.That(source.scenario.costLimit, Is.EqualTo(sourceLimit));
                     checkedMaps++; yield return null;
                 }
-                Assert.That(checkedMaps, Is.EqualTo(19));
+                Assert.That(checkedMaps, Is.EqualTo(18));
             }
             finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
         }
