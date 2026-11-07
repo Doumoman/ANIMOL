@@ -71,7 +71,16 @@ class Program
                     state=row.GetProperty("resetAfter").GetBoolean()?root.Copy():next;
                 }
             }
-            var report=new {passed=true,states=states,edges=edges,engine="Source-linked PuzzleDeviceSession",sourceHashes=SourceHashes(),inputSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[0]))),fixtureSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[2])))};
+            var compactChecks=new List<object>();
+            foreach(var export in input)
+            {
+                var model=CompactRanchModel.TryCreate(Load(export));
+                if(model!=null){compactChecks.Add(model.VerifyAuthority(25000));Console.WriteLine("Compact authority parity passed: "+export.id);}
+            }
+            var selfTests=CompactRanchTests.Run();
+            var report=new {passed=true,states=states,edges=edges,engine="Source-linked PuzzleDeviceSession",
+                compactParityPassed=true,compactChecks=compactChecks,compactSelfTests=selfTests,
+                sourceHashes=SourceHashes(),inputSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[0]))),fixtureSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[2])))};
             File.WriteAllText(args[3],JsonSerializer.Serialize(report,Json)+"\n");Console.WriteLine(JsonSerializer.Serialize(report,Json));return;
         }
         if(args.Length<5)throw new ArgumentException("Search requires input, map ID, output, state cap and a verification report.");
@@ -84,7 +93,17 @@ class Program
         var searchMap=Load(input.Single(e=>e.id==args[1]));
         PuzzleShortestPathSolver.Result result=null;
         int stateLimit=int.Parse(args[3]), memoryLimit=args.Length>5?int.Parse(args[5]):3072;
-        PuzzleShortestPathSolver.Start(searchMap,r=>result=r,stateLimit,true,memoryLimit);
+        bool authorityTransitions=args.Length>6 && args[6]=="authority";
+        bool compact=authorityTransitions || args.Length>6 && args[6]=="compact";
+        CompactRanchSolver compactSolver=null;
+        if(compact)
+        {
+            if(!verification.GetProperty("compactParityPassed").GetBoolean())throw new Exception("Compact authority parity is required");
+            var model=CompactRanchModel.TryCreate(searchMap) ?? throw new NotSupportedException("Board is outside compact ranch rules");
+            compactSolver=new CompactRanchSolver(model,stateLimit,memoryLimit,authorityTransitions);
+            result=compactSolver.Run();
+        }
+        else PuzzleShortestPathSolver.Start(searchMap,r=>result=r,stateLimit,true,memoryLimit);
         var timer=Stopwatch.StartNew();double nextReport=5;
         while(result==null)
         {
@@ -102,6 +121,8 @@ class Program
             elapsedSeconds=result.elapsedSeconds,detail=result.detail,algorithm=result.algorithm,
             runtime=System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription,
             stateLimit=stateLimit,additionalManagedMemoryLimitMiB=memoryLimit,
+            compactMode=compact,
+            authorityTransitions=authorityTransitions,authorityEdgesChecked=compactSolver?.AuthorityEdgesChecked ?? 0,
             sourceHashes=SourceHashes(),inputSha256=inputHash,
             verificationSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[4])))};
         File.WriteAllText(args[2],JsonSerializer.Serialize(record,Json)+"\n");
