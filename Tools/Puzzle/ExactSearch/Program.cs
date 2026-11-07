@@ -83,7 +83,8 @@ class Program
             throw new InvalidDataException("Verify this input with this build before searching.");
         var searchMap=Load(input.Single(e=>e.id==args[1]));
         PuzzleShortestPathSolver.Result result=null;
-        PuzzleShortestPathSolver.Start(searchMap,r=>result=r,args.Length>3?int.Parse(args[3]):8000000,true,3072);
+        int stateLimit=int.Parse(args[3]), memoryLimit=args.Length>5?int.Parse(args[5]):3072;
+        PuzzleShortestPathSolver.Start(searchMap,r=>result=r,stateLimit,true,memoryLimit);
         var timer=Stopwatch.StartNew();double nextReport=5;
         while(result==null)
         {
@@ -100,6 +101,7 @@ class Program
             sourceSha256=result.sourceSha256,visited=result.visited,expanded=result.expanded,
             elapsedSeconds=result.elapsedSeconds,detail=result.detail,algorithm=result.algorithm,
             runtime=System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription,
+            stateLimit=stateLimit,additionalManagedMemoryLimitMiB=memoryLimit,
             sourceHashes=SourceHashes(),inputSha256=inputHash,
             verificationSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[4])))};
         File.WriteAllText(args[2],JsonSerializer.Serialize(record,Json)+"\n");

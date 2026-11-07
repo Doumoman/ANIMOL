@@ -19,6 +19,7 @@ namespace ANIMOL.Presentation.Editor
         readonly Vector2Int[] bubbles;
         readonly int[] distances;
         readonly int count;
+        readonly PuzzleChickSearchLowerBound chickBound;
 
         public static PuzzleSearchLowerBound TryCreate(PuzzleMap map)
         {
@@ -38,6 +39,7 @@ namespace ANIMOL.Presentation.Editor
 
         PuzzleSearchLowerBound(PuzzleMap map)
         {
+            chickBound = PuzzleChickSearchLowerBound.TryCreate(map);
             var floor = map.terrain.Select(t => t.position).Distinct().Where(map.Walkable).ToArray();
             cells = floor.Select((p, i) => new { p, i }).ToDictionary(x => x.p, x => x.i);
             count = cells.Count;
@@ -109,7 +111,7 @@ namespace ANIMOL.Presentation.Editor
             int mask = 0;
             for (int b = 0; b < bubbles.Length; b++) if (session.IsCollected(bubbles[b])) mask |= 1 << b;
             // Never prune on a disconnected relaxation; the live resolver remains authoritative.
-            return Math.Max(0, distances[mask * count + cell]);
+            return Math.Max(Math.Max(0, distances[mask * count + cell]), chickBound?.Estimate(session) ?? 0);
         }
     }
 }
