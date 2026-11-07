@@ -54,6 +54,7 @@ namespace WilliamParadox.Story
         public string[] setFlags, requiredFlags;
         public string gateId, gateLabel;
         public string[] credits;
+        public string chronicleId;
     }
 
     [Serializable]
@@ -84,5 +85,7 @@ namespace WilliamParadox.Story
         public float creditsPosition, creditsHold;
         public int creditsParagraph;
         public bool creditsReachedEnd, creditsPaused;
+        public string chronicleRevision;
+        public bool chronicleReadThrough, chronicleSkipped;
     }
 }

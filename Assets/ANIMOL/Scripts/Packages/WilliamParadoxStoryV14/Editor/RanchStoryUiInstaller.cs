@@ -11,11 +11,32 @@ namespace WilliamParadox.Story.Editor
     {
         public const string UiPrefab = "Assets/ANIMOL/Prefabs/UI/Story/StoryDialogueUI.prefab";
         public const string FontPath = "Assets/ANIMOL/Fonts/Notebook/Galmuri14.asset";
+        public static string ApplyChronicle()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new System.InvalidOperationException("Stop Play Mode before applying UI.");
+            var prefab = PrefabUtility.LoadPrefabContents(StoryImportPaths.PrefabPath);
+            try { Configure(prefab); PrefabUtility.SaveAsPrefabAsset(prefab, StoryImportPaths.PrefabPath); }
+            finally { PrefabUtility.UnloadPrefabContents(prefab); }
+            var previous = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            var scene = UnityEditor.SceneManagement.EditorSceneManager.OpenScene(StoryImportPaths.ScenePath, UnityEditor.SceneManagement.OpenSceneMode.Additive);
+            try
+            {
+                var runner = System.Linq.Enumerable.Single(System.Linq.Enumerable.SelectMany(scene.GetRootGameObjects(), o => o.GetComponentsInChildren<StoryRunner>(true)));
+                Configure(runner.gameObject);
+                UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+            }
+            finally
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene, true);
+                if (previous.IsValid()) UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
+            }
+            return "Applied dual chronicle to existing entry prefab and preview scene; artwork and maps preserved.";
+        }
         public static void Configure(GameObject root)
         {
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontPath);
             if (font == null) throw new InvalidDataException("Assign the existing Galmuri14 TMP asset; no substitute font is permitted.");
-            if (!File.Exists(UiPrefab)) Animol.Starway.Editor.CreateStoryDialoguePrefab.CreateAsset(font, "Assets/ANIMOL/Prefabs/UI/Story");
+            Animol.Starway.Editor.CreateStoryDialoguePrefab.CreateAsset(font, "Assets/ANIMOL/Prefabs/UI/Story", true);
             var uiAsset = PrefabUtility.LoadPrefabContents(UiPrefab);
             try
             {
@@ -60,6 +81,16 @@ namespace WilliamParadox.Story.Editor
             }
             ui.BodyLabel.fontSize = ui.SpeakerLabel.fontSize = 45;
             var lore = root.GetComponentInChildren<RanchOptionalLore>(true); if (lore != null) lore.body.fontSize = 45;
+            if (view.ranchStage != null)
+            {
+                var prior = view.artworkRoot.Find("BookCrossfade");
+                if (prior != null) Object.DestroyImmediate(prior.gameObject);
+                var transition = new GameObject("BookCrossfade", typeof(RectTransform), typeof(UnityEngine.UI.Image), typeof(StoryCoverImage));
+                transition.transform.SetParent(view.artworkRoot, false);
+                var image = transition.GetComponent<UnityEngine.UI.Image>(); image.raycastTarget = false; image.enabled = false;
+                var cover = transition.GetComponent<StoryCoverImage>(); cover.viewport = view.artworkRoot; cover.image = image;
+                view.ranchStage.bookTransition = image;
+            }
             runner.finishLegacyCueBeforeAdvancing = false;
             EditorUtility.SetDirty(view); EditorUtility.SetDirty(runner); EditorUtility.SetDirty(bridge);
         }

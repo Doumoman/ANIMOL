@@ -42,6 +42,23 @@ namespace WilliamParadox.Story
         public Sprite distanceBackground, frontPlate, reverseShot, runSprite;
         public AudioSource soundSource;
         public AudioClip latchClip;
+        public Image bookTransition;
+        private float bookTransitionElapsed, bookTransitionDuration;
+        public void BeginBookTransition(Sprite previous, bool reduced, float duration)
+        {
+            if (bookTransition == null) return;
+            bookTransitionElapsed = 0; bookTransitionDuration = Mathf.Max(0.01f, duration);
+            bookTransition.sprite = previous; bookTransition.color = Color.white;
+            bookTransition.enabled = previous != null && !reduced;
+            bookTransition.GetComponent<StoryCoverImage>().Refresh();
+        }
+        public void TickBookTransition(float dt)
+        {
+            if (bookTransition == null || !bookTransition.enabled) return;
+            bookTransitionElapsed += dt;
+            bookTransition.color = new Color(1, 1, 1, 1 - Mathf.Clamp01(bookTransitionElapsed / bookTransitionDuration));
+            if (bookTransitionElapsed >= bookTransitionDuration) bookTransition.enabled = false;
+        }
         public const float DistanceSeconds = 1.6f;
         public const float ReturnSeconds = 0.42f;
         public bool BlocksInput => false;
@@ -170,6 +187,7 @@ namespace WilliamParadox.Story
         public void SetReducedMotion(bool value)
         {
             ReducedMotion = value;
+            if (value && bookTransition != null) bookTransition.enabled = false;
             if (value)
             {
                 if (distanceActive) SetDistance(1, returning ? 1 : 0);
@@ -183,6 +201,7 @@ namespace WilliamParadox.Story
 
         public void Clear()
         {
+            if (bookTransition != null) bookTransition.enabled = false;
             farStars?.ClearCue(); nearStars?.ClearCue();
             distanceActive = false;
             if (composition != null) composition.gameObject.SetActive(false);
@@ -196,19 +215,20 @@ namespace WilliamParadox.Story
         private void SetDialogueTop(bool top)
         {
             if (view == null || view.dialogueGroup == null) return;
+            if (view.dialogueBridge != null)
+            {
+                var panel = (RectTransform)view.dialogueGroup.transform;
+                panel.anchorMin = new Vector2(0, 0); panel.anchorMax = new Vector2(1, 0);
+                panel.pivot = new Vector2(0.5f, 0);
+                panel.anchoredPosition = new Vector2(0, 20); panel.sizeDelta = new Vector2(-88, 422);
+                var button = (RectTransform)view.dialogueBridge.dialogue.ActionButton.transform;
+                button.anchorMin = button.anchorMax = new Vector2(0.5f, 0); button.pivot = new Vector2(0.5f, 0);
+                button.anchoredPosition = new Vector2(0, 466);
+                return;
+            }
             var rect = (RectTransform)view.dialogueGroup.transform;
             rect.anchorMin = new Vector2(0, top ? 1 : 0); rect.anchorMax = new Vector2(1, top ? 1 : 0);
             rect.pivot = new Vector2(0.5f, top ? 1 : 0);
-            if (view.dialogueBridge != null)
-            {
-                rect.offsetMin = new Vector2(44, top ? -464 : 54);
-                rect.offsetMax = new Vector2(-44, top ? -42 : 476);
-                var action = (RectTransform)view.dialogueBridge.dialogue.ActionButton.transform;
-                action.anchorMin = action.anchorMax = new Vector2(0.5f, top ? 1 : 0);
-                action.pivot = new Vector2(0.5f, top ? 1 : 0);
-                action.anchoredPosition = new Vector2(0, top ? -490 : 500);
-                return;
-            }
             rect.offsetMin = new Vector2(24, top ? -470 : 118);
             rect.offsetMax = new Vector2(-24, top ? -130 : 480);
         }

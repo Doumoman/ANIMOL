@@ -26,7 +26,7 @@ namespace Animol.Starway.Editor
             CreateAsset(chosenFont, Folder);
         }
 
-        public static string CreateAsset(TMP_FontAsset chosenFont, string folder)
+        public static string CreateAsset(TMP_FontAsset chosenFont, string folder, bool replaceExisting = false)
         {
             if (chosenFont == null) throw new System.ArgumentNullException(nameof(chosenFont));
             string current = "Assets";
@@ -57,7 +57,7 @@ namespace Animol.Starway.Editor
                 panelRect.anchorMin = new Vector2(0f, 0f);
                 panelRect.anchorMax = new Vector2(1f, 0f);
                 panelRect.pivot = new Vector2(0.5f, 0f);
-                panelRect.anchoredPosition = new Vector2(0f, 54f);
+                panelRect.anchoredPosition = new Vector2(0f, 20f);
                 panelRect.sizeDelta = new Vector2(-88f, 422f);
                 var panel = panelRect.gameObject.AddComponent<StoryNeonPanel>();
                 panel.color = Color.white;
@@ -83,14 +83,6 @@ namespace Animol.Starway.Editor
                 body.enableWordWrapping = true;
                 body.overflowMode = TextOverflowModes.Overflow;
 
-                var progress = Text("Progress", panelRect, 30f, chosenFont);
-                progress.color = new Color(0.76f, 0.83f, 0.94f, 0.8f);
-                progress.rectTransform.anchorMin = progress.rectTransform.anchorMax = Vector2.zero;
-                progress.rectTransform.pivot = Vector2.zero;
-                progress.rectTransform.anchoredPosition = new Vector2(38f, 24f);
-                progress.rectTransform.sizeDelta = new Vector2(240f, 38f);
-                progress.text = "1 / 20";
-
                 var next = Text("Next", panelRect, 30f, chosenFont);
                 next.rectTransform.anchorMin = next.rectTransform.anchorMax = new Vector2(1f, 0f);
                 next.rectTransform.pivot = new Vector2(1f, 0f);
@@ -102,7 +94,7 @@ namespace Animol.Starway.Editor
                 var actionRect = Rect("ActionButton", safe);
                 actionRect.anchorMin = actionRect.anchorMax = new Vector2(0.5f, 0f);
                 actionRect.pivot = new Vector2(0.5f, 0f);
-                actionRect.anchoredPosition = new Vector2(0f, 500f);
+                actionRect.anchoredPosition = new Vector2(0f, 466f);
                 actionRect.sizeDelta = new Vector2(330f, 88f);
                 var actionPanel = actionRect.gameObject.AddComponent<StoryNeonPanel>();
                 actionPanel.color = Color.white;
@@ -123,7 +115,9 @@ namespace Animol.Starway.Editor
                 actionLabel.text = "등불 가리기";
                 actionRect.gameObject.SetActive(false);
 
-                // Top-right, inside SafeArea. No scene ID badge is created.
+                StoryNeonPanel chronicleContinuePanel;
+                var chronicle = CreateChronicle(safe, chosenFont, out chronicleContinuePanel);
+                // Last sibling: >> stays above the Chronicle input layer.
                 var skipRect = Rect("SkipButton", safe);
                 skipRect.anchorMin = skipRect.anchorMax = new Vector2(1f, 1f);
                 skipRect.pivot = new Vector2(1f, 1f);
@@ -145,7 +139,9 @@ namespace Animol.Starway.Editor
                 Assign(serialized, "safeArea", safe);
                 Assign(serialized, "speakerText", speaker);
                 Assign(serialized, "bodyText", body);
-                Assign(serialized, "progressText", progress);
+                Assign(serialized, "dialoguePanel", panelRect.gameObject);
+                Assign(serialized, "chronicleView", chronicle);
+                Assign(serialized, "dialogueJson", FindTextAsset("ranch_dialogue"));
                 Assign(serialized, "nextText", next);
                 Assign(serialized, "advanceButton", advance);
                 Assign(serialized, "actionButton", actionButton);
@@ -154,13 +150,14 @@ namespace Animol.Starway.Editor
                 Assign(serialized, "skipText", skipLabel);
                 Assign(serialized, "galmuri14Font", chosenFont);
                 var panels = serialized.FindProperty("neonPanels");
-                panels.arraySize = 3;
+                panels.arraySize = 4;
                 panels.GetArrayElementAtIndex(0).objectReferenceValue = panel;
                 panels.GetArrayElementAtIndex(1).objectReferenceValue = actionPanel;
                 panels.GetArrayElementAtIndex(2).objectReferenceValue = skipPanel;
+                panels.GetArrayElementAtIndex(3).objectReferenceValue = chronicleContinuePanel;
                 serialized.ApplyModifiedPropertiesWithoutUndo();
 
-                string path = AssetDatabase.GenerateUniqueAssetPath(folder + "/StoryDialogueUI.prefab");
+                string path = replaceExisting ? folder + "/StoryDialogueUI.prefab" : AssetDatabase.GenerateUniqueAssetPath(folder + "/StoryDialogueUI.prefab");
                 var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
                 Selection.activeObject = prefab;
                 EditorGUIUtility.PingObject(prefab);
@@ -172,6 +169,106 @@ namespace Animol.Starway.Editor
                 if (root != null) Object.DestroyImmediate(root);
                 EditorSceneManager.ClosePreviewScene(previewScene);
             }
+        }
+
+        private static StoryChronicleView CreateChronicle(Transform parent, TMP_FontAsset font, out StoryNeonPanel continuePanel)
+        {
+            var root = Rect("ChronicleLayer", parent);
+            Stretch(root);
+            var tint = root.gameObject.AddComponent<Image>();
+            tint.color = new Color(13f / 255f, 21f / 255f, 43f / 255f, 0.70f);
+            tint.raycastTarget = true;
+            var group = root.gameObject.AddComponent<CanvasGroup>();
+            group.alpha = 0f;
+            group.interactable = false;
+            group.blocksRaycasts = false;
+            var view = root.gameObject.AddComponent<StoryChronicleView>();
+
+            var viewport = Rect("TextViewport", root);
+            viewport.anchorMin = new Vector2(0.08f, 0.14f);
+            viewport.anchorMax = new Vector2(0.92f, 0.89f);
+            viewport.offsetMin = viewport.offsetMax = Vector2.zero;
+            viewport.gameObject.AddComponent<RectMask2D>();
+            var content = Rect("ScrollingColumn", viewport);
+            content.anchorMin = content.anchorMax = new Vector2(0.5f, 1f);
+            content.pivot = new Vector2(0.5f, 1f);
+            var title = Text("RecordTitle", content, 45f, font);
+            title.rectTransform.anchorMin = title.rectTransform.anchorMax = new Vector2(0.5f, 1f);
+            title.rectTransform.pivot = new Vector2(0.5f, 1f);
+            title.alignment = TextAlignmentOptions.Top;
+            title.enableWordWrapping = true;
+            title.text = string.Empty;
+            var row = Text("RecordTemplate", content, 45f, font);
+            row.rectTransform.anchorMin = row.rectTransform.anchorMax = new Vector2(0.5f, 1f);
+            row.rectTransform.pivot = new Vector2(0.5f, 1f);
+            row.alignment = TextAlignmentOptions.Top;
+            row.enableWordWrapping = true;
+            row.richText = true;
+            row.text = "<line-height=160%></line-height>";
+            row.gameObject.SetActive(false);
+
+            var hint = Text("HoldHint", root, 30f, font);
+            hint.rectTransform.anchorMin = hint.rectTransform.anchorMax = new Vector2(0.5f, 0f);
+            hint.rectTransform.pivot = new Vector2(0.5f, 0f);
+            hint.rectTransform.anchoredPosition = new Vector2(0f, 56f);
+            hint.rectTransform.sizeDelta = new Vector2(700f, 48f);
+            hint.alignment = TextAlignmentOptions.Center;
+            hint.text = string.Empty;
+
+            var nextRect = Rect("ChronicleContinue", root);
+            nextRect.anchorMin = nextRect.anchorMax = new Vector2(0.5f, 0f);
+            nextRect.pivot = new Vector2(0.5f, 0f);
+            nextRect.anchoredPosition = new Vector2(0f, 56f);
+            nextRect.sizeDelta = new Vector2(330f, 88f);
+            continuePanel = nextRect.gameObject.AddComponent<StoryNeonPanel>();
+            continuePanel.color = Color.white;
+            continuePanel.raycastTarget = false;
+            var hit = Rect("TapTarget", nextRect);
+            Stretch(hit);
+            var temporaryButton = InvisibleButton(hit);
+            Object.DestroyImmediate(temporaryButton);
+            var button = nextRect.gameObject.AddComponent<Button>();
+            button.targetGraphic = hit.GetComponent<Image>();
+            button.transition = Selectable.Transition.None;
+            button.navigation = new Navigation { mode = Navigation.Mode.None };
+            var nextLabel = Text("Label", nextRect, 45f, font);
+            Stretch(nextLabel.rectTransform);
+            nextLabel.alignment = TextAlignmentOptions.Center;
+            nextLabel.text = "계속";
+            nextRect.gameObject.SetActive(false);
+
+            foreach (var panel in root.GetComponentsInChildren<StoryNeonPanel>(true))
+                if (panel.GetComponent<CanvasRenderer>() == null) panel.gameObject.AddComponent<CanvasRenderer>();
+            var serialized = new SerializedObject(view);
+            Assign(serialized, "chronicleJson", FindTextAsset("ranch_chronicle"));
+            Assign(serialized, "group", group);
+            Assign(serialized, "viewport", viewport);
+            Assign(serialized, "content", content);
+            Assign(serialized, "title", title);
+            Assign(serialized, "rowTemplate", row);
+            Assign(serialized, "hint", hint);
+            Assign(serialized, "continueButton", button);
+            Assign(serialized, "continueText", nextLabel);
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            return view;
+        }
+
+        private static TextAsset FindTextAsset(string exactName)
+        {
+            TextAsset result = null;
+            foreach (string guid in AssetDatabase.FindAssets(exactName + " t:TextAsset"))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                if (System.IO.Path.GetFileNameWithoutExtension(path) != exactName ||
+                    !path.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase)) continue;
+                if (result != null)
+                {
+                    Debug.LogWarning("Multiple " + exactName + ".json assets exist. Assign the intended TextAsset in the new prefab.");
+                    return null;
+                }
+                result = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            }
+            return result;
         }
 
         private static bool IsGalmuri14(TMP_FontAsset font)
@@ -225,6 +322,8 @@ namespace Animol.Starway.Editor
             result.font = font;
             result.fontSize = size;
             result.fontStyle = FontStyles.Normal;
+            result.fontWeight = FontWeight.Regular;
+            result.fontSharedMaterial = font.material;
             result.color = new Color(245f / 255f, 243f / 255f, 233f / 255f, 1f);
             result.alignment = TextAlignmentOptions.TopLeft;
             result.raycastTarget = false;

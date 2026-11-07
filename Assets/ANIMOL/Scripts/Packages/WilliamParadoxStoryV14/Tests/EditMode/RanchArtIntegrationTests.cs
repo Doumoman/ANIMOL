@@ -36,7 +36,7 @@ namespace WilliamParadox.Story.Tests
                 if (n.artId == "R13B") Assert.That(reprimand, Is.True);
                 if (n.id == "R13B_LATCH_SEATED") latch = true;
                 if (n.text != null && n.text.Contains("고함에도")) Assert.That(latch, Is.True);
-                if (n.kind == "gate") session.ActivateGate(); else if (n.kind == "credits") session.ContinueCredits(); else session.Acknowledge();
+                if (n.kind == "gate") session.ActivateGate(); else if (n.kind == "credits") { session.RecordChronicleResult(false, true); session.ContinueCredits(); } else session.Acknowledge();
             }
             Assert.That(reprimand && latch, Is.True);
         }
@@ -49,7 +49,9 @@ namespace WilliamParadox.Story.Tests
                 var session = new StorySession(graph);
                 var saved = new StorySaveData { packageId = graph.Package.packageId, contentVersion = graph.Package.contentVersion, nodeId = alias.oldId, flags = alias.flags };
                 Assert.That(session.Restore(saved), Is.True, alias.oldId);
-                Assert.That(session.Current.id, Is.EqualTo(alias.nodeId)); CollectionAssert.AreEquivalent(session.Flags, alias.flags);
+                string migrated = alias.nodeId == "R17_B6_FINAL_CONTINUE" ? "R17_B5_CREDITS" : alias.nodeId;
+                Assert.That(session.Current.id, Is.EqualTo(migrated));
+                CollectionAssert.AreEquivalent(alias.flags.Where(f => f != "RANCH_RULE_EPILOGUE_SEEN"), session.Flags);
                 saved.flags = alias.flags.Concat(new[] { "UNKNOWN_INJECTED" }).ToArray();
                 Assert.That(new StorySession(graph).Restore(saved), Is.False);
             }
@@ -68,8 +70,10 @@ namespace WilliamParadox.Story.Tests
             Assert.That(session.HasFlag("ISOL_PRESENT") && session.HasFlag("RETURN_PATH_USED"), Is.True);
             Assert.That(session.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
             Assert.That(session.Acknowledge(), Is.False);
-            Assert.That(session.ContinueCredits(), Is.True); Assert.That(session.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
-            Assert.That(session.ActivateGate(), Is.True); Assert.That(session.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.True);
+            Assert.That(session.ContinueCredits(), Is.False);
+            Assert.That(session.RecordChronicleResult(true, false), Is.True);
+            Assert.That(session.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.True);
+            Assert.That(session.ContinueCredits(), Is.True); Assert.That(session.Current.kind, Is.EqualTo("end"));
         }
         [Test] public void AllAuthoredEffectsUseCentralPolicyWithoutFlashHapticsOrInputLock()
         {

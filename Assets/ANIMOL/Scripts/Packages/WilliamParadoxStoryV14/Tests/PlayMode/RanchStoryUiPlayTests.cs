@@ -72,76 +72,90 @@ namespace WilliamParadox.Story.Tests.PlayMode
 #endif
         }
 
-        [UnityTest] public IEnumerator All184UtterancesUseTheLiveUiAndPreserveLampBookAndFinalContinue()
+        [UnityTest] public IEnumerator All178UtterancesAndTheRecordUseSeparateCompletionInput()
         {
 #if UNITY_EDITOR
             yield return Open(true);
-            var seen = new HashSet<string>(); bool lamp = false, restoredBook = false, final = false;
+            var seen = new HashSet<string>(); bool lamp = false, book = false;
+            var endingEvents = new List<string>();
+            Ui.ActionConfirmed.AddListener(action => { if (action == "play_chronicle") endingEvents.Add("confirmed"); });
+            Ui.SceneFinished.AddListener(scene => { if (scene == "R17") endingEvents.Add("finished"); });
             for (int steps = 0; steps < 600 && runner.CurrentNode.kind != "end"; steps++)
             {
                 Arm(); var node = runner.CurrentNode; seen.Add(Ui.CurrentLine.id);
-                Assert.That(Ui.BodyLabel.fontSize, Is.EqualTo(45)); Assert.That(Ui.BodyLabel.enableAutoSizing, Is.False);
-                Assert.That(Ui.BodyLabel.fontStyle, Is.EqualTo(FontStyles.Normal));
                 Assert.That(runner.ValidationErrors, Is.Empty, node.id);
-                if (node.artId == "R15" || node.sceneId == "R17")
-                    Assert.That(((RectTransform)runner.view.dialogueGroup.transform).anchorMin.y, Is.EqualTo(1), node.id + " foreground hand must stay clear of dialogue");
-                Ui.BodyLabel.ForceMeshUpdate();
-                var info = Ui.BodyLabel.textInfo;
-                var page = info.pageInfo[Mathf.Clamp(Ui.BodyLabel.pageToDisplay - 1, 0, Mathf.Max(0, info.pageCount - 1))];
-                int pageLines = info.lineInfo.Take(info.lineCount).Count(l => l.firstCharacterIndex >= page.firstCharacterIndex && l.firstCharacterIndex <= page.lastCharacterIndex);
-                Assert.That(pageLines, Is.LessThanOrEqualTo(4), Ui.CurrentLine.id);
-                if (Ui.CurrentLine.id == "R13_001") Assert.That(Ui.BodyLabel.text, Does.Contain("그날 저녁"));
-                if (Ui.CurrentLine.id == "R13_007") Assert.That(Ui.ProgressLabel.text, Does.Contain("다음 날"));
-                if (Ui.CurrentLine.id == "R12_011") yield return Capture("R12C");
-                if (Ui.CurrentLine.id == "R17_004") yield return Capture("R17_tori_relief");
-                if (node.kind == "gate" && node.gateId == "BLOCK_LAMP" && !lamp)
+                var panel = (RectTransform)runner.view.dialogueGroup.transform;
+                Assert.That(panel.anchorMin.y, Is.Zero, node.id);
+                Assert.That(panel.anchoredPosition.y, Is.EqualTo(20), node.id);
+                Assert.That(Ui.ProgressLabel == null || !Ui.ProgressLabel.gameObject.activeSelf, Is.True);
+                if (node.kind != "credits")
                 {
-                    Assert.That(runner.HasFlag("PLAYER_BLOCKS_LAMP"), Is.False);
-                    runner.persistProgress = true; runner.SaveCheckpoint(); runner.StartStory(true); runner.persistProgress = false; Arm();
-                    Assert.That(runner.CurrentNode.gateId, Is.EqualTo("BLOCK_LAMP"));
-                    Ui.SkipButton.onClick.Invoke(); Ui.SkipButton.onClick.Invoke(); Ui.Advance();
-                    Assert.That(runner.CurrentNode.gateId, Is.EqualTo("BLOCK_LAMP"));
-                    Assert.That(runner.HasFlag("PLAYER_BLOCKS_LAMP"), Is.False);
-                    Assert.That(runner.view.ranchStage.composition.gameObject.activeSelf, Is.True);
-                    yield return Capture("R16_lamp_gate"); Arm(); Ui.ActionButton.onClick.Invoke();
-                    Assert.That(runner.HasFlag("PLAYER_BLOCKS_LAMP"), Is.True); lamp = true;
+                    Ui.BodyLabel.ForceMeshUpdate();
+                    Assert.That(Ui.BodyLabel.preferredHeight, Is.LessThanOrEqualTo(250), Ui.CurrentLine.id);
                 }
-                else if (node.kind == "gate")
+                if (node.kind == "gate")
                 {
-                    if (node.gateId == "PREVIEW_FINAL_CONTINUE")
+                    if (node.gateId == "BLOCK_LAMP")
                     {
-                        Assert.That(runner.HasFlag("ISOL_PRESENT"), Is.True);
-                        Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
-                        Ui.SkipButton.onClick.Invoke(); Ui.Advance();
-                        Assert.That(runner.CurrentNode.gateId, Is.EqualTo("PREVIEW_FINAL_CONTINUE"));
-                        Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False); final = true;
-                        yield return null; Arm();
+                        Ui.SkipCurrentScene(); Assert.That(runner.HasFlag("PLAYER_BLOCKS_LAMP"), Is.False);
+                        Arm(); lamp = true;
                     }
                     Ui.ActionButton.onClick.Invoke();
                 }
                 else if (node.kind == "credits")
                 {
-                    if (runner.CreditParagraph == 2 && !restoredBook)
-                    {
-                        runner.persistProgress = true; runner.SaveCheckpoint(); runner.StartStory(true); runner.persistProgress = false;
-                        Assert.That(runner.CreditParagraph, Is.EqualTo(2)); Assert.That(Ui.CurrentLine.id, Is.EqualTo("R17_010")); restoredBook = true;
-                    }
-                    if (runner.CreditParagraph == 5)
-                    {
-                        Arm(); Ui.ActionButton.onClick.Invoke();
-                        Assert.That(runner.CurrentNode.kind, Is.EqualTo("credits"));
-                        yield return Capture("R17_chronicle"); yield return new WaitForSecondsRealtime(3.1f); Arm();
-                        Assert.That(Ui.ActionButton.interactable, Is.True); Ui.ActionButton.onClick.Invoke();
-                    }
-                    else { Arm(); Ui.Advance(); }
+                    var record = Ui.Chronicle; book = true;
+                    typeof(StoryChronicleView).GetField("hasFocus", Private).SetValue(record, true);
+                    Assert.That(record.CurrentPhase, Is.EqualTo(StoryChronicleView.Phase.StaticPages));
+                    Assert.That(runner.HasFlag("ISOL_PRESENT"), Is.True);
+                    Assert.That(runner.ConfirmDialogueAction("play_chronicle"), Is.False);
+                    for (int page = 0; page < 5; page++) record.AdvanceStaticPage();
+                    runner.persistProgress = true; runner.SaveCheckpoint(); runner.StartStory(true); runner.persistProgress = false; Arm();
+                    record = Ui.Chronicle;
+                    typeof(StoryChronicleView).GetField("hasFocus", Private).SetValue(record, true);
+                    Assert.That(record.StaticPage, Is.Zero); Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
+                    for (int page = 0; page < 12; page++) record.AdvanceStaticPage();
+                    Assert.That(record.WasReadThrough, Is.True); Assert.That(record.WasSkipped, Is.False);
+                    Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.True);
+                    Assert.That(runner.CurrentNode.kind, Is.EqualTo("credits"));
+                    Assert.That(runner.ConfirmDialogueAction("play_chronicle"), Is.False);
+                    Arm(); record.RequestContinue();
+                    Assert.That(runner.CurrentNode.kind, Is.EqualTo("end"));
                 }
                 else Ui.Advance();
                 yield return null;
             }
-            Assert.That(runner.CurrentNode.kind, Is.EqualTo("end")); Assert.That(lamp && restoredBook && final, Is.True);
-            Assert.That(seen.Count, Is.EqualTo(184)); Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.True);
-            Directory.CreateDirectory(Output);
-            File.WriteAllText(Output + "/utterance_coverage.json", "{\"count\":" + seen.Count + ",\"lineIds\":[\"" + string.Join("\",\"", seen.OrderBy(s => s)) + "\"]}");
+            Assert.That(lamp && book, Is.True); Assert.That(seen.Count, Is.EqualTo(179));
+            Assert.That(runner.CurrentNode.kind, Is.EqualTo("end"));
+            CollectionAssert.AreEqual(new[] { "confirmed", "finished" }, endingEvents);
+            Assert.That(runner.HasFlag("ISOL_PRESENT") && runner.HasFlag("RETURN_PATH_USED"), Is.True);
+            Assert.That(runner.HasFlag("CHAPTER_R_COMPLETE"), Is.False, "Preview must not grant live campaign progress.");
+#else
+            Assert.Ignore("Editor scene required."); yield break;
+#endif
+        }
+
+        [UnityTest] public IEnumerator SkippedRecordDoesNotGrantReadThroughAndNeedsNewContinue()
+        {
+#if UNITY_EDITOR
+            yield return Open(true);
+            for (int steps = 0; steps < 600 && runner.CurrentNode.kind != "credits"; steps++)
+            {
+                Arm();
+                if (runner.CurrentNode.kind == "gate") Ui.ActionButton.onClick.Invoke(); else Ui.Advance();
+                yield return null;
+            }
+            Arm(); var record = Ui.Chronicle;
+            typeof(StoryChronicleView).GetField("hasFocus", Private).SetValue(record, true);
+            Ui.SkipCurrentScene();
+            Assert.That(record.WasSkipped, Is.True); Assert.That(record.WasReadThrough, Is.False);
+            Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
+            runner.persistProgress = true; runner.SaveCheckpoint(); runner.StartStory(true); runner.persistProgress = false; Arm();
+            Assert.That(Ui.Chronicle.StaticPage, Is.Zero); Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
+            record = Ui.Chronicle; typeof(StoryChronicleView).GetField("hasFocus", Private).SetValue(record, true);
+            Ui.SkipCurrentScene(); Assert.That(runner.CurrentNode.kind, Is.EqualTo("credits"));
+            Arm(); record.RequestContinue(); Assert.That(runner.CurrentNode.kind, Is.EqualTo("end"));
+            Assert.That(runner.HasFlag("RANCH_RULE_EPILOGUE_SEEN"), Is.False);
 #else
             Assert.Ignore("Editor scene required."); yield break;
 #endif

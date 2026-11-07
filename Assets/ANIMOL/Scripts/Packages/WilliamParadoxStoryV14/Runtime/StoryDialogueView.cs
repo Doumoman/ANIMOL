@@ -29,7 +29,9 @@ namespace Animol.Starway
         [SerializeField] private RectTransform safeArea;
         [SerializeField] private TMP_Text speakerText;
         [SerializeField] private TMP_Text bodyText;
-        [SerializeField] private TMP_Text progressText;
+        [SerializeField, HideInInspector] private TMP_Text progressText;
+        [SerializeField] private GameObject dialoguePanel;
+        [SerializeField] private StoryChronicleView chronicleView;
         [SerializeField] private TMP_Text nextText;
         [SerializeField] private Button advanceButton;
         [SerializeField] private Button actionButton;
@@ -78,6 +80,7 @@ namespace Animol.Starway
         public TMP_Text BodyLabel => bodyText;
         public TMP_Text SpeakerLabel => speakerText;
         public TMP_Text ProgressLabel => progressText;
+        public StoryChronicleView Chronicle => chronicleView;
         public Button SkipButton => skipButton;
         public Button ActionButton => actionButton;
         public string PendingAction { get { return pendingAction; } }
@@ -111,6 +114,8 @@ namespace Animol.Starway
             if (advanceButton != null) advanceButton.onClick.AddListener(Advance);
             if (actionButton != null) actionButton.onClick.AddListener(RequestCurrentAction);
             if (skipButton != null) skipButton.onClick.AddListener(SkipCurrentScene);
+            if (chronicleView != null) chronicleView.ContinueRequested.AddListener(OnChronicleContinue);
+            if (progressText != null) progressText.gameObject.SetActive(false);
             if (galmuri14Font != null) SetFont(galmuri14Font);
             if (skipText != null) skipText.text = ">>";
             if (!isOpen) SetVisible(false);
@@ -140,6 +145,7 @@ namespace Animol.Starway
             if (advanceButton != null) advanceButton.onClick.RemoveListener(Advance);
             if (actionButton != null) actionButton.onClick.RemoveListener(RequestCurrentAction);
             if (skipButton != null) skipButton.onClick.RemoveListener(SkipCurrentScene);
+            if (chronicleView != null) chronicleView.ContinueRequested.RemoveListener(OnChronicleContinue);
         }
 
         public bool LoadJson(TextAsset json)
@@ -194,6 +200,7 @@ namespace Animol.Starway
             int found = Array.FindIndex(data.scenes, scene => string.Equals(scene.id, sceneId, StringComparison.Ordinal));
             if (found < 0) return Fail("Unknown scene ID: " + sceneId);
             StopTyping();
+            CancelChronicle();
             sceneIndex = found;
             lineIndex = 0;
             sceneFinished = false;
@@ -227,6 +234,7 @@ namespace Animol.Starway
         public void SkipCurrentScene()
         {
             if (hostPaused || !isOpen || sceneFinished || CurrentScene == null || CurrentLine == null) return;
+            if (pendingAction == "play_chronicle") { chronicleView?.SkipToEnd(); return; }
             if (hostControlsProgress) { RevealAll(); SceneSkipRequested.Invoke(); return; }
             for (int index = lineIndex; index < CurrentScene.lines.Length; index++)
             {
@@ -264,11 +272,24 @@ namespace Animol.Starway
                 label.fontWeight = FontWeight.Regular;
                 label.fontSharedMaterial = font.material;
             }
+            chronicleView?.SetFont(font);
+        }
+
+        private void OnChronicleContinue()
+        {
+            if (hostControlsProgress) onActionRequested.Invoke("play_chronicle");
+            else ConfirmAction("play_chronicle");
+        }
+        private void CancelChronicle()
+        {
+            chronicleView?.Cancel();
+            if (dialoguePanel != null) dialoguePanel.SetActive(true);
         }
 
         public void RequestCurrentAction()
         {
             if (hostPaused || !hostActionReady || !isOpen || isTyping || sceneFinished || string.IsNullOrEmpty(pendingAction)) return;
+            if (pendingAction == "play_chronicle") return;
             if (hostControlsProgress) { onActionRequested.Invoke(pendingAction); return; }
             if (pendingAction == "chapter_complete")
             {
@@ -286,13 +307,15 @@ namespace Animol.Starway
         {
             if (hostPaused || !hostActionReady || !isOpen || isTyping || sceneFinished || string.IsNullOrEmpty(pendingAction) ||
                 !string.Equals(action, pendingAction, StringComparison.Ordinal)) return false;
+            if (action == "play_chronicle" && (chronicleView == null || !chronicleView.IsAwaitingContinue || !chronicleView.ContinueWasRequested)) return false;
             string confirmed = pendingAction;
             pendingAction = string.Empty;
+            if (confirmed == "play_chronicle") chronicleView.Cancel();
             UpdateButtons();
             int ticket = ++revision;
             onActionConfirmed.Invoke(confirmed);
             // A listener may close the view or open another scene.
-            if (!hostControlsProgress && ticket == revision && isOpen) MoveAfterLine();
+            if ((!hostControlsProgress || confirmed == "play_chronicle") && ticket == revision && isOpen) MoveAfterLine();
             return true;
         }
 
@@ -314,7 +337,7 @@ namespace Animol.Starway
                 if (finishedTicket != revision) return false;
             }
             bool entered = !isOpen || CurrentSceneId != sceneId;
-            StopTyping(); sceneIndex = found; lineIndex = line; isOpen = true; sceneFinished = false;
+            StopTyping(); CancelChronicle(); sceneIndex = found; lineIndex = line; isOpen = true; sceneFinished = false;
             SetVisible(true); ApplySafeArea();
             if (entered)
             {
@@ -329,12 +352,13 @@ namespace Animol.Starway
         }
         public void SetHostState(bool paused, bool actionReady)
         {
-            hostPaused = paused; hostActionReady = actionReady; UpdateButtons();
+            hostPaused = paused; hostActionReady = actionReady;
+            chronicleView?.SetPaused(paused);
+            UpdateButtons();
         }
-        public void SetContextLabel(string prefix)
+        public void SetContextLabel(string unused)
         {
-            if (progressText != null && CurrentScene != null)
-                progressText.text = (string.IsNullOrEmpty(prefix) ? "" : prefix + " · ") + (lineIndex + 1) + " / " + CurrentScene.lines.Length;
+            if (progressText != null) progressText.gameObject.SetActive(false);
         }
 
         public void OpenNextScene()
@@ -361,6 +385,7 @@ namespace Animol.Starway
         {
             ++revision;
             StopTyping();
+            CancelChronicle();
             isOpen = false;
             sceneFinished = false;
             lineIndex = -1;
@@ -376,6 +401,7 @@ namespace Animol.Starway
         public void SetReducedMotion(bool enabled)
         {
             reducedMotion = enabled;
+            chronicleView?.SetReducedMotion(enabled);
             if (enabled && isTyping) RevealAll();
         }
 
@@ -402,7 +428,7 @@ namespace Animol.Starway
             visibleCharacterCount = bodyText.textInfo.characterCount;
             isTyping = !reducedMotion && charactersPerSecond > 0f && visibleCharacterCount > 0;
             if (isTyping) bodyText.maxVisibleCharacters = 0;
-            if (progressText != null) progressText.text = (lineIndex + 1) + " / " + CurrentScene.lines.Length;
+            if (progressText != null) progressText.gameObject.SetActive(false);
             // Prepare text before asking the host to change shot/cue. Blank cue
             // values let it clear transient state; persistent effects stay host-owned.
             onLineShown.Invoke(line.id);
@@ -413,6 +439,15 @@ namespace Animol.Starway
             if (!StillCurrent(ticket)) return;
             onEmotionRequested.Invoke(line.emotion ?? string.Empty);
             if (!StillCurrent(ticket)) return;
+            if (pendingAction == "play_chronicle")
+            {
+                StopTyping();
+                if (dialoguePanel != null) dialoguePanel.SetActive(false);
+                UpdateButtons();
+                if (chronicleView == null || !chronicleView.Begin()) Fail("Missing Chronicle layer or data.");
+                return;
+            }
+            if (dialoguePanel != null) dialoguePanel.SetActive(true);
             if (isTyping)
             {
                 typing = StartCoroutine(TypeLine(ticket));
@@ -476,13 +511,14 @@ namespace Animol.Starway
         private void UpdateButtons()
         {
             bool hasAction = !string.IsNullOrEmpty(pendingAction);
+            bool book = pendingAction == "play_chronicle";
             if (skipButton != null) skipButton.interactable = isOpen && !sceneFinished && !hostPaused;
             if (skipText != null) skipText.text = ">>";
             if (advanceButton != null) advanceButton.interactable = isOpen && !sceneFinished && !hostPaused && (isTyping || !hasAction);
             if (actionButton != null)
             {
-                actionButton.gameObject.SetActive(isOpen && !sceneFinished && hasAction && !isTyping);
-                actionButton.interactable = isOpen && !sceneFinished && hasAction && !isTyping && !hostPaused && hostActionReady;
+                actionButton.gameObject.SetActive(isOpen && !sceneFinished && hasAction && !isTyping && !book);
+                actionButton.interactable = isOpen && !sceneFinished && hasAction && !isTyping && !book && !hostPaused && hostActionReady;
             }
             if (actionText != null)
                 actionText.text = pendingAction == "block_lamp" ? "등불 가리기" :

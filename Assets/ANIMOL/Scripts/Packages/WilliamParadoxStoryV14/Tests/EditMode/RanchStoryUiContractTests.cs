@@ -16,12 +16,16 @@ namespace WilliamParadox.Story.Tests
         {
             var source = JsonUtility.FromJson<StoryDialogueData>(File.ReadAllText("Assets/ANIMOL/Data/StarwayRanch/Story/ranch_dialogue.json"));
             var host = JsonUtility.FromJson<StoryPackage>(Resources.Load<TextAsset>("WilliamParadox/V14/Story/ranch_story").text);
-            Assert.That(source.scenes.Sum(s => s.lines.Length), Is.EqualTo(184));
+            Assert.That(source.scenes.Sum(s => s.lines.Length), Is.EqualTo(179));
             var book = host.nodes.Single(n => n.kind == "credits");
             foreach (var line in source.scenes.SelectMany(s => s.lines))
             {
                 if (line.shot == "R17B")
-                    Assert.That(book.credits[int.Parse(line.id.Substring(4)) - 8], Is.EqualTo(line.text));
+                {
+                    Assert.That(line.id, Is.EqualTo("R17_008")); Assert.That(line.action, Is.EqualTo("play_chronicle"));
+                    Assert.That(line.text, Is.Empty); Assert.That(book.credits, Is.Empty);
+                    Assert.That(book.chronicleId, Is.EqualTo("R17_DUAL_RECORD"));
+                }
                 else
                 {
                     var node = host.nodes.First(n => n.dialogueId == line.id && (n.kind == "line" || n.kind == "gate"));
@@ -33,7 +37,9 @@ namespace WilliamParadox.Story.Tests
         {
             var root = AssetDatabase.LoadAssetAtPath<GameObject>(UiPath); var ui = root.GetComponent<StoryDialogueView>();
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>("Assets/ANIMOL/Fonts/Notebook/Galmuri14.asset");
-            Assert.That(ui.DialogueJson, Is.Not.Null);
+            Assert.That(ui.DialogueJson, Is.Not.Null); Assert.That(ui.Chronicle, Is.Not.Null);
+            Assert.That(root.transform.Find("SafeArea/DialoguePanel").GetComponent<RectTransform>().anchoredPosition.y, Is.EqualTo(20));
+            Assert.That(root.transform.Find("SafeArea/DialoguePanel/Progress"), Is.Null);
             foreach (var panel in root.GetComponentsInChildren<StoryNeonPanel>(true)) Assert.That(panel.GetComponent<CanvasRenderer>(), Is.Not.Null);
             foreach (var label in root.GetComponentsInChildren<TMP_Text>(true))
             {

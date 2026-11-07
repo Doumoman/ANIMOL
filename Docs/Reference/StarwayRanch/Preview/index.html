@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>별길 목장 v0.28 · 스토리 미리보기</title>
+<link rel="stylesheet" href="preview.css">
+</head>
+<body>
+<main class="shell">
+  <section class="preview" aria-label="9대16 스토리 미리보기">
+    <div class="stage" id="stage">
+      <div class="world" id="world" aria-hidden="true">
+        <div class="placeholder" id="placeholder">장면을 불러오는 중</div>
+        <img class="plate" id="plate" alt="" hidden>
+        <canvas class="stars" id="stars" hidden></canvas>
+        <img class="runner" id="runner" alt="" hidden>
+        <img class="friends" id="friends" alt="" hidden>
+        <img class="isol-hand" id="isolHand" alt="" hidden>
+        <img class="boar-rush" id="boarRush" alt="" hidden>
+        <div class="anticipation" id="anticipation"></div>
+        <i class="eye one"></i><i class="eye two"></i>
+        <div class="curtain" id="curtain"></div>
+        <div class="impacts"><i class="pulse"></i><i class="pulse"></i><i class="pulse"></i></div>
+        <div class="pop left" id="popIsol" hidden><img src="../../../../Assets/ANIMOL/Art/Story/starway/R12/Resources/ANIMOL/Story/Starway/R12_IsolReaction.png" alt=""></div>
+        <div class="pop right" id="popTori" hidden><img src="../../../../Assets/ANIMOL/Art/Story/starway/R12/Resources/ANIMOL/Story/Starway/R12_ToriReaction.png" alt=""></div>
+      </div>
+      <div class="story-ui" id="storyUI">
+        <div class="topbar"><button class="skip-button" id="skip" type="button" aria-label="현재 장면 건너뛰기" title="현재 장면 건너뛰기">&gt;&gt;</button></div>
+        <section class="chronicle-layer" id="chronicleLayer" aria-label="두 시점의 역사 기록" hidden>
+          <div class="chronicle-dim"></div>
+          <div class="chronicle-viewport" id="chronicleViewport"><div class="chronicle-column" id="chronicleColumn"></div></div>
+          <p class="chronicle-hint" id="chronicleHint"></p>
+          <button class="chronicle-continue" id="chronicleContinue" type="button" hidden>계속</button>
+        </section>
+        <div class="dialogue-wrap" id="dialogueWrap">
+          <button class="action-button" id="actionButton" type="button" hidden></button>
+          <button class="dialogue" id="dialogue" type="button" aria-label="다음 대사">
+            <span class="speaker" id="speaker"></span>
+            <span class="line" id="line" aria-live="polite"></span>
+            <span class="advance-mark" id="advanceMark" aria-hidden="true">⌄</span>
+          </button>
+        </div>
+        <div class="completion" id="completion" hidden><span>별길 목장</span><strong>함께 돌아온 밤</strong><p>네 사람의 이야기가 별에 남았습니다.</p><button class="btn" id="restart" type="button">처음부터 다시 보기</button></div>
+      </div>
+    </div>
+  </section>
+  <section class="controls" aria-label="스토리 조작">
+    <header><p class="kicker">윌리엄의 역설 · v0.28</p><h1>별길 목장</h1><p class="sub">수정한 대사와 연출을 함께 확인하는 9:16 스토리 미리보기.</p></header>
+    <div class="box now"><h2 id="title"></h2><p id="description"></p>
+      <div class="pager"><button class="btn" id="prevLine" type="button">이전 대사</button><button class="btn primary" id="nextLine" type="button">다음 대사</button><button class="btn" id="replay" type="button">장면 처음부터</button></div>
+      <div class="pager"><button class="btn" id="prev" type="button">← 이전 장면</button><button class="btn" id="next" type="button">다음 장면 →</button></div>
+      <div class="shots" id="shots" aria-label="장면 안의 컷"></div>
+    </div>
+    <div class="box"><h2 class="label">장면 선택</h2><div class="scene-grid" id="scenes"></div></div>
+    <div class="box options"><label><input id="reduce" type="checkbox"> 움직임 줄이기</label><label><input id="showDialogue" type="checkbox" checked> 대화 UI 표시</label><button class="btn" id="sound" type="button" aria-pressed="false">임시 효과음: 끔</button></div>
+    <p class="fine">화면의 대화창을 누르거나 Space로 진행합니다. ← / →는 장면 이동, R은 현재 장면 다시 보기입니다. 우상단 &gt;&gt;는 현재 장면의 남은 대사를 넘깁니다. 등불 입력과 마지막 계속은 따로 진행합니다. 책의 기록은 아래에서 위로 흐르며, 길게 누르면 빨라집니다. 효과가 끝나도 대사는 자동으로 넘어가지 않습니다.</p>
+    <p class="fine" id="notice">초안 대사 · 효과음은 검토용 합성음 · 인물 분리 이미지가 없는 컷은 이름만 작게 강조합니다.</p>
+  </section>
+</main>
+<script src="../../../../Assets/ANIMOL/Data/StarwayRanch/Story/ranch_dialogue.js"></script>
+<script src="../../../../Assets/ANIMOL/Data/StarwayRanch/Story/ranch_chronicle.js"></script>
+<script src="asset-paths.js"></script>
+<script src="chronicle.js"></script>
+<script src="preview.js"></script>
+</body>
+</html>

@@ -34,7 +34,7 @@ RectTransform:
   - {fileID: 3354397060090728255}
   - {fileID: 6080538645586819408}
   - {fileID: 3603914378095114001}
-  - {fileID: 4764406744567786565}
+  - {fileID: 7254009052957124056}
   m_Father: {fileID: 1574727498121744905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1065,6 +1065,7 @@ RectTransform:
   - {fileID: 7387366873751961926}
   - {fileID: 5177294052673286381}
   - {fileID: 711194596914351983}
+  - {fileID: 527217179097851960}
   m_Father: {fileID: 6080538645586819408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1155,6 +1156,7 @@ MonoBehaviour:
   runSprite: {fileID: 21300000, guid: 0bcdb307ba3ddaa40a8e109a11d94cfc, type: 3}
   soundSource: {fileID: 7736328205701444912}
   latchClip: {fileID: 8300000, guid: d9da7c70a82bf644297fee2c8a4d4911, type: 3}
+  bookTransition: {fileID: 8835964422289021968}
 --- !u!82 &7736328205701444912
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1995,9 +1997,9 @@ MonoBehaviour:
   layeredRoot: {fileID: 5177294052673286381}
   layeredBackground: {fileID: 8974832996466069968}
   layeredForeground: {fileID: 999356940677510119}
-  dialogueGroup: {fileID: 3548813119109902924}
-  speakerText: {fileID: 8716403795868315309}
-  bodyText: {fileID: 2048757780200847269}
+  dialogueGroup: {fileID: 1696188853741730769}
+  speakerText: {fileID: 6792302822434203440}
+  bodyText: {fileID: 4241086985197485624}
   statusText: {fileID: 5168216840248979828}
   advanceButton: {fileID: 9181678855131013664}
   gateButton: {fileID: 5545987149902269135}
@@ -2098,7 +2100,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: WilliamParadox.Story.Runtime::WilliamParadox.Story.RanchStoryDialogueBridge
   runner: {fileID: 8004296500924130332}
-  dialogue: {fileID: 4691437463352468490}
+  dialogue: {fileID: 7471100114273004951}
+  ChronicleStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  ChronicleRewindStarted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1966548238033541619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2536,96 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3578658340641588976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 527217179097851960}
+  - component: {fileID: 6439515889877927304}
+  - component: {fileID: 8835964422289021968}
+  - component: {fileID: 711836183341261709}
+  m_Layer: 0
+  m_Name: BookCrossfade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &527217179097851960
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578658340641588976}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6137954943143443953}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6439515889877927304
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578658340641588976}
+  m_CullTransparentMesh: 1
+--- !u!114 &8835964422289021968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578658340641588976}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &711836183341261709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578658340641588976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0a96a8d7e7a63241a1597a3b1072877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::WilliamParadox.Story.StoryCoverImage
+  viewport: {fileID: 6137954943143443953}
+  image: {fileID: 8835964422289021968}
 --- !u!1 &3911368475067155877
 GameObject:
   m_ObjectHideFlags: 0
@@ -6600,7 +6698,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1001 &1515765518381639858
+--- !u!1001 &3728114941407158575
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -6701,10 +6799,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
---- !u!114 &2048757780200847269 stripped
+--- !u!225 &1696188853741730769 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 2609552378766482174, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+  m_PrefabInstance: {fileID: 3728114941407158575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4241086985197485624 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 677707003717230359, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
-  m_PrefabInstance: {fileID: 1515765518381639858}
+  m_PrefabInstance: {fileID: 3728114941407158575}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -6712,15 +6815,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!225 &3548813119109902924 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 2609552378766482174, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
-  m_PrefabInstance: {fileID: 1515765518381639858}
+--- !u!114 &6792302822434203440 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7926326167545873951, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+  m_PrefabInstance: {fileID: 3728114941407158575}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4691437463352468490 stripped
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!224 &7254009052957124056 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6275631964793619703, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+  m_PrefabInstance: {fileID: 3728114941407158575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7471100114273004951 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6057976127559371960, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
-  m_PrefabInstance: {fileID: 1515765518381639858}
+  m_PrefabInstance: {fileID: 3728114941407158575}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -6728,19 +6842,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7413c0e75f5074845a7239ed487f433b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryDialogueView
---- !u!224 &4764406744567786565 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6275631964793619703, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
-  m_PrefabInstance: {fileID: 1515765518381639858}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8716403795868315309 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7926326167545873951, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
-  m_PrefabInstance: {fileID: 1515765518381639858}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI

@@ -3923,7 +3923,7 @@
       "speaker": "",
       "text": "",
       "artId": "BG14_epilogue_book",
-      "nextId": "R17_B6_FINAL_CONTINUE",
+      "nextId": "PREVIEW_END",
       "dialogueId": "R17_008",
       "cues": [],
       "setFlags": [],
@@ -3933,36 +3933,8 @@
       ],
       "gateId": "",
       "gateLabel": "",
-      "credits": [
-        "아스테르인들은 오래 별을 바라보거나\n별빛 아래 머문 이가 침식되는 것을 알았다.\n그 까닭은 알지 못했다.",
-        "그날 네 친구가 있던 공터는 하나였으나,\n이솔에게 닿는 길만 끝없이 멀어졌다.\n그는 친구들과 함께 있기를 바랐다.",
-        "초아와 여울과 토리는 그를 불렀다.\n돌아오기를 바라는 세 마음이\n멀어진 한 사람에게 닿았다.",
-        "후대의 어떤 기록은 세 친구를\n타락한 천사라 불렀다.\n금기를 넘은 이들이 한 사람을 구했으므로.",
-        "이후 네 명이 한 조를 이루었다.\n한 사람이 침식되면 남은 세 사람이\n그의 귀환을 진심으로 바라도록.",
-        "별의 적의인지, 마음에 응한 현상인지는\n끝내 밝혀지지 않았다.\n다만 그날, 네 친구는 함께 돌아왔다."
-      ]
-    },
-    {
-      "id": "R17_B6_FINAL_CONTINUE",
-      "sceneId": "R17",
-      "beatId": "R17_STORY",
-      "kind": "gate",
-      "speaker": "",
-      "text": "",
-      "artId": "BG14_epilogue_book",
-      "nextId": "PREVIEW_END",
-      "dialogueId": "R17_013",
-      "cues": [],
-      "setFlags": [
-        "RANCH_RULE_EPILOGUE_SEEN"
-      ],
-      "requiredFlags": [
-        "ISOL_PRESENT",
-        "RETURN_PATH_USED"
-      ],
-      "gateId": "PREVIEW_FINAL_CONTINUE",
-      "gateLabel": "계속",
-      "credits": []
+      "credits": [],
+      "chronicleId": "R17_DUAL_RECORD"
     },
     {
       "id": "PREVIEW_END",
@@ -4663,7 +4635,7 @@
     },
     {
       "oldId": "R17_B4_HOLD",
-      "nodeId": "R17_B6_FINAL_CONTINUE"
+      "nodeId": "R17_B5_CREDITS"
     },
     {
       "oldId": "R12_B3_L001",
@@ -4712,6 +4684,10 @@
     {
       "oldId": "R13_B4_L005",
       "nodeId": "R13_010"
+    },
+    {
+      "oldId": "R17_B6_FINAL_CONTINUE",
+      "nodeId": "R17_B5_CREDITS"
     }
   ]
 }

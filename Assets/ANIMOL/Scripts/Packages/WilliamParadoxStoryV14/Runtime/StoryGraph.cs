@@ -83,7 +83,7 @@ namespace WilliamParadox.Story
                     if (string.IsNullOrWhiteSpace(f) || !knownFlags.Contains(f)) errors.Add(n.id + ": unknown requiredFlag " + f);
                 if (n.kind == "gate" && (string.IsNullOrWhiteSpace(n.gateId) || string.IsNullOrWhiteSpace(n.gateLabel))) errors.Add(n.id + ": gate ID and label are required.");
                 if (n.gateId == "BLOCK_LAMP" && (!Contains(n.requiredFlags, "ISOL_WANTS_RETURN") || n.setFlags == null || n.setFlags.Length != 1 || n.setFlags[0] != "PLAYER_BLOCKS_LAMP")) errors.Add(n.id + ": BLOCK_LAMP must require Isol's wish and set only the player's separate action flag.");
-                if (n.kind == "credits" && (n.credits == null || n.credits.Length == 0 || n.credits.Any(string.IsNullOrWhiteSpace))) errors.Add(n.id + ": credits paragraphs are required.");
+                if (n.kind == "credits" && string.IsNullOrEmpty(n.chronicleId) && (n.credits == null || n.credits.Length == 0 || n.credits.Any(string.IsNullOrWhiteSpace))) errors.Add(n.id + ": credits paragraphs are required.");
                 foreach (var c in n.cues ?? Array.Empty<StoryCue>())
                 {
                     if (c == null) { errors.Add(n.id + ": null cue."); continue; }
@@ -155,7 +155,7 @@ namespace WilliamParadox.Story
         public string[] Flags { get { return flags.OrderBy(f => f, StringComparer.Ordinal).ToArray(); } }
         public bool HasFlag(string flag) { return flags.Contains(flag); }
         public StorySession(StoryGraph graph) { Graph = graph ?? throw new ArgumentNullException(nameof(graph)); Reset(); }
-        public void Reset() { flags.Clear(); Enter(Graph.Package.startNodeId); }
+        public void Reset() { flags.Clear(); ChronicleReadThrough = ChronicleSkipped = false; Enter(Graph.Package.startNodeId); }
         public bool CanEnter(StoryNode n) { return n != null && (n.requiredFlags ?? Array.Empty<string>()).All(flags.Contains); }
         private bool Enter(string id)
         {
@@ -177,7 +177,16 @@ namespace WilliamParadox.Story
             if (Enter(Current.nextId)) return true;
             flags.Clear(); flags.UnionWith(old); return false;
         }
-        public bool ContinueCredits() { return Current != null && Current.kind == "credits" && Enter(Current.nextId); }
+        public bool ChronicleReadThrough { get; private set; }
+        public bool ChronicleSkipped { get; private set; }
+        public bool RecordChronicleResult(bool readThrough, bool skipped)
+        {
+            if (Current == null || Current.kind != "credits" || string.IsNullOrEmpty(Current.chronicleId) || readThrough == skipped) return false;
+            ChronicleReadThrough = readThrough; ChronicleSkipped = skipped;
+            if (readThrough) flags.Add("RANCH_RULE_EPILOGUE_SEEN");
+            return true;
+        }
+        public bool ContinueCredits() { return Current != null && Current.kind == "credits" && (string.IsNullOrEmpty(Current.chronicleId) || ChronicleReadThrough || ChronicleSkipped) && Enter(Current.nextId); }
         public bool DebugJump(string id)
         {
             var n = Graph.Node(id);
@@ -198,10 +207,22 @@ namespace WilliamParadox.Story
             if (Graph.Node(nodeId) == null) return false;
             var expected = Graph.ExpectedFlagsAt(nodeId);
             var supplied = new HashSet<string>(save.flags ?? Array.Empty<string>(), StringComparer.Ordinal);
+            bool dualRecord = Graph.Package.nodes.Any(n => !string.IsNullOrEmpty(n.chronicleId));
+            bool read = dualRecord && save.chronicleRevision == "0.28" && save.chronicleReadThrough && !save.chronicleSkipped;
+            if (dualRecord)
+            {
+                // Previous six-line records never prove the new dual record was read.
+                bool hasReadFlag = supplied.Remove("RANCH_RULE_EPILOGUE_SEEN");
+                if (read && (!hasReadFlag || !supplied.Contains("ISOL_PRESENT") || !supplied.Contains("RETURN_PATH_USED") ||
+                    (Graph.Node(nodeId).kind != "credits" && Graph.Node(nodeId).kind != "end"))) return false;
+            }
             if (expected == null || !expected.SetEquals(supplied)) return false;
             if (!StoryGraph.Finite(save.artScale, save.dimAlpha, save.insetX, save.insetY, save.insetScale, save.creditsPosition, save.creditsHold) || save.artScale <= 0 || save.insetScale <= 0 || save.dimAlpha < 0 || save.dimAlpha > 1 || save.creditsHold < 0 || save.creditsParagraph < 0) return false;
             if (save.insetVisible && Graph.Asset(save.insetAssetId) == null) return false;
             flags.Clear(); flags.UnionWith(supplied);
+            ChronicleReadThrough = read;
+            ChronicleSkipped = dualRecord && save.chronicleRevision == "0.28" && save.chronicleSkipped && !read;
+            if (read) flags.Add("RANCH_RULE_EPILOGUE_SEEN");
             Current = Graph.Node(nodeId);
             return CanEnter(Current);
         }

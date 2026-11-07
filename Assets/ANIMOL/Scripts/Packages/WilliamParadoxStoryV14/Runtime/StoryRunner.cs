@@ -46,6 +46,11 @@ namespace WilliamParadox.Story
         public bool IsPaused { get { return manualPaused || !hasFocus || applicationPaused; } }
         public IReadOnlyList<string> ValidationErrors { get { return errors; } }
         public bool HasFlag(string flag) { return session != null && session.HasFlag(flag); }
+        public bool UsesDualChronicle => CurrentNode?.kind == "credits" && !string.IsNullOrEmpty(CurrentNode.chronicleId) && view.dialogueBridge != null;
+        public void RecordChronicleResult(bool readThrough, bool skipped)
+        {
+            if (session != null && UsesDualChronicle && session.RecordChronicleResult(readThrough, skipped)) SaveCheckpoint();
+        }
         public int CreditParagraph => creditsPlayer == null ? 0 : creditsPlayer.Paragraph;
         public bool CreditsCanContinue => creditsPlayer != null && creditsPlayer.CanContinue;
 
@@ -60,6 +65,7 @@ namespace WilliamParadox.Story
         }
         private void OnDisable()
         {
+            if (view != null && view.dialogueBridge != null) view.dialogueBridge.dialogue.Close();
             if (audioFeedback != null) audioFeedback.StopFeedback();
             if (view != null && view.ranchStage != null)
             {
@@ -149,7 +155,8 @@ namespace WilliamParadox.Story
                 bool hadCue = cuePlayer.IsPlaying;
                 cuePlayer.Tick(delta);
                 presentationPlayer.Tick(delta);
-                creditsPlayer.Tick(delta);
+                if (!UsesDualChronicle) creditsPlayer.Tick(delta);
+                if (view.ranchStage != null) view.ranchStage.TickBookTransition(Mathf.Min(delta, 0.05f));
                 if (view.dialogueBridge != null) view.dialogueBridge.RefreshControls();
                 saveInterval += delta;
                 if ((hadCue && !cuePlayer.IsPlaying) || (creditsPlayer.Active && saveInterval >= 1)) SaveCheckpoint();
@@ -183,6 +190,7 @@ namespace WilliamParadox.Story
                 }
                 if (CurrentNode.kind == "credits")
                 {
+                    if (UsesDualChronicle) return;
                     creditsPlayer.OnAdvance();
                     if (view.dialogueBridge != null) view.dialogueBridge.Present(false);
                     SaveCheckpoint(); return;
@@ -205,7 +213,7 @@ namespace WilliamParadox.Story
         }
         public void ContinueCredits()
         {
-            if (!AcceptInput() || CurrentNode.kind != "credits" || !creditsPlayer.CanContinue) return;
+            if (UsesDualChronicle || !AcceptInput() || CurrentNode.kind != "credits" || !creditsPlayer.CanContinue) return;
             try { if (session.ContinueCredits()) PresentCurrent(); }
             catch (Exception exception) { Fail(exception); }
         }
@@ -214,6 +222,7 @@ namespace WilliamParadox.Story
             if (view.dialogueBridge == null || !AcceptInput()) return;
             CancelTransientPresentation();
             if (CurrentNode.kind == "gate") { PresentCurrent(); view.dialogueBridge.Present(true); return; }
+            if (UsesDualChronicle) { view.dialogueBridge.dialogue.Chronicle.SkipToEnd(); return; }
             if (CurrentNode.kind == "credits")
             {
                 view.ranchStage.Present(CurrentNode, reducedMotion, true);
@@ -225,7 +234,7 @@ namespace WilliamParadox.Story
                 CurrentNode.kind != "gate" && CurrentNode.kind != "credits" && CurrentNode.kind != "end"; steps++)
                 if (!session.Acknowledge()) break;
             PresentCurrent();
-            if (CurrentNode.kind == "credits")
+            if (CurrentNode.kind == "credits" && !UsesDualChronicle)
             {
                 creditsPlayer.SkipToLastParagraph(); view.dialogueBridge.Present(true); SaveCheckpoint();
             }
@@ -238,6 +247,15 @@ namespace WilliamParadox.Story
         }
         public bool ConfirmDialogueAction(string action)
         {
+            if (action == "play_chronicle")
+            {
+                var ui = view.dialogueBridge?.dialogue;
+                var record = ui?.Chronicle;
+                if (!UsesDualChronicle || record == null || !record.IsAwaitingContinue || !record.ContinueWasRequested ||
+                    (!record.WasReadThrough && !record.WasSkipped) || !AcceptInput()) return false;
+                if (!ui.ConfirmAction(action) || !session.ContinueCredits()) return false;
+                PresentCurrent(); return true;
+            }
             bool book = action == "read_chronicle" && CurrentNode?.kind == "credits" && CreditsCanContinue;
             bool gate = CurrentNode?.kind == "gate" && (action == "block_lamp" && CurrentNode.gateId == "BLOCK_LAMP" ||
                 action == "chapter_complete" && CurrentNode.gateId == "PREVIEW_FINAL_CONTINUE" ||
@@ -284,8 +302,9 @@ namespace WilliamParadox.Story
             presentationPlayer.FinishAll();
             bool keepBook = node.kind == "gate" && node.gateId == "PREVIEW_FINAL_CONTINUE";
             creditsPlayer.Stop(keepBook);
+            var previousArt = view.artImage == null ? null : view.artImage.sprite;
             view.PresentNode(node, keepBook);
-            if (node.kind == "credits") creditsPlayer.Begin(node.credits, reducedMotion || view.dialogueBridge != null, saved);
+            if (node.kind == "credits" && !UsesDualChronicle) creditsPlayer.Begin(node.credits, reducedMotion || view.dialogueBridge != null, saved);
             else if (keepBook && saved != null)
             {
                 var book = Package.nodes.FirstOrDefault(n => n.kind == "credits" && n.nextId == node.id);
@@ -302,6 +321,8 @@ namespace WilliamParadox.Story
             if (view.ranchStage == null) presentationPlayer.Present(node, reducedMotion, saved != null);
             if (audioFeedback != null) audioFeedback.PlayNode(node.id, saved != null);
             if (view.dialogueBridge != null) view.dialogueBridge.Present(saved != null);
+            if (UsesDualChronicle && view.ranchStage != null && saved == null)
+                view.ranchStage.BeginBookTransition(previousArt, reducedMotion, view.dialogueBridge.dialogue.Chronicle.IntroDuration);
             SaveCheckpoint(); // In R17 the return cue is committed before the credits node is reachable.
             onNodeChanged.Invoke(node.id);
             if (node.kind == "end" && !completedDispatched)
@@ -318,7 +339,8 @@ namespace WilliamParadox.Story
             {
                 packageId = graph.Package.packageId, contentVersion = graph.Package.contentVersion,
                 nodeId = CurrentNodeId, flags = session.Flags, completed = completedDispatched,
-                reducedMotion = reducedMotion
+                reducedMotion = reducedMotion,
+                chronicleRevision = "0.28", chronicleReadThrough = session.ChronicleReadThrough, chronicleSkipped = session.ChronicleSkipped
             };
             view.Capture(save); creditsPlayer.Capture(save);
             presentationPlayer.Capture(save);
