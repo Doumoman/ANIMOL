@@ -13,7 +13,7 @@ namespace ANIMOL.Presentation.Editor
     public static class PuzzleShortestPathRecord
     {
         public const int SolverVersion = 4;
-        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; optional wind pulse (.) costs 0; initial Load wind pulse included";
+        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; optional wind pulse (○) costs 0; initial Load wind pulse included";
         public const string Path = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] public sealed class Entry
         {
@@ -72,7 +72,7 @@ namespace ANIMOL.Presentation.Editor
             index.maps.RemoveAll(entry => entry.mapId == id);
             index.maps.Add(new Entry { mapId = id, mapAsset = AssetDatabase.GetAssetPath(result.map),
                 solverVersion = SolverVersion,
-                mapSha256 = result.sourceSha256, status = result.status, route = result.route,
+                mapSha256 = result.sourceSha256, status = result.status, route = PuzzleRouteNotation.ToArrows(result.route ?? ""),
                 distance = result.distance, expanded = result.expanded, visited = result.visited,
                 elapsedSeconds = result.elapsedSeconds, detail = result.detail, algorithm = result.algorithm });
             index.maps.Sort((a, b) => string.CompareOrdinal(a.mapId, b.mapId));
@@ -85,21 +85,20 @@ namespace ANIMOL.Presentation.Editor
 
         static void Verify(PuzzleMap map, string route, int expectedDistance)
         {
-            if (route == null || route.Count(action => action != '.') != expectedDistance)
+            if (route == null || PuzzleRouteNotation.InputCount(route) != expectedDistance)
                 throw new InvalidDataException("Distance and route differ.");
             var session = new PuzzleDeviceSession(map);
             if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind)) session.AdvanceWind();
             foreach (char action in route)
             {
-                if (action == '.')
+                if (char.IsWhiteSpace(action)) continue;
+                if (PuzzleRouteNotation.IsWait(action))
                 {
                     if (!session.AdvanceWind().accepted || session.Failed)
                         throw new InvalidDataException("Recorded wind wait was rejected.");
                     continue;
                 }
-                var heading = action == 'N' ? Vector2Int.up : action == 'E' ? Vector2Int.right :
-                    action == 'S' ? Vector2Int.down : action == 'W' ? Vector2Int.left : Vector2Int.zero;
-                if (heading == Vector2Int.zero || !session.Apply(heading).accepted || session.Failed)
+                if (!PuzzleRouteNotation.TryDirection(action, out var heading) || !session.Apply(heading).accepted || session.Failed)
                     throw new InvalidDataException("Shortest path replay rejected at input " + session.Cost);
             }
             if (!session.Won || session.Cost != expectedDistance)

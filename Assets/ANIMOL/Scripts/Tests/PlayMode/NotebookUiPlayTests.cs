@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using William.NotebookUI;
 using WilliamParadox.Story;
+using ANIMOL.Puzzle;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -494,6 +495,7 @@ namespace ANIMOL.Presentation.Tests
                 var gateway = root.gateway as NotebookProjectGateway;
                 Assert.That(gateway, Is.Not.Null);
                 Assert.That(gateway.starwayMaps.Length, Is.EqualTo(20));
+                Assert.That(gateway.shortestPathCatalog, Is.Not.Null);
                 Assert.That(gateway.starwayMaps[0].name, Is.EqualTo("SW00_MapData"));
                 Assert.That(gateway.CanOpenStage("SW01"), Is.True);
                 Assert.That(gateway.CanOpenStage("SW20"), Is.True);
@@ -551,6 +553,15 @@ namespace ANIMOL.Presentation.Tests
                 var gameplayHud = UnityEngine.Object.FindFirstObjectByType<NotebookGameplayHud>();
                 Assert.That(gameplayHud, Is.Not.Null);
                 Assert.That(gameplayHud.GetComponentInParent<Canvas>().gameObject.activeInHierarchy, Is.True);
+                Assert.That(gameplayHud.costNumber.Value, Is.EqualTo(45));
+                var livePuzzle = bridge.GetComponent<PuzzlePrototypeController>();
+                Assert.That(livePuzzle.RuntimeMap.scenario.costLimit, Is.EqualTo(45));
+                livePuzzle.secondsPerCell = .001f;
+                for (int i = 0; i < 120 && livePuzzle.IsMoving; i++) yield return null;
+                Assert.That(livePuzzle.RequestMove(Vector2Int.right), Is.True);
+                yield return null;
+                Assert.That(gameplayHud.costNumber.Value, Is.EqualTo(44));
+                for (int i = 0; i < 120 && livePuzzle.IsMoving; i++) yield return null;
                 var sessionGateway = bridge.GetComponent<NotebookStarwaySessionGateway>();
                 bool approved = false;
                 sessionGateway.RequestNavigation(NotebookGameplayDestination.Map, "SW01", "", "return-test", value => approved = value);

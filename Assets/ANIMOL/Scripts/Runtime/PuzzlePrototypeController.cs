@@ -13,6 +13,7 @@ namespace ANIMOL.Puzzle
     {
         public PuzzleMap stage;
         public GameObject hudPrefab;
+        public TextAsset shortestPathCatalog;
         public float secondsPerCell = .16f;
         public PuzzleDeviceSession Session { get; private set; }
         public StarwayV3StrictPolicy Strict { get; private set; }
@@ -33,6 +34,7 @@ namespace ANIMOL.Puzzle
         Transform presentation;
         PuzzleMapView view;
         PuzzleHudView hud;
+        PuzzleScenario ownedScenario;
         void Start() { if (stage && Session == null) Load(stage); }
         public void Load(PuzzleMap data)
         {
@@ -42,7 +44,15 @@ namespace ANIMOL.Puzzle
             StopAllCoroutines(); IsMoving = pressingGoal = UiPaused = false; queuedInput = Vector2Int.zero;
             if (presentation) { presentation.gameObject.SetActive(false); Destroy(presentation.gameObject); }
             if (RuntimeMap) Destroy(RuntimeMap);
-            RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data; Session = new PuzzleDeviceSession(RuntimeMap);
+            if (ownedScenario) Destroy(ownedScenario);
+            ownedScenario = null;
+            RuntimeMap = Instantiate(data); RuntimeMap.InvalidateIndex(); stage = data;
+            if (StarwayShortestPathCatalog.TryGetBudget(data, shortestPathCatalog, out int budget))
+            {
+                ownedScenario = Instantiate(data.scenario);
+                ownedScenario.costLimit = budget; RuntimeMap.scenario = ownedScenario;
+            }
+            Session = new PuzzleDeviceSession(RuntimeMap);
             Strict = RuntimeMap.starwayV3Certificate ? new StarwayV3StrictPolicy(RuntimeMap) : null;
             presentation = new GameObject("Prototype presentation").transform; presentation.SetParent(transform, false);
             view = new GameObject("Terrain grid").AddComponent<PuzzleMapView>(); view.transform.SetParent(presentation, false); view.Bind(RuntimeMap);
@@ -485,7 +495,7 @@ namespace ANIMOL.Puzzle
                 : "COST " + (RuntimeMap.scenario.costLimit > 0 ? Mathf.Max(0, RuntimeMap.scenario.costLimit - Session.Cost).ToString() : Session.Cost.ToString());
             hud.bubbles.text = Session.Collected + "/" + RuntimeMap.targetBubbles;
         }
-        void OnDestroy() { if (Devices) Devices.InvalidateDiceHints(); if (RuntimeMap) Destroy(RuntimeMap); }
+        void OnDestroy() { if (Devices) Devices.InvalidateDiceHints(); if (RuntimeMap) Destroy(RuntimeMap); if (ownedScenario) Destroy(ownedScenario); }
         public bool SelectStarwayCharacter(string id)
         {
             return SelectCharacter(id);

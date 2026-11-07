@@ -245,14 +245,16 @@ namespace ANIMOL.Presentation.Editor
             else if (record.status == "solved")
             {
                 EditorGUILayout.LabelField("최단 입력 수", record.distance.ToString());
-                EditorGUILayout.LabelField("경로 (N↑ / E→ / S↓ / W←)");
-                EditorGUILayout.LabelField(". = 바람 1회 대기 · 입력 비용 0", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField("경로 (↑ → ↓ ←)");
+                EditorGUILayout.LabelField("○ = 바람 1회 대기 · 코스트 0", EditorStyles.miniLabel);
                 if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind))
-                    EditorGUILayout.HelpBox("연속 방향은 이동 중 다음 입력을 예약합니다. .은 바람 자동 이동 1회를 기다립니다.", MessageType.Info);
+                    EditorGUILayout.HelpBox("연속 화살표는 이동 중 다음 입력을 예약합니다. ○는 바람 자동 이동 1회를 기다립니다.", MessageType.Info);
                 var routeStyle = new GUIStyle(EditorStyles.textArea) { wordWrap = true };
+                string displayedRoute = PuzzleRouteNotation.Display(record.route);
                 const float routeWidth = 280f; // The settings scroll view is 320px wide.
-                EditorGUILayout.SelectableLabel(record.route, routeStyle,
-                    GUILayout.Height(Mathf.Max(48f, routeStyle.CalcHeight(new GUIContent(record.route), routeWidth))));
+                EditorGUILayout.SelectableLabel(displayedRoute, routeStyle,
+                    GUILayout.Height(Mathf.Max(48f, routeStyle.CalcHeight(new GUIContent(displayedRoute), routeWidth))));
+                EditorGUILayout.LabelField("실행 시작 코스트", record.distance.ToString());
                 EditorGUILayout.LabelField("탐색 상태 수", record.visited.ToString());
             }
             else if (record.status == "limit")

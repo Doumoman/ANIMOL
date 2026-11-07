@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "message": "Test job status retrieved.",
+  "error": null,
+  "data": {
+    "job_id": "dd6ca471a38543b69032d13991efafbd",
+    "status": "succeeded",
+    "mode": "PlayMode",
+    "started_unix_ms": 1794058032897,
+    "finished_unix_ms": 1794058043273,
+    "last_update_unix_ms": 1794058043273,
+    "progress": {
+      "completed": 2,
+      "total": 2,
+      "current_test_full_name": null,
+      "current_test_started_unix_ms": 1794058039829,
+      "last_finished_test_full_name": "ANIMOL.Tests.StarwayBudgetPlayTests.RuntimeBudgetsApplyToAllSolvedStagesAndResetWithoutEditingSources",
+      "last_finished_unix_ms": 1794058043271,
+      "stuck_suspected": false,
+      "editor_is_focused": false,
+      "blocked_reason": null,
+      "failures_so_far": [],
+      "failures_capped": false
+    },
+    "error": null,
+    "result": {
+      "mode": "PlayMode",
+      "summary": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "durationSeconds": 5.9414836,
+        "resultState": "Passed"
+      },
+      "results": [
+        {
+          "name": "ClearedStarwayReplayAndEntryUseRealAssetsWithoutReplayCharges",
+          "fullName": "ANIMOL.Presentation.Tests.NotebookUiPlayTests.ClearedStarwayReplayAndEntryUseRealAssetsWithoutReplayCharges",
+          "state": "Passed",
+          "durationSeconds": 2.4701085,
+          "message": null,
+          "stackTrace": null,
+          "output": "There can be only one active Event System.\r\n"
+        },
+        {
+          "name": "RuntimeBudgetsApplyToAllSolvedStagesAndResetWithoutEditingSources",
+          "fullName": "ANIMOL.Tests.StarwayBudgetPlayTests.RuntimeBudgetsApplyToAllSolvedStagesAndResetWithoutEditingSources",
+          "state": "Passed",
+          "durationSeconds": 3.4434939,
+          "message": null,
+          "stackTrace": null,
+          "output": ""
+        }
+      ]
+    }
+  },
+  "hint": null
+}

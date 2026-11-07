@@ -251,15 +251,15 @@ namespace ANIMOL.Tests
                 if (map.scenario.devices.Any(d => d.role == PrototypeRole.Wind)) session.AdvanceWind();
                 foreach (char action in record.route)
                 {
-                    if (action == '.')
+                    if (char.IsWhiteSpace(action)) continue;
+                    if (PuzzleRouteNotation.IsWait(action))
                     {
                         Assert.That(session.AdvanceWind().accepted, Is.True, record.mapId);
                         Assert.That(session.Failed, Is.False, record.mapId);
                         continue;
                     }
-                    int index = "NESW".IndexOf(action);
-                    Assert.That(index, Is.GreaterThanOrEqualTo(0));
-                    Assert.That(session.Apply(Directions[index]).accepted, Is.True, record.mapId);
+                    Assert.That(PuzzleRouteNotation.TryDirection(action, out var direction), Is.True);
+                    Assert.That(session.Apply(direction).accepted, Is.True, record.mapId);
                     Assert.That(session.Failed, Is.False, record.mapId);
                 }
                 Assert.That(session.Won, Is.True, record.mapId);

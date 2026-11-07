@@ -57,6 +57,7 @@ namespace William.NotebookUI.Editor
             NotebookCanvasLayout layout = canvasObject.GetComponent<NotebookCanvasLayout>(); layout.scaler = scaler; layout.design = design;
             NotebookRoot ui = design.gameObject.AddComponent<NotebookRoot>(); ui.catalogJson = AssetDatabase.LoadAssetAtPath<TextAsset>(Data + "catalog.json"); ui.patternMotion = motion;
             ui.gateway = design.gameObject.AddComponent<NotebookProjectGateway>();
+            ((NotebookProjectGateway)ui.gateway).shortestPathCatalog = AssetDatabase.LoadAssetAtPath<TextAsset>(ANIMOL.Puzzle.StarwayShortestPathCatalog.AssetPath);
             ui.mainScreen = Screen(design, "Main").gameObject; ui.settingsScreen = Screen(design, "Settings").gameObject; ui.stageScreen = Screen(design, "Constellation Only").gameObject;
             ui.mainInputGroup = ui.mainScreen.AddComponent<CanvasGroup>();
             BuildMain(ui, catalog); BuildSettings(ui); BuildMap(ui, catalog); BuildModal(ui, design);

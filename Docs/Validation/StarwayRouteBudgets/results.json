@@ -1,0 +1,172 @@
+{
+  "date": "2026-11-07",
+  "unity": "6000.3.8f1",
+  "status": "passed",
+  "notation": {
+    "up": "↑",
+    "right": "→",
+    "down": "↓",
+    "left": "←",
+    "freeWindWait": "○",
+    "directionCost": 1,
+    "windWaitCost": 0
+  },
+  "appliedSolvedMaps": 19,
+  "unchangedUnreachable": {
+    "displayStage": 7,
+    "mapId": "SW06",
+    "sourceCostLimit": 0
+  },
+  "application": "Notebook main-stage entry and PuzzlePreview bind the shared catalog. PuzzlePrototypeController clones MapData and scenario, applies the proven budget to its owned runtime scenario, and preserves source assets.",
+  "validation": {
+    "editMode": {
+      "passed": 42,
+      "failed": 0,
+      "evidence": "editmode_tests.json"
+    },
+    "playMode": {
+      "passed": 2,
+      "failed": 0,
+      "evidence": "playmode_tests.json"
+    },
+    "runtimeReplay": {
+      "wonAtZero": 19,
+      "evidence": "runtime_replay.json"
+    },
+    "oneLessThanShortestBudget": "All 19 solved routes fail at distance - 1 (EditMode).",
+    "reset": "All 19 runtime controllers reset to zero spent with their verified budget retained (PlayMode).",
+    "mainHud": "Actual Notebook stage 1 enters with remaining cost 45 and displays 44 after one right input (PlayMode).",
+    "cli": "Warning/error-free .NET build, source/input parity verification and SW17 compact solve repeat: distance 64, visited 477514, expanded 368235; route emitted as literal Unicode arrows."
+  },
+  "preserved": {
+    "mapAndMetaSha256Files": 44,
+    "originalMapAndMetaChanged": 0,
+    "authoredVerificationRoutes": true,
+    "preExistingWorkingTreeChanges": true,
+    "sceneSavedByTask": false
+  },
+  "progression": "No live clear/save/reward action performed. The existing Notebook integration test restores its test PlayerPrefs in finally.",
+  "scope": "Related tests only; archived CommercialPolishPolicyTests are inactive and were not run. No feedback effects changed.",
+  "budgets": [
+    {
+      "mapId": "SW00",
+      "displayStage": 1,
+      "applied": true,
+      "budget": 45
+    },
+    {
+      "mapId": "SW01",
+      "displayStage": 2,
+      "applied": true,
+      "budget": 54
+    },
+    {
+      "mapId": "SW02",
+      "displayStage": 3,
+      "applied": true,
+      "budget": 77
+    },
+    {
+      "mapId": "SW03",
+      "displayStage": 4,
+      "applied": true,
+      "budget": 41
+    },
+    {
+      "mapId": "SW04",
+      "displayStage": 5,
+      "applied": true,
+      "budget": 49
+    },
+    {
+      "mapId": "SW05",
+      "displayStage": 6,
+      "applied": true,
+      "budget": 47
+    },
+    {
+      "mapId": "SW06",
+      "displayStage": 7,
+      "applied": false,
+      "reason": "unreachable; no shortest budget"
+    },
+    {
+      "mapId": "SW07",
+      "displayStage": 8,
+      "applied": true,
+      "budget": 40
+    },
+    {
+      "mapId": "SW08",
+      "displayStage": 9,
+      "applied": true,
+      "budget": 41
+    },
+    {
+      "mapId": "SW09",
+      "displayStage": 10,
+      "applied": true,
+      "budget": 63
+    },
+    {
+      "mapId": "SW10",
+      "displayStage": 11,
+      "applied": true,
+      "budget": 45
+    },
+    {
+      "mapId": "SW11",
+      "displayStage": 12,
+      "applied": true,
+      "budget": 30
+    },
+    {
+      "mapId": "SW12",
+      "displayStage": 13,
+      "applied": true,
+      "budget": 31
+    },
+    {
+      "mapId": "SW13",
+      "displayStage": 14,
+      "applied": true,
+      "budget": 29
+    },
+    {
+      "mapId": "SW14",
+      "displayStage": 15,
+      "applied": true,
+      "budget": 22
+    },
+    {
+      "mapId": "SW15",
+      "displayStage": 16,
+      "applied": true,
+      "budget": 52
+    },
+    {
+      "mapId": "SW16",
+      "displayStage": 17,
+      "applied": true,
+      "budget": 35
+    },
+    {
+      "mapId": "SW17",
+      "displayStage": 18,
+      "applied": true,
+      "budget": 64
+    },
+    {
+      "mapId": "SW18",
+      "displayStage": 19,
+      "applied": true,
+      "budget": 32
+    },
+    {
+      "mapId": "SW19",
+      "displayStage": 20,
+      "applied": true,
+      "budget": 50
+    }
+  ]
+}

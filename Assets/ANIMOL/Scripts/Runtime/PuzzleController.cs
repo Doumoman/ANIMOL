@@ -11,6 +11,7 @@ namespace ANIMOL.Puzzle
     {
         public PuzzleMap stage;
         public GameObject hudPrefab;
+        public TextAsset shortestPathCatalog;
         [Range(.05f, .6f)] public float secondsPerCell = .18f;
         public PuzzleSession Session { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
@@ -31,6 +32,7 @@ namespace ANIMOL.Puzzle
             if (stage && stage.scenario)
             {
                 var prototype = gameObject.AddComponent<PuzzlePrototypeController>(); prototype.stage = stage; prototype.hudPrefab = hudPrefab;
+                prototype.shortestPathCatalog = shortestPathCatalog;
                 enabled = false; return;
             }
             if (stage) Load(stage);

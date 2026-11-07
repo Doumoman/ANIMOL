@@ -16,7 +16,8 @@ public sealed class Export
 }
 class Program
 {
-    static readonly JsonSerializerOptions Json = new() { IncludeFields=true,WriteIndented=true };
+    static readonly JsonSerializerOptions Json = new() { IncludeFields=true,WriteIndented=true,
+        Encoder=System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) };
     static Dictionary<string,string> SourceHashes()
     {
         var assembly=typeof(Program).Assembly;
@@ -116,7 +117,7 @@ class Program
                 nextReport=timer.Elapsed.TotalSeconds+5;
             }
         }
-        var record=new {map=searchMap.name,status=result.status,distance=result.distance,route=result.route,
+        var record=new {map=searchMap.name,status=result.status,distance=result.distance,route=PuzzleRouteNotation.ToArrows(result.route),
             sourceSha256=result.sourceSha256,visited=result.visited,expanded=result.expanded,
             elapsedSeconds=result.elapsedSeconds,detail=result.detail,algorithm=result.algorithm,
             runtime=System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription,

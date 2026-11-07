@@ -13,6 +13,7 @@ namespace William.NotebookUI
     public sealed class NotebookProjectGateway : NotebookGateway
     {
         public PuzzleMap[] starwayMaps;
+        public TextAsset shortestPathCatalog;
         public GameObject gameplayCanvasPrefab;
         public GameObject collectibleStarPrefab;
         public GameObject ranchStoryPrefab;
@@ -100,6 +101,7 @@ namespace William.NotebookUI
                 session = new GameObject("Starway Ranch " + stageId);
                 var controller = session.AddComponent<PuzzleController>();
                 controller.stage = map;
+                controller.shortestPathCatalog = shortestPathCatalog;
                 controller.hudPrefab = null;
                 canvas = Instantiate(gameplayCanvasPrefab);
                 var hud = canvas.GetComponentInChildren<NotebookGameplayHud>(true);

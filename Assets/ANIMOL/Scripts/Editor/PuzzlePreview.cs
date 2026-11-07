@@ -44,6 +44,7 @@ namespace ANIMOL.Presentation.Editor
             camera.GetComponent<Camera>().orthographic = true;
             var light = new GameObject("Main Light", typeof(Light)); light.GetComponent<Light>().type = LightType.Directional;
             var controller = new GameObject("Puzzle").AddComponent<PuzzleController>(); controller.stage = map;
+            controller.shortestPathCatalog = AssetDatabase.LoadAssetAtPath<TextAsset>(StarwayShortestPathCatalog.AssetPath);
             string path = AssetDatabase.GetAssetPath(map);
             if (!path.StartsWith("Assets/ANIMOL/Data/Puzzle/MapData/", StringComparison.Ordinal))
             {
