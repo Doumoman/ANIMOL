@@ -9,8 +9,8 @@ namespace ANIMOL.Presentation.Editor
     /// <summary>
     /// Exact distance on a relaxed board: remove movable occupants, grass, ponds
     /// and nest restrictions, then collect enough bubbles and reach the exit.
-    /// Potential wind rays, bounce rays and conveyors allow free steps in every
-    /// direction. This deliberately permissive relaxation includes every real
+    /// Potential wind/bounce rays allow free steps along each ray; device origins
+    /// and conveyors allow every heading. This relaxation includes every real
     /// forced move. Unsupported mechanisms retain the zero bound and 0-1 BFS.
     /// </summary>
     public sealed class PuzzleSearchLowerBound
@@ -47,18 +47,20 @@ namespace ANIMOL.Presentation.Editor
             if (!cells.TryGetValue(map.exit, out int exit)) return;
             var neighbours = new List<int>[count];
             var bits = new int[count];
-            var free = new bool[count];
+            var free = new bool[count, 4];
             var directions = new[] { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
             // Ignore blockers, phase/range and reflection restrictions. Every
             // possible real wind segment lies on one of these generous rays.
             foreach (var device in map.scenario.devices)
             {
-                if (device.role == PrototypeRole.Conveyor && cells.TryGetValue(device.position, out int belt)) free[belt] = true;
+                if (device.role == PrototypeRole.Conveyor && cells.TryGetValue(device.position, out int belt))
+                    for (int heading = 0; heading < 4; heading++) free[belt, heading] = true;
                 if (device.role != PrototypeRole.Wind && device.role != PrototypeRole.Bounce) continue;
-                if (cells.TryGetValue(device.position, out int origin)) free[origin] = true;
-                foreach (var direction in directions)
-                    for (var p = device.position + direction; map.Contains(p); p += direction)
-                        if (cells.TryGetValue(p, out int index)) free[index] = true;
+                if (cells.TryGetValue(device.position, out int origin))
+                    for (int heading = 0; heading < 4; heading++) free[origin, heading] = true;
+                for (int heading = 0; heading < directions.Length; heading++)
+                    for (var p = device.position + directions[heading]; map.Contains(p); p += directions[heading])
+                        if (cells.TryGetValue(p, out int index)) free[index, heading] = true;
             }
             for (int i = 0; i < count; i++)
             {
@@ -86,7 +88,8 @@ namespace ANIMOL.Presentation.Editor
                 if ((mask & bit) != bit) continue;
                 foreach (int previous in neighbours[cell])
                 {
-                    int cost = free[previous] ? 0 : 1;
+                    int heading = Array.IndexOf(directions, floor[cell] - floor[previous]);
+                    int cost = free[previous, heading] ? 0 : 1;
                     Visit(mask * count + previous, distances[state] + cost, cost == 0, queue);
                     if (bit != 0) Visit((mask ^ bit) * count + previous, distances[state] + cost, cost == 0, queue);
                 }

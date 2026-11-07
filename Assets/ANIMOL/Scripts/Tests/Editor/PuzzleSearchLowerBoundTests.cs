@@ -71,6 +71,62 @@ namespace ANIMOL.Tests
             finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
         }
 
+        [Test] public void AManualSideStepAcrossAPotentialWindRayStillCostsOne()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.theme = Load("SW00").theme; map.scenario = rules; rules.themeId = "starway";
+                for (int x = 0; x < 6; x++) for (int y = 0; y < 3; y++)
+                    map.terrain.Add(new TerrainCell(new Vector2Int(x, y), TerrainMaterial.Grass));
+                map.start = new Vector2Int(2, 1); map.exit = new Vector2Int(2, 2); map.targetBubbles = 0;
+                rules.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind,
+                    variant = "blower", position = new Vector2Int(0, 1), direction = Vector2Int.right });
+                var bound = PuzzleSearchLowerBound.TryCreate(map);
+                Assert.That(bound.Estimate(new PuzzleDeviceSession(map)), Is.EqualTo(1));
+            }
+            finally { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
+        }
+
+        [UnityTest] public IEnumerator DirectedWindAndBounceBoundAgreesWithExhaustiveBfs()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            string path = AssetDatabase.GenerateUniqueAssetPath("Assets/ANIMOL/Data/Puzzle/MapData/starway/__WindBoundTest.asset");
+            try
+            {
+                map.theme = Load("SW00").theme; map.scenario = rules; rules.themeId = "starway";
+                map.start = Vector2Int.zero; map.exit = new Vector2Int(5, 3); map.targetBubbles = 1;
+                for (int x = 0; x < 6; x++) for (int y = 0; y < 4; y++)
+                    map.terrain.Add(new TerrainCell(new Vector2Int(x, y), TerrainMaterial.Grass));
+                map.bubbles.Add(new Vector2Int(5, 0));
+                rules.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind,
+                    variant = "blower", position = new Vector2Int(0, 1), direction = Vector2Int.right, orientation = 2 });
+                rules.devices.Add(new PrototypeDevice { id = "corner", role = PrototypeRole.Bounce,
+                    position = new Vector2Int(3, 1), orientation = 0 });
+                AssetDatabase.CreateAsset(map, path); AssetDatabase.AddObjectToAsset(rules, map);
+                EditorUtility.SetDirty(map); EditorUtility.SetDirty(rules);
+                AssetDatabase.SaveAssetIfDirty(map); AssetDatabase.SaveAssetIfDirty(rules);
+                PuzzleShortestPathSolver.Result bfs = null, astar = null;
+                PuzzleShortestPathSolver.Start(map, r => bfs = r, 10000, false);
+                double deadline = EditorApplication.timeSinceStartup + 20;
+                while (bfs == null && EditorApplication.timeSinceStartup < deadline) yield return null;
+                Assert.That(bfs, Is.Not.Null); Assert.That(bfs.Solved, Is.True);
+                PuzzleShortestPathSolver.Start(map, r => astar = r, 10000, true);
+                deadline = EditorApplication.timeSinceStartup + 20;
+                while (astar == null && EditorApplication.timeSinceStartup < deadline) yield return null;
+                Assert.That(astar, Is.Not.Null); Assert.That(astar.Solved, Is.True);
+                Assert.That(astar.distance, Is.EqualTo(bfs.distance));
+            }
+            finally
+            {
+                PuzzleShortestPathSolver.Cancel();
+                if (AssetDatabase.LoadAssetAtPath<PuzzleMap>(path)) AssetDatabase.DeleteAsset(path);
+                else { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
+            }
+        }
+
         [UnityTest] public IEnumerator AStarAndExhaustiveBfsAgreeWithOptionalBubblesSheepAndStationaryPushes()
         {
             var map = ScriptableObject.CreateInstance<PuzzleMap>();
