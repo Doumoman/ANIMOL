@@ -68,7 +68,7 @@ namespace ANIMOL.Presentation.Editor
             // Load() calls ContinueWind once before the first animation can accept queued input.
             if (hasWind) initial.AdvanceWind();
             snapshotTemplate = initial;
-            string initialKey = initial.SearchStateKey();
+            string initialKey = PuzzleSearchKeyCodec.Pack(initial.SearchStateKey());
             visited.Add(initialKey, initial.Cost);
             parents.Add(new Parent { previous = -1 });
             Push(Node(initial, initialKey, 0), false);
@@ -145,7 +145,7 @@ namespace ANIMOL.Presentation.Editor
 
         bool Enqueue(PuzzleDeviceSession session, int previous, char action, bool zeroCost)
         {
-            string key = session.SearchStateKey();
+            string key = PuzzleSearchKeyCodec.Pack(session.SearchStateKey());
             if (visited.TryGetValue(key, out int cost) && cost <= session.Cost) return true;
             visited[key] = session.Cost;
             int index = parents.Count;

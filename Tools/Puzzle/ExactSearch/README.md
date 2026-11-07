@@ -14,7 +14,7 @@ dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json
 dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json SW02 Temp/exact_SW02.json 8000000 Temp/exact_search_verified.json
 ```
 
-검증과 탐색은 같은 빌드·입력을 사용해야 한다. 검색 시작 전 검증 보고서의 입력·소스 해시를 대조한다. 비교 항목은 현재 상태 키와 비용, 네 방향 및 무료 바람의 수락·결과 키·비용·승리·실패다. 탐색 결과에는 컴파일 당시 포함한 11개 C# 소스의 SHA-256, 입력 및 검증 보고서 해시를 남긴다.
+검증과 탐색은 같은 빌드·입력을 사용해야 한다. 검색 시작 전 검증 보고서의 입력·소스 해시를 대조한다. 비교 항목은 현재 상태 키와 비용, 네 방향 및 무료 바람의 수락·결과 키·비용·승리·실패다. 탐색 결과에는 컴파일 당시 포함한 12개 C# 소스의 SHA-256, 입력 및 검증 보고서 해시를 남긴다. 방문 상태 키에는 반복 문자열을 치환하는 무손실 압축을 적용하며, 원래 키의 동등성은 유지한다.
 
 상태 상한은 마지막 두 번째 인수다. 추가 관리 메모리 예산은 3,072 MiB다. `limit`과 `cancelled`는 미확정이다. `unreachable`은 대기열 소진일 때만 나오며 `solved`는 A* / 0-1 BFS 순서로 클리어를 꺼냈을 때만 나온다. 여러 프로세스를 실행하면 총 메모리 예산도 그만큼 늘어나므로 실제 사용량을 확인한다.
 
