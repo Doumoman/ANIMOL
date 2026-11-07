@@ -23,12 +23,13 @@ namespace ANIMOL.Presentation.Editor
         }
 
         struct Parent { public int previous; public char action; }
-        struct Frontier { public int index, priority; public string key; public PuzzleDeviceSession session; }
+        struct Frontier { public int index, priority, cost; public string key; public PuzzleDeviceSession.SearchSnapshot snapshot; }
         static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
         static readonly char[] Letters = { 'N', 'E', 'S', 'W' };
         readonly LinkedList<Frontier> frontier = new LinkedList<Frontier>();
         readonly List<Frontier> heap = new List<Frontier>();
         readonly PuzzleSearchLowerBound lowerBound;
+        readonly PuzzleDeviceSession snapshotTemplate;
         readonly Dictionary<string, int> visited = new Dictionary<string, int>(StringComparer.Ordinal);
         readonly List<Parent> parents = new List<Parent>();
         readonly Stopwatch clock = Stopwatch.StartNew();
@@ -48,7 +49,7 @@ namespace ANIMOL.Presentation.Editor
         public int Expanded => expanded;
         public int Visited => visited.Count;
         public int FrontierCount => lowerBound != null ? heap.Count : frontier.Count;
-        public int SearchDepth => lowerBound != null ? heap.Count == 0 ? -1 : heap[0].session.Cost : frontier.First?.Value.session.Cost ?? -1;
+        public int SearchDepth => lowerBound != null ? heap.Count == 0 ? -1 : heap[0].cost : frontier.First?.Value.cost ?? -1;
         public string AlgorithmName => lowerBound != null ? "A* (relaxed board; free motion included)" : "0-1 BFS";
 
         PuzzleShortestPathSolver(PuzzleMap source, int stateLimit, Action<Result> onCompleted, bool useHeuristic, int memoryLimitMB)
@@ -66,10 +67,11 @@ namespace ANIMOL.Presentation.Editor
             lowerBound = useHeuristic ? PuzzleSearchLowerBound.TryCreate(source) : null;
             // Load() calls ContinueWind once before the first animation can accept queued input.
             if (hasWind) initial.AdvanceWind();
+            snapshotTemplate = initial;
             string initialKey = initial.SearchStateKey();
             visited.Add(initialKey, initial.Cost);
             parents.Add(new Parent { previous = -1 });
-            Push(new Frontier { index = 0, key = initialKey, session = initial }, false);
+            Push(Node(initial, initialKey, 0), false);
         }
 
         public static void Start(PuzzleMap map, Action<Result> completed, int maxVisited = 1000000, bool useHeuristic = true, int maxAdditionalMemoryMB = 3072)
@@ -116,20 +118,22 @@ namespace ANIMOL.Presentation.Editor
                 while (FrontierCount > 0 && frame.ElapsedMilliseconds < 100)
                 {
                     var current = Pop();
-                    if (current.session.Cost != visited[current.key] || current.session.Failed) continue;
+                    if (current.cost != visited[current.key]) continue;
+                    var session = snapshotTemplate.RestoreSearchSnapshot(current.snapshot);
+                    if (session.Failed) continue;
                     expanded++;
                     // A goal is final only when popped: zero-cost edges may improve an earlier discovery.
-                    if (current.session.Won) { Finish("solved", "", current.index); return; }
+                    if (session.Won) { Finish("solved", "", current.index); return; }
                     for (int i = 0; i < Directions.Length; i++)
                     {
-                        var child = current.session.Copy();
+                        var child = session.Copy();
                         if (!child.SearchStep(Directions[i]) || child.Failed) continue;
                         if (!Enqueue(child, current.index, Letters[i], false)) return;
                     }
                     if (hasWind)
                     {
                         // A queued next input takes priority over ContinueWind; waiting is an optional edge.
-                        var waiting = current.session.Copy();
+                        var waiting = session.Copy();
                         if (waiting.AdvanceWind().accepted && !waiting.Failed &&
                             !Enqueue(waiting, current.index, '.', true)) return;
                     }
@@ -146,16 +150,23 @@ namespace ANIMOL.Presentation.Editor
             visited[key] = session.Cost;
             int index = parents.Count;
             parents.Add(new Parent { previous = previous, action = action });
-            var node = new Frontier { index = index, key = key, session = session };
+            var node = Node(session, key, index);
             Push(node, zeroCost);
             if (visited.Count < maxVisited) return true;
             Finish("limit", "State limit reached before the search was exhaustive.", -1);
             return false;
         }
 
+        Frontier Node(PuzzleDeviceSession session, string key, int index) => new Frontier
+        {
+            index = index, key = key, cost = session.Cost,
+            priority = session.Cost + (lowerBound?.Estimate(session) ?? 0),
+            snapshot = session.CaptureSearchSnapshot()
+        };
+
         // Smaller f first; deeper nodes break equal-f ties without changing shortest-path proof.
         static bool Before(Frontier a, Frontier b) => a.priority < b.priority ||
-            a.priority == b.priority && a.session.Cost > b.session.Cost;
+            a.priority == b.priority && a.cost > b.cost;
         void Push(Frontier node, bool zeroCost)
         {
             if (lowerBound == null)
@@ -163,7 +174,6 @@ namespace ANIMOL.Presentation.Editor
                 if (zeroCost) frontier.AddFirst(node); else frontier.AddLast(node);
                 return;
             }
-            node.priority = node.session.Cost + lowerBound.Estimate(node.session);
             int index = heap.Count; heap.Add(node);
             while (index > 0)
             {

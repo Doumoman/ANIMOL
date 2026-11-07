@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ANIMOL.Puzzle
 {
     // Deterministic grid authority. Animation cannot commit an action or advance a device timer.
-    public sealed class PuzzleDeviceSession : IPuzzleBoardState
+    public sealed partial class PuzzleDeviceSession : IPuzzleBoardState
     {
         public sealed class BeamCell { public Vector2Int cell, incoming, outgoing; public bool terminal; }
         public sealed class BeamTrace
