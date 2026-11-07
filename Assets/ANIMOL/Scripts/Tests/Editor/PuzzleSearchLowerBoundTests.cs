@@ -111,5 +111,41 @@ namespace ANIMOL.Tests
                 else { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
             }
         }
+
+        [UnityTest] public IEnumerator MemoryStopRemainsIncompleteAndReleasesTheFrontier()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            string path = AssetDatabase.GenerateUniqueAssetPath("Assets/ANIMOL/Data/Puzzle/MapData/starway/__MemoryStopTest.asset");
+            try
+            {
+                map.theme = Load("SW00").theme; map.scenario = rules; rules.themeId = "starway";
+                map.start = Vector2Int.zero; map.exit = new Vector2Int(3, 0); map.targetBubbles = 0;
+                for (int x = 0; x < 4; x++) map.terrain.Add(new TerrainCell(new Vector2Int(x, 0), TerrainMaterial.Grass));
+                AssetDatabase.CreateAsset(map, path); AssetDatabase.AddObjectToAsset(rules, map);
+                EditorUtility.SetDirty(map); EditorUtility.SetDirty(rules);
+                AssetDatabase.SaveAssetIfDirty(map); AssetDatabase.SaveAssetIfDirty(rules);
+                string hash = PuzzleShortestPathSolver.HashAsset(map);
+                PuzzleShortestPathSolver.Result result = null; int completions = 0;
+                PuzzleShortestPathSolver.Start(map, r => { result = r; completions++; }, 1000);
+                var search = PuzzleShortestPathSolver.Active;
+                // Simulate an exhausted memory budget without allocating gigabytes in a test.
+                typeof(PuzzleShortestPathSolver).GetField("maxManagedBytes", System.Reflection.BindingFlags.Instance |
+                    System.Reflection.BindingFlags.NonPublic).SetValue(search, 0L);
+                double deadline = EditorApplication.timeSinceStartup + 10;
+                while (result == null && EditorApplication.timeSinceStartup < deadline) yield return null;
+                Assert.That(result, Is.Not.Null); Assert.That(result.status, Is.EqualTo("limit"));
+                Assert.That(result.detail, Does.Contain("memory budget")); Assert.That(result.route, Is.Empty);
+                Assert.That(result.distance, Is.EqualTo(-1)); Assert.That(completions, Is.EqualTo(1));
+                Assert.That(PuzzleShortestPathSolver.Active, Is.Null); Assert.That(search.FrontierCount, Is.Zero);
+                Assert.That(PuzzleShortestPathSolver.HashAsset(map), Is.EqualTo(hash));
+            }
+            finally
+            {
+                PuzzleShortestPathSolver.Cancel();
+                if (AssetDatabase.LoadAssetAtPath<PuzzleMap>(path)) AssetDatabase.DeleteAsset(path);
+                else { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
+            }
+        }
     }
 }

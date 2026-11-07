@@ -34,6 +34,8 @@ namespace ANIMOL.Presentation.Editor
         readonly Stopwatch clock = Stopwatch.StartNew();
         readonly Action<Result> completed;
         readonly int maxVisited;
+        readonly long maxManagedBytes;
+        readonly int maxAdditionalMemoryMB;
         readonly PuzzleMap map;
         readonly string sourceSha256;
         readonly bool hasWind;
@@ -49,8 +51,10 @@ namespace ANIMOL.Presentation.Editor
         public int SearchDepth => lowerBound != null ? heap.Count == 0 ? -1 : heap[0].session.Cost : frontier.First?.Value.session.Cost ?? -1;
         public string AlgorithmName => lowerBound != null ? "A* (relaxed board; free motion included)" : "0-1 BFS";
 
-        PuzzleShortestPathSolver(PuzzleMap source, int stateLimit, Action<Result> onCompleted, bool useHeuristic)
+        PuzzleShortestPathSolver(PuzzleMap source, int stateLimit, Action<Result> onCompleted, bool useHeuristic, int memoryLimitMB)
         {
+            maxAdditionalMemoryMB = memoryLimitMB;
+            maxManagedBytes = GC.GetTotalMemory(true) + memoryLimitMB * 1024L * 1024L;
             map = source;
             maxVisited = stateLimit;
             completed = onCompleted;
@@ -68,10 +72,11 @@ namespace ANIMOL.Presentation.Editor
             Push(new Frontier { index = 0, key = initialKey, session = initial }, false);
         }
 
-        public static void Start(PuzzleMap map, Action<Result> completed, int maxVisited = 1000000, bool useHeuristic = true)
+        public static void Start(PuzzleMap map, Action<Result> completed, int maxVisited = 1000000, bool useHeuristic = true, int maxAdditionalMemoryMB = 3072)
         {
             if (Active != null) throw new InvalidOperationException("A shortest-path search is already running.");
-            if (!map || !map.scenario || maxVisited < 1) throw new ArgumentException("A valid map and state limit are required.");
+            if (!map || !map.scenario || maxVisited < 1 || maxAdditionalMemoryMB < 1)
+                throw new ArgumentException("A valid map, state limit and positive memory budget are required.");
             if (EditorApplication.isPlayingOrWillChangePlaymode)
                 throw new InvalidOperationException("Shortest-path search requires Edit Mode.");
             if (SourceIsDirty(map))
@@ -79,7 +84,7 @@ namespace ANIMOL.Presentation.Editor
             if (map.ValidateMap().Count != 0) throw new ArgumentException("Map validation failed: " + map.ValidateMap()[0]);
             if (map.starwayV3Certificate) throw new ArgumentException("Certified transcript stages require their strict policy solver.");
             LastResult = null;
-            Active = new PuzzleShortestPathSolver(map, maxVisited, completed, useHeuristic);
+            Active = new PuzzleShortestPathSolver(map, maxVisited, completed, useHeuristic, maxAdditionalMemoryMB);
             EditorApplication.update += Active.Tick;
         }
 
@@ -98,6 +103,14 @@ namespace ANIMOL.Presentation.Editor
                 if (SourceIsDirty(map))
                 {
                     Finish("stale", "MapData has unsaved changes during the search.", -1);
+                    return;
+                }
+                // Include retained search data, after collecting transient resolver allocations.
+                // A memory cap is an incomplete search, never proof of unreachability.
+                if (GC.GetTotalMemory(false) > maxManagedBytes && GC.GetTotalMemory(true) > maxManagedBytes)
+                {
+                    Finish("limit", "Additional managed memory budget (" + maxAdditionalMemoryMB +
+                        " MiB) reached before the search was exhaustive.", -1);
                     return;
                 }
                 while (FrontierCount > 0 && frame.ElapsedMilliseconds < 100)
@@ -200,6 +213,9 @@ namespace ANIMOL.Presentation.Editor
                 status = status, detail = detail, distance = status == "solved" ? inputs : -1,
                 algorithm = AlgorithmName,
                 expanded = expanded, visited = visited.Count, elapsedSeconds = clock.Elapsed.TotalSeconds };
+            // Release sessions and keys before callbacks import evidence or start the next map.
+            frontier.Clear(); heap.Clear(); visited.Clear(); parents.Clear();
+            GC.Collect();
             try { completed?.Invoke(LastResult); }
             catch (Exception error) { UnityEngine.Debug.LogException(error); }
         }
