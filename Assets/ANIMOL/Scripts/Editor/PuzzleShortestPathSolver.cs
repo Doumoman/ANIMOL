@@ -10,23 +10,25 @@ using UnityEngine;
 
 namespace ANIMOL.Presentation.Editor
 {
-    /// <summary>Incremental 0-1 BFS: directional input costs one, automatic wind pulses cost zero.</summary>
+    /// <summary>Exact A* with a permissive board lower bound; 0-1 BFS for unsupported mechanisms.</summary>
     public sealed class PuzzleShortestPathSolver
     {
         public sealed class Result
         {
             public PuzzleMap map;
-            public string sourceSha256, route, status, detail;
+            public string sourceSha256, route, status, detail, algorithm;
             public int distance, expanded, visited;
             public double elapsedSeconds;
             public bool Solved => status == "solved";
         }
 
         struct Parent { public int previous; public char action; }
-        struct Frontier { public int index; public string key; public PuzzleDeviceSession session; }
+        struct Frontier { public int index, priority; public string key; public PuzzleDeviceSession session; }
         static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
         static readonly char[] Letters = { 'N', 'E', 'S', 'W' };
         readonly LinkedList<Frontier> frontier = new LinkedList<Frontier>();
+        readonly List<Frontier> heap = new List<Frontier>();
+        readonly PuzzleSearchLowerBound lowerBound;
         readonly Dictionary<string, int> visited = new Dictionary<string, int>(StringComparer.Ordinal);
         readonly List<Parent> parents = new List<Parent>();
         readonly Stopwatch clock = Stopwatch.StartNew();
@@ -43,10 +45,11 @@ namespace ANIMOL.Presentation.Editor
         public string MapName => map ? map.name : "";
         public int Expanded => expanded;
         public int Visited => visited.Count;
-        public int FrontierCount => frontier.Count;
-        public int SearchDepth => frontier.First?.Value.session.Cost ?? -1;
+        public int FrontierCount => lowerBound != null ? heap.Count : frontier.Count;
+        public int SearchDepth => lowerBound != null ? heap.Count == 0 ? -1 : heap[0].session.Cost : frontier.First?.Value.session.Cost ?? -1;
+        public string AlgorithmName => lowerBound != null ? "A* (relaxed board; free motion included)" : "0-1 BFS";
 
-        PuzzleShortestPathSolver(PuzzleMap source, int stateLimit, Action<Result> onCompleted)
+        PuzzleShortestPathSolver(PuzzleMap source, int stateLimit, Action<Result> onCompleted, bool useHeuristic)
         {
             map = source;
             maxVisited = stateLimit;
@@ -56,15 +59,16 @@ namespace ANIMOL.Presentation.Editor
                 if (device.role == PrototypeRole.Wind) { hasWind = true; break; }
             var initial = new PuzzleDeviceSession(source);
             source.BeginReadOnlySearch();
+            lowerBound = useHeuristic ? PuzzleSearchLowerBound.TryCreate(source) : null;
             // Load() calls ContinueWind once before the first animation can accept queued input.
             if (hasWind) initial.AdvanceWind();
             string initialKey = initial.SearchStateKey();
             visited.Add(initialKey, initial.Cost);
             parents.Add(new Parent { previous = -1 });
-            frontier.AddLast(new Frontier { index = 0, key = initialKey, session = initial });
+            Push(new Frontier { index = 0, key = initialKey, session = initial }, false);
         }
 
-        public static void Start(PuzzleMap map, Action<Result> completed, int maxVisited = 1000000)
+        public static void Start(PuzzleMap map, Action<Result> completed, int maxVisited = 1000000, bool useHeuristic = true)
         {
             if (Active != null) throw new InvalidOperationException("A shortest-path search is already running.");
             if (!map || !map.scenario || maxVisited < 1) throw new ArgumentException("A valid map and state limit are required.");
@@ -75,7 +79,7 @@ namespace ANIMOL.Presentation.Editor
             if (map.ValidateMap().Count != 0) throw new ArgumentException("Map validation failed: " + map.ValidateMap()[0]);
             if (map.starwayV3Certificate) throw new ArgumentException("Certified transcript stages require their strict policy solver.");
             LastResult = null;
-            Active = new PuzzleShortestPathSolver(map, maxVisited, completed);
+            Active = new PuzzleShortestPathSolver(map, maxVisited, completed, useHeuristic);
             EditorApplication.update += Active.Tick;
         }
 
@@ -96,10 +100,9 @@ namespace ANIMOL.Presentation.Editor
                     Finish("stale", "MapData has unsaved changes during the search.", -1);
                     return;
                 }
-                while (frontier.Count > 0 && frame.ElapsedMilliseconds < 100)
+                while (FrontierCount > 0 && frame.ElapsedMilliseconds < 100)
                 {
-                    var current = frontier.First.Value;
-                    frontier.RemoveFirst();
+                    var current = Pop();
                     if (current.session.Cost != visited[current.key] || current.session.Failed) continue;
                     expanded++;
                     // A goal is final only when popped: zero-cost edges may improve an earlier discovery.
@@ -118,7 +121,7 @@ namespace ANIMOL.Presentation.Editor
                             !Enqueue(waiting, current.index, '.', true)) return;
                     }
                 }
-                if (frontier.Count == 0) Finish("unreachable", "All reachable gameplay states were explored.", -1);
+                if (FrontierCount == 0) Finish("unreachable", "All reachable gameplay states were explored.", -1);
             }
             catch (Exception error) { Finish("error", error.ToString(), -1); }
         }
@@ -131,10 +134,49 @@ namespace ANIMOL.Presentation.Editor
             int index = parents.Count;
             parents.Add(new Parent { previous = previous, action = action });
             var node = new Frontier { index = index, key = key, session = session };
-            if (zeroCost) frontier.AddFirst(node); else frontier.AddLast(node);
+            Push(node, zeroCost);
             if (visited.Count < maxVisited) return true;
             Finish("limit", "State limit reached before the search was exhaustive.", -1);
             return false;
+        }
+
+        // Smaller f first; deeper nodes break equal-f ties without changing shortest-path proof.
+        static bool Before(Frontier a, Frontier b) => a.priority < b.priority ||
+            a.priority == b.priority && a.session.Cost > b.session.Cost;
+        void Push(Frontier node, bool zeroCost)
+        {
+            if (lowerBound == null)
+            {
+                if (zeroCost) frontier.AddFirst(node); else frontier.AddLast(node);
+                return;
+            }
+            node.priority = node.session.Cost + lowerBound.Estimate(node.session);
+            int index = heap.Count; heap.Add(node);
+            while (index > 0)
+            {
+                int parent = (index - 1) / 2;
+                if (!Before(node, heap[parent])) break;
+                heap[index] = heap[parent]; index = parent;
+            }
+            heap[index] = node;
+        }
+        Frontier Pop()
+        {
+            if (lowerBound == null)
+            {
+                var first = frontier.First.Value; frontier.RemoveFirst(); return first;
+            }
+            var result = heap[0]; int last = heap.Count - 1; var tail = heap[last]; heap.RemoveAt(last);
+            if (last == 0) return result;
+            int index = 0;
+            while (index * 2 + 1 < last)
+            {
+                int child = index * 2 + 1;
+                if (child + 1 < last && Before(heap[child + 1], heap[child])) child++;
+                if (!Before(heap[child], tail)) break;
+                heap[index] = heap[child]; index = child;
+            }
+            heap[index] = tail; return result;
         }
 
         void Finish(string status, string detail, int finalIndex)
@@ -156,6 +198,7 @@ namespace ANIMOL.Presentation.Editor
             { status = "stale"; detail = "Map asset changed during the search."; chars = Array.Empty<char>(); }
             LastResult = new Result { map = map, sourceSha256 = sourceSha256, route = new string(chars),
                 status = status, detail = detail, distance = status == "solved" ? inputs : -1,
+                algorithm = AlgorithmName,
                 expanded = expanded, visited = visited.Count, elapsedSeconds = clock.Elapsed.TotalSeconds };
             try { completed?.Invoke(LastResult); }
             catch (Exception error) { UnityEngine.Debug.LogException(error); }

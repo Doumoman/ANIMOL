@@ -13,11 +13,11 @@ namespace ANIMOL.Presentation.Editor
     public static class PuzzleShortestPathRecord
     {
         public const int SolverVersion = 4;
-        public const string Algorithm = "0-1 BFS; directional input costs 1; optional wind pulse (.) costs 0; initial Load wind pulse included";
+        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; optional wind pulse (.) costs 0; initial Load wind pulse included";
         public const string Path = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] public sealed class Entry
         {
-            public string mapId, mapAsset, mapSha256, status, route, detail;
+            public string mapId, mapAsset, mapSha256, status, route, detail, algorithm;
             public int solverVersion, distance, expanded, visited;
             public double elapsedSeconds;
         }
@@ -74,7 +74,7 @@ namespace ANIMOL.Presentation.Editor
                 solverVersion = SolverVersion,
                 mapSha256 = result.sourceSha256, status = result.status, route = result.route,
                 distance = result.distance, expanded = result.expanded, visited = result.visited,
-                elapsedSeconds = result.elapsedSeconds, detail = result.detail });
+                elapsedSeconds = result.elapsedSeconds, detail = result.detail, algorithm = result.algorithm });
             index.maps.Sort((a, b) => string.CompareOrdinal(a.mapId, b.mapId));
             string temporary = Path + ".tmp";
             File.WriteAllText(temporary, JsonUtility.ToJson(index, true) + "\n", new UTF8Encoding(false));
@@ -124,7 +124,7 @@ namespace ANIMOL.Presentation.Editor
             stateLimit = maxVisited;
             nextMap = 0;
             running = true;
-            LastMessage = "Starting SW00–SW19 0-1 BFS.";
+            LastMessage = "Starting SW00–SW19 exact shortest-input search.";
             StartNext();
         }
 

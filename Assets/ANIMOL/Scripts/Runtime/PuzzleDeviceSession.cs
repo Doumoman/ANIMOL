@@ -122,7 +122,14 @@ namespace ANIMOL.Puzzle
         bool searchSheepOrderMatters;
         string[] searchSheepIds, searchPondIds;
         // Search expands disposable copies. This invokes the same resolver as Apply without building Undo history.
-        public bool SearchStep(Vector2Int direction) => Resolve(direction).accepted;
+        public bool SearchStep(Vector2Int direction)
+        {
+            bool accepted = Resolve(direction).accepted;
+            // The resolver has finished using its visual event list. A queued
+            // search state needs gameplay data, without retaining presentation objects.
+            events.Clear();
+            return accepted;
+        }
 
         // A canonical gameplay-state key for editor search. The solver tracks the lowest input cost
         // separately; PortalCuts and visual events do not affect future decisions.
