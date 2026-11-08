@@ -48,6 +48,72 @@ namespace ANIMOL.Tests
             Assert.That(moves[1].to - moves[1].from, Is.EqualTo(Vector2Int.right));
         }
 
+        [TestCase(PrototypeRole.WoodCrate, false)]
+        [TestCase(PrototypeRole.MetalCrate, false)]
+        [TestCase(PrototypeRole.Dice, false)]
+        [TestCase(PrototypeRole.Dice, true)]
+        [TestCase(PrototypeRole.Domino, false)]
+        public void StationaryPushFinishesBeforeCartPushesPlayerAndUndoesTogether(PrototypeRole role, bool goal)
+        {
+            var map = Room(new Vector2Int(3, 2));
+            map.scenario.echoTheaterV3Rules = true;
+            map.scenario.devices.Add(new PrototypeDevice { id = "body", role = role,
+                position = new Vector2Int(3, 3), direction = Vector2Int.up });
+            if (goal)
+                map.scenario.devices.Add(new PrototypeDevice { id = "goal", role = PrototypeRole.Dice,
+                    variant = "socket", position = new Vector2Int(3, 4), number = 2 });
+            var session = new PuzzleDeviceSession(map);
+            var before = session.SearchStateKey();
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 2)));
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.States["body"].cell,
+                Is.EqualTo(new Vector2Int(3, role == PrototypeRole.Domino ? 3 : 4)));
+            if (role == PrototypeRole.Domino) Assert.That(session.States["body"].active, Is.True);
+            if (goal)
+            {
+                Assert.That(session.States["body"].removed, Is.True);
+                Assert.That(session.States["goal"].converted, Is.True);
+            }
+            var cartIndex = action.events.FindIndex(e => e.kind == PrototypeEventKind.Move && e.actor == "stage");
+            Assert.That(cartIndex, Is.GreaterThan(0));
+            Assert.That(action.events.Take(cartIndex).Any(e => e.actor == "player"), Is.False);
+            Assert.That(action.events.Take(cartIndex).Any(e => e.actor == "body"), Is.True);
+            Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "stage"), Is.EqualTo(1));
+            Assert.That(action.events.Last(e => e.kind == PrototypeEventKind.Move).actor, Is.EqualTo("player"));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+            Assert.That(session.Cost, Is.Zero);
+        }
+
+        [TestCase(false)] [TestCase(true)]
+        public void StationaryPushAndCartRespectBlockedDestinations(bool rejectPush)
+        {
+            var map = Room(new Vector2Int(3, 2));
+            map.scenario.echoTheaterV3Rules = true;
+            map.scenario.devices.Add(new PrototypeDevice { id = "body", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(3, 3), direction = Vector2Int.up });
+            map.scenario.devices.Add(new PrototypeDevice { id = "wall", role = PrototypeRole.Wall,
+                position = rejectPush ? new Vector2Int(3, 4) : new Vector2Int(4, 2) });
+            var session = new PuzzleDeviceSession(map);
+            var before = session.SearchStateKey();
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.accepted, Is.EqualTo(!rejectPush));
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+            Assert.That(session.Cost, Is.EqualTo(rejectPush ? 0 : 1));
+            Assert.That(session.States["body"].cell, Is.EqualTo(new Vector2Int(3, rejectPush ? 3 : 4)));
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(action.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "stage"), Is.False);
+            if (rejectPush) Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+            else
+            {
+                Assert.That(session.Undo(), Is.True);
+                Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+            }
+        }
+
         [Test] public void Et06UsesItsRegisteredCartAsAOneCellBlocker()
         {
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

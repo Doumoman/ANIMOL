@@ -12,6 +12,165 @@ namespace ANIMOL.Tests
 {
     public sealed class EchoRailCartV01PlayTests
     {
+        static PuzzleMap PushRoom(PrototypeRole role, bool goal = false)
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.start = new Vector2Int(3, 2);
+            map.scenario.costLimit = 0;
+            map.scenario.echoTheaterV3Rules = true;
+            var pushSource = AssetDatabase.LoadAssetAtPath<PuzzleMap>(role == PrototypeRole.Domino
+                ? "Assets/ANIMOL/Data/Puzzle/Prototypes/Device13_Domino.asset"
+                : "Assets/ANIMOL/Data/Puzzle/Prototypes/Device22_Dice.asset");
+            var body = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(pushSource.scenario.devices
+                .First(d => d.role == role && d.variant != "target" && d.variant != "socket")));
+            body.id = "body";
+            body.position = new Vector2Int(3, 3);
+            body.direction = Vector2Int.up;
+            body.initialDiceFaces = new[] { 1, 6, 5, 2, 3, 4 };
+            map.scenario.devices.Add(body);
+            if (goal)
+            {
+                var target = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(pushSource.scenario.devices
+                    .First(d => d.role == PrototypeRole.Dice && (d.variant == "target" || d.variant == "socket"))));
+                target.id = "goal";
+                target.position = new Vector2Int(3, 4);
+                target.number = 2;
+                map.scenario.devices.Add(target);
+            }
+            map.InvalidateIndex();
+            return map;
+        }
+
+        [UnityTest] public IEnumerator StationaryPushAndRecoveryFinishBeforeCartMovesPlayer()
+        {
+            var diceChecked = false;
+            foreach (var role in new[] { PrototypeRole.Dice, PrototypeRole.Domino, PrototypeRole.Dice })
+            {
+                // Exercise both an ordinary die roll and a die absorbed into its matching goal.
+                var goal = role == PrototypeRole.Dice && diceChecked;
+                if (role == PrototypeRole.Dice) diceChecked = true;
+                var map = PushRoom(role, goal);
+                var host = new GameObject("Theater push before cart test");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                controller.secondsPerCell = .08f;
+                try
+                {
+                    controller.Load(map);
+                    var cart = controller.Devices.Actor("stage");
+                    var body = controller.Devices.Actor("body");
+                    Assert.That(body, Is.Not.Null, role.ToString());
+                    var press = goal ? controller.Devices.Actor("goal")
+                        .Find("__DiceGoalPressCopy_VisualOnly") : null;
+                    Assert.That(controller.RequestMove(Vector2Int.up), Is.True, role.ToString());
+                    var sawPush = false;
+                    var sawCart = false;
+                    var sawPress = false;
+                    var deadline = Time.realtimeSinceStartup + 5f;
+                    while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                    {
+                        if (press && press.gameObject.activeSelf)
+                        {
+                            sawPress = true;
+                            Assert.That(cart.position.x, Is.EqualTo(2f));
+                        }
+                        if (controller.CharacterVisual.PushPoseActive)
+                        {
+                            sawPush = true;
+                            Assert.That(cart.position, Is.EqualTo(new Vector3(2, 2, 0)));
+                            Assert.That(controller.Player.position, Is.EqualTo(new Vector3(3, 2, 0)));
+                        }
+                        if (cart.position.x > 2.001f)
+                        {
+                            sawCart = true;
+                            Assert.That(controller.CharacterVisual.PushPresentationSettled, Is.True);
+                            Assert.That(controller.CharacterVisual.State, Is.EqualTo("move"));
+                            Assert.That(controller.Player.position.x, Is.GreaterThan(3f));
+                            Assert.That(body.position, Is.EqualTo(new Vector3(3,
+                                role == PrototypeRole.Domino ? 3 : 4, 0)));
+                            var die = body.GetComponent<EchoTheaterDiceFaceView>();
+                            if (die) Assert.That(die.IsRolling, Is.False);
+                            if (goal) Assert.That(press.gameObject.activeSelf, Is.False);
+                            if (role == PrototypeRole.Domino)
+                            {
+                                var visual = body.GetComponent<ANIMOL.Presentation.DeviceVisualView>();
+                                var state = visual.states.Single(s => s.name == visual.CurrentState);
+                                Assert.That(!state.sequence || state.sequence.loop ||
+                                    visual.Elapsed >= state.sequence.Duration, Is.True);
+                            }
+                        }
+                        yield return null;
+                    }
+                    Assert.That(controller.IsMoving, Is.False);
+                    Assert.That(sawPush && sawCart, Is.True, role.ToString());
+                    Assert.That(sawPress, Is.EqualTo(goal));
+                    Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                    Assert.That(controller.Player.position, Is.EqualTo(new Vector3(4, 2, 0)));
+                    Assert.That(controller.BlocksInput, Is.False);
+                    AssertCart(controller);
+                }
+                finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+                yield return null;
+            }
+        }
+        [UnityTest] public IEnumerator UndoDuringPushOrCartCancelsTheWholeTurn()
+        {
+            foreach (var duringCart in new[] { false, true })
+            {
+                var map = PushRoom(PrototypeRole.Dice);
+                var host = new GameObject("Theater push cart undo test");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                controller.secondsPerCell = .3f;
+                try
+                {
+                    controller.Load(map);
+                    var before = controller.Session.SearchStateKey();
+                    var cart = controller.Devices.Actor("stage");
+                    Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                    var deadline = Time.realtimeSinceStartup + 5f;
+                    while (controller.IsMoving && Time.realtimeSinceStartup < deadline &&
+                        (duringCart ? cart.position.x <= 2.05f : !controller.CharacterVisual.PushContactEstablished))
+                        yield return null;
+                    Assert.That(controller.IsMoving, Is.True);
+                    Assert.That(controller.UndoLast(), Is.True);
+                    yield return new WaitForSeconds(.4f);
+                    Assert.That(controller.IsMoving, Is.False);
+                    Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                    Assert.That(controller.Session.Cost, Is.Zero);
+                    Assert.That(controller.Player.position, Is.EqualTo(new Vector3(3, 2, 0)));
+                    Assert.That(controller.Devices.Actor("body").position, Is.EqualTo(new Vector3(3, 3, 0)));
+                    Assert.That(controller.CharacterVisual.PushPresentationSettled, Is.True);
+                    AssertCart(controller);
+                }
+                finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+                yield return null;
+            }
+        }
+
+        [UnityTest] public IEnumerator InputQueuedDuringPushRunsAfterCartFinishesOnce()
+        {
+            var map = PushRoom(PrototypeRole.Dice);
+            var host = new GameObject("Theater push cart queued input test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                var deadline = Time.realtimeSinceStartup + 5f;
+                while (controller.IsMoving && Time.realtimeSinceStartup < deadline) yield return null;
+                Assert.That(controller.IsMoving, Is.False);
+                Assert.That(controller.Session.Cost, Is.EqualTo(2));
+                Assert.That(controller.Player.position, Is.EqualTo(new Vector3(4, 3, 0)));
+                Assert.That(controller.Session.States["stage"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+                Assert.That(controller.Devices.Actor("body").position, Is.EqualTo(new Vector3(3, 4, 0)));
+                AssertCart(controller);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+
         [UnityTest] public IEnumerator ClosedRailShowsTurnedCartWithoutRotatingActor()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

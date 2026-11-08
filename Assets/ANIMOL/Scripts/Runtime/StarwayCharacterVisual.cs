@@ -32,6 +32,11 @@ namespace ANIMOL.Presentation
             TheaterPushPresenter && TheaterPushPresenter.isActiveAndEnabled && TheaterPushPresenter.ContactEstablished ||
             SanctumPushPresenter && SanctumPushPresenter.isActiveAndEnabled && SanctumPushPresenter.ContactEstablished ||
             CoastPushPresenter && CoastPushPresenter.isActiveAndEnabled && CoastPushPresenter.ContactEstablished;
+        public bool PushPresentationSettled =>
+            (!PushPresenter || !PushPresenter.isActiveAndEnabled || PushPresenter.IsSettled) &&
+            (!TheaterPushPresenter || !TheaterPushPresenter.isActiveAndEnabled || TheaterPushPresenter.IsSettled) &&
+            (!SanctumPushPresenter || !SanctumPushPresenter.isActiveAndEnabled || SanctumPushPresenter.IsSettled) &&
+            (!CoastPushPresenter || !CoastPushPresenter.isActiveAndEnabled || CoastPushPresenter.IsSettled);
         public string Direction { get; private set; } = "front";
         public string State { get; private set; } = "idle";
         public Sprite Illustration => catalog && catalog.Find(characterId) != null

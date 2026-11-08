@@ -498,6 +498,21 @@ namespace ANIMOL.Puzzle
             { MissingBindings++; Debug.LogError("R4 dice goal press art failed: " + e.actor + ": " + error, this); platform.ShowWalkable(); return; }
             goalPresses.Add(new GoalPress { platform = platform, sprite = captured, top = e.diceAfter[0] });
         }
+        public IEnumerator WaitForPushTransitions(IEnumerable<PrototypeEvent> committedEvents)
+        {
+            foreach (var e in committedEvents)
+            {
+                if (e.kind != PrototypeEventKind.Visual ||
+                    e.eventName != "this_domino_piece_fold_committed" &&
+                    e.eventName != "actual_one_cell_die_roll") continue;
+                if (echoDice.TryGetValue(e.actor, out var die))
+                {
+                    while (die && die.isActiveAndEnabled && die.IsRolling) yield return null;
+                }
+                else if (views.TryGetValue(e.actor, out var view))
+                    while (view && view.isActiveAndEnabled && PlayingTransition(view)) yield return null;
+            }
+        }
         public IEnumerator PlayGoalPresses()
         {
             if (goalPresses.Count == 0) yield break;

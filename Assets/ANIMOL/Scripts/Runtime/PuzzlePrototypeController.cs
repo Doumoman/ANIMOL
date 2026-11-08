@@ -182,6 +182,7 @@ namespace ANIMOL.Puzzle
         {
             var consumed = new HashSet<PrototypeEvent>();
             var pushStarted = false;
+            var goalPressPending = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
             int dominoPanelsRemaining = result.events.FindAll(e =>
                 e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
@@ -235,6 +236,26 @@ namespace ANIMOL.Puzzle
                     continue;
                 }
                 if (e.kind != PrototypeEventKind.Move) continue;
+                if (Session.Definition(e.actor)?.role == PrototypeRole.MovingStage)
+                {
+                    // Finish the committed push (including a die entering its goal) before
+                    // the cart takes its turn. Release hand contact before moving the player.
+                    yield return Devices.WaitForPushTransitions(result.events);
+                    if (goalPressPending)
+                    {
+                        queuedInput = Vector2Int.zero;
+                        yield return Devices.PlayGoalPresses();
+                        pressingGoal = goalPressPending = false;
+                    }
+                    if (pushStarted && CharacterVisual)
+                    {
+                        CharacterVisual.EndPushPresentation();
+                        CharacterVisual.SetIdle();
+                        while (CharacterVisual && !CharacterVisual.PushPresentationSettled)
+                            yield return null;
+                    }
+                    pushStarted = false;
+                }
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
                 if (!actor) actor = view.RanchActor(e.actor);
                 if (!pushStarted && inputDirection != Vector2Int.zero && e.actor != "player" &&
@@ -358,7 +379,7 @@ namespace ANIMOL.Puzzle
                         p.actor == e.actor && p.group == e.group + 1 && !consumed.Contains(p)))
                     { view.PlayRanchCue(cue); consumed.Add(cue); }
             }
-            if (result.events.Exists(e => e.eventName == "dice_goal_absorbed"))
+            if (goalPressPending)
             {
                 queuedInput = Vector2Int.zero;
                 yield return Devices.PlayGoalPresses();

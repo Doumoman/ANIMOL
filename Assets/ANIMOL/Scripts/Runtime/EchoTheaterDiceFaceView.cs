@@ -15,6 +15,7 @@ namespace ANIMOL.Puzzle
         SpriteRenderer image;
         Sprite settled;
         public Sprite CommittedSprite => settled;
+        public bool IsRolling => rollTime > 0f;
         float rollTime;
         internal static bool TryArtState(int[] faces, out EchoTheaterV03DiceOrientation.State state,
             out bool mirrored, out string error)

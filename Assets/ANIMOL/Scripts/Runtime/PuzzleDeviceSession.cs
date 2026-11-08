@@ -945,8 +945,10 @@ namespace ANIMOL.Puzzle
             d.socketReward == StarSocketReward.RevealBridge && d.socketBridgeId == bridgeId && states[d.id].active);
         void EndTurn(Vector2Int inputStart)
         {
-            // A cart gets one step after the committed player movement, before other device turns.
-            if (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player"))
+            // Theater pushes commit a turn even when the player braces in place.
+            // Advance the cart after that push, before other device turns.
+            if (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player") ||
+                Rules.themeId == "memory_theater" && stationaryPush)
                 foreach (var cart in definitions.Where(d => d.role == PrototypeRole.MovingStage && !states[d.id].removed))
                     AdvanceStage(cart, inputStart);
             foreach (var d in definitions.Where(d => !states[d.id].removed))
