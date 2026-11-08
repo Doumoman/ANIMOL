@@ -7,7 +7,7 @@ namespace ANIMOL.Puzzle
     // controllers apply a verified budget only to their owned runtime scenario.
     public static class StarwayShortestPathCatalog
     {
-        public const int SolverVersion = 8;
+        public const int SolverVersion = 9;
         public const string AssetPath = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] sealed class Index { public int formatVersion; public Entry[] maps; }
         [Serializable] sealed class Entry

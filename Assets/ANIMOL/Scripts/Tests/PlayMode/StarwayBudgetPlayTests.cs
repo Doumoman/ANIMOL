@@ -21,7 +21,7 @@ namespace ANIMOL.Tests
             Assert.That(controller.IsMoving, Is.False, "Automatic movement did not settle.");
         }
 
-        [UnityTest] public IEnumerator PlayerCanEnterOpenReflectorFaceButClosedFaceCostsNothing()
+        [UnityTest] public IEnumerator PlayerBouncesFromOpenReflectorFaceButClosedFaceCostsNothing()
         {
             var map = ScriptableObject.CreateInstance<PuzzleMap>();
             var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
@@ -55,7 +55,7 @@ namespace ANIMOL.Tests
                         Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
                     }
                     yield return WaitForRest(controller);
-                    Assert.That(controller.Session.Cell, Is.EqualTo(allowed ? reflector.position : map.start));
+                    Assert.That(controller.Session.Cell, Is.EqualTo(allowed ? reflector.position + Vector2Int.up : map.start));
                     Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)controller.Session.Cell));
                 }
             }
@@ -93,6 +93,54 @@ namespace ANIMOL.Tests
                 Assert.That(controller.Session.Cost, Is.Zero);
                 Assert.That(controller.IsMoving, Is.False);
                 yield return null;
+            }
+            finally
+            {
+                Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera);
+                Object.Destroy(map); Object.Destroy(scenario);
+            }
+        }
+
+        [UnityTest] public IEnumerator BlockedBounceCannotExitThroughTheBackAndUndoRestoresTheInput()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            map.scenario = scenario; scenario.themeId = "starway";
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW00_MapData.asset").theme;
+            map.Resize(5, 5); map.targetBubbles = 0;
+            for (int y = 0; y < 5; y++) for (int x = 0; x < 5; x++)
+                map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+            map.start = new Vector2Int(2, 2); map.exit = new Vector2Int(4, 4);
+            map.SetTerrain(new Vector2Int(3, 3), TerrainMaterial.Grass, true);
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce,
+                position = new Vector2Int(3, 2), orientation = 2 });
+            var originalCamera = Camera.main; GameObject generatedCamera = null;
+            var host = new GameObject("Blocked player bounce actual input test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            controller.secondsPerCell = .001f;
+            try
+            {
+                controller.Load(map);
+                if (!originalCamera && controller.FollowCamera) generatedCamera = controller.FollowCamera.gameObject;
+                yield return WaitForRest(controller);
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                yield return WaitForRest(controller);
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+                Assert.That(controller.Session.Direction, Is.EqualTo(Vector2Int.up));
+                var stopped = controller.Session.SearchStateKey();
+                foreach (var closedExit in new[] { Vector2Int.right, Vector2Int.down })
+                {
+                    Assert.That(controller.RequestMove(closedExit), Is.False);
+                    Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(stopped));
+                    Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                    Assert.That(controller.IsMoving, Is.False);
+                    Assert.That((Vector2)controller.Player.position, Is.EqualTo(new Vector2(3, 2)));
+                }
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.Cell, Is.EqualTo(map.start));
+                Assert.That(controller.Session.Cost, Is.Zero);
+                Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)map.start));
             }
             finally
             {

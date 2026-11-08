@@ -315,6 +315,8 @@ namespace ANIMOL.Puzzle
             return reflector == null || reflector.variant == "slash" || reflector.variant == "backslash" ||
                 ReflectCorner(to - from, reflector.orientation) != Vector2Int.zero;
         }
+        PrototypeDevice CornerReflectorAt(Vector2Int p) => At(p, d => d.role == PrototypeRole.Bounce &&
+            d.variant != "slash" && d.variant != "backslash");
         bool CrateReflectorPassable(Vector2Int p, string movingId)
         {
             var moving = Definition(movingId);
@@ -401,6 +403,7 @@ namespace ANIMOL.Puzzle
         {
             var inputStart = Cell;
             Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
+            if (!ReflectorEntryAllowed(Cell + direction, Cell)) return new PrototypeAction { reason = "Closed reflector face" };
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
             if (mirror != null && Rules.mirrorBumpRotates)
@@ -575,6 +578,7 @@ namespace ANIMOL.Puzzle
         bool StepPlayer(Vector2Int destination, PrototypeDevice committedWind = null)
         {
             if (!Map.Contains(destination) || Map.DecorationAt(destination) || NestPresent(destination) || ranchSheep.Values.Contains(destination) ||
+                !ReflectorEntryAllowed(destination, Cell) ||
                 !GateAllows(Cell, destination, Direction) || !EntryAllowed(destination)) return false;
             if (!string.IsNullOrEmpty(BoatId))
             {
@@ -659,8 +663,9 @@ namespace ANIMOL.Puzzle
                     var exit = At(Cell, d => d.role == PrototypeRole.Portal);
                     if (exit != null) Visual(exit, (exit.variant == "b" ? "b" : "a") + "_exit_" + Dir(Direction), "existing_portal_exit_committed");
                     arrivedFromPortal = true;
+                    if (CornerReflectorAt(Cell) != null) continue;
                     if (!StepPlayer(Cell + Direction) || stationaryPush) return;
-                    if (!sliding && At(Cell, d => d.role == PrototypeRole.OneWayGate) == null) return;
+                    if (!sliding && At(Cell, d => d.role == PrototypeRole.OneWayGate) == null && CornerReflectorAt(Cell) == null) return;
                     continue;
                 }
                 arrivedFromPortal = false;
@@ -677,7 +682,9 @@ namespace ANIMOL.Puzzle
                     Visual(leap, "prepare_" + Dir(Direction), "existing_leap_committed_prepare");
                     Visual(leap, "launch_" + Dir(Direction), "existing_leap_launch");
                     var before = Cell; Leave(before); Cell = target; Move("player", before, Cell); Collect(); Enter(); Follow(before); RefreshLinks(true);
-                    Visual(leap, "land_" + Dir(Direction), "existing_leap_landed"); return;
+                    Visual(leap, "land_" + Dir(Direction), "existing_leap_landed");
+                    if (CornerReflectorAt(Cell) != null) continue;
+                    return;
                 }
                 var brake = At(Cell, d => d.role == PrototypeRole.Brake);
                 var onBlowerWind = windOwners.TryGetValue(Cell, out var activeWindOwner) &&
@@ -686,10 +693,23 @@ namespace ANIMOL.Puzzle
                 { Visual(brake, "brake_" + (brake.variant == "vertical" ? "vertical" : "horizontal"), "forced_motion_stopped"); return; }
                 var conveyor = At(Cell, d => d.role == PrototypeRole.Conveyor);
                 var wind = WindCells.TryGetValue(Cell, out var windDirection);
+                var corner = CornerReflectorAt(Cell);
+                var followingWind = false;
                 PrototypeDevice windSource = null;
-                if (conveyor != null) { Direction = states[conveyor.id].direction; forced = true; Visual(conveyor, "run_" + Dir(Direction), "conveyor_visual_running"); }
+                // Reflection follows this arrival's heading, even when a crossing wind
+                // has a different outgoing force. A later pulse on a stopped player
+                // uses the wind's already-reflected force instead of reflecting twice.
+                if (corner != null && events.LastOrDefault(e => e.kind == PrototypeEventKind.Move && e.actor == "player")?.to == Cell)
+                {
+                    var reflected = ReflectCorner(Direction, corner.orientation);
+                    if (reflected == Vector2Int.zero) return;
+                    Direction = reflected; forced = true;
+                    Visual(corner, "impact_" + Corner(corner.orientation), "existing_bounce_resolved");
+                }
+                else if (conveyor != null) { Direction = states[conveyor.id].direction; forced = true; Visual(conveyor, "run_" + Dir(Direction), "conveyor_visual_running"); }
                 else if (wind)
                 {
+                    followingWind = true;
                     Direction = windDirection; forced = true;
                     windSource = windOwners.TryGetValue(Cell, out var owner) ? Definition(owner) : null;
                     if (windSource != null && windSource.variant == "blower")
@@ -714,7 +734,7 @@ namespace ANIMOL.Puzzle
                     else if (!sliding && !(Rules.echoTheaterV3Rules && forced)) return;
                 }
                 // A later wind pulse moving an occupant does not extend this player move.
-                if (conveyor == null && wind &&
+                if (followingWind &&
                     (ranchSheep.Values.Contains(Cell + Direction) || At(Cell + Direction, Solid) != null)) return;
                 if (!StepPlayer(Cell + Direction, windSource) || stationaryPush) return;
             }
@@ -998,7 +1018,7 @@ namespace ANIMOL.Puzzle
 
             var touchesPlayer = Cell == target;
             var pushTo = target + heading;
-            var canPush = touchesPlayer && Landing(pushTo, heading);
+            var canPush = touchesPlayer && ReflectorEntryAllowed(pushTo, target) && Landing(pushTo, heading);
             var canReturn = touchesPlayer && !canPush && inputStart != target && Supported(inputStart) &&
                 At(inputStart, Solid, d.id) == null && At(inputStart, x => x.role == PrototypeRole.Boat, d.id) == null &&
                 !ranchSheep.Values.Contains(inputStart);
@@ -1017,6 +1037,7 @@ namespace ANIMOL.Puzzle
             Move("player", previous, Cell);
             Collect(); Enter(); Follow(previous);
             RefreshLinks(true); TraceWind();
+            if (canPush && CornerReflectorAt(Cell) != null) Automatic();
         }
         void Magnet(PrototypeDevice d)
         {

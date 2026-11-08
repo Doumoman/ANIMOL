@@ -218,7 +218,7 @@ namespace ANIMOL.Presentation.Tests
         // SE = north/west, SW = north/east. These are travel headings INTO those faces.
         static readonly int[][] OpenEntries = { new[] { 0, 3 }, new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 } };
 
-        [Test] public void PlayerWalksIntoOnlyTheOpenFacesOfEveryReflector(
+        [Test] public void PlayerWalksIntoOpenFacesAndImmediatelyLeavesAlongTheReflectedHeading(
             [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
         {
             var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
@@ -228,8 +228,16 @@ namespace ANIMOL.Presentation.Tests
             bool allowed = OpenEntries[corner].Contains(heading);
             var result = session.Apply(direction);
             Assert.That(result.accepted, Is.EqualTo(allowed));
-            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector : map.start));
+            var expected = allowed ? reflector + PuzzleDeviceSession.ReflectCorner(direction, corner) : map.start;
+            Assert.That(session.Cell, Is.EqualTo(expected));
             Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed)
+            {
+                Assert.That(session.Direction, Is.EqualTo(expected - reflector));
+                Assert.That(result.events.Where(e => e.kind == PrototypeEventKind.Move && e.actor == "player").Select(e => e.to),
+                    Is.EqualTo(new[] { reflector, expected }));
+                Assert.That(result.events.Count(e => e.eventName == "existing_bounce_resolved"), Is.EqualTo(1));
+            }
             if (allowed) Assert.That(session.Undo(), Is.True);
             else Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
             Assert.That(session.SearchStateKey(), Is.EqualTo(before));
@@ -245,6 +253,100 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(session.Apply(direction).accepted, Is.True);
             Assert.That(session.Cell, Is.EqualTo(reflector));
             Assert.That(session.Cost, Is.EqualTo(1));
+        }
+
+        [TestCase(0, 0)] [TestCase(0, 3)] [TestCase(1, 0)] [TestCase(1, 1)]
+        [TestCase(2, 1)] [TestCase(2, 2)] [TestCase(3, 2)] [TestCase(3, 3)]
+        public void BlockedReflectedExitNeverAllowsWalkingThroughTheBack(int corner, int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            var outgoing = PuzzleDeviceSession.ReflectCorner(direction, corner);
+            map.start = reflector - direction;
+            map.SetTerrain(reflector + outgoing, TerrainMaterial.Grass, true);
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var entry = session.Apply(direction);
+            Assert.That(entry.accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(reflector));
+            Assert.That(session.Direction, Is.EqualTo(outgoing));
+            Assert.That(session.Cost, Is.EqualTo(1));
+            var stopped = session.SearchStateKey();
+            foreach (var closedExit in new[] { direction, -outgoing })
+            {
+                Assert.That(session.Apply(closedExit).accepted, Is.False);
+                Assert.That(session.SearchStateKey(), Is.EqualTo(stopped));
+                Assert.That(session.Cost, Is.EqualTo(1));
+            }
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [TestCase(true)] [TestCase(false)]
+        public void AStoppedPlayerCannotPushOrOperateDevicesThroughTheBackOfTheReflector(bool sheep)
+        {
+            map.start = new Vector2Int(2, 2);
+            map.SetTerrain(new Vector2Int(3, 3), TerrainMaterial.Grass, true);
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            if (sheep) scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", instanceId = "outside", position = new Vector2Int(4, 2) });
+            else scenario.devices.Add(new PrototypeDevice { id = "outside", role = PrototypeRole.Wind, variant = "blower", position = new Vector2Int(4, 2) });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+            var stopped = session.SearchStateKey();
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.False);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(stopped));
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Apply(Vector2Int.left).accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+        }
+
+        [Test] public void CornerChainCollectsAndClearsOnlyAfterActualReflectedMovementForOneInput()
+        {
+            map.start = new Vector2Int(2, 2); map.exit = new Vector2Int(2, 3); map.targetBubbles = 2;
+            map.bubbles.Add(new Vector2Int(3, 2)); map.bubbles.Add(new Vector2Int(3, 3));
+            scenario.devices.Add(new PrototypeDevice { id = "a", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            scenario.devices.Add(new PrototypeDevice { id = "b", role = PrototypeRole.Bounce, position = new Vector2Int(3, 3), orientation = 1 });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var result = session.Apply(Vector2Int.right);
+            Assert.That(result.accepted, Is.True);
+            Assert.That(result.events.Where(e => e.kind == PrototypeEventKind.Move && e.actor == "player").Select(e => e.to),
+                Is.EqualTo(new[] { new Vector2Int(3, 2), new Vector2Int(3, 3), map.exit }));
+            Assert.That(result.events.Count(e => e.eventName == "existing_bounce_resolved"), Is.EqualTo(2));
+            Assert.That(session.Cell, Is.EqualTo(map.exit));
+            Assert.That(session.Collected, Is.EqualTo(2)); Assert.That(session.Won, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [Test] public void ReflectionUsesThePlayersArrivalHeadingWhenWindCrossesTheCorner()
+        {
+            map.start = new Vector2Int(3, 3);
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
+                position = new Vector2Int(1, 2), direction = Vector2Int.right, orientation = 1, active = true });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.WindCells[new Vector2Int(3, 2)], Is.EqualTo(Vector2Int.up));
+            var result = session.Apply(Vector2Int.down);
+            Assert.That(result.accepted, Is.True);
+            Assert.That(result.events.Where(e => e.kind == PrototypeEventKind.Move && e.actor == "player").Take(2).Select(e => e.to),
+                Is.EqualTo(new[] { new Vector2Int(3, 2), new Vector2Int(2, 2) }),
+                "Entering from the north reflects west before a later wind step can act.");
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+
+        [Test] public void ReflectorLoopSettlesWithoutExtraInputCost()
+        {
+            map.start = new Vector2Int(2, 2);
+            scenario.devices.Add(new PrototypeDevice { id = "a", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            scenario.devices.Add(new PrototypeDevice { id = "b", role = PrototypeRole.Bounce, position = new Vector2Int(3, 3), orientation = 1 });
+            scenario.devices.Add(new PrototypeDevice { id = "c", role = PrototypeRole.Bounce, position = new Vector2Int(2, 3), orientation = 0 });
+            scenario.devices.Add(new PrototypeDevice { id = "d", role = PrototypeRole.Bounce, position = map.start, orientation = 3 });
+            var session = new PuzzleDeviceSession(map);
+            var result = session.Apply(Vector2Int.right);
+            Assert.That(result.accepted, Is.True);
+            Assert.That(result.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "player"), Is.InRange(4, 12));
+            Assert.That(session.Cost, Is.EqualTo(1)); Assert.That(session.Failed, Is.False);
         }
 
         [Test] public void ConveyorCannotCarryPlayerThroughClosedReflectorFaces(
@@ -289,7 +391,7 @@ namespace ANIMOL.Presentation.Tests
             scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(5, 2), orientation = allowed ? 2 : 0 });
             var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
             Assert.That(session.Apply(Vector2Int.right).accepted, Is.EqualTo(allowed));
-            Assert.That(session.Cell, Is.EqualTo(allowed ? new Vector2Int(5, 2) : map.start));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? new Vector2Int(5, 3) : map.start));
             Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
             if (allowed) Assert.That(session.Undo(), Is.True);
             Assert.That(session.SearchStateKey(), Is.EqualTo(before));
@@ -307,6 +409,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
             Assert.That(session.PortalCuts, Is.EqualTo(allowed ? 1 : 0));
             Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player" && e.to == reflector), Is.EqualTo(allowed));
+            if (allowed) Assert.That(session.Cell, Is.EqualTo(reflector + Vector2Int.up));
             if (allowed) Assert.That(session.Undo(), Is.True);
             Assert.That(session.SearchStateKey(), Is.EqualTo(before));
         }

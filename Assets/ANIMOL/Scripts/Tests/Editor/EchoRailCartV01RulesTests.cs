@@ -113,7 +113,7 @@ namespace ANIMOL.Tests
             var action = session.Apply(Vector2Int.down);
             Assert.That(action.accepted, Is.True);
             Assert.That(session.Cost, Is.EqualTo(1));
-            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector : map.start));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector + Vector2Int.up : map.start));
             Assert.That(action.events.Any(e => e.eventName == "rail_cart_player_pushed"), Is.EqualTo(allowed));
             Assert.That(session.Undo(), Is.True);
             Assert.That(session.SearchStateKey(), Is.EqualTo(before));

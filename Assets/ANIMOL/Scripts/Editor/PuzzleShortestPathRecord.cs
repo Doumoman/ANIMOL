@@ -13,7 +13,7 @@ namespace ANIMOL.Presentation.Editor
     public static class PuzzleShortestPathRecord
     {
         public const int SolverVersion = StarwayShortestPathCatalog.SolverVersion;
-        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous-input wind included; players, sheep and crates enter reflectors only from their open sides";
+        public const string Algorithm = "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous-input wind included; players, sheep and crates enter reflectors only from their open sides; players automatically leave corners along the reflected heading";
         public const string Path = "Assets/ANIMOL/Data/Puzzle/MapData/starway/StarwayShortestPaths.json";
         [Serializable] public sealed class Entry
         {
