@@ -1,12 +1,40 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace ANIMOL.UI.Crayon
 {
     // UI art inspection only: no combat clock, collision, HP calculation, rewards or spawning.
     public sealed class BattleCrayonArtPreview : MonoBehaviour
     {
+        const string PreviewScene = "Assets/ANIMOL/Scenes/Battle/ANIMOL_StarRain_Battle.unity";
+        const string MainScene = "Assets/ANIMOL/Scenes/Main/NotebookUI.unity";
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static void RegisterSceneIsolation()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void IsolateFromMainGame()
+        {
+            var main = SceneManager.GetSceneByPath(MainScene);
+            var preview = SceneManager.GetSceneByPath(PreviewScene);
+            if (!main.IsValid() || !main.isLoaded || !preview.IsValid() || !preview.isLoaded) return;
+            var roots = preview.GetRootGameObjects();
+            bool artPreview = false;
+            foreach (var root in roots)
+                if (root.GetComponentInChildren<BattleCrayonArtPreview>(true)) { artPreview = true; break; }
+            if (!artPreview) return;
+            // This scene is an independent art mockup. Its overlay, camera and input
+            // system must not remain behind the menu when a real puzzle is opened.
+            if (SceneManager.GetActiveScene() == preview) SceneManager.SetActiveScene(main);
+            foreach (var root in roots) root.SetActive(false);
+        }
+        static void OnSceneLoaded(Scene unused, LoadSceneMode mode) => IsolateFromMainGame();
+
         public enum Screen { Start, Hud, Pause, Results, Augment }
         public GameObject startPanel, pausePanel, resultPanel, augmentPanel, augmentSelection;
         public Button startButton, pauseButton, resumeButton, retryButton, resultRetryButton;
