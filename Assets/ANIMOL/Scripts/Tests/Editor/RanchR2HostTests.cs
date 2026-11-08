@@ -213,49 +213,83 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(shadowed.Cost, Is.EqualTo(1));
         }
 
-        [Test] public void SheepCannotBePushedIntoReflectorWithoutSpendingCost()
+        static readonly Vector2Int[] Headings = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
+        // Open faces in the authored art: NW = south/east, NE = south/west,
+        // SE = north/west, SW = north/east. These are travel headings INTO those faces.
+        static readonly int[][] OpenEntries = { new[] { 0, 3 }, new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 } };
+
+        [Test] public void SheepPushUsesOnlyTheOpenFacesOfEveryReflector(
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
         {
-            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "sheep" });
-            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 2 });
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction * 2;
+            var original = reflector - direction;
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = original, instanceId = "sheep" });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
             var session = new PuzzleDeviceSession(map);
             var before = session.SearchStateKey();
-            var result = session.Apply(Vector2Int.right);
-            Assert.That(result.accepted, Is.False);
-            Assert.That(session.Cost, Is.Zero);
+            bool allowed = OpenEntries[corner].Contains(heading);
+            var result = session.Apply(direction);
+            Assert.That(result.accepted, Is.EqualTo(allowed), result.reason);
+            Assert.That(session.RanchSheep["sheep"], Is.EqualTo(allowed ? reflector : original));
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            else Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
             Assert.That(session.SearchStateKey(), Is.EqualTo(before));
-            Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
-        }
-
-        [TestCase(PrototypeRole.WoodCrate)] [TestCase(PrototypeRole.MetalCrate)]
-        public void CratesCannotEnterReflectorFromAnySide(PrototypeRole role)
-        {
-            var reflector = new Vector2Int(3, 2);
-            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = 2 });
-            var box = new PrototypeDevice { id = "box", role = role }; scenario.devices.Add(box);
-            foreach (var direction in new[] { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left })
-            {
-                map.start = reflector - direction * 2; box.position = reflector - direction;
-                var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
-                Assert.That(session.Apply(direction).accepted, Is.False, direction.ToString());
-                Assert.That(session.Cost, Is.Zero);
-                Assert.That(session.SearchStateKey(), Is.EqualTo(before));
-            }
-        }
-
-        [TestCase(true)] [TestCase(false)]
-        public void WindCarriedSheepAndWoodStopBeforeReflector(bool sheep)
-        {
-            map.start = new Vector2Int(1, 0);
-            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
-                position = new Vector2Int(0, 2), direction = Vector2Int.right, orientation = 2, active = true });
-            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(4, 2), orientation = 2 });
-            if (sheep) scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = new Vector2Int(2, 2), instanceId = "body" });
-            else scenario.devices.Add(new PrototypeDevice { id = "body", role = PrototypeRole.WoodCrate, position = new Vector2Int(2, 2) });
-            var session = new PuzzleDeviceSession(map);
-            Assert.That(session.AdvanceWind().accepted, Is.True);
-            Assert.That(sheep ? session.RanchSheep["body"] : session.States["body"].cell, Is.EqualTo(new Vector2Int(3, 2)));
-            Assert.That(session.AdvanceWind().accepted, Is.False);
             Assert.That(session.Cost, Is.Zero);
+        }
+
+        [Test] public void CratesUseTheSameOpenReflectorFaces(
+            [Values(PrototypeRole.WoodCrate, PrototypeRole.MetalCrate)] PrototypeRole role,
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction * 2;
+            var original = reflector - direction;
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            scenario.devices.Add(new PrototypeDevice { id = "box", role = role, position = original });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            bool allowed = OpenEntries[corner].Contains(heading);
+            Assert.That(session.Apply(direction).accepted, Is.EqualTo(allowed));
+            Assert.That(session.States["box"].cell, Is.EqualTo(allowed ? reflector : original));
+            Assert.That(session.Cell, Is.EqualTo(map.start));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [Test] public void WindCarriesSheepAndWoodThroughOpenReflectorFacesAndTurns(
+            [Values(true, false)] bool sheep,
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
+        {
+            map.Resize(9, 9);
+            for (int y = 0; y < 9; y++) for (int x = 0; x < 9; x++)
+                map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+            map.start = Vector2Int.zero; map.exit = new Vector2Int(8, 8);
+            var reflector = new Vector2Int(4, 4); var direction = Headings[heading];
+            var original = reflector - direction * 2;
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
+                position = reflector - direction * 3, direction = direction, orientation = 2, active = true });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            if (sheep) scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", position = original, instanceId = "body" });
+            else scenario.devices.Add(new PrototypeDevice { id = "body", role = PrototypeRole.WoodCrate, position = original });
+            var session = new PuzzleDeviceSession(map);
+            var before = session.SearchStateKey();
+            var snapshot = session.Copy();
+            var result = session.AdvanceWind();
+            Assert.That(result.accepted, Is.True);
+            bool allowed = OpenEntries[corner].Contains(heading);
+            var moves = result.events.Where(e => e.kind == PrototypeEventKind.Move && e.actor == "body").ToArray();
+            Assert.That(moves.Any(e => e.to == reflector), Is.EqualTo(allowed));
+            if (allowed)
+                Assert.That(moves.Any(e => e.from == reflector && e.to != reflector + direction), Is.True,
+                    "Wind must turn the body at the reflector rather than carry it straight through.");
+            else
+                Assert.That(sheep ? session.RanchSheep["body"] : session.States["body"].cell, Is.EqualTo(reflector - direction));
+            Assert.That(session.Cost, Is.Zero);
+            session.RestoreSnapshot(snapshot);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
         }
 
         [Test] public void PlayerAndWindStillPassThroughAndTurnAtReflector()

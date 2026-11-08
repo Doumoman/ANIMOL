@@ -309,11 +309,17 @@ namespace ANIMOL.Puzzle
             var moving = Definition(movingId);
             return moving != null && moving.role == PrototypeRole.Dice && moving.variant != "target" && moving.variant != "socket";
         }
+        bool ReflectorEntryAllowed(Vector2Int from, Vector2Int to)
+        {
+            var reflector = At(to, d => d.role == PrototypeRole.Bounce);
+            return reflector == null || reflector.variant == "slash" || reflector.variant == "backslash" ||
+                ReflectCorner(to - from, reflector.orientation) != Vector2Int.zero;
+        }
         bool CrateReflectorPassable(Vector2Int p, string movingId)
         {
             var moving = Definition(movingId);
             return moving == null || moving.role != PrototypeRole.WoodCrate && moving.role != PrototypeRole.MetalCrate ||
-                At(p, d => d.role == PrototypeRole.Bounce) == null;
+                ReflectorEntryAllowed(states[moving.id].cell, p);
         }
         bool Free(Vector2Int p, string except = null, bool water = false, bool ignorePlayer = false) =>
             Map.Contains(p) && !Map.DecorationAt(p) && (Supported(p) || (water && Rules.water.Contains(p))) &&
@@ -448,10 +454,10 @@ namespace ANIMOL.Puzzle
             foreach (var art in Rules.ranchV13Art.Where(a => a != null && a.family == "sluice"))
                 board.ponds.Add(art.PondPair(ranchPonds[art.Id]));
             foreach (var sheep in ranchSheep) board.sheep.Add(sheep.Key, RanchCell(sheep.Value));
-            // Reflectors remain traversable by the player/wind, but are occupied
-            // destinations for sheep in both manual pushes and wind carriage.
+            // A reflector shares its floor cell with sheep. Its closed sides are
+            // checked per movement edge, rather than treating the whole cell as occupied.
             foreach (var device in definitions.Where(d => !states[d.id].removed &&
-                (Solid(d) || d.role == PrototypeRole.Boat || d.role == PrototypeRole.Bounce)))
+                (Solid(d) || d.role == PrototypeRole.Boat)))
                 foreach (var p in Footprint(device))
                     if (p == Cell) board.floodPolicyHolds.Add(RanchCell(p));
                     else board.solidOccupants.Add(RanchCell(p));
@@ -466,6 +472,8 @@ namespace ANIMOL.Puzzle
             var sheep = ranchSheep.FirstOrDefault(p => p.Value == destination);
             if (sheep.Key != null)
             {
+                if (!ReflectorEntryAllowed(sheep.Value, destination + direction))
+                { rejection = "Blocked: Sheep cannot enter the outside of a reflector."; return true; }
                 var board = RanchSnapshot(new[] { destination + direction });
                 if (!RanchDeviceRulesR2.TryPushSheep(board, sheep.Key, RanchCell(direction), out var next, out var result))
                 { rejection = result.code + ": " + result.diagnostic; return true; }
@@ -1272,6 +1280,7 @@ namespace ANIMOL.Puzzle
                 {
                     var destination = new Vector2Int(step.cell.x, step.cell.y);
                     var direction = destination - current;
+                    if (!ReflectorEntryAllowed(current, destination)) break;
                     var cells = new List<RanchCellR2> { RanchCell(current), RanchCell(destination) };
                     if (!RanchDeviceRulesR2.TryWindSheep(RanchSnapshot(cells.Select(UnityCell)), sheep.Key,
                         RanchCell(direction), cells, range, out var next, out var result)) break;

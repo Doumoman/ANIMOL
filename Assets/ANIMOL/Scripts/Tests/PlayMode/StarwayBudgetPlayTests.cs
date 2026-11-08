@@ -13,13 +13,6 @@ namespace ANIMOL.Tests
     {
         [System.Serializable] sealed class CatalogData { public CatalogEntry[] maps; }
         [System.Serializable] sealed class CatalogEntry { public string mapId, mapAsset, status, route; public int distance; }
-        [System.Serializable] sealed class RejectionTrace
-        {
-            public string mapId = "SW19", recordStatus, reason;
-            public bool accepted;
-            public int costBefore, costAfter, runtimeCostLimit;
-            public Vector2Int player, sheep, reflector;
-        }
 
         static IEnumerator WaitForRest(PuzzlePrototypeController controller)
         {
@@ -28,9 +21,45 @@ namespace ANIMOL.Tests
             Assert.That(controller.IsMoving, Is.False, "Automatic movement did not settle.");
         }
 
-        [UnityTest] public IEnumerator Sw19ImmediateWindAndReflectorRejectionUseActualControllerAnimations()
+        [UnityTest] public IEnumerator ClosedReflectorFaceRejectsSheepWithoutCostOrMovement()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            map.scenario = scenario; scenario.themeId = "starway";
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW00_MapData.asset").theme;
+            map.Resize(5, 5); map.targetBubbles = 0;
+            for (int y = 0; y < 5; y++) for (int x = 0; x < 5; x++)
+                map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+            map.start = new Vector2Int(1, 2); map.exit = new Vector2Int(4, 4);
+            scenario.ranchV13Art.Add(new RanchV13ArtPlacement { family = "sheep", instanceId = "sheep", position = new Vector2Int(2, 2) });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2), orientation = 0 });
+            var originalCamera = Camera.main; GameObject generatedCamera = null;
+            var host = new GameObject("Closed reflector face actual input test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                if (!originalCamera && controller.FollowCamera) generatedCamera = controller.FollowCamera.gameObject;
+                yield return WaitForRest(controller);
+                var before = controller.Session.SearchStateKey();
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.False);
+                Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                Assert.That(controller.Session.Cost, Is.Zero);
+                Assert.That(controller.IsMoving, Is.False);
+                yield return null;
+            }
+            finally
+            {
+                Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera);
+                Object.Destroy(map); Object.Destroy(scenario);
+            }
+        }
+
+        [UnityTest] public IEnumerator Sw19ImmediateWindAndOpenReflectorEntryUseActualControllerAnimations()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/MapData/starway/SW19_MapData.asset");
+            PuzzleMap entryMap = null;
             var host = new GameObject("SW19 actual input timing test");
             var controller = host.AddComponent<PuzzlePrototypeController>();
             controller.shortestPathCatalog = AssetDatabase.LoadAssetAtPath<TextAsset>(StarwayShortestPathCatalog.AssetPath);
@@ -53,35 +82,32 @@ namespace ANIMOL.Tests
                 Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(11, 9)));
                 Assert.That(controller.Session.Cost, Is.EqualTo(7));
                 yield return WaitForRest(controller);
-                controller.ResetStage(); yield return WaitForRest(controller);
-                var entry = JsonUtility.FromJson<CatalogData>(controller.shortestPathCatalog.text).maps.Single(e => e.mapId == "SW19");
-                Assert.That(entry.status, Is.EqualTo("unreachable"));
-                Assert.That(entry.distance, Is.EqualTo(-1));
-                Assert.That(entry.route, Is.Empty);
-                Assert.That(controller.RuntimeMap.scenario.costLimit, Is.EqualTo(source.scenario.costLimit));
-                foreach (char arrow in "←↓↓←↑←←→↓←←←↑←")
-                {
-                    Assert.That(PuzzleRouteNotation.TryDirection(arrow, out var direction), Is.True);
-                    Assert.That(controller.RequestMove(direction), Is.True);
-                    yield return WaitForRest(controller);
-                }
+                // Isolate the reported entry on the authored SW19 board. With open-face
+                // carriage enabled, the old full route now moves sheep earlier in the wind.
+                entryMap = Object.Instantiate(source);
+                entryMap.scenario = Object.Instantiate(source.scenario);
+                entryMap.start = new Vector2Int(11, 9);
+                foreach (var wind in entryMap.scenario.devices.Where(d => d.role == PrototypeRole.Wind))
+                { wind.orientation = 0; wind.active = false; }
+                entryMap.scenario.ranchV13Art.Single(a => a.family == "sheep" && a.position == new Vector2Int(12, 9)).position = new Vector2Int(11, 8);
+                controller.Load(entryMap); yield return WaitForRest(controller);
                 Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(11, 9)));
-                Assert.That(controller.Session.Cost, Is.EqualTo(14));
+                Assert.That(controller.Session.Cost, Is.Zero);
                 Assert.That(controller.Session.RanchSheep.Values, Does.Contain(new Vector2Int(11, 8)));
-                var before = controller.Session.SearchStateKey();
                 int costBefore = controller.Session.Cost;
+                var sheepId = controller.Session.RanchSheep.Single(s => s.Value == new Vector2Int(11, 8)).Key;
                 bool accepted = controller.RequestMove(Vector2Int.down);
-                Assert.That(accepted, Is.False, "The old route tried to push sheep onto reflector (11,7).");
-                Assert.That(controller.Session.Cost, Is.EqualTo(costBefore));
-                Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
-                Assert.That(controller.IsMoving, Is.False);
-                System.IO.File.WriteAllText("Temp/sw19_reflector_rejection.json", JsonUtility.ToJson(new RejectionTrace {
-                    recordStatus = entry.status, accepted = accepted, reason = controller.Status,
-                    costBefore = costBefore, costAfter = controller.Session.Cost, runtimeCostLimit = controller.RuntimeMap.scenario.costLimit,
-                    player = controller.Session.Cell, sheep = new Vector2Int(11, 8), reflector = new Vector2Int(11, 7)
-                }, true));
+                Assert.That(accepted, Is.True, "The north face of reflector (11,7) is open to this push.");
+                Assert.That(controller.Session.Cost, Is.EqualTo(costBefore + 1));
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(11, 9)));
+                Assert.That(controller.Session.RanchSheep[sheepId], Is.EqualTo(new Vector2Int(11, 7)));
+                yield return WaitForRest(controller);
             }
-            finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
+            finally
+            {
+                Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera);
+                if (entryMap) { Object.Destroy(entryMap.scenario); Object.Destroy(entryMap); }
+            }
         }
         [UnityTest] public IEnumerator RuntimeBudgetsApplyToAllSolvedStagesAndResetWithoutEditingSources()
         {
@@ -94,13 +120,16 @@ namespace ANIMOL.Tests
             int checkedMaps = 0;
             try
             {
-                foreach (var entry in JsonUtility.FromJson<CatalogData>(controller.shortestPathCatalog.text).maps.Where(e => e.status == "solved"))
+                var catalog = JsonUtility.FromJson<CatalogData>(controller.shortestPathCatalog.text);
+                foreach (var entry in catalog.maps.Where(e => e.status == "solved"))
                 {
                     var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(entry.mapAsset);
                     int sourceLimit = source.scenario.costLimit;
                     controller.Load(source); controller.StopAllCoroutines();
                     if (!originalCamera && controller.FollowCamera) generatedCamera = controller.FollowCamera.gameObject;
                     Assert.That(controller.RuntimeMap.scenario, Is.Not.SameAs(source.scenario));
+                    Assert.That(StarwayShortestPathCatalog.TryGetBudget(source, controller.shortestPathCatalog, out var budget), Is.True, entry.mapId);
+                    Assert.That(budget, Is.EqualTo(entry.distance));
                     Assert.That(controller.RuntimeMap.scenario.costLimit, Is.EqualTo(entry.distance), entry.mapId);
                     Assert.That(controller.Session.Cost, Is.Zero);
                     foreach (char action in entry.route)
@@ -122,7 +151,7 @@ namespace ANIMOL.Tests
                     Assert.That(source.scenario.costLimit, Is.EqualTo(sourceLimit));
                     checkedMaps++; yield return null;
                 }
-                Assert.That(checkedMaps, Is.EqualTo(18));
+                Assert.That(checkedMaps, Is.EqualTo(catalog.maps.Count(e => e.status == "solved")));
             }
             finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
         }

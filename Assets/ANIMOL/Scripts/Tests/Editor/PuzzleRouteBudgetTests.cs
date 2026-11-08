@@ -67,7 +67,7 @@ namespace ANIMOL.Tests
                 }
                 finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
             }
-            Assert.That(configured, Is.EqualTo(18));
+            Assert.That(configured, Is.EqualTo(PuzzleShortestPathRecord.Read().maps.Count(e => e.status == "solved")));
         }
         [Test] public void StaleCatalogDoesNotApplyAChangedProof()
         {
@@ -75,6 +75,22 @@ namespace ANIMOL.Tests
             var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(entry.mapAsset);
             var stale = new TextAsset(Catalog.text.Replace(entry.mapSha256, "invalid-source-hash"));
             try { Assert.That(StarwayShortestPathCatalog.TryGetBudget(map, stale, out _), Is.False); }
+            finally { Object.DestroyImmediate(stale); }
+        }
+        [TestCase(true, false)] [TestCase(false, true)] [TestCase(true, true)]
+        public void PreviousReflectorRulesCannotSupplyARuntimeBudget(bool oldFormat, bool oldEntry)
+        {
+            var index = PuzzleShortestPathRecord.Read();
+            var entry = index.maps.First(e => e.status == "solved");
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(entry.mapAsset);
+            if (oldFormat) index.formatVersion = StarwayShortestPathCatalog.SolverVersion - 1;
+            if (oldEntry) entry.solverVersion = StarwayShortestPathCatalog.SolverVersion - 1;
+            var stale = new TextAsset(JsonUtility.ToJson(index));
+            try
+            {
+                Assert.That(StarwayShortestPathCatalog.TryGetBudget(source, stale, out _), Is.False);
+                if (oldEntry) Assert.That(PuzzleShortestPathRecord.IsCurrent(source, entry), Is.False);
+            }
             finally { Object.DestroyImmediate(stale); }
         }
         [Test] public void ActiveNotebookPrefabReferencesTheVerifiedCatalog()

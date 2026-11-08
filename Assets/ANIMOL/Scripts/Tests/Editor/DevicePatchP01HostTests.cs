@@ -103,7 +103,7 @@ namespace ANIMOL.Tests
         }
 
         [Test]
-        public void WindCannotCarryWoodCrateIntoReflector()
+        public void WindCarriesWoodCrateIntoOpenReflectorFace()
         {
             var map = Clone("20_Wind");
             map.scenario.devices.Single(d => d.variant == "blower").orientation = 1;
@@ -121,10 +121,10 @@ namespace ANIMOL.Tests
             Assert.That(session.Cost, Is.EqualTo(1));
             Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 2)),
                 "The existing field variants keep their authored connected movement.");
-            Assert.That(session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(2, 4)),
-                "The wood stops before the reflector while the wind can still turn there.");
+            Assert.That(session.States["qa_wood"].cell, Is.EqualTo(new Vector2Int(3, 5)),
+                "The wood enters the open face and follows the reflected wind.");
             Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "qa_wood"),
-                Is.Zero);
+                Is.EqualTo(2));
         }
 
         [Test]
