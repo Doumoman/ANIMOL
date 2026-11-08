@@ -12,7 +12,7 @@ namespace ANIMOL.Puzzle
         public PuzzleMap stage;
         public GameObject hudPrefab;
         public TextAsset shortestPathCatalog;
-        [Range(.05f, .6f)] public float secondsPerCell = .10f;
+        [Range(.05f, .6f)] public float secondsPerCell = .13f;
         public PuzzleSession Session { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
         public Transform Player { get; private set; }

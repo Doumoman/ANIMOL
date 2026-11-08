@@ -14,7 +14,7 @@ namespace ANIMOL.Puzzle
         public PuzzleMap stage;
         public GameObject hudPrefab;
         public TextAsset shortestPathCatalog;
-        public float secondsPerCell = .10f;
+        public float secondsPerCell = .13f;
         public PuzzleDeviceSession Session { get; private set; }
         public StarwayV3StrictPolicy Strict { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
@@ -231,8 +231,15 @@ namespace ANIMOL.Puzzle
                     var ranchSeconds = view.PlayRanchCue(e);
                     Devices.Notify(e, Session.Cost + ":" + e.group);
                     if (Devices.HasOneTileShutterCue(e))
+                    {
+                        StopWalking();
                         yield return Devices.PlayOneTileShutterCue(e, secondsPerCell);
-                    if (ranchSeconds > 0) yield return new WaitForSeconds(ranchSeconds);
+                    }
+                    if (ranchSeconds > 0)
+                    {
+                        StopWalking();
+                        yield return new WaitForSeconds(ranchSeconds);
+                    }
                     if (e.eventName == "this_domino_piece_fold_committed" && --dominoPanelsRemaining > 0)
                         yield return new WaitForSeconds(Mathf.Min(.1f, secondsPerCell * .5f));
                     continue;
@@ -240,6 +247,7 @@ namespace ANIMOL.Puzzle
                 if (e.kind != PrototypeEventKind.Move) continue;
                 if (Session.Definition(e.actor)?.role == PrototypeRole.MovingStage)
                 {
+                    StopWalking();
                     // Finish the committed push (including a die entering its goal) before
                     // the cart takes its turn. Release hand contact before moving the player.
                     if (pushTransitionsPending)
@@ -297,6 +305,7 @@ namespace ANIMOL.Puzzle
                 if (!actor) continue;
                 if (Devices.HasRanchV13Motion(e.actor))
                 {
+                    StopWalking();
                     var path = new List<Vector2Int> { e.from };
                     var windBySegment = new List<bool>();
                     bool contiguous = true;
@@ -365,6 +374,10 @@ namespace ANIMOL.Puzzle
                         if (CharacterVisual) CharacterVisual.SetMotion(heading, "move");
                     }
                 }
+                if (e.actor != "player" && !passenger) StopWalking();
+                var playerMotion = e.actor == "player" || passenger != null;
+                var playerContinues = result.events.Exists(p => p.kind == PrototypeEventKind.Move &&
+                    p.actor == "player" && p.group > e.group && !consumed.Contains(p));
                 // Play the existing committed body-motion clip while the grid transform actually moves.
                 foreach (var cue in result.events.FindAll(p => p.kind == PrototypeEventKind.Visual &&
                     p.actor == e.actor && p.group == e.group + 1 && p.eventName != "ChickReturned"))
@@ -372,11 +385,28 @@ namespace ANIMOL.Puzzle
                     if (view.RanchActor(e.actor)) continue;
                     Devices.Notify(cue, Session.Cost + ":" + cue.group); consumed.Add(cue);
                 }
-                if (e.teleport) { actor.position = (Vector2)e.to; if (e.actor == "player") FollowCamera.Cut(); yield return null; }
+                if (e.teleport)
+                {
+                    actor.position = (Vector2)e.to;
+                    if (e.actor == "player") FollowCamera.Cut();
+                    if (playerMotion && !playerContinues && queuedInput == Vector2Int.zero) StopWalking();
+                    yield return null;
+                }
                 else
                 {
                     var from = actor.position; var passengerFrom = passenger ? passenger.position : Vector3.zero; var elapsed = 0f;
-                    while (elapsed < moveSeconds) { elapsed += Time.deltaTime; var progress = Mathf.Clamp01(elapsed / moveSeconds); actor.position = Vector3.Lerp(from, (Vector2)e.to, progress); if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)passengerDestination, progress); Devices.SetWindActionProgress01(progress); yield return null; }
+                    while (elapsed < moveSeconds)
+                    {
+                        elapsed += Time.deltaTime;
+                        var progress = Mathf.Clamp01(elapsed / moveSeconds);
+                        actor.position = Vector3.Lerp(from, (Vector2)e.to, progress);
+                        if (passenger) passenger.position = Vector3.Lerp(passengerFrom, (Vector2)passengerDestination, progress);
+                        Devices.SetWindActionProgress01(progress);
+                        // Stop on the arrival frame, even while the rest of this turn is still animating.
+                        if (progress >= 1f && playerMotion && !playerContinues && queuedInput == Vector2Int.zero)
+                            StopWalking();
+                        yield return null;
+                    }
                     actor.position = (Vector2)e.to;
                     if (passenger) passenger.position = (Vector2)passengerDestination;
                 }
@@ -408,6 +438,11 @@ namespace ANIMOL.Puzzle
                 if (CharacterVisual && !Session.Won) CharacterVisual.SetIdle();
                 Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
             }
+        }
+        void StopWalking()
+        {
+            if (CharacterVisual && (CharacterVisual.State == "move" || CharacterVisual.State == "sliding"))
+                CharacterVisual.SetIdle();
         }
         bool IsCommittedPlayerPush(PrototypeAction action, PrototypeEvent movement, Vector2Int heading)
         {

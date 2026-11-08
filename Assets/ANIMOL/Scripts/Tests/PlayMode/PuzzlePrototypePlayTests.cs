@@ -47,12 +47,13 @@ namespace ANIMOL.Tests
                         lastQueuedCost = controller.Session.Cost;
                         Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
                     }
-                    Assert.That(controller.CharacterVisual.State, Is.EqualTo("move"));
+                    Assert.That(controller.CharacterVisual.State,
+                        Is.EqualTo(controller.Session.Cost == 4 && controller.Player.position.x >= 5f ? "idle" : "move"));
                     maxFrame = Mathf.Max(maxFrame, controller.CharacterVisual.CurrentFrame);
                     yield return null;
                 }
                 Assert.That(controller.IsMoving, Is.False);
-                Assert.That(Time.realtimeSinceStartup - started, Is.LessThan(.6f));
+                Assert.That(Time.realtimeSinceStartup - started, Is.LessThan(.7f));
                 Assert.That(maxFrame, Is.GreaterThanOrEqualTo(3), "Walking kept restarting before the later frames.");
                 Assert.That(controller.Session.Cost, Is.EqualTo(4));
                 Assert.That(controller.Player.position, Is.EqualTo(new Vector3(5, 2, 0)));

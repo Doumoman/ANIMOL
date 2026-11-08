@@ -86,7 +86,8 @@ namespace ANIMOL.Tests
                         {
                             sawCart = true;
                             Assert.That(controller.CharacterVisual.PushPresentationSettled, Is.True);
-                            Assert.That(controller.CharacterVisual.State, Is.EqualTo("move"));
+                            Assert.That(controller.CharacterVisual.State,
+                                Is.EqualTo(cart.position.x >= 3f ? "idle" : "move"));
                             Assert.That(controller.Player.position.x, Is.GreaterThan(3f));
                             Assert.That(body.position, Is.EqualTo(new Vector3(3,
                                 role == PrototypeRole.Domino ? 3 : 4, 0)));
@@ -207,6 +208,47 @@ namespace ANIMOL.Tests
                 Object.Destroy(map.scenario);
                 Object.Destroy(map);
             }
+        }
+
+        [UnityTest] public IEnumerator WalkingStopsOnArrivalWhileAnUnoccupiedCartFinishesItsTurn()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.costLimit = 0;
+            map.start = new Vector2Int(1, 2);
+            map.InvalidateIndex();
+            var host = new GameObject("Theater arrival stops walking test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            try
+            {
+                controller.Load(map);
+                var cart = controller.Devices.Actor("stage");
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                var sawArrival = false;
+                var sawCartMoving = false;
+                var deadline = Time.realtimeSinceStartup + 5f;
+                while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                {
+                    if (controller.Player.position == new Vector3(1, 3, 0))
+                    {
+                        sawArrival = true;
+                        Assert.That(controller.CharacterVisual.State, Is.EqualTo("idle"),
+                            "Walking continued after the player reached the cell.");
+                        if (cart.position.x > 2f && cart.position.x < 3f) sawCartMoving = true;
+                    }
+                    else Assert.That(controller.CharacterVisual.State, Is.EqualTo("move"));
+                    yield return null;
+                }
+                Assert.That(controller.IsMoving, Is.False);
+                Assert.That(sawArrival && sawCartMoving, Is.True);
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(1, 3)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                Assert.That(controller.BlocksInput, Is.False);
+                AssertCart(controller);
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
         }
 
         [UnityTest] public IEnumerator ContactTweenMovesPlayerAheadOfCart()
