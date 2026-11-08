@@ -1,0 +1,2451 @@
+{
+  "shader": "Assets/ANIMOL/MapHudCrayonUI/Shaders/UI_ANIMOL_MapHudCrayonBoil.shader",
+  "shaderGuid": "e6d2f451e6e85d9bad634ca156244eda",
+  "frameSeconds": 0.6,
+  "loopSeconds": 1.8,
+  "materialCount": 222,
+  "materials": [
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_PanelFrame_Animated.mat",
+      "guid": "54b3dd2d795651068b3e2309ea85f30b",
+      "id": "MapNeon/PanelFrame",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_PanelFrame_Still.mat",
+      "guid": "4f0dbc417269570a84fbf314474afb8d",
+      "id": "MapNeon/PanelFrame",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/PanelFrame_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Normal_Animated.mat",
+      "guid": "66c697f1ea145129bb4f5acd63d66100",
+      "id": "MapNeon/Utility_Normal",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Normal_Still.mat",
+      "guid": "2e64c218cbf457578e5614ba829bbda2",
+      "id": "MapNeon/Utility_Normal",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Highlighted_Animated.mat",
+      "guid": "75a9adc5848953c7a79bb68045462881",
+      "id": "MapNeon/Utility_Highlighted",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Highlighted_Still.mat",
+      "guid": "fcc4a863d9df5640b7caacaedf132df0",
+      "id": "MapNeon/Utility_Highlighted",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Pressed_Animated.mat",
+      "guid": "ff21eaed689c50c0bdda59f682c9e36f",
+      "id": "MapNeon/Utility_Pressed",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Pressed_Still.mat",
+      "guid": "7f9c6ba40489538fb9a5568f1049548d",
+      "id": "MapNeon/Utility_Pressed",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Disabled_Animated.mat",
+      "guid": "fe8da4b5df375c6a948b51176e64fc01",
+      "id": "MapNeon/Utility_Disabled",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Utility_Disabled_Still.mat",
+      "guid": "4f3253ccf5bc561d87ce2526813fc0d2",
+      "id": "MapNeon/Utility_Disabled",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Utility_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Normal_Animated.mat",
+      "guid": "1e71c7a34d4f5795864a001bec387e73",
+      "id": "MapNeon/Wallet_Normal",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Normal_Still.mat",
+      "guid": "e191e290135a543fadfa4a6a4e8f7521",
+      "id": "MapNeon/Wallet_Normal",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Highlighted_Animated.mat",
+      "guid": "217c833b69515d0abf219e616696803b",
+      "id": "MapNeon/Wallet_Highlighted",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Highlighted_Still.mat",
+      "guid": "6ab61557e761511682cd42a55ec2e5f1",
+      "id": "MapNeon/Wallet_Highlighted",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Pressed_Animated.mat",
+      "guid": "9e72aaaad82154adb2e0ebd5fc687add",
+      "id": "MapNeon/Wallet_Pressed",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Pressed_Still.mat",
+      "guid": "5d750285363a56dc80356ec6e071dbdb",
+      "id": "MapNeon/Wallet_Pressed",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Disabled_Animated.mat",
+      "guid": "3169c2bd19dd5facb2ecde6f71400a1a",
+      "id": "MapNeon/Wallet_Disabled",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Wallet_Disabled_Still.mat",
+      "guid": "f6b628442877538c972b99737cfc7038",
+      "id": "MapNeon/Wallet_Disabled",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Wallet_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Normal_Animated.mat",
+      "guid": "443e213e1a175303b6a1a93401277cfd",
+      "id": "MapNeon/Action_Normal",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Normal_Still.mat",
+      "guid": "473e749f2a625dbbbd0870a21c00ef22",
+      "id": "MapNeon/Action_Normal",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Highlighted_Animated.mat",
+      "guid": "bc4802932ad55647a29baff9fb365967",
+      "id": "MapNeon/Action_Highlighted",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Highlighted_Still.mat",
+      "guid": "ed2b196f2717520dad7cfe7971f8f238",
+      "id": "MapNeon/Action_Highlighted",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Pressed_Animated.mat",
+      "guid": "d88f64b9be615ab5aed28400a4db12ab",
+      "id": "MapNeon/Action_Pressed",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Pressed_Still.mat",
+      "guid": "6eed9a2ed46850e3beba58be9a8b9d7a",
+      "id": "MapNeon/Action_Pressed",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Disabled_Animated.mat",
+      "guid": "15eebf8e4380540dbb746e3d36736347",
+      "id": "MapNeon/Action_Disabled",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Action_Disabled_Still.mat",
+      "guid": "d0eef20b726a577496198b91364596fc",
+      "id": "MapNeon/Action_Disabled",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Action_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Back_Animated.mat",
+      "guid": "2907b602864f5a589cd6bc485a4bd415",
+      "id": "MapNeon/Icon_Back",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Back_Still.mat",
+      "guid": "e0c15bb9db9e5291ac353e5f9c259f21",
+      "id": "MapNeon/Icon_Back",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Back_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Telescope_Animated.mat",
+      "guid": "f4e0751b7a995f4280e179134fa6d071",
+      "id": "MapNeon/Icon_Telescope",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Telescope_Still.mat",
+      "guid": "b291fe63feff581588e2c837c6153e83",
+      "id": "MapNeon/Icon_Telescope",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Telescope_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Enter_Animated.mat",
+      "guid": "8b0bd0e1e9b05772bc71d37097d3fe2b",
+      "id": "MapNeon/Icon_Enter",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Enter_Still.mat",
+      "guid": "040282877d0a5f05b62396c8abb16fe8",
+      "id": "MapNeon/Icon_Enter",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Enter_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_StoryReplay_Animated.mat",
+      "guid": "cf25de6e66035eabb70bcf83eabd3461",
+      "id": "MapNeon/Icon_StoryReplay",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_StoryReplay_Still.mat",
+      "guid": "91df688a6a46547d93b28d03608c6fb3",
+      "id": "MapNeon/Icon_StoryReplay",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_StoryReplay_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Lock_Animated.mat",
+      "guid": "b7ff39b6e09a5720adc855992d85a846",
+      "id": "MapNeon/Icon_Lock",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapNeon_Icon_Lock_Still.mat",
+      "guid": "46ea8ddd89695ccd990f4533e614177c",
+      "id": "MapNeon/Icon_Lock",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapNeon/Icon_Lock_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Normal_Animated.mat",
+      "guid": "d0c8d30f2f485c1297c6fe4b744c1005",
+      "id": "MapTheme/Tab_Normal",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Normal_Still.mat",
+      "guid": "987c30fa748251698a7fded4e26c373e",
+      "id": "MapTheme/Tab_Normal",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Highlighted_Animated.mat",
+      "guid": "58da4a48756a56a3bd57c0f2a5a7f3e3",
+      "id": "MapTheme/Tab_Highlighted",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Highlighted_Still.mat",
+      "guid": "c64b53500c775b64b73006ecf3be2a19",
+      "id": "MapTheme/Tab_Highlighted",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Pressed_Animated.mat",
+      "guid": "9c451d7870dd5bd6aef82b47e9402945",
+      "id": "MapTheme/Tab_Pressed",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Pressed_Still.mat",
+      "guid": "7720e9dca5505b088470e5dd78b3387b",
+      "id": "MapTheme/Tab_Pressed",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Disabled_Animated.mat",
+      "guid": "2f4ea8b8b45f5132b8c6c566ef0b7c44",
+      "id": "MapTheme/Tab_Disabled",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Disabled_Still.mat",
+      "guid": "1cfe1c23e6845c5795d1e4193eeb6182",
+      "id": "MapTheme/Tab_Disabled",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Selected_Animated.mat",
+      "guid": "acacf6337dac5498a3dcffe29b0309de",
+      "id": "MapTheme/Tab_Selected",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/MapTheme_Tab_Selected_Still.mat",
+      "guid": "d523998201ae5ca2b32d95e7cb630ad5",
+      "id": "MapTheme/Tab_Selected",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/MapTheme/Tab_Selected_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F0_Animated.mat",
+      "guid": "3789ccce1405530993d20a9df910fce0",
+      "id": "Map/Stars/Star_Available_V0_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F0_Still.mat",
+      "guid": "ac5be05efa2153b9b3816031c65978e6",
+      "id": "Map/Stars/Star_Available_V0_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F1_Animated.mat",
+      "guid": "2bb366467a805c54a22ded058c588fad",
+      "id": "Map/Stars/Star_Available_V0_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F1_Still.mat",
+      "guid": "0166b3a1456c52ce9e52fa46ffbd5215",
+      "id": "Map/Stars/Star_Available_V0_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F2_Animated.mat",
+      "guid": "1746aa96417c52b3934cab1f9dd4986f",
+      "id": "Map/Stars/Star_Available_V0_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F2_Still.mat",
+      "guid": "10af269a62565a8fb1b313231f4771e9",
+      "id": "Map/Stars/Star_Available_V0_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F3_Animated.mat",
+      "guid": "a044bb1fe1855569a7e3376153cd65f9",
+      "id": "Map/Stars/Star_Available_V0_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V0_F3_Still.mat",
+      "guid": "a866d18fbfd755b685c5197ec2cb2704",
+      "id": "Map/Stars/Star_Available_V0_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F0_Animated.mat",
+      "guid": "a83885f427e05702a37d89f9960004e8",
+      "id": "Map/Stars/Star_Available_V1_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F0_Still.mat",
+      "guid": "9f13a709748f57ffb51725c06a569b87",
+      "id": "Map/Stars/Star_Available_V1_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F1_Animated.mat",
+      "guid": "2f19965e6a86527980c757d3bc26e178",
+      "id": "Map/Stars/Star_Available_V1_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F1_Still.mat",
+      "guid": "c56fefbcd8bc59cfa3a05e7abedb2c97",
+      "id": "Map/Stars/Star_Available_V1_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F2_Animated.mat",
+      "guid": "9b457d8dc1a2543ebbac952a86aef198",
+      "id": "Map/Stars/Star_Available_V1_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F2_Still.mat",
+      "guid": "fbd8f4b9d5415c6f82a0b4f8bc47f9af",
+      "id": "Map/Stars/Star_Available_V1_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F3_Animated.mat",
+      "guid": "d7b5ab3d0a5254208d65a3298bb993ea",
+      "id": "Map/Stars/Star_Available_V1_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V1_F3_Still.mat",
+      "guid": "aa498d17feaa53eeb6a8b6572c5be898",
+      "id": "Map/Stars/Star_Available_V1_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F0_Animated.mat",
+      "guid": "455495567f4351c8a96b7684c300f086",
+      "id": "Map/Stars/Star_Available_V2_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F0_Still.mat",
+      "guid": "dc97a80f2c7e5b3fa70f7f2473b96bee",
+      "id": "Map/Stars/Star_Available_V2_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F1_Animated.mat",
+      "guid": "2261ab4b6f665f948abd3dcc6e48a441",
+      "id": "Map/Stars/Star_Available_V2_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F1_Still.mat",
+      "guid": "a0e15ea7ca6551309a9a1b85344642f0",
+      "id": "Map/Stars/Star_Available_V2_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F2_Animated.mat",
+      "guid": "2b10deb7f70a5081857e00d5f5ffee1e",
+      "id": "Map/Stars/Star_Available_V2_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F2_Still.mat",
+      "guid": "3421486fd8335df8bc272615bc9dbeed",
+      "id": "Map/Stars/Star_Available_V2_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F3_Animated.mat",
+      "guid": "b8b8c4a3ecb65c2f9eabb3b44cb41298",
+      "id": "Map/Stars/Star_Available_V2_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Available_V2_F3_Still.mat",
+      "guid": "f95884f1efa154688aa60f741717ac85",
+      "id": "Map/Stars/Star_Available_V2_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Available_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F0_Animated.mat",
+      "guid": "9324f8f849595a2386c0974eda2fcede",
+      "id": "Map/Stars/Star_Current_V0_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F0_Still.mat",
+      "guid": "82e6da69ceb253d38433adca9debc277",
+      "id": "Map/Stars/Star_Current_V0_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F1_Animated.mat",
+      "guid": "390a5e7057a85227a9c5439011f67ac7",
+      "id": "Map/Stars/Star_Current_V0_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F1_Still.mat",
+      "guid": "a5e59582c5f154ddba7d9db620903ab6",
+      "id": "Map/Stars/Star_Current_V0_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F2_Animated.mat",
+      "guid": "0e1060027b39599ba07132b3882db6ea",
+      "id": "Map/Stars/Star_Current_V0_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F2_Still.mat",
+      "guid": "3323d91b8e655b39a236a6b8d8bd0861",
+      "id": "Map/Stars/Star_Current_V0_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F3_Animated.mat",
+      "guid": "9d3260af6c3d5989a131a8bc75caa42e",
+      "id": "Map/Stars/Star_Current_V0_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V0_F3_Still.mat",
+      "guid": "4aa84474ea815673a9b2003c75c63cca",
+      "id": "Map/Stars/Star_Current_V0_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F0_Animated.mat",
+      "guid": "1f29c9ea44325d578e8f72c8dd65a989",
+      "id": "Map/Stars/Star_Current_V1_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F0_Still.mat",
+      "guid": "5f817ccd73e650319420b6290f2989f8",
+      "id": "Map/Stars/Star_Current_V1_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F1_Animated.mat",
+      "guid": "4fc287e696025b7bb94482a6b45a1266",
+      "id": "Map/Stars/Star_Current_V1_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F1_Still.mat",
+      "guid": "f1b4b91300055c798db8b7b3039da10d",
+      "id": "Map/Stars/Star_Current_V1_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F2_Animated.mat",
+      "guid": "a37869b7f52257dfa9beb41c25547f6d",
+      "id": "Map/Stars/Star_Current_V1_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F2_Still.mat",
+      "guid": "090b50a216c154ba8251343266a5d977",
+      "id": "Map/Stars/Star_Current_V1_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F3_Animated.mat",
+      "guid": "87274dfaebb150918de06035e58f6a80",
+      "id": "Map/Stars/Star_Current_V1_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V1_F3_Still.mat",
+      "guid": "1aab37bb5fe1530ab87f3434f3051fa8",
+      "id": "Map/Stars/Star_Current_V1_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F0_Animated.mat",
+      "guid": "f2129e378672508a8aa4cd4926be648e",
+      "id": "Map/Stars/Star_Current_V2_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F0_Still.mat",
+      "guid": "7c356af32cea5909bf25ed17979396df",
+      "id": "Map/Stars/Star_Current_V2_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F1_Animated.mat",
+      "guid": "c59ff67e663455cfba59123e8b2dfc81",
+      "id": "Map/Stars/Star_Current_V2_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F1_Still.mat",
+      "guid": "e2d6536f10e854c4a4dfcf2bbdbb4e6b",
+      "id": "Map/Stars/Star_Current_V2_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F2_Animated.mat",
+      "guid": "ac57045a1b505a3d8d9ef3e08ccb056c",
+      "id": "Map/Stars/Star_Current_V2_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F2_Still.mat",
+      "guid": "91a2ab2791a45598b9c576707924bbd9",
+      "id": "Map/Stars/Star_Current_V2_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F3_Animated.mat",
+      "guid": "066857f1ee825f5a9636dc6a8d35c34d",
+      "id": "Map/Stars/Star_Current_V2_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Current_V2_F3_Still.mat",
+      "guid": "83c7360041b45b8587946e2f2567098b",
+      "id": "Map/Stars/Star_Current_V2_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Current_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F0_Animated.mat",
+      "guid": "92d37c19185157b6b56abd41502af280",
+      "id": "Map/Stars/Star_Done_V0_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F0_Still.mat",
+      "guid": "187180fe8c5257f6928f30fe5ccc6f57",
+      "id": "Map/Stars/Star_Done_V0_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F1_Animated.mat",
+      "guid": "e07ffc12aaa459f9ba43674f8b766f1b",
+      "id": "Map/Stars/Star_Done_V0_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F1_Still.mat",
+      "guid": "2851b37687ac5c2a8d1d17fc953f4564",
+      "id": "Map/Stars/Star_Done_V0_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F2_Animated.mat",
+      "guid": "c39bdbdc7f645e01a58639fa16698823",
+      "id": "Map/Stars/Star_Done_V0_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F2_Still.mat",
+      "guid": "b56b83c2694a57029b99899098380f25",
+      "id": "Map/Stars/Star_Done_V0_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F3_Animated.mat",
+      "guid": "addfc25ac7475ea58c29d91f0943907d",
+      "id": "Map/Stars/Star_Done_V0_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V0_F3_Still.mat",
+      "guid": "323e91a4fea85255b8c26e2f885bcbd9",
+      "id": "Map/Stars/Star_Done_V0_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F0_Animated.mat",
+      "guid": "64684a652a74537d90e1fcefb09d5f7b",
+      "id": "Map/Stars/Star_Done_V1_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F0_Still.mat",
+      "guid": "6d025b331e3b51b392781a4728acb86d",
+      "id": "Map/Stars/Star_Done_V1_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F1_Animated.mat",
+      "guid": "5a07b871322c5bf39ecc525b59598e54",
+      "id": "Map/Stars/Star_Done_V1_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F1_Still.mat",
+      "guid": "7e797b1266a15cd1ae8235c9dc03e3f4",
+      "id": "Map/Stars/Star_Done_V1_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F2_Animated.mat",
+      "guid": "1befadb886385222837028c411a2123c",
+      "id": "Map/Stars/Star_Done_V1_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F2_Still.mat",
+      "guid": "505527d6ec3150a3ac03a9a915a7ceba",
+      "id": "Map/Stars/Star_Done_V1_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F3_Animated.mat",
+      "guid": "5c36c7d579145b0c8e9ffd5c98d34aeb",
+      "id": "Map/Stars/Star_Done_V1_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V1_F3_Still.mat",
+      "guid": "14a46e67ebe3528c96bb60aee46c2afe",
+      "id": "Map/Stars/Star_Done_V1_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F0_Animated.mat",
+      "guid": "9874f76c6a4c5935b3efe2f588966169",
+      "id": "Map/Stars/Star_Done_V2_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F0_Still.mat",
+      "guid": "bc1bbc51bd78526c91548aafe99b3b84",
+      "id": "Map/Stars/Star_Done_V2_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F1_Animated.mat",
+      "guid": "b48b28ddd92d5968a2a56155220730cc",
+      "id": "Map/Stars/Star_Done_V2_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F1_Still.mat",
+      "guid": "be2c2efa74b358689173c77bbc86148a",
+      "id": "Map/Stars/Star_Done_V2_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F2_Animated.mat",
+      "guid": "5e5b75e975d85ab6befc1ecdbea7cbd9",
+      "id": "Map/Stars/Star_Done_V2_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F2_Still.mat",
+      "guid": "80259ba7a04154ed81f6db77af358ae6",
+      "id": "Map/Stars/Star_Done_V2_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F3_Animated.mat",
+      "guid": "9d57e00be5bb5d52adeec839d1febd90",
+      "id": "Map/Stars/Star_Done_V2_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Done_V2_F3_Still.mat",
+      "guid": "ac2861e4de30579b9f54c9d93999b535",
+      "id": "Map/Stars/Star_Done_V2_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Done_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F0_Animated.mat",
+      "guid": "bdab4bdedffc515aa69494092aae0ab5",
+      "id": "Map/Stars/Star_Locked_V0_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F0_Still.mat",
+      "guid": "a34f0ccdebc05ecd9017e756fedc5957",
+      "id": "Map/Stars/Star_Locked_V0_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F1_Animated.mat",
+      "guid": "c31af03f2a29511ea4cc19d592cedc07",
+      "id": "Map/Stars/Star_Locked_V0_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F1_Still.mat",
+      "guid": "0943e254ad8f5058930da916833c187a",
+      "id": "Map/Stars/Star_Locked_V0_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F2_Animated.mat",
+      "guid": "53400c4e50535cfc8a35625393d72358",
+      "id": "Map/Stars/Star_Locked_V0_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F2_Still.mat",
+      "guid": "4aa4716159f858e8a0f1f2fb61f0b3ec",
+      "id": "Map/Stars/Star_Locked_V0_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F3_Animated.mat",
+      "guid": "5f3e8b92441f59c7bcf209657f414f99",
+      "id": "Map/Stars/Star_Locked_V0_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V0_F3_Still.mat",
+      "guid": "ea48eb34cb605beb8d029987f1a3a4f9",
+      "id": "Map/Stars/Star_Locked_V0_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V0_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F0_Animated.mat",
+      "guid": "1b9b37af130f5905a937d3f61767a046",
+      "id": "Map/Stars/Star_Locked_V1_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F0_Still.mat",
+      "guid": "dfa010b4f961581ea18463918788e9df",
+      "id": "Map/Stars/Star_Locked_V1_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F1_Animated.mat",
+      "guid": "81768f0d9e6151c4a114370f3bbb97b6",
+      "id": "Map/Stars/Star_Locked_V1_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F1_Still.mat",
+      "guid": "17991368c43f57c9aa790ea19cec6c10",
+      "id": "Map/Stars/Star_Locked_V1_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F2_Animated.mat",
+      "guid": "a5fb0c320b465b7ca96fc046f8739539",
+      "id": "Map/Stars/Star_Locked_V1_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F2_Still.mat",
+      "guid": "5d0e3960c71c575a9cd645f44c58a349",
+      "id": "Map/Stars/Star_Locked_V1_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F3_Animated.mat",
+      "guid": "d5f8ec7f5b5b52459ca23205beb9f812",
+      "id": "Map/Stars/Star_Locked_V1_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V1_F3_Still.mat",
+      "guid": "1309f75ab1725cc0969d6e695a83eb3b",
+      "id": "Map/Stars/Star_Locked_V1_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V1_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F0_Animated.mat",
+      "guid": "24b7c7dde5ba596b903f5fad9407be67",
+      "id": "Map/Stars/Star_Locked_V2_F0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F0_Still.mat",
+      "guid": "fd6f8c551fc9594a91b1b0682129d8c5",
+      "id": "Map/Stars/Star_Locked_V2_F0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F1_Animated.mat",
+      "guid": "32d6ccb2fac450da832cd60fef0dec85",
+      "id": "Map/Stars/Star_Locked_V2_F1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F1_Still.mat",
+      "guid": "75f3eadc90bb5f2082ad2f15b9830c05",
+      "id": "Map/Stars/Star_Locked_V2_F1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F2_Animated.mat",
+      "guid": "975372f252825f89a2abb15241d73719",
+      "id": "Map/Stars/Star_Locked_V2_F2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F2_Still.mat",
+      "guid": "147c1e5df82a570cae17f8a9b66d423d",
+      "id": "Map/Stars/Star_Locked_V2_F2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F3_Animated.mat",
+      "guid": "af2ac5f1533b569a9d26f4ac414af7c9",
+      "id": "Map/Stars/Star_Locked_V2_F3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Stars_Star_Locked_V2_F3_Still.mat",
+      "guid": "8e4fe1c5788a5ec9a8daf1ac32622f87",
+      "id": "Map/Stars/Star_Locked_V2_F3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Stars/Star_Locked_V2_F3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Selection_Animated.mat",
+      "guid": "7d1cc97c23395c499c1ddfc2466d8be0",
+      "id": "Map/Selection",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Map_Selection_Still.mat",
+      "guid": "9519a238f73553aeb879581092ce489b",
+      "id": "Map/Selection",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Map/Selection_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CostMedallion_Animated.mat",
+      "guid": "56f2f6d1e48e57bf94b89c8ec2364a27",
+      "id": "Gameplay/CostMedallion",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CostMedallion_Still.mat",
+      "guid": "e353b589e64a57d287c2ae4f84dc952c",
+      "id": "Gameplay/CostMedallion",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CostMedallion_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_1_0_Animated.mat",
+      "guid": "e1f46656d7895ba4b21a09d951677066",
+      "id": "Gameplay/StarDock_1_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_1_0_Still.mat",
+      "guid": "905ece06033251678e25ea776a92690d",
+      "id": "Gameplay/StarDock_1_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_1_1_Animated.mat",
+      "guid": "ba7bee90a3375d428e06bf0c81dade12",
+      "id": "Gameplay/StarDock_1_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_1_1_Still.mat",
+      "guid": "940fa3ad629956349ab2e11fdbc3011d",
+      "id": "Gameplay/StarDock_1_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_1_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_0_Animated.mat",
+      "guid": "74dbdb84aa965945a4c0aff4e76a9d53",
+      "id": "Gameplay/StarDock_2_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_0_Still.mat",
+      "guid": "59ad7ab1e3fa52b5a5b62be6cd269687",
+      "id": "Gameplay/StarDock_2_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_1_Animated.mat",
+      "guid": "2aa69cb5c63c5189a5a9514917e8fba6",
+      "id": "Gameplay/StarDock_2_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_1_Still.mat",
+      "guid": "7f0966d7f5b352c5b106245f9405caf7",
+      "id": "Gameplay/StarDock_2_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_2_Animated.mat",
+      "guid": "85a3dacb07205ba4961337578f512cd8",
+      "id": "Gameplay/StarDock_2_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_2_2_Still.mat",
+      "guid": "e9e8fd68d5795540b734b41b6351eafc",
+      "id": "Gameplay/StarDock_2_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_2_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_0_Animated.mat",
+      "guid": "72af23d2584a5355a7a5be131bec6ac9",
+      "id": "Gameplay/StarDock_3_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_0_Still.mat",
+      "guid": "c5681ce4351c53eba400ce6d9edaea38",
+      "id": "Gameplay/StarDock_3_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_1_Animated.mat",
+      "guid": "79d8e5874328534c9f71d5660fdbc23d",
+      "id": "Gameplay/StarDock_3_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_1_Still.mat",
+      "guid": "4c47b7d17bcf5f929de105f187f3723e",
+      "id": "Gameplay/StarDock_3_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_2_Animated.mat",
+      "guid": "44d7eea5f3ea508f8bed459ed0e38edf",
+      "id": "Gameplay/StarDock_3_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_2_Still.mat",
+      "guid": "bc5d3df6386956aa8f93d1d78d8c4549",
+      "id": "Gameplay/StarDock_3_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_3_Animated.mat",
+      "guid": "4bd016d567265a47a55f43204827e8f3",
+      "id": "Gameplay/StarDock_3_3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_3_3_Still.mat",
+      "guid": "f5109c0badc0514fa7dc4f0a02c4f71c",
+      "id": "Gameplay/StarDock_3_3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_3_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_0_Animated.mat",
+      "guid": "b37ec59641b05e499a89fec3988d6496",
+      "id": "Gameplay/StarDock_4_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_0_Still.mat",
+      "guid": "0ec79f746af25760b324dac3f2f05292",
+      "id": "Gameplay/StarDock_4_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_1_Animated.mat",
+      "guid": "ae14d3485e085f0298436c091cb8e973",
+      "id": "Gameplay/StarDock_4_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_1_Still.mat",
+      "guid": "730b6465352459e6b6b719891b82b01b",
+      "id": "Gameplay/StarDock_4_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_2_Animated.mat",
+      "guid": "f509e05242e15e05a5a657717759c145",
+      "id": "Gameplay/StarDock_4_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_2_Still.mat",
+      "guid": "3a423033dcfb5e01beb47c6839b5595c",
+      "id": "Gameplay/StarDock_4_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_3_Animated.mat",
+      "guid": "d4943607312a5a619aec286cb9979796",
+      "id": "Gameplay/StarDock_4_3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_3_Still.mat",
+      "guid": "a0ab68597c8156608a9ea79cf70bf6d5",
+      "id": "Gameplay/StarDock_4_3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_4_Animated.mat",
+      "guid": "5cdbb45ec989536b8496cd6eada8596f",
+      "id": "Gameplay/StarDock_4_4",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_StarDock_4_4_Still.mat",
+      "guid": "96190bad28165743a56ed18dfbc2c40e",
+      "id": "Gameplay/StarDock_4_4",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/StarDock_4_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Normal_Animated.mat",
+      "guid": "3252590501195bdea4f44fc8e41ca260",
+      "id": "Gameplay/PauseOrnament_Normal",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Normal_Still.mat",
+      "guid": "52485df1161958b39b7e008a5b4026fd",
+      "id": "Gameplay/PauseOrnament_Normal",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Normal_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Highlighted_Animated.mat",
+      "guid": "45736ecf859354beb6b1dd5592eb416e",
+      "id": "Gameplay/PauseOrnament_Highlighted",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Highlighted_Still.mat",
+      "guid": "8631fcbda66b572d84f6894e7687729e",
+      "id": "Gameplay/PauseOrnament_Highlighted",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Highlighted_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Pressed_Animated.mat",
+      "guid": "28d1b7ba79b35000b55f4f0502f7f0ca",
+      "id": "Gameplay/PauseOrnament_Pressed",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Pressed_Still.mat",
+      "guid": "d92a300149495b159f05705dbf0fd3ec",
+      "id": "Gameplay/PauseOrnament_Pressed",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Pressed_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Disabled_Animated.mat",
+      "guid": "60864d635f7254f2a94b008899ccd306",
+      "id": "Gameplay/PauseOrnament_Disabled",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseOrnament_Disabled_Still.mat",
+      "guid": "0856208b11b75354bd7a37c580653036",
+      "id": "Gameplay/PauseOrnament_Disabled",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseOrnament_Disabled_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseGlyph_Animated.mat",
+      "guid": "d6d216aca0ff5faea6156dfea8f7f2aa",
+      "id": "Gameplay/PauseGlyph",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_PauseGlyph_Still.mat",
+      "guid": "05d544f5b9ea5fcc82a753b47ec1a603",
+      "id": "Gameplay/PauseGlyph",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/PauseGlyph_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_0_Animated.mat",
+      "guid": "5e1ad7b7827a5e23804099e9366d4e74",
+      "id": "Gameplay/TelescopeRetry_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_0_Still.mat",
+      "guid": "cbdf013e19d554f1beb0eafa9b4b87dd",
+      "id": "Gameplay/TelescopeRetry_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_0_Animated.mat",
+      "guid": "0c4ce1ccf9ad56b3afd21165207c29b1",
+      "id": "Gameplay/TelescopeRetryPressed_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_0_Still.mat",
+      "guid": "138b1cb351e05b57a1c8764a1c5bada5",
+      "id": "Gameplay/TelescopeRetryPressed_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_1_Animated.mat",
+      "guid": "f39cf17a80455d0489e888926ff5861c",
+      "id": "Gameplay/TelescopeRetry_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_1_Still.mat",
+      "guid": "bdef224450e050edb7518ca05a42c98f",
+      "id": "Gameplay/TelescopeRetry_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_1_Animated.mat",
+      "guid": "898eabea92e05ff8901fcb25afb746d7",
+      "id": "Gameplay/TelescopeRetryPressed_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_1_Still.mat",
+      "guid": "a434957f6f6f5c15a7dfa8c2e60104f1",
+      "id": "Gameplay/TelescopeRetryPressed_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_2_Animated.mat",
+      "guid": "6ccc9e9d028a56518bbb866ae581ce6b",
+      "id": "Gameplay/TelescopeRetry_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_2_Still.mat",
+      "guid": "e792266d726451048f12d40b77091433",
+      "id": "Gameplay/TelescopeRetry_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_2_Animated.mat",
+      "guid": "c08966c07b0459809592cb258c6a8170",
+      "id": "Gameplay/TelescopeRetryPressed_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_2_Still.mat",
+      "guid": "82fb75f6e18e59e69d13f37c2ebbf8c8",
+      "id": "Gameplay/TelescopeRetryPressed_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_3_Animated.mat",
+      "guid": "2505584f79945c279ad4405aa0db7cf2",
+      "id": "Gameplay/TelescopeRetry_3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_3_Still.mat",
+      "guid": "1c1983b413ee584c8ad9958191e44706",
+      "id": "Gameplay/TelescopeRetry_3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_3_Animated.mat",
+      "guid": "8b85c671716f536191cdb61ae6628d1e",
+      "id": "Gameplay/TelescopeRetryPressed_3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_3_Still.mat",
+      "guid": "b631a8077bc35eca806659e43263c7b8",
+      "id": "Gameplay/TelescopeRetryPressed_3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_4_Animated.mat",
+      "guid": "14e52f7fc1d65f5aa66d8de821c7e239",
+      "id": "Gameplay/TelescopeRetry_4",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_4_Still.mat",
+      "guid": "707d4dfc582c5357ba7a9b37e836d18a",
+      "id": "Gameplay/TelescopeRetry_4",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_4_Animated.mat",
+      "guid": "81e53c849e435eeba31293eef7dd05ff",
+      "id": "Gameplay/TelescopeRetryPressed_4",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_4_Still.mat",
+      "guid": "c8fb0455574c5a3d8301185ec614165a",
+      "id": "Gameplay/TelescopeRetryPressed_4",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_4_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_5_Animated.mat",
+      "guid": "706a96da0d8d584ca3ff6d1d177382a7",
+      "id": "Gameplay/TelescopeRetry_5",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetry_5_Still.mat",
+      "guid": "7d4b6b7b5b7a59a0a132a23c13a06e9f",
+      "id": "Gameplay/TelescopeRetry_5",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetry_5_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_5_Animated.mat",
+      "guid": "a19d869413d4561095896674e0965d8d",
+      "id": "Gameplay/TelescopeRetryPressed_5",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_TelescopeRetryPressed_5_Still.mat",
+      "guid": "503bc2c3b5e15cd58b7798f77a4565de",
+      "id": "Gameplay/TelescopeRetryPressed_5",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/TelescopeRetryPressed_5_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_0_Animated.mat",
+      "guid": "f87376fc613f5db49eca9bd47afa8e27",
+      "id": "Gameplay/CollectibleStar_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_0_Still.mat",
+      "guid": "293ec5d52f0f50d18e8e9823f496c937",
+      "id": "Gameplay/CollectibleStar_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_1_Animated.mat",
+      "guid": "c455a22e9d4956158f81c52ad1783b46",
+      "id": "Gameplay/CollectibleStar_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_1_Still.mat",
+      "guid": "e9a3118ceef55779a4b38e07d064c1cb",
+      "id": "Gameplay/CollectibleStar_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_2_Animated.mat",
+      "guid": "924e1e0df17953488dbf0c1c94103c50",
+      "id": "Gameplay/CollectibleStar_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_2_Still.mat",
+      "guid": "eaa65bf3d3b958a5ab4205790d62530b",
+      "id": "Gameplay/CollectibleStar_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_3_Animated.mat",
+      "guid": "66507e0fa2c854d1b2797b2b823bc318",
+      "id": "Gameplay/CollectibleStar_3",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_CollectibleStar_3_Still.mat",
+      "guid": "6a44ee823e1a53e7ad6cc5dcf69c66c7",
+      "id": "Gameplay/CollectibleStar_3",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/CollectibleStar_3_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_0_Animated.mat",
+      "guid": "a8fec97fe79d5843b6e297d08a5f3072",
+      "id": "Gameplay/Trail_0",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_0_Still.mat",
+      "guid": "4b5f2125346b567aa041f62c88157b43",
+      "id": "Gameplay/Trail_0",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_0_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_1_Animated.mat",
+      "guid": "9753e71c99ea5250bf1d4dff489d87f6",
+      "id": "Gameplay/Trail_1",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_1_Still.mat",
+      "guid": "d375292e0d755e12bee68b5286eaef73",
+      "id": "Gameplay/Trail_1",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_1_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_2_Animated.mat",
+      "guid": "9918fccbd42d572f9af5adadb14807c3",
+      "id": "Gameplay/Trail_2",
+      "animated": true,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_C.png"
+      ]
+    },
+    {
+      "path": "Assets/ANIMOL/MapHudCrayonUI/Generated/Materials/Gameplay_Trail_2_Still.mat",
+      "guid": "5d7047e1158b5b1f8961a8d7182b0309",
+      "id": "Gameplay/Trail_2",
+      "animated": false,
+      "frames": [
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_A.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_B.png",
+        "Assets/ANIMOL/MapHudCrayonUI/Sprites/Gameplay/Trail_2_C.png"
+      ]
+    }
+  ]
+}

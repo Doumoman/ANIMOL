@@ -91,6 +91,7 @@ namespace William.NotebookUI
         private bool settingsClosing;
         public bool CampaignTransitionRunning => campaignSkyTransition && campaignSkyTransition.IsPlaying;
         public bool MapSelectionVisible => mapSelectionVisible;
+        public bool IsReducedMotion => reducedMotion;
         public string SelectedStageId => selectedStage;
         public bool CanNavigateMapThemes => isActiveAndEnabled && stageScreen && stageScreen.activeInHierarchy
             && !mapSelectionVisible && !CampaignTransitionRunning && string.IsNullOrEmpty(pendingId)

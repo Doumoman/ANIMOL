@@ -90,7 +90,13 @@ namespace ANIMOL.Presentation.Tests
             }
             nav.NavigateToTheme(0);yield return new WaitForSecondsRealtime(.1f);
             float current=nav.scroll.content.anchoredPosition.y;nav.NavigateToTheme(2);
-            Assert.That(nav.scroll.content.anchoredPosition.y,Is.EqualTo(current).Within(1));
+            // StartCoroutine advances its first animation step immediately. Check continuity
+            // within that frame instead of assuming that no time has elapsed on slower renders.
+            float retarget=Mathf.Clamp(catalog.themes[2].startY,0,Mathf.Max(0,nav.scroll.content.rect.height-nav.scroll.viewport.rect.height));
+            float actual=nav.scroll.content.anchoredPosition.y;
+            Assert.That(actual,Is.InRange(Mathf.Min(current,retarget)-1,Mathf.Max(current,retarget)+1));
+            float frameBound=Mathf.Max(1,Mathf.Abs(retarget-current)*2*Mathf.Clamp01(Time.unscaledDeltaTime/NotebookMapThemeNavigation.ScrollSeconds));
+            Assert.That(Mathf.Abs(actual-current),Is.LessThanOrEqualTo(frameBound));
             yield return new WaitForSecondsRealtime(.48f);Assert.That(nav.ActiveTheme,Is.EqualTo(2));
             nav.NavigateToTheme(0);yield return new WaitForSecondsRealtime(.08f);
             ExecuteEvents.Execute<IBeginDragHandler>(nav.gameObject,new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left},ExecuteEvents.beginDragHandler);
