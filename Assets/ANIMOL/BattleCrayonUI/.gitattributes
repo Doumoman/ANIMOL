@@ -1,0 +1,6 @@
+# Preserve supplied shader/material/manifest bytes across checkouts.
+Materials/*.mat -text whitespace=-blank-at-eol
+Shaders/*.shader -text
+manifest.json -text
+# Empty serialized strings in supplied Unity metadata have trailing spaces.
+*.meta whitespace=-blank-at-eol

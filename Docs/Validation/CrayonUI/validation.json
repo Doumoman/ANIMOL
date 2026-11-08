@@ -1,0 +1,694 @@
+{
+  "unity": "6000.3.8f1",
+  "renderPipeline": "Built-in Render Pipeline",
+  "graphicsDevice": "Direct3D12",
+  "package": "MCP_INBOX/ANIMOL_Crayon_UI_UnityPatch_v1.zip",
+  "packageSha256": "563a59bf284a4e0422d1b876d6b505d284251ce7b13005adaab5b526d2b80498",
+  "pngCount": 58,
+  "unchangedPngCount": 58,
+  "pngErrors": [],
+  "suppliedGuidCount": 95,
+  "preservedGuidCount": 95,
+  "guidErrors": [],
+  "materialCount": 36,
+  "decorativeImages": 41,
+  "correctedFullRectImporters": 58,
+  "backup": "C:\\Users\\user\\Documents\\ANIMOL_Backups\\CrayonUI_20261109_8ef3615a",
+  "protected": [
+    {
+      "path": "Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+      "sha256": "3eb03c6314e358be312b67b3b28eb23eaf23c33880ff0398b53bcd24eb8efc8c",
+      "afterSha256": "3eb03c6314e358be312b67b3b28eb23eaf23c33880ff0398b53bcd24eb8efc8c",
+      "unchanged": true
+    },
+    {
+      "path": "Assets/ANIMOL/Prefabs/UI/Main/NotebookCanvas.prefab",
+      "sha256": "68f65b09e3588591f795e7cb18e1c3ec84610ab38f3c337ba068c68f882a790c",
+      "afterSha256": "68f65b09e3588591f795e7cb18e1c3ec84610ab38f3c337ba068c68f882a790c",
+      "unchanged": true
+    },
+    {
+      "path": "Assets/ANIMOL/Scripts/Runtime/Notebook/NotebookRoot.cs",
+      "sha256": "22102807f5e8086ed8e646d37276d068f6a3f364c43203112a473e3984f7545a",
+      "afterSha256": "1623b1942fd31496f4700fba5593ee5a5d0b5e72c9737c4f6e80bcaa28106e64",
+      "unchanged": false
+    },
+    {
+      "path": "Assets/ANIMOL/Scripts/Runtime/Notebook/NotebookCanvasLayout.cs",
+      "sha256": "ab3f702c67d1b9042a87292d50a1753c2acab1cb3c332acebfa8ac34dedd4291",
+      "afterSha256": "ab3f702c67d1b9042a87292d50a1753c2acab1cb3c332acebfa8ac34dedd4291",
+      "unchanged": true
+    },
+    {
+      "path": "ProjectSettings/EditorBuildSettings.asset",
+      "sha256": "e94b83a2cf1f96821e04592c05da4df1406418a74a650d39f502e9bce6360cf7",
+      "afterSha256": "e94b83a2cf1f96821e04592c05da4df1406418a74a650d39f502e9bce6360cf7",
+      "unchanged": true
+    }
+  ],
+  "mainBeforeAfterEqual": true,
+  "editMode": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "playMode": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "shaderMessages": 0,
+  "compileErrors": 0,
+  "compileWarnings": 0,
+  "battleLogicConnected": false,
+  "buildSettingsChanged": false,
+  "safeAreaMethod": "uGUI camera renders at the target resolutions with synthetic safe rectangles; physical devices were not tested",
+  "suppliedAlphaBounds": [
+    {
+      "name": "Frame_HUD",
+      "canvas": [
+        512,
+        132
+      ],
+      "border": 24,
+      "bounds": [
+        [
+          7,
+          7,
+          507,
+          127
+        ],
+        [
+          8,
+          6,
+          509,
+          126
+        ],
+        [
+          5,
+          8,
+          506,
+          128
+        ]
+      ]
+    },
+    {
+      "name": "Frame_Card",
+      "canvas": [
+        768,
+        704
+      ],
+      "border": 32,
+      "bounds": [
+        [
+          9,
+          9,
+          761,
+          697
+        ],
+        [
+          10,
+          8,
+          762,
+          696
+        ],
+        [
+          8,
+          10,
+          760,
+          697
+        ]
+      ]
+    },
+    {
+      "name": "Frame_ButtonWide",
+      "canvas": [
+        768,
+        128
+      ],
+      "border": 24,
+      "bounds": [
+        [
+          7,
+          7,
+          763,
+          123
+        ],
+        [
+          8,
+          6,
+          764,
+          122
+        ],
+        [
+          6,
+          8,
+          762,
+          124
+        ]
+      ]
+    },
+    {
+      "name": "Frame_ButtonSquare",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 20,
+      "bounds": [
+        [
+          6,
+          6,
+          124,
+          124
+        ],
+        [
+          7,
+          5,
+          126,
+          123
+        ],
+        [
+          4,
+          7,
+          123,
+          125
+        ]
+      ]
+    },
+    {
+      "name": "Frame_Score",
+      "canvas": [
+        300,
+        128
+      ],
+      "border": 20,
+      "bounds": [
+        [
+          5,
+          6,
+          296,
+          124
+        ],
+        [
+          7,
+          5,
+          297,
+          123
+        ],
+        [
+          4,
+          7,
+          296,
+          125
+        ]
+      ]
+    },
+    {
+      "name": "Frame_Health",
+      "canvas": [
+        512,
+        64
+      ],
+      "border": 12,
+      "bounds": [
+        [
+          4,
+          3,
+          511,
+          63
+        ],
+        [
+          5,
+          3,
+          511,
+          61
+        ],
+        [
+          3,
+          4,
+          509,
+          64
+        ]
+      ]
+    },
+    {
+      "name": "Frame_ModeCard",
+      "canvas": [
+        832,
+        272
+      ],
+      "border": 32,
+      "bounds": [
+        [
+          10,
+          9,
+          825,
+          265
+        ],
+        [
+          10,
+          8,
+          826,
+          264
+        ],
+        [
+          8,
+          10,
+          824,
+          266
+        ]
+      ]
+    },
+    {
+      "name": "Frame_TopPill",
+      "canvas": [
+        320,
+        96
+      ],
+      "border": 20,
+      "bounds": [
+        [
+          6,
+          6,
+          316,
+          92
+        ],
+        [
+          6,
+          5,
+          317,
+          91
+        ],
+        [
+          5,
+          7,
+          316,
+          93
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Pause",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          40,
+          33,
+          88,
+          98
+        ],
+        [
+          41,
+          32,
+          89,
+          97
+        ],
+        [
+          39,
+          34,
+          87,
+          99
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Resume",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          43,
+          30,
+          96,
+          99
+        ],
+        [
+          44,
+          29,
+          97,
+          98
+        ],
+        [
+          42,
+          31,
+          95,
+          100
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Play",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          24,
+          28,
+          111,
+          103
+        ],
+        [
+          25,
+          27,
+          112,
+          102
+        ],
+        [
+          23,
+          29,
+          110,
+          104
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Retry",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          31,
+          25,
+          106,
+          100
+        ],
+        [
+          32,
+          24,
+          107,
+          99
+        ],
+        [
+          30,
+          26,
+          105,
+          101
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Shield",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          25,
+          18,
+          105,
+          113
+        ],
+        [
+          26,
+          17,
+          106,
+          112
+        ],
+        [
+          24,
+          19,
+          104,
+          114
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Misblock",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          20,
+          14,
+          109,
+          112
+        ],
+        [
+          21,
+          13,
+          110,
+          111
+        ],
+        [
+          19,
+          15,
+          108,
+          113
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Augment",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          19,
+          17,
+          109,
+          113
+        ],
+        [
+          20,
+          16,
+          110,
+          112
+        ],
+        [
+          18,
+          18,
+          108,
+          114
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Isol",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          20,
+          11,
+          108,
+          117
+        ],
+        [
+          21,
+          10,
+          109,
+          116
+        ],
+        [
+          19,
+          12,
+          107,
+          118
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Curse",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          17,
+          13,
+          113,
+          115
+        ],
+        [
+          18,
+          12,
+          114,
+          114
+        ],
+        [
+          16,
+          14,
+          112,
+          116
+        ]
+      ]
+    },
+    {
+      "name": "Icon_Sigil",
+      "canvas": [
+        128,
+        128
+      ],
+      "border": 0,
+      "bounds": [
+        [
+          18,
+          12,
+          112,
+          118
+        ],
+        [
+          19,
+          11,
+          113,
+          117
+        ],
+        [
+          17,
+          13,
+          111,
+          119
+        ]
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "file": "Battle_HUD.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "3901acae61745a903a66c67fe113df7505e21af8b42954d0caf6fc3da1b2a9ad"
+    },
+    {
+      "file": "Battle_Mint_Augment_Selected.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "827b6e93b77206267a241535ac40e29dfe123987143b25a3dcb5f4e718745067"
+    },
+    {
+      "file": "Battle_Pause.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "740d348ab587fa36931d93328b05161f3928a7eaab014e41eaf6a51e96b0e0cc"
+    },
+    {
+      "file": "Battle_Results.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "c17f7df04fb27a0ebd82970ee660beff34b4dac19dfbfd0c9b217843fddb9b6e"
+    },
+    {
+      "file": "Battle_Start.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "96f566d01bfb6546bfb15e3530259318fcd5c78d35720c7d1a27327374bc6700"
+    },
+    {
+      "file": "Battle_Start_Narrow_720x1280.png",
+      "size": [
+        720,
+        1280
+      ],
+      "sha256": "f2b93a4e9d66b2ea8c60f032c3bf31bdff00164971840741c5169521850f7e64"
+    },
+    {
+      "file": "Battle_Start_Pressed.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "835554226e9934dc070f6c76a184be9a133af9a7a9b6e7470a403ff7d5c4d071"
+    },
+    {
+      "file": "Battle_Start_Short_1080x1600.png",
+      "size": [
+        1080,
+        1600
+      ],
+      "sha256": "dd1121be6daa221cd930aa7fae00ce64035c86d5e8a2e39598d9dd3f2e69b2ff"
+    },
+    {
+      "file": "Battle_Start_Still.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "336a50843ce59baad62d53fa37ff5537c26348c2352a24326c4d36f1048cc2aa"
+    },
+    {
+      "file": "Battle_Start_Tall_1080x2340.png",
+      "size": [
+        1080,
+        2340
+      ],
+      "sha256": "c109004b4fc0342d389c766942186baf9df4ebf1781cfc943aeaccddea7395e4"
+    },
+    {
+      "file": "Existing_Constellation_Map.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "63658a75f51bd21db05e963563b02de4e7446c1fdfc49a070bad8a4c0e601b7a"
+    },
+    {
+      "file": "Main_After.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "803b7f86532f0548c451df1f1e38ffe836e7e13c22d626e3cd848f1a25780aaf"
+    },
+    {
+      "file": "Main_Before.png",
+      "size": [
+        1080,
+        1920
+      ],
+      "sha256": "803b7f86532f0548c451df1f1e38ffe836e7e13c22d626e3cd848f1a25780aaf"
+    },
+    {
+      "file": "Mask_RectMask2D.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "029e64364538ee6ab579725b10d06bfa088d623216e461af547f884c2f002a82"
+    },
+    {
+      "file": "Mask_Stencil.png",
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "4025e73e2e2e3aa3256b9f886dee07fe35c25ef25a8b33de06ffebf504592159"
+    }
+  ]
+}

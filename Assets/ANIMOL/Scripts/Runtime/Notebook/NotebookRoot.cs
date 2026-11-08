@@ -485,6 +485,7 @@ namespace William.NotebookUI
             if (enabled) SettleMainArtworkSwipe();
             bool motionChanged = reducedMotion != enabled;
             reducedMotion = enabled;
+            ANIMOL.UI.Crayon.CrayonUIMotion.SetGlobalReducedMotion(enabled);
             if (mapThemeNavigation) mapThemeNavigation.SetReducedMotion(enabled);
             if (enabled && settingsTransition != null)
             {
