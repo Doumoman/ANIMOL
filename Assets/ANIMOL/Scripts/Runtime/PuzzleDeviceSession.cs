@@ -551,9 +551,11 @@ namespace ANIMOL.Puzzle
                 case PrototypeRole.Portal: Visual(device, (device.variant == "b" ? "b_reject" : "a_reject"), "existing_portal_destination_next_cell_blocked"); break;
             }
         }
-        bool Landing(Vector2Int p, Vector2Int direction, bool water = false) => Free(p, null, water) && GateAllows(p - direction, p, direction);
+        bool Landing(Vector2Int p, Vector2Int direction, bool water = false) => Free(p, null, water) &&
+            ReflectorEntryAllowed(p - direction, p) && GateAllows(p - direction, p, direction);
         bool EntryAllowed(Vector2Int p)
         {
+            if (!ReflectorEntryAllowed(p - Direction, p)) return false;
             var gate = At(p, d => d.role == PrototypeRole.OneWayGate);
             if (gate != null)
             {
@@ -561,7 +563,8 @@ namespace ANIMOL.Puzzle
                 if (!Free(outlet) || !GateAllows(states[gate.id].cell, outlet, states[gate.id].direction) || !EntryAllowed(outlet)) return false;
             }
             var portal = At(p, d => d.role == PrototypeRole.Portal);
-            if (portal != null && (!Free(portal.target, null, false, true) || !Landing(portal.target + Direction, Direction)))
+            if (portal != null && (!Free(portal.target, null, false, true) ||
+                !ReflectorEntryAllowed(portal.target - Direction, portal.target) || !Landing(portal.target + Direction, Direction)))
             { Visual(portal, "a_reject", "existing_portal_destination_next_cell_blocked"); return false; }
             var leap = At(p, d => d.role == PrototypeRole.CrescentLeap);
             if (leap == null) return true;
@@ -995,7 +998,7 @@ namespace ANIMOL.Puzzle
 
             var touchesPlayer = Cell == target;
             var pushTo = target + heading;
-            var canPush = touchesPlayer && Free(pushTo) && GateAllows(target, pushTo, heading);
+            var canPush = touchesPlayer && Landing(pushTo, heading);
             var canReturn = touchesPlayer && !canPush && inputStart != target && Supported(inputStart) &&
                 At(inputStart, Solid, d.id) == null && At(inputStart, x => x.role == PrototypeRole.Boat, d.id) == null &&
                 !ranchSheep.Values.Contains(inputStart);

@@ -21,6 +21,51 @@ namespace ANIMOL.Tests
             Assert.That(controller.IsMoving, Is.False, "Automatic movement did not settle.");
         }
 
+        [UnityTest] public IEnumerator PlayerCanEnterOpenReflectorFaceButClosedFaceCostsNothing()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            map.scenario = scenario; scenario.themeId = "starway";
+            map.theme = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW00_MapData.asset").theme;
+            map.Resize(5, 5); map.targetBubbles = 0;
+            for (int y = 0; y < 5; y++) for (int x = 0; x < 5; x++)
+                map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+            map.start = new Vector2Int(2, 2); map.exit = new Vector2Int(4, 4);
+            var reflector = new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(3, 2) };
+            scenario.devices.Add(reflector);
+            var originalCamera = Camera.main; GameObject generatedCamera = null;
+            var host = new GameObject("Player reflector face actual input test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            controller.secondsPerCell = .001f;
+            try
+            {
+                foreach (bool allowed in new[] { false, true })
+                {
+                    reflector.orientation = allowed ? 2 : 0;
+                    controller.Load(map);
+                    if (!originalCamera && controller.FollowCamera) generatedCamera = controller.FollowCamera.gameObject;
+                    yield return WaitForRest(controller);
+                    var before = controller.Session.SearchStateKey();
+                    Assert.That(controller.RequestMove(Vector2Int.right), Is.EqualTo(allowed));
+                    Assert.That(controller.Session.Cost, Is.EqualTo(allowed ? 1 : 0));
+                    if (!allowed)
+                    {
+                        Assert.That(controller.IsMoving, Is.False);
+                        Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                    }
+                    yield return WaitForRest(controller);
+                    Assert.That(controller.Session.Cell, Is.EqualTo(allowed ? reflector.position : map.start));
+                    Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)controller.Session.Cell));
+                }
+            }
+            finally
+            {
+                Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera);
+                Object.Destroy(map); Object.Destroy(scenario);
+            }
+        }
+
         [UnityTest] public IEnumerator ClosedReflectorFaceRejectsSheepWithoutCostOrMovement()
         {
             var map = ScriptableObject.CreateInstance<PuzzleMap>();

@@ -218,6 +218,112 @@ namespace ANIMOL.Presentation.Tests
         // SE = north/west, SW = north/east. These are travel headings INTO those faces.
         static readonly int[][] OpenEntries = { new[] { 0, 3 }, new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 } };
 
+        [Test] public void PlayerWalksIntoOnlyTheOpenFacesOfEveryReflector(
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction;
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            bool allowed = OpenEntries[corner].Contains(heading);
+            var result = session.Apply(direction);
+            Assert.That(result.accepted, Is.EqualTo(allowed));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector : map.start));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            else Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move), Is.False);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [Test] public void FourSidedTheaterMirrorsStillAllowEveryPlayerEntry(
+            [Values("slash", "backslash")] string variant, [Values(0, 1, 2, 3)] int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction;
+            scenario.devices.Add(new PrototypeDevice { id = "mirror", role = PrototypeRole.Bounce, position = reflector, variant = variant });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(direction).accepted, Is.True);
+            Assert.That(session.Cell, Is.EqualTo(reflector));
+            Assert.That(session.Cost, Is.EqualTo(1));
+        }
+
+        [Test] public void ConveyorCannotCarryPlayerThroughClosedReflectorFaces(
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction * 2;
+            scenario.devices.Add(new PrototypeDevice { id = "belt", role = PrototypeRole.Conveyor, position = reflector - direction, direction = direction });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var result = session.Apply(direction);
+            bool allowed = OpenEntries[corner].Contains(heading);
+            Assert.That(result.accepted, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player" && e.to == reflector), Is.EqualTo(allowed));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector + PuzzleDeviceSession.ReflectCorner(direction, corner) : reflector - direction));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [Test] public void WindCannotCarryPlayerThroughClosedReflectorFaces(
+            [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
+        {
+            var reflector = new Vector2Int(3, 2); var direction = Headings[heading];
+            map.start = reflector - direction;
+            scenario.devices.Add(new PrototypeDevice { id = "wind", role = PrototypeRole.Wind, variant = "blower",
+                position = reflector - direction * 2, direction = direction, orientation = 1, active = true });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = corner });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var result = session.AdvanceWind();
+            bool allowed = OpenEntries[corner].Contains(heading);
+            Assert.That(result.accepted, Is.EqualTo(allowed));
+            Assert.That(session.Cost, Is.Zero);
+            Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player" && e.to == reflector), Is.EqualTo(allowed));
+            if (!allowed) Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [TestCase(true)] [TestCase(false)]
+        public void LeapLandingRespectsTheReflectorFace(bool allowed)
+        {
+            scenario.devices.Add(new PrototypeDevice { id = "leap", role = PrototypeRole.CrescentLeap, position = new Vector2Int(2, 2), direction = Vector2Int.right });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(5, 2), orientation = allowed ? 2 : 0 });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.EqualTo(allowed));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? new Vector2Int(5, 2) : map.start));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [TestCase(true, true)] [TestCase(true, false)] [TestCase(false, true)] [TestCase(false, false)]
+        public void PortalArrivalAndItsExitStepRespectReflectorFaces(bool reflectorAtArrival, bool allowed)
+        {
+            var reflector = new Vector2Int(5, 2);
+            scenario.devices.Add(new PrototypeDevice { id = "portal", role = PrototypeRole.Portal, position = new Vector2Int(2, 2), target = reflectorAtArrival ? reflector : reflector - Vector2Int.right });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = reflector, orientation = allowed ? 2 : 0 });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var result = session.Apply(Vector2Int.right);
+            Assert.That(result.accepted, Is.EqualTo(allowed));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            Assert.That(session.PortalCuts, Is.EqualTo(allowed ? 1 : 0));
+            Assert.That(result.events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player" && e.to == reflector), Is.EqualTo(allowed));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [TestCase(true)] [TestCase(false)]
+        public void GateRejectsAnExitThroughTheClosedReflectorFace(bool allowed)
+        {
+            map.start = new Vector2Int(2, 2);
+            scenario.devices.Add(new PrototypeDevice { id = "gate", role = PrototypeRole.OneWayGate, position = new Vector2Int(3, 2), direction = Vector2Int.right });
+            scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce, position = new Vector2Int(4, 2), orientation = allowed ? 2 : 0 });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.EqualTo(allowed));
+            Assert.That(session.Cost, Is.EqualTo(allowed ? 1 : 0));
+            if (allowed) Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
         [Test] public void SheepPushUsesOnlyTheOpenFacesOfEveryReflector(
             [Values(0, 1, 2, 3)] int corner, [Values(0, 1, 2, 3)] int heading)
         {

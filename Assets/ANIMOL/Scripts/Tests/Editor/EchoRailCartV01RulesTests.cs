@@ -102,6 +102,23 @@ namespace ANIMOL.Tests
             Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == "stage"), Is.EqualTo(1));
         }
 
+        [TestCase(true)] [TestCase(false)]
+        public void CartCannotPushPlayerIntoAClosedReflectorFace(bool allowed)
+        {
+            var map = Room(new Vector2Int(3, 3));
+            var reflector = new Vector2Int(4, 2);
+            map.scenario.devices.Add(new PrototypeDevice { id = "reflector", role = PrototypeRole.Bounce,
+                position = reflector, orientation = allowed ? 2 : 0 });
+            var session = new PuzzleDeviceSession(map); var before = session.SearchStateKey();
+            var action = session.Apply(Vector2Int.down);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Cell, Is.EqualTo(allowed ? reflector : map.start));
+            Assert.That(action.events.Any(e => e.eventName == "rail_cart_player_pushed"), Is.EqualTo(allowed));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
         [Test] public void BlockedPushReturnsPlayerToInputStart()
         {
             var map = Room(new Vector2Int(3, 3));
