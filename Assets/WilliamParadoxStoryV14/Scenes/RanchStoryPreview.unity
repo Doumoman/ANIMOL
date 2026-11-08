@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 24741871}
   - component: {fileID: 24741870}
   - component: {fileID: 24741869}
+  - component: {fileID: 24741872}
   m_Layer: 0
   m_Name: "\uB2E4\uC74C \uBB38\uC7A5"
   m_TagString: Untagged
@@ -281,6 +282,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 970713791}
+  - {fileID: 1924202158}
   - {fileID: 843605452}
   m_Father: {fileID: 738862312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -346,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0.9}
+  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -371,6 +374,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24741867}
   m_CullTransparentMesh: 1
+--- !u!114 &24741872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24741867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88842c770bed35498ea6f93b673b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonFrame
+  decoration: {fileID: 1924202159}
+  control: {fileID: 24741869}
+  scope: {fileID: 1331576447}
+  normal:
+    frameA: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+    animated: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+    still: {fileID: 2100000, guid: 09f47b758e735fa39d4ad32a94bab11d, type: 2}
+  highlighted:
+    frameA: {fileID: 21300000, guid: c2895f3a29f457498e6449e2cd1fd392, type: 3}
+    animated: {fileID: 2100000, guid: d7515e0d744352d8afdac345b45f5057, type: 2}
+    still: {fileID: 2100000, guid: 7acbdb6f2253583d88a667a004ae6504, type: 2}
+  pressed:
+    frameA: {fileID: 21300000, guid: 68f64b85ab9c5306b528560a6b1d66af, type: 3}
+    animated: {fileID: 2100000, guid: 5c77976cfbb95556a284b200b2522ebb, type: 2}
+    still: {fileID: 2100000, guid: 71fa8f1e1371591eb11829da90ac261c, type: 2}
+  disabled:
+    frameA: {fileID: 21300000, guid: 1bee1c726a6a53b990801b72993a761b, type: 3}
+    animated: {fileID: 2100000, guid: 277de59ea0885e3bb03c75328b33d220, type: 2}
+    still: {fileID: 2100000, guid: 19fbd37e4b105825bf6fb8e2102eafda, type: 2}
 --- !u!1 &50208782
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,6 +526,81 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &58992588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 58992589}
+  - component: {fileID: 58992591}
+  - component: {fileID: 58992590}
+  m_Layer: 0
+  m_Name: CrayonQuietFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &58992589
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58992588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1323144098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -18, y: -18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &58992590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58992588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.019607844, g: 0.023529412, b: 0.03529412, a: 0.73}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &58992591
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 58992588}
+  m_CullTransparentMesh: 1
 --- !u!1 &71685522
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +851,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1668,6 +1777,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &454191156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 454191157}
+  - component: {fileID: 454191159}
+  - component: {fileID: 454191158}
+  m_Layer: 0
+  m_Name: CrayonOutline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &454191157
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454191156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1677709454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &454191158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454191156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &454191159
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454191156}
+  m_CullTransparentMesh: 1
 --- !u!1 &468027758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,7 +1966,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -2465,6 +2649,7 @@ GameObject:
   - component: {fileID: 673262453}
   - component: {fileID: 673262452}
   - component: {fileID: 673262451}
+  - component: {fileID: 673262454}
   m_Layer: 0
   m_Name: "\uAE30\uB984 \uBB3B\uC740 \uC885\uC774"
   m_TagString: Untagged
@@ -2484,6 +2669,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2053859869}
+  - {fileID: 1260697585}
   - {fileID: 1433473061}
   m_Father: {fileID: 1150207248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2549,7 +2736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0.9}
+  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2574,6 +2761,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673262449}
   m_CullTransparentMesh: 1
+--- !u!114 &673262454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673262449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88842c770bed35498ea6f93b673b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonFrame
+  decoration: {fileID: 1260697586}
+  control: {fileID: 673262451}
+  scope: {fileID: 1331576447}
+  normal:
+    frameA: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+    animated: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+    still: {fileID: 2100000, guid: 09f47b758e735fa39d4ad32a94bab11d, type: 2}
+  highlighted:
+    frameA: {fileID: 21300000, guid: c2895f3a29f457498e6449e2cd1fd392, type: 3}
+    animated: {fileID: 2100000, guid: d7515e0d744352d8afdac345b45f5057, type: 2}
+    still: {fileID: 2100000, guid: 7acbdb6f2253583d88a667a004ae6504, type: 2}
+  pressed:
+    frameA: {fileID: 21300000, guid: 68f64b85ab9c5306b528560a6b1d66af, type: 3}
+    animated: {fileID: 2100000, guid: 5c77976cfbb95556a284b200b2522ebb, type: 2}
+    still: {fileID: 2100000, guid: 71fa8f1e1371591eb11829da90ac261c, type: 2}
+  disabled:
+    frameA: {fileID: 21300000, guid: 1bee1c726a6a53b990801b72993a761b, type: 3}
+    animated: {fileID: 2100000, guid: 277de59ea0885e3bb03c75328b33d220, type: 2}
+    still: {fileID: 2100000, guid: 19fbd37e4b105825bf6fb8e2102eafda, type: 2}
 --- !u!1 &703915687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,6 +3202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738862312}
+  - component: {fileID: 738862313}
   m_Layer: 0
   m_Name: Environment Text
   m_TagString: Untagged
@@ -3003,6 +3222,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1991567906}
+  - {fileID: 1471037763}
   - {fileID: 1570596003}
   - {fileID: 2147459176}
   - {fileID: 24741868}
@@ -3014,6 +3235,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 930, y: 460}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &738862313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738862311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88842c770bed35498ea6f93b673b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonFrame
+  decoration: {fileID: 1471037764}
+  control: {fileID: 0}
+  scope: {fileID: 1331576447}
+  normal:
+    frameA: {fileID: 21300000, guid: 1b82b01376c05b33a34a4fb186ca9a35, type: 3}
+    animated: {fileID: 2100000, guid: 48df86c1e1b85e3f983bfc240b9a4556, type: 2}
+    still: {fileID: 2100000, guid: c94d9075cbe457868e762e42eae8336b, type: 2}
+  highlighted:
+    frameA: {fileID: 21300000, guid: 1b82b01376c05b33a34a4fb186ca9a35, type: 3}
+    animated: {fileID: 2100000, guid: 48df86c1e1b85e3f983bfc240b9a4556, type: 2}
+    still: {fileID: 2100000, guid: c94d9075cbe457868e762e42eae8336b, type: 2}
+  pressed:
+    frameA: {fileID: 21300000, guid: 1b82b01376c05b33a34a4fb186ca9a35, type: 3}
+    animated: {fileID: 2100000, guid: 48df86c1e1b85e3f983bfc240b9a4556, type: 2}
+    still: {fileID: 2100000, guid: c94d9075cbe457868e762e42eae8336b, type: 2}
+  disabled:
+    frameA: {fileID: 21300000, guid: 1b82b01376c05b33a34a4fb186ca9a35, type: 3}
+    animated: {fileID: 2100000, guid: 48df86c1e1b85e3f983bfc240b9a4556, type: 2}
+    still: {fileID: 2100000, guid: c94d9075cbe457868e762e42eae8336b, type: 2}
 --- !u!1 &803847231
 GameObject:
   m_ObjectHideFlags: 0
@@ -3543,6 +3795,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: StoryDialogueUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: externalFrames.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: 'externalFrames.Array.data[0]'
+      value: 
+      objectReference: {fileID: 738862313}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: 'externalFrames.Array.data[1]'
+      value: 
+      objectReference: {fileID: 673262454}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: 'externalFrames.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1677709458}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: 'externalFrames.Array.data[3]'
+      value: 
+      objectReference: {fileID: 24741872}
+    - target: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+      propertyPath: 'externalFrames.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1323144102}
     - target: {fileID: 6057976127559371960, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
       propertyPath: hostControlsProgress
       value: 1
@@ -3749,6 +4025,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909313776}
+  m_CullTransparentMesh: 1
+--- !u!1 &970713790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 970713791}
+  - component: {fileID: 970713793}
+  - component: {fileID: 970713792}
+  m_Layer: 0
+  m_Name: CrayonQuietFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &970713791
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970713790}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 24741868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -18, y: -18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &970713792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970713790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.019607844, g: 0.023529412, b: 0.03529412, a: 0.73}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &970713793
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970713790}
   m_CullTransparentMesh: 1
 --- !u!1 &992163417
 GameObject:
@@ -4712,6 +5063,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243032081}
   m_CullTransparentMesh: 1
+--- !u!1 &1260697584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1260697585}
+  - component: {fileID: 1260697587}
+  - component: {fileID: 1260697586}
+  m_Layer: 0
+  m_Name: CrayonOutline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1260697585
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260697584}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673262450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1260697586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260697584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1260697587
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260697584}
+  m_CullTransparentMesh: 1
 --- !u!1 &1289981390
 GameObject:
   m_ObjectHideFlags: 0
@@ -4814,6 +5240,7 @@ GameObject:
   - component: {fileID: 1323144101}
   - component: {fileID: 1323144100}
   - component: {fileID: 1323144099}
+  - component: {fileID: 1323144102}
   m_Layer: 0
   m_Name: "\uB2EB\uAE30"
   m_TagString: Untagged
@@ -4833,6 +5260,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 58992589}
+  - {fileID: 1823189685}
   - {fileID: 1669574509}
   m_Father: {fileID: 738862312}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4898,7 +5327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0.9}
+  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4923,6 +5352,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323144097}
   m_CullTransparentMesh: 1
+--- !u!114 &1323144102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323144097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88842c770bed35498ea6f93b673b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonFrame
+  decoration: {fileID: 1823189683}
+  control: {fileID: 1323144099}
+  scope: {fileID: 1331576447}
+  normal:
+    frameA: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+    animated: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+    still: {fileID: 2100000, guid: 09f47b758e735fa39d4ad32a94bab11d, type: 2}
+  highlighted:
+    frameA: {fileID: 21300000, guid: c2895f3a29f457498e6449e2cd1fd392, type: 3}
+    animated: {fileID: 2100000, guid: d7515e0d744352d8afdac345b45f5057, type: 2}
+    still: {fileID: 2100000, guid: 7acbdb6f2253583d88a667a004ae6504, type: 2}
+  pressed:
+    frameA: {fileID: 21300000, guid: 68f64b85ab9c5306b528560a6b1d66af, type: 3}
+    animated: {fileID: 2100000, guid: 5c77976cfbb95556a284b200b2522ebb, type: 2}
+    still: {fileID: 2100000, guid: 71fa8f1e1371591eb11829da90ac261c, type: 2}
+  disabled:
+    frameA: {fileID: 21300000, guid: 1bee1c726a6a53b990801b72993a761b, type: 3}
+    animated: {fileID: 2100000, guid: 277de59ea0885e3bb03c75328b33d220, type: 2}
+    still: {fileID: 2100000, guid: 19fbd37e4b105825bf6fb8e2102eafda, type: 2}
+--- !u!114 &1331576447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5434349953489016172, guid: 120850b24b64b5f47ab10f28de7cbf51, type: 3}
+  m_PrefabInstance: {fileID: 855446692}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a18d222576d7f4484da4381d7d43c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonSkin
 --- !u!1 &1350634544
 GameObject:
   m_ObjectHideFlags: 0
@@ -5376,7 +5847,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292013049
   m_fontColor: {r: 0.9764706, g: 0.92156863, b: 0.8235294, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5389,7 +5860,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -5446,6 +5917,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433473060}
+  m_CullTransparentMesh: 1
+--- !u!1 &1471037762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1471037763}
+  - component: {fileID: 1471037765}
+  - component: {fileID: 1471037764}
+  m_Layer: 0
+  m_Name: CrayonOutline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1471037763
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471037762}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 738862312}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1471037764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471037762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: 48df86c1e1b85e3f983bfc240b9a4556, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 1b82b01376c05b33a34a4fb186ca9a35, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1471037765
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471037762}
   m_CullTransparentMesh: 1
 --- !u!1 &1487723029
 GameObject:
@@ -5785,7 +6331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.035, g: 0.055, b: 0.13, a: 0.94}
+  m_Color: {r: 0.035, g: 0.055, b: 0.13, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5876,7 +6422,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292013049
   m_fontColor: {r: 0.9764706, g: 0.92156863, b: 0.8235294, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5889,7 +6435,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -6096,6 +6642,7 @@ GameObject:
   - component: {fileID: 1677709457}
   - component: {fileID: 1677709456}
   - component: {fileID: 1677709455}
+  - component: {fileID: 1677709458}
   m_Layer: 0
   m_Name: "\uC5F4\uC1E0 \uBAA8\uC591 \uC885\uC774"
   m_TagString: Untagged
@@ -6115,6 +6662,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1966592752}
+  - {fileID: 454191157}
   - {fileID: 1627502675}
   m_Father: {fileID: 1150207248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6180,7 +6729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0.9}
+  m_Color: {r: 0.04, g: 0.1, b: 0.19, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6205,6 +6754,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677709453}
   m_CullTransparentMesh: 1
+--- !u!114 &1677709458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677709453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88842c770bed35498ea6f93b673b052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WilliamParadox.Story.Runtime::Animol.Starway.StoryCrayonFrame
+  decoration: {fileID: 454191158}
+  control: {fileID: 1677709455}
+  scope: {fileID: 1331576447}
+  normal:
+    frameA: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+    animated: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+    still: {fileID: 2100000, guid: 09f47b758e735fa39d4ad32a94bab11d, type: 2}
+  highlighted:
+    frameA: {fileID: 21300000, guid: c2895f3a29f457498e6449e2cd1fd392, type: 3}
+    animated: {fileID: 2100000, guid: d7515e0d744352d8afdac345b45f5057, type: 2}
+    still: {fileID: 2100000, guid: 7acbdb6f2253583d88a667a004ae6504, type: 2}
+  pressed:
+    frameA: {fileID: 21300000, guid: 68f64b85ab9c5306b528560a6b1d66af, type: 3}
+    animated: {fileID: 2100000, guid: 5c77976cfbb95556a284b200b2522ebb, type: 2}
+    still: {fileID: 2100000, guid: 71fa8f1e1371591eb11829da90ac261c, type: 2}
+  disabled:
+    frameA: {fileID: 21300000, guid: 1bee1c726a6a53b990801b72993a761b, type: 3}
+    animated: {fileID: 2100000, guid: 277de59ea0885e3bb03c75328b33d220, type: 2}
+    still: {fileID: 2100000, guid: 19fbd37e4b105825bf6fb8e2102eafda, type: 2}
 --- !u!1 &1747498354
 GameObject:
   m_ObjectHideFlags: 0
@@ -6317,6 +6897,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 1110}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1823189682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823189685}
+  - component: {fileID: 1823189684}
+  - component: {fileID: 1823189683}
+  m_Layer: 0
+  m_Name: CrayonOutline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1823189683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823189682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1823189684
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823189682}
+  m_CullTransparentMesh: 1
+--- !u!224 &1823189685
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823189682}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1323144098}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1838731387
 GameObject:
   m_ObjectHideFlags: 0
@@ -6659,6 +7314,156 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904749605}
   m_CullTransparentMesh: 1
+--- !u!1 &1924202157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924202158}
+  - component: {fileID: 1924202160}
+  - component: {fileID: 1924202159}
+  m_Layer: 0
+  m_Name: CrayonOutline
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1924202158
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924202157}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 24741868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1924202159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924202157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: bfacda3a6b5856a39346dc4af2cbcb30, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 700ebd2b2ca1548ebc0c1deb49b4d5ba, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1924202160
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924202157}
+  m_CullTransparentMesh: 1
+--- !u!1 &1966592751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966592752}
+  - component: {fileID: 1966592754}
+  - component: {fileID: 1966592753}
+  m_Layer: 0
+  m_Name: CrayonQuietFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1966592752
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966592751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1677709454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -18, y: -18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1966592753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966592751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.019607844, g: 0.023529412, b: 0.03529412, a: 0.73}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1966592754
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966592751}
+  m_CullTransparentMesh: 1
 --- !u!1 &1980126883
 GameObject:
   m_ObjectHideFlags: 0
@@ -6733,6 +7538,156 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980126883}
+  m_CullTransparentMesh: 1
+--- !u!1 &1991567905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1991567906}
+  - component: {fileID: 1991567908}
+  - component: {fileID: 1991567907}
+  m_Layer: 0
+  m_Name: CrayonQuietFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1991567906
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991567905}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 738862312}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -18, y: -18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1991567907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991567905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.019607844, g: 0.023529412, b: 0.03529412, a: 0.73}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1991567908
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991567905}
+  m_CullTransparentMesh: 1
+--- !u!1 &2053859868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2053859869}
+  - component: {fileID: 2053859871}
+  - component: {fileID: 2053859870}
+  m_Layer: 0
+  m_Name: CrayonQuietFill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2053859869
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053859868}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 673262450}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -18, y: -18}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2053859870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053859868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.019607844, g: 0.023529412, b: 0.03529412, a: 0.73}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2053859871
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053859868}
   m_CullTransparentMesh: 1
 --- !u!1 &2065709967
 GameObject:

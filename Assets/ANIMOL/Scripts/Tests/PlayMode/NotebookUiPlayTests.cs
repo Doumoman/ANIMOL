@@ -514,6 +514,8 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(model.State.balance, Is.EqualTo(before));
                 root.modalClose.onClick.Invoke();
                 gateway.ranchStoryPrefab = storyPrefab;
+                bool originalMotion = root.IsReducedMotion;
+                root.SetReducedMotion(true);
                 root.storyReplayButton.onClick.Invoke();
                 root.storyReplayButton.onClick.Invoke();
                 Assert.That(UnityEngine.Object.FindObjectsByType<StoryRunner>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
@@ -529,11 +531,18 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(runner, Is.Not.Null);
                 Assert.That(runner.Package, Is.Not.Null);
                 Assert.That(runner.persistProgress, Is.False);
+                Assert.That(runner.reducedMotion, Is.True);
+                var returnButton = runner.GetComponentInChildren<Canvas>().transform.Find("Return to Constellation Map").GetComponent<UnityEngine.UI.Button>();
+                Assert.That(returnButton.GetComponent<Animol.Starway.StoryCrayonFrame>(), Is.Not.Null);
+                var returnOutline = returnButton.transform.Find("CrayonOutline").GetComponent<UnityEngine.UI.Image>();
+                Assert.That(returnOutline.raycastTarget, Is.False);
+                Assert.That(returnOutline.material.name, Is.EqualTo("StoryCrayon_Utility_Normal_Still"));
+                root.SetReducedMotion(originalMotion);
                 Assert.That(model.State.balance, Is.EqualTo(before));
                 Assert.That(PlayerPrefs.GetInt(clearKey), Is.EqualTo(1));
                 Assert.That(PlayerPrefs.HasKey(storyKey), Is.EqualTo(hadStory));
                 if (hadStory) Assert.That(PlayerPrefs.GetString(storyKey), Is.EqualTo(oldStory));
-                gateway.CloseReplay();
+                returnButton.onClick.Invoke();
                 yield return null;
                 Assert.That(root.launchButton.interactable, Is.True);
                 var notebookCanvas = root.GetComponentInParent<Canvas>();

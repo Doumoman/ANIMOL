@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using WilliamParadox.Story;
+using Animol.Starway;
 
 namespace William.NotebookUI
 {
@@ -147,6 +148,7 @@ namespace William.NotebookUI
                     throw new InvalidOperationException("Ranch story prefab is missing its runner, canvas or return control.");
                 runner.restoreOnStart = false;
                 runner.persistProgress = false;
+                runner.SetReducedMotion(notebook.IsReducedMotion);
                 canvas.overrideSorting = true;
                 canvas.sortingOrder = 200;
                 foreach (EventSystem events in instance.GetComponentsInChildren<EventSystem>(true)) events.enabled = false;
@@ -155,6 +157,16 @@ namespace William.NotebookUI
                 var button = back.GetComponent<Button>();
                 button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(CloseReplay);
+                var dialogue = runner.GetComponentInChildren<StoryDialogueView>(true);
+                var skin = dialogue ? dialogue.GetComponent<StoryCrayonSkin>() : null;
+                if (skin)
+                {
+                    // The cloned map adapter belongs to the original map scope. Disable
+                    // only this copy before attaching the story's existing painted style.
+                    foreach (var adapter in back.GetComponentsInChildren<MonoBehaviour>(true))
+                        if (adapter.GetType().FullName == "Animol.MapHudCrayonUI.CrayonImageBinding") adapter.enabled = false;
+                    skin.DecorateExternalControl(button, dialogue.SkipButton.GetComponent<StoryCrayonFrame>());
+                }
                 replayInstance = instance;
                 StartCoroutine(ConfirmStoryStarted(notebook, stageId, runner, completed));
             }

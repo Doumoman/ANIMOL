@@ -12,9 +12,10 @@ namespace Animol.Starway.Editor
     {
         private const string Folder = "Assets/ANIMOLGenerated/StoryUI";
 
-        [MenuItem("Tools/ANIMOL/Story/Create Neon Dialogue Prefab")]
+        [MenuItem("Tools/ANIMOL/Story/Create Crayon Dialogue Prefab")]
         public static void Create()
         {
+            if (!StoryCrayonSkinInstaller.ValidateAssets()) return;
             TMP_FontAsset chosenFont = FindGalmuri14();
             if (chosenFont == null)
             {
@@ -157,7 +158,8 @@ namespace Animol.Starway.Editor
                 panels.GetArrayElementAtIndex(3).objectReferenceValue = chronicleContinuePanel;
                 serialized.ApplyModifiedPropertiesWithoutUndo();
 
-                string path = replaceExisting ? folder + "/StoryDialogueUI.prefab" : AssetDatabase.GenerateUniqueAssetPath(folder + "/StoryDialogueUI.prefab");
+                StoryCrayonSkinInstaller.Apply(root.GetComponent<StoryDialogueView>(), false);
+                string path = replaceExisting ? folder + "/StoryDialogueUI.prefab" : AssetDatabase.GenerateUniqueAssetPath(folder + "/StoryCrayonDialogueUI.prefab");
                 var prefab = PrefabUtility.SaveAsPrefabAsset(root, path);
                 Selection.activeObject = prefab;
                 EditorGUIUtility.PingObject(prefab);

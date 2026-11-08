@@ -39,7 +39,8 @@ namespace Animol.Starway
         [SerializeField] private Button skipButton;
         [SerializeField] private TMP_Text skipText;
         [SerializeField] private TMP_FontAsset galmuri14Font;
-        [SerializeField] private StoryNeonPanel[] neonPanels;
+        [SerializeField, HideInInspector] private StoryNeonPanel[] neonPanels;
+        [SerializeField] private StoryCrayonSkin crayonSkin;
 
         [Header("Readability")]
         [SerializeField, Min(0f)] private float charactersPerSecond = 36f;
@@ -114,7 +115,11 @@ namespace Animol.Starway
             if (advanceButton != null) advanceButton.onClick.AddListener(Advance);
             if (actionButton != null) actionButton.onClick.AddListener(RequestCurrentAction);
             if (skipButton != null) skipButton.onClick.AddListener(SkipCurrentScene);
-            if (chronicleView != null) chronicleView.ContinueRequested.AddListener(OnChronicleContinue);
+            if (chronicleView != null)
+            {
+                chronicleView.ContinueRequested.AddListener(OnChronicleContinue);
+                chronicleView.SetReducedMotion(reducedMotion);
+            }
             if (progressText != null) progressText.gameObject.SetActive(false);
             if (galmuri14Font != null) SetFont(galmuri14Font);
             if (skipText != null) skipText.text = ">>";
@@ -402,6 +407,7 @@ namespace Animol.Starway
         {
             reducedMotion = enabled;
             chronicleView?.SetReducedMotion(enabled);
+            crayonSkin?.SetReducedMotion(enabled);
             if (enabled && isTyping) RevealAll();
         }
 
@@ -537,6 +543,13 @@ namespace Animol.Starway
 
         private void ApplyVisualPreferences()
         {
+            if (crayonSkin == null) crayonSkin = GetComponent<StoryCrayonSkin>();
+            if (crayonSkin != null)
+            {
+                crayonSkin.SetReducedMotion(reducedMotion);
+                foreach (var old in GetComponentsInChildren<StoryNeonPanel>(true)) old.enabled = false;
+                return;
+            }
             if (neonPanels == null) return;
             foreach (var panel in neonPanels) if (panel != null) panel.HaloEnabled = haloEnabled;
         }
