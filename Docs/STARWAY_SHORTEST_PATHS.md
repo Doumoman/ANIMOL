@@ -1,6 +1,6 @@
 # 별길 목장 최단 입력 경로
 
-2026-11-07 최신 규칙 6: **최단 경로 18개 확정, SW06과 SW19는 도달 불가, 미확정 0개**다. SW19는 사용자가 점유 범위를 줄인 현재 배치로도 다시 검사했다. 이전 규칙 5의 SW19 54코스트 기록은 폐기했다.
+2026-11-08 최신 규칙 9: **최단 경로 19개 확정, SW06 도달 불가, 미확정 0개**다. SW19(화면상 20번)는 자동 반사 규칙에서 최단 60입력으로 클리어한다. [규칙 9 재탐색과 재현 경로](#규칙-9-반사-규칙-재탐색)를 따른다. 아래 규칙 5·6의 SW19 결과는 과거 이력이다.
 
 ## 원본과 실제 입장 연결
 
@@ -214,6 +214,8 @@ Unity 컴파일과 관련 EditMode 35개가 통과했다. 큐 복원 전후 20�
 
 ## 반사판 진입 금지와 SW19 재검증
 
+이 절은 규칙 6 당시의 기록이다. 현재 결과는 아래 규칙 9 재탐색을 따른다.
+
 규칙 6에서는 **양·나무 박스·금속 박스가 반사판 칸에 진입할 수 없다.** 직접 밀기는 거절하며 코스트를 소비하지 않는다. 바람으로 운반될 때도 반사판 앞에서 멈춘다. 캐릭터의 통행과 바람의 반사는 유지한다. 원본 장치 배치나 작성된 검수 경로를 계산 때문에 수정하지 않았다.
 
 사용자는 SW19의 2칸 작업대(13,12)를 1칸 도구 바구니(14,12)로 교체했다. 편집기에 남아 있던 이 수정 상태를 저장해 **(13,12)가 열린 현재 맵**으로 재탐색했다. 현재 소스 SHA-256은 `6bbaecb4bdf76cfa23c802ec6102e49f7b5fd704fbaec1e022e2f65ae3ce18b9`다. 이 사용자 맵 변경은 에이전트 커밋에 섞지 않고 작업 트리에 보존한다. 나머지 원본·메타 43개는 시작 해시 그대로다.
@@ -227,3 +229,35 @@ Unity 컴파일과 관련 EditMode 35개가 통과했다. 큐 복원 전후 20�
 관련 EditMode **66/66**, PlayMode **2/2**가 통과했다. 직접 밀기 거절, 네 방향의 나무/금속 박스, 바람에 실린 양/나무 박스, 캐릭터와 바람의 반사 유지, 18개 최단 예산과 실제 SW19 거절을 검사했다. 게임 진행·보상 저장은 실행하지 않았다. 비활성 보관본 CommercialPolishPolicyTests는 실행하지 않았으며 새 피드백 효과는 없다.
 
 [검증 요약](Validation/StarwayReflectorBlocking/results.json), [.NET 탐색](Validation/StarwayReflectorBlocking/SW19.json), [Unity BFS](Validation/StarwayReflectorBlocking/SW19_unity_bfs.json), [실제 입력 거절](Validation/StarwayReflectorBlocking/actual_rejection.json), [SW06 재검증](Validation/StarwayReflectorBlocking/SW06.json). 압축 입력과 전이 자료도 같은 폴더에 보관했다.
+
+## 규칙 9 반사 규칙 재탐색
+
+2026-11-08, 반사각 안쪽의 양·상자 진입 허용, 플레이어의 바깥면 진입·이탈 차단, 플레이어 도착 시 자동 반사를 적용한 현재 판정으로 미확정 두 맵을 다시 탐색했다. 입력 화살표는 1코스트이고 반사 이동·무료 바람은 추가 코스트를 쓰지 않는다.
+
+| 화면상 순서 | 원본 맵 | 현재 결과 | 발견 상태 | 계산 시간 |
+|---:|---|---|---:|---:|
+| 7 | SW06 | 도달 불가 | 552,951 | 30.40초 |
+| 20 | SW19 | 최단 60입력 | 1,084,826 | 58.11초 |
+
+SW06은 source-linked 0-1 BFS가 552,951개 상태를 모두 조사하고 큐를 소진했다. SW19는 source-linked A*가 975,917개 상태를 조사한 뒤 60코스트의 클리어 상태를 꺼내 최단성을 확정했다. 두 계산 모두 상태 상한 16,000,000개나 추가 관리 메모리 상한 3,072 MiB에 도달하지 않았다.
+
+SW19는 다음 경로로 진행한다. **각 이동 애니메이션 중 다음 화살표를 예약**한다. 이 경로에는 별도의 ○ 대기가 없다.
+
+```text
+← ↑ ↑ ← ← ← ↑ ← ← ↓
+→ → → → ↑ → ↓ ↓ ↓ ↓
+→ → ↑ → ↓ ↑ → ↓ ↑ ←
+← ↑ ↑ ↑ ← ↑ ← ← ← ←
+↑ ↑ → → ↓ ↓ → ↓ ← ←
+← ← ← ← ← ← ← ← ← ←
+```
+
+실제 `PuzzlePrototypeController.RequestMove`로 60개 입력을 순서대로 예약하고, 매 입력의 판정 상태를 같은 공개 API로 재생한 기준 세션과 비교했다. 전체 애니메이션 후 플레이어의 표시 위치와 논리 위치가 일치했으며, **시작 60코스트·사용 60·잔여 0·클리어**를 확인했다. 원본 시나리오의 코스트 제한은 보존하고 런타임 복사본에만 60을 적용한다.
+
+.NET Release 빌드는 경고·오류 0개다. Unity에서 내보낸 1,600개 상태의 8,000개 공개 API 전이가 .NET 판정과 일치했으며, 별도 compact 검증에서도 원래 판정과 200,000개 전이가 일치했다. 입력·전이 자료·검증 보고서·16개 소스 해시를 검색 결과에 연결했다. 기록 반영 시 현재 소스 해시와 맵 SHA-256을 다시 대조하고, SW19 전체 경로를 Unity 공개 API로 다시 재생했다.
+
+관련 EditMode **37/37**(`PuzzleRouteBudgetTests` 10, `PuzzleShortestPathTests` 15, `PuzzleSearchLowerBoundTests` 12), PlayMode **6/6**(`StarwayBudgetPlayTests`)이 통과했다. PlayMode에는 위 SW19 전체 실제 재생과 확정된 19개 스테이지의 예산·초기화 검증이 포함된다. 비활성 Legacy의 `CommercialPolishPolicyTests`는 실행 대상에서 제외했다.
+
+최종 기록은 **최단 확정 19개·도달 불가 1개·미확정 0개**다. 이번 재탐색으로 기존 18개 확정 경로를 바꾸지 않았다. 원본 MapData 20개와 각 `.meta`의 총 40개 SHA-256은 시작 시점과 모두 같고, SW00 원본 바이트와 GUID 및 작성된 `verificationRoute`도 보존했다. 게임 진행·보상 저장을 호출하지 않았다.
+
+[검증 요약](Validation/StarwayReflectorRule9/results.json), [SW19 최단 증거](Validation/StarwayReflectorRule9/SW19.json), [SW06 전체 소진](Validation/StarwayReflectorRule9/SW06.json), [실제 60입력 재생](Validation/StarwayReflectorRule9/animated_replay.json), [소스와 입력 출처](Validation/StarwayReflectorRule9/provenance.json), [원본 보존 해시](Validation/StarwayReflectorRule9/preserved_sources.json). 압축 입력과 공개 전이 자료도 같은 폴더에 보관했다.

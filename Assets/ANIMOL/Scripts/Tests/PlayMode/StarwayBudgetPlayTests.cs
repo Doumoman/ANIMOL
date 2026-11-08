@@ -12,7 +12,15 @@ namespace ANIMOL.Tests
     public sealed class StarwayBudgetPlayTests
     {
         [System.Serializable] sealed class CatalogData { public CatalogEntry[] maps; }
-        [System.Serializable] sealed class CatalogEntry { public string mapId, mapAsset, status, route; public int distance; }
+        [System.Serializable] sealed class CatalogEntry { public string mapId, mapAsset, mapSha256, status, route; public int distance; }
+        [System.Serializable] sealed class RouteStep { public int input, cost; public string arrow; public Vector2Int cell; public bool won; }
+        [System.Serializable] sealed class RouteReplay
+        {
+            public string mapId, sourceSha256, route;
+            public int solverVersion, distance, cost, runtimeBudget;
+            public bool won, failed;
+            public List<RouteStep> inputs = new List<RouteStep>();
+        }
 
         static IEnumerator WaitForRest(PuzzlePrototypeController controller)
         {
@@ -202,6 +210,66 @@ namespace ANIMOL.Tests
                 if (entryMap) { Object.Destroy(entryMap.scenario); Object.Destroy(entryMap); }
             }
         }
+        [UnityTest] public IEnumerator Sw19VerifiedRouteClearsThroughQueuedControllerInputs()
+        {
+            var catalog = AssetDatabase.LoadAssetAtPath<TextAsset>(StarwayShortestPathCatalog.AssetPath);
+            var entry = JsonUtility.FromJson<CatalogData>(catalog.text).maps.Single(e => e.mapId == "SW19" && e.status == "solved");
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(entry.mapAsset);
+            int sourceBudget = source.scenario.costLimit;
+            var originalCamera = Camera.main; GameObject generatedCamera = null;
+            var host = new GameObject("SW19 verified queued-input route");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            controller.shortestPathCatalog = catalog; controller.secondsPerCell = .001f;
+            try
+            {
+                controller.Load(source);
+                if (!originalCamera && controller.FollowCamera) generatedCamera = controller.FollowCamera.gameObject;
+                Assert.That(controller.RuntimeMap.scenario.costLimit, Is.EqualTo(entry.distance));
+                var shadow = new PuzzleDeviceSession(controller.RuntimeMap);
+                if (shadow.Devices.Any(d => d.role == PrototypeRole.Wind)) shadow.AdvanceWind();
+                Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(shadow.SearchStateKey()));
+                var replay = new RouteReplay { mapId = entry.mapId, sourceSha256 = entry.mapSha256, route = entry.route,
+                    solverVersion = StarwayShortestPathCatalog.SolverVersion, distance = entry.distance,
+                    runtimeBudget = controller.RuntimeMap.scenario.costLimit };
+                int input = 0;
+                foreach (char action in entry.route)
+                {
+                    if (char.IsWhiteSpace(action)) continue;
+                    float deadline = Time.realtimeSinceStartup + 10f;
+                    if (PuzzleRouteNotation.IsWait(action))
+                    {
+                        Assert.That(shadow.AdvanceWind().accepted, Is.True);
+                        while (controller.Session.SearchStateKey() != shadow.SearchStateKey() && Time.realtimeSinceStartup < deadline)
+                            yield return null;
+                    }
+                    else
+                    {
+                        Assert.That(PuzzleRouteNotation.TryDirection(action, out var direction), Is.True);
+                        Assert.That(shadow.ReplayRuntimeInput(direction), Is.True);
+                        // Queue exactly one next input during the current animation. Waiting
+                        // for all wind to settle here would change the searched input order.
+                        Assert.That(controller.RequestMove(direction), Is.True, "input " + (input + 1));
+                        while (controller.Session.Cost < shadow.Cost && Time.realtimeSinceStartup < deadline)
+                            yield return null;
+                        input++;
+                    }
+                    Assert.That(controller.Session.Cost, Is.EqualTo(shadow.Cost), "input " + input);
+                    Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(shadow.SearchStateKey()), "input " + input);
+                    Assert.That(controller.Session.Failed, Is.False, controller.Status);
+                    replay.inputs.Add(new RouteStep { input = input, arrow = action.ToString(), cost = controller.Session.Cost,
+                        cell = controller.Session.Cell, won = controller.Session.Won });
+                }
+                yield return WaitForRest(controller);
+                Assert.That(controller.Session.Won, Is.True);
+                Assert.That(controller.Session.Cost, Is.EqualTo(entry.distance));
+                Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)controller.Session.Cell));
+                Assert.That(source.scenario.costLimit, Is.EqualTo(sourceBudget));
+                replay.cost = controller.Session.Cost; replay.won = controller.Session.Won; replay.failed = controller.Session.Failed;
+                System.IO.File.WriteAllText("Temp/rule9_animated_replay.json", JsonUtility.ToJson(replay, true) + "\n");
+            }
+            finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
+        }
+
         [UnityTest] public IEnumerator RuntimeBudgetsApplyToAllSolvedStagesAndResetWithoutEditingSources()
         {
             var host = new GameObject("Verified Starway budget test");

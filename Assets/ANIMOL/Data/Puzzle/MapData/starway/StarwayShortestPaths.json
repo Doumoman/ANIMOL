@@ -90,15 +90,15 @@
             "mapId": "SW06",
             "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW06_MapData.asset",
             "mapSha256": "b45a5bafb3f3ba0263a36ae21ba3c7d91326f7377c91db3c3e328732850454e9",
-            "status": "stale",
+            "status": "unreachable",
             "route": "",
-            "detail": "Rule 9 automatically reflects player arrivals and blocks rear exits at corner reflectors. No completed search proof is available for this source. Earlier rule-8 records were unconfirmed.",
-            "algorithm": "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous-input wind included; players, sheep and crates enter reflectors only from their open sides; players automatically leave corners along the reflected heading",
+            "detail": "Rule 9 exhaustive source-linked 0-1 BFS; every reachable gameplay state explored without reaching a state or memory cap.",
+            "algorithm": "0-1 BFS; .NET 10.0.12; source-linked rule 9",
             "solverVersion": 9,
             "distance": -1,
-            "expanded": 0,
-            "visited": 0,
-            "elapsedSeconds": 0.0
+            "expanded": 552951,
+            "visited": 552951,
+            "elapsedSeconds": 30.3996224
         },
         {
             "mapId": "SW07",
@@ -272,15 +272,15 @@
             "mapId": "SW19",
             "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW19_MapData.asset",
             "mapSha256": "6bbaecb4bdf76cfa23c802ec6102e49f7b5fd704fbaec1e022e2f65ae3ce18b9",
-            "status": "stale",
-            "route": "",
-            "detail": "Rule 9 automatically reflects player arrivals and blocks rear exits at corner reflectors. No completed search proof is available for this source. Earlier rule-8 records were unconfirmed.",
-            "algorithm": "Exact A* with relaxed board lower bound, otherwise 0-1 BFS; directional input costs 1; wind costs 0; synchronous-input wind included; players, sheep and crates enter reflectors only from their open sides; players automatically leave corners along the reflected heading",
+            "status": "solved",
+            "route": "←↑↑←←←↑←←↓→→→→↑→↓↓↓↓→→↑→↓↑→↓↑←←↑↑↑←↑←←←←↑↑→→↓↓→↓←←←←←←←←←←←←",
+            "detail": "Rule 9 exact shortest route; source-linked A* and Unity public-API replay verified.",
+            "algorithm": "A* (relaxed board; free motion included); .NET 10.0.12; source-linked rule 9",
             "solverVersion": 9,
-            "distance": -1,
-            "expanded": 0,
-            "visited": 0,
-            "elapsedSeconds": 0.0
+            "distance": 60,
+            "expanded": 975917,
+            "visited": 1084826,
+            "elapsedSeconds": 58.1078708
         }
     ]
 }

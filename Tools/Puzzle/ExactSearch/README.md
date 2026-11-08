@@ -4,6 +4,12 @@
 
 `Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
 
+## 현재 규칙과 재탐색
+
+규칙 9에서는 양·상자의 반사각 안쪽 진입을 허용하고, 플레이어는 안쪽 진입 뒤 반사 방향으로 자동 이동한다. 플레이어의 바깥면 진입·이탈은 차단한다. 반사 이동과 바람은 추가 입력 비용을 쓰지 않는다.
+
+최신 판정 소스로 다시 내보내고 검증한 결과, 원본 SW19(화면상 20번)는 **최단 60입력**, 원본 SW06(화면상 7번)은 **552,951개 상태 전체 소진으로 도달 불가**다. SW19는 실제 컨트롤러의 예약 입력과 애니메이션으로 60코스트·잔여 0 클리어를 확인했다. [재현 경로와 규칙 9 증거](../../../Docs/STARWAY_SHORTEST_PATHS.md#규칙-9-반사-규칙-재탐색)를 따른다. 아래 규칙 5·6의 결과는 당시 검증 이력이다.
+
 ## 실행
 
 작업 폴더는 저장소 루트다. Unity Edit Mode에서 `Export.cs.txt`의 본문을 Unity MCP `execute_code`로 실행한다. 원본을 저장하거나 수정하지 않으며, 현재 맵 검증·미저장 변경 검사 후 `Temp/exact_search_export.json`과 8개 맵의 공개 API 전이 8,000개가 담긴 `Temp/exact_search_fixtures.json`을 만든다.
