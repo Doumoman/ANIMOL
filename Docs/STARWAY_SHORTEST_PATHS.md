@@ -1,6 +1,6 @@
 # 별길 목장 최단 입력 경로
 
-2026-11-08 최신 규칙 9: **최단 경로 19개 확정, SW06 도달 불가, 미확정 0개**다. SW19(화면상 20번)는 자동 반사 규칙에서 최단 60입력으로 클리어한다. [규칙 9 재탐색과 재현 경로](#규칙-9-반사-규칙-재탐색)를 따른다. 아래 규칙 5·6의 SW19 결과는 과거 이력이다.
+2026-11-08 최신 규칙 9와 현재 사용자 수정 배치 기준으로 **20개 맵의 최단 경로를 모두 확정했다. 도달 불가·미확정은 0개**다. SW06(화면상 7번)은 최단 31입력, SW19(화면상 20번)는 최단 60입력이다. [7번 맵의 최신 경로와 배치](#7번-맵-바닥-보완-후-재탐색)를 따른다. 이전 도달 불가 기록은 수정 전 배치의 이력이다.
 
 ## 원본과 실제 입장 연결
 
@@ -232,6 +232,8 @@ Unity 컴파일과 관련 EditMode 35개가 통과했다. 큐 복원 전후 20�
 
 ## 규칙 9 반사 규칙 재탐색
 
+이 절의 SW06 결과는 바닥 보완 전 소스 `b45a5baf…`에 대한 기록이다. 현재 사용자 수정본의 결과는 다음 절을 따른다.
+
 2026-11-08, 반사각 안쪽의 양·상자 진입 허용, 플레이어의 바깥면 진입·이탈 차단, 플레이어 도착 시 자동 반사를 적용한 현재 판정으로 미확정 두 맵을 다시 탐색했다. 입력 화살표는 1코스트이고 반사 이동·무료 바람은 추가 코스트를 쓰지 않는다.
 
 | 화면상 순서 | 원본 맵 | 현재 결과 | 발견 상태 | 계산 시간 |
@@ -261,3 +263,28 @@ SW19는 다음 경로로 진행한다. **각 이동 애니메이션 중 다음 �
 최종 기록은 **최단 확정 19개·도달 불가 1개·미확정 0개**다. 이번 재탐색으로 기존 18개 확정 경로를 바꾸지 않았다. 원본 MapData 20개와 각 `.meta`의 총 40개 SHA-256은 시작 시점과 모두 같고, SW00 원본 바이트와 GUID 및 작성된 `verificationRoute`도 보존했다. 게임 진행·보상 저장을 호출하지 않았다.
 
 [검증 요약](Validation/StarwayReflectorRule9/results.json), [SW19 최단 증거](Validation/StarwayReflectorRule9/SW19.json), [SW06 전체 소진](Validation/StarwayReflectorRule9/SW06.json), [실제 60입력 재생](Validation/StarwayReflectorRule9/animated_replay.json), [소스와 입력 출처](Validation/StarwayReflectorRule9/provenance.json), [원본 보존 해시](Validation/StarwayReflectorRule9/preserved_sources.json). 압축 입력과 공개 전이 자료도 같은 폴더에 보관했다.
+
+## 7번 맵 바닥 보완 후 재탐색
+
+2026-11-08, 사용자가 (3,5)에 바닥을 추가하고 (2,6)의 바닥을 제거한 최신 편집 상태를 다시 확인했다. 7번은 원본 ID SW06이다. 미저장 표시가 있던 이 맵의 사용자 작성 상태만 Unity에서 저장하고, 그 상태를 새로 내보내 계산했다. 계산기로 지형이나 장치 배치를 고치지 않았다.
+
+현재 소스 SHA-256은 `5dd2f88ff7f1a018531e96c8ac031d40981ba930000c42afabf91da60ad60b5b`다. 이전 도달 불가 소스는 `b45a5baf…`로 배치가 다르다. 바닥을 추가한 첫 저장본 `e893f5ec…`에 이어, 방금 제거한 바닥까지 반영한 현재 저장본도 새로 검증·탐색했다. 사용자 맵 수정분은 별도 미커밋 상태로 보존하고 계산 결과 커밋에 포함하지 않는다.
+
+**최단 31코스트**를 source-linked 0-1 BFS로 확정했다. 347,339개 상태를 발견하고 305,836개를 조사했으며, 18.26초에 최단 클리어 상태를 꺼냈다. 상태 상한 16,000,000개와 추가 관리 메모리 상한 3,072 MiB에 도달하지 않았다.
+
+```text
+→ ↑ ↑ ← ← ○ ← ↑ ↑ ←
+← ↓ ← ← ↓ → ↓ → → →
+→ ↑ → → → → ↑ ← ← ↑
+↑ ↑
+```
+
+화살표는 방향 입력 31개이며, ○는 무료 바람을 한 번 기다리는 구간이다. **5번째 입력 뒤 ○**가 오고, 이 바람 이동이 시작되면 그 애니메이션 중 다음 ←를 예약한다. 해당 ○ 직후의 논리 위치는 (7,4), 사용 코스트는 여전히 5다. 이후에도 다음 방향을 이동 애니메이션 중 예약한다.
+
+Unity 공개 API로 다시 재생한 뒤 실제 `PuzzlePrototypeController.RequestMove`와 자동 바람으로 전체 경로를 확인했다. 방향 입력 31개와 무료 대기 1개, 총 32개 경로 단계가 기준 세션과 모두 일치했고, 전체 애니메이션 후 플레이어의 표시 위치와 논리 위치도 같았다. **시작 31·사용 31·잔여 0·클리어**다. 원본 시나리오의 코스트 제한과 작성된 `verificationRoute`는 유지하고 런타임 복사본에만 31을 적용한다.
+
+새로 내보낸 1,000개 상태의 5,000개 공개 API 전이가 .NET 판정과 일치했다. 검색 전후 16개 판정·도구 소스 해시와 맵 해시를 대조했고, .NET Release 빌드와 Unity 컴파일은 경고·오류 0개였다. EditMode **25/25**(`PuzzleRouteBudgetTests` 10, `PuzzleShortestPathTests` 15), PlayMode **7/7**(`StarwayBudgetPlayTests`)이 통과했다. PlayMode에는 SW06의 무료 대기 재생, SW19 전체 재생 및 현재 20개 맵의 예산·초기화 검사가 포함된다. 비활성 Legacy의 `CommercialPolishPolicyTests`는 실행 대상에서 제외했다.
+
+사용자 편집을 저장한 뒤 원본 MapData·메타 40개는 계산·검증 내내 같은 해시를 유지했다. 이 7번 사용자 저장분을 제외한 나머지 39개는 작업 시작 때부터 같았고, SW00의 바이트와 GUID도 보존했다. 다른 19개 최단 경로 기록은 변경하지 않았다. 현재 사용자 수정 배치에서는 **20개 모두 최단 확정**이다. 게임 진행·보상 저장은 호출하지 않았다.
+
+[검증 요약](Validation/StarwaySw06Retry/results.json), [최단 증거](Validation/StarwaySw06Retry/SW06.json), [실제 입력과 무료 바람 재생](Validation/StarwaySw06Retry/animated_replay.json), [사용자 배치 변경](Validation/StarwaySw06Retry/user_layout.json), [저장 상태](Validation/StarwaySw06Retry/saved_editor_state.json), [소스와 입력 출처](Validation/StarwaySw06Retry/provenance.json), [저장 후 보존 해시](Validation/StarwaySw06Retry/preserved_sources.json). 압축 입력과 공개 전이 자료도 같은 폴더에 보관했다.

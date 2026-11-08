@@ -210,14 +210,20 @@ namespace ANIMOL.Tests
                 if (entryMap) { Object.Destroy(entryMap.scenario); Object.Destroy(entryMap); }
             }
         }
-        [UnityTest] public IEnumerator Sw19VerifiedRouteClearsThroughQueuedControllerInputs()
+        [UnityTest] public IEnumerator Sw19VerifiedRouteClearsThroughQueuedControllerInputs() =>
+            ReplayVerifiedRoute("SW19", "Temp/rule9_animated_replay.json");
+
+        [UnityTest] public IEnumerator Sw06VerifiedRouteClearsThroughQueuedControllerInputs() =>
+            ReplayVerifiedRoute("SW06", "Temp/sw06_retry_animated_replay.json");
+
+        IEnumerator ReplayVerifiedRoute(string mapId, string replayPath)
         {
             var catalog = AssetDatabase.LoadAssetAtPath<TextAsset>(StarwayShortestPathCatalog.AssetPath);
-            var entry = JsonUtility.FromJson<CatalogData>(catalog.text).maps.Single(e => e.mapId == "SW19" && e.status == "solved");
+            var entry = JsonUtility.FromJson<CatalogData>(catalog.text).maps.Single(e => e.mapId == mapId && e.status == "solved");
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(entry.mapAsset);
             int sourceBudget = source.scenario.costLimit;
             var originalCamera = Camera.main; GameObject generatedCamera = null;
-            var host = new GameObject("SW19 verified queued-input route");
+            var host = new GameObject(mapId + " verified queued-input route");
             var controller = host.AddComponent<PuzzlePrototypeController>();
             controller.shortestPathCatalog = catalog; controller.secondsPerCell = .001f;
             try
@@ -265,7 +271,7 @@ namespace ANIMOL.Tests
                 Assert.That((Vector2)controller.Player.position, Is.EqualTo((Vector2)controller.Session.Cell));
                 Assert.That(source.scenario.costLimit, Is.EqualTo(sourceBudget));
                 replay.cost = controller.Session.Cost; replay.won = controller.Session.Won; replay.failed = controller.Session.Failed;
-                System.IO.File.WriteAllText("Temp/rule9_animated_replay.json", JsonUtility.ToJson(replay, true) + "\n");
+                System.IO.File.WriteAllText(replayPath, JsonUtility.ToJson(replay, true) + "\n");
             }
             finally { Object.Destroy(host); if (generatedCamera) Object.Destroy(generatedCamera); }
         }
