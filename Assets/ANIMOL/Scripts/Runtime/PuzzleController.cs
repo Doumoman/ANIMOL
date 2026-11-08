@@ -12,7 +12,7 @@ namespace ANIMOL.Puzzle
         public PuzzleMap stage;
         public GameObject hudPrefab;
         public TextAsset shortestPathCatalog;
-        [Range(.05f, .6f)] public float secondsPerCell = .18f;
+        [Range(.05f, .6f)] public float secondsPerCell = .10f;
         public PuzzleSession Session { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
         public Transform Player { get; private set; }
@@ -128,14 +128,14 @@ namespace ANIMOL.Puzzle
             } while (true);
             if (activeWindCell.HasValue) View.FinishClassicWind(activeWindCell.Value);
             Session.StopSliding(); IsMoving = false;
+            if (Session.Won) Status = "Stage clear";
+            var next = queuedInput; queuedInput = Vector2Int.zero;
+            if (next != Vector2Int.zero && RequestMove(next)) yield break;
             if (CharacterVisual)
             {
                 if (Session.Won) CharacterVisual.PlayPose(CharacterVisual.Direction, "victory");
                 else CharacterVisual.SetIdle();
             }
-            if (Session.Won) Status = "Stage clear";
-            var next = queuedInput; queuedInput = Vector2Int.zero;
-            if (next != Vector2Int.zero) RequestMove(next);
         }
         void LateUpdate()
         {

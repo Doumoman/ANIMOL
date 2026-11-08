@@ -13,12 +13,55 @@ namespace ANIMOL.Tests
         const string Root="Assets/ANIMOL/Data/Puzzle/Prototypes/";
         GameObject host,camera;
         PuzzlePrototypeController controller;
+        float defaultSecondsPerCell;
         [UnitySetUp] public IEnumerator Setup()
         {
             camera=new GameObject("Main Camera",typeof(Camera));camera.tag="MainCamera";
-            host=new GameObject("Test prototype");controller=host.AddComponent<PuzzlePrototypeController>();controller.secondsPerCell=.005f;yield return null;
+            host=new GameObject("Test prototype");controller=host.AddComponent<PuzzlePrototypeController>();
+            defaultSecondsPerCell=controller.secondsPerCell;controller.secondsPerCell=.005f;yield return null;
         }
         [UnityTearDown] public IEnumerator Cleanup(){Object.Destroy(host);Object.Destroy(camera);yield return null;}
+        [UnityTest] public IEnumerator QueuedOrdinaryMovesKeepWalkingWithoutRestartingTheFirstFrames()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(Root + "Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.devices.Clear();
+            map.scenario.costLimit = 0;
+            map.start = new Vector2Int(1, 2);
+            map.InvalidateIndex();
+            try
+            {
+                // Use the component's shipping defaults rather than the accelerated test setup.
+                controller.secondsPerCell = defaultSecondsPerCell;
+                controller.Load(map);
+                Assert.That(controller.CharacterVisual, Is.Not.Null);
+                var started = Time.realtimeSinceStartup;
+                Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                var lastQueuedCost = 0;
+                var maxFrame = 0;
+                while (controller.IsMoving && Time.realtimeSinceStartup - started < 2f)
+                {
+                    if (controller.Session.Cost < 4 && controller.Session.Cost != lastQueuedCost)
+                    {
+                        lastQueuedCost = controller.Session.Cost;
+                        Assert.That(controller.RequestMove(Vector2Int.right), Is.True);
+                    }
+                    Assert.That(controller.CharacterVisual.State, Is.EqualTo("move"));
+                    maxFrame = Mathf.Max(maxFrame, controller.CharacterVisual.CurrentFrame);
+                    yield return null;
+                }
+                Assert.That(controller.IsMoving, Is.False);
+                Assert.That(Time.realtimeSinceStartup - started, Is.LessThan(.6f));
+                Assert.That(maxFrame, Is.GreaterThanOrEqualTo(3), "Walking kept restarting before the later frames.");
+                Assert.That(controller.Session.Cost, Is.EqualTo(4));
+                Assert.That(controller.Player.position, Is.EqualTo(new Vector3(5, 2, 0)));
+                Assert.That(controller.CharacterVisual.State, Is.EqualTo("idle"));
+                Assert.That(controller.BlocksInput, Is.False);
+                Assert.That(Time.timeScale, Is.EqualTo(1f));
+            }
+            finally { Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
         [UnityTest] public IEnumerator AllFourThemedStagesClearThroughSwipeInputWithExistingHudAndArt()
         {
             controller.hudPrefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/Gameplay/hud_visual.prefab");

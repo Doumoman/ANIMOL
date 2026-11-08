@@ -14,7 +14,7 @@ namespace ANIMOL.Puzzle
         public PuzzleMap stage;
         public GameObject hudPrefab;
         public TextAsset shortestPathCatalog;
-        public float secondsPerCell = .16f;
+        public float secondsPerCell = .10f;
         public PuzzleDeviceSession Session { get; private set; }
         public StarwayV3StrictPolicy Strict { get; private set; }
         public PuzzleMap RuntimeMap { get; private set; }
@@ -183,6 +183,8 @@ namespace ANIMOL.Puzzle
             var consumed = new HashSet<PrototypeEvent>();
             var pushStarted = false;
             var goalPressPending = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
+            var pushTransitionsPending = result.events.Exists(e => e.kind == PrototypeEventKind.Visual &&
+                (e.eventName == "this_domino_piece_fold_committed" || e.eventName == "actual_one_cell_die_roll"));
             int dominoPanelsRemaining = result.events.FindAll(e =>
                 e.kind == PrototypeEventKind.Visual && e.eventName == "this_domino_piece_fold_committed").Count;
             foreach (var e in result.events)
@@ -240,7 +242,11 @@ namespace ANIMOL.Puzzle
                 {
                     // Finish the committed push (including a die entering its goal) before
                     // the cart takes its turn. Release hand contact before moving the player.
-                    yield return Devices.WaitForPushTransitions(result.events);
+                    if (pushTransitionsPending)
+                    {
+                        yield return Devices.WaitForPushTransitions(result.events);
+                        pushTransitionsPending = false;
+                    }
                     if (goalPressPending)
                     {
                         queuedInput = Vector2Int.zero;
@@ -387,7 +393,8 @@ namespace ANIMOL.Puzzle
             }
             Devices.Settle(); view.Present(Session); Player.position = (Vector2)Session.Cell;
             if (CharacterVisual) CharacterVisual.EndPushPresentation();
-            if (CharacterVisual)
+            // Keep the walk cycle running into a queued move instead of restarting its first frame.
+            if (CharacterVisual && (Session.Won || CharacterVisual.State != "move"))
             {
                 if (Session.Won) CharacterVisual.PlayPose(CharacterVisual.Direction, "victory");
                 else CharacterVisual.SetIdle();
@@ -396,7 +403,11 @@ namespace ANIMOL.Puzzle
             IsMoving = false; var next = queuedInput; queuedInput = Vector2Int.zero;
             if (next != Vector2Int.zero && RequestMove(next)) yield break;
             ContinueWind();
-            if (!IsMoving) Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
+            if (!IsMoving)
+            {
+                if (CharacterVisual && !Session.Won) CharacterVisual.SetIdle();
+                Devices.PublishDiceHints(!Session.Won && !Session.Failed && Strict == null);
+            }
         }
         bool IsCommittedPlayerPush(PrototypeAction action, PrototypeEvent movement, Vector2Int heading)
         {
