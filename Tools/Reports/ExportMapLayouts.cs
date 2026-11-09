@@ -30,11 +30,13 @@ public static class ExportMapLayouts
             return d.cells.ToArray();
         return new[] { d.position };
     }
-    public static object Run()
+    public static object Run() => Export(Output);
+    public static object ForMapDesign() => Export("Docs/Validation/MapDesign");
+    static object Export(string output)
     {
         if (EditorApplication.isCompiling || EditorApplication.isPlayingOrWillChangePlaymode)
             throw new InvalidOperationException("Export from a ready Editor outside Play Mode; no state changes are performed.");
-        Directory.CreateDirectory(Output);
+        Directory.CreateDirectory(output);
         var set = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
             "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterMapSet.asset");
         var paths = Enumerable.Range(0, 20).Select(i => "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW" + i.ToString("00") + "_MapData.asset")
@@ -94,9 +96,9 @@ public static class ExportMapLayouts
             ["theaterMapSet"] = new JArray(set.maps.Select(e => new JObject { ["stageId"] = e.stageId,
                 ["assetPath"] = AssetDatabase.GetAssetPath(e.map) })), ["maps"] = entries
         };
-        File.WriteAllText(Output + "/unity_snapshot.json", result.ToString(), new System.Text.UTF8Encoding(false));
+        File.WriteAllText(output + "/unity_snapshot.json", result.ToString(), new System.Text.UTF8Encoding(false));
         return new { existing = entries.Count(e => (bool)e["exists"]), missing = entries.Where(e => !(bool)e["exists"]).Select(e => (string)e["id"]).ToArray(),
             unsaved = entries.Where(e => (bool)e["exists"] && ((bool)e["mapDirty"] || (bool)e["scenarioDirty"])).Select(e => (string)e["id"]).ToArray(),
-            output = Output + "/unity_snapshot.json", readOnly = true };
+            output = output + "/unity_snapshot.json", readOnly = true };
     }
 }
