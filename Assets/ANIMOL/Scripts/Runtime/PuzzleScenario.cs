@@ -224,6 +224,8 @@ namespace ANIMOL.Puzzle
         public Vector2Int rollHeading;
         public bool teleport;
         public int group;
+        // Presentation phase only; it never participates in board state or input cost.
+        public bool cartTurn;
         public List<Vector2Int> cells;
         // Committed chick return presentation data; the session remains the sole authority.
         public string nestId;

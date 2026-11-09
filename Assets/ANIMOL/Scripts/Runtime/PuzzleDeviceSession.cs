@@ -949,8 +949,12 @@ namespace ANIMOL.Puzzle
             // Advance the cart after that push, before other device turns.
             if (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player") ||
                 Rules.themeId == "memory_theater" && stationaryPush)
+            {
+                var cartEventsStart = events.Count;
                 foreach (var cart in definitions.Where(d => d.role == PrototypeRole.MovingStage && !states[d.id].removed))
                     AdvanceStage(cart, inputStart);
+                for (var i = cartEventsStart; i < events.Count; i++) events[i].cartTurn = true;
+            }
             foreach (var d in definitions.Where(d => !states[d.id].removed))
             {
                 var s = states[d.id];

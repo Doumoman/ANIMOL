@@ -46,6 +46,8 @@ namespace ANIMOL.Tests
             var moves = action.events.Where(e => e.kind == PrototypeEventKind.Move).ToArray();
             Assert.That(moves.Select(e => e.actor), Is.EqualTo(new[] { "player", "stage" }));
             Assert.That(moves[1].to - moves[1].from, Is.EqualTo(Vector2Int.right));
+            Assert.That(moves[0].cartTurn, Is.False);
+            Assert.That(moves[1].cartTurn, Is.True);
         }
 
         [TestCase(PrototypeRole.WoodCrate, false)]

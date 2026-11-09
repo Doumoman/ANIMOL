@@ -178,9 +178,42 @@ namespace ANIMOL.Puzzle
             var eventPrefix = GetInstanceID() + ":" + presentationGeneration + ":" + (++committedActionSerial) + ":";
             StartCoroutine(Animate(result, eventPrefix, presentationGeneration, Vector2Int.zero));
         }
+        sealed class CartMotionBatch { public bool finished; }
+        IEnumerator AnimateCartMoves(PrototypeAction action, HashSet<PrototypeEvent> consumed,
+            int generation, CartMotionBatch batch)
+        {
+            var moves = action.events.FindAll(e => e.cartTurn && e.kind == PrototypeEventKind.Move &&
+                Session.Definition(e.actor)?.role == PrototypeRole.MovingStage);
+            var actors = new List<Transform>();
+            var starts = new List<Vector3>();
+            var destinations = new List<Vector3>();
+            foreach (var move in moves)
+            {
+                consumed.Add(move);
+                var actor = Devices.Actor(move.actor);
+                if (!actor) continue;
+                actors.Add(actor); starts.Add(actor.position); destinations.Add((Vector2)move.to);
+                foreach (var cue in action.events.FindAll(e => e.cartTurn && e.actor == move.actor &&
+                    e.kind == PrototypeEventKind.Visual && e.eventName == "valid_action_stage_move_committed"))
+                { Devices.Notify(cue, Session.Cost + ":" + cue.group); consumed.Add(cue); }
+            }
+            var elapsed = 0f;
+            while (actors.Count > 0 && elapsed < secondsPerCell)
+            {
+                if (generation != presentationGeneration) yield break;
+                elapsed += Time.deltaTime;
+                var progress = Mathf.Clamp01(elapsed / secondsPerCell);
+                for (var i = 0; i < actors.Count; i++)
+                    if (actors[i]) actors[i].position = Vector3.Lerp(starts[i], destinations[i], progress);
+                yield return null;
+            }
+            for (var i = 0; i < actors.Count; i++) if (actors[i]) actors[i].position = destinations[i];
+            batch.finished = true;
+        }
         IEnumerator Animate(PrototypeAction result, string eventPrefix, int generation, Vector2Int inputDirection)
         {
             var consumed = new HashSet<PrototypeEvent>();
+            CartMotionBatch cartBatch = null;
             var pushStarted = false;
             var goalPressPending = result.events.Exists(e => e.eventName == "dice_goal_absorbed");
             var pushTransitionsPending = result.events.Exists(e => e.kind == PrototypeEventKind.Visual &&
@@ -190,6 +223,10 @@ namespace ANIMOL.Puzzle
             foreach (var e in result.events)
             {
                 if (generation != presentationGeneration) yield break;
+                // Cart-caused player/follower moves retain their committed order. Only
+                // cart transforms run together; later device turns wait for the batch.
+                if (cartBatch != null && !e.cartTurn)
+                    while (!cartBatch.finished) yield return null;
                 if (consumed.Contains(e)) continue;
                 if (e.kind == PrototypeEventKind.Visual)
                 {
@@ -269,6 +306,12 @@ namespace ANIMOL.Puzzle
                             yield return null;
                     }
                     pushStarted = false;
+                    if (e.cartTurn)
+                    {
+                        cartBatch = new CartMotionBatch();
+                        StartCoroutine(AnimateCartMoves(result, consumed, generation, cartBatch));
+                        continue;
+                    }
                 }
                 var actor = e.actor == "player" ? Player : Devices.Actor(e.actor);
                 if (!actor) actor = view.RanchActor(e.actor);
@@ -415,6 +458,8 @@ namespace ANIMOL.Puzzle
                         p.actor == e.actor && p.group == e.group + 1 && !consumed.Contains(p)))
                     { view.PlayRanchCue(cue); consumed.Add(cue); }
             }
+            if (cartBatch != null)
+                while (!cartBatch.finished) yield return null;
             if (goalPressPending)
             {
                 queuedInput = Vector2Int.zero;

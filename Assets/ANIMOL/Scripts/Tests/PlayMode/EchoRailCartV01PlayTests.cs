@@ -12,6 +12,115 @@ namespace ANIMOL.Tests
 {
     public sealed class EchoRailCartV01PlayTests
     {
+        static PuzzleMap MultipleCartRoom()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+            var map = Object.Instantiate(source);
+            map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.costLimit = 0;
+            var original = map.scenario.devices.Single(d => d.role == PrototypeRole.MovingStage);
+            foreach (var start in new[] { new Vector2Int(2, 4), new Vector2Int(4, 2), new Vector2Int(4, 4) })
+            {
+                var cart = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(original));
+                cart.id = "cart_" + start.x + "_" + start.y; cart.position = start;
+                cart.cells = new List<Vector2Int> { start, start + Vector2Int.right };
+                map.scenario.devices.Add(cart);
+                map.SetTerrain(start, TerrainMaterial.Stone);
+                map.SetTerrain(start + Vector2Int.right, TerrainMaterial.Stone);
+            }
+            map.start = new Vector2Int(1, 2); map.InvalidateIndex();
+            return map;
+        }
+        [UnityTest] public IEnumerator MultipleCartsUseOneSharedMovementClock()
+        {
+            var map = MultipleCartRoom();
+            var host = new GameObject("Concurrent cart turn test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            controller.secondsPerCell = .2f;
+            try
+            {
+                controller.Load(map);
+                var carts = controller.Session.Devices.Where(d => d.role == PrototypeRole.MovingStage).ToArray();
+                var actors = carts.Select(d => controller.Devices.Actor(d.id)).ToArray();
+                var starts = actors.Select(t => t.position).ToArray();
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                var state = controller.Session.SearchStateKey();
+                var sawMoving = false;
+                var deadline = Time.realtimeSinceStartup + 5f;
+                while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                {
+                    var progress = actors[0].position.x - starts[0].x;
+                    if (progress > .001f && progress < .999f) sawMoving = true;
+                    for (var i = 1; i < actors.Length; i++)
+                        Assert.That(actors[i].position.x - starts[i].x, Is.EqualTo(progress).Within(.0001f));
+                    Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(state), "Animation changed committed state");
+                    yield return null;
+                }
+                Assert.That(sawMoving, Is.True);
+                Assert.That(controller.IsMoving, Is.False);
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+                Assert.That(controller.BlocksInput, Is.False);
+                for (var i = 0; i < actors.Length; i++) Assert.That(actors[i].position, Is.EqualTo(starts[i] + Vector3.right));
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+        [UnityTest] public IEnumerator UndoCancelsEveryConcurrentCartTween()
+        {
+            var map = MultipleCartRoom();
+            var host = new GameObject("Concurrent cart undo test");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            controller.secondsPerCell = .3f;
+            try
+            {
+                controller.Load(map);
+                var actors = controller.Session.Devices.Where(d => d.role == PrototypeRole.MovingStage)
+                    .Select(d => controller.Devices.Actor(d.id)).ToArray();
+                var starts = actors.Select(t => t.position).ToArray();
+                var before = controller.Session.SearchStateKey();
+                controller.RequestMove(Vector2Int.up);
+                var deadline = Time.realtimeSinceStartup + 5f;
+                while (actors[0].position == starts[0] && Time.realtimeSinceStartup < deadline) yield return null;
+                Assert.That(actors.All(t => t.position.x % 1f != 0f), Is.True);
+                Assert.That(controller.UndoLast(), Is.True);
+                yield return new WaitForSeconds(.7f);
+                Assert.That(controller.IsMoving, Is.False);
+                Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                for (var i = 0; i < actors.Length; i++) Assert.That(actors[i].position, Is.EqualTo(starts[i]));
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
+        [UnityTest] public IEnumerator ConcurrentCartsPreserveTwoCommittedPlayerPushes()
+        {
+            var map = MultipleCartRoom();
+            var original = map.scenario.devices.Single(d => d.id == "stage");
+            map.scenario.devices.RemoveAll(d => d.id != "stage");
+            var second = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(original));
+            second.id = "stage_second"; second.position = new Vector2Int(4, 1);
+            second.cells = new List<Vector2Int> { second.position, new Vector2Int(4, 2) };
+            map.scenario.devices.Add(second); map.start = new Vector2Int(3, 3); map.InvalidateIndex();
+            var host = new GameObject("Concurrent cart chained player pushes test");
+            var controller = host.AddComponent<PuzzlePrototypeController>(); controller.secondsPerCell = .2f;
+            try
+            {
+                controller.Load(map);
+                var firstActor = controller.Devices.Actor("stage"); var secondActor = controller.Devices.Actor(second.id);
+                Assert.That(controller.RequestMove(Vector2Int.down), Is.True);
+                Assert.That(controller.Session.Cell, Is.EqualTo(new Vector2Int(4, 3)));
+                var sawMoving = false; var deadline = Time.realtimeSinceStartup + 5f;
+                while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                {
+                    var progress = firstActor.position.x - 2f;
+                    Assert.That(secondActor.position.y - 1f, Is.EqualTo(progress).Within(.0001f));
+                    if (progress > .001f && progress < .999f) sawMoving = true;
+                    yield return null;
+                }
+                Assert.That(sawMoving, Is.True); Assert.That(controller.IsMoving, Is.False);
+                Assert.That(controller.Player.position, Is.EqualTo(new Vector3(4, 3, 0)));
+                Assert.That(controller.Session.Cost, Is.EqualTo(1));
+            }
+            finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+        }
         static PuzzleMap PushRoom(PrototypeRole role, bool goal = false)
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
