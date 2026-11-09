@@ -422,6 +422,8 @@ namespace ANIMOL.Presentation.Editor
                 device.FindPropertyRelative("variant").stringValue != "slash" &&
                 device.FindPropertyRelative("variant").stringValue != "backslash";
             var mirrorBounce = role.intValue == (int)PrototypeRole.Bounce && !cornerBounce;
+            var bookshelf = role.intValue == (int)PrototypeRole.Bookshelf &&
+                device.FindPropertyRelative("variant").stringValue != "plate";
             var fields = new[] { "id", "variant", "group", "artTheme", "visualPrefab", "initialVisual", "position", "direction", "target", "orientation", "number", "active" };
             var labels = new[] { "장치 ID", "구성 종류", "연결 그룹", "그림 테마 ID", "장치 그림 프리팹", "첫 그림 상태", "배치 좌표", "방향 벡터", "목적지", "회전 값", "숫자", "처음 활성화" };
             for (var i = 0; i < fields.Length; i++)
@@ -429,7 +431,21 @@ namespace ANIMOL.Presentation.Editor
                 if (blower && (fields[i] == "orientation" || fields[i] == "active")) continue;
                 if (cornerBounce && (fields[i] == "direction" || fields[i] == "orientation")) continue;
                 if (mirrorBounce && (fields[i] == "variant" || fields[i] == "direction" || fields[i] == "orientation")) continue;
+                if (bookshelf && (fields[i] == "initialVisual" || fields[i] == "orientation")) continue;
                 EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
+            }
+            if (bookshelf)
+            {
+                var orientation = device.FindPropertyRelative("orientation");
+                var count = map && map.scenario && map.scenario.echoTheaterV3Rules ? 2 : 4;
+                EditorGUI.BeginChangeCheck();
+                var state = EditorGUILayout.IntPopup("책장 시작 상태", orientation.intValue,
+                    BookshelfStartNames.Take(count).ToArray(), Enumerable.Range(0, count).ToArray());
+                if (EditorGUI.EndChangeCheck())
+                {
+                    orientation.intValue = state;
+                    device.FindPropertyRelative("initialVisual").stringValue = BookshelfVisualStates[state];
+                }
             }
             if (cornerBounce)
             {
@@ -820,7 +836,17 @@ namespace ANIMOL.Presentation.Editor
             variant == "gate" ? "문" : variant == "switch" ? "스위치" : variant == "target" ? "목표" :
             variant == "field" ? "기존 바람 칸" : variant == "blower" ? "밀어서 켜기" : variant == "square" ? "사각형" :
             variant == "a" ? "A" : variant == "b" ? "B" : variant;
-        public static string DeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.Dice
+        static readonly string[] BookshelfVisualStates = { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" };
+        static readonly string[] BookshelfStartNames = { "가로 · 기본", "세로 · 활성", "가로 · 반전", "세로 · 반전" };
+        public static void SetBookshelfStartState(PrototypeDevice device, int state)
+        {
+            if (device == null || device.role != PrototypeRole.Bookshelf || device.variant == "plate" || state < 0 || state > 3)
+                throw new ArgumentException("A bookshelf body and a valid initial orientation are required.");
+            device.orientation = state;
+            device.initialVisual = BookshelfVisualStates[state];
+        }
+        public static string DeviceLabel(PrototypeDevice device) => device.role == PrototypeRole.Bookshelf &&
+            device.variant != "plate" && device.orientation == 1 ? "08 책장 · 세로 · 활성" : device.role == PrototypeRole.Dice
             ? "22 " + (device.variant == "target" ? "목표 주사위 " + device.number :
                 device.variant == "socket" ? "주사위 홈 " + device.number : "굴리는 주사위") :
             ((int)device.role).ToString("00") + " " +
@@ -978,12 +1004,24 @@ namespace ANIMOL.Presentation.Editor
                 {
                     var source = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(assetPath);
                     return source && source.devices != null
-                        ? source.devices.Where(device => device != null).Select(device => new DeviceTemplate {
-                            source = source, device = device,
-                            label = DeviceLabel(device) + (device.visualPrefab ? "" : " · 그림 없음")
-                        })
+                        ? source.devices.Where(device => device != null).SelectMany(device => InitialStateTemplates(source, device))
                         : Enumerable.Empty<DeviceTemplate>();
                 }).ToArray();
+        }
+        static IEnumerable<DeviceTemplate> InitialStateTemplates(PuzzleScenario source, PrototypeDevice device)
+        {
+            if (source.themeId == "memory_theater" && device.role == PrototypeRole.Bookshelf && device.variant != "plate")
+            {
+                for (var state = 0; state <= 1; state++)
+                {
+                    // Palette choices are independent data, never edits to the practice asset.
+                    var copy = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(device));
+                    SetBookshelfStartState(copy, state);
+                    yield return new DeviceTemplate { source = source, device = copy, label = DeviceLabel(copy) };
+                }
+            }
+            else yield return new DeviceTemplate { source = source, device = device,
+                label = DeviceLabel(device) + (device.visualPrefab ? "" : " · 그림 없음") };
         }
         void RefreshLibrary()
         {

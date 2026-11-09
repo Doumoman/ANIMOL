@@ -234,6 +234,86 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(PuzzleMapEditor.TemplatesForTheme(templates, "starway")
                 .Any(entry => entry.device.role == PrototypeRole.VineBridge), Is.False);
         }
+        [Test] public void BookshelfInitialPaletteOffersVerticalWithoutChangingPracticeAsset()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleScenario>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf_Scenario.asset");
+            var before = JsonUtility.ToJson(source);
+            var dirty = EditorUtility.IsDirty(source);
+            var choices = PuzzleMapEditor.TemplatesForTheme(PuzzleMapEditor.LoadPracticeTemplates(), "memory_theater")
+                .Where(entry => entry.source == source && entry.device.role == PrototypeRole.Bookshelf && entry.device.variant != "plate").ToArray();
+            Assert.That(choices.Select(entry => entry.device.orientation), Is.EquivalentTo(new[] { 0, 1 }));
+            var vertical = choices.Single(entry => entry.device.orientation == 1).device;
+            var original = source.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");
+            Assert.That(vertical, Is.Not.SameAs(original));
+            Assert.That(vertical.visualPrefab, Is.SameAs(original.visualPrefab));
+            Assert.That(PuzzleMapEditor.DeviceLabel(vertical), Is.EqualTo("08 책장 · 세로 · 활성"));
+            Assert.That(PuzzleMapEditor.PrefabPreviewSprite(vertical), Is.SameAs(
+                original.visualPrefab.GetComponent<DeviceVisualView>().states.Single(s => s.name == "vertical").sprite));
+            var destination = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                var placed = PuzzleMapEditor.StampTemplate(destination, vertical, new Vector2Int(2, 2));
+                Assert.That(placed.orientation, Is.EqualTo(1));
+                Assert.That(placed.initialVisual, Is.EqualTo("vertical"));
+                Assert.That(PuzzleMapEditor.InitialDeviceFootprint(placed), Is.EquivalentTo(new[] {
+                    new Vector2Int(2, 1), new Vector2Int(2, 2), new Vector2Int(2, 3) }));
+                Assert.That(destination.devices, Has.Count.EqualTo(1));
+                Assert.That(JsonUtility.ToJson(source), Is.EqualTo(before));
+                Assert.That(EditorUtility.IsDirty(source), Is.EqualTo(dirty));
+            }
+            finally { Object.DestroyImmediate(destination); }
+        }
+        [Test] public void BookshelfInitialStateSurvivesSerializationAndUndo()
+        {
+            var scenario = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var restored = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var shelf = new PrototypeDevice { id = "shelf", role = PrototypeRole.Bookshelf,
+                group = "linked_plate", position = new Vector2Int(2, 2), active = true, initialVisual = "horizontal" };
+            scenario.devices.Add(shelf);
+            try
+            {
+                Undo.IncrementCurrentGroup();
+                Undo.RecordObject(scenario, "Test initial bookshelf state");
+                PuzzleMapEditor.SetBookshelfStartState(shelf, 1);
+                Undo.FlushUndoRecordObjects();
+                JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(scenario), restored);
+                Assert.That(restored.devices[0].orientation, Is.EqualTo(1));
+                Assert.That(restored.devices[0].initialVisual, Is.EqualTo("vertical"));
+                Assert.That(restored.devices[0].group, Is.EqualTo("linked_plate"));
+                Assert.That(restored.devices[0].active, Is.True);
+                Undo.PerformUndo();
+                Assert.That(scenario.devices[0].orientation, Is.Zero);
+                Assert.That(scenario.devices[0].initialVisual, Is.EqualTo("horizontal"));
+                Undo.PerformRedo();
+                Assert.That(scenario.devices[0].orientation, Is.EqualTo(1));
+                Assert.That(scenario.devices[0].group, Is.EqualTo("linked_plate"));
+            }
+            finally { Undo.ClearUndo(scenario); Object.DestroyImmediate(restored); Object.DestroyImmediate(scenario); }
+        }
+        [Test] public void BookshelfInitialVerticalStateStillRotatesWithLinkedPlate()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");
+            var copy = Object.Instantiate(source);
+            copy.scenario = Object.Instantiate(source.scenario);
+            try
+            {
+                copy.scenario.echoTheaterV3Rules = true;
+                copy.scenario.costLimit = 0;
+                var shelf = copy.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");
+                var group = shelf.group;
+                PuzzleMapEditor.SetBookshelfStartState(shelf, 1);
+                var session = new PuzzleDeviceSession(copy);
+                Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
+                Assert.That(session.Footprint(shelf), Is.EquivalentTo(PuzzleMapEditor.InitialDeviceFootprint(shelf)));
+                Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+                Assert.That(session.States[shelf.id].phase, Is.Zero);
+                Assert.That(shelf.group, Is.EqualTo(group));
+                Assert.That(session.Cost, Is.EqualTo(1));
+            }
+            finally { Object.DestroyImmediate(copy.scenario); Object.DestroyImmediate(copy); }
+        }
         [Test] public void BookshelfAndItsPlateHaveDifferentMapEditorPreviews()
         {
             var stage = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
