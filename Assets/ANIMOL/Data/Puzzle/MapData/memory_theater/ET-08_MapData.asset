@@ -18,14 +18,33 @@ MonoBehaviour:
   verificationRoute: RDDLLDDLLDDRRUUUULLLLUULLLLUUDDRRUU
   beamPrefab: {fileID: 0}
   devices:
-  - id: doll_1
+  - id: movingstage_1
     variant: 
     group: 
     artTheme: memory_theater
-    visualPrefab: {fileID: 8295769819911407255, guid: 36f01703ceec555429991a65cbab7db4, type: 3}
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
     initialVisual: 
-    role: 23
-    position: {x: 12, y: 8}
+    role: 6
+    position: {x: 4, y: 7}
+    direction: {x: 0, y: -1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 2, y: 5}
+    cells: []
+    blastOffsets: []
+  - id: movingstage_2
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
+    initialVisual: 
+    role: 6
+    position: {x: 4, y: 4}
     direction: {x: 1, y: 0}
     target: {x: 0, y: 0}
     orientation: 0
@@ -34,9 +53,166 @@ MonoBehaviour:
     active: 0
     socketReward: 0
     socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
+    socketBubbleCell: {x: 2, y: 2}
     cells: []
     blastOffsets: []
+  - id: movingstage_3
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
+    initialVisual: 
+    role: 6
+    position: {x: 7, y: 4}
+    direction: {x: 0, y: 1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 5, y: 2}
+    cells: []
+    blastOffsets: []
+  - id: movingstage_4
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 7905290254288286154, guid: 169997d728b44f941bf91ca089617ce0, type: 3}
+    initialVisual: 
+    role: 6
+    position: {x: 6, y: 8}
+    direction: {x: 0, y: 1}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 4, y: 6}
+    cells: []
+    blastOffsets: []
+  - id: shutter_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8761605271224070040, guid: 3841aacd0cc328144bdd0cb58c886fde, type: 3}
+    initialVisual: 
+    role: 4
+    position: {x: 3, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 1
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 0, y: 6}
+    cells: []
+    blastOffsets: []
+  - id: domino_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 7, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 5, y: 6}
+    cells: []
+    blastOffsets: []
+  - id: domino_2
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 8, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 6, y: 6}
+    cells: []
+    blastOffsets: []
+  - id: domino_3
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 6017136559507426888, guid: 6831f548c69f64b44864af9a8859fd3a, type: 3}
+    initialVisual: 
+    role: 13
+    position: {x: 9, y: 8}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 7, y: 6}
+    cells: []
+    blastOffsets: []
+  - id: shutter_2
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8761605271224070040, guid: 3841aacd0cc328144bdd0cb58c886fde, type: 3}
+    initialVisual: 
+    role: 4
+    position: {x: 2, y: 6}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 1
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 1
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: -1, y: 4}
+    cells: []
+    blastOffsets: []
+  railPaths:
+  - id: rail_1
+    cells:
+    - {x: 4, y: 8}
+    - {x: 4, y: 7}
+    - {x: 4, y: 6}
+    - {x: 3, y: 6}
+    - {x: 3, y: 5}
+    - {x: 3, y: 4}
+    - {x: 4, y: 4}
+    - {x: 5, y: 4}
+    - {x: 5, y: 3}
+    - {x: 6, y: 3}
+    - {x: 7, y: 3}
+    - {x: 7, y: 4}
+    - {x: 7, y: 5}
+    - {x: 6, y: 5}
+    - {x: 6, y: 6}
+    - {x: 6, y: 7}
+    - {x: 6, y: 8}
+    - {x: 6, y: 9}
+    - {x: 5, y: 9}
+    - {x: 4, y: 9}
+  nests: []
   ranchV13Art: []
   water: []
   goals: []
@@ -67,412 +243,122 @@ MonoBehaviour:
   scenario: {fileID: -5841297573497243404}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
-  targetBubbles: 3
+  targetBubbles: 2
   cameraSettings:
     visibleRows: 11
     fitWholeBoard: 0
     followSharpness: 16
     topInset: 90
+    topBlankRows: 2
+    bottomBlankRows: 2
     bottomInset: 0
     farParallax: 0.08
     midParallax: 0.3
     nearParallax: 0.65
-  start: {x: 15, y: 14}
-  exit: {x: 8, y: 16}
+  start: {x: 4, y: 2}
+  exit: {x: 9, y: 9}
   terrain:
-  - position: {x: 2, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 3}
-    material: 0
-    blocked: 0
   - position: {x: 6, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 4}
     material: 0
     blocked: 0
   - position: {x: 5, y: 4}
     material: 0
     blocked: 0
-  - position: {x: 6, y: 4}
-    material: 0
-    blocked: 0
   - position: {x: 7, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 6}
     material: 0
     blocked: 0
   - position: {x: 6, y: 6}
     material: 0
     blocked: 0
-  - position: {x: 7, y: 6}
-    material: 0
+  - position: {x: 3, y: 4}
+    material: 3
     blocked: 0
-  - position: {x: 8, y: 6}
-    material: 0
+  - position: {x: 4, y: 4}
+    material: 3
     blocked: 0
-  - position: {x: 9, y: 6}
-    material: 0
+  - position: {x: 4, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 10, y: 6}
-    material: 0
+  - position: {x: 3, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 12, y: 6}
-    material: 0
+  - position: {x: 2, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 11, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 9}
-    material: 0
+  - position: {x: 5, y: 9}
+    material: 3
     blocked: 0
   - position: {x: 6, y: 9}
-    material: 0
+    material: 3
     blocked: 0
-  - position: {x: 11, y: 9}
-    material: 0
+  - position: {x: 6, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 12, y: 9}
-    material: 0
+  - position: {x: 6, y: 7}
+    material: 3
     blocked: 0
-  - position: {x: 13, y: 9}
-    material: 0
+  - position: {x: 4, y: 9}
+    material: 3
     blocked: 0
-  - position: {x: 14, y: 9}
-    material: 0
+  - position: {x: 4, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 16, y: 9}
-    material: 0
+  - position: {x: 4, y: 7}
+    material: 3
     blocked: 0
-  - position: {x: 2, y: 10}
-    material: 0
+  - position: {x: 3, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 3, y: 10}
-    material: 0
+  - position: {x: 5, y: 3}
+    material: 3
     blocked: 0
-  - position: {x: 4, y: 10}
-    material: 0
+  - position: {x: 6, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 6, y: 10}
-    material: 0
+  - position: {x: 7, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 7, y: 10}
-    material: 0
+  - position: {x: 7, y: 3}
+    material: 3
     blocked: 0
-  - position: {x: 8, y: 10}
-    material: 0
+  - position: {x: 7, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 10, y: 10}
-    material: 0
+  - position: {x: 8, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 12, y: 10}
-    material: 0
+  - position: {x: 9, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 13, y: 10}
-    material: 0
+  - position: {x: 5, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 14, y: 10}
-    material: 0
+  - position: {x: 3, y: 8}
+    material: 3
     blocked: 0
-  - position: {x: 16, y: 10}
-    material: 0
+  - position: {x: 9, y: 9}
+    material: 3
     blocked: 0
-  - position: {x: 2, y: 11}
-    material: 0
+  - position: {x: 2, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 4, y: 11}
-    material: 0
+  - position: {x: 3, y: 9}
+    material: 3
     blocked: 0
-  - position: {x: 6, y: 11}
-    material: 0
+  - position: {x: 7, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 8, y: 11}
-    material: 0
+  - position: {x: 3, y: 3}
+    material: 3
     blocked: 0
-  - position: {x: 10, y: 11}
-    material: 0
+  - position: {x: 3, y: 2}
+    material: 3
     blocked: 0
-  - position: {x: 14, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 15, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 15, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 18}
-    material: 0
+  - position: {x: 4, y: 2}
+    material: 3
     blocked: 0
   devices: []
   decorations: []
   bubbles:
-  - {x: 12, y: 8}
-  - {x: 6, y: 16}
-  - {x: 12, y: 10}
+  - {x: 2, y: 6}
+  - {x: 3, y: 8}

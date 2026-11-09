@@ -1,5 +1,94 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5837946039997384704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
+  m_Name: Scenario
+  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
+  title: "\uB450 \uC790\uB9AC \uC774\uB3D9 \uBB34\uB300"
+  themeId: memory_theater
+  echoTheaterV3Rules: 1
+  verificationRoute: LRRRRRUUUULLDDLRUURRDDDDLLLDDDDRRUU
+  beamPrefab: {fileID: 0}
+  devices:
+  - id: bookshelf_3
+    variant: plate
+    group: link_d7184b95
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 12, y: 7}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 10, y: 5}
+    cells: []
+    blastOffsets: []
+  - id: bookshelf_5
+    variant: 
+    group: link_d7184b95
+    artTheme: memory_theater
+    visualPrefab: {fileID: 98376746667507002, guid: 3cf9a49ee09c4584eaece90860e2c637, type: 3}
+    initialVisual: 
+    role: 8
+    position: {x: 10, y: 5}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 6, y: 2}
+    cells: []
+    blastOffsets: []
+  - id: cowarddoll_1
+    variant: 
+    group: 
+    artTheme: memory_theater
+    visualPrefab: {fileID: 8295769819911407255, guid: 36f01703ceec555429991a65cbab7db4, type: 3}
+    initialVisual: 
+    role: 23
+    position: {x: 7, y: 7}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 4, y: 5}
+    cells: []
+    blastOffsets: []
+  railPaths: []
+  nests: []
+  ranchV13Art: []
+  water: []
+  goals: []
+  costLimit: 0
+  holdOccupiedBridge: 1
+  shutterPhaseAdvancesWhenOccupied: 1
+  leapSkipsIntermediate: 1
+  mirrorBumpRotates: 1
+  magnetSwitchLatches: 1
+  bombHurtsPlayer: 1
+  bombDestroysOrdinaryObjects: 0
+  statueStopsAfterBreakingWall: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,12 +99,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bcaf13dfc781c3429458ed1a8e74f46, type: 3}
-  m_Name: ET-01
+  m_Name: ET-01_MapData
   m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleMap
   width: 18
   height: 20
   theme: {fileID: 11400000, guid: 22f9e23bf98b8294e836f99f3eb5b589, type: 2}
-  scenario: {fileID: 8726655624258869343}
+  scenario: {fileID: -5837946039997384704}
   starwayV3Certificate: {fileID: 0}
   starwayV3ScenarioSha256: 
   targetBubbles: 3
@@ -24,125 +113,31 @@ MonoBehaviour:
     fitWholeBoard: 0
     followSharpness: 16
     topInset: 90
+    topBlankRows: 2
+    bottomBlankRows: 2
     bottomInset: 0
     farParallax: 0.08
     midParallax: 0.3
     nearParallax: 0.65
-  start: {x: 6, y: 6}
-  exit: {x: 9, y: 2}
+  start: {x: 9, y: 8}
+  exit: {x: 14, y: 6}
   terrain:
-  - position: {x: 2, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 15, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 4}
+  - position: {x: 9, y: 4}
     material: 0
     blocked: 0
   - position: {x: 12, y: 4}
     material: 0
     blocked: 0
-  - position: {x: 13, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 6}
+  - position: {x: 12, y: 5}
     material: 0
     blocked: 0
   - position: {x: 8, y: 6}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 6}
+  - position: {x: 9, y: 6}
     material: 0
     blocked: 0
-  - position: {x: 11, y: 6}
+  - position: {x: 10, y: 6}
     material: 0
     blocked: 0
   - position: {x: 12, y: 6}
@@ -160,256 +155,48 @@ MonoBehaviour:
   - position: {x: 12, y: 7}
     material: 0
     blocked: 0
-  - position: {x: 6, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 8}
-    material: 0
-    blocked: 0
   - position: {x: 8, y: 8}
     material: 0
     blocked: 0
   - position: {x: 9, y: 8}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 8}
-    material: 0
+  - position: {x: 10, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 11, y: 8}
-    material: 0
+  - position: {x: 9, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 12, y: 8}
-    material: 0
+  - position: {x: 11, y: 4}
+    material: 3
     blocked: 0
-  - position: {x: 8, y: 9}
-    material: 0
+  - position: {x: 11, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 10, y: 9}
-    material: 0
+  - position: {x: 11, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 6, y: 10}
-    material: 0
+  - position: {x: 10, y: 4}
+    material: 3
     blocked: 0
-  - position: {x: 8, y: 10}
-    material: 0
+  - position: {x: 8, y: 5}
+    material: 3
     blocked: 0
-  - position: {x: 9, y: 10}
-    material: 0
+  - position: {x: 6, y: 7}
+    material: 3
     blocked: 0
-  - position: {x: 10, y: 10}
-    material: 0
+  - position: {x: 7, y: 7}
+    material: 3
     blocked: 0
-  - position: {x: 11, y: 10}
-    material: 0
+  - position: {x: 7, y: 6}
+    material: 3
     blocked: 0
-  - position: {x: 12, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 11}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 12}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 13, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 14}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 15}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 17}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 12, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 14, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 15, y: 18}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 18}
-    material: 0
+  - position: {x: 7, y: 8}
+    material: 3
     blocked: 0
   devices: []
   decorations: []
   bubbles:
-  - {x: 4, y: 4}
-  - {x: 8, y: 16}
-  - {x: 6, y: 5}
---- !u!114 &8726655624258869343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0d22844e1a07a48b99e59338e75c6f, type: 3}
-  m_Name: Scenario
-  m_EditorClassIdentifier: ANIMOL.Presentation::ANIMOL.Puzzle.PuzzleScenario
-  title: "\uAC1C\uB9C9 \uC804 \uC154\uD130"
-  themeId: memory_theater
-  echoTheaterV3Rules: 1
-  verificationRoute: RRUUUUUUUUUUDDDDDDDDDDLLDDLLRRDDRRR
-  beamPrefab: {fileID: 0}
-  devices:
-  - id: shutter_1
-    variant: 
-    group: 
-    artTheme: memory_theater
-    visualPrefab: {fileID: 8761605271224070040, guid: 3841aacd0cc328144bdd0cb58c886fde, type: 3}
-    initialVisual: 
-    role: 4
-    position: {x: 8, y: 12}
-    direction: {x: 1, y: 0}
-    target: {x: 0, y: 0}
-    orientation: 1
-    number: 1
-    initialDiceFaces: 010000000600000005000000020000000300000004000000
-    active: 0
-    socketReward: 0
-    socketBridgeId: 
-    socketBubbleCell: {x: 0, y: 0}
-    cells: []
-    blastOffsets: []
-  ranchV13Art: []
-  water: []
-  goals: []
-  costLimit: 0
-  holdOccupiedBridge: 1
-  shutterPhaseAdvancesWhenOccupied: 1
-  leapSkipsIntermediate: 1
-  mirrorBumpRotates: 1
-  magnetSwitchLatches: 1
-  bombHurtsPlayer: 1
-  bombDestroysOrdinaryObjects: 0
-  statueStopsAfterBreakingWall: 1
+  - {x: 10, y: 6}
+  - {x: 11, y: 5}
+  - {x: 6, y: 7}

@@ -18,26 +18,66 @@ MonoBehaviour:
   verificationRoute: SEENNEEEESSSNWWWWSSNNNNNWWNNEEEEEEEEEEESSWWNNWNEEEEEEEEEEENNSSEEN
   beamPrefab: {fileID: 0}
   devices:
-  - id: chick_1
+  - id: metalcrate_1
     variant: 
     group: 
     artTheme: starway
-    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
-    initialVisual: 
-    role: 24
-    position: {x: 4, y: 9}
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: metal_crate
+    role: 103
+    position: {x: 7, y: 14}
     direction: {x: 1, y: 0}
-    target: {x: 6, y: 10}
+    target: {x: 0, y: 0}
     orientation: 0
     number: 1
     initialDiceFaces: 010000000600000005000000020000000300000004000000
     active: 0
     socketReward: 0
     socketBridgeId: 
-    socketBubbleCell: {x: 3, y: 6}
+    socketBubbleCell: {x: 3, y: 10}
     cells: []
     blastOffsets: []
-  nests: []
+  - id: chick_2
+    variant: 
+    group: 
+    artTheme: starway
+    visualPrefab: {fileID: 444040409623099113, guid: b1db61e0c9ba3a04dbbba47a2312aaa3, type: 3}
+    initialVisual: 
+    role: 24
+    position: {x: 4, y: 11}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 3, y: 8}
+    cells: []
+    blastOffsets: []
+  - id: metalcrate_2
+    variant: 
+    group: 
+    artTheme: starway
+    visualPrefab: {fileID: 7207353559205717117, guid: bf1fb8cd842395c4c9e61592c89e5947, type: 3}
+    initialVisual: metal_crate
+    role: 103
+    position: {x: 7, y: 13}
+    direction: {x: 1, y: 0}
+    target: {x: 0, y: 0}
+    orientation: 0
+    number: 1
+    initialDiceFaces: 010000000600000005000000020000000300000004000000
+    active: 0
+    socketReward: 0
+    socketBridgeId: 
+    socketBubbleCell: {x: 3, y: 9}
+    cells: []
+    blastOffsets: []
+  railPaths: []
+  nests:
+  - {x: 4, y: 15}
   ranchV13Art:
   - family: tall_grass
     instanceId: cd455e05111046e5bb8c3c3511ee325d
@@ -129,78 +169,12 @@ MonoBehaviour:
     farParallax: 0.08
     midParallax: 0.3
     nearParallax: 0.65
-  start: {x: 2, y: 11}
+  start: {x: 2, y: 12}
   exit: {x: 11, y: 14}
   terrain:
-  - position: {x: 1, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 4}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 6}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 8}
-    material: 1
-    blocked: 1
   - position: {x: 1, y: 9}
     material: 1
     blocked: 1
-  - position: {x: 1, y: 10}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 11}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 12}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 14}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 15}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 16}
-    material: 1
-    blocked: 1
-  - position: {x: 1, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 2, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 2, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 2, y: 11}
-    material: 0
-    blocked: 0
   - position: {x: 2, y: 12}
     material: 0
     blocked: 0
@@ -216,82 +190,13 @@ MonoBehaviour:
   - position: {x: 2, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 2, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 2}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 6}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 11}
-    material: 1
-    blocked: 1
   - position: {x: 3, y: 12}
     material: 0
     blocked: 0
-  - position: {x: 3, y: 13}
-    material: 1
-    blocked: 1
   - position: {x: 3, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 3, y: 15}
-    material: 1
-    blocked: 1
   - position: {x: 3, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 3, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 18}
-    material: 1
-    blocked: 1
-  - position: {x: 3, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 4, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 4, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 4, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 4, y: 10}
     material: 0
     blocked: 0
   - position: {x: 4, y: 11}
@@ -312,94 +217,16 @@ MonoBehaviour:
   - position: {x: 4, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 4, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 4, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 6}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 8}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 9}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 10}
-    material: 0
-    blocked: 0
   - position: {x: 5, y: 11}
     material: 1
     blocked: 1
   - position: {x: 5, y: 12}
     material: 0
     blocked: 0
-  - position: {x: 5, y: 13}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 14}
-    material: 0
-    blocked: 0
   - position: {x: 5, y: 15}
     material: 1
     blocked: 1
   - position: {x: 5, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 5, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 5, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 6, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 6, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 6, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 7}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 6, y: 9}
-    material: 1
-    blocked: 1
-  - position: {x: 6, y: 10}
     material: 0
     blocked: 0
   - position: {x: 6, y: 11}
@@ -420,51 +247,12 @@ MonoBehaviour:
   - position: {x: 6, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 6, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 6, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 2}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 9}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 10}
-    material: 0
-    blocked: 0
   - position: {x: 7, y: 11}
     material: 1
     blocked: 1
   - position: {x: 7, y: 12}
     material: 0
     blocked: 0
-  - position: {x: 7, y: 13}
-    material: 1
-    blocked: 1
   - position: {x: 7, y: 14}
     material: 0
     blocked: 0
@@ -472,45 +260,6 @@ MonoBehaviour:
     material: 1
     blocked: 1
   - position: {x: 7, y: 16}
-    material: 0
-    blocked: 0
-  - position: {x: 7, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 7, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 8, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 8, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 3}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 8, y: 8}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 9}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 10}
-    material: 0
-    blocked: 0
-  - position: {x: 8, y: 11}
     material: 0
     blocked: 0
   - position: {x: 8, y: 12}
@@ -531,36 +280,6 @@ MonoBehaviour:
   - position: {x: 8, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 8, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 9, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 8}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 9}
-    material: 1
-    blocked: 1
   - position: {x: 9, y: 10}
     material: 1
     blocked: 1
@@ -570,272 +289,166 @@ MonoBehaviour:
   - position: {x: 9, y: 12}
     material: 1
     blocked: 1
-  - position: {x: 9, y: 13}
-    material: 1
-    blocked: 1
   - position: {x: 9, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 9, y: 15}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 16}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 9, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 10, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 10, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 10, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 5}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 10, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 10, y: 13}
-    material: 1
-    blocked: 1
   - position: {x: 10, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 10, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 2}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 4}
-    material: 0
-    blocked: 0
-  - position: {x: 11, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 6}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 13}
-    material: 1
-    blocked: 1
   - position: {x: 11, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 11, y: 16}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 11, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 2}
+  - position: {x: 4, y: 10}
     material: 0
     blocked: 0
-  - position: {x: 12, y: 3}
+  - position: {x: 5, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 12, y: 4}
+  - position: {x: 7, y: 13}
     material: 0
     blocked: 0
-  - position: {x: 12, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 6}
+  - position: {x: 7, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 12, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 12, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 2}
+  - position: {x: 6, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 13, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 4}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 6}
+  - position: {x: 5, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 13, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 16}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 13, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 14, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 14, y: 2}
+  - position: {x: 4, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 14, y: 3}
+  - position: {x: 3, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 14, y: 4}
+  - position: {x: 2, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 14, y: 5}
+  - position: {x: 1, y: 17}
     material: 0
     blocked: 0
-  - position: {x: 14, y: 6}
+  - position: {x: 1, y: 16}
     material: 0
     blocked: 0
-  - position: {x: 14, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 14, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 14, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 1}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 2}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 4}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 6}
+  - position: {x: 1, y: 15}
     material: 0
     blocked: 0
-  - position: {x: 15, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 15}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 18}
-    material: 1
-    blocked: 1
-  - position: {x: 15, y: 19}
-    material: 1
-    blocked: 1
-  - position: {x: 16, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 16, y: 4}
+  - position: {x: 1, y: 14}
     material: 0
     blocked: 0
-  - position: {x: 16, y: 5}
+  - position: {x: 1, y: 13}
     material: 0
     blocked: 0
-  - position: {x: 16, y: 6}
-    material: 0
-    blocked: 0
-  - position: {x: 16, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 16, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 16, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 3}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 4}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 5}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 6}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 7}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 13}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 14}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 15}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 16}
-    material: 1
-    blocked: 1
-  - position: {x: 17, y: 17}
-    material: 1
-    blocked: 1
-  - position: {x: 2, y: 8}
+  - position: {x: 1, y: 12}
     material: 0
     blocked: 0
   devices: []
-  decorations: []
+  decorations:
+  - position: {x: 1, y: 12}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: b5071a803f2b47059ce301feec3db675
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 1, y: 13}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 92d8a476b3204470a0ff42dbb6fc2081
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 1, y: 14}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 7a9c6b92a27b4826b64f369eb418b94b
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 1, y: 15}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 2ecbdcc34b3f471db9a83851a4a35b62
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 1, y: 16}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 92529bee71d94027b36d055d43408858
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 1, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 9c3f06d3162946f4b2e0362c0ffda285
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 7, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 69a90efc84f74cabb5363e671419e780
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 8, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: a326377550684aea9990153b10a65693
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 6, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: d760431e854c4e35ae98b0971caf5db3
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 5, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 1230317ffe64409594afe44aaeb5819f
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 4, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 1b250f58ff064395b62be036a65385b9
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 3, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 1b4fd6a0cd814452a0e224e68366e1ac
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
+  - position: {x: 2, y: 17}
+    sprite: {fileID: 21300000, guid: e5b7faf409cf57540beeed0ab821e789, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 1}
+    placementId: 378ffb524e04459eb518c0b2dcb88b01
+    connectionGroup: raised_flower_meadow
+    visualFamily: raised_flower_meadow
+    logicalLayer: 0
+    heightKey: 0
   bubbles:
-  - {x: 8, y: 9}
-  - {x: 4, y: 8}
+  - {x: 4, y: 10}
+  - {x: 4, y: 15}
