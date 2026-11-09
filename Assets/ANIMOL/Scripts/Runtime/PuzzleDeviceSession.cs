@@ -1080,12 +1080,12 @@ namespace ANIMOL.Puzzle
                 {
                     if (body.role != PrototypeRole.Glass && body.role != PrototypeRole.CrackedWall) break;
                     states[body.id].removed = true; shattered = true; BreakVisual(body, s.direction);
+                    // Break theater glass on impact, before entering its cell.
+                    if (body.role == PrototypeRole.Glass && Rules.themeId == "memory_theater") break;
                 }
                 var old = s.cell; s.cell = p; Move(d.id, old, p);
                 if (Cell == p) { Fail("Statue contact"); break; }
-                // Theater glass absorbs this charge; later turns can acquire a new target.
-                if (shattered && (Rules.statueStopsAfterBreakingWall ||
-                    body.role == PrototypeRole.Glass && Rules.themeId == "memory_theater")) break;
+                if (shattered && Rules.statueStopsAfterBreakingWall) break;
             }
             s.locked = false; Visual(d, "recover_" + Dir(s.direction), "statue_recovery");
         }

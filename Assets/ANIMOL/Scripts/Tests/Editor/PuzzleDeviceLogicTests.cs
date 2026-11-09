@@ -843,7 +843,7 @@ namespace ANIMOL.Tests
         [Test] public void StatueChargesLockedLineAfterPlayerEvadesAndShattersGlass()
         {
             var session=new PuzzleDeviceSession(Room(17));foreach(char c in "EEEEN")session.Apply(PuzzlePrototypeBuilder.Direction(c));
-            Assert.That(session.States["statue"].locked,Is.True);session.Apply(Vector2Int.down);Assert.That(session.States["glass"].removed,Is.True);Assert.That(session.Failed,Is.False);Assert.That(session.States["statue"].cell,Is.EqualTo(new Vector2Int(4,3)));
+            Assert.That(session.States["statue"].locked,Is.True);session.Apply(Vector2Int.down);Assert.That(session.States["glass"].removed,Is.True);Assert.That(session.Failed,Is.False);Assert.That(session.States["statue"].cell,Is.EqualTo(new Vector2Int(5,3)));
         }
         PuzzleMap StatueGlassRoom(Vector2Int heading, bool stopAfterBreak = true,
             PrototypeRole barrier = PrototypeRole.Glass, string themeId = "memory_theater")
@@ -865,33 +865,37 @@ namespace ANIMOL.Tests
                 position = center + heading });
             return map;
         }
-        static void ChargeStatue(PuzzleDeviceSession session, Vector2Int heading)
+        static PrototypeAction ChargeStatue(PuzzleDeviceSession session, Vector2Int heading)
         {
             var side = new Vector2Int(-heading.y, heading.x);
             Assert.That(session.Apply(-side).accepted, Is.True);
             Assert.That(session.States["statue"].locked, Is.True);
-            Assert.That(session.Apply(side).accepted, Is.True);
+            var action = session.Apply(side);
+            Assert.That(action.accepted, Is.True);
             Assert.That(session.States["glass"].removed, Is.True);
             Assert.That(session.Failed, Is.False);
+            return action;
         }
         [TestCase(1, 0, true)] [TestCase(-1, 0, true)]
         [TestCase(0, 1, true)] [TestCase(0, -1, true)]
         [TestCase(1, 0, false)] [TestCase(-1, 0, false)]
         [TestCase(0, 1, false)] [TestCase(0, -1, false)]
-        public void TheaterStatueStopsAtShatteredGlassThenCanChargeAgain(int x, int y, bool policy)
+        public void TheaterStatueStopsBeforeShatteredGlassThenCanChargeAgain(int x, int y, bool policy)
         {
             var heading = new Vector2Int(x, y); var side = new Vector2Int(-y, x);
             var map = StatueGlassRoom(heading, policy);
             var session = new PuzzleDeviceSession(map);
-            ChargeStatue(session, heading);
-            var stoppedCell = new Vector2Int(4, 4) + heading;
+            var firstCharge = ChargeStatue(session, heading);
+            var stoppedCell = new Vector2Int(4, 4);
             Assert.That(session.States["statue"].cell, Is.EqualTo(stoppedCell));
+            Assert.That(firstCharge.events.Count(e => e.actor == "statue" && e.kind == PrototypeEventKind.Move), Is.EqualTo(3));
+            Assert.That(firstCharge.events.Any(e => e.actor == "statue" && e.kind == PrototypeEventKind.Move &&
+                e.to == stoppedCell + heading), Is.False, "Do not animate into the glass cell");
             Assert.That(session.States["statue"].locked, Is.False);
             Assert.That(session.Undo(), Is.True);
             Assert.That(session.States["glass"].removed, Is.False);
             Assert.That(session.States["statue"].locked, Is.True);
             Assert.That(session.Apply(side).accepted, Is.True);
-            Assert.That(session.Apply(heading).accepted, Is.True);
             var cost = session.Cost;
             Assert.That(session.Apply(-side).accepted, Is.False, "Stopped statue remains a solid obstacle");
             Assert.That(session.Cost, Is.EqualTo(cost));
@@ -916,8 +920,23 @@ namespace ANIMOL.Tests
                 position = new Vector2Int(6, 4) });
             var session = new PuzzleDeviceSession(map);
             ChargeStatue(session, Vector2Int.right);
-            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(4, 4)));
             Assert.That(session.States["nextGlass"].removed, Is.False);
+        }
+        [TestCase(1, 0)] [TestCase(-1, 0)] [TestCase(0, 1)] [TestCase(0, -1)]
+        public void TheaterStatueAlreadyBesideGlassBreaksItWithoutMoving(int x, int y)
+        {
+            var heading = new Vector2Int(x, y);
+            var session = new PuzzleDeviceSession(StatueGlassRoom(heading, false));
+            var impactCell = new Vector2Int(4, 4);
+            session.States["statue"].cell = impactCell;
+            session.States["statue"].locked = true;
+            var action = session.Apply(heading);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["glass"].removed, Is.True);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(impactCell));
+            Assert.That(session.States["statue"].locked, Is.False);
+            Assert.That(action.events.Any(e => e.actor == "statue" && e.kind == PrototypeEventKind.Move), Is.False);
         }
         [TestCase(PrototypeRole.CrackedWall, "memory_theater", true)]
         [TestCase(PrototypeRole.CrackedWall, "memory_theater", false)]

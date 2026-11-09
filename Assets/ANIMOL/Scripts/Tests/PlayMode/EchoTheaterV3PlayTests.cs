@@ -18,7 +18,7 @@ namespace ANIMOL.Tests
         static float WorldSpriteWidth(SpriteRenderer renderer) =>
             renderer.sprite.bounds.size.x * renderer.transform.lossyScale.x;
 
-        [UnityTest] public IEnumerator StatueStopsAtBrokenGlassThenCanChargeAgainAndUndoRestoresBoth()
+        [UnityTest] public IEnumerator StatueStopsBeforeBrokenGlassThenCanChargeAgainAndUndoRestoresBoth()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
@@ -53,17 +53,17 @@ namespace ANIMOL.Tests
                 }
                 Assert.That(controller.Session.States["statue"].locked, Is.False);
                 Assert.That(controller.Session.States["glass"].removed, Is.True);
-                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(5, 4)));
+                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(4, 4)));
                 Assert.That(controller.UndoLast(), Is.True);
                 Assert.That(controller.Session.States["glass"].removed, Is.False);
                 Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(1, 4)));
                 Assert.That(controller.Devices.Actor("glass").gameObject.activeSelf, Is.True);
-                foreach (var input in new[] { Vector2Int.up, Vector2Int.right, Vector2Int.right,
+                foreach (var input in new[] { Vector2Int.up, Vector2Int.right,
                     Vector2Int.down })
                 {
                     Assert.That(controller.RequestMove(input), Is.True);
                     while (controller.IsMoving) yield return null;
-                    Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(5, 4)));
+                    Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(4, 4)));
                 }
                 Assert.That(controller.Session.States["statue"].locked, Is.True);
                 Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
