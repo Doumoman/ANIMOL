@@ -1,0 +1,27 @@
+{
+  "behavior": [
+    "Each 90-degree rotation checks the center, old/new endpoints and two direction-dependent swept corners (7 cells).",
+    "Empty space does not need supporting terrain. Devices, blocks, occupied player cells, physical decoration and board edges block the turn.",
+    "Existing assets default to clockwise. Each bookshelf can select clockwise or counterclockwise in the map editor.",
+    "Editor overlay: amber sweep, red interference, rotation arc; optional visibility toggle.",
+    "Reuses the opposite prepainted quarter-turn animation backwards for counterclockwise movement. BlocksInput remains false.",
+    "Blocked switch presses keep the bookshelf pose unchanged and preserve the existing valid-input cost and press/release behavior."
+  ],
+  "validation": {
+    "newEditMode": "22/22 passed",
+    "newPlayMode": "1/1 passed",
+    "mapTranslationRegression": "11/11 passed",
+    "existingBookshelfRegression": {
+      "passed": 6,
+      "failed": 3,
+      "reason": "Two tests expect bookshelves in current ET-04, which has none; one test loads an absent previous prefab path."
+    },
+    "dotnetExactSearchBuild": {
+      "exitCode": 0,
+      "warnings": 0,
+      "errors": 0
+    },
+    "archivedFeedbackPolicyTests": "Not run: archived; no new feedback events or effects were added."
+  },
+  "authoredMapFilesModifiedByIntegration": 0
+}

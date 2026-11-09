@@ -517,8 +517,8 @@ namespace ANIMOL.Puzzle
         }
         void Move(string actor, Vector2Int from, Vector2Int to, bool teleport = false)
         { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Move, actor = actor, from = from, to = to, teleport = teleport, group = group++ }); }
-        void Visual(PrototypeDevice d, string state, string eventName)
-        { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id, state = state, eventName = eventName, group = group }); }
+        void Visual(PrototypeDevice d, string state, string eventName, bool reverseAnimation = false)
+        { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id, state = state, eventName = eventName, group = group, reverseAnimation = reverseAnimation }); }
         void DiceRollVisual(PrototypeDevice d, int[] before, int[] after, Vector2Int direction)
         {
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id,
@@ -900,6 +900,21 @@ namespace ANIMOL.Puzzle
                 arrivalDirection = arrival, nestId = "nest:" + state.cell.x + ":" + state.cell.y,
                 group = group });
         }
+        public bool BookshelfRotationBlocked(PrototypeDevice shelf, out Vector2Int blockedCell)
+        {
+            var state = states[shelf.id];
+            foreach (var cell in BookshelfRotationRules.SweptCells(state.cell, state.phase, shelf.bookshelfRotation))
+            {
+                // Rotation needs empty space, not supporting floor. Do not use Free/Supported here.
+                var blocked = !Map.Contains(cell) || Map.DecorationAt(cell) ||
+                    Map.TryTerrain(cell, out var terrain) && terrain.blocked || Cell == cell ||
+                    Map.DeviceAt(cell).kind != DeviceKind.None || ranchSheep.Values.Contains(cell) || RanchGrassPresent(cell) ||
+                    Rules.ranchV13Art.Any(a => a != null && a.family == "sluice" && a.Footprint().Contains(cell)) ||
+                    definitions.Any(d => d.id != shelf.id && !states[d.id].removed && Footprint(d).Contains(cell));
+                if (blocked) { blockedCell = cell; return true; }
+            }
+            blockedCell = default; return false;
+        }
         void RefreshLinks(bool animate)
         {
             foreach (var plate in definitions.Where(d => (d.role == PrototypeRole.VineBridge || d.role == PrototypeRole.Bookshelf) && d.variant == "plate"))
@@ -919,9 +934,11 @@ namespace ANIMOL.Puzzle
                     }
                     if (linked.role == PrototypeRole.Bookshelf && rising)
                     {
-                        var phase = ls.phase; ls.phase = Rules.echoTheaterV3Rules ? 1 - phase : (phase + 1) % 4;
-                        if (Footprint(linked).Any(p => !Free(p, linked.id))) ls.phase = phase;
-                        else if (animate) Visual(linked, "rotate_" + phase * 90 + "_cw", "bookshelf_rotation_committed");
+                        if (BookshelfRotationBlocked(linked, out _)) continue;
+                        var phase = ls.phase;
+                        ls.phase = BookshelfRotationRules.NextPhase(phase, linked.bookshelfRotation, Rules.echoTheaterV3Rules);
+                        var reverse = linked.bookshelfRotation == BookshelfRotationDirection.CounterClockwise;
+                        if (animate) Visual(linked, "rotate_" + (reverse ? ls.phase : phase) * 90 + "_cw", "bookshelf_rotation_committed", reverse);
                     }
                 }
             }

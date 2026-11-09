@@ -629,8 +629,8 @@ namespace ANIMOL.Puzzle
                 ShowWindRoute(e);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
             else if (view.IsV03Active || view.IsV12Active)
-            { if (!view.Notify(actionId, e.eventName, e.state)) MissingBindings++; }
-            else if (!view.Notify(actionId, e.eventName, e.state) && !view.Present(e.state, true)) MissingBindings++;
+            { if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation)) MissingBindings++; }
+            else if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation) && !view.Present(e.state, true, e.reverseAnimation)) MissingBindings++;
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
         }
         public bool HasOneTileShutterCue(PrototypeEvent e) =>

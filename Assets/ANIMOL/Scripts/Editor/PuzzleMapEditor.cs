@@ -133,6 +133,7 @@ namespace ANIMOL.Presentation.Editor
             EditorGUILayout.BeginVertical();
             cellSize = EditorGUILayout.Slider("격자 확대", cellSize, 20, 80);
             DrawMapMoveToolbar();
+            showBookshelfRotationArea = EditorGUILayout.ToggleLeft("책장 회전 영역 표시", showBookshelfRotationArea);
             EditorGUILayout.LabelField(moveWholeMap ? "전체 선택: 드래그 / 방향키로 이동 · Esc로 해제" : "왼쪽: 배치/선택    오른쪽: 지우기");
             var viewport = GUILayoutUtility.GetRect(100, 100, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             DrawGrid(viewport);
@@ -446,6 +447,10 @@ namespace ANIMOL.Presentation.Editor
             }
             if (bookshelf)
             {
+                var rotation = device.FindPropertyRelative("bookshelfRotation");
+                rotation.enumValueIndex = EditorGUILayout.Popup("책장 회전 방향", rotation.enumValueIndex,
+                    new[] { "시계 방향 ↻", "반시계 방향 ↺" });
+                EditorGUILayout.HelpBox("회전 영역의 장치·블록·플레이어가 회전을 막습니다. 빈 공간에는 지형이 없어도 됩니다.", MessageType.Info);
                 var orientation = device.FindPropertyRelative("orientation");
                 var count = map && map.scenario && map.scenario.echoTheaterV3Rules ? 2 : 4;
                 EditorGUI.BeginChangeCheck();
@@ -1658,6 +1663,11 @@ namespace ANIMOL.Presentation.Editor
             var topPad = Mathf.Max(ranchOverhang ? 2 : 0,
                 showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(cameraBounds.yMax - shownHeight + .5f)) : 0);
             var bottomPad = showCameraBounds ? Mathf.Max(0, Mathf.CeilToInt(-cameraBounds.yMin - .5f)) : 0;
+            if (showBookshelfRotationArea && map.scenario && map.scenario.devices.Any(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate"))
+            {
+                leftPad = Mathf.Max(leftPad, 1); rightPad = Mathf.Max(rightPad, 1);
+                topPad = Mathf.Max(topPad, 1); bottomPad = Mathf.Max(bottomPad, 1);
+            }
             var origin = new Vector2(leftPad * cellSize, topPad * cellSize);
             var content = new Rect(0, 0, (leftPad + shownWidth + rightPad + 1) * cellSize,
                 (topPad + shownHeight + bottomPad + 1) * cellSize);
@@ -2002,6 +2012,7 @@ namespace ANIMOL.Presentation.Editor
             {
                 if (!NearVisibleWorld(device.position, shownHeight, origin, visible, 3f)) continue;
                 var cells = InitialDeviceFootprint(device).ToArray();
+                if (showBookshelfRotationArea) DrawBookshelfRotationArea(device, shownHeight, origin);
                 var selected = device.id == selectedDeviceId;
                 foreach (var occupied in cells)
                 {

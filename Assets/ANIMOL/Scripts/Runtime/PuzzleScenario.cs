@@ -18,6 +18,7 @@ namespace ANIMOL.Puzzle
         CowardDoll = 23, Chick = 24, Ice = 25, Wall = 100, CrackedWall = 101, WoodCrate = 102, MetalCrate = 103
     }
     public enum StarSocketReward { None, RevealBridge, RevealBubble }
+    public enum BookshelfRotationDirection { Clockwise, CounterClockwise }
     // Placed ranch families have instance IDs, not new official device role numbers.
     [Serializable] public sealed class RanchV13ArtPlacement
     {
@@ -60,6 +61,7 @@ namespace ANIMOL.Puzzle
         public PrototypeRole role;
         public Vector2Int position, direction = Vector2Int.right, target;
         public int orientation, number = 1;
+        public BookshelfRotationDirection bookshelfRotation;
         // Dice source order: top, bottom, north, south, east, west.
         public int[] initialDiceFaces = { 1, 6, 5, 2, 3, 4 };
         public bool active;
@@ -226,6 +228,8 @@ namespace ANIMOL.Puzzle
         public int group;
         // Presentation phase only; it never participates in board state or input cost.
         public bool cartTurn;
+        // Reuse the opposite authored quarter-turn clip backwards for counterclockwise bookshelves.
+        public bool reverseAnimation;
         public List<Vector2Int> cells;
         // Committed chick return presentation data; the session remains the sole authority.
         public string nestId;

@@ -295,6 +295,7 @@ public static class EchoTheaterShortestPaths
         }
         var hashes = new JObject();
         foreach (string file in new[] { "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs", "Assets/ANIMOL/Scripts/Runtime/PuzzleScenario.cs",
+            "Assets/ANIMOL/Scripts/Runtime/BookshelfRotationRules.cs",
             "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSearchSnapshot.cs", "Assets/ANIMOL/Scripts/Runtime/OneCellGateRules.cs",
             "Tools/Puzzle/EchoTheaterShortestPaths.cs" }) hashes[file] = Hash(File.ReadAllBytes(file));
         var record = new JObject { ["mapId"] = job.id, ["sourceAsset"] = job.path, ["sourceSha256"] = job.assetHash,

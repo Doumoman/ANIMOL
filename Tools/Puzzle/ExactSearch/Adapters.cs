@@ -75,6 +75,13 @@ namespace ANIMOL.Puzzle
         Dictionary<Vector2Int,TerrainCell> index;
         public bool Contains(Vector2Int p) => p.x>=0 && p.y>=0 && p.x<width && p.y<height;
         public bool DecorationAt(Vector2Int p) => Contains(p) && decorations.Contains(p);
+        public bool TryTerrain(Vector2Int p, out TerrainCell cell)
+        {
+            index ??= terrain.ToDictionary(t=>t.position);
+            cell = default; return Contains(p) && index.TryGetValue(p, out cell);
+        }
+        // The export validator rejects legacy device kinds; this adapter only supports None.
+        public DeviceCell DeviceAt(Vector2Int p) => default;
         public bool Walkable(Vector2Int p)
         {
             index ??= terrain.ToDictionary(t=>t.position);

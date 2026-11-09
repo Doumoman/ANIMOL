@@ -31,6 +31,7 @@ namespace ANIMOL.Presentation
         DeviceVisualState active;
         EchoTheaterV03AnimatedVisual v03Player;
         bool v03Active;
+        bool reverseAnimation;
         StarwayRanchV12AnimatedVisual v12Player;
         bool v12Active;
         readonly HashSet<string> seenEvents=new HashSet<string>();
@@ -63,7 +64,7 @@ namespace ANIMOL.Presentation
         {
             if (v12Active) v12Player.SetClip("INVALID_V12_BINDING_" + diagnostic);
         }
-        public bool Present(string state, bool restart=false)
+        public bool Present(string state, bool restart=false, bool playReverse=false)
         {
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state);
             if(next==null)
@@ -73,7 +74,7 @@ namespace ANIMOL.Presentation
                 return false;
             }
             if(active==next && !restart)return true;
-            active=next;CurrentState=state;Elapsed=0;
+            active=next;CurrentState=state;Elapsed=0;reverseAnimation=playReverse;
             if (v12Active)
             {
                 if (string.IsNullOrEmpty(next.v12ClipKey))
@@ -87,21 +88,21 @@ namespace ANIMOL.Presentation
                 if (string.IsNullOrEmpty(next.v03ClipKey))
                     return v03Player.SetClip(next.v03ClipKey);
                 return next.sequence
-                    ? v03Player.Play(next.v03ClipKey)
+                    ? v03Player.Play(next.v03ClipKey, playReverse: playReverse)
                     : v03Player.SnapToState(next.v03ClipKey, next.v03StaticProgress);
             }
             Render();return true;
         }
-        public bool Notify(string committedEvent,string state)
+        public bool Notify(string committedEvent,string state,bool playReverse=false)
         {
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state && s.eventName==committedEvent);
-            return next!=null && Present(state,true);
+            return next!=null && Present(state,true,playReverse);
         }
-        public bool Notify(string actionId,string committedEvent,string state)
+        public bool Notify(string actionId,string committedEvent,string state,bool playReverse=false)
         {
             if(string.IsNullOrEmpty(actionId))return false;
-            string key=actionId+"\u001f"+committedEvent+"\u001f"+state;
-            if(seenEvents.Contains(key) || !Notify(committedEvent,state))
+            string key=actionId+"\u001f"+committedEvent+"\u001f"+state+(playReverse?"\u001freverse":"");
+            if(seenEvents.Contains(key) || !Notify(committedEvent,state,playReverse))
             {
                 if (v03Active && !seenEvents.Contains(key)) FailV03(state);
                 if (v12Active && !seenEvents.Contains(key)) FailV12(state);
@@ -114,9 +115,9 @@ namespace ANIMOL.Presentation
         public void ResetVisual(){paused=false;active=null;seenEvents.Clear();eventOrder.Clear();Present(initialState,true);if(active!=null&&active.sequence&&active.sequence.loop)Advance(initialPhase);}
         public void RebindArt(DeviceVisualState[] replacement,string initial)
         {
-            string state=CurrentState;float elapsed=Elapsed;
+            string state=CurrentState;float elapsed=Elapsed;bool reverse=reverseAnimation;
             states=replacement;initialState=initial;active=null;
-            if(!Present(state,true))Present(initial,true);
+            if(!Present(state,true,reverse))Present(initial,true);
             if(CurrentState==state)Elapsed=elapsed;
             if (!v03Active && !v12Active) Render(); // Cosmetic theme changes preserve pause and action IDs.
         }
@@ -133,7 +134,8 @@ namespace ANIMOL.Presentation
             if(!visual||active==null)return;
             if(!active.sequence){visual.sprite=active.sprite;visual.enabled=active.sprite;return;}
             bool ended=!active.sequence.loop && Elapsed>=active.sequence.Duration;
-            visual.sprite=ended?active.terminal:active.sequence.At(Elapsed);
+            visual.sprite=ended?(reverseAnimation?active.sequence.At(0):active.terminal):
+                active.sequence.At(reverseAnimation?Mathf.Max(0,active.sequence.Duration-Elapsed-.00001f):Elapsed);
             visual.enabled=visual.sprite!=null;
         }
         void Update()=>Advance(v03Active || v12Active ? Time.deltaTime : Time.unscaledDeltaTime);
