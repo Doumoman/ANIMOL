@@ -104,12 +104,12 @@ def saved_comparison(e):
         if not equal(disk_rules.get(key, default), e['scenario'][key]): differences.append('scenario.' + key)
     saved, live = [], []
     for original in disk_rules['devices']:
-        d = dict(original); d.pop('visualPrefab', None)
+        d = dict(original); d.pop('visualPrefab', None); d.setdefault('bookshelfRotation', 0)
         raw = d.get('initialDiceFaces', '')
         if isinstance(raw, str): d['initialDiceFaces'] = list(struct.unpack('<' + 'i' * (len(raw) // 8), bytes.fromhex(raw)))
         saved.append(d)
     for original in e['scenario']['devices']:
-        d = dict(original); d.pop('visualPrefab', None); d.pop('initialFootprint', None); live.append(d)
+        d = dict(original); d.pop('visualPrefab', None); d.pop('initialFootprint', None); d.pop('initialRotationArea', None); live.append(d)
     if not equal(saved, live): differences.append('scenario.devices')
     for key in ['decorations']:
         saved = [{k: v for k, v in d.items() if k != 'sprite'} for d in disk_map[key]]
@@ -240,9 +240,9 @@ def main():
                              'savedLayoutDifferences': e['savedDifferences'], 'validationErrors': e['validationErrors']})
         diagram(e)
     lines = ['# 별길 목장과 잔영 극장 맵 배치 보고서', '',
-             '대상은 원본 SW00~SW19와 ET-00~ET-05다. 현재 실제 맵은 별길 목장 20개, 잔영 극장 5개이며 원본 ET-02 파일은 없다. 화면 스테이지 ET-02는 원본 ET-00에 연결되어 있어 파일 누락과 화면 연결을 구분한다.', '',
+             '2026-11-10 정본 커밋 `a2f825e09`의 별길 목장 SW00~SW19·SW21 21개와 잔영 극장 ET-11까지 현존 파일 11개, 총 32개가 대상이다. ET-06은 삭제 상태를 유지한다. SW20은 없고 SW21은 현재 노트북 20개 진입 목록 밖이다. 현재 파일 ID와 화면 연결을 구분한다.', '',
              '좌표는 왼쪽 아래가 `(0,0)`, 오른쪽이 +x, 위가 +y다. 배치도는 현재 Unity 데이터로 만든 초기 배치도이며 플레이 화면 캡처가 아니다. `D`는 시나리오 장치, `R`은 양·수문·풀, `X`는 장식 인스턴스, `B`는 별, `S/E`는 시작/출구, `N`은 둥지다. 같은 번호가 여러 칸에 표시되면 하나의 다중 칸 객체다.', '',
-             'ET-05는 Editor에서 미저장 표시가 있지만, 아래에 비교한 배치·카메라·주요 규칙 값은 디스크 저장본과 같다. 원본 저장은 실행하지 않았다. 별길 목장의 원본 SW00~SW19는 화면 SW01~SW20에 대응한다.', '',
+             '32개 모두 미저장 변경이 없으며 정본 GUID·SHA-256과 일치한다. 원본 저장은 실행하지 않았다. 별길 목장 SW00~SW19는 화면 SW01~SW20에 대응한다. SW03은 이전 SW05의 GUID, 새 배치 SW05는 이전 SW03의 GUID를 이어받았다. [현재 최단 경로와 변경 대조](STARWAY_SHORTEST_PATHS.md), [잔영 극장 최단 경로](ECHO_THEATER_SHORTEST_PATHS.md)를 함께 참조한다.', '',
              '바닥 수에는 장치가 차지한 바닥도 포함한다. `#`는 기록된 통행 불가 지형, 연한 회색 빈칸은 지형 없음, 회색 내부 칸은 장식 점유다. 정적 연결 영역은 `PuzzleMap.Walkable` 기준의 상하좌우 연결 수이며, 다리·수문·물체 이동을 반영한 도달 가능 판정은 아니다.', '',
              '## 전체 배치 요약', '']
     for label, prefix in [('별길 목장', 'SW'), ('잔영 극장', 'ET')]:
@@ -262,7 +262,7 @@ def main():
     for e in DATA['maps']:
         lines += ['### ' + e['id'], '']
         if not e['exists']:
-            lines += ['현재 원본 `ET-02_MapData.asset`와 메타가 없다. 예전 제작 JSON을 현재 배치로 대체하지 않았다. 화면 ET-02가 사용하는 실제 원본은 위의 ET-00이다.', '']; continue
+            lines += ['ET-06 파일과 메타의 삭제 상태를 유지했다. 현재 실제 화면 연결은 ET-06→원본 ET-01이며, 삭제된 파일을 복원하지 않았다.', '']; continue
         m, s = e['map'], e['scenario']
         lines += [f"시나리오 제목: **{s['title']}**. 화면 연결: **{', '.join(e['displayStages']) or '없음'}**. [원본 에셋](../{e['assetPath']}).", '']
         material = collections.Counter(MATERIALS[t['material']] for t in m['terrain'] if not t['blocked'])
@@ -274,6 +274,9 @@ def main():
                 [f'D{i}', d['id'], role(d), coord(d['position']), coords(d['initialFootprint']), settings(d, s)]
                 for i, d in enumerate(s['devices'], 1)])
         else: lines += ['시나리오 장치 D는 없다.', '']
+        shelves = [d for d in s['devices'] if d.get('initialRotationArea')]
+        if shelves:
+            lines += table(['책장 ID', '회전 방향', '초기 회전 영역'], [[d['id'], '시계' if d['bookshelfRotation'] == 0 else '반시계', coords(d['initialRotationArea'])] for d in shelves])
         if s['ranchV13Art']:
             rows = []
             for i, a in enumerate(s['ranchV13Art'], 1):
@@ -299,12 +302,12 @@ def main():
         if e['validationErrors']: lines += ['배치 유의 사항: ' + '; '.join(e['validationErrors']), '']
     lines += ['## 현재 규칙과 연결 해석', '',
               '잔영 극장의 돌진 석상은 유리를 부수되 유리가 있던 칸에 들어가지 않고 바로 앞에서 이번 돌진을 끝낸다. 이후 재조준·재돌진할 수 있다. 장치의 방향·번호·변형은 위 표의 저장값을 따른다. 자세한 판정은 [현재 장치 규칙](ANIMOL_DEVICE_RULES_CURRENT.md)을 참조한다.', '',
-              '초기 별 배치 수와 필요한 수집 수가 다른 맵은 SW03(4개/목표 3개), SW05(3개/목표 2개), SW16(4개/목표 3개)이다. 표의 초기 점유 칸과 바닥 통계는 이동 후 상태나 해답 경로를 뜻하지 않는다.', '',
-              '이 범위의 [잔영 극장 최단 정답 경로](ECHO_THEATER_SHORTEST_PATHS.md)는 원본 ET-00 31입력, ET-01 42입력, ET-03 49입력, ET-04 33입력, ET-05 26입력이다. 경로·최단성 근거·공개 API 재생 검증은 별도 보고서에 기록했다.', '',
+              '초기 별 배치 수와 필요한 수집 수는 각 맵 표의 현재 값을 따른다. 표의 초기 점유 칸과 바닥 통계는 이동 후 상태나 해답 경로를 뜻하지 않는다.', '',
+              '현재 [별길 목장 최단 경로](STARWAY_SHORTEST_PATHS.md)와 [잔영 극장 최단 경로](ECHO_THEATER_SHORTEST_PATHS.md)는 별도 카탈로그에 기록한다. 경로·최단성 근거·공개 API 재생 검증은 별도 보고서에 기록했다.', '',
               '## 자료와 검증', '',
-              f"Unity {DATA['unityVersion']}에서 실제 로드된 MapData와 Scenario를 읽었다. 25개 맵의 ValidateMap 결과는 모두 오류 0개이며, 이는 배치 데이터 검사 결과다. 원본 에셋과 메타의 SHA-256, 미저장 표시, 저장본과의 비교는 [검증 기록](Validation/MapLayoutReport/audit.json), 전체 좌표와 원본 필드는 [데이터 스냅샷](Validation/MapLayoutReport/unity_snapshot.json)에 있다.", '',
+              f"Unity {DATA['unityVersion']}에서 실제 로드된 MapData와 Scenario를 읽었다. 32개 맵의 ValidateMap 결과는 모두 오류 0개이며, 이는 배치 데이터 검사 결과다. 원본 에셋과 메타의 SHA-256, 미저장 표시, 저장본과의 비교는 [검증 기록](Validation/MapLayoutReport/audit.json), 전체 좌표와 원본 필드는 [데이터 스냅샷](Validation/MapLayoutReport/unity_snapshot.json)에 있다.", '',
               '원본 맵·메타·작성된 verificationRoute를 저장하거나 수정하지 않았다. 게임 완주나 모바일 표시 검증을 배치 검사 결과에 포함하지 않는다.', '']
-    assert len(existing) == 25 and audit['missing'] == ['ET-02']
+    assert len(existing) == 32 and audit['missing'] == ['ET-06']
     assert all(not e['savedDifferences'] for e in existing), 'Saved/layout differences need explicit reporting'
     assert all(not e['validationErrors'] for e in existing), 'Validation notes need editorial review'
     (OUT / 'audit.json').write_text(json.dumps(audit, ensure_ascii=False, indent=2) + '\n', encoding='utf8')

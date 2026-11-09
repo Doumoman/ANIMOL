@@ -1,3 +1,299 @@
+# 별길 목장 현재 정본의 최단 입력 경로
+
+2026-11-10 기준 **21개 맵 중 최단 확정 20개, 경로 없음 0개, 미확정 1개**다. 현재 사용자가 작성한 맵을 정본으로 먼저 커밋한 `a2f825e09` 이후에 계산했다. 계산 때문에 MapData·작성된 `verificationRoute`·GUID·진행 기록을 수정하지 않았다.
+
+[정본 파일·GUID·이전 이름 대조](Validation/CanonicalMaps/inventory.json) · [실제 화면/MapSet 연결](Validation/CanonicalMapPaths/stage_aliases.json) · [Unity 전체 경로 재생](Validation/CanonicalMapPaths/native_replay.json)
+
+## 파일 이름과 화면 번호
+
+현재 원본은 SW00~SW19와 별도 SW21, 총 21개다. SW20 파일을 새로 만들지 않았다. NotebookProjectGateway는 MapSet의 sourceId 대신 맵의 현재 이름으로 SW00~SW19를 찾으며, 화면 SW01~SW20은 원본 번호 + 1이다. SW21은 현재 20개 노트북 진입 목록에 없으므로 화면 번호를 붙이지 않는다.
+
+| 현재 파일 | 동일 GUID의 이전 파일 | 현재 이름 | 변경 구분 |
+|---|---|---|---|
+| SW03 | SW05 | SW03_MapData | 이전 SW05의 GUID `9d75c405…`를 유지한 이름 이동 |
+| SW05 | SW03 | SW05_MapData | 이전 SW03의 GUID `a6d2b9f8…`에 새 배치 작성, 최단 17입력 |
+
+Starway21MapSet에는 sourceId SW03→현재 SW05, sourceId SW05→현재 SW03의 연결이 남아 있다. 이 별칭을 현재 파일 ID와 혼동하지 않고 각각 기록했으며 기존 연결을 자동 교정하거나 클리어 키를 이동하지 않았다. SW21 안의 SW20_* 장치 ID도 원본 그대로 보존했다.
+
+SW00 첫 맵의 GUID `fc12b62ee8aa3ae41a9cda34eaa35cd6`와 원본 바이트는 보존했다.
+
+## 현재 결과
+
+| 파일 ID | 화면 스테이지 | 결과 | 최단 입력 | 발견 상태 |
+|---|---|---|---:|---:|
+| SW00 | SW01 | 최단 확정 | 45 | 157 |
+| SW01 | SW02 | 최단 확정 | 54 | 470 |
+| SW02 | SW03 | 최단 확정 | 77 | 3,880,439 |
+| SW03 | SW04 | 최단 확정 | 47 | 14,038 |
+| SW04 | SW05 | 최단 확정 | 49 | 3,216 |
+| SW05 | SW06 | 최단 확정 | 17 | 300 |
+| SW06 | SW07 | 최단 확정 | 31 | 236,650 |
+| SW07 | SW08 | 최단 확정 | 40 | 19,382 |
+| SW08 | SW09 | 최단 확정 | 41 | 201,925 |
+| SW09 | SW10 | 최단 확정 | 63 | 182,756 |
+| SW10 | SW11 | 최단 확정 | 45 | 7,765,870 |
+| SW11 | SW12 | 최단 확정 | 30 | 716 |
+| SW12 | SW13 | 최단 확정 | 31 | 97,235 |
+| SW13 | SW14 | 최단 확정 | 29 | 4,013 |
+| SW14 | SW15 | 최단 확정 | 22 | 710 |
+| SW15 | SW16 | 최단 확정 | 52 | 56,130 |
+| SW16 | SW17 | 최단 확정 | 35 | 83,907 |
+| SW17 | SW18 | 최단 확정 | 64 | 477,514 |
+| SW18 | SW19 | 최단 확정 | 32 | 149,394 |
+| SW19 | SW20 | 최단 확정 | 60 | 1,084,826 |
+| SW21 | 현재 연결 없음 | 상한 도달 · 미확정 | — | 8,387,276 |
+
+유효한 방향 입력 하나의 비용은 1이다. 제자리에서 장치를 작동하거나 물체를 미는 입력도 1이며, 자동 바람 대기 `○`는 비용 0이다. N/↑=위, E/→=오른쪽, S/↓=아래, W/←=왼쪽이다. 경로를 줄이기 위해 제자리 입력이나 반복 방향을 생략하지 않는다.
+
+## 배치 변경 대조
+
+아래 칸 수는 직렬화된 terrain 항목 수이며 실제 통행 가능 칸 수와 다르다. 이전 파일은 이전 HEAD에서 같은 GUID를 가진 파일이다. 이름 이동과 배치 변경을 분리해서 비교한다.
+
+| 현재 파일 | 이전 이름 | terrain 항목 이전→현재 | 목표 별 이전→현재 | 현재 장치 수 |
+|---|---|---:|---:|---:|
+| SW00 | SW00_MapData | 60→60 | 3→3 | 5 |
+| SW01 | SW01 | 91→91 | 3→3 | 4 |
+| SW02 | SW02 | 234→57 | 2→2 | 3 |
+| SW03 | SW05 | 250→250 | 2→2 | 8 |
+| SW04 | SW04 | 267→267 | 3→3 | 6 |
+| SW05 | SW03 | 103→33 | 3→2 | 5 |
+| SW06 | SW06 | 149→149 | 2→2 | 6 |
+| SW07 | SW07 | 141→141 | 3→3 | 6 |
+| SW08 | SW08 | 142→142 | 2→2 | 7 |
+| SW09 | SW09 | 146→146 | 3→3 | 7 |
+| SW10 | SW10 | 91→91 | 3→3 | 5 |
+| SW11 | SW11 | 68→68 | 2→2 | 3 |
+| SW12 | SW12 | 82→82 | 1→1 | 5 |
+| SW13 | SW13 | 62→62 | 1→1 | 7 |
+| SW14 | SW14 | 64→64 | 1→1 | 6 |
+| SW15 | SW15 | 151→151 | 1→1 | 7 |
+| SW16 | SW16 | 72→72 | 3→3 | 0 |
+| SW17 | SW17 | 36→36 | 3→3 | 7 |
+| SW18 | SW18 | 49→49 | 1→1 | 4 |
+| SW19 | SW19 | 56→56 | 2→2 | 6 |
+| SW21 | SW21 | 292→292 | 3→3 | 11 |
+
+## 경로
+
+### SW00
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW00.json) · 원본 SHA-256 `d70c951d63876b5b73b1ac13fa3ae7ac029aee991dd4dd5e24bff9267d414292`
+
+**45입력**
+
+```text
+→→→↑↑↑↑→↓←←←←←←→→↓↓→→→→→↑←↑↓↓↓→→→↓→↑↑↑↑↓↓→→→→
+```
+
+### SW01
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW01.json) · 원본 SHA-256 `991a4d30ceefebc048313a456b47d862f9b6547996da907ba5da57e1c074c10d`
+
+**54입력**
+
+```text
+→↑→↑→↑→→→→↓↑←↑↑←←←↑↑←↑↑↑↑→→→→↑↑←←←←←←←←↓←↓←→↑→↑→→→→→→→
+```
+
+### SW02
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW02.json) · 원본 SHA-256 `84cbf5c3729dab45a400513477be55c82748ffd136470c0409bb7563ef4add06`
+
+**77입력**
+
+```text
+→→→→↑↑↑↑←←←←↓↓→→↓↓↑↑→→→→↑↑←←←←←←←←↑↑→→→↓←←↓↓←→→→→→→←↓↓←←↑←←↑↑↑→→→→→→→→→→→→→→→
+```
+
+### SW03
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW03.json) · 원본 SHA-256 `9f5c619191ea542c36b2c7188a49581177060e8d95369cf592ffab52490e5f91`
+
+**47입력**
+
+```text
+→↓↓↓↑↑↑↑←←↑↑→→↑←←→↓↓→↓↓→→↓←←↓↓→→→→→←←←←↑↑→→↑↑→→
+```
+
+### SW04
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW04.json) · 원본 SHA-256 `4402d0830e6587dd14ba7bfd49a2e14f30bd7419c3127db2ba8f32d177a672b2`
+
+**49입력**
+
+```text
+→→→→→→←↓↓↓↓↓↓→→↑↑↑←←↓↓↓→←↑↑↑→→→↓↓↓↓↓→→↑↑↑↑↑↑↑↑↓↓→
+```
+
+### SW05
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW05.json) · 원본 SHA-256 `e167bf22fb3ec3818f5d90ee2c861afb6088969435be84eaab3bed0afedd293e`
+
+**17입력**
+
+```text
+↑→→→←↓↑←←←↓←←←↓←↑
+```
+
+### SW06
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW06.json) · 원본 SHA-256 `5dd2f88ff7f1a018531e96c8ac031d40981ba930000c42afabf91da60ad60b5b`
+
+**31입력**
+
+```text
+→→↑↑←○←↑↑←←↓←←↓→→↓→→→→↑→→→↑←←↑↑↑
+```
+
+### SW07
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW07.json) · 원본 SHA-256 `3847b1237475ca11b4f3484539ac4bb8d667558b906a6801bf3c420062ae5df2`
+
+**40입력**
+
+```text
+←←↓←↑↑↓←←←←↓↓↓←↓→↓↓↓→→←←↓↓↓→→→↑←○→○→→→→←←←
+```
+
+### SW08
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW08.json) · 원본 SHA-256 `b8bb9f33c953cd059baa3b33486b8ef7b712b3293efc1fd52b4f7cc473ed44c0`
+
+**41입력**
+
+```text
+↑←→↓↓↑↑←←↓↑→→↓↓↓↓→→↑↑↑←↑←←↓↓↓↑↑↑→→→→↓↓→↓↓
+```
+
+### SW09
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW09.json) · 원본 SHA-256 `91cda9fc79fae1f7db65eb651f17e3e15995151512899b5a59f60ad991ba9ede`
+
+**63입력**
+
+```text
+←↑↑←←↓↓↓↓←←↓→→→→↓→↓↓↓↓←↓↓↓↑→→→→↓↑→→↓↑←←↑↑←↑↑↑↑→→→→→→→↑→↓↓↓↓↓↓→↓
+```
+
+### SW10
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW10.json) · 원본 SHA-256 `1d7b4fa23e99bd05edeedfa4a1eb686ac9fca4b9e6d33a2c7dbc73c94809ed26`
+
+**45입력**
+
+```text
+→→↑→○↓→→↑↓→↑↑↑↑↑←←↑→←↑←←←↓←↓↓→↑→↓→→↑↑↑↑↑←↑→→→→
+```
+
+### SW11
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW11.json) · 원본 SHA-256 `5e4d52aa6a15e61d992a163512e780b70c26a4be4d565d0a110159ac54f2d8e9`
+
+**30입력**
+
+```text
+↑↑←↓↓←↑↑→↓↓←←←→→↑↑↑↑←←↓↓→→→→→↑
+```
+
+### SW12
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW12.json) · 원본 SHA-256 `a2aa7d9983615b4d9d43aef3b175cdcb5652995b5a769df3a6b12b7a82a914a0`
+
+**31입력**
+
+```text
+←←←←↑←←←↓→↓←↓←←↑↑→↓↓↓↓↓↓↓→→→←←↓
+```
+
+### SW13
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW13.json) · 원본 SHA-256 `73c53be29b9841d1eefe87440abaaa95801415a7ede680dec7d5268433bd6788`
+
+**29입력**
+
+```text
+↓↓←←←←↓↑→→→→←←↓→→→↓↑←←↑←←↓←←↓
+```
+
+### SW14
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW14.json) · 원본 SHA-256 `e511a892cd2f37bd7dae30002b9e85feb447e6bb7aeb5e05eba094fb791d7fb9`
+
+**22입력**
+
+```text
+←←↓→←↑←↓←←↑↑←↓↓↑→→→↑↑↑
+```
+
+### SW15
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW15.json) · 원본 SHA-256 `ce76a35a8e4ed6484a2271a686974415031a2dc2e43a0125e15ee8b0d1503686`
+
+**52입력**
+
+```text
+→↓←↑→↑←↓↓←←↑←←↓→→↑→↑←→→→→↓↓←←←←←←←←↑←↓←←→→↑→→↑←←←←←←
+```
+
+### SW16
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW16.json) · 원본 SHA-256 `bd88e65b76f4a7008dd28cff123356a577fddf36003137c5771bceb4fb34e854`
+
+**35입력**
+
+```text
+↑↓→→↑↑↑←←↓↓↓↓↓↑↑↑←←←←←→→→↑↑↑↑↑↓→→↑↑
+```
+
+### SW17
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW17.json) · 원본 SHA-256 `4851c1ef54086a17902f6191ab2b1b6dcb2772e43859bd6de6f426f2e01be243`
+
+**64입력**
+
+```text
+→↑↑→→→←←↓→→↓←←↑↑↓↓↓↑→→→↑↑↑→→→→↑↑→→↓←←←←←↑←←←←↑↑↑↓↓↓↓↓↓↓↓↓↑↑↑→→→→
+```
+
+### SW18
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW18.json) · 원본 SHA-256 `86c4b2129c69146fb75ec5b7fc9e4bca164f0f7a21256138559bbaa4da2cea6c`
+
+**32입력**
+
+```text
+←←←←↓↓↑↑→→↓←↓←←↑↑↑↑↑→↓↑←←→↓↓↓↓↓←
+```
+
+### SW19
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW19.json) · 원본 SHA-256 `6bbaecb4bdf76cfa23c802ec6102e49f7b5fd704fbaec1e022e2f65ae3ce18b9`
+
+**60입력**
+
+```text
+←↑↑←←←↑←←↓→→→→↑→↓↓↓↓→→↑→↓↑→↓↑←←↑↑↑←↑←←←←↑↑→→↓↓→↓←←←←←←←←←←←←
+```
+
+### SW21
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Starway/SW21.json) · 원본 SHA-256 `eb99650a89b48f6cb56b02e7155e410a0d8591b45607c25950ba16f1c9a704ee`
+
+limit: Additional managed memory budget (4096 MiB) reached before the search was exhaustive.
+
+## 검증 범위
+
+별길 목장은 실제 Unity에서 내보낸 4,200개 상태·21,000개 공개 API 전이를 소스 링크 탐색기와 대조했다. SW02/SW17의 작은 상태 표현은 원래 판정과 추가 200,000개 전이를 비교했고, 두 작은 보드의 완전 BFS와 A* 거리·원본 변경 거부·상한 미확정 처리를 검사했다. 최종 SW02/SW17 탐색은 모든 후속 상태를 원래 SearchStep으로 생성하고 빠른 전이와도 비교하는 authority 모드다.
+
+잔영 극장은 Unity Editor의 실제 PuzzleDeviceSession에서 A*를 실행했다. 책장 등의 통행 제한을 제거하고 카트의 가능한 자동 밀기를 넓게 허용한 하한을 사용하며, 카트 순서는 원래 장치 ID 정렬과 같다. 모든 조사된 실제 전이에 하한의 일관성을 검사했고 셔터는 판정에 필요한 홀짝만 상태 키에 기록한다. 가장 작은 g+h의 클리어 상태를 꺼낸 경우에만 최단으로 확정한다. 상한이나 취소는 경로 없음으로 기록하지 않는다.
+
+두 테마 모두 Unity에서 확정 경로 전체를 공개 판정 API로 다시 실행하여 목표 별·출구·승리·입력 비용을 확인했다. 원본과 .meta GUID, 미저장 상태, 계산에 사용한 엔진 소스 해시를 다시 검사한 뒤 두 경로 카탈로그만 갱신했다. Play Mode에서 모든 맵을 사람이 플레이하거나 모바일 GPU를 검증한 결과는 아니다. 구체적인 EditMode 결과와 실행하지 않은 항목은 [이번 검증 기록](Validation/CanonicalMapPaths/validation_summary.json)을 따른다.
+
+이전 카탈로그는 [별길 목장](Validation/CanonicalMapPaths/PriorCatalogs/StarwayShortestPaths.json)과 [잔영 극장](Validation/CanonicalMapPaths/PriorCatalogs/EchoTheaterShortestPaths.json)에 보관했다. 아래는 당시 배치·규칙의 이력이며 현재 정답은 위 결과를 따른다.
+
+<details>
+<summary>이전 배치와 규칙의 검증 이력</summary>
+
 # 별길 목장 최단 입력 경로
 
 2026-11-08 최신 규칙 9와 현재 사용자 수정 배치 기준으로 **20개 맵의 최단 경로를 모두 확정했다. 도달 불가·미확정은 0개**다. SW06(화면상 7번)은 최단 31입력, SW19(화면상 20번)는 최단 60입력이다. [7번 맵의 최신 경로와 배치](#7번-맵-바닥-보완-후-재탐색)를 따른다. 이전 도달 불가 기록은 수정 전 배치의 이력이다.
@@ -288,3 +584,6 @@ Unity 공개 API로 다시 재생한 뒤 실제 `PuzzlePrototypeController.Reque
 사용자 편집을 저장한 뒤 원본 MapData·메타 40개는 계산·검증 내내 같은 해시를 유지했다. 이 7번 사용자 저장분을 제외한 나머지 39개는 작업 시작 때부터 같았고, SW00의 바이트와 GUID도 보존했다. 다른 19개 최단 경로 기록은 변경하지 않았다. 현재 사용자 수정 배치에서는 **20개 모두 최단 확정**이다. 게임 진행·보상 저장은 호출하지 않았다.
 
 [검증 요약](Validation/StarwaySw06Retry/results.json), [최단 증거](Validation/StarwaySw06Retry/SW06.json), [실제 입력과 무료 바람 재생](Validation/StarwaySw06Retry/animated_replay.json), [사용자 배치 변경](Validation/StarwaySw06Retry/user_layout.json), [저장 상태](Validation/StarwaySw06Retry/saved_editor_state.json), [소스와 입력 출처](Validation/StarwaySw06Retry/provenance.json), [저장 후 보존 해시](Validation/StarwaySw06Retry/preserved_sources.json). 압축 입력과 공개 전이 자료도 같은 폴더에 보관했다.
+
+
+</details>

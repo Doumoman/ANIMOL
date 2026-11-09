@@ -1,4 +1,4 @@
-// Execute this method body through Unity MCP execute_code in Edit Mode.
+// Run with Unity Pipeline eval_file in Edit Mode. Never saves or edits authored maps.
 if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode ||
     ANIMOL.Presentation.Editor.PuzzleShortestPathSolver.Active != null)
     throw new System.Exception("Finish or cancel the editor search before exporting.");
@@ -7,46 +7,55 @@ var fixtures = new System.Collections.Generic.List<object>();
 var random = new System.Random(110782);
 var dirs = new[] { UnityEngine.Vector2Int.up, UnityEngine.Vector2Int.right,
     UnityEngine.Vector2Int.down, UnityEngine.Vector2Int.left };
-foreach (var id in new[] { "SW02", "SW06", "SW09", "SW10", "SW16", "SW17", "SW18", "SW19" })
+var canonical = Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("Docs/Validation/CanonicalMaps/inventory.json"));
+foreach (var entry in canonical["maps"].Where(m => ((string)m["fileId"]).StartsWith("SW")))
 {
-    var map = UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Puzzle.PuzzleMap>(
-        "Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
+    string id = (string)entry["fileId"], path = (string)entry["path"];
+    var map = UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Puzzle.PuzzleMap>(path);
     if (!map || map.ValidateMap().Count != 0 ||
         ANIMOL.Presentation.Editor.PuzzleShortestPathSolver.SourceIsDirty(map) ||
         map.starwayV3Certificate || map.devices.Any(d => d.kind != ANIMOL.Puzzle.DeviceKind.None))
         throw new System.Exception("Invalid or unsupported export: " + id);
-    var decor = new System.Collections.Generic.List<object>();
-    for (int y = 0; y < map.Height; y++) for (int x = 0; x < map.Width; x++)
-        if (map.DecorationAt(new UnityEngine.Vector2Int(x, y))) decor.Add(new { x = x, y = y });
-    maps.Add(new { id = id, assetPath = UnityEditor.AssetDatabase.GetAssetPath(map),
-        sourceSha256 = ANIMOL.Presentation.Editor.PuzzleShortestPathSolver.HashAsset(map), validated = true,
-        width = map.Width, height = map.Height, start = map.start, exit = map.exit,
-        targetBubbles = map.targetBubbles,
-        terrain = map.terrain.Select(t => new { position = t.position, blocked = t.blocked }).ToArray(),
-        decorations = decor, bubbles = map.bubbles, scenario = UnityEngine.JsonUtility.ToJson(map.scenario) });
-    var root = new ANIMOL.Puzzle.PuzzleDeviceSession(map);
-    if (map.scenario.devices.Any(d => d.role == ANIMOL.Puzzle.PrototypeRole.Wind)) root.AdvanceWind();
-    var state = root.Copy(); var rows = new System.Collections.Generic.List<object>();
-    for (int sample = 0; sample < 200; sample++)
+    if (ANIMOL.Presentation.Editor.PuzzleShortestPathSolver.HashAsset(map) != (string)entry["sha256"] ||
+        UnityEditor.AssetDatabase.AssetPathToGUID(path) != (string)entry["guid"])
+        throw new System.Exception("Canonical source changed: " + id);
+    map.BeginReadOnlySearch();
+    try
     {
-        var nexts = new System.Collections.Generic.List<object>();
-        foreach (char action in "NESW.")
+        var decor = new System.Collections.Generic.List<object>();
+        for (int y = 0; y < map.Height; y++) for (int x = 0; x < map.Width; x++)
+            if (map.DecorationAt(new UnityEngine.Vector2Int(x, y))) decor.Add(new { x = x, y = y });
+        maps.Add(new { id = id, assetPath = UnityEditor.AssetDatabase.GetAssetPath(map),
+            sourceSha256 = ANIMOL.Presentation.Editor.PuzzleShortestPathSolver.HashAsset(map), validated = true,
+            width = map.Width, height = map.Height, start = map.start, exit = map.exit,
+            targetBubbles = map.targetBubbles,
+            terrain = map.terrain.Select(t => new { position = t.position, blocked = t.blocked }).ToArray(),
+            decorations = decor, bubbles = map.bubbles, scenario = UnityEngine.JsonUtility.ToJson(map.scenario) });
+        var root = new ANIMOL.Puzzle.PuzzleDeviceSession(map);
+        if (map.scenario.devices.Any(d => d.role == ANIMOL.Puzzle.PrototypeRole.Wind)) root.AdvanceWind();
+        var state = root.Copy(); var rows = new System.Collections.Generic.List<object>();
+        for (int sample = 0; sample < 200; sample++)
         {
-            var child = state.Copy();
-            bool accepted = action == '.' ? child.AdvanceWind().accepted : child.Apply(dirs["NESW".IndexOf(action)]).accepted;
-            nexts.Add(new { action = action.ToString(), accepted = accepted, key = child.SearchStateKey(),
-                cost = child.Cost, won = child.Won, failed = child.Failed });
+            var nexts = new System.Collections.Generic.List<object>();
+            foreach (char action in "NESW.")
+            {
+                var child = state.Copy();
+                bool accepted = action == '.' ? child.AdvanceWind().accepted : child.Apply(dirs["NESW".IndexOf(action)]).accepted;
+                nexts.Add(new { action = action.ToString(), accepted = accepted, key = child.SearchStateKey(),
+                    cost = child.Cost, won = child.Won, failed = child.Failed });
+            }
+            char chosen = "NESW."[random.Next(5)]; var moved = state.Copy();
+            if (chosen == '.') moved.AdvanceWind(); else moved.Apply(dirs["NESW".IndexOf(chosen)]);
+            bool reset = moved.Won || moved.Failed;
+            rows.Add(new { key = state.SearchStateKey(), cost = state.Cost, successors = nexts,
+                nextAction = chosen.ToString(), resetAfter = reset });
+            state = reset ? root.Copy() : moved;
         }
-        char chosen = "NESW."[random.Next(5)]; var moved = state.Copy();
-        if (chosen == '.') moved.AdvanceWind(); else moved.Apply(dirs["NESW".IndexOf(chosen)]);
-        bool reset = moved.Won || moved.Failed;
-        rows.Add(new { key = state.SearchStateKey(), cost = state.Cost, successors = nexts,
-            nextAction = chosen.ToString(), resetAfter = reset });
-        state = reset ? root.Copy() : moved;
+        fixtures.Add(new { id = id, rows = rows });
     }
-    fixtures.Add(new { id = id, rows = rows });
+    finally { map.EndReadOnlySearch(); }
 }
-System.IO.Directory.CreateDirectory("Temp");
-System.IO.File.WriteAllText("Temp/exact_search_export.json", Newtonsoft.Json.JsonConvert.SerializeObject(maps));
-System.IO.File.WriteAllText("Temp/exact_search_fixtures.json", Newtonsoft.Json.JsonConvert.SerializeObject(fixtures));
+System.IO.Directory.CreateDirectory("Docs/Validation/CanonicalMapPaths/Starway");
+System.IO.File.WriteAllText("Docs/Validation/CanonicalMapPaths/Starway/input.json", Newtonsoft.Json.JsonConvert.SerializeObject(maps));
+System.IO.File.WriteAllText("Docs/Validation/CanonicalMapPaths/Starway/fixtures.json", Newtonsoft.Json.JsonConvert.SerializeObject(fixtures));
 return new { exported = maps.Count, states = fixtures.Count * 200, edges = fixtures.Count * 200 * 5 };

@@ -15,9 +15,9 @@ using Object = UnityEngine.Object;
 // Every edge uses the actual PuzzleDeviceSession. The supported boards have no wind.
 public static class EchoTheaterShortestPaths
 {
-    const string Output = "Docs/Validation/EchoTheaterShortestPaths";
+    const string Output = "Docs/Validation/CanonicalMapPaths/Echo";
     static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
-    static readonly string[] Ids = { "ET-00", "ET-01", "ET-03", "ET-04", "ET-05" };
+    static readonly string[] Ids = { "ET-00", "ET-01", "ET-02", "ET-03", "ET-04", "ET-05", "ET-07", "ET-08", "ET-09", "ET-10", "ET-11" };
     static Job current;
     static readonly Queue<string> pending = new Queue<string>();
     static string Hash(byte[] bytes) { using (var hash = SHA256.Create()) return BitConverter.ToString(hash.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant(); }
@@ -52,7 +52,7 @@ public static class EchoTheaterShortestPaths
         public static RelaxedBound Create(PuzzleMap map)
         {
             var allowed = new[] { PrototypeRole.Shutter, PrototypeRole.MovingStage, PrototypeRole.Domino,
-                PrototypeRole.Glass, PrototypeRole.Dice, PrototypeRole.CowardDoll, PrototypeRole.Statue };
+                PrototypeRole.Glass, PrototypeRole.Dice, PrototypeRole.CowardDoll, PrototypeRole.Statue, PrototypeRole.Bookshelf };
             return map.scenario.devices.Any(d => !allowed.Contains(d.role)) || map.devices.Count > 0 || map.bubbles.Distinct().Count() > 10
                 ? null : new RelaxedBound(map);
         }
@@ -63,7 +63,7 @@ public static class EchoTheaterShortestPaths
             count = floor.Length; bubbles = map.bubbles.Distinct().ToArray();
             int masks = 1 << bubbles.Length;
             var bits = floor.Select(p => { int b = Array.IndexOf(bubbles, p); return b < 0 ? 0 : 1 << b; }).ToArray();
-            var tracks = map.scenario.devices.Where(d => d.role == PrototypeRole.MovingStage)
+            var tracks = map.scenario.devices.Where(d => d.role == PrototypeRole.MovingStage).OrderBy(d => d.id, StringComparer.Ordinal)
                 .Select(d => new HashSet<Vector2Int>(map.scenario.RailCellsFor(d))).ToArray();
             var reverse = Enumerable.Range(0, count * masks).Select(_ => new List<int>()).ToArray();
             for (int mask = 0; mask < masks; mask++) for (int start = 0; start < count; start++)
@@ -142,6 +142,11 @@ public static class EchoTheaterShortestPaths
                 throw new InvalidOperationException("Unit-cost theater BFS does not accept free wind edges.");
             sourceDirty = EditorUtility.IsDirty(source); scenarioDirty = EditorUtility.IsDirty(source.scenario);
             assetHash = Hash(File.ReadAllBytes(path));
+            var canonical = JObject.Parse(File.ReadAllText("Docs/Validation/CanonicalMaps/inventory.json"))["maps"]
+                .Single(m => (string)m["path"] == path);
+            if (sourceDirty || scenarioDirty || assetHash != (string)canonical["sha256"] ||
+                AssetDatabase.AssetPathToGUID(path) != (string)canonical["guid"])
+                throw new InvalidOperationException("Canonical source changed: " + id);
             mapJson = JsonUtility.ToJson(source); scenarioJson = JsonUtility.ToJson(source.scenario);
             snapshot = Snapshot(source); snapshotHash = HashText(snapshot.ToString(Newtonsoft.Json.Formatting.None));
             File.WriteAllText(Output + "/" + id + "_input.json", snapshot.ToString(), new System.Text.UTF8Encoding(false));
@@ -207,7 +212,7 @@ public static class EchoTheaterShortestPaths
         Directory.CreateDirectory(Output);
         foreach (string id in Ids) pending.Enqueue(id);
         EditorApplication.update += Tick;
-        return new { queued = Ids, excluded = "ET-02 native asset is absent; the ET-02 display stage maps to ET-00", output = Output };
+        return new { queued = Ids, excluded = "ET-06 remains absent; ET-12 and later are outside the authored scope", output = Output };
     }
     public static object Status() => new { active = current?.id, expanded = current?.expanded,
         visited = current?.seen.Count, frontier = current?.queue.Count, depth = current?.depth,

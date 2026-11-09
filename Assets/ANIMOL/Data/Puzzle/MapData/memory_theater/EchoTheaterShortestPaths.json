@@ -1,110 +1,240 @@
 {
-  "formatVersion": 1,
-  "scope": "Native ET-00, ET-01, ET-03, ET-04 and ET-05; display ET-02 uses native ET-00",
-  "costModel": "One accepted directional input costs 1, including stationary actions; no wind on these maps",
-  "engineSourceHashes": {
-    "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSession.cs": "c8d39f4c070b25dafa9cccd98f8bd2d3d294230808264a824cdbf55abfba0745",
-    "Assets/ANIMOL/Scripts/Runtime/PuzzleScenario.cs": "be320bb9b58eece5f1aa4adcfac63ae19f7a365614ccca64fc7f27d59f66b425",
-    "Assets/ANIMOL/Scripts/Runtime/PuzzleDeviceSearchSnapshot.cs": "89059e10e81a68e223b296b505104dbe5ac5c2c45b2bba20918532c703610397",
-    "Assets/ANIMOL/Scripts/Runtime/OneCellGateRules.cs": "4b7433a49aa21d5cd2d527892659440792296b56ec22c41a39f52d3bc2f199be",
-    "Tools/Puzzle/EchoTheaterShortestPaths.cs": "71e545d28443c9c9588ff4b270a7b08894a722fe1cf7ba17403826e83dda7e90"
-  },
-  "validation": "Docs/Validation/EchoTheaterShortestPaths/final_replay.json",
+  "formatVersion": 2,
+  "canonicalCommit": "a2f825e09",
+  "scope": "Current authored Echo files through ET-11; ET-06 absent",
+  "costModel": "One accepted directional input costs 1, including stationary actions",
+  "validation": "Docs/Validation/CanonicalMapPaths/native_replay.json",
   "maps": [
     {
       "mapId": "ET-00",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-00_MapData.asset",
+      "mapGuid": "6601e99564134a54e883e10cf2b9a984",
+      "mapSha256": "b6ea624e638223cb17b7ab6501a338281c5afd185e8d865d049fbeaf9a4b9264",
+      "solverVersion": 9,
       "displayStageIds": [
         "ET-02"
       ],
-      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-00_MapData.asset",
-      "mapSha256": "b6ea624e638223cb17b7ab6501a338281c5afd185e8d865d049fbeaf9a4b9264",
-      "snapshotSha256": "e8ec06221dcc51a652ac3cc8c61909cfab4634064480959e82558b0592468448",
-      "sourceWasUnsaved": false,
       "status": "solved",
       "distance": 31,
       "route": "→→↑→→↓→↑↑↑↑↓↓↓→→↑→→→↑↓↓→→↑↑↓↓→→",
-      "routeNESW": "EENEESENNNNSSSEENEEENSSEENNSSEE",
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 43,
       "visited": 64,
-      "elapsedSeconds": 0.1251585,
-      "evidence": "Docs/Validation/EchoTheaterShortestPaths/ET-00.json"
+      "elapsedSeconds": 0.10597859999999999,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-00.json",
+      "routeNESW": "EENEESENNNNSSSEENEEENSSEENNSSEE",
+      "snapshotSha256": "eaffc255c7768fed600af9583184faf37ca9cafba992f55139e27da9ea89039f"
     },
     {
       "mapId": "ET-01",
-      "displayStageIds": [
-        "ET-01"
-      ],
       "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-01_MapData.asset",
-      "mapSha256": "0b6bd50a00032616304ddded96515e4b0059f0cdf5bb14bbf23d92897013d99c",
-      "snapshotSha256": "26d0cd1ec0a8e471f4a5288f0743b8a04637375afe5829d32c56c0baa5deb92b",
-      "sourceWasUnsaved": false,
+      "mapGuid": "e81314de80f37ed46a19b19c2f64450b",
+      "mapSha256": "339d720cfd7d60cd37ba518e434cad61482bbc8f8f84afdaa2b020403bc92a6c",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-06"
+      ],
       "status": "solved",
-      "distance": 42,
-      "route": "→↑→→↓→↓↓←↑←←↓←↓↓→←←←↑↑↑→→→→↑↓↓↓→↓→→→→←↑↑↑↑",
-      "routeNESW": "ENEESESSWNWWSWSSEWWWNNNEEEENSSSESEEEEWNNNN",
+      "distance": 19,
+      "route": "←←↓←→→↓→→→→↑↓↓←↑→→→",
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
-      "expanded": 187300,
-      "visited": 252714,
-      "elapsedSeconds": 89.6076434,
-      "evidence": "Docs/Validation/EchoTheaterShortestPaths/ET-01.json"
+      "expanded": 36,
+      "visited": 52,
+      "elapsedSeconds": 0.030038699999999998,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-01.json",
+      "routeNESW": "WWSWEESEEEENSSWNEEE",
+      "snapshotSha256": "735ca48307ecbdc82b85a020539b4dfc6e783e346e6357ff1c97692505ff4c26"
+    },
+    {
+      "mapId": "ET-02",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-02_MapData.asset",
+      "mapGuid": "5ed1817f7a173074a8e8cca7d80d483f",
+      "mapSha256": "8de33d72ef5b43f7bfcbf0333b41022fb4af882504cef594130e6c00a6e19c42",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-07"
+      ],
+      "status": "solved",
+      "distance": 29,
+      "route": "→→→↑↑↑←←↓←←↑↓↓↑→→↑→→→→↓↓↑↑←↑↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 2350,
+      "visited": 3167,
+      "elapsedSeconds": 0.6604913,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-02.json",
+      "routeNESW": "EEENNNWWSWWNSSNEENEEEESSNNWNN",
+      "snapshotSha256": "cb491d23487946f068dcdedf684188a2316033a86968732bf6a54e1d79b6108c"
     },
     {
       "mapId": "ET-03",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-03_MapData.asset",
+      "mapGuid": "aad707e63dd3ea14685ec1067d63560e",
+      "mapSha256": "4be33c69e120a690733dba2f47ec5d765e9e3e063926bc25a94accdf5edff590",
+      "solverVersion": 9,
       "displayStageIds": [
         "ET-03"
       ],
-      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-03_MapData.asset",
-      "mapSha256": "4be33c69e120a690733dba2f47ec5d765e9e3e063926bc25a94accdf5edff590",
-      "snapshotSha256": "a3ba43199138c771b94ff0e170dbbbaac1a727ec28439df7adefe5876ddf5fbc",
-      "sourceWasUnsaved": false,
       "status": "solved",
       "distance": 49,
       "route": "→→↓↑→↓←↑↑→↑←↑↓←↓↓↓←↓↓→→→→→↓→↑↑↑↓←↑→↑↑↑←↑→↑→↓→→↑↑↑",
-      "routeNESW": "EESNESWNNENWNSWSSSWSSEEEEESENNNSWNENNNWNENESEENNN",
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 43166,
       "visited": 48761,
-      "elapsedSeconds": 12.1928226,
-      "evidence": "Docs/Validation/EchoTheaterShortestPaths/ET-03.json"
+      "elapsedSeconds": 10.7802968,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-03.json",
+      "routeNESW": "EESNESWNNENWNSWSSSWSSEEEEESENNNSWNENNNWNENESEENNN",
+      "snapshotSha256": "78d03e8fae899c8ce651bc829d2e4c3a72496fdee46659da5dc3725b5c545390"
     },
     {
       "mapId": "ET-04",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset",
+      "mapGuid": "f3e1eee51aa814c4ba0b1e135127c805",
+      "mapSha256": "744ddcb7f4bed20df6fa3b54f29e20178ec79197cdfb033e1e9aa8a1c5b868e0",
+      "solverVersion": 9,
       "displayStageIds": [
         "ET-04"
       ],
-      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-04_MapData.asset",
-      "mapSha256": "744ddcb7f4bed20df6fa3b54f29e20178ec79197cdfb033e1e9aa8a1c5b868e0",
-      "snapshotSha256": "6beaa995b54caefcb866d10f9c4037087116b9db000a0c019afa5db9ff63161f",
-      "sourceWasUnsaved": false,
       "status": "solved",
       "distance": 33,
       "route": "↑→↑→→↑↑↑↑↑←↓↓←←↓↑→→→↓↓↑→→↑←←→→↑↑→",
-      "routeNESW": "NENEENNNNNWSSWWSNEEESSNEENWWEENNE",
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 24469,
       "visited": 37414,
-      "elapsedSeconds": 8.4333407,
-      "evidence": "Docs/Validation/EchoTheaterShortestPaths/ET-04.json"
+      "elapsedSeconds": 7.0367976,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-04.json",
+      "routeNESW": "NENEENNNNNWSSWWSNEEESSNEENWWEENNE",
+      "snapshotSha256": "1e011fa202cc7adf408463ad92ad4de935ad229c5da68a79e9bb11800d14b3a0"
     },
     {
       "mapId": "ET-05",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset",
+      "mapGuid": "5aa37fa6208cc9c4bb477000259ccf27",
+      "mapSha256": "60f35d7ba497f31b0d081c6da01e3bdc9f22158d1553126d7e603fca8e216c63",
+      "solverVersion": 9,
       "displayStageIds": [
         "ET-05"
       ],
-      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset",
-      "mapSha256": "60f35d7ba497f31b0d081c6da01e3bdc9f22158d1553126d7e603fca8e216c63",
-      "snapshotSha256": "b549d05d9feb4b377d39eabc77aeb5b43a9d391af7e68a13818f74c627707191",
-      "sourceWasUnsaved": true,
       "status": "solved",
       "distance": 26,
       "route": "→→→↑←←↓←↑↑→↑↑↓↓→→↑↑↑↑↑↑↓→→",
-      "routeNESW": "EEENWWSWNNENNSSEENNNNNNSEE",
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 1929,
       "visited": 3081,
-      "elapsedSeconds": 0.91397,
-      "evidence": "Docs/Validation/EchoTheaterShortestPaths/ET-05.json"
+      "elapsedSeconds": 1.0524430999999999,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-05.json",
+      "routeNESW": "EEENWWSWNNENNSSEENNNNNNSEE",
+      "snapshotSha256": "a4821d878d612d3528a96464b4c8be91e3f2d7faf5919ee1f2f3f825530d97de"
+    },
+    {
+      "mapId": "ET-07",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-07_MapData.asset",
+      "mapGuid": "25e765df3e9063142b02a93265d7b7db",
+      "mapSha256": "ffaca9eca2ce08572d1695cc3c9d50e457146379548633e1781f3d962d3228a4",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-01"
+      ],
+      "status": "solved",
+      "distance": 42,
+      "route": "→↑→→↓→↓↓←↑←←↓←↓↓→←←←↑↑↑→→→→↑↓↓↓→↓→→→→←↑↑↑↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 187300,
+      "visited": 252714,
+      "elapsedSeconds": 99.53342649999999,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-07.json",
+      "routeNESW": "ENEESESSWNWWSWSSEWWWNNNEEEENSSSESEEEEWNNNN",
+      "snapshotSha256": "e9ab1491d67f1542ae40cf33ef859bbca8c61090bb62f86b87f62ca5661e8fd3"
+    },
+    {
+      "mapId": "ET-08",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-08_MapData.asset",
+      "mapGuid": "77b7244d7678aa44f8fb336893d4c52b",
+      "mapSha256": "499eb71bae8acd26eb866156047052e82ae4a1f09966d015a1a1c105007fe2dd",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-08"
+      ],
+      "status": "solved",
+      "distance": 43,
+      "route": "←↑↑→→↓→→↑↑↑←←←→→↑↑↓→←←←↓↑→↓↓↓←←↓↑→→→→↑↑→→→↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 1051,
+      "visited": 1191,
+      "elapsedSeconds": 0.60162339999999992,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-08.json",
+      "routeNESW": "WNNEESEENNNWWWEENNSEWWWSNESSSWWSNEEEENNEEEN",
+      "snapshotSha256": "e9b2337c903a450dc4e3df375dc22ddacf1af70ea3abccd82cb5869d9467f083"
+    },
+    {
+      "mapId": "ET-09",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-09_MapData.asset",
+      "mapGuid": "e58c472009e967441bc86e611db4e328",
+      "mapSha256": "de694d5d59dfda9101c656b1553830fc6044dedc1cacc3d0e43c83ddc212a7c1",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-09"
+      ],
+      "status": "solved",
+      "distance": 40,
+      "route": "↑→→→↓↓←↓←↑↑←←↑↑↓↓→↓↓←→→→→↑↑→↑↑↑←↑↑→↓→→↑↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 295570,
+      "visited": 400205,
+      "elapsedSeconds": 174.6655966,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-09.json",
+      "routeNESW": "NEEESSWSWNNWWNNSSESSWEEEENNENNNWNNESEENN",
+      "snapshotSha256": "dcd6c9d16ac69d9b25f55e482015ac75cecb90ccd248da150cdbd1861bf072a2"
+    },
+    {
+      "mapId": "ET-10",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-10_MapData.asset",
+      "mapGuid": "58d6e52589ee6ad4abc9027e727e81a6",
+      "mapSha256": "15d26f9e35896a54bbc9582d0727814d1f9da6ab9d5c830f4c5b5de98ff8c63d",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-10"
+      ],
+      "status": "solved",
+      "distance": 43,
+      "route": "↑↑→→↑↓↑→↑←→→→↓↑→↓→↑↓→↑↑↑←↓↓←←←↑→→↓→↑↑→↑←←←↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 454442,
+      "visited": 604257,
+      "elapsedSeconds": 234.3810962,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-10.json",
+      "routeNESW": "NNEENSNENWEEESNESENSENNNWSSWWWNEESENNENWWWN",
+      "snapshotSha256": "f4f80381b70a5e4fbdb6bb6db58f4326901f812df6684f477d6489228bdd5679"
+    },
+    {
+      "mapId": "ET-11",
+      "mapAsset": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-11_MapData.asset",
+      "mapGuid": "ea23fbf1d4e3bfa4080742a9ce53b880",
+      "mapSha256": "b5d73b6263108ad0e04261d66df509c641179bf72c82251e5834f4c1ff5fde98",
+      "solverVersion": 9,
+      "displayStageIds": [
+        "ET-11"
+      ],
+      "status": "solved",
+      "distance": 33,
+      "route": "←↑↑↑→↑↑←←↑←←→↓↓←→↑↑↑↑↑→→↓↓→↓→→↑→↑",
+      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+      "expanded": 1720,
+      "visited": 2191,
+      "elapsedSeconds": 0.58813549999999992,
+      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-11.json",
+      "routeNESW": "WNNNENNWWNWWESSWENNNNNEESSESEENEN",
+      "snapshotSha256": "6f207ecbe23243b9f1977930308be1f3a3503b2ae1a944a984aa6c45dd571e79"
     }
   ]
 }

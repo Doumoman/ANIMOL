@@ -2,25 +2,40 @@
 
 기본 경로는 Unity의 `PuzzleDeviceSession`, 상태 체크포인트, 장치 규칙, 하한, A* / 0-1 BFS 소스를 링크하는 .NET 10 콘솔 도구다. 제한된 목장 규칙에는 별도의 작은 상태 표현과 빠른 전이 구현도 제공한다. 최종 증거에는 모든 후속 상태를 원래 판정 코드로 생성하는 `authority` 모드를 사용할 수 있다. Unity Editor와 실제 게임 진행·저장은 별개로 유지한다.
 
-`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
+`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate / Brake이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
 
-## 현재 규칙과 재탐색
+## 이전 계산 이력 (2026-11-08)
 
 규칙 9에서는 양·상자의 반사각 안쪽 진입을 허용하고, 플레이어는 안쪽 진입 뒤 반사 방향으로 자동 이동한다. 플레이어의 바깥면 진입·이탈은 차단한다. 반사 이동과 바람은 추가 입력 비용을 쓰지 않는다.
 
 현재 사용자 수정 배치의 SW06(화면상 7번)은 **최단 31입력**, SW19(화면상 20번)는 **최단 60입력**이다. SW06은 (3,5) 바닥 추가와 (2,6) 바닥 제거를 반영한 소스 `5dd2f88f…`로 다시 내보내 검증했다. 두 맵 모두 실제 컨트롤러의 예약 입력과 애니메이션으로 잔여 0 클리어를 확인했다. [7번 최신 경로와 증거](../../../Docs/STARWAY_SHORTEST_PATHS.md#7번-맵-바닥-보완-후-재탐색)를 따른다. 이전 SW06 도달 불가와 아래 규칙 5·6의 결과는 수정 전 배치·판정의 이력이다. 사용자 맵 수정분은 계산 결과 커밋에 포함하지 않고 별도로 보존한다.
 
-## 실행
+## 2026-11-10 정본과 실행
 
-작업 폴더는 저장소 루트다. Unity Edit Mode에서 `Export.cs.txt`의 본문을 Unity MCP `execute_code`로 실행한다. 원본을 저장하거나 수정하지 않으며, 현재 맵 검증·미저장 변경 검사 후 `Temp/exact_search_export.json`과 8개 맵의 공개 API 전이 8,000개가 담긴 `Temp/exact_search_fixtures.json`을 만든다.
+맵 원본 커밋 `a2f825e09`를 먼저 만든 뒤 다시 계산한다. 이번 입력은 `Docs/Validation/CanonicalMaps/inventory.json`의 별길 목장 21개 파일이며, 파일 ID·GUID·SHA-256이 모두 일치해야 내보낸다. SW20은 없고 SW21이 별도로 존재한다. 현재 SW03/SW05의 GUID 교환과 새 SW05 배치를 원본 그대로 따른다. 실제 노트북 화면은 이름으로 찾는 SW00~SW19의 20개 맵을 사용한다.
+
+Unity Edit Mode에서 본문을 임시 `.cs`에 복사한 후 실행한다. MapData와 `verificationRoute`를 저장하거나 수정하지 않는다. 각 맵 200개 표본 상태와 네 방향/무료 바람의 공개 API 전이 21,000개를 내보낸다.
 
 ```powershell
-dotnet build Tools/Puzzle/ExactSearch/ExactPuzzleSearch.csproj -c Release -o Temp/ExactSearchBuild
-dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json verify Temp/exact_search_fixtures.json Temp/exact_search_verified.json
-dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json SW02 Temp/exact_SW02.json 8000000 Temp/exact_search_verified.json
+Copy-Item Tools/Puzzle/ExactSearch/Export.cs.txt Temp/CanonicalExport.cs
+unity command eval_file --file Temp/CanonicalExport.cs --format json
+
+dotnet build Tools/Puzzle/ExactSearch/ExactPuzzleSearch.csproj -c Release -o Temp/CanonicalSearchBuild
+
+dotnet Temp/CanonicalSearchBuild/ExactPuzzleSearch.dll Docs/Validation/CanonicalMapPaths/Starway/input.json verify Docs/Validation/CanonicalMapPaths/Starway/fixtures.json Docs/Validation/CanonicalMapPaths/Starway/verification.json
+
+dotnet Temp/CanonicalSearchBuild/ExactPuzzleSearch.dll Docs/Validation/CanonicalMapPaths/Starway/input.json SW05 Temp/SW05.json 5000000 Docs/Validation/CanonicalMapPaths/Starway/verification.json 2048
 ```
 
+문은 진입 후 추가 입력 없이 한 칸 더 이동하므로 완화 그래프에서도 문 원점의 모든 방향을 무료로 허용한다. 브레이크는 강제 이동을 멈추므로 완화 그래프에서 통행 제한을 제거한다. 두 장치를 포함해도 실제 이동은 원래 판정 코드만 사용한다.
+
+잔영 극장은 `Tools/Puzzle/EchoTheaterShortestPaths.cs`를 `run_script`의 `EchoTheaterShortestPaths.Start`로 실행한다. ET-11까지 현존하는 11개 파일만 선택하며 삭제된 ET-06이나 ET-12 이후 맵을 생성·변경하지 않는다. 책장은 통행을 제한하는 장치이므로 하한 계산에서 제거할 수 있다. 카트 완화 전이는 실제 장치의 ID 정렬 순서를 따른다.
+
+모든 결과가 준비되면 `Tools/Puzzle/ImportCanonicalMapPaths.cs`의 `ImportCanonicalMapPaths.Import`를 실행한다. 두 카탈로그를 쓰기 전에 모든 정본 GUID·원본 해시·컴파일 소스 해시를 검사하고, 확정 경로 전체를 Unity의 실제 `ReplayRuntimeInput`/`Apply`/`AdvanceWind`로 재생한다. 이전 카탈로그는 `Docs/Validation/CanonicalMapPaths/PriorCatalogs/`에 보관한다. 미확정 결과는 미확정 상태로만 기록한다. 이 도구는 SW21도 별도 증거로 수록하며 화면 스테이지나 클리어 키를 추가하지 않는다.
+
 검증과 탐색은 같은 빌드·입력을 사용해야 한다. 검색 시작 전 검증 보고서의 입력·소스 해시를 대조한다. 비교 항목은 현재 상태 키와 비용, 네 방향 및 무료 바람의 수락·결과 키·비용·승리·실패다. 탐색 결과에는 컴파일 당시 포함한 17개 C# 소스의 SHA-256, 입력 및 검증 보고서 해시를 남긴다. 출력 경로는 ↑ → ↓ ←이며 ○는 무료 바람 대기다. 기본 검색의 방문 키에는 무손실 문자열 압축을 적용한다.
+
+커밋한 전이 증거는 `Starway/fixtures.json.gz`로 압축 보관한다. 기존 증거를 재검증하려면 같은 폴더의 `fixtures.json`으로 풀어 위 `verify`에 전달한다. 풀어서 얻은 바이트의 SHA-256은 검증 보고서의 `fixtureSha256`과 같아야 한다.
 
 상태 상한은 검증 보고서 앞의 인수다. 추가 관리 메모리 예산은 기본 3,072 MiB이며, 마지막에 선택적으로 MiB 값을 붙여 조절할 수 있다. 실제 적용한 두 상한도 결과에 남긴다. `limit`과 `cancelled`는 미확정이다. `unreachable`은 대기열 소진일 때만 나오며 `solved`는 A* / 0-1 BFS 순서로 클리어를 꺼냈을 때만 나온다. 여러 프로세스를 실행하면 총 메모리 예산도 그만큼 늘어나므로 실제 사용량을 확인한다.
 
@@ -48,6 +63,6 @@ dotnet Temp/ExactSearchBuild/ExactPuzzleSearch.dll Temp/exact_search_export.json
 
 ## Unity로 결과 반영
 
-콘솔은 `StarwayShortestPaths.json`을 자동 수정하지 않는다. 반영할 결과의 맵 SHA-256과 현재 판정·하한·탐색 소스를 확인하고, Unity의 `PuzzleShortestPathRecord.Save`에 `Result`를 전달한다. 이 메서드가 맵 미저장 변경·원본 해시를 검사하며, 성공 경로는 공개 `Apply` / `AdvanceWind`로 다시 재생하여 클리어와 비용을 확인한다. 기존 확정 결과를 미확정 결과로 교체하지 않는다. 계속 입력이나 실제 플레이어 저장 플래그와 연결하지 않는다.
+콘솔은 `StarwayShortestPaths.json`을 자동 수정하지 않는다. 반영할 결과의 맵 SHA-256과 현재 판정·하한·탐색 소스를 확인하고, SW00~SW19의 개별 에디터 기록은 Unity의 `PuzzleShortestPathRecord.Save`에 `Result`를 전달한다. 이번 21개 정본 전체 갱신에는 위의 검증된 Import 도구를 사용한다. 이 메서드가 맵 미저장 변경·원본 해시를 검사하며, 성공 경로는 공개 `Apply` / `AdvanceWind`로 다시 재생하여 클리어와 비용을 확인한다. 기존 확정 결과를 미확정 결과로 교체하지 않는다. 계속 입력이나 실제 플레이어 저장 플래그와 연결하지 않는다.
 
 원본 맵·`.meta`·작성된 `verificationRoute`는 보존한다. 계산 도중 맵·규칙이 바뀌면 새로 내보내고 검증·탐색을 다시 실행한다.

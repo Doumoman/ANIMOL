@@ -15,6 +15,7 @@ namespace ANIMOL.Tests
             "Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
         static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
 
+        [TestCase("SW00")] [TestCase("SW01")] [TestCase("SW08")]
         [TestCase("SW02")] [TestCase("SW16")] [TestCase("SW17")] [TestCase("SW18")]
         public void BoundIsConsistentAcrossActualPushFollowAndCollectionTransitions(string id)
         {
@@ -36,7 +37,7 @@ namespace ANIMOL.Tests
             }
         }
 
-        [TestCase("SW09")] [TestCase("SW10")] [TestCase("SW19")]
+        [TestCase("SW09")] [TestCase("SW10")] [TestCase("SW19")] [TestCase("SW21")]
         public void BoundAlsoRespectsFreeWindAndQueuedInputs(string id)
         {
             var map = Load(id); var bound = PuzzleSearchLowerBound.TryCreate(map);
@@ -69,6 +70,29 @@ namespace ANIMOL.Tests
                 Assert.That(PuzzleSearchLowerBound.TryCreate(map), Is.Null);
             }
             finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
+        }
+
+        [Test] public void CrossingAGateIncludesItsAutomaticExitInOneInput()
+        {
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            try
+            {
+                map.theme = Load("SW00").theme; map.scenario = rules; rules.themeId = "starway";
+                map.start = Vector2Int.zero; map.exit = new Vector2Int(3, 0); map.targetBubbles = 0;
+                for (int x = 0; x < 4; x++) map.terrain.Add(new TerrainCell(new Vector2Int(x, 0), TerrainMaterial.Grass));
+                rules.devices.Add(new PrototypeDevice { id = "gate", role = PrototypeRole.OneWayGate,
+                    position = Vector2Int.right, direction = Vector2Int.right });
+                var bound = PuzzleSearchLowerBound.TryCreate(map);
+                var state = new PuzzleDeviceSession(map);
+                Assert.That(bound, Is.Not.Null);
+                Assert.That(bound.Estimate(state), Is.EqualTo(2));
+                Assert.That(state.Apply(Vector2Int.right).accepted, Is.True);
+                Assert.That(state.Cell, Is.EqualTo(new Vector2Int(2, 0)));
+                Assert.That(state.Cost, Is.EqualTo(1));
+                Assert.That(bound.Estimate(state), Is.EqualTo(1));
+            }
+            finally { Object.DestroyImmediate(rules); Object.DestroyImmediate(map); }
         }
 
         [Test] public void AManualSideStepAcrossAPotentialWindRayStillCostsOne()

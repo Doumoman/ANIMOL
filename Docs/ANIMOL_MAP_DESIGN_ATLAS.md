@@ -1,5 +1,7 @@
 # ANIMOL 맵별 제작 참고표
 
+> 2026-11-10 정본 갱신: 아래 25개 맵 분석과 기존 LLM ZIP/JSON은 이전 배치의 참고 자료다. 현재 SW03/SW05 이름 이동·새 SW05 배치·ET-11까지의 현존 맵은 [최신 배치 보고서](ANIMOL_MAP_LAYOUT_REPORT.md), [별길 목장 최단 경로](STARWAY_SHORTEST_PATHS.md), [잔영 극장 최단 경로](ECHO_THEATER_SHORTEST_PATHS.md)를 우선한다. 가중치는 제작 제안이며 실제 입력 비용을 바꾸지 않는다.
+
 현재 배치와 선택한 최단 경로의 행동을 함께 비교한다. 패턴 ID와 제안 가중치의 뜻은 [제작 가이드](ANIMOL_LLM_MAP_DESIGN_GUIDE.md)를 따른다. 전체 좌표·장치 설정·정답은 [참고 JSON](ANIMOL_LLM_MAP_REFERENCE.json), 입력별 상태 변화는 [재생 JSON](Validation/MapDesign/route_analysis.json)에 있다.
 
 L은 게임 입력 비용, W0는 제안 계수로 계산한 기본 조작량 점수다. W0에는 사고 부담 수정치를 자동으로 붙이지 않았다. 정적 바닥 수는 장식 점유를 제외하며, 원래 배치 보고서의 지형 바닥 수는 장식 아래의 지형도 포함한다. 정적 영역과 막다른 길은 동적 통행 판정과 다르다.

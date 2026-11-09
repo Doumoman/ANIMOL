@@ -1,5 +1,7 @@
 # ANIMOL 새 맵 제작 요청문
 
+> 2026-11-10 정본 갱신: 아래 25개 맵 분석과 기존 LLM ZIP/JSON은 이전 배치의 참고 자료다. 현재 SW03/SW05 이름 이동·새 SW05 배치·ET-11까지의 현존 맵은 [최신 배치 보고서](ANIMOL_MAP_LAYOUT_REPORT.md), [별길 목장 최단 경로](STARWAY_SHORTEST_PATHS.md), [잔영 극장 최단 경로](ECHO_THEATER_SHORTEST_PATHS.md)를 우선한다. 가중치는 제작 제안이며 실제 입력 비용을 바꾸지 않는다.
+
 아래 요청문을 복사하고 첫 줄의 제작 조건을 바꿔 사용한다. 함께 전달할 파일은 `ANIMOL_LLM_MAP_DESIGN_GUIDE.md`, `ANIMOL_LLM_MAP_REFERENCE.json`, `ANIMOL_MAP_DESIGN_ATLAS.md`, `ANIMOL_DEVICE_RULES_CURRENT.md`다. 자료 묶음에는 원래 배치도와 최단 경로 보고서도 들어 있다.
 
 ---

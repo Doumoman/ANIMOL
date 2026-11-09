@@ -26,7 +26,8 @@ namespace ANIMOL.Presentation.Editor
             if (!map || !map.scenario || map.scenario.echoTheaterV3Rules ||
                 map.scenario.devices.Any(d => d.role != PrototypeRole.MetalCrate && d.role != PrototypeRole.Chick &&
                     d.role != PrototypeRole.WoodCrate && d.role != PrototypeRole.StarSocket &&
-                    d.role != PrototypeRole.Wind && d.role != PrototypeRole.Bounce && d.role != PrototypeRole.Conveyor) ||
+                    d.role != PrototypeRole.Wind && d.role != PrototypeRole.Bounce && d.role != PrototypeRole.Conveyor &&
+                    d.role != PrototypeRole.OneWayGate && d.role != PrototypeRole.Brake) ||
                 map.devices.Any(d => d.kind != DeviceKind.None) || map.bubbles.Distinct().Count() > 12)
                 return null;
             if (BubblePositions(map).Length > 12) return null;
@@ -55,7 +56,8 @@ namespace ANIMOL.Presentation.Editor
             // possible real wind segment lies on one of these generous rays.
             foreach (var device in map.scenario.devices)
             {
-                if (device.role == PrototypeRole.Conveyor && cells.TryGetValue(device.position, out int belt))
+                if ((device.role == PrototypeRole.Conveyor || device.role == PrototypeRole.OneWayGate) &&
+                    cells.TryGetValue(device.position, out int belt))
                     for (int heading = 0; heading < 4; heading++) free[belt, heading] = true;
                 if (device.role != PrototypeRole.Wind && device.role != PrototypeRole.Bounce) continue;
                 if (cells.TryGetValue(device.position, out int origin))

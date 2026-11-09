@@ -39,8 +39,9 @@ public static class ExportMapLayouts
         Directory.CreateDirectory(output);
         var set = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(
             "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterMapSet.asset");
-        var paths = Enumerable.Range(0, 20).Select(i => "Assets/ANIMOL/Data/Puzzle/MapData/starway/SW" + i.ToString("00") + "_MapData.asset")
-            .Concat(Enumerable.Range(0, 6).Select(i => "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-" + i.ToString("00") + "_MapData.asset"));
+        var canonical = JObject.Parse(File.ReadAllText("Docs/Validation/CanonicalMaps/inventory.json"))["maps"];
+        var paths = canonical.Select(m => (string)m["path"])
+            .Concat(new[] { "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset" }).OrderBy(p => p, StringComparer.Ordinal);
         var entries = new JArray();
         foreach (string path in paths)
         {
@@ -52,6 +53,10 @@ public static class ExportMapLayouts
             bool mapDirty = EditorUtility.IsDirty(map), scenarioDirty = map.scenario && EditorUtility.IsDirty(map.scenario);
             string mapBefore = JsonUtility.ToJson(map), scenarioBefore = map.scenario ? JsonUtility.ToJson(map.scenario) : null;
             string sourceHash = Hash(path), metaHash = Hash(path + ".meta");
+            var identity = canonical.Single(m => (string)m["path"] == path);
+            if (mapDirty || scenarioDirty || sourceHash != (string)identity["sha256"] ||
+                AssetDatabase.AssetPathToGUID(path) != (string)identity["guid"])
+                throw new InvalidOperationException("Canonical source changed: " + path);
             var cells = Enumerable.Range(0, map.Height).SelectMany(y => Enumerable.Range(0, map.Width)
                 .Select(x => new Vector2Int(x, y))).ToArray();
             var mapJson = JObject.Parse(mapBefore);
@@ -71,6 +76,9 @@ public static class ExportMapLayouts
                     var device = map.scenario.devices[i];
                     scenarioJson["devices"][i]["visualPrefab"] = AssetDatabase.GetAssetPath(device.visualPrefab);
                     scenarioJson["devices"][i]["initialFootprint"] = Points(Footprint(device));
+                    if (device.role == PrototypeRole.Bookshelf && device.variant != "plate")
+                        scenarioJson["devices"][i]["initialRotationArea"] = Points(BookshelfRotationRules.SweptCells(
+                            device.position, device.orientation, device.bookshelfRotation));
                 }
             row["name"] = map.name;
             row["guid"] = AssetDatabase.AssetPathToGUID(path);
@@ -80,7 +88,7 @@ public static class ExportMapLayouts
             row["staticWalkableCells"] = Points(cells.Where(map.Walkable));
             row["decorationOccupiedCells"] = Points(cells.Where(map.DecorationAt));
             row["displayStages"] = id.StartsWith("SW", StringComparison.Ordinal)
-                ? new JArray("SW" + (int.Parse(id.Substring(2)) + 1).ToString("00"))
+                ? int.Parse(id.Substring(2)) <= 19 ? new JArray("SW" + (int.Parse(id.Substring(2)) + 1).ToString("00")) : new JArray()
                 : new JArray(set.maps.Where(e => e.map == map).Select(e => e.stageId));
             try { row["validationErrors"] = new JArray(map.ValidateMap()); }
             catch (Exception error) { row["validationErrors"] = new JArray("Validation exception: " + error.Message); }
@@ -91,7 +99,8 @@ public static class ExportMapLayouts
         }
         var result = new JObject {
             ["capturedUtc"] = DateTime.UtcNow.ToString("O"), ["unityVersion"] = Application.unityVersion,
-            ["scope"] = "SW00-SW19 and ET-00-ET-05; loaded Editor data; unsaved assets identified explicitly",
+            ["scope"] = "Canonical SW00-SW19 and SW21; authored Echo files through ET-11; ET-06 absent",
+            ["canonicalCommit"] = "a2f825e09",
             ["sourceAssetsSaved"] = false, ["readOnlyChecksPassed"] = true,
             ["theaterMapSet"] = new JArray(set.maps.Select(e => new JObject { ["stageId"] = e.stageId,
                 ["assetPath"] = AssetDatabase.GetAssetPath(e.map) })), ["maps"] = entries

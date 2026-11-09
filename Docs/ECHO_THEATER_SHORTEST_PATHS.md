@@ -1,3 +1,183 @@
+# 잔영 극장 현재 정본의 최단 입력 경로
+
+2026-11-10 기준 **11개 맵 중 최단 확정 11개, 경로 없음 0개, 미확정 0개**다. 현재 사용자가 작성한 맵을 정본으로 먼저 커밋한 `a2f825e09` 이후에 계산했다. 계산 때문에 MapData·작성된 `verificationRoute`·GUID·진행 기록을 수정하지 않았다.
+
+[정본 파일·GUID·이전 이름 대조](Validation/CanonicalMaps/inventory.json) · [실제 화면/MapSet 연결](Validation/CanonicalMapPaths/stage_aliases.json) · [Unity 전체 경로 재생](Validation/CanonicalMapPaths/native_replay.json)
+
+## 파일 이름과 화면 번호
+
+ET-11까지 현존하는 ET-00~05, ET-07~11의 11개 파일만 계산했다. ET-06 삭제를 그대로 유지했고, ET-12~35의 기존 제작용 파일은 이번 작성 범위에 넣지 않았다. 화면 번호는 EchoTheaterMapSet의 실제 GUID 참조를 따른다.
+
+| 현재 파일 | 동일 GUID의 이전 파일 | 현재 화면 연결 |
+|---|---|---|
+| ET-00 | ET-02 | ET-02 |
+| ET-01 | ET-06 | ET-06 |
+| ET-02 | ET-07 | ET-07 |
+| ET-07 | ET-01 | ET-01 |
+
+위 이름 이동과 현재 배치를 정본으로 삼았다. 과거 ET-02 파일이 없던 시점의 보고서를 현재 배치의 증거로 사용하지 않는다. 현재 책장의 회전 영역·방향·충돌, 돌진 석상의 유리벽 직전 정지, 셔터의 초기 반대 위상, 카트의 논리 처리 순서를 모두 실제 판정으로 반영했다.
+
+## 현재 결과
+
+| 파일 ID | 화면 스테이지 | 결과 | 최단 입력 | 발견 상태 |
+|---|---|---|---:|---:|
+| ET-00 | ET-02 | 최단 확정 | 31 | 64 |
+| ET-01 | ET-06 | 최단 확정 | 19 | 52 |
+| ET-02 | ET-07 | 최단 확정 | 29 | 3,167 |
+| ET-03 | ET-03 | 최단 확정 | 49 | 48,761 |
+| ET-04 | ET-04 | 최단 확정 | 33 | 37,414 |
+| ET-05 | ET-05 | 최단 확정 | 26 | 3,081 |
+| ET-07 | ET-01 | 최단 확정 | 42 | 252,714 |
+| ET-08 | ET-08 | 최단 확정 | 43 | 1,191 |
+| ET-09 | ET-09 | 최단 확정 | 40 | 400,205 |
+| ET-10 | ET-10 | 최단 확정 | 43 | 604,257 |
+| ET-11 | ET-11 | 최단 확정 | 33 | 2,191 |
+
+유효한 방향 입력 하나의 비용은 1이다. 제자리에서 장치를 작동하거나 물체를 미는 입력도 1이며, 자동 바람 대기 `○`는 비용 0이다. N/↑=위, E/→=오른쪽, S/↓=아래, W/←=왼쪽이다. 경로를 줄이기 위해 제자리 입력이나 반복 방향을 생략하지 않는다.
+
+## 배치 변경 대조
+
+아래 칸 수는 직렬화된 terrain 항목 수이며 실제 통행 가능 칸 수와 다르다. 이전 파일은 이전 HEAD에서 같은 GUID를 가진 파일이다. 이름 이동과 배치 변경을 분리해서 비교한다.
+
+| 현재 파일 | 이전 이름 | terrain 항목 이전→현재 | 목표 별 이전→현재 | 현재 장치 수 |
+|---|---|---:|---:|---:|
+| ET-00 | ET-02 | 131→32 | 3→3 | 6 |
+| ET-01 | ET-06 | 133→24 | 3→3 | 3 |
+| ET-02 | ET-07 | 140→29 | 3→3 | 6 |
+| ET-03 | ET-03 | 127→38 | 3→2 | 7 |
+| ET-04 | ET-04 | 136→33 | 3→2 | 7 |
+| ET-05 | ET-05 | 112→42 | 3→2 | 8 |
+| ET-07 | ET-01 | 109→40 | 3→2 | 10 |
+| ET-08 | ET-08 | 130→33 | 3→2 | 10 |
+| ET-09 | ET-09 | 139→38 | 3→3 | 11 |
+| ET-10 | ET-10 | 118→39 | 3→2 | 10 |
+| ET-11 | ET-11 | 137→44 | 3→3 | 9 |
+
+## 경로
+
+### ET-00
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-00.json) · 원본 SHA-256 `b6ea624e638223cb17b7ab6501a338281c5afd185e8d865d049fbeaf9a4b9264`
+
+**31입력**
+
+```text
+→→↑→→↓→↑↑↑↑↓↓↓→→↑→→→↑↓↓→→↑↑↓↓→→
+```
+
+### ET-01
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-01.json) · 원본 SHA-256 `339d720cfd7d60cd37ba518e434cad61482bbc8f8f84afdaa2b020403bc92a6c`
+
+**19입력**
+
+```text
+←←↓←→→↓→→→→↑↓↓←↑→→→
+```
+
+### ET-02
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-02.json) · 원본 SHA-256 `8de33d72ef5b43f7bfcbf0333b41022fb4af882504cef594130e6c00a6e19c42`
+
+**29입력**
+
+```text
+→→→↑↑↑←←↓←←↑↓↓↑→→↑→→→→↓↓↑↑←↑↑
+```
+
+### ET-03
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-03.json) · 원본 SHA-256 `4be33c69e120a690733dba2f47ec5d765e9e3e063926bc25a94accdf5edff590`
+
+**49입력**
+
+```text
+→→↓↑→↓←↑↑→↑←↑↓←↓↓↓←↓↓→→→→→↓→↑↑↑↓←↑→↑↑↑←↑→↑→↓→→↑↑↑
+```
+
+### ET-04
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-04.json) · 원본 SHA-256 `744ddcb7f4bed20df6fa3b54f29e20178ec79197cdfb033e1e9aa8a1c5b868e0`
+
+**33입력**
+
+```text
+↑→↑→→↑↑↑↑↑←↓↓←←↓↑→→→↓↓↑→→↑←←→→↑↑→
+```
+
+### ET-05
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-05.json) · 원본 SHA-256 `60f35d7ba497f31b0d081c6da01e3bdc9f22158d1553126d7e603fca8e216c63`
+
+**26입력**
+
+```text
+→→→↑←←↓←↑↑→↑↑↓↓→→↑↑↑↑↑↑↓→→
+```
+
+### ET-07
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-07.json) · 원본 SHA-256 `ffaca9eca2ce08572d1695cc3c9d50e457146379548633e1781f3d962d3228a4`
+
+**42입력**
+
+```text
+→↑→→↓→↓↓←↑←←↓←↓↓→←←←↑↑↑→→→→↑↓↓↓→↓→→→→←↑↑↑↑
+```
+
+### ET-08
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-08.json) · 원본 SHA-256 `499eb71bae8acd26eb866156047052e82ae4a1f09966d015a1a1c105007fe2dd`
+
+**43입력**
+
+```text
+←↑↑→→↓→→↑↑↑←←←→→↑↑↓→←←←↓↑→↓↓↓←←↓↑→→→→↑↑→→→↑
+```
+
+### ET-09
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-09.json) · 원본 SHA-256 `de694d5d59dfda9101c656b1553830fc6044dedc1cacc3d0e43c83ddc212a7c1`
+
+**40입력**
+
+```text
+↑→→→↓↓←↓←↑↑←←↑↑↓↓→↓↓←→→→→↑↑→↑↑↑←↑↑→↓→→↑↑
+```
+
+### ET-10
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-10.json) · 원본 SHA-256 `15d26f9e35896a54bbc9582d0727814d1f9da6ab9d5c830f4c5b5de98ff8c63d`
+
+**43입력**
+
+```text
+↑↑→→↑↓↑→↑←→→→↓↑→↓→↑↓→↑↑↑←↓↓←←←↑→→↓→↑↑→↑←←←↑
+```
+
+### ET-11
+
+[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-11.json) · 원본 SHA-256 `b5d73b6263108ad0e04261d66df509c641179bf72c82251e5834f4c1ff5fde98`
+
+**33입력**
+
+```text
+←↑↑↑→↑↑←←↑←←→↓↓←→↑↑↑↑↑→→↓↓→↓→→↑→↑
+```
+
+## 검증 범위
+
+별길 목장은 실제 Unity에서 내보낸 4,200개 상태·21,000개 공개 API 전이를 소스 링크 탐색기와 대조했다. SW02/SW17의 작은 상태 표현은 원래 판정과 추가 200,000개 전이를 비교했고, 두 작은 보드의 완전 BFS와 A* 거리·원본 변경 거부·상한 미확정 처리를 검사했다. 최종 SW02/SW17 탐색은 모든 후속 상태를 원래 SearchStep으로 생성하고 빠른 전이와도 비교하는 authority 모드다.
+
+잔영 극장은 Unity Editor의 실제 PuzzleDeviceSession에서 A*를 실행했다. 책장 등의 통행 제한을 제거하고 카트의 가능한 자동 밀기를 넓게 허용한 하한을 사용하며, 카트 순서는 원래 장치 ID 정렬과 같다. 모든 조사된 실제 전이에 하한의 일관성을 검사했고 셔터는 판정에 필요한 홀짝만 상태 키에 기록한다. 가장 작은 g+h의 클리어 상태를 꺼낸 경우에만 최단으로 확정한다. 상한이나 취소는 경로 없음으로 기록하지 않는다.
+
+두 테마 모두 Unity에서 확정 경로 전체를 공개 판정 API로 다시 실행하여 목표 별·출구·승리·입력 비용을 확인했다. 원본과 .meta GUID, 미저장 상태, 계산에 사용한 엔진 소스 해시를 다시 검사한 뒤 두 경로 카탈로그만 갱신했다. Play Mode에서 모든 맵을 사람이 플레이하거나 모바일 GPU를 검증한 결과는 아니다. 구체적인 EditMode 결과와 실행하지 않은 항목은 [이번 검증 기록](Validation/CanonicalMapPaths/validation_summary.json)을 따른다.
+
+이전 카탈로그는 [별길 목장](Validation/CanonicalMapPaths/PriorCatalogs/StarwayShortestPaths.json)과 [잔영 극장](Validation/CanonicalMapPaths/PriorCatalogs/EchoTheaterShortestPaths.json)에 보관했다. 아래는 당시 배치·규칙의 이력이며 현재 정답은 위 결과를 따른다.
+
+<details>
+<summary>이전 배치와 규칙의 검증 이력</summary>
+
 # 잔영 극장 초반 맵 최단 정답 경로
 
 원본 ET-00~ET-05 범위에서 현재 존재하는 다섯 맵의 최단 정답을 확정했다. 현재 Unity Editor에 로드된 맵과 실제 `PuzzleDeviceSession` 이동 판정으로 계산했으며, 모든 경로를 공개 `Apply` API로 다시 재생해 별 수집·출구 도달·승리를 확인했다.
@@ -139,3 +319,6 @@ ET-05의 Map/Scenario에는 기존 Editor 미저장 표시가 있다. 계산은 
 재현 도구는 [Unity 탐색기](../Tools/Puzzle/EchoTheaterShortestPaths.cs), [공개 API 검증기](../Tools/Puzzle/VerifyEchoSearch.cs), [보고서·기록 생성기](../Tools/Reports/build_echo_shortest_report.py)다. 준비된 Editor의 Play Mode 밖에서 `unity command run_script --file Tools/Puzzle/EchoTheaterShortestPaths.cs --entry EchoTheaterShortestPaths.Start --format json`을 한 번 실행하고 완료를 기다린다. 이어서 같은 run_script 명령으로 `VerifyEchoSearch.Transitions`, `VerifyEchoSearch.ReplayAll`을 실행한다. 검증기는 탐색기 타입이 로드된 동일 Editor 세션에서 실행한다.
 
 별도 BFS 증거는 `VerifyEchoSearch.IndependentET03Bfs`로 재현할 수 있다. 내부에서 ET-03에 `PuzzleShortestPathSolver.Start(map, callback, 3000000, false, 3072)`를 실행한다. `false`는 휴리스틱을 끄는 옵션이며, 콜백은 증거 JSON만 기록한다. 증거가 준비되면 `python Tools/Reports/build_echo_shortest_report.py`로 이 문서와 JSON을 다시 생성한다.
+
+
+</details>
