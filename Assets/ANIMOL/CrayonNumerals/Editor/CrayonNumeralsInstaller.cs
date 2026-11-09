@@ -23,7 +23,8 @@ namespace Animol.CrayonNumerals.Editor
         private const string FontPath = Root + "Fonts/ANIMOL-Crayon-Numerals.ttf";
         private const string Generated = Root + "Generated/";
         private const string FontFolder = Generated + "Fonts/", MaterialFolder = Generated + "Materials/";
-        private const string Characters = "0123456789/-+: .IV";
+        private const string NumericCharacters = "0123456789/-+: .IV";
+        private static readonly string Characters = new string(Enumerable.Range(32, 95).Select(code => (char)code).ToArray()) + "\u20A9";
         private static readonly string[] Roman = { "I", "II", "III", "IV" };
         private static readonly string[] ColorProperties = { "_FaceColor", "_OutlineColor", "_UnderlayColor" };
         private static readonly string[] FloatProperties = {
@@ -142,7 +143,7 @@ namespace Animol.CrayonNumerals.Editor
                     throw new InvalidOperationException("A protected NotebookRoot reference changed.");
                 Undo.CollapseUndoOperations(group); EditorSceneManager.MarkSceneDirty(ui.gameObject.scene);
                 Selection.activeGameObject = ui.gameObject;
-                Debug.Log("Original numeric font connected to " + targets.Count + " selected-map numeric/I–IV labels only. Korean theme labels, Main, Settings, Modal, layout and all game logic were retained. Review and save; Undo restores old text font/material references. Generated font resources remain reusable.", ui);
+                Debug.Log("Original crayon keyboard font connected to " + targets.Count + " selected-map numeric/I–IV labels only. Korean theme labels, Main, Settings, Modal, layout and all game logic were retained. Review and save; Undo restores old text font/material references. Previous numeric-only generated resources were retained.", ui);
             }
             catch
             {
@@ -159,8 +160,8 @@ namespace Animol.CrayonNumerals.Editor
                 || IsWithin(text.transform, ui.modal)) return;
             string value = (text.text ?? "").Trim();
             if (value.Length == 0) { if (allowEmpty) targets.Add(text); return; }
-            // The limited numeric font is never assigned to Korean/Latin prose or rich-text markup.
-            if (value.All(character => Characters.IndexOf(character) >= 0)
+            // Expanded font coverage does not broaden this menu's existing numeric-only target scope.
+            if (value.All(character => NumericCharacters.IndexOf(character) >= 0)
                 && (value.Any(char.IsDigit) || Roman.Contains(value))) targets.Add(text);
         }
 
@@ -207,19 +208,20 @@ namespace Animol.CrayonNumerals.Editor
         private static TMP_FontAsset EnsureFont(Font source, TMP_FontAsset previous)
         {
             string previousPath = previous ? AssetDatabase.GetAssetPath(previous) : "";
-            if (previous && previousPath.StartsWith(FontFolder, StringComparison.Ordinal))
+            if (previous && previousPath.StartsWith(FontFolder, StringComparison.Ordinal)
+                && Path.GetFileNameWithoutExtension(previousPath).EndsWith("_Keyboard", StringComparison.Ordinal))
             {
-                ValidateOwnedFont(previous);
+                ValidateOwnedFont(previous, Characters);
                 return previous;
             }
-            if (previous && string.IsNullOrEmpty(previousPath))
-                throw new InvalidOperationException("Save the existing map font as an asset before assigning a persistent numeric fallback.");
-            string key = previous ? AssetDatabase.AssetPathToGUID(previousPath) : "NoFallback";
-            string path = FontFolder + "ANIMOL_Crayon_Numerals_" + key + ".asset";
+            // Never mutate an old numeric-only atlas or nest an owned numeric font as its own fallback.
+            List<TMP_FontAsset> fallbacks = OriginalFallbacks(previous);
+            string key = FallbackKey(fallbacks);
+            string path = FontFolder + "ANIMOL_Crayon_Numerals_" + key + "_Keyboard.asset";
             TMP_FontAsset existing = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(path);
             if (existing)
             {
-                ValidateOwnedFont(existing);
+                ValidateOwnedFont(existing, Characters);
                 return existing;
             }
             if (AssetDatabase.LoadMainAssetAtPath(path) || File.Exists(path))
@@ -232,23 +234,23 @@ namespace Animol.CrayonNumerals.Editor
             Texture2D[] createdAtlases = Array.Empty<Texture2D>();
             try
             {
-                created = TMP_FontAsset.CreateFontAsset(source, 96, 9, GlyphRenderMode.SDFAA, 1024, 1024, AtlasPopulationMode.Dynamic, false);
-                if (!created || !created.material) throw new InvalidOperationException("The original numeric TMP font could not be created.");
+                created = TMP_FontAsset.CreateFontAsset(source, 96, 9, GlyphRenderMode.SDFAA, 2048, 2048, AtlasPopulationMode.Dynamic, false);
+                if (!created || !created.material) throw new InvalidOperationException("The original crayon keyboard TMP font could not be created.");
                 createdMaterial = created.material; createdAtlases = created.atlasTextures ?? Array.Empty<Texture2D>();
                 string missing;
                 if (!created.TryAddCharacters(Characters, out missing) || !string.IsNullOrEmpty(missing))
-                    throw new InvalidOperationException("The numeric source font is missing required glyphs: " + missing);
+                    throw new InvalidOperationException("The crayon source font cannot provide every printable ASCII character and the won sign: " + missing);
                 createdAtlases = created.atlasTextures ?? Array.Empty<Texture2D>();
-                created.name = "ANIMOL Crayon Numerals";
-                created.material.name = "ANIMOL Crayon Numerals Base"; created.material.shader = shader;
-                created.fallbackFontAssetTable = previous ? new List<TMP_FontAsset> { previous } : new List<TMP_FontAsset>();
+                created.name = "ANIMOL Crayon Keyboard";
+                created.material.name = "ANIMOL Crayon Keyboard Base"; created.material.shader = shader;
+                created.fallbackFontAssetTable = fallbacks;
                 created.atlasPopulationMode = AtlasPopulationMode.Static;
                 AssetDatabase.CreateAsset(created, path);
                 AssetDatabase.AddObjectToAsset(created.material, created);
                 foreach (Texture2D atlas in created.atlasTextures)
-                    if (atlas) { atlas.name = "ANIMOL Crayon Numerals Atlas"; AssetDatabase.AddObjectToAsset(atlas, created); }
+                    if (atlas) { atlas.name = "ANIMOL Crayon Keyboard Atlas"; AssetDatabase.AddObjectToAsset(atlas, created); }
                 EditorUtility.SetDirty(created); AssetDatabase.SaveAssetIfDirty(created);
-                ValidateOwnedFont(created);
+                ValidateOwnedFont(created, Characters);
                 return created;
             }
             catch
@@ -264,11 +266,45 @@ namespace Animol.CrayonNumerals.Editor
             }
         }
 
-        private static void ValidateOwnedFont(TMP_FontAsset font)
+        private static List<TMP_FontAsset> OriginalFallbacks(TMP_FontAsset previous)
+        {
+            var result = new List<TMP_FontAsset>();
+            CollectOriginalFallbacks(previous, result, new HashSet<TMP_FontAsset>());
+            return result;
+        }
+
+        private static void CollectOriginalFallbacks(TMP_FontAsset font, List<TMP_FontAsset> result, HashSet<TMP_FontAsset> visiting)
+        {
+            if (!font) return;
+            string path = AssetDatabase.GetAssetPath(font);
+            if (string.IsNullOrEmpty(path))
+                throw new InvalidOperationException("Save the existing map font as an asset before assigning a persistent crayon fallback.");
+            if (!path.StartsWith(FontFolder, StringComparison.Ordinal))
+            {
+                if (!result.Contains(font)) result.Add(font);
+                return;
+            }
+            ValidateOwnedFont(font, NumericCharacters);
+            if (!visiting.Add(font)) throw new InvalidOperationException("An existing owned font has a fallback cycle; it was retained without changes.");
+            foreach (TMP_FontAsset fallback in font.fallbackFontAssetTable ?? new List<TMP_FontAsset>())
+                CollectOriginalFallbacks(fallback, result, visiting);
+            visiting.Remove(font);
+        }
+
+        private static string FallbackKey(List<TMP_FontAsset> fallbacks)
+        {
+            if (fallbacks.Count == 0) return "NoFallback";
+            string[] keys = fallbacks.Select(font => AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(font))).ToArray();
+            if (keys.Length == 1) return keys[0];
+            using (SHA256 algorithm = SHA256.Create())
+                return "Fallbacks_" + BitConverter.ToString(algorithm.ComputeHash(Encoding.UTF8.GetBytes(string.Join("|", keys)))).Replace("-", "").Substring(0, 16);
+        }
+
+        private static void ValidateOwnedFont(TMP_FontAsset font, string requiredCharacters)
         {
             string path = font ? AssetDatabase.GetAssetPath(font) : "";
             if (!font || !path.StartsWith(FontFolder, StringComparison.Ordinal) || !AssetDatabase.Contains(font)
-                || AssetDatabase.LoadMainAssetAtPath(path) != font || !font.HasCharacters(Characters)
+                || AssetDatabase.LoadMainAssetAtPath(path) != font || !font.HasCharacters(requiredCharacters)
                 || !font.material || !font.material.shader || !AssetDatabase.IsSubAsset(font.material)
                 || AssetDatabase.GetAssetPath(font.material) != path)
                 throw new InvalidOperationException("The generated numeric font or its material is incomplete or not persistent; existing resources were retained.");
