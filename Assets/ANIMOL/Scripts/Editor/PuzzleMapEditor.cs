@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace ANIMOL.Presentation.Editor
 {
-    public sealed class PuzzleMapEditor : EditorWindow
+    public sealed partial class PuzzleMapEditor : EditorWindow
     {
         static readonly string[] waterEdgeKeys = { "water/bank/edge_n", "water/bank/edge_e",
             "water/bank/edge_s", "water/bank/edge_w" };
@@ -95,12 +95,12 @@ namespace ANIMOL.Presentation.Editor
             if (!newMapTheme) newMapTheme = AssetDatabase.LoadAssetAtPath<PuzzleTheme>("Assets/ANIMOL/Data/Puzzle/Themes/StarGarden.asset");
             if (map) { pendingWidth = map.Width; pendingHeight = map.Height; cameraPreviewCell = map.start; }
         }
-        void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); }
+        void OnDisable() { Undo.undoRedoPerformed -= Undone; EditorApplication.projectChanged -= RefreshLibrary; EndStroke(); EndMapMove(); }
         void OnInspectorUpdate() { if (PuzzleShortestPathSolver.Active != null) Repaint(); }
-        void Undone() { if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
+        void Undone() { ResetMapMoveGesture(); if (map) { map.InvalidateIndex(); map.NotifyDecorationsChanged(); pendingWidth = map.Width; pendingHeight = map.Height; } previewCacheValid = false; cachedValidationErrors = null; legacyDeviceSprites.Clear(); RanchDevicesV13EditorPreview.ClearCache(); Repaint(); }
         void Select(PuzzleMap data)
         {
-            EndStroke(); map = data; selectedDeviceId = selectedSimpleDeviceLabel = null;
+            EndStroke(); EndMapMove(); moveWholeMap = false; map = data; selectedDeviceId = selectedSimpleDeviceLabel = null;
             selectedRanchArt = null; ranchArtBrush = ranchArtError = null;
             railBrush = false; selectedRailPathId = railError = null;
             linkTargetMode = false; scenarioCreationError = decorationError = null;
@@ -109,6 +109,7 @@ namespace ANIMOL.Presentation.Editor
         }
         void OnGUI()
         {
+            HandleMapMoveKeyboard(Event.current);
             EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
             var selected = (PuzzleMap)EditorGUILayout.ObjectField(map, typeof(PuzzleMap), false, GUILayout.Width(250));
             if (selected != map) Select(selected);
@@ -131,11 +132,13 @@ namespace ANIMOL.Presentation.Editor
             Settings(); EditorGUILayout.EndScrollView();
             EditorGUILayout.BeginVertical();
             cellSize = EditorGUILayout.Slider("격자 확대", cellSize, 20, 80);
-            EditorGUILayout.LabelField("왼쪽: 배치/선택    오른쪽: 지우기");
+            DrawMapMoveToolbar();
+            EditorGUILayout.LabelField(moveWholeMap ? "전체 선택: 드래그 / 방향키로 이동 · Esc로 해제" : "왼쪽: 배치/선택    오른쪽: 지우기");
             var viewport = GUILayoutUtility.GetRect(100, 100, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             DrawGrid(viewport);
             EditorGUILayout.EndVertical(); EditorGUILayout.EndHorizontal();
             if (Event.current.rawType == EventType.MouseUp) EndStroke();
+            if (Event.current.rawType == EventType.MouseUp || Event.current.rawType == EventType.KeyUp) EndMapMove();
         }
         void Settings()
         {
@@ -1659,6 +1662,8 @@ namespace ANIMOL.Presentation.Editor
             var content = new Rect(0, 0, (leftPad + shownWidth + rightPad + 1) * cellSize,
                 (topPad + shownHeight + bottomPad + 1) * cellSize);
             var pointerInside = viewport.Contains(Event.current.mousePosition);
+            var windowPointer = Event.current.mousePosition;
+            mapMoveViewport = viewport; mapMoveGridOrigin = origin; mapMoveShownHeight = shownHeight;
             gridScroll = GUI.BeginScrollView(viewport, gridScroll, content);
             var xMin = Mathf.Max(0, Mathf.FloorToInt((gridScroll.x - origin.x) / cellSize));
             var xMax = Mathf.Min(shownWidth, Mathf.CeilToInt((gridScroll.x + viewport.width - origin.x) / cellSize));
@@ -1854,7 +1859,9 @@ namespace ANIMOL.Presentation.Editor
                 DrawMarkerBadges(xMin, xMax, yMin, yMax, shownHeight, origin, bubbleCells, rewardCells);
             }
             var e = Event.current;
-            if (pointerInside && e.type == EventType.Repaint)
+            DrawMapMoveSelection(origin, shownHeight);
+            HandleMapMovePointer(e, pointerInside, origin, shownHeight, windowPointer);
+            if (!moveWholeMap && pointerInside && e.type == EventType.Repaint)
             {
                 var hover = new Vector2Int(Mathf.FloorToInt((e.mousePosition.x - origin.x) / cellSize),
                     shownHeight - 1 - Mathf.FloorToInt((e.mousePosition.y - origin.y) / cellSize));
@@ -1867,7 +1874,7 @@ namespace ANIMOL.Presentation.Editor
                         eraseHover ? new Color(1f, .3f, .3f) : new Color(.3f, 1f, .5f));
                 }
             }
-            if (pointerInside && (e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && (e.button == 0 || e.button == 1))
+            if (!moveWholeMap && pointerInside && (e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && (e.button == 0 || e.button == 1))
             {
                 var p = new Vector2Int(Mathf.FloorToInt((e.mousePosition.x - origin.x) / cellSize),
                     shownHeight - 1 - Mathf.FloorToInt((e.mousePosition.y - origin.y) / cellSize));

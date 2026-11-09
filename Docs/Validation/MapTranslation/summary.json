@@ -1,0 +1,26 @@
+{
+  "feature": "Bounded whole-map translation in ANIMOL map editor",
+  "usage": [
+    "Whole-map select/move toggle or Ctrl+A",
+    "Drag the grid, press arrow keys, or hold a directional toolbar button",
+    "Stop at content footprint boundary; reverse immediately; Escape exits",
+    "One drag or held input is one Undo group; no automatic asset save"
+  ],
+  "validation": {
+    "unity": "6000.3.8f1",
+    "EditModeTests": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "actualEditorWindowDragEvents": true,
+    "ET10GameplayTransitionAndTerrainAppearanceEquivalence": true,
+    "protectedMapFilesUnchanged": 122,
+    "runtimeAndFeedbackCodeChanged": false,
+    "fullRepositorySuiteRun": false
+  },
+  "limitations": [
+    "Previously cropped records must fit inside the board before translation; certified fixed-coordinate stages are protected.",
+    "Existing unrelated spritePackingTag deprecation warning remains."
+  ]
+}
