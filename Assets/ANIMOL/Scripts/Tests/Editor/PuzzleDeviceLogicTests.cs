@@ -845,6 +845,99 @@ namespace ANIMOL.Tests
             var session=new PuzzleDeviceSession(Room(17));foreach(char c in "EEEEN")session.Apply(PuzzlePrototypeBuilder.Direction(c));
             Assert.That(session.States["statue"].locked,Is.True);session.Apply(Vector2Int.down);Assert.That(session.States["glass"].removed,Is.True);Assert.That(session.Failed,Is.False);Assert.That(session.States["statue"].cell,Is.EqualTo(new Vector2Int(4,3)));
         }
+        PuzzleMap StatueGlassRoom(Vector2Int heading, bool stopAfterBreak = true,
+            PrototypeRole barrier = PrototypeRole.Glass, string themeId = "memory_theater")
+        {
+            var map = Clone(17);
+            map.Resize(9, 9); map.terrain.Clear(); map.InvalidateIndex();
+            for (int y = 0; y < 9; y++) for (int x = 0; x < 9; x++)
+                map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+            var center = new Vector2Int(4, 4);
+            var side = new Vector2Int(-heading.y, heading.x);
+            map.start = center + side; map.exit = Vector2Int.zero;
+            map.bubbles.Clear(); map.targetBubbles = 0;
+            map.scenario.devices.Clear(); map.scenario.goals.Clear();
+            map.scenario.themeId = themeId; map.scenario.echoTheaterV3Rules = true;
+            map.scenario.statueStopsAfterBreakingWall = stopAfterBreak;
+            map.scenario.devices.Add(new PrototypeDevice { id = "statue", role = PrototypeRole.Statue,
+                position = center - heading * 3, direction = heading, number = 8 });
+            map.scenario.devices.Add(new PrototypeDevice { id = "glass", role = barrier,
+                position = center + heading });
+            return map;
+        }
+        static void ChargeStatue(PuzzleDeviceSession session, Vector2Int heading)
+        {
+            var side = new Vector2Int(-heading.y, heading.x);
+            Assert.That(session.Apply(-side).accepted, Is.True);
+            Assert.That(session.States["statue"].locked, Is.True);
+            Assert.That(session.Apply(side).accepted, Is.True);
+            Assert.That(session.States["glass"].removed, Is.True);
+            Assert.That(session.Failed, Is.False);
+        }
+        [TestCase(1, 0, true)] [TestCase(-1, 0, true)]
+        [TestCase(0, 1, true)] [TestCase(0, -1, true)]
+        [TestCase(1, 0, false)] [TestCase(-1, 0, false)]
+        [TestCase(0, 1, false)] [TestCase(0, -1, false)]
+        public void TheaterStatueStopsAtShatteredGlassThenCanChargeAgain(int x, int y, bool policy)
+        {
+            var heading = new Vector2Int(x, y); var side = new Vector2Int(-y, x);
+            var map = StatueGlassRoom(heading, policy);
+            var session = new PuzzleDeviceSession(map);
+            ChargeStatue(session, heading);
+            var stoppedCell = new Vector2Int(4, 4) + heading;
+            Assert.That(session.States["statue"].cell, Is.EqualTo(stoppedCell));
+            Assert.That(session.States["statue"].locked, Is.False);
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.States["glass"].removed, Is.False);
+            Assert.That(session.States["statue"].locked, Is.True);
+            Assert.That(session.Apply(side).accepted, Is.True);
+            Assert.That(session.Apply(heading).accepted, Is.True);
+            var cost = session.Cost;
+            Assert.That(session.Apply(-side).accepted, Is.False, "Stopped statue remains a solid obstacle");
+            Assert.That(session.Cost, Is.EqualTo(cost));
+            Assert.That(session.Apply(heading).accepted, Is.True);
+            Assert.That(session.Apply(-side).accepted, Is.True);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(stoppedCell));
+            Assert.That(session.States["statue"].locked, Is.True, "The statue can acquire a new target");
+            var charge = session.Apply(side);
+            Assert.That(charge.accepted, Is.True);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(4, 4) + heading * 4));
+            Assert.That(charge.events.Any(e => e.actor == "statue" && e.kind == PrototypeEventKind.Move), Is.True);
+            Assert.That(session.Failed, Is.False);
+            session.Reset();
+            Assert.That(session.States["statue"].cell, Is.EqualTo(map.scenario.devices[0].position));
+            Assert.That(session.States["glass"].removed, Is.False);
+            ChargeStatue(session, heading);
+        }
+        [Test] public void TheaterStatueStopsAtFirstGlassWithoutDestroyingTheNext()
+        {
+            var map = StatueGlassRoom(Vector2Int.right, false);
+            map.scenario.devices.Add(new PrototypeDevice { id = "nextGlass", role = PrototypeRole.Glass,
+                position = new Vector2Int(6, 4) });
+            var session = new PuzzleDeviceSession(map);
+            ChargeStatue(session, Vector2Int.right);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(5, 4)));
+            Assert.That(session.States["nextGlass"].removed, Is.False);
+        }
+        [TestCase(PrototypeRole.CrackedWall, "memory_theater", true)]
+        [TestCase(PrototypeRole.CrackedWall, "memory_theater", false)]
+        [TestCase(PrototypeRole.Glass, "letter_observatory", true)]
+        [TestCase(PrototypeRole.Glass, "letter_observatory", false)]
+        public void OtherStatueBreaksKeepTheirExistingStopPolicy(PrototypeRole barrier, string theme, bool policy)
+        {
+            var session = new PuzzleDeviceSession(StatueGlassRoom(Vector2Int.right, policy, barrier, theme));
+            ChargeStatue(session, Vector2Int.right);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(policy ? 5 : 8, 4)));
+        }
+        [Test] public void TheaterStatueStillFailsOnPlayerContactBeforeBreakingGlass()
+        {
+            var session = new PuzzleDeviceSession(StatueGlassRoom(Vector2Int.right));
+            Assert.That(session.Apply(Vector2Int.down).accepted, Is.True);
+            Assert.That(session.Apply(Vector2Int.left).accepted, Is.True);
+            Assert.That(session.Failed, Is.True);
+            Assert.That(session.Failure, Is.EqualTo("Statue contact"));
+            Assert.That(session.States["glass"].removed, Is.False);
+        }
         [Test] public void BridgeHoldsOccupiedSpanAndRotationRejectsOccupiedFootprint()
         {
             var session=new PuzzleDeviceSession(Room(2));session.Apply(Vector2Int.right);session.Apply(Vector2Int.right);Assert.That(session.States["bridge"].active,Is.True);

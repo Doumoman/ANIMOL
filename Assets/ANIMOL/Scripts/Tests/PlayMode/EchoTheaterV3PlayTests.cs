@@ -18,6 +18,68 @@ namespace ANIMOL.Tests
         static float WorldSpriteWidth(SpriteRenderer renderer) =>
             renderer.sprite.bounds.size.x * renderer.transform.lossyScale.x;
 
+        [UnityTest] public IEnumerator StatueStopsAtBrokenGlassThenCanChargeAgainAndUndoRestoresBoth()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-05_MapData.asset");
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            var host = new GameObject("Theater statue glass stop regression");
+            var controller = host.AddComponent<PuzzlePrototypeController>();
+            var timeScale = Time.timeScale;
+            try
+            {
+                map.Resize(9, 9); map.theme = source.theme; map.scenario = rules;
+                map.start = new Vector2Int(4, 5); map.exit = Vector2Int.zero; map.targetBubbles = 0;
+                for (int y = 0; y < 9; y++) for (int x = 0; x < 9; x++)
+                    map.SetTerrain(new Vector2Int(x, y), TerrainMaterial.Grass);
+                rules.themeId = "memory_theater"; rules.echoTheaterV3Rules = true;
+                rules.statueStopsAfterBreakingWall = false;
+                var statue = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(
+                    source.scenario.devices.First(d => d.role == PrototypeRole.Statue)));
+                statue.id = "statue"; statue.position = new Vector2Int(1, 4);
+                statue.direction = Vector2Int.right; statue.number = 8;
+                var glass = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(
+                    source.scenario.devices.First(d => d.role == PrototypeRole.Glass)));
+                glass.id = "glass"; glass.position = new Vector2Int(5, 4);
+                rules.devices.Add(statue); rules.devices.Add(glass);
+                controller.secondsPerCell = .01f;
+                controller.Load(map);
+                Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                foreach (var input in new[] { Vector2Int.down, Vector2Int.up })
+                {
+                    Assert.That(controller.RequestMove(input), Is.True);
+                    while (controller.IsMoving) yield return null;
+                }
+                Assert.That(controller.Session.States["statue"].locked, Is.False);
+                Assert.That(controller.Session.States["glass"].removed, Is.True);
+                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(5, 4)));
+                Assert.That(controller.UndoLast(), Is.True);
+                Assert.That(controller.Session.States["glass"].removed, Is.False);
+                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(1, 4)));
+                Assert.That(controller.Devices.Actor("glass").gameObject.activeSelf, Is.True);
+                foreach (var input in new[] { Vector2Int.up, Vector2Int.right, Vector2Int.right,
+                    Vector2Int.down })
+                {
+                    Assert.That(controller.RequestMove(input), Is.True);
+                    while (controller.IsMoving) yield return null;
+                    Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(5, 4)));
+                }
+                Assert.That(controller.Session.States["statue"].locked, Is.True);
+                Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                while (controller.IsMoving) yield return null;
+                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(8, 4)));
+                Assert.That(controller.Session.Failed, Is.False);
+                controller.ResetStage();
+                Assert.That(controller.Session.States["glass"].removed, Is.False);
+                Assert.That((Vector2)controller.Devices.Actor("statue").position, Is.EqualTo(new Vector2(1, 4)));
+                Assert.That(controller.Devices.Actor("glass").gameObject.activeSelf, Is.True);
+                Assert.That(controller.BlocksInput, Is.False);
+                Assert.That(Time.timeScale, Is.EqualTo(timeScale));
+            }
+            finally { Object.Destroy(host); Object.Destroy(map); Object.Destroy(rules); }
+        }
+
         [UnityTest] public IEnumerator PaintedTheaterTerrainUpdatesRuntimeArtWithoutChangingWalkability()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

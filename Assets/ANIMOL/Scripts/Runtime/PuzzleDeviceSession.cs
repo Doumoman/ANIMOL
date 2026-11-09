@@ -1083,7 +1083,9 @@ namespace ANIMOL.Puzzle
                 }
                 var old = s.cell; s.cell = p; Move(d.id, old, p);
                 if (Cell == p) { Fail("Statue contact"); break; }
-                if (shattered && Rules.statueStopsAfterBreakingWall) break;
+                // Theater glass absorbs this charge; later turns can acquire a new target.
+                if (shattered && (Rules.statueStopsAfterBreakingWall ||
+                    body.role == PrototypeRole.Glass && Rules.themeId == "memory_theater")) break;
             }
             s.locked = false; Visual(d, "recover_" + Dir(s.direction), "statue_recovery");
         }
