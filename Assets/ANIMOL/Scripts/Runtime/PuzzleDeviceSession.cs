@@ -84,7 +84,9 @@ namespace ANIMOL.Puzzle
             definitions = Rules.devices.Where(d => Map.Contains(d.position)).OrderBy(d => d.id, StringComparer.Ordinal).ToList();
             foreach (var d in definitions) states.Add(d.id, new PrototypeDeviceState { cell = d.position, direction = d.direction, lookDirection = d.direction,
                 active = d.active, converted = d.role == PrototypeRole.Dice &&
-                    (d.variant == "target" || d.variant == "socket") && d.active, phase = d.orientation,
+                    (d.variant == "target" || d.variant == "socket") && d.active,
+                // Shutter parity must agree with its authored open/closed start.
+                phase = d.role == PrototypeRole.Shutter ? (d.active ? 0 : 1) : d.orientation,
                 dice = d.role == PrototypeRole.Dice && d.variant != "target" && d.variant != "socket" && d.initialDiceFaces != null && d.initialDiceFaces.Length == 6
                     ? (int[])d.initialDiceFaces.Clone() : new[] { 1, 6, 5, 2, 3, 4 } });
             foreach (var art in Rules.ranchV13Art.Where(a => a != null))

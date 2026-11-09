@@ -432,6 +432,13 @@ namespace ANIMOL.Presentation.Editor
                 if (cornerBounce && (fields[i] == "direction" || fields[i] == "orientation")) continue;
                 if (mirrorBounce && (fields[i] == "variant" || fields[i] == "direction" || fields[i] == "orientation")) continue;
                 if (bookshelf && (fields[i] == "initialVisual" || fields[i] == "orientation")) continue;
+                if (role.intValue == (int)PrototypeRole.Shutter && fields[i] == "orientation") continue;
+                if (role.intValue == (int)PrototypeRole.Shutter && fields[i] == "active")
+                {
+                    EditorGUILayout.PropertyField(device.FindPropertyRelative("active"), new GUIContent("처음 활성화",
+                        "체크하면 열린 상태, 해제하면 닫힌 상태로 시작하며 서로 반대 주기로 작동합니다. 점유 중에는 닫히지 않습니다."));
+                    continue;
+                }
                 EditorGUILayout.PropertyField(device.FindPropertyRelative(fields[i]), new GUIContent(labels[i]));
             }
             if (bookshelf)

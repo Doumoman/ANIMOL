@@ -12,6 +12,61 @@ namespace ANIMOL.Tests
 {
     public sealed class ShutterOneTilePlayTests
     {
+        [UnityTest] public IEnumerator OppositeInitialShuttersKeepDifferentTimingInGameplay()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device04_Shutter.asset");
+            foreach (var vertical in new[] { false, true })
+            {
+                var map = Object.Instantiate(source); map.scenario = Object.Instantiate(source.scenario);
+                map.scenario.costLimit = 0; map.scenario.goals.Clear(); map.bubbles.Clear(); map.targetBubbles = 0;
+                map.start = new Vector2Int(1, 1); map.SetTerrain(map.start, TerrainMaterial.Stone);
+                map.SetTerrain(new Vector2Int(2, 1), TerrainMaterial.Stone);
+                var closed = map.scenario.devices.Single(d => d.role == PrototypeRole.Shutter);
+                closed.active = false; closed.orientation = 1;
+                closed.direction = vertical ? Vector2Int.up : Vector2Int.right;
+                var open = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(closed));
+                open.id = "opposite_shutter"; open.active = true; open.position = new Vector2Int(5, 2);
+                map.SetTerrain(open.position, TerrainMaterial.Stone); map.scenario.devices.Add(open); map.InvalidateIndex();
+                var host = new GameObject("Opposite initial shutters gameplay test");
+                var controller = host.AddComponent<PuzzlePrototypeController>();
+                try
+                {
+                    controller.Load(map);
+                    var closedRenderer = controller.Devices.Actor(closed.id).GetComponent<DeviceVisualView>().visual;
+                    var openRenderer = controller.Devices.Actor(open.id).GetComponent<DeviceVisualView>().visual;
+                    var frames = vertical ? map.theme.oneTileShutterArt.vertical : map.theme.oneTileShutterArt.horizontal;
+                    for (var turn = 0; turn <= 6; turn++)
+                    {
+                        Assert.That(controller.Session.States[closed.id].active, Is.EqualTo(turn % 2 == 1));
+                        Assert.That(controller.Session.States[open.id].active, Is.EqualTo(turn % 2 == 0));
+                        Assert.That(closedRenderer.sprite, Is.SameAs(turn % 2 == 1 ? frames[3] : frames[0]));
+                        Assert.That(openRenderer.sprite, Is.SameAs(turn % 2 == 0 ? frames[3] : frames[0]));
+                        if (turn == 6) break;
+                        Assert.That(controller.RequestMove(turn % 2 == 0 ? Vector2Int.right : Vector2Int.left), Is.True);
+                        var deadline = Time.realtimeSinceStartup + 5f;
+                        while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                        {
+                            AssertOneCell(closedRenderer, closed.position); AssertOneCell(openRenderer, open.position);
+                            yield return null;
+                        }
+                        Assert.That(controller.IsMoving, Is.False);
+                    }
+                    Assert.That(controller.Session.Cost, Is.EqualTo(6));
+                    Assert.That(controller.UndoLast(), Is.True);
+                    Assert.That(controller.Session.States[closed.id].active, Is.True);
+                    Assert.That(controller.Session.States[open.id].active, Is.False);
+                    controller.ResetStage();
+                    Assert.That(closedRenderer.sprite, Is.SameAs(frames[0])); Assert.That(openRenderer.sprite, Is.SameAs(frames[3]));
+                    controller.Load(map);
+                    Assert.That(controller.Session.States[closed.id].active, Is.False);
+                    Assert.That(controller.Session.States[open.id].active, Is.True);
+                    Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                    Assert.That(controller.BlocksInput, Is.False);
+                }
+                finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+            }
+        }
         static void AssertOneCell(SpriteRenderer renderer, Vector2 cell)
         {
             Assert.That(renderer.bounds.center.x, Is.EqualTo(cell.x).Within(.001f));

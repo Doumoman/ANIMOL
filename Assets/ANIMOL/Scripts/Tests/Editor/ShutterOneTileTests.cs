@@ -1,3 +1,4 @@
+using System.Linq;
 using ANIMOL.Presentation.ShutterOneTileV01;
 using ANIMOL.Puzzle;
 using NUnit.Framework;
@@ -9,6 +10,87 @@ namespace ANIMOL.Tests
     public sealed class ShutterOneTileTests
     {
         const string Root = "Assets/ANIMOL_ECHO_THEATER_SHUTTER_1TILE_V01";
+
+        public static PuzzleMap OppositePhaseRoom(int legacyOrientation = 1)
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/Prototypes/Device04_Shutter.asset");
+            var map = Object.Instantiate(source); map.scenario = Object.Instantiate(source.scenario);
+            map.scenario.costLimit = 0; map.scenario.goals.Clear();
+            map.start = new Vector2Int(1, 1); map.bubbles.Clear(); map.targetBubbles = 0;
+            map.SetTerrain(map.start, TerrainMaterial.Stone);
+            map.SetTerrain(new Vector2Int(2, 1), TerrainMaterial.Stone);
+            map.SetTerrain(new Vector2Int(0, 1), TerrainMaterial.Stone, true);
+            var closed = map.scenario.devices.Single(d => d.role == PrototypeRole.Shutter);
+            closed.active = false; closed.orientation = legacyOrientation;
+            var open = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(closed));
+            open.id = "opposite_shutter"; open.position = new Vector2Int(5, 2); open.active = true;
+            map.SetTerrain(open.position, TerrainMaterial.Stone); map.scenario.devices.Add(open);
+            map.InvalidateIndex(); return map;
+        }
+        [TestCase(0), TestCase(1), TestCase(2), TestCase(3)]
+        public void ShutterInitialActivationKeepsOppositePhasesAcrossEightTurns(int legacyOrientation)
+        {
+            var map = OppositePhaseRoom(legacyOrientation);
+            try
+            {
+                var before = JsonUtility.ToJson(map.scenario);
+                var session = new PuzzleDeviceSession(map);
+                for (var turn = 0; turn <= 8; turn++)
+                {
+                    Assert.That(session.States["shutter"].active, Is.EqualTo(turn % 2 == 1));
+                    Assert.That(session.States["opposite_shutter"].active, Is.EqualTo(turn % 2 == 0));
+                    Assert.That((session.States["shutter"].phase - session.States["opposite_shutter"].phase) % 2,
+                        Is.EqualTo(1));
+                    if (turn < 8) Assert.That(session.Apply(turn % 2 == 0 ? Vector2Int.right : Vector2Int.left).accepted, Is.True);
+                }
+                Assert.That(session.Cost, Is.EqualTo(8));
+                Assert.That(JsonUtility.ToJson(map.scenario), Is.EqualTo(before));
+            }
+            finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
+        }
+        [Test] public void ShutterOppositePhaseRejectUndoResetAndSnapshotPreserveTheirClocks()
+        {
+            var map = OppositePhaseRoom();
+            try
+            {
+                var session = new PuzzleDeviceSession(map); var initial = session.SearchStateKey();
+                Assert.That(session.Apply(Vector2Int.left).accepted, Is.False);
+                Assert.That(session.SearchStateKey(), Is.EqualTo(initial)); Assert.That(session.Cost, Is.Zero);
+                Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+                var after = session.SearchStateKey();
+                var restored = session.RestoreSearchSnapshot(session.CaptureSearchSnapshot());
+                Assert.That(restored.SearchStateKey(), Is.EqualTo(after));
+                Assert.That(restored.States["shutter"].active, Is.True);
+                Assert.That(restored.States["opposite_shutter"].active, Is.False);
+                Assert.That(session.Undo(), Is.True); Assert.That(session.SearchStateKey(), Is.EqualTo(initial));
+                session.Apply(Vector2Int.right); session.Reset();
+                Assert.That(session.SearchStateKey(), Is.EqualTo(initial)); Assert.That(session.Cost, Is.Zero);
+            }
+            finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
+        }
+        [TestCase(false), TestCase(true)]
+        public void ShutterOccupancySafetyRetainsConfiguredClockPolicy(bool advanceWhenOccupied)
+        {
+            var map = OppositePhaseRoom();
+            map.scenario.shutterPhaseAdvancesWhenOccupied = advanceWhenOccupied;
+            map.start = new Vector2Int(4, 2); map.SetTerrain(map.start, TerrainMaterial.Stone);
+            map.SetTerrain(new Vector2Int(5, 3), TerrainMaterial.Stone, true); map.InvalidateIndex();
+            try
+            {
+                var session = new PuzzleDeviceSession(map);
+                Assert.That(session.Apply(Vector2Int.right).accepted, Is.True);
+                Assert.That(session.States["opposite_shutter"].active, Is.True, "Occupied shutter closed on the player");
+                Assert.That(session.States["opposite_shutter"].phase, Is.EqualTo(advanceWhenOccupied ? 1 : 0));
+                var key = session.SearchStateKey();
+                Assert.That(session.Apply(Vector2Int.up).accepted, Is.False);
+                Assert.That(session.SearchStateKey(), Is.EqualTo(key));
+                Assert.That(session.Apply(Vector2Int.left).accepted, Is.True);
+                if (advanceWhenOccupied)
+                    Assert.That(session.States["shutter"].active, Is.Not.EqualTo(session.States["opposite_shutter"].active));
+            }
+            finally { Object.DestroyImmediate(map.scenario); Object.DestroyImmediate(map); }
+        }
 
         [Test] public void InstalledArtAndThemeUseEightOneCellFrames()
         {
