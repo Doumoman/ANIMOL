@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": {
+      "status": "completed",
+      "duration": 2.42,
+      "summary": {
+        "total": 3,
+        "passed": 2,
+        "failed": 1,
+        "skipped": 0,
+        "inconclusive": 0
+      },
+      "results": [
+        {
+          "FullName": "ANIMOL.StarRainBattle.Tests.StarRainBattleSceneTests.PointerFlowPauseRetryAndRealCoreOutcomes",
+          "Status": "Passed",
+          "Duration": 1.6173378,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ANIMOL.StarRainBattle.Tests.StarRainBattleSceneTests.PoolingBasicAbsorptionPrismAndReducedMotion",
+          "Status": "Failed",
+          "Duration": 0.3580436,
+          "Message": "  Expected: 0\r\n  But was:  1.0f\r\n",
+          "StackTrace": "at ANIMOL.StarRainBattle.Tests.StarRainBattleSceneTests+<PoolingBasicAbsorptionPrismAndReducedMotion>d__13.MoveNext () [0x002f4] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\StarRainBattle\\Tests\\PlayMode\\StarRainBattleSceneTests.cs:158\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44\r\n"
+        },
+        {
+          "FullName": "ANIMOL.StarRainBattle.Tests.StarRainBattleSceneTests.SafeAreaAndPointerCoordinatesAtFourRenderSizes",
+          "Status": "Passed",
+          "Duration": 0.4314519,
+          "Message": null,
+          "StackTrace": null
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\user\\Documents\\GitHub\\ANIMOL"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
