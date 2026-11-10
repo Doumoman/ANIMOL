@@ -72,6 +72,10 @@ namespace ANIMOL.Puzzle
         List<PrototypeEvent> events = new List<PrototypeEvent>();
         readonly HashSet<string> newlyArmed = new HashSet<string>();
         readonly HashSet<string> pushedThisAction = new HashSet<string>();
+        // Retain a blocked press only while this input's moving devices settle.
+        // A held plate must not replay the press on a later turn.
+        readonly HashSet<(string plate, string shelf)> pendingBookshelfRotations =
+            new HashSet<(string plate, string shelf)>();
         readonly Stack<PuzzleDeviceSession> undo = new Stack<PuzzleDeviceSession>();
         int group;
         bool forced, sliding, stationaryPush;
@@ -408,7 +412,7 @@ namespace ANIMOL.Puzzle
         PrototypeAction Resolve(Vector2Int direction)
         {
             var inputStart = Cell;
-            Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear();
+            Direction = direction; forced = sliding = stationaryPush = false; group = 0; events.Clear(); newlyArmed.Clear(); pushedThisAction.Clear(); pendingBookshelfRotations.Clear();
             if (!ReflectorEntryAllowed(Cell + direction, Cell)) return new PrototypeAction { reason = "Closed reflector face" };
             var mirror = At(Cell + direction, d => d.role == PrototypeRole.Optics && d.variant == "mirror");
             var blower = At(Cell + direction, d => d.role == PrototypeRole.Wind && d.variant == "blower");
@@ -437,7 +441,7 @@ namespace ANIMOL.Puzzle
                 }
                 if (!ranchHandled && !stationaryPush) Automatic();
             }
-            Cost++; EndTurn(inputStart); Victory();
+            Cost++; EndTurn(inputStart); Victory(); pendingBookshelfRotations.Clear();
             if (!Won && Rules.costLimit > 0 && Cost >= Rules.costLimit) Fail("Cost exhausted");
             return new PrototypeAction { accepted = true, events = events };
         }
@@ -936,9 +940,17 @@ namespace ANIMOL.Puzzle
                         if (ls.active != enabled && animate) Visual(linked, (enabled ? "bridge_extend_" : "bridge_retract_") + Dir(linked.direction), enabled ? "existing_bridge_enabled" : "existing_bridge_disabled");
                         ls.active = enabled;
                     }
-                    if (linked.role == PrototypeRole.Bookshelf && rising)
+                    if (linked.role == PrototypeRole.Bookshelf)
                     {
-                        if (BookshelfRotationBlocked(linked, out _)) continue;
+                        var request = (plate.id, linked.id);
+                        if (!value) { pendingBookshelfRotations.Remove(request); continue; }
+                        if (!rising && !pendingBookshelfRotations.Contains(request)) continue;
+                        if (BookshelfRotationBlocked(linked, out _))
+                        {
+                            if (animate) pendingBookshelfRotations.Add(request);
+                            continue;
+                        }
+                        pendingBookshelfRotations.Remove(request);
                         var phase = ls.phase;
                         ls.phase = BookshelfRotationRules.NextPhase(phase, linked.bookshelfRotation, Rules.echoTheaterV3Rules);
                         if (animate)

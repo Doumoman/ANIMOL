@@ -1,0 +1,84 @@
+{
+  "baseCommit": "18d1a7c8e9288833d5882061f1783f6f1bc6cbe9",
+  "problem": "A bookshelf plate rising edge was consumed before the turn finished moving the cart/statue. The final sweep could be empty while the pressed plate could no longer request the missed rotation.",
+  "et12Reproduction": {
+    "route": "RUUUUUUDLLDURRDL",
+    "step": 16,
+    "shelf": "bookshelf_1",
+    "plate": "bookshelf_3",
+    "cartBefore": [
+      10,
+      7
+    ],
+    "cartAfter": [
+      10,
+      8
+    ],
+    "statueUnchanged": [
+      12,
+      9
+    ],
+    "phaseBeforeFix": 0,
+    "phaseAfterFix": 1,
+    "cost": 16
+  },
+  "fix": [
+    "Keep blocked bookshelf requests per plate/shelf pair during the current input and recheck them when linked device states refresh after movement.",
+    "Always recheck the actual current footprint: a statue or other physical obstacle still in the sweep continues to block rotation.",
+    "Remove each request on successful rotation or plate release. Expire remaining requests at input completion, so a held plate does not fire a stale press on a later turn.",
+    "Keep the existing event, animation-direction selection, cost, Undo and input-blocking policies."
+  ],
+  "tests": {
+    "before_fix": {
+      "status": "completed",
+      "total": 47,
+      "passed": 45,
+      "failed": 2,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "editmode": {
+      "status": "completed",
+      "total": 47,
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "playmode": {
+      "status": "completed",
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "statue_regression": {
+      "status": "completed",
+      "total": 28,
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "coverage": [
+    "Two tests failed before the fix: the exact ET-12 cart-departure input path and a locked charging statue clearing the swept corner after the plate press.",
+    "ET-12 is also replayed through the actual PuzzlePrototypeController in PlayMode; the shelf reaches vertical with no missing bindings and input cost 16.",
+    "All poses and rotation directions allow statues outside the selected sweep. A continuously held plate does not replay an expired blocked press.",
+    "Existing statue charging, player contact and glass-break tests pass."
+  ],
+  "compile": {
+    "status": "completed",
+    "errors": [],
+    "compilationFailed": false
+  },
+  "mapPreservation": {
+    "path": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset",
+    "sha256Before": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93",
+    "sha256After": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93",
+    "unchanged": true
+  },
+  "existingChanges": "The initial git-status snapshot is preserved; only three task source files and this validation folder were added.",
+  "archivedPolicyTests": "CommercialPolishPolicyTests not run: archived under Legacy/PreviousProject_20261013; this change adds no feedback event, intensity or input block."
+}

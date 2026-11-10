@@ -13,6 +13,36 @@ namespace ANIMOL.Tests
 {
     public sealed class BookshelfRotationPlayTests
     {
+        [UnityTest] public IEnumerator Et12RuntimeControllerRotatesAfterTheBlockingCartMovesAway()
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(
+                "Assets/ANIMOL/Scenes/Prototype/ANIMOL_memory_theater_Prototype.unity",
+                new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+            yield return null; yield return null; yield return null;
+            var host = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
+            host.secondsPerCell = .01f; host.Load(source);
+            const string route = "RUUUUUUDLLDURRDL";
+            foreach (var input in route)
+            {
+                Assert.That(host.RequestMove(input == 'R' ? Vector2Int.right : input == 'L' ? Vector2Int.left :
+                    input == 'U' ? Vector2Int.up : Vector2Int.down), Is.True);
+                var deadline = Time.realtimeSinceStartup + 5;
+                while (host.IsMoving && Time.realtimeSinceStartup < deadline) yield return null;
+                Assert.That(host.IsMoving, Is.False, "ET-12 input did not settle: " + input);
+            }
+            Assert.That(host.Session.States["statue_1"].cell, Is.EqualTo(new Vector2Int(12, 9)));
+            Assert.That(host.Session.States["movingstage_1"].cell, Is.EqualTo(new Vector2Int(10, 8)));
+            Assert.That(host.Session.States["bookshelf_1"].phase, Is.EqualTo(1));
+            Assert.That(host.Session.Cost, Is.EqualTo(route.Length));
+            var view = host.Devices.Actor("bookshelf_1").GetComponent<DeviceVisualView>();
+            var visualDeadline = Time.realtimeSinceStartup + 2;
+            while (view.CurrentState != "vertical" && Time.realtimeSinceStartup < visualDeadline) yield return null;
+            Assert.That(view.CurrentState, Is.EqualTo("vertical"));
+            Assert.That(view.BlocksInput, Is.False); Assert.That(host.Devices.MissingBindings, Is.Zero);
+        }
+
         [UnityTest] public IEnumerator CommittedArtSweepsTheSameDiagonalAsCollisionInEveryPoseAndDirection()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");

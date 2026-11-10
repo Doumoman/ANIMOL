@@ -67,7 +67,7 @@ namespace ANIMOL.Tests
         }
 
         [TestCase(PrototypeRole.Wall), TestCase(PrototypeRole.Dice), TestCase(PrototypeRole.Glass)]
-        [TestCase(PrototypeRole.Shutter), TestCase(PrototypeRole.Bookshelf)]
+        [TestCase(PrototypeRole.Bookshelf)]
         public void DeviceOrBlockInSweptCornerPreventsRotationEvenWhenTheFinalEndsAreClear(PrototypeRole role)
         {
             Obstacle(role, P(3, 4));
@@ -218,6 +218,94 @@ namespace ANIMOL.Tests
                 Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.False);
                 Assert.That(session.Apply(Vector2Int.up).events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.True);
             }
+        }
+
+        [Test] public void Et12PressRetriesAfterTheCartClearsTheSweepInTheSameTurn()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
+            var session = new PuzzleDeviceSession(source);
+            const string route = "RUUUUUUDLLDURRDL";
+            PrototypeAction action = null;
+            foreach (var input in route)
+            {
+                action = session.Apply(input == 'R' ? Vector2Int.right : input == 'L' ? Vector2Int.left :
+                    input == 'U' ? Vector2Int.up : Vector2Int.down);
+                Assert.That(action.accepted, Is.True, "ET-12 input " + input);
+            }
+            Assert.That(session.States["statue_1"].cell, Is.EqualTo(P(12, 9)));
+            Assert.That(session.States["movingstage_1"].cell, Is.EqualTo(P(10, 8)));
+            Assert.That(session.States["bookshelf_3"].active, Is.True);
+            Assert.That(session.States["bookshelf_1"].phase, Is.EqualTo(1));
+            Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+            Assert.That(session.Cost, Is.EqualTo(route.Length));
+        }
+
+        [Test] public void StatueClearingTheSweepAfterThePressStillAllowsOneRotation()
+        {
+            shelf.orientation = 1;
+            var statue = Obstacle(PrototypeRole.Statue, P(5, 4));
+            statue.direction = Vector2Int.down; statue.number = 2;
+            map.SetTerrain(P(5, 3), TerrainMaterial.TheaterStageFloor);
+            map.SetTerrain(P(5, 2), TerrainMaterial.TheaterStageFloor);
+            var session = new PuzzleDeviceSession(map);
+            session.States[statue.id].locked = true; session.States[statue.id].timer = 2;
+            Assert.That(session.BookshelfRotationBlocked(shelf, out var blocked), Is.True);
+            Assert.That(blocked, Is.EqualTo(P(5, 4)));
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(session.States[statue.id].cell, Is.EqualTo(P(5, 2)));
+            Assert.That(session.States[shelf.id].phase, Is.Zero);
+            Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+            Assert.That(action.events.FindIndex(e => e.eventName == "bookshelf_rotation_committed"),
+                Is.GreaterThan(action.events.FindLastIndex(e => e.actor == statue.id)));
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Undo(), Is.True);
+            Assert.That(session.States[statue.id].cell, Is.EqualTo(P(5, 4)));
+            Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
+        }
+
+        [Test] public void ShutterOpeningLaterInTheSameTurnRechecksTheBlockedPress()
+        {
+            Obstacle(PrototypeRole.Shutter, P(3, 4));
+            var session = new PuzzleDeviceSession(map);
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(session.States["obstacle"].active, Is.True);
+            Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
+            Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+        }
+
+        [TestCase(0, false), TestCase(1, false), TestCase(2, false), TestCase(3, false)]
+        [TestCase(0, true), TestCase(1, true), TestCase(2, true), TestCase(3, true)]
+        public void StatueOutsideTheSelectedSweepDoesNotBlockRotation(int phase, bool counterclockwise)
+        {
+            rules.echoTheaterV3Rules = false; shelf.orientation = phase;
+            shelf.bookshelfRotation = counterclockwise ? BookshelfRotationDirection.CounterClockwise : BookshelfRotationDirection.Clockwise;
+            var sweptY = ((phase & 1) == 0) != counterclockwise ? -1 : 1;
+            Obstacle(PrototypeRole.Statue, shelf.position + P(1, -sweptY));
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.False);
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+        }
+
+        [Test] public void BlockedPressExpiresAtTurnEndAndDoesNotFireOnALaterHeldPlateInput()
+        {
+            shelf.orientation = 1;
+            var statue = Obstacle(PrototypeRole.Statue, P(5, 4));
+            var crate = new PrototypeDevice { id = "crate", role = PrototypeRole.WoodCrate, position = P(2, 1) };
+            rules.devices.Add(crate);
+            foreach (var cell in new[] { P(2, 1), P(3, 1) }) map.SetTerrain(cell, TerrainMaterial.TheaterStageFloor);
+            var session = new PuzzleDeviceSession(map);
+            var blocked = session.Apply(Vector2Int.up);
+            Assert.That(blocked.events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.False);
+            Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
+            session.States[statue.id].cell = P(5, 1);
+            var held = session.Apply(Vector2Int.right);
+            Assert.That(held.accepted, Is.True); Assert.That(session.Cell, Is.EqualTo(P(1, 1)));
+            Assert.That(session.States["plate"].active, Is.True);
+            Assert.That(held.events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.False);
+            session.Apply(Vector2Int.down);
+            Assert.That(session.Apply(Vector2Int.up).events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
         }
 
         [UnityTest] public IEnumerator EditorRendersBookshelfSweepAndDirectionControlsWithoutChangingAssets()
