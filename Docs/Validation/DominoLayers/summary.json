@@ -1,0 +1,47 @@
+{
+  "baseCommit": "28491d933c699d53ef73812ec6423707256f753b",
+  "change": "Bind domino SpriteRenderers at order 21, above terrain and below floor devices (22) and ordinary bodies (30). The order applies consistently to standing, folding and folded states.",
+  "verification": {
+    "visualPreview": "overlap_preview.png",
+    "columns": [
+      "Dice",
+      "Statue",
+      "CowardDoll"
+    ],
+    "topRow": "Folded dominoes alone",
+    "bottomRow": "The same dominoes with the corresponding body at the same cell; bodies render in front.",
+    "tileOrders": [
+      0
+    ],
+    "dominoOrder": 21,
+    "bodyOrder": 30,
+    "poses": [
+      {
+        "state": "standing_e",
+        "order": 21,
+        "BlocksInput": false
+      },
+      {
+        "state": "fold_e",
+        "order": 21,
+        "BlocksInput": false
+      },
+      {
+        "state": "folded_e",
+        "order": 21,
+        "BlocksInput": false
+      }
+    ],
+    "missingBindings": 0,
+    "compileErrors": []
+  },
+  "existingTestFailure": {
+    "test": "ANIMOL.Tests.DevicePatchP01PlayTests.DominoPanelsStartInChainOrderWithoutExtraCost",
+    "result": "Failed in current and HEAD baseline with the identical assertion.",
+    "reason": "  Expected string length 6 but was 10. Strings differ at index 0.\r\n  Expected: \"fold_e\"\r\n  But was:  \"standing_e\"\r\n  -----------^\r\n",
+    "detail": "The existing test expects fold_e immediately after RequestMove but the presenter still reports standing_e. This change only sets renderer sorting order; the failure is preserved rather than changing animation timing."
+  },
+  "preservation": "Only PuzzleDeviceView.cs changes runtime behavior. No map, prefab, sprite, occupancy, movement, feedback event or intensity change.",
+  "archivedPolicyTests": "CommercialPolishPolicyTests not run: archived; no feedback event/intensity change.",
+  "unrelatedWorkspaceChange": "An ET-18 MapData edit appeared during the task and is left unstaged outside this commit; its origin was not assumed."
+}

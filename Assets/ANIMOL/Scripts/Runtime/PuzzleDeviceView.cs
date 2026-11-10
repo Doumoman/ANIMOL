@@ -235,7 +235,11 @@ namespace ANIMOL.Puzzle
                 }
                 else
                 {
-                    var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view; if (view.visual) view.visual.sortingOrder = d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30;
+                    var view = root.GetComponent<DeviceVisualView>(); if (view) { views[d.id] = view;
+                        // Dominoes stay just above the floor, including while folding,
+                        // so bodies moving over a folded panel always draw in front.
+                        if (view.visual) view.visual.sortingOrder = d.role == PrototypeRole.Domino ? 21 :
+                            d.variant == "plate" || d.variant == "target" || d.variant == "socket" ? 22 : 30;
                         if (theaterArt && theaterArt.v03Animations && d.variant != "plate" && d.variant != "target" && d.variant != "socket" && HasV03DeviceArt(d.role))
                             if (!view.ActivateV03(theaterArt.v03Animations, theaterArt.v03ManifestSha256)) MissingBindings++;
                         if (session.Map.theme && session.Map.theme.starwayRanch)
