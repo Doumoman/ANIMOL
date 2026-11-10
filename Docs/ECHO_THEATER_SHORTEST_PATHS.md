@@ -1,179 +1,312 @@
-# 잔영 극장 현재 정본의 최단 입력 경로
+# 잔영 극장 ET-18까지의 최단 입력 경로
 
-?? ? ?? ?? ?? ?? ? ET-10? ?? 43?? ??? 35?? ???? ???. ? ??? ???? 1,000,000? ?? ??? ???? ????? ????. ?? ??? ?? ??? ??? ??? ???. [??? ??](Validation/StatueBeforeCart/ET10_revalidation.json)
+맵 원본 커밋 `6c46f4dbb`을 기준으로 존재하는 **18개 맵**을 계산했다. **최단 확정 17개, 도달 불가 0개, 미확정 1개**다.
 
-2026-11-10 기준 **11개 맵 중 최단 확정 11개, 경로 없음 0개, 미확정 0개**다. 현재 사용자가 작성한 맵을 정본으로 먼저 커밋한 `a2f825e09` 이후에 계산했다. 계산 때문에 MapData·작성된 `verificationRoute`·GUID·진행 기록을 수정하지 않았다.
+ET-06 파일은 삭제된 상태를 유지했다. 화면 번호와 파일 ID는 다를 수 있으므로 아래의 실제 MapSet 연결을 함께 표시한다. 계산 결과는 MapData와 별도의 경로 카탈로그에 기록한다.
 
-[정본 파일·GUID·이전 이름 대조](Validation/CanonicalMaps/inventory.json) · [실제 화면/MapSet 연결](Validation/CanonicalMapPaths/stage_aliases.json) · [Unity 전체 경로 재생](Validation/CanonicalMapPaths/native_replay.json)
-
-## 파일 이름과 화면 번호
-
-ET-11까지 현존하는 ET-00~05, ET-07~11의 11개 파일만 계산했다. ET-06 삭제를 그대로 유지했고, ET-12~35의 기존 제작용 파일은 이번 작성 범위에 넣지 않았다. 화면 번호는 EchoTheaterMapSet의 실제 GUID 참조를 따른다.
-
-| 현재 파일 | 동일 GUID의 이전 파일 | 현재 화면 연결 |
-|---|---|---|
-| ET-00 | ET-02 | ET-02 |
-| ET-01 | ET-06 | ET-06 |
-| ET-02 | ET-07 | ET-07 |
-| ET-07 | ET-01 | ET-01 |
-
-위 이름 이동과 현재 배치를 정본으로 삼았다. 과거 ET-02 파일이 없던 시점의 보고서를 현재 배치의 증거로 사용하지 않는다. 현재 책장의 회전 영역·방향·충돌, 돌진 석상의 유리벽 직전 정지, 셔터의 초기 반대 위상, 카트의 논리 처리 순서를 모두 실제 판정으로 반영했다.
+[맵·GUID·원본 해시](Validation/EchoThrough18/inventory.json) · [Unity 실제 경로 재생](Validation/EchoThrough18/native_replay.json)
 
 ## 현재 결과
 
 | 파일 ID | 화면 스테이지 | 결과 | 최단 입력 | 발견 상태 |
 |---|---|---|---:|---:|
 | ET-00 | ET-02 | 최단 확정 | 31 | 64 |
-| ET-01 | ET-06 | 최단 확정 | 19 | 52 |
-| ET-02 | ET-07 | 최단 확정 | 29 | 3,167 |
-| ET-03 | ET-03 | 최단 확정 | 49 | 48,761 |
+| ET-01 | ET-06 | 최단 확정 | 19 | 51 |
+| ET-02 | ET-07 | 최단 확정 | 29 | 3,736 |
+| ET-03 | ET-03 | 최단 확정 | 49 | 48,738 |
 | ET-04 | ET-04 | 최단 확정 | 33 | 37,414 |
 | ET-05 | ET-05 | 최단 확정 | 26 | 3,081 |
-| ET-07 | ET-01 | 최단 확정 | 42 | 252,714 |
+| ET-07 | ET-01 | 최단 확정 | 42 | 253,243 |
 | ET-08 | ET-08 | 최단 확정 | 43 | 1,191 |
-| ET-09 | ET-09 | 최단 확정 | 40 | 400,205 |
-| ET-10 | ET-10 | 최단 확정 | 43 | 604,257 |
-| ET-11 | ET-11 | 최단 확정 | 33 | 2,191 |
+| ET-09 | ET-09 | 최단 확정 | 40 | 400,283 |
+| ET-10 | ET-10 | 최단 확정 | 42 | 478,718 |
+| ET-11 | ET-11 | 최단 확정 | 33 | 2,164 |
+| ET-12 | ET-12 | 최단 확정 | 43 | 84,123 |
+| ET-13 | ET-13 | 최단 확정 | 32 | 3,229,651 |
+| ET-14 | ET-14 | 최단 확정 | 46 | 847,211 |
+| ET-15 | ET-15 | 미확정 | — | 4,406,497 |
+| ET-16 | ET-16 | 최단 확정 | 45 | 1,219 |
+| ET-17 | ET-17 | 최단 확정 | 19 | 6,728 |
+| ET-18 | ET-18 | 최단 확정 | 48 | 22,957 |
 
-유효한 방향 입력 하나의 비용은 1이다. 제자리에서 장치를 작동하거나 물체를 미는 입력도 1이며, 자동 바람 대기 `○`는 비용 0이다. N/↑=위, E/→=오른쪽, S/↓=아래, W/←=왼쪽이다. 경로를 줄이기 위해 제자리 입력이나 반복 방향을 생략하지 않는다.
+방향 입력 하나의 비용은 1이다. 제자리 밀기도 포함한다. `↑/N` 위, `→/E` 오른쪽, `↓/S` 아래, `←/W` 왼쪽이며 반복 입력을 생략하지 않는다.
 
-## 배치 변경 대조
+## 계산과 검증
 
-아래 칸 수는 직렬화된 terrain 항목 수이며 실제 통행 가능 칸 수와 다르다. 이전 파일은 이전 HEAD에서 같은 GUID를 가진 파일이다. 이름 이동과 배치 변경을 분리해서 비교한다.
+모든 간선은 현재 Unity와 같은 `PuzzleDeviceSession` 소스의 `SearchStep`으로 생성했다. 18개 맵의 7,200개 실제 Unity 상태와 28,800개 공개 입력 전이를 별도 실행기와 대조했다. 완성된 경로는 Unity의 `ReplayRuntimeInput`으로 다시 실행해 수집·출구·승리·비용을 확인했다.
 
-| 현재 파일 | 이전 이름 | terrain 항목 이전→현재 | 목표 별 이전→현재 | 현재 장치 수 |
-|---|---|---:|---:|---:|
-| ET-00 | ET-02 | 131→32 | 3→3 | 6 |
-| ET-01 | ET-06 | 133→24 | 3→3 | 3 |
-| ET-02 | ET-07 | 140→29 | 3→3 | 6 |
-| ET-03 | ET-03 | 127→38 | 3→2 | 7 |
-| ET-04 | ET-04 | 136→33 | 3→2 | 7 |
-| ET-05 | ET-05 | 112→42 | 3→2 | 8 |
-| ET-07 | ET-01 | 109→40 | 3→2 | 10 |
-| ET-08 | ET-08 | 130→33 | 3→2 | 10 |
-| ET-09 | ET-09 | 139→38 | 3→3 | 11 |
-| ET-10 | ET-10 | 118→39 | 3→2 | 10 |
-| ET-11 | ET-11 | 137→44 | 3→3 | 9 |
+A* 하한은 동적 장애물을 제거하고 카트가 줄 수 있는 밀림을 더 넓게 허용한 완화 보드다. 더 싼 경로를 찾으면 상태를 다시 열며, 최소 `g+h`의 승리 상태를 꺼낸 경우에만 최단으로 확정한다. 셔터의 phase는 키에서만 홀짝으로 묶는다. 석상이 돌진 중이 아닐 때의 과거 timer 역시 다음 감지 때 덮어쓰므로 키에서만 정규화하며, 잠긴 석상의 timer는 유지한다. 유리 상자의 지난 이동 방향은 다음 이동 입력이나 충돌 판정에 사용하지 않으므로 키에서만 묶는다. 실제 세션과 체크포인트의 원래 값은 보존한다.
+
+석상·유리·주사위만 있는 맵에서는 바닥이 끝나거나 영구 정지한 석상에 막혀 더는 이동할 수 없는 석상을 찾는다. 이 영구 장애물만 남긴 완화 보드에서도 출구나 필요한 별에 도달할 수 없는 분기만 제외한다. 다른 장치가 있는 맵에는 이 조건을 적용하지 않는다. 작은 보드의 완전 BFS와 실제 소스 전이로 거짓 차단 여부를 검사했다.
+
+상태·메모리 상한과 실제 사용량은 각 검색 JSON에 있다. 상한·취소·원본 변경은 미확정이며 도달 불가로 바꾸지 않는다. 원본 맵, `.meta` GUID와 작성된 `verificationRoute`를 계산 때문에 수정하지 않았다. 모든 맵의 PlayMode 전체 플레이나 모바일 렌더링을 검증한 결과와는 구분한다.
+
+초기 검색 빌드와 정규화를 보강한 빌드는 각각의 소스 해시와 검증 보고서로 구분한다. 완료된 초기 빌드의 큐·진입점 소스는 `Validation/EchoThrough18/InitialBuildSources`에 보관했다. 현재 런타임 판정 소스는 모든 빌드에서 동일하다.
 
 ## 경로
 
-### ET-00
+## ET-00
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-00.json) · 원본 SHA-256 `b6ea624e638223cb17b7ab6501a338281c5afd185e8d865d049fbeaf9a4b9264`
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-00.json) · [검색 증거](Validation/EchoThrough18/Search/ET-00.json)
 
 **31입력**
 
 ```text
-→→↑→→↓→↑↑↑↑↓↓↓→→↑→→→↑↓↓→→↑↑↓↓→→
+01~10: → → ↑ → → ↓ → ↑ ↑ ↑
+11~20: ↑ ↓ ↓ ↓ → → ↑ → → →
+21~30: ↑ ↓ ↓ → → ↑ ↑ ↓ ↓ →
+31~31: →
 ```
 
-### ET-01
+NESW: `EENEESENNNNSSSEENEEENSSEENNSSEE`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-01.json) · 원본 SHA-256 `339d720cfd7d60cd37ba518e434cad61482bbc8f8f84afdaa2b020403bc92a6c`
+## ET-01
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-01.json) · [검색 증거](Validation/EchoThrough18/Search/ET-01.json)
 
 **19입력**
 
 ```text
-←←↓←→→↓→→→→↑↓↓←↑→→→
+01~10: ← ← ↓ ← → → ↓ → → →
+11~19: → ↑ ↓ ↓ ← ↑ → → →
 ```
 
-### ET-02
+NESW: `WWSWEESEEEENSSWNEEE`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-02.json) · 원본 SHA-256 `8de33d72ef5b43f7bfcbf0333b41022fb4af882504cef594130e6c00a6e19c42`
+## ET-02
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-02.json) · [검색 증거](Validation/EchoThrough18/Search/ET-02.json)
 
 **29입력**
 
 ```text
-→→→↑↑↑←←↓←←↑↓↓↑→→↑→→→→↓↓↑↑←↑↑
+01~10: → ↑ ↑ → → ↑ ← ← ↓ ←
+11~20: ← ↑ ↓ ↓ ↑ → → ↑ → →
+21~29: → → ↓ ↓ ↑ ↑ ← ↑ ↑
 ```
 
-### ET-03
+NESW: `ENNEENWWSWWNSSNEENEEEESSNNWNN`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-03.json) · 원본 SHA-256 `4be33c69e120a690733dba2f47ec5d765e9e3e063926bc25a94accdf5edff590`
+## ET-03
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-03.json) · [검색 증거](Validation/EchoThrough18/Search/ET-03.json)
 
 **49입력**
 
 ```text
-→→↓↑→↓←↑↑→↑←↑↓←↓↓↓←↓↓→→→→→↓→↑↑↑↓←↑→↑↑↑←↑→↑→↓→→↑↑↑
+01~10: → → ↓ ↑ → ↓ ↑ ← ↑ ↑
+11~20: ← ↑ ↓ ← ↓ ↓ ↓ ← ↓ ↓
+21~30: → → → → → ↓ → ↑ ↑ ↑
+31~40: ↓ ← ↑ → ↑ ↑ ↑ ← ↑ →
+41~49: ↑ → → ↓ → → ↑ ↑ ↑
 ```
 
-### ET-04
+NESW: `EESNESNWNNWNSWSSSWSSEEEEESENNNSWNENNNWNENEESEENNN`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-04.json) · 원본 SHA-256 `744ddcb7f4bed20df6fa3b54f29e20178ec79197cdfb033e1e9aa8a1c5b868e0`
+## ET-04
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-04.json) · [검색 증거](Validation/EchoThrough18/Search/ET-04.json)
 
 **33입력**
 
 ```text
-↑→↑→→↑↑↑↑↑←↓↓←←↓↑→→→↓↓↑→→↑←←→→↑↑→
+01~10: ↑ → ↑ ↑ → → ↑ ↑ ↑ ↑
+11~20: ← ↓ ↓ ← ← ↓ → ↑ → →
+21~30: ↓ ↓ ↑ → → ↑ ↓ ← ↑ →
+31~33: ↑ ↑ →
 ```
 
-### ET-05
+NESW: `NENNEENNNNWSSWWSENEESSNEENSWNENNE`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-05.json) · 원본 SHA-256 `60f35d7ba497f31b0d081c6da01e3bdc9f22158d1553126d7e603fca8e216c63`
+## ET-05
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-05.json) · [검색 증거](Validation/EchoThrough18/Search/ET-05.json)
 
 **26입력**
 
 ```text
-→→→↑←←↓←↑↑→↑↑↓↓→→↑↑↑↑↑↑↓→→
+01~10: → → → ↑ ← ← ↓ ← ↑ ↑
+11~20: → ↑ ↑ ↓ ↓ → → ↑ ↑ ↑
+21~26: ↑ ↑ ↑ ↓ → →
 ```
 
-### ET-07
+NESW: `EEENWWSWNNENNSSEENNNNNNSEE`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-07.json) · 원본 SHA-256 `ffaca9eca2ce08572d1695cc3c9d50e457146379548633e1781f3d962d3228a4`
+## ET-07
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-07.json) · [검색 증거](Validation/EchoThrough18/Search/ET-07.json)
 
 **42입력**
 
 ```text
-→↑→→↓→↓↓←↑←←↓←↓↓→←←←↑↑↑→→→→↑↓↓↓→↓→→→→←↑↑↑↑
+01~10: → ↑ → → ↓ → ↓ ↓ ← ↑
+11~20: ← ← ↓ ← ↓ ↓ → ← ← ←
+21~30: ↑ ↑ ↑ → → → → ↑ ↓ ↓
+31~40: → ↓ ↓ → → → → ← ↑ ↑
+41~42: ↑ ↑
 ```
 
-### ET-08
+NESW: `ENEESESSWNWWSWSSEWWWNNNEEEENSSESSEEEEWNNNN`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-08.json) · 원본 SHA-256 `499eb71bae8acd26eb866156047052e82ae4a1f09966d015a1a1c105007fe2dd`
+## ET-08
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-08.json) · [검색 증거](Validation/EchoThrough18/Search/ET-08.json)
 
 **43입력**
 
 ```text
-←↑↑→→↓→→↑↑↑←←←→→↑↑↓→←←←↓↑→↓↓↓←←↓↑→→→→↑↑→→→↑
+01~10: ← ↑ ↑ → → ↓ → → ↑ ↑
+11~20: ↑ ← ← ← → → ↑ ↑ → ↑
+21~30: ← ← ↓ ← ↑ → ↓ ↓ ↓ ←
+31~40: ← ↓ ↑ → → → → ↑ ↑ →
+41~43: → → ↑
 ```
 
-### ET-09
+NESW: `WNNEESEENNNWWWEENNENWWSWNESSSWWSNEEEENNEEEN`
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-09.json) · 원본 SHA-256 `de694d5d59dfda9101c656b1553830fc6044dedc1cacc3d0e43c83ddc212a7c1`
+## ET-09
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-09.json) · [검색 증거](Validation/EchoThrough18/Search/ET-09.json)
 
 **40입력**
 
 ```text
-↑→→→↓↓←↓←↑↑←←↑↑↓↓→↓↓←→→→→↑↑→↑↑↑←↑↑→↓→→↑↑
+01~10: → ↓ ↓ → ← ← ↑ ← ↑ ←
+11~20: → ↓ ↓ ← → ↑ ↑ ↑ ← ↑
+21~30: → ↓ → → → → ↓ → ↑ ↑
+31~40: ↑ ← ↑ ↑ → ↓ → ↑ → ↑
 ```
 
-### ET-10
+NESW: `ESSEWWNWNWESSWENNNWNESEEEESENNNWNNESENEN`
 
-[?? ?? ???](Validation/StatueBeforeCart/ET10_revalidation.json) ? ?? SHA-256 `15d26f9e35896a54bbc9582d0727814d1f9da6ab9d5c830f4c5b5de98ff8c63d`
+## ET-10
 
-**?? ?? ???**
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-10.json) · [검색 증거](Validation/EchoThrough18/Search/ET-10.json)
 
-?? ??? ?? ??? ? ??? ???? ???? ?????. ?? 43?? ??? 35?? ???? ????. 0-1 BFS? ?? ?? 1,000,000? ??? ???? ? ??? ???? ???? ???. ?? ??? ??? ????? `previousResult`? ????? ?? ??? ???? ???.
+**42입력**
 
-### ET-11
+```text
+01~10: ↑ ↑ → → ↑ ↓ ↑ → ↑ ←
+11~20: → → → ↓ ↑ → ↓ → ↑ ↓
+21~30: → ↑ ↑ ↑ ← ↓ ← ← ← ↑
+31~40: → → ↓ → ↑ ↑ → ↑ ← ←
+41~42: ← ↑
+```
 
-[입력별 재생 증거](Validation/CanonicalMapPaths/Echo/ET-11.json) · 원본 SHA-256 `b5d73b6263108ad0e04261d66df509c641179bf72c82251e5834f4c1ff5fde98`
+NESW: `NNEENSNENWEEESNESENSENNNWSWWWNEESENNENWWWN`
+
+## ET-11
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-11.json) · [검색 증거](Validation/EchoThrough18/Search/ET-11.json)
 
 **33입력**
 
 ```text
-←↑↑↑→↑↑←←↑←←→↓↓←→↑↑↑↑↑→→↓↓→↓→→↑→↑
+01~10: ← ↑ ↑ ↑ → ↑ ↑ ↑ ← ↓
+11~20: ← ↑ ← ↓ ↓ ← → ↑ ↑ ↑
+21~30: ↑ ↑ → → ↓ ↓ → ↓ → →
+31~33: ↑ → ↑
 ```
 
-## 검증 범위
+NESW: `WNNNENNNWSWNWSSWENNNNNEESSESEENEN`
 
-별길 목장은 실제 Unity에서 내보낸 4,200개 상태·21,000개 공개 API 전이를 소스 링크 탐색기와 대조했다. SW02/SW17의 작은 상태 표현은 원래 판정과 추가 200,000개 전이를 비교했고, 두 작은 보드의 완전 BFS와 A* 거리·원본 변경 거부·상한 미확정 처리를 검사했다. 최종 SW02/SW17 탐색은 모든 후속 상태를 원래 SearchStep으로 생성하고 빠른 전이와도 비교하는 authority 모드다.
+## ET-12
 
-잔영 극장은 Unity Editor의 실제 PuzzleDeviceSession에서 A*를 실행했다. 책장 등의 통행 제한을 제거하고 카트의 가능한 자동 밀기를 넓게 허용한 하한을 사용하며, 카트 순서는 원래 장치 ID 정렬과 같다. 모든 조사된 실제 전이에 하한의 일관성을 검사했고 셔터는 판정에 필요한 홀짝만 상태 키에 기록한다. 가장 작은 g+h의 클리어 상태를 꺼낸 경우에만 최단으로 확정한다. 상한이나 취소는 경로 없음으로 기록하지 않는다.
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-12.json) · [검색 증거](Validation/EchoThrough18/Search/ET-12.json)
 
-두 테마 모두 Unity에서 확정 경로 전체를 공개 판정 API로 다시 실행하여 목표 별·출구·승리·입력 비용을 확인했다. 원본과 .meta GUID, 미저장 상태, 계산에 사용한 엔진 소스 해시를 다시 검사한 뒤 두 경로 카탈로그만 갱신했다. Play Mode에서 모든 맵을 사람이 플레이하거나 모바일 GPU를 검증한 결과는 아니다. 구체적인 EditMode 결과와 실행하지 않은 항목은 [이번 검증 기록](Validation/CanonicalMapPaths/validation_summary.json)을 따른다.
+**43입력**
 
-이전 카탈로그는 [별길 목장](Validation/CanonicalMapPaths/PriorCatalogs/StarwayShortestPaths.json)과 [잔영 극장](Validation/CanonicalMapPaths/PriorCatalogs/EchoTheaterShortestPaths.json)에 보관했다. 아래는 당시 배치·규칙의 이력이며 현재 정답은 위 결과를 따른다.
+```text
+01~10: ← ↑ ↑ ← ← ↑ ↑ → → →
+11~20: → ↓ ↓ → → ↑ ↑ ↑ ↑ ↑
+21~30: ← ↑ → → → → → ← ← ←
+31~40: ↓ ← ↓ ← → → ↓ ↓ ↓ →
+41~43: → ↓ ↓
+```
+
+NESW: `WNNWWNNEEEESSEENNNNNWNEEEEEWWWSWSWEESSSEESS`
+
+## ET-13
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-13.json) · [검색 증거](Validation/EchoThrough18/Search/ET-13.json)
+
+**32입력**
+
+```text
+01~10: ← ↑ → → ↓ → ↑ ↑ → ←
+11~20: ← ↑ → → → ↑ ↑ ↓ → →
+21~30: ↑ ↓ ↓ ↑ ← ↑ ← ← ↑ ←
+31~32: ← ↑
+```
+
+NESW: `WNEESENNEWWNEEENNSEENSSNWNWWNWWN`
+
+## ET-14
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-14.json) · [검색 증거](Validation/EchoThrough18/Search/ET-14.json)
+
+**46입력**
+
+```text
+01~10: ← ↑ ← ↑ ↑ → → ↑ ↑ ↑
+11~20: ↑ → → ↓ ↓ → ↓ → ← ←
+21~30: ← → → → → → ↓ → → ↑
+31~40: ← ← ↑ → → → → → → ↓
+41~46: → ← ↑ ↑ ← ↑
+```
+
+NESW: `WNWNNEENNNNEESSESEWWWEEEEESEENWWNEEEEEESEWNNWN`
+
+## ET-15
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-15.json) · [검색 증거](Validation/EchoThrough18/Search/ET-15.json)
+
+상태: `limit`. Additional managed-memory cap reached; unconfirmed.
+
+## ET-16
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-16.json) · [검색 증거](Validation/EchoThrough18/Search/ET-16.json)
+
+**45입력**
+
+```text
+01~10: ↑ ← ← ↑ ↑ ↑ → → → ↑
+11~20: ↓ ↑ ↑ ← ← → → ↓ ↓ ←
+21~30: ↑ ↑ ↑ ← ← ↓ ↓ ↓ ↓ ←
+31~40: → ↓ ↓ → → → ↑ ↑ ← ←
+41~45: → → ↓ → ↓
+```
+
+NESW: `NWWNNNEEENSNNWWEESSWNNNWWSSSSWESSEEENNWWEESES`
+
+## ET-17
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-17.json) · [검색 증거](Validation/EchoThrough18/Search/ET-17.json)
+
+**19입력**
+
+```text
+01~10: ↑ ↑ ↑ → ↑ ← ↓ ← ↓ ↓
+11~19: → ↑ ↑ ↑ ↑ → ↑ ↑ →
+```
+
+NESW: `NNNENWSWSSENNNNENNE`
+
+## ET-18
+
+[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-18.json) · [검색 증거](Validation/EchoThrough18/Search/ET-18.json)
+
+**48입력**
+
+```text
+01~10: ← ↑ ← ↑ → → → ↑ ↑ ↑
+11~20: ↑ ↓ → → ← ← ← ← ↓ ↑
+21~30: ↓ → → ↓ ↓ ↓ → → ← ←
+31~40: ↑ ← ← ← ← ↑ ↑ ↓ ↓ →
+41~48: ↑ ↑ ↑ → → ↑ → →
+```
+
+NESW: `WNWNEEENNNNSEEWWWWSNSEESSSEEWWNWWWWNNSSENNNEENEE`
 
 <details>
 <summary>이전 배치와 규칙의 검증 이력</summary>

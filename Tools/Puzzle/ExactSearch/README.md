@@ -2,7 +2,35 @@
 
 기본 경로는 Unity의 `PuzzleDeviceSession`, 상태 체크포인트, 장치 규칙, 하한, A* / 0-1 BFS 소스를 링크하는 .NET 10 콘솔 도구다. 제한된 목장 규칙에는 별도의 작은 상태 표현과 빠른 전이 구현도 제공한다. 최종 증거에는 모든 후속 상태를 원래 판정 코드로 생성하는 `authority` 모드를 사용할 수 있다. Unity Editor와 실제 게임 진행·저장은 별개로 유지한다.
 
-`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. 현재 지원 범위는 Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate / Brake이며, Echo 규칙과 레일은 거절한다. Unity 프로젝트 전체나 다른 테마의 대체 실행기가 아니다.
+`Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate / Brake를 지원한다. 잔영 극장은 아래의 검증된 내보내기와 별도 A* 진입점을 사용하며, 실제 레일 이동도 원래 `PuzzleScenario.RailCellsFor`와 `PuzzleDeviceSession` 소스를 실행한다. 레일 모양 검증은 Unity에서 끝내며 별도의 레일 물리를 구현하지 않는다.
+
+## ET-18까지의 현재 잔영 극장
+
+사용자가 작성한 ET-12~18은 `6c46f4dbb`로 먼저 커밋했다. 이번 범위는 ET-00~18의 현존 18개 파일이며 ET-06은 만들지 않는다. 입력 원본·GUID·메타 해시는 `Docs/Validation/EchoThrough18/inventory.json`에 고정한다.
+
+```powershell
+unity command run_script --file Tools/Puzzle/ExportEchoSearch.cs --entry ExportEchoSearch.Start --format json
+# Temp/EchoThrough18Export/status.json이 completed가 된 뒤 실행한다.
+dotnet build Tools/Puzzle/ExactSearch/ExactPuzzleSearch.csproj -c Release -o Temp/EchoThrough18FinalBuild
+dotnet Temp/EchoThrough18FinalBuild/ExactPuzzleSearch.dll Temp/EchoThrough18Export/input.json verify Temp/EchoThrough18Export/fixtures.json Docs/Validation/EchoThrough18/transition_verification_final.json
+dotnet Temp/EchoThrough18FinalBuild/ExactPuzzleSearch.dll Temp/EchoThrough18Export/input.json ET-18 Docs/Validation/EchoThrough18/Search/ET-18.json 10000000 Docs/Validation/EchoThrough18/transition_verification_final.json 3072
+```
+
+현재 Echo 지원 장치는 셔터·카트·도미노·유리·주사위·겁쟁이 인형·돌진 석상·책장이다. 무료 바람이나 다른 장치가 있으면 이 진입점으로 계산하지 않는다. 각 간선은 현재 런타임의 `SearchStep`이고, 별도의 빠른 이동 규칙으로 대체하지 않는다. 카트 완화 하한과 셔터 홀짝 키는 기존 Unity 탐색기와 같은 정의를 사용한다.
+
+일부 완료된 검색은 초기 빌드다. 해당 결과가 기록한 `sourceHashes`와 일치하는 진입점·큐 소스는 `Docs/Validation/EchoThrough18/InitialBuildSources`에 보관한다. 현재 빌드는 돌진 중이 아닌 석상의 과거 timer와 유리 상자의 지난 이동 방향을 키에서만 정규화한다. 이 값들은 다음 실제 판정에서 읽히지 않거나 새 입력/감지로 덮어써진다. 실제 세션과 체크포인트는 유지한다. 내보내기는 Unity의 네 방향 후속 상태를 비교하고, `verify`는 같은 비교를 실제 링크 소스로 반복한다.
+
+석상·유리·주사위만 있는 보드에는 영구 정지 석상의 연결 영역 검사도 적용한다. 지원 바닥이 끝나거나 다른 영구 정지 석상에 막혀 앞으로 갈 수 없는 석상만 고정 장애물로 남긴다. 나머지 물체를 모두 제거한 완화 보드에서도 출구나 목표 별을 모을 수 없는 경우만 제외한다. 작은 보드의 독립 완전 BFS로 거짓 차단을 검사한다.
+
+모든 결과가 준비된 뒤 다음을 실행한다. 검증기는 사용된 각 검색 빌드의 소스 해시와 원본을 확인하고, 확정 경로를 실제 Unity 공개 API로 다시 재생한다. 보고서 생성기는 이 검증이 끝나야 카탈로그를 갱신한다.
+
+```powershell
+unity command run_script --file Tools/Puzzle/VerifyEchoThrough18.cs --entry VerifyEchoThrough18.Start --format json
+# Docs/Validation/EchoThrough18/replay_status.json이 completed가 된 뒤 실행한다.
+python Tools/Reports/build_echo_through18_report.py
+```
+
+내보낸 입력과 전이 표본은 같은 증거 폴더의 `input.json.gz` / `fixtures.json.gz`로 보존한다. 재검증하려면 `Temp/EchoThrough18Export`에 JSON으로 풀고 같은 빌드로 `verify`부터 실행한다. 상한이나 취소 결과를 최단·도달 불가로 승격하지 않는다. MapData·작성된 verificationRoute·GUID·진행 기록은 검색 도구가 저장하지 않는다.
 
 ## 이전 계산 이력 (2026-11-08)
 

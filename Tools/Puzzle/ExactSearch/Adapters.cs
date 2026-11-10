@@ -45,9 +45,10 @@ namespace ANIMOL.Art.EchoRailCartV01
 {
     public sealed class EchoRailPathV02
     {
-        // Rails are rejected by the export loader, never silently approximated.
+        // Geometry validation belongs to the Unity export. Gameplay reads the
+        // source-linked PuzzleScenario.RailCellsFor lists without calling this.
         public static bool TryCreate(UnityEngine.Vector2Int[] cells,bool closed,out EchoRailPathV02 path,out string error)
-            => throw new NotSupportedException("Rail geometry is not supported by this headless runner.");
+            => throw new NotSupportedException("Rail geometry must be validated by the Unity export.");
     }
 }
 namespace ANIMOL.Puzzle
