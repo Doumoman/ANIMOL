@@ -6,7 +6,7 @@
 
 ## ET-20까지의 현재 잔영 극장
 
-ET-19/20 원본은 `3a7487be5`로 먼저 커밋했다. ET-20의 저장되지 않은 편집은 해당 맵만 Unity에서 저장해 포함했다. `Docs/Validation/EchoThrough20/inventory.json`은 현존 20개 맵의 원본·GUID·메타 해시와 이전 18개 맵의 검색 증거 경로를 고정한다. ET-06은 복원하지 않는다.
+현재 ET-20 작성본의 기준 커밋은 `8f62aec34`다. `Docs/Validation/EchoThrough20/inventory.json`은 현존 20개 맵의 원본·GUID·메타 해시와 이전 18개 맵의 검색 증거 경로를 고정한다. ET-06은 복원하지 않는다.
 
 ```powershell
 unity command run_script --file Tools/Puzzle/ExportEchoSearch.cs --entry ExportEchoSearch.StartThrough20 --format json
@@ -20,9 +20,9 @@ unity command run_script --file Tools/Puzzle/VerifyEchoThrough18.cs --entry Veri
 python Tools/Reports/build_echo_through18_report.py --through 20
 ```
 
-내보내기는 새 두 맵만 처리하며 800개 Unity 상태·3,200개 공개 입력 전이를 대조한다. 검증기는 이전 소스 해시도 현재 판정 코드와 대조하고, 20개 맵 전체의 확정 경로를 Unity에서 다시 재생한다. ET-19는 최단 8입력(`NNNNNNNN`)이다. ET-20은 사용자가 목표 방울을 4개로 변경한 `c4979fc44`를 기준으로 **최단 55입력**이다. 이전 38입력은 목표 3개였던 맵의 기록이다. ET-19는 위로만 이동해 별 7개와 출구에 도달할 수 있으므로 맵 검토 시 이 통로를 확인한다. 계산 때문에 원본이나 `verificationRoute`를 바꾸지 않는다.
+내보내기는 새 두 맵만 처리하며 800개 Unity 상태·3,200개 공개 입력 전이를 대조한다. 검증기는 이전 소스 해시도 현재 판정 코드와 대조하고, 20개 맵 전체의 확정 경로를 Unity에서 다시 재생한다. ET-19는 최단 8입력(`NNNNNNNN`)이다. ET-20은 현재 책장·발판 연결과 회전 설정, 목표 방울 4개를 기준으로 **최단 54입력**이다. ET-19는 위로만 이동해 별 7개와 출구에 도달할 수 있으므로 맵 검토 시 이 통로를 확인한다. 계산 때문에 원본이나 `verificationRoute`를 바꾸지 않는다.
 
-ET-20은 실제 `PuzzlePreview`의 Play Mode에서도 검증했다. `VerifyEcho20Controller.Start`는 초기 상태의 ET-20 미리보기에서 `PuzzleSwipeInput` 수신부로 입력하고, 실제 애니메이션 종료를 기다린 뒤 매 입력의 판정 상태와 플레이어 표시 위치를 비교한다. `Docs/Validation/EchoThrough20/et20_controller_replay.json`에 55입력·방울 4개·승리 증거를 보존한다. 미리보기 종료 시 원래 열린 씬을 복원한다.
+ET-20은 실제 `PuzzlePreview`의 Play Mode에서도 검증했다. `VerifyEcho20Controller.Start`는 초기 상태의 ET-20 미리보기에서 `PuzzleSwipeInput` 수신부로 입력하고, 실제 애니메이션 종료를 기다린 뒤 매 입력의 판정 상태와 플레이어 표시 위치를 비교한다. `Docs/Validation/EchoThrough20/et20_controller_replay.json`에 54입력·방울 4개·승리 증거를 보존한다. 미리보기 종료 시 원래 열린 씬을 복원한다.
 
 ## ET-18까지의 계산과 ET-15 재탐색
 
