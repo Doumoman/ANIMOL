@@ -58,6 +58,7 @@ def main(through=18):
             "mapId": map_id, "mapAsset": item["path"], "mapGuid": item["guid"],
             "mapSha256": item["sha256"], "solverVersion": 10 if "single-die pattern database" in result["algorithm"] else 9,
             "displayStageIds": replay["displayStageIds"], "status": status,
+            "targetBubbles": replay.get("target"),
             "distance": result["distance"], "route": replay.get("route", ""),
             "routeNESW": replay.get("routeNESW", ""), "algorithm": result["algorithm"],
             "expanded": result["expanded"], "visited": result["visited"],
@@ -103,15 +104,26 @@ def main(through=18):
         f"[맵·GUID·원본 해시]({doc_folder}/inventory.json) · "
         f"[Unity 실제 경로 재생]({doc_folder}/native_replay.json)", "",
         "## 현재 결과", "",
-        "| 파일 ID | 화면 스테이지 | 결과 | 최단 입력 | 발견 상태 |",
-        "|---|---|---|---:|---:|",
+        "| 파일 ID | 화면 스테이지 | 목표 방울 | 결과 | 최단 입력 | 발견 상태 |",
+        "|---|---|---:|---|---:|---:|",
     ]
     for e in entries:
         label = "최단 확정" if e["status"] == "solved" else "도달 불가" if e["status"] == "unreachable" else "미확정"
         distance = str(e["distance"]) if e["status"] == "solved" else "—"
-        lines.append(f"| {e['mapId']} | {', '.join(e['displayStageIds']) or 'MapSet 미연결'} | {label} | {distance} | {e['visited']:,} |")
+        lines.append(f"| {e['mapId']} | {', '.join(e['displayStageIds']) or 'MapSet 미연결'} | {e['targetBubbles'] if e['targetBubbles'] is not None else '—'} | {label} | {distance} | {e['visited']:,} |")
     if any(e["mapId"] == "ET-19" and e["routeNESW"] == "N" * 8 for e in entries):
         lines += ["", "ET-19는 시작점에서 위로 8번 연속 이동하면 별 7개를 모으고 출구에 도달한다. 현재 맵의 가장 짧은 통과 경로이며, 별도 우회가 필요하지 않다."]
+    controller_proof = FOLDER / "et20_controller_replay.json"
+    if controller_proof.exists():
+        proof = read(controller_proof)
+        entry = next(e for e in entries if e["mapId"] == "ET-20")
+        assert proof["status"] == "passed" and proof["sourceSha256"] == entry["mapSha256"]
+        assert proof["route"] == entry["route"] and proof["distance"] == entry["distance"]
+        assert proof["won"] and proof["collected"] == proof["target"] == entry["targetBubbles"] == 4
+        lines += ["", "ET-20은 목표 방울을 4개로 변경한 현재 맵을 기준으로 다시 계산했다. "
+                  f"이전 38입력 기록은 목표 3개 기준이며, **4개를 모두 모으는 최단 경로는 {entry['distance']}입력**이다. "
+                  f"Play Mode 미리보기에서 실제 스와이프 수신부와 컨트롤러로 {entry['distance']}개 입력을 실행하고, 각 애니메이션 종료 후 상태·플레이어 위치·방울 4개·승리를 확인했다. "
+                  f"[실제 컨트롤러 재생]({doc_folder}/et20_controller_replay.json)."]
     lines += ["", "방향 입력 하나의 비용은 1이다. 제자리 밀기도 포함한다. `↑/N` 위, `→/E` 오른쪽, `↓/S` 아래, `←/W` 왼쪽이며 반복 입력을 생략하지 않는다.", "", "## 계산과 검증", "",
         "모든 간선은 현재 Unity와 같은 `PuzzleDeviceSession` 소스의 `SearchStep`으로 생성했다. "
         f"{len(entries)}개 맵의 {parity_states:,}개 실제 Unity 상태와 {parity_edges:,}개 공개 입력 전이를 별도 실행기와 대조했다. "
@@ -158,6 +170,7 @@ def main(through=18):
         "validation": sorted(validation_paths[key].relative_to(ROOT).as_posix() for key in used_builds),
         "nativeParityStates": parity_states, "nativeParityEdges": parity_edges,
         "reusedSearchMaps": [item["id"] for item in inventory["maps"] if "searchEvidence" in item],
+        "controllerReplay": controller_proof.name if controller_proof.exists() else None,
         "runtimeCodeChanged": False,
     })
     print(json.dumps({"maps": len(entries), "solved": len(solved), "unreachable": len(unreachable), "unconfirmed": len(pending)}, ensure_ascii=True))
