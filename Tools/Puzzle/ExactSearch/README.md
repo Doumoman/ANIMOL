@@ -6,7 +6,7 @@
 
 ## ET-20까지의 현재 잔영 극장
 
-현재 ET-20 작성본의 기준 커밋은 `8f62aec34`다. `Docs/Validation/EchoThrough20/inventory.json`은 현존 20개 맵의 원본·GUID·메타 해시와 이전 18개 맵의 검색 증거 경로를 고정한다. ET-06은 복원하지 않는다.
+현재 ET-20 작성본의 기준 커밋은 `e904b95d3`다. 책장 1번과 6번이 가로로 시작하는 설정이다. `Docs/Validation/EchoThrough20/inventory.json`은 현존 20개 맵의 원본·GUID·메타 해시와 이전 18개 맵의 검색 증거 경로를 고정한다. ET-06은 복원하지 않는다.
 
 ```powershell
 unity command run_script --file Tools/Puzzle/ExportEchoSearch.cs --entry ExportEchoSearch.StartThrough20 --format json
