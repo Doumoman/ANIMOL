@@ -22,7 +22,8 @@ namespace ANIMOL.Presentation.Editor
 
         void DrawBookshelfRotationArea(PrototypeDevice device, int shownHeight, Vector2 origin)
         {
-            foreach (var p in BookshelfRotationRules.SweptCells(device.position, device.orientation, device.bookshelfRotation))
+            var twoState = map.scenario && map.scenario.echoTheaterV3Rules;
+            foreach (var p in BookshelfRotationRules.SweptCells(device.position, device.orientation, device.bookshelfRotation, twoState))
             {
                 var blocked = BookshelfPreviewBlocked(map, device, p);
                 var rect = new Rect(origin.x + p.x * cellSize, origin.y + (shownHeight - p.y - 1) * cellSize, cellSize, cellSize);
@@ -31,7 +32,7 @@ namespace ANIMOL.Presentation.Editor
             }
             var pivot = new Vector3(origin.x + (device.position.x + .5f) * cellSize,
                 origin.y + (shownHeight - device.position.y - .5f) * cellSize);
-            var clockwise = device.bookshelfRotation == BookshelfRotationDirection.Clockwise;
+            var clockwise = BookshelfRotationRules.TurnsClockwise(device.orientation, device.bookshelfRotation, twoState);
             var start = device.orientation % 2 == 0 ? Vector3.right : Vector3.up;
             var previousColor = Handles.color;
             Handles.color = new Color(1, .85f, .3f);

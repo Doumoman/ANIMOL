@@ -225,7 +225,7 @@ namespace ANIMOL.Tests
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
             var session = new PuzzleDeviceSession(source);
-            const string route = "RUUUUUUDLLDURRDL";
+            const string route = "RUURLUUULLDURRDL";
             PrototypeAction action = null;
             foreach (var input in route)
             {
@@ -244,6 +244,7 @@ namespace ANIMOL.Tests
         [Test] public void StatueClearingTheSweepAfterThePressStillAllowsOneRotation()
         {
             shelf.orientation = 1;
+            shelf.bookshelfRotation = BookshelfRotationDirection.CounterClockwise;
             var statue = Obstacle(PrototypeRole.Statue, P(5, 4));
             statue.direction = Vector2Int.down; statue.number = 2;
             map.SetTerrain(P(5, 3), TerrainMaterial.TheaterStageFloor);
@@ -291,6 +292,7 @@ namespace ANIMOL.Tests
         [Test] public void BlockedPressExpiresAtTurnEndAndDoesNotFireOnALaterHeldPlateInput()
         {
             shelf.orientation = 1;
+            shelf.bookshelfRotation = BookshelfRotationDirection.CounterClockwise;
             var statue = Obstacle(PrototypeRole.Statue, P(5, 4));
             var crate = new PrototypeDevice { id = "crate", role = PrototypeRole.WoodCrate, position = P(2, 1) };
             rules.devices.Add(crate);
@@ -306,6 +308,63 @@ namespace ANIMOL.Tests
             Assert.That(held.events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.False);
             session.Apply(Vector2Int.down);
             Assert.That(session.Apply(Vector2Int.up).events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+        }
+
+        [TestCase(0, "bookshelf_2"), TestCase(1, "bookshelf_2")]
+        [TestCase(0, "bookshelf_3"), TestCase(1, "bookshelf_3")]
+        public void Et12StatueAt12_7DoesNotBlockEitherPlateInEitherPoseOrOnReturn(int initialPhase, string plateId)
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
+            var copy = Object.Instantiate(source); copy.scenario = Object.Instantiate(source.scenario);
+            try
+            {
+                // Isolate the reported statue/shelf interaction at the real map
+                // coordinates; other movable devices have their own regressions.
+                copy.scenario.devices.RemoveAll(d => d.role != PrototypeRole.Bookshelf && d.role != PrototypeRole.Statue);
+                var body = copy.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");
+                body.orientation = initialPhase;
+                var statue = copy.scenario.devices.Single(d => d.role == PrototypeRole.Statue);
+                statue.position = P(12, 7);
+                var plate = copy.scenario.devices.Single(d => d.id == plateId);
+                var direction = plateId == "bookshelf_2" ? Vector2Int.up : Vector2Int.right;
+                copy.start = plate.position - direction;
+                var session = new PuzzleDeviceSession(copy);
+                for (var press = 0; press < 3; press++)
+                {
+                    Assert.That(session.BookshelfRotationBlocked(body, out _), Is.False, "Before press " + press);
+                    var action = session.Apply(direction);
+                    Assert.That(action.accepted, Is.True);
+                    Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+                    Assert.That(session.States[body.id].phase, Is.EqualTo((initialPhase + press + 1) % 2));
+                    Assert.That(session.States[statue.id].cell, Is.EqualTo(P(12, 7)));
+                    Assert.That(session.Apply(-direction).accepted, Is.True);
+                }
+            }
+            finally { Object.DestroyImmediate(copy.scenario); Object.DestroyImmediate(copy); }
+        }
+
+        [TestCase(false), TestCase(true)]
+        public void TwoStateShelfRetracesTheSameSevenCellsOnItsReturn(bool counterclockwise)
+        {
+            var direction = counterclockwise ? BookshelfRotationDirection.CounterClockwise : BookshelfRotationDirection.Clockwise;
+            var outward = BookshelfRotationRules.SweptCells(Vector2Int.zero, 0, direction, true).ToArray();
+            var returning = BookshelfRotationRules.SweptCells(Vector2Int.zero, 1, direction, true).ToArray();
+            Assert.That(returning, Is.EquivalentTo(outward));
+            Assert.That(outward, Has.No.Member(P(1, counterclockwise ? -1 : 1)));
+            Assert.That(BookshelfRotationRules.TurnsClockwise(0, direction, true),
+                Is.Not.EqualTo(BookshelfRotationRules.TurnsClockwise(1, direction, true)));
+        }
+
+        [TestCase(0), TestCase(1)]
+        public void StatueInsideTheTwoStateSweepStillBlocksBothPoses(int phase)
+        {
+            shelf.orientation = phase;
+            Obstacle(PrototypeRole.Statue, shelf.position + P(1, -1));
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.True);
+            Assert.That(session.Apply(Vector2Int.up).events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.False);
+            Assert.That(session.States[shelf.id].phase, Is.EqualTo(phase));
         }
 
         [UnityTest] public IEnumerator EditorRendersBookshelfSweepAndDirectionControlsWithoutChangingAssets()

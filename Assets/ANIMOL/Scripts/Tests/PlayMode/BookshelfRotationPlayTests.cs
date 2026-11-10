@@ -13,6 +13,59 @@ namespace ANIMOL.Tests
 {
     public sealed class BookshelfRotationPlayTests
     {
+        [UnityTest] public IEnumerator Et12BothPlatesKeepRotatingWithStatueAt12_7AcrossRepeatedRoundTrips()
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(
+                "Assets/ANIMOL/Scenes/Prototype/ANIMOL_memory_theater_Prototype.unity",
+                new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+            yield return null; yield return null; yield return null;
+            var host = Object.FindFirstObjectByType<PuzzlePrototypeController>();
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
+            var copies = new System.Collections.Generic.List<Object>();
+            try
+            {
+                foreach (var phase in new[] { 0, 1 }) foreach (var plateId in new[] { "bookshelf_2", "bookshelf_3" })
+                {
+                    var copy = Object.Instantiate(source); copy.scenario = Object.Instantiate(source.scenario);
+                    copies.Add(copy); copies.Add(copy.scenario);
+                    copy.scenario.devices.RemoveAll(d => d.role != PrototypeRole.Bookshelf && d.role != PrototypeRole.Statue);
+                    var shelf = copy.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate");
+                    shelf.orientation = phase;
+                    copy.scenario.devices.Single(d => d.role == PrototypeRole.Statue).position = new Vector2Int(12, 7);
+                    var direction = plateId == "bookshelf_2" ? Vector2Int.up : Vector2Int.right;
+                    copy.start = copy.scenario.devices.Single(d => d.id == plateId).position - direction;
+                    host.secondsPerCell = .01f; host.Load(copy);
+                    for (var press = 0; press < 3; press++)
+                    {
+                        Assert.That(host.RequestMove(direction), Is.True);
+                        yield return WaitForEt12Motion(host);
+                        var expected = (phase + press + 1) % 2;
+                        Assert.That(host.Session.States[shelf.id].phase, Is.EqualTo(expected), plateId + " press " + press);
+                        Assert.That(host.Session.States["statue_1"].cell, Is.EqualTo(new Vector2Int(12, 7)));
+                        var view = host.Devices.Actor(shelf.id).GetComponent<DeviceVisualView>();
+                        var idle = expected == 0 ? "horizontal" : "vertical";
+                        var deadline = Time.realtimeSinceStartup + 2;
+                        while (view.CurrentState != idle && Time.realtimeSinceStartup < deadline) yield return null;
+                        Assert.That(view.CurrentState, Is.EqualTo(idle));
+                        Assert.That(view.visual.flipX, Is.False); Assert.That(view.BlocksInput, Is.False);
+                        Assert.That(host.RequestMove(-direction), Is.True);
+                        yield return WaitForEt12Motion(host);
+                    }
+                    Assert.That(host.Devices.MissingBindings, Is.Zero);
+                    Assert.That(host.Session.Cost, Is.EqualTo(6));
+                }
+            }
+            finally { foreach (var copy in copies) Object.Destroy(copy); }
+        }
+
+        static IEnumerator WaitForEt12Motion(PuzzlePrototypeController host)
+        {
+            var deadline = Time.realtimeSinceStartup + 5;
+            while (host.IsMoving && Time.realtimeSinceStartup < deadline) yield return null;
+            Assert.That(host.IsMoving, Is.False);
+        }
+
         [UnityTest] public IEnumerator Et12RuntimeControllerRotatesAfterTheBlockingCartMovesAway()
         {
             UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(
@@ -23,7 +76,7 @@ namespace ANIMOL.Tests
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                 "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset");
             host.secondsPerCell = .01f; host.Load(source);
-            const string route = "RUUUUUUDLLDURRDL";
+            const string route = "RUURLUUULLDURRDL";
             foreach (var input in route)
             {
                 Assert.That(host.RequestMove(input == 'R' ? Vector2Int.right : input == 'L' ? Vector2Int.left :
@@ -76,9 +129,10 @@ namespace ANIMOL.Tests
                     var view = host.GetComponentsInChildren<DeviceVisualView>().Single(v => v.gameObject.name == shelf.id);
                     var art = view.GetComponent<ANIMOL.Art.EchoTheaterV03.EchoTheaterV03AnimatedVisual>();
                     Assert.That(art.ApplyNormalizedProgress(.5f), Is.True); view.Advance(0);
-                    var expectedSign = ((phase & 1) == 0) != ccw ? -1 : 1;
+                    var expectedSign = rules.echoTheaterV3Rules ? (ccw ? 1 : -1) :
+                        ((phase & 1) == 0) != ccw ? -1 : 1;
                     Assert.That(DiagonalSign(view.visual), Is.EqualTo(expectedSign), "phase=" + phase + ", ccw=" + ccw);
-                    Assert.That(BookshelfRotationRules.SweptCells(shelf.position, phase, shelf.bookshelfRotation),
+                    Assert.That(BookshelfRotationRules.SweptCells(shelf.position, phase, shelf.bookshelfRotation, rules.echoTheaterV3Rules),
                         Does.Contain(shelf.position + new Vector2Int(1, expectedSign)));
                     Assert.That(presenter.MissingBindings, Is.Zero); Assert.That(view.BlocksInput, Is.False);
                     view.paused = true; var flipped = view.visual.flipX; var elapsed = view.Elapsed;

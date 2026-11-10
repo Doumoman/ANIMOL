@@ -911,7 +911,7 @@ namespace ANIMOL.Puzzle
         public bool BookshelfRotationBlocked(PrototypeDevice shelf, out Vector2Int blockedCell)
         {
             var state = states[shelf.id];
-            foreach (var cell in BookshelfRotationRules.SweptCells(state.cell, state.phase, shelf.bookshelfRotation))
+            foreach (var cell in BookshelfRotationRules.SweptCells(state.cell, state.phase, shelf.bookshelfRotation, Rules.echoTheaterV3Rules))
             {
                 // Rotation needs empty space, not supporting floor. Do not use Free/Supported here.
                 var blocked = !Map.Contains(cell) || Map.DecorationAt(cell) ||
@@ -955,7 +955,7 @@ namespace ANIMOL.Puzzle
                         ls.phase = BookshelfRotationRules.NextPhase(phase, linked.bookshelfRotation, Rules.echoTheaterV3Rules);
                         if (animate)
                             Visual(linked, "rotate_" + phase * 90 + "_cw", "bookshelf_rotation_committed",
-                                mirrorAnimation: BookshelfRotationRules.MirrorAnimation(phase, linked.bookshelfRotation));
+                                mirrorAnimation: BookshelfRotationRules.MirrorAnimation(phase, linked.bookshelfRotation, Rules.echoTheaterV3Rules));
                     }
                 }
             }

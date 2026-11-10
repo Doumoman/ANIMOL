@@ -1,0 +1,79 @@
+{
+  "baseCommit": "33094ae05f7c824c369a55a5bb48119dc7c7d4f8",
+  "reportedCondition": {
+    "map": "ET-12",
+    "shelfCenter": [
+      11,
+      6
+    ],
+    "statue": [
+      12,
+      7
+    ],
+    "plates": [
+      "bookshelf_2",
+      "bookshelf_3"
+    ]
+  },
+  "rootCause": "The two-state phase transition returned from vertical (1) to horizontal (0), but the sweep and animation treated it as the next quarter-turn in a four-state rotation. The return incorrectly switched to the opposite two diagonal cells and included the statue at (12,7).",
+  "fix": [
+    "Two-state shelves retrace the same seven cells on their return. The configured direction describes H-to-V; V-to-H turns in the opposite direction.",
+    "Runtime collision checks, authored-frame mirroring and the map-editor overlay/arrow use the same effective turn direction.",
+    "The editor labels the two-state setting H-to-V direction and explains the return movement.",
+    "Four-state shelves continue turning in the configured direction. Real swept obstacles still block both two-state poses."
+  ],
+  "exactRegression": {
+    "beforeFix": "All four pose/plate combinations failed with statue fixed at (12,7). Horizontal starts failed on the second press; vertical starts failed on the first.",
+    "afterFix": "All four combinations complete three presses, including return rotations, in EditMode and through the actual PuzzlePrototypeController in PlayMode. The statue stays at (12,7)."
+  },
+  "tests": {
+    "before_fix_exact_coordinate": {
+      "status": "completed",
+      "total": 4,
+      "passed": 0,
+      "failed": 4,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "editmode": {
+      "status": "completed",
+      "total": 55,
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "playmode": {
+      "status": "completed",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "after_fix_exact_coordinate": {
+      "status": "completed",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "paintedFrameCoverage": "PlayMode measures the actual sprite-alpha diagonal including renderer mirroring for both two-state poses/directions and four-state reverse poses, and checks terminal, pause and undo behavior.",
+  "cartRegressionRoute": "RUURLUUULLDURRDL",
+  "cartRegressionNote": "Updated the real ET-12 cart-departure route for the corrected two-state geometry. The earlier route reaches a doll blocked by the newly correct returning shelf. The new route still presses before the cart leaves and commits the rotation after that move.",
+  "compile": {
+    "status": "completed",
+    "errors": [],
+    "compilationFailed": false
+  },
+  "mapPreservation": {
+    "path": "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-12_MapData.asset",
+    "sha256Before": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93",
+    "sha256After": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93",
+    "unchanged": true
+  },
+  "archivedPolicyTests": "CommercialPolishPolicyTests not run: archived. No new feedback event, intensity, time-scale change or input block.",
+  "testReportingNote": "The broad EditMode runner reports 55 passed but preserves only 37 individual records. The exact (12,7) regression is also rerun separately and preserves all four passing pose/plate records in after_fix_exact_coordinate.json."
+}

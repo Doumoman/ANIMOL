@@ -447,12 +447,14 @@ namespace ANIMOL.Presentation.Editor
             }
             if (bookshelf)
             {
+                var twoState = map && map.scenario && map.scenario.echoTheaterV3Rules;
                 var rotation = device.FindPropertyRelative("bookshelfRotation");
-                rotation.enumValueIndex = EditorGUILayout.Popup("책장 회전 방향", rotation.enumValueIndex,
+                rotation.enumValueIndex = EditorGUILayout.Popup(twoState ? "가로→세로 회전 방향" : "책장 회전 방향", rotation.enumValueIndex,
                     new[] { "시계 방향 ↻", "반시계 방향 ↺" });
+                if (twoState) EditorGUILayout.HelpBox("세로→가로는 반대 방향으로 돌아오며 같은 회전 영역을 왕복합니다.", MessageType.Info);
                 EditorGUILayout.HelpBox("회전 영역의 장치·블록·플레이어가 회전을 막습니다. 빈 공간에는 지형이 없어도 됩니다.", MessageType.Info);
                 var orientation = device.FindPropertyRelative("orientation");
-                var count = map && map.scenario && map.scenario.echoTheaterV3Rules ? 2 : 4;
+                var count = twoState ? 2 : 4;
                 EditorGUI.BeginChangeCheck();
                 var state = EditorGUILayout.IntPopup("책장 시작 상태", orientation.intValue,
                     BookshelfStartNames.Take(count).ToArray(), Enumerable.Range(0, count).ToArray());
