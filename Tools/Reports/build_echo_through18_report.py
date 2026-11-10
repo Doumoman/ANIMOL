@@ -26,11 +26,15 @@ def main():
     inventory = read(FOLDER / "inventory.json")
     assert read(FOLDER / "replay_status.json")["status"] == "completed"
     replays = {r["id"]: r for r in read(FOLDER / "native_replay.json")}
+    validations = {digest(p): read(p) for p in FOLDER.glob("transition_verification*.json")}
     entries = []
     for item in inventory["maps"]:
         map_id, path = item["id"], ROOT / item["path"]
         assert digest(path) == item["sha256"] and digest(Path(str(path) + ".meta")) == item["metaSha256"]
         result = read(FOLDER / "Search" / (map_id + ".json"))
+        verified = validations[result["verificationSha256"]]
+        assert verified["passed"] and result["sourceHashes"] == verified["sourceHashes"]
+        assert result["inputSha256"] == verified["inputSha256"]
         replay = replays[map_id]
         assert result["sourceSha256"] == replay["sourceSha256"] == item["sha256"]
         assert result["status"] == replay["status"] and replay["sourceUnchanged"]
@@ -39,11 +43,12 @@ def main():
             assert replay["won"] and replay["exitReached"] and replay["collected"] >= replay["target"]
             assert replay["distance"] == result["distance"] == len(replay["routeNESW"])
             assert len(replay["steps"]) == result["distance"]
+            assert replay["route"] == result["route"]
         else:
             assert status in {"limit", "cancelled", "stale", "unreachable"} and result["distance"] == -1
         entries.append({
             "mapId": map_id, "mapAsset": item["path"], "mapGuid": item["guid"],
-            "mapSha256": item["sha256"], "solverVersion": 9,
+            "mapSha256": item["sha256"], "solverVersion": 10 if "single-die pattern database" in result["algorithm"] else 9,
             "displayStageIds": replay["displayStageIds"], "status": status,
             "distance": result["distance"], "route": replay.get("route", ""),
             "routeNESW": replay.get("routeNESW", ""), "algorithm": result["algorithm"],
@@ -68,11 +73,13 @@ def main():
         "validation": "Docs/Validation/EchoThrough18/native_replay.json",
         "maps": entries + outside_scope,
     })
-    # One exact input/fixture dataset serves both source-pinned search builds.
+    # One exact input/fixture dataset serves the source-pinned search builds.
     fixture_metadata = {}
     for name in ["input", "fixtures"]:
         source = ROOT / f"Temp/EchoThrough18Export/{name}.json"
         data = source.read_bytes()
+        for verified in validations.values():
+            assert hashlib.sha256(data).hexdigest() == verified["inputSha256" if name == "input" else "fixtureSha256"]
         (FOLDER / (name + ".json.gz")).write_bytes(gzip.compress(data, mtime=0))
         fixture_metadata[name] = {"sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)}
     lines = [
@@ -99,10 +106,15 @@ def main():
         "더 싼 경로를 찾으면 상태를 다시 열며, 최소 `g+h`의 승리 상태를 꺼낸 경우에만 최단으로 확정한다. "
         "셔터의 phase는 키에서만 홀짝으로 묶는다. 석상이 돌진 중이 아닐 때의 과거 timer 역시 다음 감지 때 덮어쓰므로 키에서만 정규화하며, 잠긴 석상의 timer는 유지한다. "
         "유리 상자의 지난 이동 방향은 다음 이동 입력이나 충돌 판정에 사용하지 않으므로 키에서만 묶는다. 실제 세션과 체크포인트의 원래 값은 보존한다.", "",
+        "ET-15 재탐색은 석상과 유리를 제거한 완화 보드에서 플레이어·주사위 위치·24가지 면 방향·별 수집·주사위 발판 개방을 함께 계산한다. "
+        "이 보드의 369,272개 상태에 대한 역방향 BFS 거리를 추가 하한으로 사용한다. 유리 밀기는 플레이어가 제자리에 있는 완화 간선으로 허용한다. "
+        "주사위 면 전환은 원래 `PuzzleDeviceSession.Roll`로 생성하며, 실제 탐색에서 확장한 모든 유효 간선의 투영이 완화 그래프에도 존재하는지 검사한다. "
+        "Unity 표본의 유효 간선 1,128개도 같은 투영 검사를 통과했다. "
+        "[주사위 하한 검증](Validation/EchoThrough18/transition_verification_dice.json).", "",
         "석상·유리·주사위만 있는 맵에서는 바닥이 끝나거나 영구 정지한 석상에 막혀 더는 이동할 수 없는 석상을 찾는다. "
         "이 영구 장애물만 남긴 완화 보드에서도 출구나 필요한 별에 도달할 수 없는 분기만 제외한다. "
         "다른 장치가 있는 맵에는 이 조건을 적용하지 않는다. 작은 보드의 완전 BFS와 실제 소스 전이로 거짓 차단 여부를 검사했다.", "",
-        "상태·메모리 상한과 실제 사용량은 각 검색 JSON에 있다. 상한·취소·원본 변경은 미확정이며 도달 불가로 바꾸지 않는다. "
+        "탐색 상태 수와 상태·메모리 상한은 각 검색 JSON에 있다. 상한·취소·원본 변경은 미확정이며 도달 불가로 바꾸지 않는다. "
         "원본 맵, `.meta` GUID와 작성된 `verificationRoute`를 계산 때문에 수정하지 않았다. "
         "모든 맵의 PlayMode 전체 플레이나 모바일 렌더링을 검증한 결과와는 구분한다.", "",
         "초기 검색 빌드와 정규화를 보강한 빌드는 각각의 소스 해시와 검증 보고서로 구분한다. "

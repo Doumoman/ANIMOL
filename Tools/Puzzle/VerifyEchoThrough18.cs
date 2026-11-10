@@ -28,7 +28,7 @@ public static class VerifyEchoThrough18
             throw new InvalidOperationException("Use an idle Edit Mode editor.");
         var inventory = JObject.Parse(File.ReadAllText(Folder + "/inventory.json"));
         var validations = Directory.GetFiles(Folder, "transition_verification*.json")
-            .ToDictionary(Hash, path => JObject.Parse(File.ReadAllText(path)));
+            .GroupBy(Hash).ToDictionary(group => group.Key, group => JObject.Parse(File.ReadAllText(group.First())));
         var files = Directory.GetFiles("Assets/ANIMOL/Scripts", "*.cs", SearchOption.AllDirectories)
             .Concat(Directory.GetFiles("Tools/Puzzle/ExactSearch", "*.cs")).ToLookup(Path.GetFileName);
         var usedBuilds = new HashSet<string>(inventory["maps"].Select(item =>

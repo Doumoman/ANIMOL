@@ -54,10 +54,11 @@ class Program
         var input=JsonSerializer.Deserialize<List<Export>>(File.ReadAllText(args[0]),Json);
         if(args[1]=="verify")
         {
-            int states=0,edges=0,canonicalKeySuccessorEdges=0;
+            int states=0,edges=0,canonicalKeySuccessorEdges=0,diceProjectionEdges=0;
             foreach(var group in JsonDocument.Parse(File.ReadAllText(args[2])).RootElement.EnumerateArray())
             {
                 var map=Load(input.Single(e=>e.id==group.GetProperty("id").GetString()));
+                var diceBound=EchoDiceLowerBound.Create(map);
                 var root=Root(map);var state=root.Copy();
                 foreach(var row in group.GetProperty("rows").EnumerateArray())
                 {
@@ -68,6 +69,11 @@ class Program
                     foreach(var expected in row.GetProperty("successors").EnumerateArray())
                     {
                         var child=state.Copy();bool accepted=Move(child,expected.GetProperty("action").GetString()[0]);
+                        if(diceBound!=null && accepted && !child.Failed)
+                        {
+                            diceBound.VerifyEdge(state,child,"NESW".IndexOf(expected.GetProperty("action").GetString()[0]));
+                            diceProjectionEdges++;
+                        }
                         if(accepted!=expected.GetProperty("accepted").GetBoolean() || child.SearchStateKey()!=expected.GetProperty("key").GetString() ||
                             child.Cost!=expected.GetProperty("cost").GetInt32() || child.Won!=expected.GetProperty("won").GetBoolean() || child.Failed!=expected.GetProperty("failed").GetBoolean())
                             throw new Exception("Successor mismatch: "+map.name+" state "+states);
@@ -85,7 +91,7 @@ class Program
             }
             var selfTests=input.Any(e=>Load(e).scenario.themeId=="starway") ? CompactRanchTests.Run() : null;
             var statueDeadlockTests=input.Any(e=>Load(e).scenario.themeId=="memory_theater") ? EchoStatueDeadlock.VerifySmallBoards() : null;
-            var report=new {passed=true,states=states,edges=edges,canonicalKeySuccessorEdges=canonicalKeySuccessorEdges,
+            var report=new {passed=true,states=states,edges=edges,canonicalKeySuccessorEdges=canonicalKeySuccessorEdges,diceProjectionEdges=diceProjectionEdges,
                 engine="Source-linked PuzzleDeviceSession",
                 compactParityPassed=true,compactChecks=compactChecks,compactSelfTests=selfTests,statueDeadlockTests=statueDeadlockTests,
                 sourceHashes=SourceHashes(),inputSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[0]))),fixtureSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[2])))};
@@ -134,6 +140,7 @@ class Program
             compactMode=compact,
             authorityTransitions=authorityTransitions,authorityEdgesChecked=compactSolver?.AuthorityEdgesChecked ?? 0,
             permanentStatueDeadlocksPruned=searchMap.scenario.themeId=="memory_theater"?EchoExactSolver.LastDeadlockPruned:0,
+            relaxedDiceDeadlocksPruned=searchMap.scenario.themeId=="memory_theater"?EchoExactSolver.LastDiceDeadlockPruned:0,
             sourceHashes=SourceHashes(),inputSha256=inputHash,
             verificationSha256=Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(args[4])))};
         File.WriteAllText(args[2],JsonSerializer.Serialize(record,Json)+"\n");

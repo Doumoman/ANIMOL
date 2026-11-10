@@ -8,6 +8,7 @@ using UnityEngine;
 public static class EchoExactSolver
 {
     public static int LastDeadlockPruned { get; private set; }
+    public static int LastDiceDeadlockPruned { get; private set; }
     static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
     public static bool Supports(PuzzleMap map)
     {
@@ -155,9 +156,13 @@ public static class EchoExactSolver
         var statues = template.Devices.Where(d => d.role == PrototypeRole.Statue).Select(d => d.id).ToArray();
         var glasses = template.Devices.Where(d => d.role == PrototypeRole.Glass).Select(d => d.id).ToArray();
         var bound = RelaxedBound.Create(map);
+        var diceBound = EchoDiceLowerBound.Create(map);
         var deadlock = EchoStatueDeadlock.Create(map);
         LastDeadlockPruned = 0;
-        int Estimate(PuzzleDeviceSession s) => bound?.Estimate(s) ?? 0;
+        LastDiceDeadlockPruned = 0;
+        int Estimate(PuzzleDeviceSession s) => Math.Max(bound?.Estimate(s) ?? 0, diceBound?.Estimate(s) ?? 0);
+        if (diceBound != null) Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new {
+            diceRelaxationStates = diceBound.StateCount, initialLowerBound = diceBound.InitialDistance }));
         var queue = new PriorityQueue<Node, (int f, int negativeCost, long serial)>();
         var seen = new Dictionary<string, int>(StringComparer.Ordinal);
         var parents = new List<int> { -1 };
@@ -180,9 +185,12 @@ public static class EchoExactSolver
             if (state.Won)
             {
                 status = "solved"; goal = node.index;
-                detail = "Minimum-f goal popped; cart-aware permissive bound, reopen-on-improvement and native unit-cost edges.";
+                detail = diceBound == null
+                    ? "Minimum-f goal popped; cart-aware permissive bound, reopen-on-improvement and native unit-cost edges."
+                    : "Minimum-f goal popped; exact relaxed single-die graph, reopen-on-improvement and native unit-cost edges.";
                 break;
             }
+            if (diceBound?.Estimate(state) == -1) { LastDiceDeadlockPruned++; continue; }
             if (deadlock != null && deadlock.IsDead(state)) { LastDeadlockPruned++; continue; }
             int h0 = Estimate(state);
             for (int i = 0; i < Directions.Length; i++)
@@ -190,6 +198,8 @@ public static class EchoExactSolver
                 var child = state.Copy();
                 if (!child.SearchStep(Directions[i]) || child.Failed) continue;
                 if (child.Cost != state.Cost + 1) throw new InvalidOperationException("Non-unit theater edge.");
+                diceBound?.VerifyEdge(state, child, i);
+                if (diceBound?.Estimate(child) == -1) { LastDiceDeadlockPruned++; continue; }
                 int h = Estimate(child);
                 if (h0 > 1 + h || child.Won && h != 0)
                     throw new InvalidOperationException("Relaxed lower bound failed native-edge consistency.");
@@ -226,7 +236,7 @@ public static class EchoExactSolver
         var result = new PuzzleShortestPathSolver.Result { map = map, sourceSha256 = sourceHash,
             status = status, distance = status == "solved" ? route.Length : -1, route = route,
             expanded = expanded, visited = seen.Count, elapsedSeconds = watch.Elapsed.TotalSeconds,
-            detail = detail, algorithm = bound == null ? "Exact native-source uniform-cost search" :
+                detail = detail, algorithm = diceBound != null ? "Exact native-source A*, single-die pattern database, canonical keys" : bound == null ? "Exact native-source uniform-cost search" :
                 "Exact native-source A*, cart-aware bound, shutter parity, inactive-statue timer and glass-heading keys" };
         queue.Clear(); seen.Clear(); parents.Clear(); actions.Clear();
         return result;
