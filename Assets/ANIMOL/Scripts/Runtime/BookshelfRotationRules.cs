@@ -5,6 +5,11 @@ namespace ANIMOL.Puzzle
 {
     public static class BookshelfRotationRules
     {
+        // The authored H->V frames turn counterclockwise; V->H is the same
+        // frames backwards. Time reversal alone cannot select the other sweep.
+        public static bool MirrorAnimation(int phase, BookshelfRotationDirection direction) =>
+            ((phase & 1) == 0) == (direction == BookshelfRotationDirection.Clockwise);
+
         public static int NextPhase(int phase, BookshelfRotationDirection direction, bool twoState)
         {
             if (twoState) return 1 - (phase & 1);

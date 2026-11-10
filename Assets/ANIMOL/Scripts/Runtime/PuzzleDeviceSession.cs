@@ -269,16 +269,20 @@ namespace ANIMOL.Puzzle
         bool Solid(PrototypeDevice d)
         {
             var s = states[d.id]; if (s.removed) return false;
+            return IsDeviceSolid(d, s.active, s.phase);
+        }
+        public static bool IsDeviceSolid(PrototypeDevice d, bool active, int phase)
+        {
             switch (d.role)
             {
                 case PrototypeRole.StarSocket: return d.variant != "socket";
                 case PrototypeRole.Bookshelf: return d.variant != "plate";
                 case PrototypeRole.Dice: return d.variant != "target" && d.variant != "socket";
                 case PrototypeRole.Magnet: return d.variant != "switch";
-                case PrototypeRole.Optics: return d.variant == "source" || d.variant == "mirror" || (d.variant == "gate" && !s.active);
-                case PrototypeRole.Shutter: return !s.active;
-                case PrototypeRole.DepartureSpikes: return s.phase == 2;
-                case PrototypeRole.Domino: return !s.active;
+                case PrototypeRole.Optics: return d.variant == "source" || d.variant == "mirror" || (d.variant == "gate" && !active);
+                case PrototypeRole.Shutter: return !active;
+                case PrototypeRole.DepartureSpikes: return phase == 2;
+                case PrototypeRole.Domino: return !active;
                 case PrototypeRole.MovingStage:
                 case PrototypeRole.Barrel: case PrototypeRole.Bomb: case PrototypeRole.Statue: case PrototypeRole.Glass:
                 case PrototypeRole.CowardDoll: case PrototypeRole.Chick: case PrototypeRole.Wall: case PrototypeRole.CrackedWall:
@@ -517,8 +521,8 @@ namespace ANIMOL.Puzzle
         }
         void Move(string actor, Vector2Int from, Vector2Int to, bool teleport = false)
         { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Move, actor = actor, from = from, to = to, teleport = teleport, group = group++ }); }
-        void Visual(PrototypeDevice d, string state, string eventName, bool reverseAnimation = false)
-        { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id, state = state, eventName = eventName, group = group, reverseAnimation = reverseAnimation }); }
+        void Visual(PrototypeDevice d, string state, string eventName, bool reverseAnimation = false, bool mirrorAnimation = false)
+        { events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id, state = state, eventName = eventName, group = group, reverseAnimation = reverseAnimation, mirrorAnimation = mirrorAnimation }); }
         void DiceRollVisual(PrototypeDevice d, int[] before, int[] after, Vector2Int direction)
         {
             events.Add(new PrototypeEvent { kind = PrototypeEventKind.Visual, actor = d.id,
@@ -908,9 +912,9 @@ namespace ANIMOL.Puzzle
                 // Rotation needs empty space, not supporting floor. Do not use Free/Supported here.
                 var blocked = !Map.Contains(cell) || Map.DecorationAt(cell) ||
                     Map.TryTerrain(cell, out var terrain) && terrain.blocked || Cell == cell ||
-                    Map.DeviceAt(cell).kind != DeviceKind.None || ranchSheep.Values.Contains(cell) || RanchGrassPresent(cell) ||
+                    ranchSheep.Values.Contains(cell) || RanchGrassPresent(cell) ||
                     Rules.ranchV13Art.Any(a => a != null && a.family == "sluice" && a.Footprint().Contains(cell)) ||
-                    definitions.Any(d => d.id != shelf.id && !states[d.id].removed && Footprint(d).Contains(cell));
+                    definitions.Any(d => d.id != shelf.id && Solid(d) && Footprint(d).Contains(cell));
                 if (blocked) { blockedCell = cell; return true; }
             }
             blockedCell = default; return false;
@@ -937,8 +941,9 @@ namespace ANIMOL.Puzzle
                         if (BookshelfRotationBlocked(linked, out _)) continue;
                         var phase = ls.phase;
                         ls.phase = BookshelfRotationRules.NextPhase(phase, linked.bookshelfRotation, Rules.echoTheaterV3Rules);
-                        var reverse = linked.bookshelfRotation == BookshelfRotationDirection.CounterClockwise;
-                        if (animate) Visual(linked, "rotate_" + (reverse ? ls.phase : phase) * 90 + "_cw", "bookshelf_rotation_committed", reverse);
+                        if (animate)
+                            Visual(linked, "rotate_" + phase * 90 + "_cw", "bookshelf_rotation_committed",
+                                mirrorAnimation: BookshelfRotationRules.MirrorAnimation(phase, linked.bookshelfRotation));
                     }
                 }
             }

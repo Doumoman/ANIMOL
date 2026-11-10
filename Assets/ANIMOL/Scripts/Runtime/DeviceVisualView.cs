@@ -32,6 +32,7 @@ namespace ANIMOL.Presentation
         EchoTheaterV03AnimatedVisual v03Player;
         bool v03Active;
         bool reverseAnimation;
+        bool mirrorAnimation, mirrorInitialized, originalFlipX;
         StarwayRanchV12AnimatedVisual v12Player;
         bool v12Active;
         readonly HashSet<string> seenEvents=new HashSet<string>();
@@ -64,7 +65,7 @@ namespace ANIMOL.Presentation
         {
             if (v12Active) v12Player.SetClip("INVALID_V12_BINDING_" + diagnostic);
         }
-        public bool Present(string state, bool restart=false, bool playReverse=false)
+        public bool Present(string state, bool restart=false, bool playReverse=false, bool mirrorSweep=false)
         {
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state);
             if(next==null)
@@ -74,7 +75,9 @@ namespace ANIMOL.Presentation
                 return false;
             }
             if(active==next && !restart)return true;
-            active=next;CurrentState=state;Elapsed=0;reverseAnimation=playReverse;
+            if (!mirrorInitialized && visual) { originalFlipX=visual.flipX; mirrorInitialized=true; }
+            active=next;CurrentState=state;Elapsed=0;reverseAnimation=playReverse;mirrorAnimation=mirrorSweep;
+            ApplyMirror();
             if (v12Active)
             {
                 if (string.IsNullOrEmpty(next.v12ClipKey))
@@ -87,22 +90,23 @@ namespace ANIMOL.Presentation
             {
                 if (string.IsNullOrEmpty(next.v03ClipKey))
                     return v03Player.SetClip(next.v03ClipKey);
-                return next.sequence
+                bool shown = next.sequence
                     ? v03Player.Play(next.v03ClipKey, playReverse: playReverse)
                     : v03Player.SnapToState(next.v03ClipKey, next.v03StaticProgress);
+                ApplyMirror();return shown;
             }
-            Render();return true;
+            Render();ApplyMirror();return true;
         }
-        public bool Notify(string committedEvent,string state,bool playReverse=false)
+        public bool Notify(string committedEvent,string state,bool playReverse=false,bool mirrorSweep=false)
         {
             var next=Array.Find(states??Array.Empty<DeviceVisualState>(),s=>s.name==state && s.eventName==committedEvent);
-            return next!=null && Present(state,true,playReverse);
+            return next!=null && Present(state,true,playReverse,mirrorSweep);
         }
-        public bool Notify(string actionId,string committedEvent,string state,bool playReverse=false)
+        public bool Notify(string actionId,string committedEvent,string state,bool playReverse=false,bool mirrorSweep=false)
         {
             if(string.IsNullOrEmpty(actionId))return false;
-            string key=actionId+"\u001f"+committedEvent+"\u001f"+state+(playReverse?"\u001freverse":"");
-            if(seenEvents.Contains(key) || !Notify(committedEvent,state,playReverse))
+            string key=actionId+"\u001f"+committedEvent+"\u001f"+state+(playReverse?"\u001freverse":"")+(mirrorSweep?"\u001fmirror":"");
+            if(seenEvents.Contains(key) || !Notify(committedEvent,state,playReverse,mirrorSweep))
             {
                 if (v03Active && !seenEvents.Contains(key)) FailV03(state);
                 if (v12Active && !seenEvents.Contains(key)) FailV12(state);
@@ -115,9 +119,9 @@ namespace ANIMOL.Presentation
         public void ResetVisual(){paused=false;active=null;seenEvents.Clear();eventOrder.Clear();Present(initialState,true);if(active!=null&&active.sequence&&active.sequence.loop)Advance(initialPhase);}
         public void RebindArt(DeviceVisualState[] replacement,string initial)
         {
-            string state=CurrentState;float elapsed=Elapsed;bool reverse=reverseAnimation;
+            string state=CurrentState;float elapsed=Elapsed;bool reverse=reverseAnimation, mirror=mirrorAnimation;
             states=replacement;initialState=initial;active=null;
-            if(!Present(state,true,reverse))Present(initial,true);
+            if(!Present(state,true,reverse,mirror))Present(initial,true);
             if(CurrentState==state)Elapsed=elapsed;
             if (!v03Active && !v12Active) Render(); // Cosmetic theme changes preserve pause and action IDs.
         }
@@ -128,7 +132,18 @@ namespace ANIMOL.Presentation
             if(paused||active==null)return;
             Elapsed+=Mathf.Max(0,seconds);
             if (!v03Active && !v12Active) Render();
+            ApplyMirror();
         }
+        // Only intermediate frames select a swept diagonal. Keep authored end
+        // poses unchanged so completion, idle, undo and reset share one picture.
+        void ApplyMirror()
+        {
+            if (!visual || !mirrorInitialized) return;
+            bool middle = mirrorAnimation && active != null && active.sequence &&
+                visual.sprite != active.sequence.At(0) && visual.sprite != active.terminal;
+            visual.flipX = originalFlipX ^ middle;
+        }
+        void LateUpdate()=>ApplyMirror();
         void Render()
         {
             if(!visual||active==null)return;

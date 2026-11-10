@@ -629,8 +629,8 @@ namespace ANIMOL.Puzzle
                 ShowWindRoute(e);
             if (ferries.TryGetValue(e.actor, out var ferry)) { if (!ferry.Notify(actionId, e.eventName, e.state)) ferry.Present(e.state, true); }
             else if (view.IsV03Active || view.IsV12Active)
-            { if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation)) MissingBindings++; }
-            else if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation) && !view.Present(e.state, true, e.reverseAnimation)) MissingBindings++;
+            { if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation, e.mirrorAnimation)) MissingBindings++; }
+            else if (!view.Notify(actionId, e.eventName, e.state, e.reverseAnimation, e.mirrorAnimation) && !view.Present(e.state, true, e.reverseAnimation, e.mirrorAnimation)) MissingBindings++;
             if (PlayingTransition(view)) pendingIdle[e.actor] = Idle(session.Definition(e.actor), session.States[e.actor]);
         }
         public bool HasOneTileShutterCue(PrototypeEvent e) =>
@@ -877,7 +877,7 @@ namespace ANIMOL.Puzzle
                 root.gameObject.SetActive(true);
                 if (seatedStars.TryGetValue(d.id, out var seated)) seated.Present(s.active);
                 var state = Idle(d, s);
-                if (restoring && d.role == PrototypeRole.Dice)
+                if (restoring && (d.role == PrototypeRole.Dice || d.role == PrototypeRole.Bookshelf))
                 {
                     pendingIdle.Remove(d.id);
                     if (!view.Present(state, true)) MissingBindings++;

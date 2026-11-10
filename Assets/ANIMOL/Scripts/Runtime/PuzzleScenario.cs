@@ -230,6 +230,7 @@ namespace ANIMOL.Puzzle
         public bool cartTurn;
         // Reuse the opposite authored quarter-turn clip backwards for counterclockwise bookshelves.
         public bool reverseAnimation;
+        public bool mirrorAnimation;
         public List<Vector2Int> cells;
         // Committed chick return presentation data; the session remains the sole authority.
         public string nestId;

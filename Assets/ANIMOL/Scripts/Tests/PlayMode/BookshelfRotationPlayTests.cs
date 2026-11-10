@@ -13,6 +13,86 @@ namespace ANIMOL.Tests
 {
     public sealed class BookshelfRotationPlayTests
     {
+        [UnityTest] public IEnumerator CommittedArtSweepsTheSameDiagonalAsCollisionInEveryPoseAndDirection()
+        {
+            var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");
+            var prefab = source.scenario.devices.Single(d => d.role == PrototypeRole.Bookshelf && d.variant != "plate").visualPrefab;
+            var map = ScriptableObject.CreateInstance<PuzzleMap>();
+            var rules = ScriptableObject.CreateInstance<PuzzleScenario>();
+            map.Resize(7, 7); map.theme = source.theme; map.scenario = rules;
+            map.start = new Vector2Int(1, 0); map.exit = new Vector2Int(0, 6); map.targetBubbles = 0;
+            foreach (var cell in new[] { map.start, map.exit, new Vector2Int(1, 1), new Vector2Int(4, 3) })
+                map.SetTerrain(cell, TerrainMaterial.TheaterStageFloor);
+            rules.themeId = "memory_theater";
+            rules.devices.Add(new PrototypeDevice { id = "plate", role = PrototypeRole.Bookshelf, variant = "plate",
+                group = "books", position = new Vector2Int(1, 1), visualPrefab = prefab });
+            var shelf = new PrototypeDevice { id = "shelf", role = PrototypeRole.Bookshelf,
+                group = "books", position = new Vector2Int(4, 3), visualPrefab = prefab };
+            rules.devices.Add(shelf);
+            GameObject host = null;
+            try
+            {
+                for (var phase = 0; phase < 4; phase++) foreach (var ccw in new[] { false, true })
+                {
+                    rules.echoTheaterV3Rules = phase < 2;
+                    shelf.orientation = phase;
+                    shelf.bookshelfRotation = ccw ? BookshelfRotationDirection.CounterClockwise : BookshelfRotationDirection.Clockwise;
+                    host = new GameObject("Bookshelf sweep test");
+                    var player = host.AddComponent<SpriteRenderer>();
+                    var presenter = host.AddComponent<PuzzleDeviceView>();
+                    var session = new PuzzleDeviceSession(map); presenter.Bind(session, player);
+                    var cue = session.Apply(Vector2Int.up).events.Single(e => e.eventName == "bookshelf_rotation_committed");
+                    presenter.Notify(cue, "sweep");
+                    var view = host.GetComponentsInChildren<DeviceVisualView>().Single(v => v.gameObject.name == shelf.id);
+                    var art = view.GetComponent<ANIMOL.Art.EchoTheaterV03.EchoTheaterV03AnimatedVisual>();
+                    Assert.That(art.ApplyNormalizedProgress(.5f), Is.True); view.Advance(0);
+                    var expectedSign = ((phase & 1) == 0) != ccw ? -1 : 1;
+                    Assert.That(DiagonalSign(view.visual), Is.EqualTo(expectedSign), "phase=" + phase + ", ccw=" + ccw);
+                    Assert.That(BookshelfRotationRules.SweptCells(shelf.position, phase, shelf.bookshelfRotation),
+                        Does.Contain(shelf.position + new Vector2Int(1, expectedSign)));
+                    Assert.That(presenter.MissingBindings, Is.Zero); Assert.That(view.BlocksInput, Is.False);
+                    view.paused = true; var flipped = view.visual.flipX; var elapsed = view.Elapsed;
+                    yield return null;
+                    Assert.That(view.visual.flipX, Is.EqualTo(flipped)); Assert.That(view.Elapsed, Is.EqualTo(elapsed));
+                    view.paused = false; view.Advance(0);
+                    Assert.That(art.ApplyNormalizedProgress(1), Is.True); view.Advance(0);
+                    Assert.That(view.visual.flipX, Is.False, "Terminal pose must match the authored idle.");
+                    Assert.That(session.Undo(), Is.True); presenter.Settle(true);
+                    Assert.That(view.visual.flipX, Is.False);
+                    Assert.That(session.States[shelf.id].phase, Is.EqualTo(phase));
+                    presenter.Notify(session.Apply(Vector2Int.up).events.Single(e => e.eventName == "bookshelf_rotation_committed"), "undo-mid-sweep");
+                    Assert.That(art.ApplyNormalizedProgress(.5f), Is.True); view.Advance(0);
+                    Assert.That(session.Undo(), Is.True); presenter.Settle(true);
+                    Assert.That(view.visual.flipX, Is.False, "Undo must clear an intermediate mirror immediately.");
+                    Assert.That(view.CurrentState, Is.EqualTo(new[] { "horizontal", "vertical", "horizontal_reversed", "vertical_reversed" }[phase]));
+                    Object.Destroy(host); host = null; yield return null;
+                }
+            }
+            finally { if (host) Object.Destroy(host); Object.Destroy(map); Object.Destroy(rules); }
+        }
+
+        // Measure the actual painted diagonal, including renderer mirroring,
+        // rather than accepting a clip name or a direction flag as evidence.
+        static int DiagonalSign(SpriteRenderer renderer)
+        {
+            var sprite = renderer.sprite;
+            var target = RenderTexture.GetTemporary(sprite.texture.width, sprite.texture.height, 0);
+            var previous = RenderTexture.active;
+            var pixels = new Texture2D(target.width, target.height, TextureFormat.RGBA32, false);
+            try
+            {
+                Graphics.Blit(sprite.texture, target); RenderTexture.active = target;
+                pixels.ReadPixels(new Rect(0, 0, target.width, target.height), 0, 0); pixels.Apply();
+                var data = pixels.GetPixels32(); double covariance = 0;
+                var rect = sprite.rect;
+                for (var y = (int)rect.y; y < rect.yMax; y += 8)
+                    for (var x = (int)rect.x; x < rect.xMax; x += 8)
+                        covariance += data[y * target.width + x].a * (x + .5 - rect.x - sprite.pivot.x) * (y + .5 - rect.y - sprite.pivot.y);
+                return System.Math.Sign(covariance) * (renderer.flipX ? -1 : 1) * (renderer.flipY ? -1 : 1);
+            }
+            finally { RenderTexture.active = previous; RenderTexture.ReleaseTemporary(target); Object.Destroy(pixels); }
+        }
+
         [UnityTest] public IEnumerator CounterclockwiseArtRunsBackwardsFreezesOnPauseAndHoldsItsRealTerminal()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");

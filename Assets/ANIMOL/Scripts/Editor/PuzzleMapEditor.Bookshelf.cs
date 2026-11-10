@@ -12,10 +12,9 @@ namespace ANIMOL.Presentation.Editor
         public static bool BookshelfPreviewBlocked(PuzzleMap data, PrototypeDevice shelf, Vector2Int cell)
         {
             if (!data.Contains(cell) || data.DecorationAt(cell) ||
-                data.TryTerrain(cell, out var terrain) && terrain.blocked || data.start == cell ||
-                data.DeviceAt(cell).kind != DeviceKind.None) return true;
+                data.TryTerrain(cell, out var terrain) && terrain.blocked || data.start == cell) return true;
             if (!data.scenario) return false;
-            return data.scenario.devices.Any(d => d != shelf &&
+            return data.scenario.devices.Any(d => d != shelf && PuzzleDeviceSession.IsDeviceSolid(d, d.active, d.orientation) &&
                 (d.role == PrototypeRole.VineBridge && d.variant != "plate" && d.cells.Count > 0
                     ? d.cells : InitialDeviceFootprint(d)).Contains(cell)) ||
                 data.scenario.ranchV13Art.Any(a => a != null && a.Footprint().Contains(cell));

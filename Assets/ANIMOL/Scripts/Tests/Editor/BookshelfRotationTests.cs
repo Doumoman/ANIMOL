@@ -34,7 +34,8 @@ namespace ANIMOL.Tests
         PrototypeDevice Obstacle(PrototypeRole role, Vector2Int cell)
         {
             var device = new PrototypeDevice { id = "obstacle", role = role, position = cell, active = true,
-                variant = role == PrototypeRole.Bookshelf ? "plate" : "" };
+                variant = "" };
+            if (role == PrototypeRole.Shutter) device.active = false;
             rules.devices.Add(device); map.SetTerrain(cell, TerrainMaterial.TheaterStageFloor); return device;
         }
 
@@ -52,7 +53,7 @@ namespace ANIMOL.Tests
             Assert.That(cells, Has.No.Member(P(1, -y))); Assert.That(cells, Has.No.Member(P(-1, y)));
         }
 
-        [Test] public void EmptyAirNeedsNoFloorAndCounterclockwiseUsesTheOppositeAuthoredClip()
+        [Test] public void EmptyAirNeedsNoFloorAndCounterclockwiseUsesTheAuthoredSweep()
         {
             shelf.bookshelfRotation = BookshelfRotationDirection.CounterClockwise;
             var session = new PuzzleDeviceSession(map); var action = session.Apply(Vector2Int.up);
@@ -60,7 +61,8 @@ namespace ANIMOL.Tests
             Assert.That(action.accepted, Is.True); Assert.That(session.Cost, Is.EqualTo(1));
             Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
             var cue = action.events.Single(e => e.eventName == "bookshelf_rotation_committed");
-            Assert.That(cue.reverseAnimation, Is.True); Assert.That(cue.state, Is.EqualTo("rotate_90_cw"));
+            Assert.That(cue.reverseAnimation, Is.False); Assert.That(cue.mirrorAnimation, Is.False);
+            Assert.That(cue.state, Is.EqualTo("rotate_0_cw"));
             Assert.That(session.Undo(), Is.True); Assert.That(session.States[shelf.id].phase, Is.Zero);
         }
 
@@ -112,12 +114,12 @@ namespace ANIMOL.Tests
             Assert.That(wing, Is.EqualTo(P(3, 4))); Assert.That(PuzzleMapEditor.BookshelfPreviewBlocked(map, shelf, wing), Is.True);
         }
 
-        [Test] public void BoardBoundaryAndLegacyDevicesBlockButOrdinaryFloorDoesNot()
+        [Test] public void BoardBoundaryBlocksButFloorEffectsAndOrdinaryFloorDoNot()
         {
             var free = new PuzzleDeviceSession(map); Assert.That(free.BookshelfRotationBlocked(shelf, out _), Is.False);
             map.SetTerrain(P(3, 4), TerrainMaterial.TheaterStageFloor);
             map.devices.Add(new DeviceCell { position = P(3, 4), kind = DeviceKind.Ice }); map.InvalidateIndex();
-            Assert.That(new PuzzleDeviceSession(map).BookshelfRotationBlocked(shelf, out _), Is.True);
+            Assert.That(new PuzzleDeviceSession(map).BookshelfRotationBlocked(shelf, out _), Is.False);
             map.devices.Clear(); map.InvalidateIndex(); shelf.position = P(4, 0);
             Assert.That(new PuzzleDeviceSession(map).BookshelfRotationBlocked(shelf, out _), Is.True);
         }
@@ -142,7 +144,7 @@ namespace ANIMOL.Tests
             Assert.That(session.States[shelf.id].cell, Is.EqualTo(shelf.position));
         }
 
-        [Test] public void CounterclockwiseCommitReachesTheActualV03PresenterInReverseWithoutMissingBindings()
+        [Test] public void CounterclockwiseCommitReachesTheActualV03PresenterWithoutMissingBindings()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>("Assets/ANIMOL/Data/Puzzle/Prototypes/Device08_Bookshelf.asset");
             map.theme = source.theme;
@@ -162,12 +164,60 @@ namespace ANIMOL.Tests
                 var binding = visual.states.Single(s => s.name == cue.state);
                 var art = map.theme.memorySkyTheater.v02;
                 Assert.That(art.v03Animations.TryGetClip(binding.v03ClipKey, art.v03ManifestSha256, out var clip, out var error), Is.True, error);
-                Assert.That(visual.visual.sprite, Is.SameAs(clip.GetFrame(clip.FrameCount - 1).Sprite));
+                Assert.That(visual.visual.sprite, Is.SameAs(clip.GetFrame(0).Sprite));
                 Assert.That(presenter.MissingBindings, Is.Zero); Assert.That(visual.BlocksInput, Is.False);
                 var time = visual.Elapsed; visual.paused = true; visual.Advance(.25f);
                 Assert.That(visual.Elapsed, Is.EqualTo(time));
             }
             finally { EditorSceneManager.ClosePreviewScene(preview); }
+        }
+
+        [TestCase(PrototypeRole.Bookshelf, "plate"), TestCase(PrototypeRole.Dice, "target")]
+        [TestCase(PrototypeRole.Shutter, ""), TestCase(PrototypeRole.Domino, "")]
+        [TestCase(PrototypeRole.VineBridge, "")]
+        public void PassableDevicesDoNotBlockTheSweepOrEditorPreview(PrototypeRole role, string variant)
+        {
+            var device = Obstacle(role, P(3, 4)); device.variant = variant; device.active = true;
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.False);
+            Assert.That(PuzzleMapEditor.BookshelfPreviewBlocked(map, shelf, device.position), Is.False);
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(session.States[shelf.id].phase, Is.EqualTo(1));
+            Assert.That(action.events.Count(e => e.eventName == "bookshelf_rotation_committed"), Is.EqualTo(1));
+        }
+
+        [TestCase(0, false), TestCase(1, false), TestCase(2, false), TestCase(3, false)]
+        [TestCase(0, true), TestCase(1, true), TestCase(2, true), TestCase(3, true)]
+        public void RuntimeSweepAndPreviewAgreeForEveryStartAndDirection(int phase, bool counterclockwise)
+        {
+            rules.echoTheaterV3Rules = false; shelf.orientation = phase;
+            shelf.bookshelfRotation = counterclockwise ? BookshelfRotationDirection.CounterClockwise : BookshelfRotationDirection.Clockwise;
+            var sweptY = ((phase & 1) == 0) != counterclockwise ? -1 : 1;
+            var obstacle = Obstacle(PrototypeRole.Wall, shelf.position + P(1, -sweptY));
+            var free = new PuzzleDeviceSession(map);
+            Assert.That(free.BookshelfRotationBlocked(shelf, out _), Is.False);
+            var cue = free.Apply(Vector2Int.up).events.Single(e => e.eventName == "bookshelf_rotation_committed");
+            Assert.That(cue.state, Is.EqualTo("rotate_" + phase * 90 + "_cw"));
+            obstacle.position = shelf.position + P(1, sweptY);
+            var blocked = new PuzzleDeviceSession(map);
+            Assert.That(blocked.BookshelfRotationBlocked(shelf, out var cell), Is.True);
+            Assert.That(cell, Is.EqualTo(obstacle.position));
+            Assert.That(PuzzleMapEditor.BookshelfPreviewBlocked(map, shelf, cell), Is.True);
+            Assert.That(blocked.Apply(Vector2Int.up).events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.False);
+        }
+
+        [Test] public void ShutterOpeningAndDominoFoldingImmediatelyClearTheSweep()
+        {
+            foreach (var role in new[] { PrototypeRole.Shutter, PrototypeRole.Domino })
+            {
+                rules.devices.RemoveAll(d => d.id == "obstacle");
+                var device = Obstacle(role, P(3, 4)); device.active = false;
+                var session = new PuzzleDeviceSession(map);
+                Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.True);
+                session.States[device.id].active = true;
+                Assert.That(session.BookshelfRotationBlocked(shelf, out _), Is.False);
+                Assert.That(session.Apply(Vector2Int.up).events.Any(e => e.eventName == "bookshelf_rotation_committed"), Is.True);
+            }
         }
 
         [UnityTest] public IEnumerator EditorRendersBookshelfSweepAndDirectionControlsWithoutChangingAssets()

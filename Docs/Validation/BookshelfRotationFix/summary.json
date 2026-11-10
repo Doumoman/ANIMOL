@@ -1,0 +1,78 @@
+{
+  "baseCommit": "0c3ede6ee0ee554d8dd60149197a0b5f1e1092fb",
+  "changes": [
+    "Runtime and editor sweep obstruction use the existing physical solidity rules. Floor effects, plates, open shutters and folded dominoes no longer obstruct empty rotation space.",
+    "Authoritative sweep still checks seven board cells, including both direction-specific diagonals, player, solid obstacles, decoration and board bounds. Air needs no supporting floor.",
+    "Authored H-to-V is counterclockwise; V-to-H contains the same frames backwards. Use the current-pose clip and mirror only intermediate frames when the opposite diagonal is needed.",
+    "Completion retains the authored terminal pose. Undo/reset immediately restore the bookshelf pose and clear presentation mirroring.",
+    "No input blocking, time-scale changes, additional feedback events, asset moves or authored map changes."
+  ],
+  "tests": {
+    "editmode": {
+      "status": "completed",
+      "total": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "playmode": {
+      "status": "completed",
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "art_assets": {
+      "status": "completed",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "art_qa_playmode": {
+      "status": "completed",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "host_regression": {
+      "status": "completed",
+      "total": 5,
+      "passed": 3,
+      "failed": 2,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "host_baseline_head": {
+      "status": "completed",
+      "total": 5,
+      "passed": 3,
+      "failed": 2,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "playmodeCoverage": "Actual sprite alpha covariance agrees with collision diagonals in all four initial poses and both directions, for current two-state and four-state scenarios. Also checks pause, canonical terminal, duplicate-event handling and undo during rotation.",
+  "knownUnrelatedFailures": {
+    "suite": "DevicePatchP01HostTests",
+    "baselineConfirmed": true,
+    "failures": {
+      "ANIMOL.Tests.DevicePatchP01HostTests.HostGateHasOneOccupiedCellAndFourStrictHeadings(\"starway\")": "  Expected: (4, 3)\r\n  But was:  (5, 3)\r\n",
+      "ANIMOL.Tests.DevicePatchP01HostTests.HostGateHasOneOccupiedCellAndFourStrictHeadings(\"memory_theater\")": "  Expected: (4, 3)\r\n  But was:  (5, 3)\r\n"
+    }
+  },
+  "compile": {
+    "status": "completed",
+    "errors": [],
+    "compilationFailed": false
+  },
+  "archivedTests": {
+    "CommercialPolishPolicyTests": "Not run: archived under Legacy/PreviousProject_20261013. No new feedback event or intensity change."
+  },
+  "preservation": "Compared git status against the initial snapshot: only the eight task source files and this validation folder were added to the dirty-file list. No existing entry was removed or changed, including the user-modified ET-12 map."
+}
