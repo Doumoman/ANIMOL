@@ -50,6 +50,86 @@ namespace ANIMOL.Tests
             Assert.That(moves[1].cartTurn, Is.True);
         }
 
+        [TestCase("a_statue", false), TestCase("z_statue", false)]
+        [TestCase("a_statue", true), TestCase("z_statue", true)]
+        public void StatueVacatesCartDestinationBeforeCartChecksIt(string statueId, bool stationaryPush)
+        {
+            var map = Room(new Vector2Int(1, 2));
+            map.scenario.echoTheaterV3Rules = true;
+            map.scenario.devices.Add(new PrototypeDevice { id = statueId, role = PrototypeRole.Statue,
+                position = new Vector2Int(3, 2), direction = Vector2Int.up, number = 1 });
+            if (stationaryPush) map.scenario.devices.Add(new PrototypeDevice { id = "crate", role = PrototypeRole.WoodCrate,
+                position = new Vector2Int(1, 3) });
+            var session = new PuzzleDeviceSession(map);
+            session.States[statueId].locked = true; session.States[statueId].timer = 1;
+            var before = session.SearchStateKey();
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States[statueId].cell, Is.EqualTo(new Vector2Int(3, 3)));
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(action.events.FindIndex(e => e.actor == "stage"),
+                Is.GreaterThan(action.events.FindLastIndex(e => e.actor == statueId)));
+            Assert.That(action.events.Where(e => e.actor == statueId).All(e => !e.cartTurn), Is.True);
+            Assert.That(action.events.Where(e => e.actor == "stage").All(e => e.cartTurn), Is.True);
+            Assert.That(action.events.Count(e => e.kind == PrototypeEventKind.Move && e.actor == statueId), Is.EqualTo(1));
+            Assert.That(session.Cost, Is.EqualTo(1));
+            Assert.That(session.Undo(), Is.True); Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
+        [Test] public void StatueEnteringCartDestinationBlocksTheCartInTheSameTurn()
+        {
+            var map = Room(new Vector2Int(1, 2));
+            map.scenario.devices.Add(new PrototypeDevice { id = "statue", role = PrototypeRole.Statue,
+                position = new Vector2Int(3, 1), direction = Vector2Int.up, number = 1 });
+            var session = new PuzzleDeviceSession(map);
+            session.States["statue"].locked = true; session.States["statue"].timer = 1;
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(2, 2)));
+            Assert.That(action.events.Single(e => e.eventName == "existing_stage_blocked").cartTurn, Is.True);
+            Assert.That(action.events.Any(e => e.actor == "stage" && e.kind == PrototypeEventKind.Move), Is.False);
+        }
+
+        [Test] public void StatueCannotUseTheCellThatTheCartWillVacateLaterInTheTurn()
+        {
+            var map = Room(new Vector2Int(1, 3));
+            map.scenario.devices.Add(new PrototypeDevice { id = "statue", role = PrototypeRole.Statue,
+                position = new Vector2Int(1, 2), direction = Vector2Int.right, number = 1 });
+            var session = new PuzzleDeviceSession(map);
+            session.States["statue"].locked = true; session.States["statue"].timer = 1;
+            var action = session.Apply(Vector2Int.up);
+            Assert.That(action.accepted, Is.True);
+            Assert.That(session.States["statue"].cell, Is.EqualTo(new Vector2Int(1, 2)));
+            Assert.That(session.States["stage"].cell, Is.EqualTo(new Vector2Int(3, 2)));
+            Assert.That(action.events.Count(e => e.eventName == "statue_recovery"), Is.EqualTo(1));
+            Assert.That(action.events.Any(e => e.actor == "statue" && e.kind == PrototypeEventKind.Move), Is.False);
+        }
+
+        [Test] public void StatueLocksThePlayerLineBeforeTheCartPushesThePlayer()
+        {
+            var map = Room(new Vector2Int(3, 3));
+            map.scenario.devices.Add(new PrototypeDevice { id = "statue", role = PrototypeRole.Statue,
+                position = new Vector2Int(5, 2), direction = Vector2Int.left, number = 1 });
+            var session = new PuzzleDeviceSession(map);
+            Assert.That(session.Apply(Vector2Int.down).accepted, Is.True);
+            Assert.That(session.States["statue"].locked, Is.True);
+            Assert.That(session.States["statue"].timer, Is.EqualTo(2));
+            Assert.That(session.Cell, Is.EqualTo(new Vector2Int(4, 2)));
+        }
+
+        [Test] public void InvalidInputAdvancesNeitherStatueNorCart()
+        {
+            var map = Room(new Vector2Int(1, 2));
+            map.scenario.devices.Add(new PrototypeDevice { id = "statue", role = PrototypeRole.Statue,
+                position = new Vector2Int(3, 2), direction = Vector2Int.up, number = 1 });
+            var session = new PuzzleDeviceSession(map);
+            session.States["statue"].locked = true; session.States["statue"].timer = 1;
+            var before = session.SearchStateKey();
+            Assert.That(session.Apply(Vector2Int.right).accepted, Is.False);
+            Assert.That(session.Cost, Is.Zero); Assert.That(session.SearchStateKey(), Is.EqualTo(before));
+        }
+
         [TestCase(PrototypeRole.WoodCrate, false)]
         [TestCase(PrototypeRole.MetalCrate, false)]
         [TestCase(PrototypeRole.Dice, false)]

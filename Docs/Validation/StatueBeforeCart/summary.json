@@ -1,0 +1,74 @@
+{
+  "baseCommit": "bf3e64d98e29226391d76c0fbc1c0810bdc7b95b",
+  "change": "On turns with eligible carts, resolve every charging statue once after player input/push and before any cart occupancy check. Preserve ID order within each phase and keep the existing device sequence when no cart takes a turn.",
+  "presentation": "Committed statue move/recovery events precede cart events. The existing sequential presenter completes the statue transform motion before starting the concurrent cart movement batch.",
+  "tests": {
+    "before_fix": {
+      "status": "completed",
+      "total": 26,
+      "passed": 18,
+      "failed": 8,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "editmode": {
+      "status": "completed",
+      "total": 26,
+      "passed": 25,
+      "failed": 1,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "playmode": {
+      "status": "completed",
+      "total": 13,
+      "passed": 12,
+      "failed": 1,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "bookshelf_regression": {
+      "status": "completed",
+      "total": 55,
+      "passed": 55,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "newOrderCases": {
+    "passed": 8,
+    "total": 8,
+    "coverage": [
+      "Statue vacates cart destination, with statue ID before/after the cart and both normal movement and stationary push.",
+      "Statue enters cart destination and blocks the cart.",
+      "Statue cannot enter a cell still occupied by a cart that will move later.",
+      "Statue line lock uses player position before the cart pushes the player.",
+      "Invalid input advances neither device; cost and Undo remain consistent."
+    ]
+  },
+  "newPlayCase": "StatueMovementFinishesBeforeCartMovementAndBothUndoTogether passed for both the vacating and entering cases; state stays committed during animation, movement order is observed on actual actor transforms, and Undo restores both devices.",
+  "knownUnrelatedFailures": {
+    "cause": "Both existing ET-06 tests load Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/ET-06_MapData.asset, which is absent.",
+    "editmode": "Et06UsesItsRegisteredCartAsAOneCellBlocker: same NullReferenceException before and after the change.",
+    "playmode": "M06UsesCartAndFloorRailsAfterMoveAndReload: null source fails in controller.Load before any movement rules run."
+  },
+  "shortestPathRevalidation": {
+    "affectedCurrentRecord": "ET-10",
+    "previousRouteRejectedAtInput": 35,
+    "previousCostAtRejection": 34,
+    "status": "limit",
+    "visited": 1000000,
+    "distance": -1,
+    "catalogUpdated": "Marked unconfirmed; preserved old proof in previousResult. No shortest or unreachable claim is made."
+  },
+  "compile": {
+    "status": "completed",
+    "errors": []
+  },
+  "et12MapPreserved": {
+    "sha256Before": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93",
+    "sha256After": "38fe72062844c089bd99cc44177d6bb4c759f4bea7b73f21649f57c31fdb2e93"
+  },
+  "archivedPolicyTests": "CommercialPolishPolicyTests not run: archived under Legacy/PreviousProject_20261013. No new feedback event, intensity, time scale or input block."
+}

@@ -12,6 +12,62 @@ namespace ANIMOL.Tests
 {
     public sealed class EchoRailCartV01PlayTests
     {
+        [UnityTest] public IEnumerator StatueMovementFinishesBeforeCartMovementAndBothUndoTogether()
+        {
+            foreach (var entersCartPath in new[] { false, true })
+            {
+                var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                    "Assets/ANIMOL/Data/Puzzle/Prototypes/Device06_MovingStage.asset");
+                var statueSource = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                    "Assets/ANIMOL/Data/Puzzle/Prototypes/Device17_Statue.asset");
+                var map = Object.Instantiate(source); map.scenario = Object.Instantiate(source.scenario);
+                map.scenario.costLimit = 0; map.start = new Vector2Int(1, 2);
+                var statue = JsonUtility.FromJson<PrototypeDevice>(JsonUtility.ToJson(
+                    statueSource.scenario.devices.Single(d => d.role == PrototypeRole.Statue)));
+                statue.id = "statue"; statue.position = new Vector2Int(3, entersCartPath ? 1 : 2);
+                statue.direction = Vector2Int.up; statue.number = 1;
+                map.scenario.devices.Add(statue);
+                var host = new GameObject("Statue before cart motion test");
+                var controller = host.AddComponent<PuzzlePrototypeController>(); controller.secondsPerCell = .2f;
+                try
+                {
+                    controller.Load(map);
+                    controller.Session.States[statue.id].locked = true; controller.Session.States[statue.id].timer = 1;
+                    var before = controller.Session.SearchStateKey();
+                    var statueActor = controller.Devices.Actor(statue.id); var cart = controller.Devices.Actor("stage");
+                    var statueStart = statueActor.position; var cartStart = cart.position;
+                    var statueEnd = statueStart + Vector3.up;
+                    Assert.That(controller.RequestMove(Vector2Int.up), Is.True);
+                    var committed = controller.Session.SearchStateKey();
+                    var sawStatueMove = false; var sawCartMove = false;
+                    var deadline = Time.realtimeSinceStartup + 5;
+                    while (controller.IsMoving && Time.realtimeSinceStartup < deadline)
+                    {
+                        if (statueActor.position != statueStart && statueActor.position != statueEnd)
+                        { sawStatueMove = true; Assert.That(cart.position, Is.EqualTo(cartStart)); }
+                        if (cart.position != cartStart)
+                        {
+                            sawCartMove = true;
+                            Assert.That(entersCartPath, Is.False);
+                            Assert.That(statueActor.position, Is.EqualTo(statueEnd));
+                        }
+                        Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(committed));
+                        yield return null;
+                    }
+                    Assert.That(controller.IsMoving, Is.False); Assert.That(sawStatueMove, Is.True);
+                    Assert.That(sawCartMove, Is.EqualTo(!entersCartPath));
+                    Assert.That(statueActor.position, Is.EqualTo(statueEnd));
+                    Assert.That(cart.position, Is.EqualTo(cartStart + (entersCartPath ? Vector3.zero : Vector3.right)));
+                    Assert.That(controller.Session.Cost, Is.EqualTo(1)); Assert.That(controller.BlocksInput, Is.False);
+                    Assert.That(controller.Devices.MissingBindings, Is.Zero);
+                    Assert.That(controller.UndoLast(), Is.True);
+                    Assert.That(controller.Session.SearchStateKey(), Is.EqualTo(before));
+                    Assert.That(statueActor.position, Is.EqualTo(statueStart)); Assert.That(cart.position, Is.EqualTo(cartStart));
+                }
+                finally { Object.Destroy(host); Object.Destroy(map.scenario); Object.Destroy(map); }
+            }
+        }
+
         static PuzzleMap MultipleCartRoom()
         {
             var source = AssetDatabase.LoadAssetAtPath<PuzzleMap>(

@@ -1,0 +1,104 @@
+{
+  "status": "completed",
+  "duration": 8.97,
+  "summary": {
+    "total": 13,
+    "passed": 12,
+    "failed": 1,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.ClosedRailShowsTurnedCartWithoutRotatingActor",
+      "Status": "Passed",
+      "Duration": 0.5313652,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.ConcurrentCartsPreserveTwoCommittedPlayerPushes",
+      "Status": "Passed",
+      "Duration": 0.6078827,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.ContactTweenMovesPlayerAheadOfCart",
+      "Status": "Passed",
+      "Duration": 0.2676304,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.FloorRailRemainsVisibleWithoutAnyCart",
+      "Status": "Passed",
+      "Duration": 0.0188999,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.IndependentRailDrawsOnceAndCarriesCartAfterReload",
+      "Status": "Passed",
+      "Duration": 0.2849032,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.InputQueuedDuringPushRunsAfterCartFinishesOnce",
+      "Status": "Passed",
+      "Duration": 0.7896751,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.M06UsesCartAndFloorRailsAfterMoveAndReload",
+      "Status": "Failed",
+      "Duration": 0.0057318,
+      "Message": "System.ArgumentException : The Object you want to instantiate is null.",
+      "StackTrace": "  at UnityEngine.Object.Instantiate[T] (T original) [0x0003d] in <6a469c5cf96a43eab23a293167261e20>:0 \r\n  at ANIMOL.Puzzle.PuzzlePrototypeController.Load (ANIMOL.Puzzle.PuzzleMap data) [0x000d1] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Runtime\\PuzzlePrototypeController.cs:49 \r\n  at ANIMOL.Tests.EchoRailCartV01PlayTests+<M06UsesCartAndFloorRailsAfterMoveAndReload>d__12.MoveNext () [0x00058] in C:\\Users\\user\\Documents\\GitHub\\ANIMOL\\Assets\\ANIMOL\\Scripts\\Tests\\PlayMode\\EchoRailCartV01PlayTests.cs:466 \r\n  at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\\Library\\PackageCache\\com.unity.test-framework@0b7a23ab2e1d\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:44 "
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.MultipleCartsUseOneSharedMovementClock",
+      "Status": "Passed",
+      "Duration": 0.4066896,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.StationaryPushAndRecoveryFinishBeforeCartMovesPlayer",
+      "Status": "Passed",
+      "Duration": 2.2887644,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.StatueMovementFinishesBeforeCartMovementAndBothUndoTogether",
+      "Status": "Passed",
+      "Duration": 1.0087444,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.UndoCancelsEveryConcurrentCartTween",
+      "Status": "Passed",
+      "Duration": 1.010327,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.UndoDuringPushOrCartCancelsTheWholeTurn",
+      "Status": "Passed",
+      "Duration": 1.4736123,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ANIMOL.Tests.EchoRailCartV01PlayTests.WalkingStopsOnArrivalWhileAnUnoccupiedCartFinishesItsTurn",
+      "Status": "Passed",
+      "Duration": 0.2667718,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

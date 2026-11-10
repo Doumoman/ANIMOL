@@ -167,7 +167,7 @@
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 1051,
       "visited": 1191,
-      "elapsedSeconds": 0.60162339999999992,
+      "elapsedSeconds": 0.6016233999999999,
       "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
       "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-08.json",
       "routeNESW": "WNNEESEENNNWWWEENNSEWWWSNESSSWWSNEEEENNEEEN",
@@ -203,17 +203,31 @@
       "displayStageIds": [
         "ET-10"
       ],
-      "status": "solved",
-      "distance": 43,
-      "route": "↑↑→→↑↓↑→↑←→→→↓↑→↓→↑↓→↑↑↑←↓↓←←←↑→→↓→↑↑→↑←←←↑",
-      "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
-      "expanded": 454442,
-      "visited": 604257,
-      "elapsedSeconds": 234.3810962,
-      "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
-      "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-10.json",
-      "routeNESW": "NNEENSNENWEEESNESENSENNNWSSWWWNEESENNENWWWN",
-      "snapshotSha256": "f4f80381b70a5e4fbdb6bb6db58f4326901f812df6684f477d6489228bdd5679"
+      "status": "limit",
+      "distance": -1,
+      "route": "",
+      "algorithm": "0-1 BFS",
+      "expanded": 822701,
+      "visited": 1000000,
+      "elapsedSeconds": 425.8981111,
+      "detail": "Statues now resolve before carts. The previous route is rejected at input 35. Revalidation reached 1,000,000 states without a shortest-path proof; this is not proof of unreachability.",
+      "evidence": "Docs/Validation/StatueBeforeCart/ET10_revalidation.json",
+      "routeNESW": "",
+      "previousResult": {
+        "status": "solved",
+        "distance": 43,
+        "route": "↑↑→→↑↓↑→↑←→→→↓↑→↓→↑↓→↑↑↑←↓↓←←←↑→→↓→↑↑→↑←←←↑",
+        "routeNESW": "NNEENSNENWEEESNESENSENNNWSSWWWNEESENNENWWWN",
+        "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
+        "expanded": 454442,
+        "visited": 604257,
+        "elapsedSeconds": 234.3810962,
+        "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
+        "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-10.json",
+        "snapshotSha256": "f4f80381b70a5e4fbdb6bb6db58f4326901f812df6684f477d6489228bdd5679"
+      },
+      "engineSourceSha256": "ac80961e38767e9655ceca6f26d98734bdd5fd1b8c7a5f7b66274e73d4594933",
+      "turnOrder": "player input, statues, carts, remaining devices"
     },
     {
       "mapId": "ET-11",
@@ -230,11 +244,14 @@
       "algorithm": "Exact A* over native PuzzleDeviceSession, cart-aware relaxed bound, shutter phase modulo 2 in keys only",
       "expanded": 1720,
       "visited": 2191,
-      "elapsedSeconds": 0.58813549999999992,
+      "elapsedSeconds": 0.5881354999999999,
       "detail": "Minimum-f goal popped; admissible cart-aware bound and reopen-on-improvement preserve optimality.",
       "evidence": "Docs/Validation/CanonicalMapPaths/Echo/ET-11.json",
       "routeNESW": "WNNNENNWWNWWESSWENNNNNEESSESEENEN",
       "snapshotSha256": "6f207ecbe23243b9f1977930308be1f3a3503b2ae1a944a984aa6c45dd571e79"
     }
-  ]
+  ],
+  "validationOverrides": {
+    "ET-10": "Docs/Validation/StatueBeforeCart/ET10_revalidation.json"
+  }
 }

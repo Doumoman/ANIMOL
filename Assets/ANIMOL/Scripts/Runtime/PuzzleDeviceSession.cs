@@ -982,12 +982,18 @@ namespace ANIMOL.Puzzle
         void EndTurn(Vector2Int inputStart)
         {
             // Theater pushes commit a turn even when the player braces in place.
-            // Advance the cart after that push, before other device turns.
-            if (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player") ||
-                Rules.themeId == "memory_theater" && stationaryPush)
+            // Resolve statues against the post-input board first. Every cart then
+            // checks the statues' committed destinations, never their old cells.
+            var carts = definitions.Where(d => d.role == PrototypeRole.MovingStage && !states[d.id].removed).ToArray();
+            var advanceCarts = carts.Length > 0 &&
+                (events.Any(e => e.kind == PrototypeEventKind.Move && e.actor == "player") ||
+                    Rules.themeId == "memory_theater" && stationaryPush);
+            if (advanceCarts)
             {
+                foreach (var statue in definitions.Where(d => d.role == PrototypeRole.Statue && !states[d.id].removed))
+                    Statue(statue);
                 var cartEventsStart = events.Count;
-                foreach (var cart in definitions.Where(d => d.role == PrototypeRole.MovingStage && !states[d.id].removed))
+                foreach (var cart in carts)
                     AdvanceStage(cart, inputStart);
                 for (var i = cartEventsStart; i < events.Count; i++) events[i].cartTurn = true;
             }
@@ -1004,7 +1010,7 @@ namespace ANIMOL.Puzzle
                     s.active = open;
                 }
                 if (d.role == PrototypeRole.Magnet && d.variant != "switch") Magnet(d);
-                if (d.role == PrototypeRole.Statue) Statue(d);
+                if (d.role == PrototypeRole.Statue && !advanceCarts) Statue(d);
                 if (d.role == PrototypeRole.CowardDoll && (s.cell - Cell).sqrMagnitude == 1)
                 {
                     var direction = s.cell - Cell; s.lookDirection = -direction;
