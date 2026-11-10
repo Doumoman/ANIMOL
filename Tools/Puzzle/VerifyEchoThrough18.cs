@@ -13,7 +13,8 @@ using UnityEngine;
 // Does not save or edit authored MapData, scenarios, metadata or player progress.
 public static class VerifyEchoThrough18
 {
-    const string Folder = "Docs/Validation/EchoThrough18";
+    const string PriorFolder = "Docs/Validation/EchoThrough18";
+    static string Folder;
     static readonly Queue<JObject> Pending = new Queue<JObject>();
     static readonly JArray Reports = new JArray();
     static readonly System.Text.UTF8Encoding Utf8 = new System.Text.UTF8Encoding(false);
@@ -22,17 +23,22 @@ public static class VerifyEchoThrough18
         using (var sha = SHA256.Create())
             return BitConverter.ToString(sha.ComputeHash(File.ReadAllBytes(path))).Replace("-", "").ToLowerInvariant();
     }
-    public static object Start()
+    static string SearchPath(JObject item) => (string)item["searchEvidence"] ?? Folder + "/Search/" + item["id"] + ".json";
+    public static object Start() => Begin(PriorFolder);
+    public static object StartThrough20() => Begin("Docs/Validation/EchoThrough20");
+    static object Begin(string folder)
     {
         if (Pending.Count > 0 || EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling)
             throw new InvalidOperationException("Use an idle Edit Mode editor.");
+        Folder = folder;
         var inventory = JObject.Parse(File.ReadAllText(Folder + "/inventory.json"));
-        var validations = Directory.GetFiles(Folder, "transition_verification*.json")
+        var validations = new[] { PriorFolder, Folder }.Distinct()
+            .SelectMany(path => Directory.GetFiles(path, "transition_verification*.json"))
             .GroupBy(Hash).ToDictionary(group => group.Key, group => JObject.Parse(File.ReadAllText(group.First())));
         var files = Directory.GetFiles("Assets/ANIMOL/Scripts", "*.cs", SearchOption.AllDirectories)
             .Concat(Directory.GetFiles("Tools/Puzzle/ExactSearch", "*.cs")).ToLookup(Path.GetFileName);
         var usedBuilds = new HashSet<string>(inventory["maps"].Select(item =>
-            (string)JObject.Parse(File.ReadAllText(Folder + "/Search/" + item["id"] + ".json"))["verificationSha256"]));
+            (string)JObject.Parse(File.ReadAllText(SearchPath((JObject)item)))["verificationSha256"]));
         foreach (var verified in validations.Where(pair => usedBuilds.Contains(pair.Key)).Select(pair => pair.Value))
         foreach (JProperty pair in ((JObject)verified["sourceHashes"]).Properties())
         {
@@ -41,13 +47,13 @@ public static class VerifyEchoThrough18
             // Earlier completed searches keep their exact queue implementation
             // for reproduction. Runtime engine sources must always be current.
             bool archivedTool = (pair.Name == "Source.Program.cs" || pair.Name == "Source.EchoExactSolver.cs") &&
-                Hash(Folder + "/InitialBuildSources/" + pair.Name.Substring("Source.".Length) + ".txt") == (string)pair.Value;
+                Hash(PriorFolder + "/InitialBuildSources/" + pair.Name.Substring("Source.".Length) + ".txt") == (string)pair.Value;
             if (!(bool)verified["passed"] || !current && !archivedTool)
                 throw new InvalidDataException("Search source changed: " + pair.Name);
         }
         foreach (JObject item in inventory["maps"])
         {
-            string path = Folder + "/Search/" + item["id"] + ".json";
+            string path = SearchPath(item);
             var result = JObject.Parse(File.ReadAllText(path));
             if ((string)result["sourceSha256"] != (string)item["sha256"] ||
                 !validations.TryGetValue((string)result["verificationSha256"], out var verified) ||
@@ -92,7 +98,7 @@ public static class VerifyEchoThrough18
             AssetDatabase.AssetPathToGUID(path) != (string)item["guid"])
             throw new InvalidDataException("Authored map changed: " + id);
         string before = JsonUtility.ToJson(map), scenarioBefore = JsonUtility.ToJson(map.scenario);
-        var result = JObject.Parse(File.ReadAllText(Folder + "/Search/" + id + ".json"));
+        var result = JObject.Parse(File.ReadAllText(SearchPath(item)));
         string status = (string)result["status"];
         var report = new JObject { ["id"] = id, ["status"] = status, ["sourceAsset"] = path,
             ["mapGuid"] = (string)item["guid"], ["sourceSha256"] = (string)item["sha256"] };

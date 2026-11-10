@@ -1,11 +1,12 @@
 """Publish source-pinned theater searches only after native Unity replays pass."""
+import argparse
 import gzip
 import hashlib
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-FOLDER = ROOT / "Docs/Validation/EchoThrough18"
+PRIOR_FOLDER = ROOT / "Docs/Validation/EchoThrough18"
 CATALOG = ROOT / "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterShortestPaths.json"
 DOC = ROOT / "Docs/ECHO_THEATER_SHORTEST_PATHS.md"
 
@@ -22,16 +23,23 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main():
+def main(through=18):
+    FOLDER = ROOT / f"Docs/Validation/EchoThrough{through}"
+    relative_folder = FOLDER.relative_to(ROOT).as_posix()
+    doc_folder = relative_folder.removeprefix("Docs/")
     inventory = read(FOLDER / "inventory.json")
     assert read(FOLDER / "replay_status.json")["status"] == "completed"
     replays = {r["id"]: r for r in read(FOLDER / "native_replay.json")}
-    validations = {digest(p): read(p) for p in FOLDER.glob("transition_verification*.json")}
+    validation_paths = {digest(p): p for folder in {PRIOR_FOLDER, FOLDER} for p in folder.glob("transition_verification*.json")}
+    validations = {key: read(path) for key, path in validation_paths.items()}
+    used_builds = set()
     entries = []
     for item in inventory["maps"]:
         map_id, path = item["id"], ROOT / item["path"]
         assert digest(path) == item["sha256"] and digest(Path(str(path) + ".meta")) == item["metaSha256"]
-        result = read(FOLDER / "Search" / (map_id + ".json"))
+        search_path = item.get("searchEvidence", f"{relative_folder}/Search/{map_id}.json")
+        result = read(ROOT / search_path)
+        used_builds.add(result["verificationSha256"])
         verified = validations[result["verificationSha256"]]
         assert verified["passed"] and result["sourceHashes"] == verified["sourceHashes"]
         assert result["inputSha256"] == verified["inputSha256"]
@@ -54,42 +62,46 @@ def main():
             "routeNESW": replay.get("routeNESW", ""), "algorithm": result["algorithm"],
             "expanded": result["expanded"], "visited": result["visited"],
             "elapsedSeconds": result["elapsedSeconds"], "detail": result["detail"],
-            "evidence": f"Docs/Validation/EchoThrough18/Replay/{map_id}.json",
-            "searchEvidence": f"Docs/Validation/EchoThrough18/Search/{map_id}.json",
+            "evidence": f"{relative_folder}/Replay/{map_id}.json",
+            "searchEvidence": search_path,
             "verificationSha256": result["verificationSha256"],
         })
     prior = FOLDER / "prior_catalog.json"
     if not prior.exists():
         prior.write_bytes(CATALOG.read_bytes())
-    outside_scope = [e for e in read(prior)["maps"] if int(e["mapId"].split("-")[1]) > 18]
+    outside_scope = [e for e in read(CATALOG)["maps"] if int(e["mapId"].split("-")[1]) > through]
     solved = [e for e in entries if e["status"] == "solved"]
     unreachable = [e for e in entries if e["status"] == "unreachable"]
     pending = [e for e in entries if e["status"] not in {"solved", "unreachable"}]
     write(CATALOG, {
         "formatVersion": 3, "canonicalCommit": inventory["mapCommit"],
-        "scope": "Existing authored ET-00 through ET-18; ET-06 is absent and is not recreated.",
+        "scope": inventory["scope"],
         "costModel": "One accepted directional input costs 1, including stationary pushes; these maps have no free wind edges.",
         "rules": "Native two-state bookshelf return sweep; statues resolve before eligible carts.",
-        "validation": "Docs/Validation/EchoThrough18/native_replay.json",
+        "validation": f"{relative_folder}/native_replay.json",
         "maps": entries + outside_scope,
     })
     # One exact input/fixture dataset serves the source-pinned search builds.
     fixture_metadata = {}
     for name in ["input", "fixtures"]:
-        source = ROOT / f"Temp/EchoThrough18Export/{name}.json"
+        source = ROOT / f"Temp/EchoThrough{through}Export/{name}.json"
         data = source.read_bytes()
-        for verified in validations.values():
+        for path in FOLDER.glob("transition_verification*.json"):
+            verified = read(path)
             assert hashlib.sha256(data).hexdigest() == verified["inputSha256" if name == "input" else "fixtureSha256"]
         (FOLDER / (name + ".json.gz")).write_bytes(gzip.compress(data, mtime=0))
         fixture_metadata[name] = {"sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)}
+    datasets = {validations[key]["inputSha256"]: validations[key] for key in used_builds}
+    parity_states = sum(v["states"] for v in datasets.values())
+    parity_edges = sum(v["edges"] for v in datasets.values())
     lines = [
-        "# 잔영 극장 ET-18까지의 최단 입력 경로", "",
+        f"# 잔영 극장 ET-{through}까지의 최단 입력 경로", "",
         f"맵 원본 커밋 `{inventory['mapCommit'][:9]}`을 기준으로 존재하는 **{len(entries)}개 맵**을 계산했다. "
         f"**최단 확정 {len(solved)}개, 도달 불가 {len(unreachable)}개, 미확정 {len(pending)}개**다.", "",
         "ET-06 파일은 삭제된 상태를 유지했다. 화면 번호와 파일 ID는 다를 수 있으므로 아래의 실제 MapSet 연결을 함께 표시한다. "
         "계산 결과는 MapData와 별도의 경로 카탈로그에 기록한다.", "",
-        "[맵·GUID·원본 해시](Validation/EchoThrough18/inventory.json) · "
-        "[Unity 실제 경로 재생](Validation/EchoThrough18/native_replay.json)", "",
+        f"[맵·GUID·원본 해시]({doc_folder}/inventory.json) · "
+        f"[Unity 실제 경로 재생]({doc_folder}/native_replay.json)", "",
         "## 현재 결과", "",
         "| 파일 ID | 화면 스테이지 | 결과 | 최단 입력 | 발견 상태 |",
         "|---|---|---|---:|---:|",
@@ -98,9 +110,11 @@ def main():
         label = "최단 확정" if e["status"] == "solved" else "도달 불가" if e["status"] == "unreachable" else "미확정"
         distance = str(e["distance"]) if e["status"] == "solved" else "—"
         lines.append(f"| {e['mapId']} | {', '.join(e['displayStageIds']) or 'MapSet 미연결'} | {label} | {distance} | {e['visited']:,} |")
+    if any(e["mapId"] == "ET-19" and e["routeNESW"] == "N" * 8 for e in entries):
+        lines += ["", "ET-19는 시작점에서 위로 8번 연속 이동하면 별 7개를 모으고 출구에 도달한다. 현재 맵의 가장 짧은 통과 경로이며, 별도 우회가 필요하지 않다."]
     lines += ["", "방향 입력 하나의 비용은 1이다. 제자리 밀기도 포함한다. `↑/N` 위, `→/E` 오른쪽, `↓/S` 아래, `←/W` 왼쪽이며 반복 입력을 생략하지 않는다.", "", "## 계산과 검증", "",
         "모든 간선은 현재 Unity와 같은 `PuzzleDeviceSession` 소스의 `SearchStep`으로 생성했다. "
-        "18개 맵의 7,200개 실제 Unity 상태와 28,800개 공개 입력 전이를 별도 실행기와 대조했다. "
+        f"{len(entries)}개 맵의 {parity_states:,}개 실제 Unity 상태와 {parity_edges:,}개 공개 입력 전이를 별도 실행기와 대조했다. "
         "완성된 경로는 Unity의 `ReplayRuntimeInput`으로 다시 실행해 수집·출구·승리·비용을 확인했다.", "",
         "A* 하한은 동적 장애물을 제거하고 카트가 줄 수 있는 밀림을 더 넓게 허용한 완화 보드다. "
         "더 싼 경로를 찾으면 상태를 다시 열며, 최소 `g+h`의 승리 상태를 꺼낸 경우에만 최단으로 확정한다. "
@@ -123,8 +137,8 @@ def main():
     ]
     for e in entries:
         lines += [f"## {e['mapId']}", "",
-            f"[입력별 Unity 재생](Validation/EchoThrough18/Replay/{e['mapId']}.json) · "
-            f"[검색 증거](Validation/EchoThrough18/Search/{e['mapId']}.json)", ""]
+            f"[입력별 Unity 재생]({e['evidence'].removeprefix('Docs/')}) · "
+            f"[검색 증거]({e['searchEvidence'].removeprefix('Docs/')})", ""]
         if e["status"] == "solved":
             lines += [f"**{e['distance']}입력**", "", "```text"]
             route = e["route"]
@@ -141,11 +155,15 @@ def main():
         "unreachable": len(unreachable), "unconfirmed": len(pending),
         "distances": {e["mapId"]: e["distance"] for e in solved}, "fixtures": fixture_metadata,
         "nativeReplay": "native_replay.json", "originalMapsAndMetadataPreserved": True,
-        "validation": [p.name for p in sorted(FOLDER.glob("transition_verification*.json"))],
+        "validation": sorted(validation_paths[key].relative_to(ROOT).as_posix() for key in used_builds),
+        "nativeParityStates": parity_states, "nativeParityEdges": parity_edges,
+        "reusedSearchMaps": [item["id"] for item in inventory["maps"] if "searchEvidence" in item],
         "runtimeCodeChanged": False,
     })
     print(json.dumps({"maps": len(entries), "solved": len(solved), "unreachable": len(unreachable), "unconfirmed": len(pending)}, ensure_ascii=True))
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--through", type=int, choices=[18, 20], default=18)
+    main(parser.parse_args().through)

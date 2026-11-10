@@ -1,10 +1,10 @@
-# 잔영 극장 ET-18까지의 최단 입력 경로
+# 잔영 극장 ET-20까지의 최단 입력 경로
 
-맵 원본 커밋 `6c46f4dbb`을 기준으로 존재하는 **18개 맵**을 계산했다. **최단 확정 18개, 도달 불가 0개, 미확정 0개**다.
+맵 원본 커밋 `3a7487be5`을 기준으로 존재하는 **20개 맵**을 계산했다. **최단 확정 20개, 도달 불가 0개, 미확정 0개**다.
 
 ET-06 파일은 삭제된 상태를 유지했다. 화면 번호와 파일 ID는 다를 수 있으므로 아래의 실제 MapSet 연결을 함께 표시한다. 계산 결과는 MapData와 별도의 경로 카탈로그에 기록한다.
 
-[맵·GUID·원본 해시](Validation/EchoThrough18/inventory.json) · [Unity 실제 경로 재생](Validation/EchoThrough18/native_replay.json)
+[맵·GUID·원본 해시](Validation/EchoThrough20/inventory.json) · [Unity 실제 경로 재생](Validation/EchoThrough20/native_replay.json)
 
 ## 현재 결과
 
@@ -28,12 +28,16 @@ ET-06 파일은 삭제된 상태를 유지했다. 화면 번호와 파일 ID는 
 | ET-16 | ET-16 | 최단 확정 | 45 | 1,219 |
 | ET-17 | ET-17 | 최단 확정 | 19 | 6,728 |
 | ET-18 | ET-18 | 최단 확정 | 48 | 22,957 |
+| ET-19 | ET-19 | 최단 확정 | 8 | 30 |
+| ET-20 | ET-20 | 최단 확정 | 38 | 16,603 |
+
+ET-19는 시작점에서 위로 8번 연속 이동하면 별 7개를 모으고 출구에 도달한다. 현재 맵의 가장 짧은 통과 경로이며, 별도 우회가 필요하지 않다.
 
 방향 입력 하나의 비용은 1이다. 제자리 밀기도 포함한다. `↑/N` 위, `→/E` 오른쪽, `↓/S` 아래, `←/W` 왼쪽이며 반복 입력을 생략하지 않는다.
 
 ## 계산과 검증
 
-모든 간선은 현재 Unity와 같은 `PuzzleDeviceSession` 소스의 `SearchStep`으로 생성했다. 18개 맵의 7,200개 실제 Unity 상태와 28,800개 공개 입력 전이를 별도 실행기와 대조했다. 완성된 경로는 Unity의 `ReplayRuntimeInput`으로 다시 실행해 수집·출구·승리·비용을 확인했다.
+모든 간선은 현재 Unity와 같은 `PuzzleDeviceSession` 소스의 `SearchStep`으로 생성했다. 20개 맵의 8,000개 실제 Unity 상태와 32,000개 공개 입력 전이를 별도 실행기와 대조했다. 완성된 경로는 Unity의 `ReplayRuntimeInput`으로 다시 실행해 수집·출구·승리·비용을 확인했다.
 
 A* 하한은 동적 장애물을 제거하고 카트가 줄 수 있는 밀림을 더 넓게 허용한 완화 보드다. 더 싼 경로를 찾으면 상태를 다시 열며, 최소 `g+h`의 승리 상태를 꺼낸 경우에만 최단으로 확정한다. 셔터의 phase는 키에서만 홀짝으로 묶는다. 석상이 돌진 중이 아닐 때의 과거 timer 역시 다음 감지 때 덮어쓰므로 키에서만 정규화하며, 잠긴 석상의 timer는 유지한다. 유리 상자의 지난 이동 방향은 다음 이동 입력이나 충돌 판정에 사용하지 않으므로 키에서만 묶는다. 실제 세션과 체크포인트의 원래 값은 보존한다.
 
@@ -49,7 +53,7 @@ ET-15 재탐색은 석상과 유리를 제거한 완화 보드에서 플레이�
 
 ## ET-00
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-00.json) · [검색 증거](Validation/EchoThrough18/Search/ET-00.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-00.json) · [검색 증거](Validation/EchoThrough18/Search/ET-00.json)
 
 **31입력**
 
@@ -64,7 +68,7 @@ NESW: `EENEESENNNNSSSEENEEENSSEENNSSEE`
 
 ## ET-01
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-01.json) · [검색 증거](Validation/EchoThrough18/Search/ET-01.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-01.json) · [검색 증거](Validation/EchoThrough18/Search/ET-01.json)
 
 **19입력**
 
@@ -77,7 +81,7 @@ NESW: `WWSWEESEEEENSSWNEEE`
 
 ## ET-02
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-02.json) · [검색 증거](Validation/EchoThrough18/Search/ET-02.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-02.json) · [검색 증거](Validation/EchoThrough18/Search/ET-02.json)
 
 **29입력**
 
@@ -91,7 +95,7 @@ NESW: `ENNEENWWSWWNSSNEENEEEESSNNWNN`
 
 ## ET-03
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-03.json) · [검색 증거](Validation/EchoThrough18/Search/ET-03.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-03.json) · [검색 증거](Validation/EchoThrough18/Search/ET-03.json)
 
 **49입력**
 
@@ -107,7 +111,7 @@ NESW: `EESNESNWNNWNSWSSSWSSEEEEESENNNSWNENNNWNENEESEENNN`
 
 ## ET-04
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-04.json) · [검색 증거](Validation/EchoThrough18/Search/ET-04.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-04.json) · [검색 증거](Validation/EchoThrough18/Search/ET-04.json)
 
 **33입력**
 
@@ -122,7 +126,7 @@ NESW: `NENNEENNNNWSSWWSENEESSNEENSWNENNE`
 
 ## ET-05
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-05.json) · [검색 증거](Validation/EchoThrough18/Search/ET-05.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-05.json) · [검색 증거](Validation/EchoThrough18/Search/ET-05.json)
 
 **26입력**
 
@@ -136,7 +140,7 @@ NESW: `EEENWWSWNNENNSSEENNNNNNSEE`
 
 ## ET-07
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-07.json) · [검색 증거](Validation/EchoThrough18/Search/ET-07.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-07.json) · [검색 증거](Validation/EchoThrough18/Search/ET-07.json)
 
 **42입력**
 
@@ -152,7 +156,7 @@ NESW: `ENEESESSWNWWSWSSEWWWNNNEEEENSSESSEEEEWNNNN`
 
 ## ET-08
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-08.json) · [검색 증거](Validation/EchoThrough18/Search/ET-08.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-08.json) · [검색 증거](Validation/EchoThrough18/Search/ET-08.json)
 
 **43입력**
 
@@ -168,7 +172,7 @@ NESW: `WNNEESEENNNWWWEENNENWWSWNESSSWWSNEEEENNEEEN`
 
 ## ET-09
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-09.json) · [검색 증거](Validation/EchoThrough18/Search/ET-09.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-09.json) · [검색 증거](Validation/EchoThrough18/Search/ET-09.json)
 
 **40입력**
 
@@ -183,7 +187,7 @@ NESW: `ESSEWWNWNWESSWENNNWNESEEEESENNNWNNESENEN`
 
 ## ET-10
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-10.json) · [검색 증거](Validation/EchoThrough18/Search/ET-10.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-10.json) · [검색 증거](Validation/EchoThrough18/Search/ET-10.json)
 
 **42입력**
 
@@ -199,7 +203,7 @@ NESW: `NNEENSNENWEEESNESENSENNNWSWWWNEESENNENWWWN`
 
 ## ET-11
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-11.json) · [검색 증거](Validation/EchoThrough18/Search/ET-11.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-11.json) · [검색 증거](Validation/EchoThrough18/Search/ET-11.json)
 
 **33입력**
 
@@ -214,7 +218,7 @@ NESW: `WNNNENNNWSWNWSSWENNNNNEESSESEENEN`
 
 ## ET-12
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-12.json) · [검색 증거](Validation/EchoThrough18/Search/ET-12.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-12.json) · [검색 증거](Validation/EchoThrough18/Search/ET-12.json)
 
 **43입력**
 
@@ -230,7 +234,7 @@ NESW: `WNNWWNNEEEESSEENNNNNWNEEEEEWWWSWSWEESSSEESS`
 
 ## ET-13
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-13.json) · [검색 증거](Validation/EchoThrough18/Search/ET-13.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-13.json) · [검색 증거](Validation/EchoThrough18/Search/ET-13.json)
 
 **32입력**
 
@@ -245,7 +249,7 @@ NESW: `WNEESENNEWWNEEENNSEENSSNWNWWNWWN`
 
 ## ET-14
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-14.json) · [검색 증거](Validation/EchoThrough18/Search/ET-14.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-14.json) · [검색 증거](Validation/EchoThrough18/Search/ET-14.json)
 
 **46입력**
 
@@ -261,7 +265,7 @@ NESW: `WNWNNEENNNNEESSESEWWWEEEEESEENWWNEEEEEESEWNNWN`
 
 ## ET-15
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-15.json) · [검색 증거](Validation/EchoThrough18/Search/ET-15.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-15.json) · [검색 증거](Validation/EchoThrough18/Search/ET-15.json)
 
 **54입력**
 
@@ -278,7 +282,7 @@ NESW: `NESSNSWWNENNSESESEENNWNEEWEEESSNSENNNNNNNNNNWWWNSEEENN`
 
 ## ET-16
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-16.json) · [검색 증거](Validation/EchoThrough18/Search/ET-16.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-16.json) · [검색 증거](Validation/EchoThrough18/Search/ET-16.json)
 
 **45입력**
 
@@ -294,7 +298,7 @@ NESW: `NWWNNNEEENSNNWWEESSWNNNWWSSSSWESSEEENNWWEESES`
 
 ## ET-17
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-17.json) · [검색 증거](Validation/EchoThrough18/Search/ET-17.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-17.json) · [검색 증거](Validation/EchoThrough18/Search/ET-17.json)
 
 **19입력**
 
@@ -307,7 +311,7 @@ NESW: `NNNENWSWSSENNNNENNE`
 
 ## ET-18
 
-[입력별 Unity 재생](Validation/EchoThrough18/Replay/ET-18.json) · [검색 증거](Validation/EchoThrough18/Search/ET-18.json)
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-18.json) · [검색 증거](Validation/EchoThrough18/Search/ET-18.json)
 
 **48입력**
 
@@ -320,6 +324,33 @@ NESW: `NNNENWSWSSENNNNENNE`
 ```
 
 NESW: `WNWNEEENNNNSEEWWWWSNSEESSSEEWWNWWWWNNSSENNNEENEE`
+
+## ET-19
+
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-19.json) · [검색 증거](Validation/EchoThrough20/Search/ET-19.json)
+
+**8입력**
+
+```text
+01~08: ↑ ↑ ↑ ↑ ↑ ↑ ↑ ↑
+```
+
+NESW: `NNNNNNNN`
+
+## ET-20
+
+[입력별 Unity 재생](Validation/EchoThrough20/Replay/ET-20.json) · [검색 증거](Validation/EchoThrough20/Search/ET-20.json)
+
+**38입력**
+
+```text
+01~10: → ↑ ↑ ↓ → ← ↑ ↑ ← ↑
+11~20: → → → ↑ ↑ ↓ ↓ ↓ ↑ →
+21~30: → ↓ ↓ ↓ ↓ ↓ ↓ ← ← ↑
+31~38: ↓ → → ↑ ↑ → → ↑
+```
+
+NESW: `ENNSEWNNWNEEENNSSSNEESSSSSSWWNSEENNEEN`
 
 <details>
 <summary>이전 배치와 규칙의 검증 이력</summary>

@@ -4,7 +4,25 @@
 
 `Adapters.cs`는 정수 좌표, Unity에서 검증·내보낸 정적 통행/장식 점유, Editor 업데이트 호출만 제공한다. Starway의 Chick / MetalCrate / WoodCrate / StarSocket / Wind / Bounce / Conveyor / OneWayGate / Brake를 지원한다. 잔영 극장은 아래의 검증된 내보내기와 별도 A* 진입점을 사용하며, 실제 레일 이동도 원래 `PuzzleScenario.RailCellsFor`와 `PuzzleDeviceSession` 소스를 실행한다. 레일 모양 검증은 Unity에서 끝내며 별도의 레일 물리를 구현하지 않는다.
 
-## ET-18까지의 현재 잔영 극장
+## ET-20까지의 현재 잔영 극장
+
+ET-19/20 원본은 `3a7487be5`로 먼저 커밋했다. ET-20의 저장되지 않은 편집은 해당 맵만 Unity에서 저장해 포함했다. `Docs/Validation/EchoThrough20/inventory.json`은 현존 20개 맵의 원본·GUID·메타 해시와 이전 18개 맵의 검색 증거 경로를 고정한다. ET-06은 복원하지 않는다.
+
+```powershell
+unity command run_script --file Tools/Puzzle/ExportEchoSearch.cs --entry ExportEchoSearch.StartThrough20 --format json
+# Temp/EchoThrough20Export/status.json이 completed가 된 뒤 실행한다.
+dotnet build Tools/Puzzle/ExactSearch/ExactPuzzleSearch.csproj -c Release -o Temp/EchoThrough20Build
+dotnet Temp/EchoThrough20Build/ExactPuzzleSearch.dll Temp/EchoThrough20Export/input.json verify Temp/EchoThrough20Export/fixtures.json Docs/Validation/EchoThrough20/transition_verification.json
+dotnet Temp/EchoThrough20Build/ExactPuzzleSearch.dll Temp/EchoThrough20Export/input.json ET-19 Docs/Validation/EchoThrough20/Search/ET-19.json 20000000 Docs/Validation/EchoThrough20/transition_verification.json 4096
+dotnet Temp/EchoThrough20Build/ExactPuzzleSearch.dll Temp/EchoThrough20Export/input.json ET-20 Docs/Validation/EchoThrough20/Search/ET-20.json 20000000 Docs/Validation/EchoThrough20/transition_verification.json 4096
+unity command run_script --file Tools/Puzzle/VerifyEchoThrough18.cs --entry VerifyEchoThrough18.StartThrough20 --format json
+# Docs/Validation/EchoThrough20/replay_status.json이 completed가 된 뒤 실행한다.
+python Tools/Reports/build_echo_through18_report.py --through 20
+```
+
+내보내기는 새 두 맵만 처리하며 800개 Unity 상태·3,200개 공개 입력 전이를 대조한다. 검증기는 이전 소스 해시도 현재 판정 코드와 대조하고, 20개 맵 전체의 확정 경로를 Unity에서 다시 재생한다. ET-19는 최단 8입력(`NNNNNNNN`), ET-20은 최단 38입력이다. ET-19는 위로만 이동해 별 7개와 출구에 도달할 수 있으므로 맵 검토 시 이 통로를 확인한다. 계산 때문에 원본이나 `verificationRoute`를 바꾸지 않는다.
+
+## ET-18까지의 계산과 ET-15 재탐색
 
 사용자가 작성한 ET-12~18은 `6c46f4dbb`로 먼저 커밋했다. 이번 범위는 ET-00~18의 현존 18개 파일이며 ET-06은 만들지 않는다. 입력 원본·GUID·메타 해시는 `Docs/Validation/EchoThrough18/inventory.json`에 고정한다.
 

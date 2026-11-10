@@ -13,8 +13,7 @@ using UnityEngine;
 // Start once through run_script; each editor update exports one map.
 public static class ExportEchoSearch
 {
-    const string Output = "Temp/EchoThrough18Export";
-    const string Inventory = "Docs/Validation/EchoThrough18/inventory.json";
+    static string Output, Inventory;
     static readonly Vector2Int[] Directions = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
     static readonly Queue<JObject> Pending = new Queue<JObject>();
     static readonly JArray Inputs = new JArray(), Fixtures = new JArray();
@@ -46,13 +45,17 @@ public static class ExportEchoSearch
             for (int i = 0; i < glasses.Length; i++) state.States[glasses[i].id].direction = headings[i];
         }
     }
-    public static object Start()
+    public static object Start() => Begin("Temp/EchoThrough18Export", "Docs/Validation/EchoThrough18/inventory.json", 0);
+    public static object StartThrough20() => Begin("Temp/EchoThrough20Export", "Docs/Validation/EchoThrough20/inventory.json", 19);
+    static object Begin(string output, string inventory, int firstMap)
     {
         if (Pending.Count > 0 || EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling ||
             PuzzleShortestPathSolver.Active != null) throw new InvalidOperationException("Use an idle Edit Mode editor.");
+        Output = output; Inventory = inventory;
         Directory.CreateDirectory(Output);
         Inputs.Clear(); Fixtures.Clear();
-        foreach (JObject item in JObject.Parse(File.ReadAllText(Inventory))["maps"]) Pending.Enqueue(item);
+        foreach (JObject item in JObject.Parse(File.ReadAllText(Inventory))["maps"])
+            if (int.Parse(((string)item["id"]).Substring(3)) >= firstMap) Pending.Enqueue(item);
         File.WriteAllText(Output + "/status.json", "{\"status\":\"running\"}", Utf8);
         EditorApplication.update += Tick;
         return new { maps = Pending.Count, output = Output };
