@@ -28,7 +28,7 @@ namespace William.NotebookUI
             if (string.IsNullOrEmpty(stageId) || stageId.Length != 4 ||
                 !stageId.StartsWith("SW", StringComparison.Ordinal) ||
                 !int.TryParse(stageId.Substring(2), out int stageNumber) ||
-                stageNumber < 1 || stageNumber > 20) return false;
+                stageNumber < 1 || stageNumber > NotebookCampaignStages.PerTheme) return false;
             mapId = "SW" + (stageNumber - 1).ToString("00");
             return true;
         }
@@ -56,12 +56,12 @@ namespace William.NotebookUI
         public override void ReadVerifiedProgress(Action<NotebookProgressSnapshot> completed)
         {
             var cleared = new List<string>();
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
                 string id = "SW" + i.ToString("00");
                 if (IsStarwayCleared(id)) cleared.Add(id);
             }
-            for (int i = 1; i <= 30; i++)
+            for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
                 string id = "ET-" + i.ToString("00");
                 if (EchoTheaterCampaignController.IsCleared(id)) cleared.Add(id);
@@ -108,6 +108,7 @@ namespace William.NotebookUI
                 var hud = canvas.GetComponentInChildren<NotebookGameplayHud>(true);
                 if (!hud) throw new InvalidOperationException("GameplayCanvas has no NotebookGameplayHud.");
                 var liveGateway = session.AddComponent<NotebookStarwaySessionGateway>();
+                liveGateway.campaignMaps = starwayMaps;
                 var bridge = session.AddComponent<NotebookMapDataPreviewBridge>();
                 bridge.sourceMap = map;
                 bridge.stageIdOverride = stageId;

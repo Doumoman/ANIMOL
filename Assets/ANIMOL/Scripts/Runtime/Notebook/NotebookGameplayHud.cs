@@ -45,6 +45,7 @@ namespace William.NotebookUI
         private NotebookGameplayRetryGaugeSnapshot retryGauge;
         private bool retryGaugeSynchronized;
         private bool patternScrolling = true;
+        private Vector2 clearMapPosition;
         public const int RetryGaugeCapacity = 5;
         public int RetryGaugeRemaining => retryGaugeSynchronized && retryGauge != null ? retryGauge.remaining : 0;
         public bool RetryGaugeReady => retryGaugeSynchronized;
@@ -76,13 +77,14 @@ namespace William.NotebookUI
         {
             RectTransform rectangle = jarImage.rectTransform;
             float index = Mathf.Clamp(collectedOrdinal, 1, requiredCount) - 1;
-            float step = rectangle.rect.width / 4f;
+            float step = rectangle.rect.width / Mathf.Max(4, requiredCount);
             Vector2 local = rectangle.rect.center + Vector2.right * ((index - (requiredCount - 1) * .5f) * step);
             return rectangle.TransformPoint(local);
         }
 
         private void Awake()
         {
+            if (clearMapButton) clearMapPosition = ((RectTransform)clearMapButton.transform).anchoredPosition;
             if (pauseButton) pauseButton.onClick.AddListener(() => RequestPaused(true));
             if (resumeButton) resumeButton.onClick.AddListener(() => RequestPaused(false));
             if (restartButton) restartButton.onClick.AddListener(RequestRestart);
@@ -103,7 +105,7 @@ namespace William.NotebookUI
             paused = cleared = processing = false;
             // A loaded stage must supply an explicit host snapshot. A retry never grants five new uses.
             retryGaugeSynchronized = false;
-            requiredCount = Mathf.Clamp(requiredStars, 1, 4);
+            requiredCount = Mathf.Max(1, requiredStars);
             authoritativeCount = Mathf.Clamp(collectedStars, 0, requiredCount);
             HideEffects(); RenderCount(authoritativeCount); SetCost(currentCost);
             SetActive(pauseOverlay, false); SetActive(clearOverlay, false); RefreshBackdrop();
@@ -221,7 +223,9 @@ namespace William.NotebookUI
             displayedCount = Mathf.Clamp(value, 0, requiredCount);
             if (jarImage)
             {
-                NotebookGameplayJarState state = Array.Find(jarStates, s => s != null && s.required == requiredCount && s.collected == displayedCount);
+                int visualRequired = Mathf.Min(4, requiredCount);
+                int visualCollected = requiredCount > 4 ? displayedCount * visualRequired / requiredCount : displayedCount;
+                NotebookGameplayJarState state = Array.Find(jarStates, s => s != null && s.required == visualRequired && s.collected == visualCollected);
                 if (state != null && state.sprite) jarImage.sprite = state.sprite;
             }
             if (collectedText) collectedText.text = displayedCount + " / " + requiredCount;
@@ -243,7 +247,8 @@ namespace William.NotebookUI
             {
                 verified = snapshot.verified, exitReached = snapshot.exitReached, stageId = snapshot.stageId,
                 stageLabel = snapshot.stageLabel, collectedStars = snapshot.collectedStars, requiredStars = snapshot.requiredStars,
-                hasNextStage = snapshot.hasNextStage, canEnterNext = snapshot.canEnterNext && !string.IsNullOrEmpty(snapshot.nextStageId),
+                hasNextStage = snapshot.hasNextStage && !NotebookCampaignStages.IsLast(stageId),
+                canEnterNext = snapshot.canEnterNext && !NotebookCampaignStages.IsLast(stageId) && !string.IsNullOrEmpty(snapshot.nextStageId),
                 nextStageId = snapshot.nextStageId, nextBlockedReason = snapshot.nextBlockedReason
             };
             if (pendingClear.hasNextStage && string.IsNullOrEmpty(pendingClear.nextStageId))
@@ -259,11 +264,17 @@ namespace William.NotebookUI
             if (token != generation || pendingClear == null) yield break;
             FinishPickupVisuals(); cleared = true; paused = false; SetActive(pauseOverlay, false);
             if (clearStageText) clearStageText.text = string.IsNullOrEmpty(pendingClear.stageLabel) ? stageLabel : pendingClear.stageLabel;
-            if (nextLabel) nextLabel.text = pendingClear.hasNextStage ? "다음 스테이지" : "별자리 지도";
+            if (nextLabel) nextLabel.text = "다음 스테이지로";
+            if (nextButton) SetActive(nextButton.gameObject, pendingClear.hasNextStage);
             if (clearStatus) clearStatus.text = pendingClear.hasNextStage && !pendingClear.canEnterNext
                 ? (string.IsNullOrEmpty(pendingClear.nextBlockedReason) ? "다음 스테이지 입장 조건을 확인해 주세요" : pendingClear.nextBlockedReason)
                 : "클리어 완료";
-            if (clearMapButton) SetActive(clearMapButton.gameObject, pendingClear.hasNextStage);
+            if (clearMapButton)
+            {
+                SetActive(clearMapButton.gameObject, true);
+                ((RectTransform)clearMapButton.transform).anchoredPosition = pendingClear.hasNextStage || !nextButton
+                    ? clearMapPosition : ((RectTransform)nextButton.transform).anchoredPosition;
+            }
             SetActive(clearOverlay, true); RefreshBackdrop(); RefreshButtons(); EnterPanel(clearPanel);
             gateway?.Feedback(NotebookGameplayFeedback.StageClear); clearRoutine = null;
         }
@@ -291,8 +302,7 @@ namespace William.NotebookUI
             if (destination == NotebookGameplayDestination.Retry) { RequestRestart(); return; }
             if (pendingOperation != null || string.IsNullOrEmpty(stageId)) return;
             if (destination == NotebookGameplayDestination.NextStage && !cleared) return;
-            if (destination == NotebookGameplayDestination.NextStage && pendingClear != null && !pendingClear.hasNextStage)
-                destination = NotebookGameplayDestination.Map;
+            if (destination == NotebookGameplayDestination.NextStage && pendingClear != null && !pendingClear.hasNextStage) return;
             if (destination == NotebookGameplayDestination.NextStage && (pendingClear == null || !pendingClear.canEnterNext)) return;
             if (!gateway) { SetStatus("이동은 기존 게임 서비스 연결 후 사용할 수 있어요"); return; }
             string target = destination == NotebookGameplayDestination.NextStage ? pendingClear.nextStageId : destination == NotebookGameplayDestination.Retry ? stageId : "";

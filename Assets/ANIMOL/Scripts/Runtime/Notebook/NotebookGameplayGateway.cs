@@ -9,6 +9,8 @@ namespace William.NotebookUI
     /// <summary>The existing game owns input, pause, verified progress, entry approval and every BM charge.</summary>
     public abstract class NotebookGameplayGateway : MonoBehaviour
     {
+        public virtual bool TryGetNextStage(string currentStageId, out string nextStageId)
+        { nextStageId = null; return false; }
         // Complete once, on Unity's main thread, after the game's pause/input state is updated.
         public abstract void RequestPause(bool paused, string operationId, Action<bool> completed);
         // Approve with the existing loader/entry policy; do not open the destination until OpenApprovedNavigation.

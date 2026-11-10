@@ -29,6 +29,7 @@ namespace William.NotebookUI
 
         public string StageId => stageId;
         public bool Ready => observedSession != null && prototype && prototype.Session == observedSession;
+        public bool CanAdvance => Ready && observedSession.Won && !prototype.IsMoving;
 
         void Start()
         {
@@ -63,13 +64,16 @@ namespace William.NotebookUI
                 foreach (var cell in PossibleStarCells()) if (session.IsCollected(cell)) presentedCells.Add(cell);
             }
             if (!clearPresented && session.Won && !prototype.IsMoving)
+            {
+                bool hasNext = gateway.TryGetNextStage(stageId, out string nextStage);
                 clearPresented = hud.ShowVerifiedClear(new NotebookGameplayClearSnapshot
                 {
                     verified = true, exitReached = session.Cell == prototype.RuntimeMap.exit,
                     stageId = stageId, stageLabel = stageId,
                     collectedStars = session.Collected, requiredStars = prototype.RuntimeMap.targetBubbles,
-                    hasNextStage = false, canEnterNext = false
+                    hasNextStage = hasNext, canEnterNext = hasNext, nextStageId = nextStage
                 });
+            }
         }
 
         void Begin(PuzzleDeviceSession session)
@@ -77,9 +81,7 @@ namespace William.NotebookUI
             observedSession = session;
             observedMap = prototype.RuntimeMap;
             observedCost = session.Cost;
-            stageId = !string.IsNullOrEmpty(stageIdOverride) ? stageIdOverride :
-                sourceMap.name.EndsWith("_MapData", System.StringComparison.Ordinal)
-                    ? sourceMap.name.Substring(0, sourceMap.name.Length - "_MapData".Length) : sourceMap.name;
+            stageId = !string.IsNullOrEmpty(stageIdOverride) ? stageIdOverride : NotebookCampaignStages.DisplayId(sourceMap);
             presentedCollected = session.Collected;
             clearPresented = false;
             presentedCells.Clear();
@@ -112,6 +114,15 @@ namespace William.NotebookUI
             prototype.SetUiPaused(paused);
             input.enabled = !paused;
             return true;
+        }
+        public bool OpenNextMap(PuzzleMap map, string nextStageId)
+        {
+            if (!Ready || !map || !observedSession.Won || prototype.IsMoving ||
+                !NotebookCampaignStages.TryNext(StageId, out string expected) || expected != nextStageId ||
+                NotebookCampaignStages.DisplayId(map) != nextStageId ||
+                map.ValidateMap().Count != 0) return false;
+            sourceMap = map; stageIdOverride = nextStageId; puzzle.stage = map;
+            prototype.Load(map); Begin(prototype.Session); return true;
         }
     }
 }

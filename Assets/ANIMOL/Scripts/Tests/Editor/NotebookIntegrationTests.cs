@@ -26,8 +26,7 @@ namespace ANIMOL.Presentation.Tests
             for (int i = 0; i < 20; i++)
             {
                 string mapId = "SW" + i.ToString("00");
-                Assert.That(gateway.starwayMaps[i].name,
-                    Is.EqualTo(mapId).Or.EqualTo(mapId + "_MapData"));
+                Assert.That(gateway.starwayMaps.Any(map => map && (map.name == mapId || map.name == mapId + "_MapData")), Is.True);
                 Assert.That(gateway.CanOpenStage("SW" + (i + 1).ToString("00")), Is.True);
             }
 
@@ -55,20 +54,20 @@ namespace ANIMOL.Presentation.Tests
             }
         }
 
-        [Test] public void ActiveSceneUsesFreshNightMapWith32FiguresAnd110RealIds()
+        [Test] public void ActiveSceneUsesFreshNightMapWithTwentyStagesPerTheme()
         {
             var catalog = NotebookCatalog.Parse(AssetDatabase.LoadAssetAtPath<TextAsset>(CatalogPath));
             Assert.That(EditorBuildSettings.scenes[0].path, Is.EqualTo(ScenePath));
             var dependencies = AssetDatabase.GetDependencies(ScenePath, true);
             Assert.That(dependencies, Does.Contain(PrefabPath));
             Assert.That(dependencies.Any(path => path.Contains("/Map/Region_")), Is.False);
-            Assert.That(catalog.stages.Length, Is.EqualTo(110));
+            Assert.That(catalog.stages.Length, Is.EqualTo(80));
             Assert.That(catalog.artworks.Length, Is.EqualTo(32));
-            Assert.That(catalog.edges.Length, Is.EqualTo(106));
+            Assert.That(catalog.edges.Length, Is.EqualTo(76));
             Assert.That(catalog.themes.Select(t => catalog.stages.Count(s => s.themeId == t.id)),
-                Is.EqualTo(new[] { 20, 30, 30, 30 }));
+                Is.EqualTo(new[] { 20, 20, 20, 20 }));
             Assert.That(catalog.FindStage("SW01"), Is.Not.Null);
-            Assert.That(catalog.FindStage("ET-30").sceneName, Is.EqualTo("ANIMOL_Echo_Theater"));
+            Assert.That(catalog.FindStage("ET-20").sceneName, Is.EqualTo("ANIMOL_Echo_Theater"));
             Assert.That(catalog.FindStage("observatory-01").sceneName, Is.Empty);
             Assert.That(catalog.FindStage("sea-01").sceneName, Is.Empty);
             Assert.That(catalog.battleRequiredStageIds, Is.Empty);
@@ -78,8 +77,8 @@ namespace ANIMOL.Presentation.Tests
             var root = prefab.GetComponentInChildren<NotebookRoot>(true);
             Assert.That(root, Is.Not.Null);
             Assert.That(root.gateway, Is.TypeOf<NotebookProjectGateway>());
-            Assert.That(root.nodes.Length, Is.EqualTo(110));
-            Assert.That(root.edges.Length, Is.EqualTo(106));
+            Assert.That(root.nodes.Length, Is.EqualTo(80));
+            Assert.That(root.edges.Length, Is.EqualTo(76));
             Assert.That(root.stageScreen.name, Is.EqualTo("Constellation Neon Map"));
             var images = root.stageScreen.GetComponentsInChildren<Image>(true);
             Assert.That(images.Count(i => i.name.StartsWith("Constellation Figure ")), Is.EqualTo(32));
@@ -122,8 +121,8 @@ namespace ANIMOL.Presentation.Tests
                         Is.EqualTo(stage.y).Within(.02f), stage.id);
                 }
             }
-            Assert.That(catalog.artworks.Sum(a => a.stageIds.Length), Is.EqualTo(110));
-            Assert.That(catalog.edges.Count(e => e.kind == "constellation"), Is.EqualTo(78));
+            Assert.That(catalog.artworks.Sum(a => a.stageIds.Length), Is.EqualTo(80));
+            Assert.That(catalog.edges.Count(e => e.kind == "constellation"), Is.EqualTo(48));
             Assert.That(catalog.edges.Count(e => e.kind == "transition"), Is.EqualTo(28));
             Assert.That(root.mapStarFrames.Length, Is.EqualTo(48));
             Assert.That(root.stageSheet.gameObject.activeSelf, Is.False);
@@ -140,7 +139,8 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(edge.points[edge.points.Length - 1].y, Is.EqualTo(to.y).Within(.02f), edge.sprite);
             }
             Assert.That(images.Where(i => i.sprite && AssetDatabase.GetAssetPath(i.sprite).StartsWith("Assets/ANIMOL/Art/UI/"))
-                .All(i => i.color == Color.white), Is.True);
+                // Layered Crayon bindings hide their original image with alpha zero.
+                .All(i => i.color.r == 1 && i.color.g == 1 && i.color.b == 1), Is.True);
         }
 
         [Test] public void NewPngImportsAndButtonSpritesUseThePackageSettings()
@@ -149,7 +149,7 @@ namespace ANIMOL.Presentation.Tests
             var pngs = new HashSet<string> { "Map/NightSky" };
             foreach (var art in catalog.artworks) { pngs.Add(art.sprite); pngs.Add(art.wireSprite); }
             foreach (var edge in catalog.edges) { pngs.Add(edge.sprite + "_Future"); pngs.Add(edge.sprite + "_Cleared"); }
-            Assert.That(pngs.Count, Is.EqualTo(277));
+            Assert.That(pngs.Count, Is.EqualTo(217));
             foreach (string relative in pngs)
             {
                 string path = MapTextures + relative + ".png";
@@ -169,7 +169,7 @@ namespace ANIMOL.Presentation.Tests
             foreach (var button in new[] { root.campaignButton, root.settingsButton, root.modalPrimary })
             {
                 Assert.That(button.transition, Is.EqualTo(Selectable.Transition.SpriteSwap), button.name);
-                Assert.That(button.image.color, Is.EqualTo(Color.white), button.name);
+                Assert.That(button.image.color.r == 1 && button.image.color.g == 1 && button.image.color.b == 1, Is.True, button.name);
                 Assert.That(button.spriteState.highlightedSprite, Is.Not.Null, button.name);
                 Assert.That(button.spriteState.pressedSprite, Is.Not.Null, button.name);
                 Assert.That(button.spriteState.disabledSprite, Is.Not.Null, button.name);
@@ -179,7 +179,7 @@ namespace ANIMOL.Presentation.Tests
             foreach (var button in new[] { root.mapBack, root.telescopeButton, root.storyReplayButton, root.launchButton })
             {
                 Assert.That(button.transition, Is.EqualTo(Selectable.Transition.SpriteSwap), button.name);
-                Assert.That(button.image.color, Is.EqualTo(Color.white), button.name);
+                Assert.That(button.image.color.r == 1 && button.image.color.g == 1 && button.image.color.b == 1, Is.True, button.name);
                 var importer = AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(button.image.sprite)) as TextureImporter;
                 Assert.That(importer.spriteBorder, Is.EqualTo(Vector4.one * 32), button.name);
             }

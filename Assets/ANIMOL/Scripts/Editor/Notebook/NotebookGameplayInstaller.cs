@@ -164,7 +164,7 @@ namespace William.NotebookUI.Editor
             Text(cp.transform, "Clear Title", "스테이지 클리어", 60, 60, 864, 90, 62, TextAlignmentOptions.Center);
             hud.clearStageText = Text(cp.transform, "Clear Stage", "", 60, 180, 864, 60, 40, TextAlignmentOptions.Center);
             hud.clearStatus = Text(cp.transform, "Clear Outcome Or Entry Reason", "클리어 완료", 72, 280, 840, 100, 36, TextAlignmentOptions.Center);
-            hud.nextButton = Button(cp.transform, "Next Stage", "Primary", 48, 430, 888, 144, "다음 스테이지", 52); hud.nextLabel = hud.nextButton.GetComponentInChildren<TMP_Text>();
+            hud.nextButton = Button(cp.transform, "Next Stage", "Primary", 48, 430, 888, 144, "다음 스테이지로", 52); hud.nextLabel = hud.nextButton.GetComponentInChildren<TMP_Text>();
             Icon(hud.nextButton.transform, "NextIcon", 772, 34, 76, 76);
             hud.clearMapButton = Button(cp.transform, "Clear Map", "Button", 48, 600, 888, 132, "별자리 지도", 42);
             clear.gameObject.SetActive(false);

@@ -10,6 +10,21 @@ namespace William.NotebookUI
     public sealed class NotebookStarwaySessionGateway : NotebookGameplayGateway
     {
         public NotebookMapDataPreviewBridge bridge;
+        public PuzzleMap[] campaignMaps;
+        readonly Dictionary<string, (string current, string target)> approvedNext = new Dictionary<string, (string, string)>();
+        PuzzleMap NextMap(string current)
+        {
+            if (!bridge || !bridge.CanAdvance || bridge.StageId != current ||
+                !NotebookCampaignStages.TryNext(current, out string next) ||
+                !NotebookProjectGateway.TryStarwayMapId(next, out string sourceId) || campaignMaps == null) return null;
+            foreach (var map in campaignMaps) if (map && (map.name == sourceId || map.name == sourceId + "_MapData")) return map;
+            return null;
+        }
+        public override bool TryGetNextStage(string currentStageId, out string nextStageId)
+        {
+            nextStageId = null;
+            return NextMap(currentStageId) && NotebookCampaignStages.TryNext(currentStageId, out nextStageId);
+        }
         readonly HashSet<string> approvedMapOperations = new HashSet<string>();
         bool clearSaved;
 
@@ -34,6 +49,14 @@ namespace William.NotebookUI
         public override void RequestNavigation(NotebookGameplayDestination destination, string currentStageId,
             string targetStageId, string operationId, Action<bool> completed)
         {
+            if (destination == NotebookGameplayDestination.NextStage)
+            {
+                bool allowed = bridge && bridge.Ready && !string.IsNullOrEmpty(operationId) && !approvedNext.ContainsKey(operationId) &&
+                    TryGetNextStage(currentStageId, out string next) && next == targetStageId &&
+                    GetComponent<PuzzlePrototypeController>().Session.Won && !GetComponent<PuzzlePrototypeController>().IsMoving;
+                if (allowed) approvedNext.Add(operationId, (currentStageId, targetStageId));
+                completed?.Invoke(allowed); return;
+            }
             bool approved = destination == NotebookGameplayDestination.Map && bridge && bridge.Ready &&
                 bridge.StageId == currentStageId && !string.IsNullOrEmpty(operationId) &&
                 approvedMapOperations.Add(operationId);
@@ -43,6 +66,14 @@ namespace William.NotebookUI
         public override void OpenApprovedNavigation(NotebookGameplayDestination destination, string currentStageId,
             string targetStageId, string operationId)
         {
+            if (destination == NotebookGameplayDestination.NextStage)
+            {
+                if (!approvedNext.TryGetValue(operationId, out var approved) || approved.current != currentStageId || approved.target != targetStageId) return;
+                approvedNext.Remove(operationId);
+                Update(); // Persist the verified source-map clear before switching sessions.
+                if (bridge.OpenNextMap(NextMap(currentStageId), targetStageId)) clearSaved = false;
+                return;
+            }
             if (destination != NotebookGameplayDestination.Map || !approvedMapOperations.Remove(operationId)) return;
             SceneManager.LoadScene("NotebookUI");
         }

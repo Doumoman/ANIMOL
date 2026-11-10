@@ -10,7 +10,13 @@ namespace William.NotebookUI
     public sealed class NotebookEchoTheaterGateway : NotebookGameplayGateway
     {
         public EchoTheaterCampaignController campaign;
-        readonly HashSet<string> approvedMapOperations = new HashSet<string>();
+        readonly Dictionary<string, (NotebookGameplayDestination destination, string current, string target)> approvedOperations =
+            new Dictionary<string, (NotebookGameplayDestination, string, string)>();
+        public override bool TryGetNextStage(string currentStageId, out string nextStageId)
+        {
+            nextStageId = null;
+            return campaign && campaign.CurrentStageId == currentStageId && campaign.TryGetNextStage(out nextStageId);
+        }
 
         public override void RequestPause(bool paused, string operationId, Action<bool> completed)
         {
@@ -30,19 +36,24 @@ namespace William.NotebookUI
         public override void RequestNavigation(NotebookGameplayDestination destination, string currentStageId,
             string targetStageId, string operationId, Action<bool> completed)
         {
-            bool approved = destination == NotebookGameplayDestination.Map && campaign && campaign.puzzle &&
+            bool approved = campaign && campaign.puzzle &&
                 campaign.puzzle.Session != null && currentStageId == campaign.CurrentStageId &&
-                !string.IsNullOrEmpty(operationId);
-            if (approved) approvedMapOperations.Add(operationId);
-            // Next-stage admission and the five-use retry ledger have no connected authority.
+                !string.IsNullOrEmpty(operationId) && !approvedOperations.ContainsKey(operationId) &&
+                (destination == NotebookGameplayDestination.Map || destination == NotebookGameplayDestination.NextStage &&
+                    TryGetNextStage(currentStageId, out string next) && next == targetStageId);
+            if (approved) approvedOperations.Add(operationId, (destination, currentStageId, targetStageId));
             completed?.Invoke(approved);
         }
 
         public override void OpenApprovedNavigation(NotebookGameplayDestination destination, string currentStageId,
             string targetStageId, string operationId)
         {
-            if (destination != NotebookGameplayDestination.Map || !approvedMapOperations.Remove(operationId)) return;
-            SceneManager.LoadScene("NotebookUI");
+            if (!approvedOperations.TryGetValue(operationId, out var approved) || approved.destination != destination ||
+                approved.current != currentStageId || approved.target != targetStageId) return;
+            approvedOperations.Remove(operationId);
+            if (!campaign || campaign.CurrentStageId != currentStageId) return;
+            if (destination == NotebookGameplayDestination.NextStage) campaign.OpenNextStage(currentStageId, targetStageId);
+            else if (destination == NotebookGameplayDestination.Map) SceneManager.LoadScene("NotebookUI");
         }
     }
 }

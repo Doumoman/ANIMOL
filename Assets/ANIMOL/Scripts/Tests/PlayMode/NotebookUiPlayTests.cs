@@ -19,6 +19,32 @@ namespace ANIMOL.Presentation.Tests
 {
     public sealed class NotebookUiPlayTests
     {
+        string[] portraitPreferenceKeys;
+        bool[] portraitPreferencePresent;
+        string[] portraitPreferenceValues;
+        [SetUp] public void IsolatePortraitProgress()
+        {
+            if (TestContext.CurrentContext.Test.MethodName != nameof(ActivePortraitSceneOpensSingleMapPurchaseAndSettings)) return;
+            portraitPreferenceKeys = new[] { "WilliamNotebookUI.Wallet", "WilliamNotebookUI.Preferences",
+                NotebookProjectGateway.MapClearKey("SW00"), NotebookProjectGateway.MapClearKey("SW01"),
+                "ANIMOL.Starway.Cleared.SW01" };
+            portraitPreferencePresent = portraitPreferenceKeys.Select(PlayerPrefs.HasKey).ToArray();
+            portraitPreferenceValues = portraitPreferenceKeys.Select((key, i) => i < 2
+                ? PlayerPrefs.GetString(key) : PlayerPrefs.GetInt(key).ToString()).ToArray();
+            foreach (string key in portraitPreferenceKeys) PlayerPrefs.DeleteKey(key);
+        }
+        [UnityTearDown] public IEnumerator RestorePortraitProgress()
+        {
+            if (portraitPreferenceKeys == null) yield break;
+            var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+            if (root) UnityEngine.Object.Destroy(root.GetComponentInParent<Canvas>().rootCanvas.gameObject);
+            yield return null;
+            for (int i = 0; i < portraitPreferenceKeys.Length; i++)
+                if (!portraitPreferencePresent[i]) PlayerPrefs.DeleteKey(portraitPreferenceKeys[i]);
+                else if (i < 2) PlayerPrefs.SetString(portraitPreferenceKeys[i], portraitPreferenceValues[i]);
+                else PlayerPrefs.SetInt(portraitPreferenceKeys[i], int.Parse(portraitPreferenceValues[i]));
+            PlayerPrefs.Save(); portraitPreferenceKeys = null;
+        }
         [UnityTest] public IEnumerator MainArtworkSwipesThroughCharacterIllustrationsEveryFiveVisibleSeconds()
         {
 #if UNITY_EDITOR
@@ -103,7 +129,7 @@ namespace ANIMOL.Presentation.Tests
             Assert.That(UnityEngine.Object.FindObjectsByType<NotebookRoot>(FindObjectsSortMode.None).Length, Is.EqualTo(1));
             Assert.That(UnityEngine.Object.FindObjectsByType<ANIMOL.Menu.MainLobbyController>(FindObjectsSortMode.None), Is.Empty);
             Assert.That(root.mainScreen.activeSelf, Is.True);
-            Assert.That(root.nodes.Length, Is.EqualTo(110));
+            Assert.That(root.nodes.Length, Is.EqualTo(80));
             foreach (var size in new[] { new Vector2Int(360, 640), new Vector2Int(445, 773),
                 new Vector2Int(390, 844), new Vector2Int(1440, 900) })
             {
@@ -173,7 +199,7 @@ namespace ANIMOL.Presentation.Tests
             root.mapScroll.verticalNormalizedPosition = 0f;
             yield return null; yield return null;
             Canvas.ForceUpdateCanvases();
-            AssertOnScreen(root.nodes.First(v => v.stageId == "sea-30").button.GetComponent<RectTransform>(),
+            AssertOnScreen(root.nodes.First(v => v.stageId == "sea-20").button.GetComponent<RectTransform>(),
                 new Vector2Int(Screen.width, Screen.height), "last constellation star");
             root.mapScroll.verticalNormalizedPosition = 1f;
             root.SetReducedMotion(false);

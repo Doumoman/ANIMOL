@@ -105,12 +105,16 @@ namespace ANIMOL.Presentation.Tests
                 var button=nav.buttons[i]; var rect=(RectTransform)button.transform;
                 Assert.That(rect.sizeDelta,Is.EqualTo(new Vector2(234,192)));
                 Assert.That(rect.anchoredPosition,Is.EqualTo(new Vector2(6+246*i,-24)));
-                Assert.That(button.image.color,Is.EqualTo(Color.white)); Assert.That(button.image.type,Is.EqualTo(Image.Type.Sliced));
+                // The installed Crayon binding draws the button over its hidden base image.
+                Assert.That(button.GetComponents<MonoBehaviour>().Any(c=>c && c.GetType().FullName=="Animol.MapHudCrayonUI.CrayonImageBinding"),Is.True);
+                Assert.That(button.image.color,Is.EqualTo(new Color(1,1,1,0))); Assert.That(button.image.type,Is.EqualTo(Image.Type.Sliced));
+                Assert.That(button.transform.Find("Prepainted Crayon Decoration").GetComponent<Image>().color,Is.EqualTo(Color.white));
                 Assert.That(button.onClick.GetPersistentEventCount(),Is.Zero);
                 var label=button.GetComponentInChildren<TMPro.TMP_Text>();
                 Assert.That(label.text,Is.EqualTo(new[]{"I","II","III","IV"}[i]));
                 Assert.That(label.color,Is.EqualTo(Color.white));
-                Assert.That(AssetDatabase.GetAssetPath(label.font),Is.EqualTo("Assets/ANIMOL/Fonts/Notebook/Galmuri14.asset"));
+                Assert.That(AssetDatabase.GetAssetPath(label.font),Is.EqualTo(
+                    "Assets/ANIMOL/CrayonNumerals/Generated/Fonts/ANIMOL_Crayon_Numerals_d8f41ee5bad5bde4ba5c8c0505cfe24e_Keyboard.asset"));
             }
             foreach(string state in new[]{"Normal","Highlighted","Pressed","Disabled","Selected"})
             {
@@ -122,7 +126,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(settings.spriteMeshType,Is.EqualTo(SpriteMeshType.FullRect));
             }
             Assert.That(ShaderUtil.GetShaderMessages(root.campaignSkyTransition.transitionShader).Where(m=>m.severity.ToString()=="Error"),Is.Empty);
-            Assert.That(root.nodes.Length,Is.EqualTo(110)); Assert.That(root.edges.Length,Is.EqualTo(106)); Assert.That(root.mapStarFrames.Length,Is.EqualTo(48));
+            Assert.That(root.nodes.Length,Is.EqualTo(80)); Assert.That(root.edges.Length,Is.EqualTo(76)); Assert.That(root.mapStarFrames.Length,Is.EqualTo(48));
         }
     }
 }
