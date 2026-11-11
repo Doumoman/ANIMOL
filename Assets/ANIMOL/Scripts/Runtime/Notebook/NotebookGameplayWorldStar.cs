@@ -7,6 +7,8 @@ namespace William.NotebookUI
     [DisallowMultipleComponent]
     public sealed class NotebookGameplayWorldStar : MonoBehaviour
     {
+        // Keep collectible information above world tiles, devices and foreground decor.
+        public const int WorldSortingOrder = 100;
         public SpriteRenderer target;
         public Sprite[] frames = Array.Empty<Sprite>();
         [Range(1, 12)] public float framesPerSecond = 4;
@@ -17,7 +19,12 @@ namespace William.NotebookUI
         public void Configure(SpriteRenderer renderer, Sprite[] fourFrames)
         {
             target = renderer; frames = fourFrames ?? Array.Empty<Sprite>(); age = 0;
-            if (target) target.color = Color.white;
+            if (target)
+            {
+                target.color = Color.white;
+                target.sortingLayerName = "Default";
+                target.sortingOrder = WorldSortingOrder;
+            }
             Refresh();
         }
         private void Refresh()

@@ -104,7 +104,7 @@ namespace ANIMOL.Puzzle
                 {
                     var fitted = .65f / Mathf.Max(renderer.sprite.bounds.size.x, renderer.sprite.bounds.size.y);
                     replacement.transform.localScale = Vector3.one * fitted;
-                    renderer.sortingOrder = 25;
+                    renderer.sortingOrder = William.NotebookUI.NotebookGameplayWorldStar.WorldSortingOrder;
                 }
                 bubbleViews[cell] = replacement;
                 Remove(old);
@@ -356,7 +356,8 @@ namespace ANIMOL.Puzzle
                 d.role == PrototypeRole.StarSocket && d.variant == "socket" && d.socketReward == StarSocketReward.RevealBubble)
                 .Select(d => d.socketBubbleCell) : Enumerable.Empty<Vector2Int>());
             foreach (var p in possibleBubbles.Distinct()) if (map.Contains(p) && !bubbleViews.ContainsKey(p))
-                bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p, 25, Vector2.one * .65f, Color.white).gameObject;
+                bubbleViews[p] = Sprite(objectsRoot, "Bubble " + p, map.theme.bubble, p,
+                    William.NotebookUI.NotebookGameplayWorldStar.WorldSortingOrder, Vector2.one * .65f, Color.white).gameObject;
             exitView = map.Contains(map.exit) ? Sprite(objectsRoot, "Exit", map.theme.exit, map.exit, 20, Vector2.one * .9f, Color.white) : null;
             if (currentSession != null)
             {
