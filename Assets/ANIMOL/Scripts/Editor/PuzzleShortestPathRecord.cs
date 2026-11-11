@@ -37,6 +37,8 @@ namespace ANIMOL.Presentation.Editor
 
         public static string MapId(PuzzleMap map)
         {
+            string sourceId = StarwayStageCatalog.SourceId(map);
+            if (!string.IsNullOrEmpty(sourceId)) return sourceId;
             var path = AssetDatabase.GetAssetPath(map);
             var name = System.IO.Path.GetFileNameWithoutExtension(path);
             return name.EndsWith("_MapData", StringComparison.Ordinal)
@@ -141,7 +143,8 @@ namespace ANIMOL.Presentation.Editor
             {
                 string id = "SW" + nextMap.ToString("00");
                 nextMap++;
-                var map = AssetDatabase.LoadAssetAtPath<PuzzleMap>(
+                var catalog = StarwayStageCatalog.Current;
+                var map = catalog ? catalog.FindSource(id) : AssetDatabase.LoadAssetAtPath<PuzzleMap>(
                     "Assets/ANIMOL/Data/Puzzle/MapData/starway/" + id + "_MapData.asset");
                 if (!map) { LastMessage = id + " is missing."; continue; }
                 var prior = PuzzleShortestPathRecord.Find(map);

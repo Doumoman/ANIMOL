@@ -22,9 +22,9 @@ namespace William.NotebookUI
                     "Assets/ANIMOL/Data/Puzzle/MapData/memory_theater/EchoTheaterMapSet.asset");
                 if (set) foreach (var entry in set.maps) if (entry.stageId == next) return entry.map;
             }
-            if (NotebookProjectGateway.TryStarwayMapId(next, out string sourceId) && path.Contains("/MapData/starway/"))
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<ANIMOL.Puzzle.PuzzleMap>(
-                    System.IO.Path.GetDirectoryName(path).Replace('\\', '/') + "/" + sourceId + "_MapData.asset");
+            var catalog = ANIMOL.Puzzle.StarwayStageCatalog.Current;
+            if (catalog && path.Contains("/MapData/starway/"))
+                return NotebookCampaignStages.FindStarwayMap(catalog.maps.ConvertAll(entry => entry.map), next);
 #endif
             return null;
         }

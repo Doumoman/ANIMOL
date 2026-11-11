@@ -179,6 +179,47 @@ namespace ANIMOL.Presentation.Tests
                 yield return Capture(root.GetComponentInParent<Canvas>().rootCanvas, "Map_" + theme.id);
             }
         }
+        [UnityTest] public IEnumerator RenamedStarwayMapsUseNewOrderAndSaveTheOriginalMapClear()
+        {
+            var catalog = StarwayStageCatalog.Current;
+            var a = Object.Instantiate(catalog.FindSource("SW18"));
+            var b = Object.Instantiate(catalog.FindSource("SW19"));
+            var first = new StarwayStageCatalog.Entry { map = a, sourceId = "test-" + Guid.NewGuid().ToString("N") };
+            var second = new StarwayStageCatalog.Entry { map = b, sourceId = "test-" + Guid.NewGuid().ToString("N") };
+            catalog.maps.Add(first); catalog.maps.Add(second);
+            try
+            {
+                // The harder former nineteenth map now occupies the final stage.
+                a.name = "SW19_MapData"; b.name = "SW18_MapData";
+                host = new GameObject("Renamed Starway next-stage fixture");
+                var puzzle = host.AddComponent<PuzzleController>(); puzzle.stage = b;
+                hudObject = Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/UI/Gameplay/GameplayCanvas.prefab"));
+                var hud = hudObject.GetComponentInChildren<NotebookGameplayHud>(true); hud.reducedMotion = true;
+                var gateway = host.AddComponent<NotebookStarwaySessionGateway>(); gateway.campaignMaps = new[] { a, b };
+                var bridge = host.AddComponent<NotebookMapDataPreviewBridge>();
+                bridge.sourceMap = b; bridge.stageIdOverride = "SW19"; bridge.puzzle = puzzle;
+                bridge.hud = hud; bridge.gateway = gateway; gateway.bridge = bridge;
+                for (int i = 0; i < 120 && (!bridge.Ready || host.GetComponent<PuzzlePrototypeController>().IsMoving); i++) yield return null;
+                Assert.That(bridge.Ready, Is.True);
+                var prototype = host.GetComponent<PuzzlePrototypeController>(); VerifiedExitFixture(prototype.Session);
+                for (int i = 0; i < 120 && !hud.clearOverlay.activeSelf; i++) yield return null;
+                Assert.That(hud.nextButton.gameObject.activeSelf && hud.nextButton.interactable, Is.True);
+                Assert.That(NotebookProjectGateway.IsStarwayMapCleared(b), Is.True);
+                Assert.That(NotebookProjectGateway.IsStarwayMapCleared(a), Is.False);
+                hud.nextButton.onClick.Invoke(); yield return null;
+                Assert.That(bridge.StageId, Is.EqualTo("SW20"));
+                Assert.That(bridge.sourceMap, Is.SameAs(a));
+                Assert.That(gateway.TryGetNextStage("SW20", out _), Is.False);
+            }
+            finally
+            {
+                PlayerPrefs.DeleteKey(NotebookProjectGateway.MapClearKey(first.sourceId));
+                PlayerPrefs.DeleteKey(NotebookProjectGateway.MapClearKey(second.sourceId));
+                catalog.maps.Remove(first); catalog.maps.Remove(second);
+                Object.Destroy(a); Object.Destroy(b);
+            }
+        }
+
         [UnityTest] public IEnumerator StarwayNextStageKeepsSourceMapIdsAndStopsAtTwenty()
         {
             var project = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/UI/Main/NotebookCanvas.prefab")

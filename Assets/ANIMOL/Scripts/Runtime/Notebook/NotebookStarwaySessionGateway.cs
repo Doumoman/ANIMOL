@@ -15,10 +15,8 @@ namespace William.NotebookUI
         PuzzleMap NextMap(string current)
         {
             if (!bridge || !bridge.CanAdvance || bridge.StageId != current ||
-                !NotebookCampaignStages.TryNext(current, out string next) ||
-                !NotebookProjectGateway.TryStarwayMapId(next, out string sourceId) || campaignMaps == null) return null;
-            foreach (var map in campaignMaps) if (map && (map.name == sourceId || map.name == sourceId + "_MapData")) return map;
-            return null;
+                !NotebookCampaignStages.TryNext(current, out string next)) return null;
+            return NotebookCampaignStages.FindStarwayMap(campaignMaps, next);
         }
         public override bool TryGetNextStage(string currentStageId, out string nextStageId)
         {
@@ -35,9 +33,9 @@ namespace William.NotebookUI
             if (!puzzle || !puzzle.Session.Won || puzzle.IsMoving ||
                 puzzle.Session.Cell != puzzle.RuntimeMap.exit) return;
             string stageId = bridge.StageId;
-            if (!NotebookProjectGateway.TryStarwayMapId(stageId, out string mapId) ||
-                !bridge.sourceMap ||
-                (bridge.sourceMap.name != mapId && bridge.sourceMap.name != mapId + "_MapData")) return;
+            if (NotebookCampaignStages.FindStarwayMap(campaignMaps, stageId) != bridge.sourceMap) return;
+            string mapId = StarwayStageCatalog.SourceId(bridge.sourceMap);
+            if (string.IsNullOrEmpty(mapId)) return;
             PlayerPrefs.SetInt(NotebookProjectGateway.MapClearKey(mapId), 1);
             PlayerPrefs.Save();
             clearSaved = true;

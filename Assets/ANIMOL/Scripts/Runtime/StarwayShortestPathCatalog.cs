@@ -23,11 +23,18 @@ namespace ANIMOL.Puzzle
             try { data = JsonUtility.FromJson<Index>(catalog.text); }
             catch (ArgumentException) { return false; }
             if (data == null || data.formatVersion != SolverVersion || data.maps == null) return false;
-            string id = source.name.EndsWith("_MapData", StringComparison.Ordinal)
-                ? source.name.Substring(0, source.name.Length - "_MapData".Length) : source.name;
+            string id = StarwayStageCatalog.SourceId(source) ?? (source.name.EndsWith("_MapData", StringComparison.Ordinal)
+                ? source.name.Substring(0, source.name.Length - "_MapData".Length) : source.name);
             foreach (var entry in data.maps)
             {
                 if (entry == null || entry.mapId != id || entry.status != "solved" || entry.solverVersion != SolverVersion || entry.distance <= 0) continue;
+#if !UNITY_EDITOR
+                // The build catalog is refreshed from the actual source bytes. A rename
+                // or edit cannot borrow another map's proof, even outside the Editor.
+                var identities = StarwayStageCatalog.Current;
+                var identity = identities ? identities.Find(source) : null;
+                if (identity == null || identity.assetSha256 != entry.mapSha256) return false;
+#endif
                 try { if (PuzzleRouteNotation.InputCount(entry.route) != entry.distance) return false; }
                 catch (ArgumentException) { return false; }
                 catch (FormatException) { return false; }

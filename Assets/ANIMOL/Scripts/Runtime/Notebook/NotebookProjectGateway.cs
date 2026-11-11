@@ -37,7 +37,15 @@ namespace William.NotebookUI
 
         public static bool IsStarwayCleared(string stageId)
         {
-            if (!TryStarwayMapId(stageId, out string mapId)) return false;
+            var catalog = StarwayStageCatalog.Current;
+            return catalog && IsStarwayMapCleared(NotebookCampaignStages.FindStarwayMap(
+                catalog.maps.ConvertAll(entry => entry.map), stageId));
+        }
+
+        public static bool IsStarwayMapCleared(PuzzleMap map)
+        {
+            string mapId = StarwayStageCatalog.SourceId(map);
+            if (string.IsNullOrEmpty(mapId)) return false;
             return PlayerPrefs.GetInt(MapClearKey(mapId), 0) == 1 ||
                 // Existing clears belong to the original source map, now one stage later.
                 (mapId != "SW00" && PlayerPrefs.GetInt("ANIMOL.Starway.Cleared." + mapId, 0) == 1);
@@ -45,13 +53,9 @@ namespace William.NotebookUI
 
         public override bool CanOpenStage(string stageId) => FindStarwayMap(stageId);
 
-        PuzzleMap FindStarwayMap(string stageId)
-        {
-            if (!TryStarwayMapId(stageId, out string mapId) || starwayMaps == null) return null;
-            foreach (PuzzleMap map in starwayMaps)
-                if (map && (map.name == mapId || map.name == mapId + "_MapData")) return map;
-            return null;
-        }
+        PuzzleMap FindStarwayMap(string stageId) => NotebookCampaignStages.FindStarwayMap(starwayMaps, stageId);
+
+        bool IsStageCleared(string stageId) => IsStarwayMapCleared(FindStarwayMap(stageId));
 
         public override void ReadVerifiedProgress(Action<NotebookProgressSnapshot> completed)
         {
@@ -59,7 +63,7 @@ namespace William.NotebookUI
             for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
                 string id = "SW" + i.ToString("00");
-                if (IsStarwayCleared(id)) cleared.Add(id);
+                if (IsStageCleared(id)) cleared.Add(id);
             }
             for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
@@ -83,7 +87,7 @@ namespace William.NotebookUI
                 !string.IsNullOrEmpty(operationId) && telescopeCost == 1 &&
                 map.ValidateMap().Count == 0;
             if (valid && int.TryParse(stageId.Substring(2), out int order) && order > 1)
-                valid = IsStarwayCleared("SW" + (order - 1).ToString("00"));
+                valid = IsStageCleared("SW" + (order - 1).ToString("00"));
             if (valid) approvedEntries[operationId] = map;
             approved?.Invoke(valid);
         }
@@ -132,7 +136,7 @@ namespace William.NotebookUI
         public override void RequestStoryReplay(string stageId, string operationId, Action<bool> completed)
         {
             NotebookRoot notebook = GetComponent<NotebookRoot>();
-            if (!IsStarwayCleared(stageId) || !FindStarwayMap(stageId) || !ranchStoryPrefab ||
+            if (!IsStageCleared(stageId) || !FindStarwayMap(stageId) || !ranchStoryPrefab ||
                 replayInstance || !notebook || !notebook.MapSelectionVisible ||
                 notebook.SelectedStageId != stageId || string.IsNullOrEmpty(operationId))
             {
