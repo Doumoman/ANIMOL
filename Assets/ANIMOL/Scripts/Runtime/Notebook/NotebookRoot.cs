@@ -104,7 +104,7 @@ namespace William.NotebookUI
             NotebookCatalog catalog = NotebookCatalog.Parse(catalogJson);
             NotebookWalletState state = null;
             try { if (PlayerPrefs.HasKey(WalletKey)) state = JsonUtility.FromJson<NotebookWalletState>(PlayerPrefs.GetString(WalletKey)); } catch (ArgumentException) { }
-            model = new NotebookBmModel(catalog, state, Now);
+            model = new NotebookBmModel(catalog, state, Now, NotebookCampaignPreview.IsEnabled);
             try { if (PlayerPrefs.HasKey(PrefsKey)) preferences = JsonUtility.FromJson<NotebookPreferences>(PlayerPrefs.GetString(PrefsKey)); } catch (ArgumentException) { }
             preferences = preferences ?? new NotebookPreferences();
             // JsonUtility ignores the old scroll value; face motion is no longer a saved setting.

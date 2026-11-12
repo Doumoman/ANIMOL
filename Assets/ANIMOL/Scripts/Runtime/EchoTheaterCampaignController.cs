@@ -20,7 +20,7 @@ namespace ANIMOL.Puzzle
         bool clearPresented;
         int presentedCollected;
         readonly HashSet<Vector2Int> presentedStarCells = new HashSet<Vector2Int>();
-        const string SelectionKey = "ANIMOL.EchoTheater.Selected";
+        public const string SelectionKey = "ANIMOL.EchoTheater.Selected";
         public string CurrentStageId => mapSet && selected >= 0 && selected < mapSet.maps.Count
             ? mapSet.maps[selected].stageId : "";
         static string ClearKey(string id) => "ANIMOL.EchoTheater.Cleared." + id;

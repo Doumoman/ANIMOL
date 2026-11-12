@@ -5,6 +5,7 @@ using ANIMOL.Puzzle;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using WilliamParadox.Story;
 using Animol.Starway;
 
@@ -20,6 +21,7 @@ namespace William.NotebookUI
         public GameObject ranchStoryPrefab;
 
         readonly Dictionary<string, PuzzleMap> approvedEntries = new Dictionary<string, PuzzleMap>();
+        readonly Dictionary<string, string> approvedTheaterEntries = new Dictionary<string, string>();
         GameObject replayInstance;
 
         public static bool TryStarwayMapId(string stageId, out string mapId)
@@ -51,7 +53,8 @@ namespace William.NotebookUI
                 (mapId != "SW00" && PlayerPrefs.GetInt("ANIMOL.Starway.Cleared." + mapId, 0) == 1);
         }
 
-        public override bool CanOpenStage(string stageId) => FindStarwayMap(stageId);
+        public override bool CanOpenStage(string stageId) => FindStarwayMap(stageId) ||
+            NotebookCampaignPreview.TryTheaterIndex(stageId, out _);
 
         PuzzleMap FindStarwayMap(string stageId) => NotebookCampaignStages.FindStarwayMap(starwayMaps, stageId);
 
@@ -80,6 +83,18 @@ namespace William.NotebookUI
 
         public override void RequestStageEntry(string stageId, int telescopeCost, string operationId, Action<bool> approved)
         {
+            if (NotebookCampaignPreview.TryTheaterIndex(stageId, out int theaterIndex))
+            {
+                var entry = NotebookCampaignPreview.Current.theaterMaps.maps[theaterIndex];
+                bool allowed = !string.IsNullOrEmpty(operationId) && telescopeCost == 1 &&
+                    !approvedTheaterEntries.ContainsKey(operationId) &&
+                    Application.CanStreamedLevelBeLoaded(NotebookCampaignPreview.TheaterScene) &&
+                    entry.map.scenario && entry.map.theme && entry.map.ValidateMap().Count == 0 &&
+                    (theaterIndex == 0 || EchoTheaterCampaignController.IsCleared("ET-" + theaterIndex.ToString("00")));
+                if (allowed) approvedTheaterEntries.Add(operationId, stageId);
+                approved?.Invoke(allowed);
+                return;
+            }
             PuzzleMap map = FindStarwayMap(stageId);
             bool valid = map && map.scenario && map.theme && gameplayCanvasPrefab &&
                 GetComponentInParent<Canvas>() &&
@@ -94,6 +109,15 @@ namespace William.NotebookUI
 
         public override void OpenAcceptedStage(string stageId, string operationId)
         {
+            if (!string.IsNullOrEmpty(operationId) && approvedTheaterEntries.TryGetValue(operationId, out string theaterStage))
+            {
+                if (theaterStage != stageId || !NotebookCampaignPreview.TryTheaterIndex(stageId, out int index)) return;
+                approvedTheaterEntries.Remove(operationId);
+                PlayerPrefs.SetInt(EchoTheaterCampaignController.SelectionKey, index);
+                PlayerPrefs.Save();
+                SceneManager.LoadScene(NotebookCampaignPreview.TheaterScene);
+                return;
+            }
             if (!approvedEntries.TryGetValue(operationId, out PuzzleMap map)) return;
             approvedEntries.Remove(operationId);
             if (!map || FindStarwayMap(stageId) != map) return;

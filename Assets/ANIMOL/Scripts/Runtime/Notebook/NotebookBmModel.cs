@@ -18,8 +18,10 @@ namespace William.NotebookUI
     {
         public NotebookCatalog Catalog { get; }
         public NotebookWalletState State { get; }
-        public NotebookBmModel(NotebookCatalog catalog, NotebookWalletState state, long now)
+        private readonly bool campaignPreview;
+        public NotebookBmModel(NotebookCatalog catalog, NotebookWalletState state, long now, bool campaignPreview = false)
         {
+            this.campaignPreview = campaignPreview;
             Catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
             State = state ?? new NotebookWalletState { balance = catalog.telescopeCapacity, lastRecoveryUnix = now };
             State.ownedThemes = State.ownedThemes ?? new List<string> { "starway" };
@@ -45,7 +47,8 @@ namespace William.NotebookUI
             Tick(now);
             return State.balance == Catalog.telescopeCapacity ? 0 : Math.Max(1, Catalog.recoverySeconds - (now - State.lastRecoveryUnix));
         }
-        public bool Owns(string themeId) => themeId == "starway" || State.ownedThemes.Contains(themeId);
+        public bool Owns(string themeId) => themeId == "starway" ||
+            (campaignPreview && themeId == "theater") || State.ownedThemes.Contains(themeId);
         public bool IsCleared(string stageId) => State.clearedStageIds.Contains(stageId);
         public bool CanEnter(string stageId)
         {

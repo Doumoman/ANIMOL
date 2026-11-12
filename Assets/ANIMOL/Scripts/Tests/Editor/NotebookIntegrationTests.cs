@@ -43,7 +43,10 @@ namespace ANIMOL.Presentation.Tests
                 PlayerPrefs.DeleteKey(firstKey);
                 PlayerPrefs.DeleteKey(secondKey);
                 Assert.That(NotebookProjectGateway.IsStarwayCleared("SW01"), Is.False);
-                Assert.That(NotebookProjectGateway.IsStarwayCleared("SW02"), Is.True);
+                var catalog = ANIMOL.Puzzle.StarwayStageCatalog.Current;
+                Assert.That(NotebookCampaignStages.TryStarwayStageId(catalog.FindSource("SW01"), out string migratedStage), Is.True);
+                Assert.That(NotebookProjectGateway.IsStarwayCleared(migratedStage), Is.True,
+                    "Legacy clears follow the source map after filename-based difficulty reordering.");
             }
             finally
             {

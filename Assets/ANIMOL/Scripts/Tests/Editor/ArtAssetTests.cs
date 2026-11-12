@@ -9,7 +9,10 @@ namespace ANIMOL.Presentation.Tests
         [Test] public void EnabledBuildSceneAssetsResolve()
         {
             var scenes = EditorBuildSettings.scenes.Where(scene => scene.enabled).ToArray();
-            Assert.That(scenes.Length, Is.EqualTo(3));
+            Assert.That(scenes.Select(scene => scene.path), Is.EqualTo(new[] {
+                "Assets/ANIMOL/Scenes/Main/NotebookUI.unity",
+                "Assets/ANIMOL/Scenes/Gameplay/ANIMOL_Echo_Theater.unity"
+            }));
             foreach (var scene in scenes)
             {
                 Assert.That(AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.path), Is.Not.Null, scene.path);

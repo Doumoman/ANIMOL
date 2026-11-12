@@ -245,13 +245,13 @@ namespace ANIMOL.Presentation.Tests
                 typeof(NotebookRoot).GetMethod("RefreshMap", BindingFlags.Instance | BindingFlags.NonPublic)
                     .Invoke(root, null);
             }
-            root.nodes.First(v => v.stageId == "ET-01").button.onClick.Invoke();
+            root.nodes.First(v => v.stageId == "observatory-01").button.onClick.Invoke();
             Assert.That(root.modal.activeSelf, Is.False);
             Assert.That(root.storyReplayButton.gameObject.activeSelf, Is.False);
             root.launchButton.onClick.Invoke();
             Assert.That(root.modal.activeSelf, Is.True);
-            Assert.That(root.nodes.First(v => v.stageId == "ET-01").star.sprite,
-                Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("ET-01")) * 4]));
+            Assert.That(root.nodes.First(v => v.stageId == "observatory-01").star.sprite,
+                Is.EqualTo(root.mapStarFrames[(3 * 3 + NotebookRoot.MapStarVariant("observatory-01")) * 4]));
             Assert.That(root.modalPrimary.interactable, Is.False);
             Assert.That(root.gateway.CanRestorePurchases, Is.False);
             Assert.That(root.gateway.CanShowRewardedAd, Is.False);
