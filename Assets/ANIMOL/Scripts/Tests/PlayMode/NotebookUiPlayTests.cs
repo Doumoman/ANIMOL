@@ -22,9 +22,18 @@ namespace ANIMOL.Presentation.Tests
         string[] portraitPreferenceKeys;
         bool[] portraitPreferencePresent;
         string[] portraitPreferenceValues;
+        NotebookCampaignPreview portraitPreview;
+        bool portraitAllStagesCleared;
         [SetUp] public void IsolatePortraitProgress()
         {
             if (TestContext.CurrentContext.Test.MethodName != nameof(ActivePortraitSceneOpensSingleMapPurchaseAndSettings)) return;
+            // This case verifies uncleared/locked star artwork in normal progress mode.
+            portraitPreview = NotebookCampaignPreview.Current;
+            if (portraitPreview)
+            {
+                portraitAllStagesCleared = portraitPreview.allStagesCleared;
+                portraitPreview.allStagesCleared = false;
+            }
             portraitPreferenceKeys = new[] { "WilliamNotebookUI.Wallet", "WilliamNotebookUI.Preferences",
                 NotebookProjectGateway.MapClearKey("SW00"), NotebookProjectGateway.MapClearKey("SW01"),
                 "ANIMOL.Starway.Cleared.SW01" };
@@ -36,14 +45,22 @@ namespace ANIMOL.Presentation.Tests
         [UnityTearDown] public IEnumerator RestorePortraitProgress()
         {
             if (portraitPreferenceKeys == null) yield break;
-            var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
-            if (root) UnityEngine.Object.Destroy(root.GetComponentInParent<Canvas>().rootCanvas.gameObject);
-            yield return null;
-            for (int i = 0; i < portraitPreferenceKeys.Length; i++)
-                if (!portraitPreferencePresent[i]) PlayerPrefs.DeleteKey(portraitPreferenceKeys[i]);
-                else if (i < 2) PlayerPrefs.SetString(portraitPreferenceKeys[i], portraitPreferenceValues[i]);
-                else PlayerPrefs.SetInt(portraitPreferenceKeys[i], int.Parse(portraitPreferenceValues[i]));
-            PlayerPrefs.Save(); portraitPreferenceKeys = null;
+            try
+            {
+                var root = UnityEngine.Object.FindFirstObjectByType<NotebookRoot>();
+                var canvas = root ? root.GetComponentInParent<Canvas>(true) : null;
+                if (canvas) UnityEngine.Object.Destroy(canvas.rootCanvas.gameObject);
+                yield return null;
+            }
+            finally
+            {
+                if (portraitPreview) portraitPreview.allStagesCleared = portraitAllStagesCleared;
+                for (int i = 0; i < portraitPreferenceKeys.Length; i++)
+                    if (!portraitPreferencePresent[i]) PlayerPrefs.DeleteKey(portraitPreferenceKeys[i]);
+                    else if (i < 2) PlayerPrefs.SetString(portraitPreferenceKeys[i], portraitPreferenceValues[i]);
+                    else PlayerPrefs.SetInt(portraitPreferenceKeys[i], int.Parse(portraitPreferenceValues[i]));
+                PlayerPrefs.Save(); portraitPreferenceKeys = null;
+            }
         }
         [UnityTest] public IEnumerator MainArtworkSwipesThroughCharacterIllustrationsEveryFiveVisibleSeconds()
         {
@@ -607,7 +624,7 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(returned, Is.Not.Null);
                 var returnedModel = (NotebookBmModel)typeof(NotebookRoot)
                     .GetField("model", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(returned);
-                Assert.That(returnedModel.State.balance, Is.EqualTo(before - 1));
+                Assert.That(returnedModel.State.balance, Is.EqualTo(model.UnlimitedTelescopes ? before : before - 1));
             }
             finally
             {

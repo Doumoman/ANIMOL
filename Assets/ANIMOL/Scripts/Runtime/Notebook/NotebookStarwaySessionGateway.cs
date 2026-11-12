@@ -6,11 +6,21 @@ using UnityEngine.SceneManagement;
 
 namespace William.NotebookUI
 {
-    /// <summary>Temporary play bridge for active Starway MapData; retry gauge remains unconnected.</summary>
+    /// <summary>Active Starway navigation and explicitly enabled temporary unlimited restarts.</summary>
     public sealed class NotebookStarwaySessionGateway : NotebookGameplayGateway
     {
         public NotebookMapDataPreviewBridge bridge;
         public PuzzleMap[] campaignMaps;
+        public override bool UnlimitedRestarts => NotebookCampaignPreview.HasUnlimitedRerolls;
+        public override bool CanRestartStage(string stageId) => UnlimitedRestarts && bridge && bridge.Ready &&
+            bridge.StageId == stageId && !GetComponent<PuzzlePrototypeController>().UiPaused &&
+            !GetComponent<PuzzlePrototypeController>().Session.Won;
+        public override bool TryRestartStage(string stageId)
+        {
+            if (!CanRestartStage(stageId) || !bridge.TryRestartCurrentStage()) return false;
+            clearSaved = false;
+            return true;
+        }
         readonly Dictionary<string, (string current, string target)> approvedNext = new Dictionary<string, (string, string)>();
         PuzzleMap NextMap(string current)
         {

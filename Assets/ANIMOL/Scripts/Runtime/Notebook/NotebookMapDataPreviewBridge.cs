@@ -115,6 +115,14 @@ namespace William.NotebookUI
             input.enabled = !paused;
             return true;
         }
+        public bool TryRestartCurrentStage()
+        {
+            if (!Ready || !sourceMap || prototype.UiPaused || observedSession.Won) return false;
+            if (input) input.CancelGesture();
+            prototype.ResetStage();
+            Begin(prototype.Session);
+            return true;
+        }
         public bool OpenNextMap(PuzzleMap map, string nextStageId)
         {
             if (!Ready || !map || !observedSession.Won || prototype.IsMoving ||

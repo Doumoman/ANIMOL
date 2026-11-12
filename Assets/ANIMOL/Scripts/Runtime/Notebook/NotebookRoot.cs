@@ -104,7 +104,8 @@ namespace William.NotebookUI
             NotebookCatalog catalog = NotebookCatalog.Parse(catalogJson);
             NotebookWalletState state = null;
             try { if (PlayerPrefs.HasKey(WalletKey)) state = JsonUtility.FromJson<NotebookWalletState>(PlayerPrefs.GetString(WalletKey)); } catch (ArgumentException) { }
-            model = new NotebookBmModel(catalog, state, Now, NotebookCampaignPreview.IsEnabled);
+            model = new NotebookBmModel(catalog, state, Now, NotebookCampaignPreview.IsEnabled,
+                NotebookCampaignPreview.HasUnlimitedTelescopes, NotebookCampaignPreview.HasAllStagesCleared);
             try { if (PlayerPrefs.HasKey(PrefsKey)) preferences = JsonUtility.FromJson<NotebookPreferences>(PlayerPrefs.GetString(PrefsKey)); } catch (ArgumentException) { }
             preferences = preferences ?? new NotebookPreferences();
             // JsonUtility ignores the old scroll value; face motion is no longer a saved setting.
@@ -429,7 +430,7 @@ namespace William.NotebookUI
         }
         private void RefreshWallet()
         {
-            walletText.text = model.State.balance + " / " + model.Catalog.telescopeCapacity;
+            walletText.text = model.UnlimitedTelescopes ? "무제한" : model.State.balance + " / " + model.Catalog.telescopeCapacity;
             battleLock.gameObject.SetActive(!model.BattleUnlocked());
             if (modalKind == "telescope" && string.IsNullOrEmpty(pendingId))
             {
@@ -728,6 +729,11 @@ namespace William.NotebookUI
         }
         private void OpenTelescope()
         {
+            if (model.UnlimitedTelescopes)
+            {
+                Notice("망원경 무제한", "임시 플레이 설정으로 망원경이 소모되지 않아요.", iconTelescope);
+                return;
+            }
             RefreshWallet(); int amount = model.RewardAmount(Now);
             OpenModal("telescope", "망원경 충전", model.State.balance + " / " + model.Catalog.telescopeCapacity + "개 보유\n3분마다 1개씩 충전돼요.", iconTelescope);
             modalNote.text = amount == 0 ? "이미 가득 찼어요." : amount < model.Catalog.rewardedAdAmount ? "남은 공간만큼 " + amount + "개를 받을 수 있어요." : "광고를 끝까지 보면 망원경 5개를 받아요.";
@@ -758,7 +764,7 @@ namespace William.NotebookUI
             if (!model.Owns(stage.themeId)) { OpenPurchase(stage.themeId); return; }
             if (!model.CanEnter(stage.id) || !CanLaunch(stage)) return;
             model.Tick(Now);
-            if (model.State.balance < model.Catalog.stageEntryCost) { OpenTelescope(); return; }
+            if (!model.CanAffordStageEntry) { OpenTelescope(); return; }
             if (!gateway) { Notice("입장할 수 없어요", "잠시 후 다시 시도해 주세요.\n망원경은 소모되지 않았어요.", iconTelescope); return; }
             string id = BeginOperation(); RefreshMap();
             gateway.RequestStageEntry(stage.id, model.Catalog.stageEntryCost, id, approved =>

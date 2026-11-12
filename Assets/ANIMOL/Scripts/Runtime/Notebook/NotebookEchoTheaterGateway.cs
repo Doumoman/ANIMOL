@@ -10,6 +10,11 @@ namespace William.NotebookUI
     public sealed class NotebookEchoTheaterGateway : NotebookGameplayGateway
     {
         public EchoTheaterCampaignController campaign;
+        public override bool UnlimitedRestarts => NotebookCampaignPreview.HasUnlimitedRerolls;
+        public override bool CanRestartStage(string stageId) => UnlimitedRestarts && campaign && campaign.puzzle &&
+            campaign.CurrentStageId == stageId && campaign.puzzle.Session != null &&
+            !campaign.puzzle.UiPaused && !campaign.puzzle.Session.Won;
+        public override bool TryRestartStage(string stageId) => CanRestartStage(stageId) && campaign.TryRestartCurrentStage();
         readonly Dictionary<string, (NotebookGameplayDestination destination, string current, string target)> approvedOperations =
             new Dictionary<string, (NotebookGameplayDestination, string, string)>();
         public override bool TryGetNextStage(string currentStageId, out string nextStageId)

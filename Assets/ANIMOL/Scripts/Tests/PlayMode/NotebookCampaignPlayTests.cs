@@ -240,7 +240,7 @@ namespace ANIMOL.Presentation.Tests
             hud.nextButton.onClick.Invoke(); yield return null;
             Assert.That(bridge.StageId, Is.EqualTo("SW20"));
             Assert.That(bridge.sourceMap.name, Is.EqualTo("SW19").Or.EqualTo("SW19_MapData"));
-            Assert.That(NotebookProjectGateway.IsStarwayCleared("SW19"), Is.True);
+            Assert.That(NotebookProjectGateway.IsStarwaySavedCleared("SW19"), Is.True);
             Assert.That(gateway.TryGetNextStage("SW20", out _), Is.False);
         }
     }

@@ -29,6 +29,8 @@ namespace William.NotebookUI.Editor
             if (!preview)
             {
                 preview = ScriptableObject.CreateInstance<NotebookCampaignPreview>();
+                preview.unlimitedTelescopes = preview.unlimitedRerolls = true;
+                preview.allStagesCleared = true;
                 AssetDatabase.CreateAsset(preview, NotebookCampaignPreview.AssetPath);
             }
             preview.enabled = true;

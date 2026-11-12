@@ -50,6 +50,9 @@ namespace William.NotebookUI
         public static string MapClearKey(string mapId) => "ANIMOL.Starway.MapCleared." + mapId;
 
         public static bool IsStarwayCleared(string stageId)
+            => NotebookCampaignPreview.IsTemporarilyCleared(stageId) || IsStarwaySavedCleared(stageId);
+
+        public static bool IsStarwaySavedCleared(string stageId)
         {
             var index = NotebookStageIndex.Current;
             var entry = index ? index.Find(stageId) : null;
@@ -88,12 +91,12 @@ namespace William.NotebookUI
             for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
                 string id = "SW" + i.ToString("00");
-                if (IsStageCleared(id)) cleared.Add(id);
+                if (IsStarwaySavedCleared(id)) cleared.Add(id);
             }
             for (int i = 1; i <= NotebookCampaignStages.PerTheme; i++)
             {
                 string id = "ET-" + i.ToString("00");
-                if (EchoTheaterCampaignController.IsCleared(id)) cleared.Add(id);
+                if (EchoTheaterCampaignController.IsSavedCleared(id)) cleared.Add(id);
             }
             completed?.Invoke(new NotebookProgressSnapshot
             {

@@ -18,10 +18,16 @@ namespace William.NotebookUI
     {
         public NotebookCatalog Catalog { get; }
         public NotebookWalletState State { get; }
+        public bool UnlimitedTelescopes { get; }
+        public bool AllStagesCleared { get; }
+        public bool CanAffordStageEntry => UnlimitedTelescopes || State.balance >= Catalog.stageEntryCost;
         private readonly bool campaignPreview;
-        public NotebookBmModel(NotebookCatalog catalog, NotebookWalletState state, long now, bool campaignPreview = false)
+        public NotebookBmModel(NotebookCatalog catalog, NotebookWalletState state, long now, bool campaignPreview = false,
+            bool unlimitedTelescopes = false, bool allStagesCleared = false)
         {
             this.campaignPreview = campaignPreview;
+            UnlimitedTelescopes = campaignPreview && unlimitedTelescopes;
+            AllStagesCleared = campaignPreview && allStagesCleared;
             Catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
             State = state ?? new NotebookWalletState { balance = catalog.telescopeCapacity, lastRecoveryUnix = now };
             State.ownedThemes = State.ownedThemes ?? new List<string> { "starway" };
@@ -34,6 +40,7 @@ namespace William.NotebookUI
         }
         public void Tick(long now)
         {
+            if (UnlimitedTelescopes) return;
             if (now < State.lastRecoveryUnix) return;
             if (State.balance >= Catalog.telescopeCapacity) { State.lastRecoveryUnix = now; return; }
             long units = (now - State.lastRecoveryUnix) / Catalog.recoverySeconds;
@@ -44,12 +51,15 @@ namespace William.NotebookUI
         }
         public long SecondsUntilRecovery(long now)
         {
+            if (UnlimitedTelescopes) return 0;
             Tick(now);
             return State.balance == Catalog.telescopeCapacity ? 0 : Math.Max(1, Catalog.recoverySeconds - (now - State.lastRecoveryUnix));
         }
         public bool Owns(string themeId) => themeId == "starway" ||
             (campaignPreview && themeId == "theater") || State.ownedThemes.Contains(themeId);
-        public bool IsCleared(string stageId) => State.clearedStageIds.Contains(stageId);
+        public bool IsCleared(string stageId) => State.clearedStageIds.Contains(stageId) ||
+            (AllStagesCleared && Catalog.FindStage(stageId) != null &&
+             NotebookCampaignStages.TryOrder(stageId, out string prefix, out _) && (prefix == "SW" || prefix == "ET-"));
         public bool CanEnter(string stageId)
         {
             NotebookStage stage = Catalog.FindStage(stageId);
@@ -64,7 +74,7 @@ namespace William.NotebookUI
             string[] required = Catalog.battleRequiredStageIds;
             return required != null && required.Length > 0 && Array.TrueForAll(required, IsCleared);
         }
-        public int RewardAmount(long now) { Tick(now); return Math.Min(Catalog.rewardedAdAmount, Catalog.telescopeCapacity - State.balance); }
+        public int RewardAmount(long now) { Tick(now); return UnlimitedTelescopes ? 0 : Math.Min(Catalog.rewardedAdAmount, Catalog.telescopeCapacity - State.balance); }
         public bool AcceptVerifiedReward(string grantId, bool verified, long now, out int amount)
         {
             amount = 0;
@@ -87,16 +97,19 @@ namespace William.NotebookUI
             duplicate = State.entryIds.Contains(operationId);
             if (duplicate) return true;
             Tick(now);
-            if (!approved || string.IsNullOrEmpty(operationId) || !CanEnter(stageId) || State.balance < Catalog.stageEntryCost) return false;
-            if (State.balance == Catalog.telescopeCapacity) State.lastRecoveryUnix = now;
-            State.balance -= Catalog.stageEntryCost;
+            if (!approved || string.IsNullOrEmpty(operationId) || !CanEnter(stageId) || !CanAffordStageEntry) return false;
+            if (!UnlimitedTelescopes)
+            {
+                if (State.balance == Catalog.telescopeCapacity) State.lastRecoveryUnix = now;
+                State.balance -= Catalog.stageEntryCost;
+            }
             State.entryIds.Add(operationId);
             return true;
         }
         public bool AcceptVerifiedClear(string stageId, bool verified)
         {
             if (!verified || Catalog.FindStage(stageId) == null) return false;
-            if (!IsCleared(stageId)) State.clearedStageIds.Add(stageId);
+            if (!State.clearedStageIds.Contains(stageId)) State.clearedStageIds.Add(stageId);
             return true;
         }
     }

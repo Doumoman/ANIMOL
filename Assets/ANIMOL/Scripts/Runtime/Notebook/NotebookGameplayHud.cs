@@ -47,8 +47,10 @@ namespace William.NotebookUI
         private bool patternScrolling = true;
         private Vector2 clearMapPosition;
         public const int RetryGaugeCapacity = 5;
-        public int RetryGaugeRemaining => retryGaugeSynchronized && retryGauge != null ? retryGauge.remaining : 0;
-        public bool RetryGaugeReady => retryGaugeSynchronized;
+        public int RetryGaugeRemaining => gateway && gateway.UnlimitedRestarts ? RetryGaugeCapacity :
+            retryGaugeSynchronized && retryGauge != null ? retryGauge.remaining : 0;
+        public bool RetryGaugeReady => retryGaugeSynchronized ||
+            (gateway && gateway.UnlimitedRestarts && !string.IsNullOrEmpty(stageId));
         private Coroutine pickupRoutine, clearRoutine, panelRoutine;
         private Camera UiCamera => ownerCanvas && ownerCanvas.renderMode != RenderMode.ScreenSpaceOverlay ? ownerCanvas.worldCamera : null;
         public int AuthoritativeCollected => authoritativeCount;
@@ -342,8 +344,10 @@ namespace William.NotebookUI
         {
             bool available = pendingOperation == null;
             RenderRetryGauge();
-            if (restartButton) restartButton.interactable = available && gateway && retryGaugeSynchronized && retryGauge != null
-                && retryGauge.remaining > 0 && !paused && !cleared && pendingClear == null && !string.IsNullOrEmpty(stageId);
+            bool canRestart = gateway && (gateway.UnlimitedRestarts ? gateway.CanRestartStage(stageId) :
+                retryGaugeSynchronized && retryGauge != null && retryGauge.remaining > 0);
+            if (restartButton) restartButton.interactable = available && canRestart
+                && !paused && !cleared && pendingClear == null && !string.IsNullOrEmpty(stageId);
             if (pauseButton) pauseButton.interactable = available && !paused && !cleared && pendingClear == null && !string.IsNullOrEmpty(stageId);
             if (resumeButton) resumeButton.interactable = available;
             if (pauseMapButton) pauseMapButton.interactable = available;
@@ -378,9 +382,18 @@ namespace William.NotebookUI
         }
         public void RequestRestart()
         {
-            if (pendingOperation != null || string.IsNullOrEmpty(stageId) || paused || cleared || pendingClear != null
-                || !retryGaugeSynchronized || retryGauge == null || retryGauge.remaining <= 0) return;
+            if (pendingOperation != null || string.IsNullOrEmpty(stageId) || paused || cleared || pendingClear != null) return;
             if (!gateway) { SetStatus("재시작은 망원경 서비스 연결 후 사용할 수 있어요"); return; }
+            if (gateway.UnlimitedRestarts)
+            {
+                if (!gateway.CanRestartStage(stageId)) return;
+                gateway.Feedback(NotebookGameplayFeedback.ButtonPressed);
+                FinishPickupVisuals();
+                if (!gateway.TryRestartStage(stageId)) SetStatus("재시작할 수 없어요. 현재 판을 확인해 주세요.");
+                RefreshButtons();
+                return;
+            }
+            if (!retryGaugeSynchronized || retryGauge == null || retryGauge.remaining <= 0) return;
             string operation = Guid.NewGuid().ToString("N"), currentStage = stageId, session = retryGauge.sessionId;
             int token = generation, before = retryGauge.remaining; long expectedRevision = retryGauge.revision;
             pendingOperation = operation; RefreshButtons(); gateway.Feedback(NotebookGameplayFeedback.ButtonPressed);

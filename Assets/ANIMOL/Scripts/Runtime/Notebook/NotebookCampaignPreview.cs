@@ -8,6 +8,9 @@ namespace William.NotebookUI
     {
         public const string AssetPath = "Assets/ANIMOL/Data/Puzzle/Resources/NotebookCampaignPreview.asset";
         public bool enabled;
+        public bool unlimitedTelescopes;
+        public bool unlimitedRerolls;
+        public bool allStagesCleared;
         public string[] theaterStageIds = System.Array.Empty<string>();
         [System.NonSerialized] EchoTheaterMapSet mapOverride;
         [System.NonSerialized] bool hasMapOverride;
@@ -19,6 +22,16 @@ namespace William.NotebookUI
         public const string TheaterScene = "ANIMOL_Echo_Theater";
         public static NotebookCampaignPreview Current => Resources.Load<NotebookCampaignPreview>("NotebookCampaignPreview");
         public static bool IsEnabled => Current && Current.enabled;
+        public static bool HasUnlimitedTelescopes => IsEnabled && Current.unlimitedTelescopes;
+        public static bool HasUnlimitedRerolls => IsEnabled && Current.unlimitedRerolls;
+        public static bool HasAllStagesCleared => IsEnabled && Current.allStagesCleared;
+        public static bool IsTemporarilyCleared(string stageId)
+        {
+            if (!HasAllStagesCleared) return false;
+            if (NotebookProjectGateway.TryStarwayMapId(stageId, out _))
+                return NotebookStageIndex.Current && NotebookStageIndex.Current.Find(stageId) != null;
+            return TryTheaterIndex(stageId, out _);
+        }
 
         public static bool TryTheaterIndex(string stageId, out int index)
         {

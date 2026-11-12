@@ -38,7 +38,8 @@ namespace ANIMOL.Puzzle
             if (current != CurrentStageId || !TryGetNextStage(out string next) || next != target) return false;
             SelectStage(selected + 1); return true;
         }
-        public static bool IsCleared(string id) => PlayerPrefs.GetInt(ClearKey(id), 0) == 1;
+        public static bool IsCleared(string id) => NotebookCampaignPreview.IsTemporarilyCleared(id) || IsSavedCleared(id);
+        public static bool IsSavedCleared(string id) => PlayerPrefs.GetInt(ClearKey(id), 0) == 1;
 
         void Start()
         {
@@ -59,6 +60,20 @@ namespace ANIMOL.Puzzle
             selected = index; savedWin = clearPresented = false; stageMenu = false;
             PlayerPrefs.SetInt(SelectionKey, index);
             puzzle.Load(mapSet.maps[index].map);
+            PresentCurrentStage();
+        }
+        public bool TryRestartCurrentStage()
+        {
+            if (!puzzle || puzzle.Session == null || puzzle.UiPaused || puzzle.Session.Won) return false;
+            var input = puzzle.GetComponent<PuzzleSwipeInput>();
+            if (input) input.CancelGesture();
+            puzzle.ResetStage();
+            savedWin = clearPresented = stageMenu = false;
+            PresentCurrentStage();
+            return true;
+        }
+        void PresentCurrentStage()
+        {
             if (!notebookHud) return;
             if (collectibleStarPrefab && puzzle.View)
             {
@@ -68,7 +83,7 @@ namespace ANIMOL.Puzzle
             presentedStarCells.Clear();
             presentedCollected = puzzle.Session.Collected;
             foreach (var cell in PossibleStarCells()) if (puzzle.Session.IsCollected(cell)) presentedStarCells.Add(cell);
-            notebookHud.BeginStage(mapSet.maps[index].stageId, mapSet.maps[index].stageId,
+            notebookHud.BeginStage(CurrentStageId, CurrentStageId,
                 DisplayedCost(), puzzle.Session.Collected, puzzle.RuntimeMap.targetBubbles);
             var input = puzzle.GetComponent<PuzzleSwipeInput>();
             if (input) input.gameplayHud = notebookHud;
