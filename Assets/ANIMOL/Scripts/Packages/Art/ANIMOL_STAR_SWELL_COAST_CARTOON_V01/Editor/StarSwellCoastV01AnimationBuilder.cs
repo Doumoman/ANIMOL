@@ -297,7 +297,12 @@ namespace ANIMOL.Art.StarSwellCoastV01
             foreach (string guid in guids)
             {
                 var catalog = AssetDatabase.LoadAssetAtPath<StarSwellCoastV01VisualCatalog>(AssetDatabase.GUIDToAssetPath(guid));
-                try { StarSwellCoastV01AnimationBuilder.ValidateBuiltCatalog(catalog); }
+                try
+                {
+                    string error;
+                    bool valid = catalog.ValidateIntegrity(catalog.SourceManifestSha256, out error);
+                    ANIMOL.Art.EditorValidation.ArtCatalogBuildValidation.Validate(catalog, valid, error);
+                }
                 catch (Exception e) { throw new BuildFailedException("Star Swell Coast V01 latest catalog failed: " + e.Message); }
             }
         }

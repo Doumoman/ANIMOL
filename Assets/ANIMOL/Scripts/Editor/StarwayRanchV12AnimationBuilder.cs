@@ -297,7 +297,12 @@ namespace ANIMOL.Art.V12
             foreach (string guid in guids)
             {
                 var catalog = AssetDatabase.LoadAssetAtPath<StarwayRanchV12VisualCatalog>(AssetDatabase.GUIDToAssetPath(guid));
-                try { StarwayRanchV12AnimationBuilder.ValidateBuiltCatalog(catalog); }
+                try
+                {
+                    string error;
+                    bool valid = catalog.ValidateIntegrity(catalog.SourceManifestSha256, out error);
+                    ANIMOL.Art.EditorValidation.ArtCatalogBuildValidation.Validate(catalog, valid, error);
+                }
                 catch (Exception e) { throw new BuildFailedException("Starway Ranch V12 latest catalog failed: " + e.Message); }
             }
         }

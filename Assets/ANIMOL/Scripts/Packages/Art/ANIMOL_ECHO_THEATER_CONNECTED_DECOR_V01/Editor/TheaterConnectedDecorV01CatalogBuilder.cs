@@ -243,7 +243,13 @@ namespace ANIMOL.Art.TheaterConnectedDecorV01
             foreach (string guid in guids)
             {
                 var catalog = AssetDatabase.LoadAssetAtPath<TheaterConnectedDecorV01Catalog>(AssetDatabase.GUIDToAssetPath(guid));
-                try { TheaterConnectedDecorV01CatalogBuilder.ValidateBuiltCatalog(catalog); }
+                try
+                {
+                    catalog.Invalidate();
+                    string error;
+                    bool valid = catalog.ValidateIntegrity(catalog.SourceManifestSha256, out error);
+                    ANIMOL.Art.EditorValidation.ArtCatalogBuildValidation.Validate(catalog, valid, error);
+                }
                 catch (Exception e) { throw new BuildFailedException("Latest theater decoration catalog failed: " + e.Message); }
             }
         }

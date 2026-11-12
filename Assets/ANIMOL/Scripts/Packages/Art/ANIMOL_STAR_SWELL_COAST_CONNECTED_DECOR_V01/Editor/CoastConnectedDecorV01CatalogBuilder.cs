@@ -245,7 +245,13 @@ namespace ANIMOL.Art.CoastConnectedDecorV01
             foreach (string guid in guids)
             {
                 var catalog = AssetDatabase.LoadAssetAtPath<CoastConnectedDecorV01Catalog>(AssetDatabase.GUIDToAssetPath(guid));
-                try { CoastConnectedDecorV01CatalogBuilder.ValidateBuiltCatalog(catalog); }
+                try
+                {
+                    catalog.Invalidate();
+                    string error;
+                    bool valid = catalog.ValidateIntegrity(catalog.SourceManifestSha256, out error);
+                    ANIMOL.Art.EditorValidation.ArtCatalogBuildValidation.Validate(catalog, valid, error);
+                }
                 catch (Exception e) { throw new BuildFailedException("Latest coast decoration catalog failed: " + e.Message); }
             }
         }

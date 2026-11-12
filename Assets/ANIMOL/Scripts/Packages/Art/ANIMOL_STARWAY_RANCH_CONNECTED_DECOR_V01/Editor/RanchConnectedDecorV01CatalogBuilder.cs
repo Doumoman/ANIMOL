@@ -222,7 +222,13 @@ namespace ANIMOL.Art.RanchConnectedDecorV01
             foreach (string guid in guids)
             {
                 var catalog = AssetDatabase.LoadAssetAtPath<RanchConnectedDecorV01Catalog>(AssetDatabase.GUIDToAssetPath(guid));
-                try { RanchConnectedDecorV01CatalogBuilder.ValidateBuiltCatalog(catalog); }
+                try
+                {
+                    catalog.Invalidate();
+                    string error;
+                    bool valid = catalog.ValidateIntegrity(catalog.SourceManifestSha256, out error);
+                    ANIMOL.Art.EditorValidation.ArtCatalogBuildValidation.Validate(catalog, valid, error);
+                }
                 catch (Exception e) { throw new BuildFailedException("Latest ranch decoration catalog failed: " + e.Message); }
             }
         }
