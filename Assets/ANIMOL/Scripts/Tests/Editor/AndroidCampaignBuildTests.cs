@@ -15,7 +15,7 @@ namespace ANIMOL.Presentation.Tests
             NotebookAndroidCampaignBuild.ValidateMaps();
             var gateway = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ANIMOL/Prefabs/UI/Main/NotebookCanvas.prefab")
                 .GetComponentInChildren<NotebookProjectGateway>(true);
-            var deps = AssetDatabase.GetDependencies(NotebookCampaignPreview.AssetPath, true);
+            var deps = AssetDatabase.GetDependencies("Assets/ANIMOL/Data/Puzzle/Resources/NotebookTheaterAssets.asset", true);
             for (int i = 1; i <= 20; i++)
             {
                 string sw = "SW" + i.ToString("00"), et = "ET-" + i.ToString("00");

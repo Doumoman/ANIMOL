@@ -163,7 +163,8 @@ namespace ANIMOL.Presentation.Tests
                 Assert.That(importer.filterMode, Is.EqualTo(FilterMode.Bilinear), path);
                 Assert.That(importer.textureCompression, Is.EqualTo(TextureImporterCompression.Uncompressed), path);
                 Assert.That(importer.mipmapEnabled, Is.False, path);
-                Assert.That(importer.GetPlatformTextureSettings("Android").overridden, Is.False, path);
+                Assert.That(importer.GetPlatformTextureSettings("Android").overridden, Is.True, path);
+                Assert.That(importer.GetPlatformTextureSettings("Android").format, Is.EqualTo(TextureImporterFormat.ASTC_4x4), path);
                 Assert.That(importer.GetPlatformTextureSettings("iPhone").overridden, Is.False, path);
                 var settings = new TextureImporterSettings(); importer.ReadTextureSettings(settings);
                 Assert.That(settings.spriteMeshType, Is.EqualTo(SpriteMeshType.FullRect), path);

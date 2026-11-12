@@ -32,9 +32,9 @@ namespace William.NotebookUI.Editor
                 AssetDatabase.CreateAsset(preview, NotebookCampaignPreview.AssetPath);
             }
             preview.enabled = true;
-            preview.theaterMaps = AssetDatabase.LoadAssetAtPath<EchoTheaterMapSet>(TheaterMaps);
             EditorUtility.SetDirty(preview);
             AssetDatabase.SaveAssetIfDirty(preview);
+            NotebookStartupAssetSync.Sync();
             ValidateMaps();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(MainScene, true), new EditorBuildSettingsScene(TheaterScene, true) };
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.Portrait;

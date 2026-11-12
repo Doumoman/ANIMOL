@@ -14,11 +14,23 @@ namespace William.NotebookUI
     /// <summary>Binds active Starway MapData and the existing ranch story runner to the notebook.</summary>
     public sealed class NotebookProjectGateway : NotebookGateway
     {
-        public PuzzleMap[] starwayMaps;
+        [NonSerialized] PuzzleMap[] mapOverride;
+        [NonSerialized] bool hasMapOverride;
+        public PuzzleMap[] starwayMaps
+        {
+            get => hasMapOverride ? mapOverride : NotebookDeferredAssets.Load(NotebookDeferredAssets.StarwayResource)?.maps;
+            set { mapOverride = value; hasMapOverride = true; }
+        }
         public TextAsset shortestPathCatalog;
         public GameObject gameplayCanvasPrefab;
         public GameObject collectibleStarPrefab;
-        public GameObject ranchStoryPrefab;
+        [NonSerialized] GameObject storyOverride;
+        [NonSerialized] bool hasStoryOverride;
+        public GameObject ranchStoryPrefab
+        {
+            get => hasStoryOverride ? storyOverride : NotebookDeferredAssets.Load(NotebookDeferredAssets.StoryResource)?.storyPrefab;
+            set { storyOverride = value; hasStoryOverride = true; }
+        }
 
         readonly Dictionary<string, PuzzleMap> approvedEntries = new Dictionary<string, PuzzleMap>();
         readonly Dictionary<string, string> approvedTheaterEntries = new Dictionary<string, string>();
@@ -39,26 +51,36 @@ namespace William.NotebookUI
 
         public static bool IsStarwayCleared(string stageId)
         {
-            var catalog = StarwayStageCatalog.Current;
-            return catalog && IsStarwayMapCleared(NotebookCampaignStages.FindStarwayMap(
-                catalog.maps.ConvertAll(entry => entry.map), stageId));
+            var index = NotebookStageIndex.Current;
+            var entry = index ? index.Find(stageId) : null;
+            return entry != null && IsSourceMapCleared(entry.sourceId);
         }
 
         public static bool IsStarwayMapCleared(PuzzleMap map)
         {
             string mapId = StarwayStageCatalog.SourceId(map);
+            return IsSourceMapCleared(mapId);
+        }
+
+        static bool IsSourceMapCleared(string mapId)
+        {
             if (string.IsNullOrEmpty(mapId)) return false;
             return PlayerPrefs.GetInt(MapClearKey(mapId), 0) == 1 ||
                 // Existing clears belong to the original source map, now one stage later.
                 (mapId != "SW00" && PlayerPrefs.GetInt("ANIMOL.Starway.Cleared." + mapId, 0) == 1);
         }
 
-        public override bool CanOpenStage(string stageId) => FindStarwayMap(stageId) ||
-            NotebookCampaignPreview.TryTheaterIndex(stageId, out _);
+        public override bool CanOpenStage(string stageId)
+        {
+            var index = NotebookStageIndex.Current;
+            if (TryStarwayMapId(stageId, out _))
+                return hasMapOverride ? FindStarwayMap(stageId) : index && index.Find(stageId) != null;
+            return NotebookCampaignPreview.TryTheaterIndex(stageId, out _);
+        }
 
         PuzzleMap FindStarwayMap(string stageId) => NotebookCampaignStages.FindStarwayMap(starwayMaps, stageId);
 
-        bool IsStageCleared(string stageId) => IsStarwayMapCleared(FindStarwayMap(stageId));
+        bool IsStageCleared(string stageId) => IsStarwayCleared(stageId);
 
         public override void ReadVerifiedProgress(Action<NotebookProgressSnapshot> completed)
         {

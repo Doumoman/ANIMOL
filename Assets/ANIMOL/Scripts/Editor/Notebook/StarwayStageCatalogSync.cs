@@ -56,9 +56,12 @@ namespace William.NotebookUI.Editor
                 entry.assetSha256 = hash;
                 changed = true;
             }
-            if (!changed) return;
-            EditorUtility.SetDirty(catalog);
-            AssetDatabase.SaveAssetIfDirty(catalog);
+            if (changed)
+            {
+                EditorUtility.SetDirty(catalog);
+                AssetDatabase.SaveAssetIfDirty(catalog);
+            }
+            NotebookStartupAssetSync.Sync();
         }
 
         public void OnPreprocessBuild(BuildReport report)
